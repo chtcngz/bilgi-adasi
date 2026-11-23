@@ -60,7 +60,7 @@ h1 em { color: #16716e; font-style: normal; }
 .eyebrow { color: #47635f; }
 .grade { background: #f7ebca; color: #705127; }
 .map, aside, .progress { box-shadow: 0 5px 0 #bea98238; border-color: #d7c9ab; }
-.map { aspect-ratio: 1.72; min-height: 0; background: #128f98 url("assets/ada-atlasi.jpg") center / 100% 100% no-repeat; border: 4px solid #fffaf0; outline: 1px solid #cbbd9f; }
+.map { width: 100%; min-width: 0; align-self: start; aspect-ratio: auto; min-height: 0; background: #128f98; border: 4px solid #fffaf0; outline: 1px solid #cbbd9f; }
 .map-title { top: 0; left: 0; background: #fff8e9; border-radius: 0 0 14px 0; padding: 5px 13px; color: #34544f; }
 .pin { height: 36px; width: 36px; font-variant-numeric: tabular-nums; border-color: #fff5d6; }
 .pin.active { background: #ffcf62; outline-color: #875522; box-shadow: 0 4px 0 #60462185, 0 0 0 7px #fff1ac85; }
@@ -79,10 +79,12 @@ dialog::backdrop { background: #123944ad; }
 .pad button { border-radius: 13px; background: #f0f6ef; border-color: #cedcd0; box-shadow: inset 0 -2px #b5cfbf66; }
 .pad button:last-child { background: #176d6b; }
 @media (max-width:800px) {
-  .map { aspect-ratio: 1.53; }
+  .map { aspect-ratio: auto; }
   .scene { aspect-ratio: 1.45; height: auto; }
 }
 @media (max-width:500px) {
   .map-title { font-size: 11px; padding: 2px 8px; }
   .pin { width: 28px; height: 28px; border-width: 2px; font-size: 15px; }
 }
+
+.atlas { display: block; width: 100%; height: auto; }
