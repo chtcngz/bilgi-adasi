@@ -1,5 +1,5 @@
 const $ = id => document.getElementById(id);
-const secondsPerRound = [15, 10, 5];
+const secondsPerRound = [15, 10, 5, 3];
 const islands = ['Palmiye Koyu', 'Çam Kumsalı', 'Kaya Geçidi', 'Fener Burnu',
   'Mercan Koyu', 'Çam Limanı', 'Dağ Geçidi', 'Fener Adası', 'Hazine Zirvesi'];
 const total = islands.length * secondsPerRound.length;
@@ -13,7 +13,7 @@ try {
 let selected = Math.min(progress.completed, total - 1) % islands.length;
 let deck = [], answers = [], entry = '', deadline = 0, timer, playing = false;
 let audioOn = false, ctx, storageFailed = false;
-const round = () => Math.min(2, Math.floor(progress.completed / islands.length));
+const round = () => Math.min(secondsPerRound.length - 1, Math.floor(progress.completed / islands.length));
 const slot = () => round() * islands.length + selected;
 const limit = () => secondsPerRound[round()];
 const title = () => (selected + 2) + ' Çarpım Adası';
@@ -59,7 +59,7 @@ function render() {
     return button;
   }));
   $('mission').innerHTML = '<div class="scene"><canvas id="mini"></canvas></div><span class="tag">Tur ' +
-    (round()+1) + ' / 3 · Her soru ' + limit() + ' sn</span><h2>' + title() +
+    (round()+1) + ' / ' + secondsPerRound.length + ' · Her soru ' + limit() + ' sn</span><h2>' + title() +
     '</h2><p>' + islands[selected] + ' · 10 karışık işlemi art arda doğru çöz.</p>';
   paint($('mini'), selected);
   $('play').textContent = slot() === done ? '▶  Adaya başla' : 'Keşif günlüğünü aç';
@@ -71,7 +71,7 @@ function render() {
 function stop() { playing = false; clearInterval(timer); }
 function screen(heading, body, action, handler) {
   stop();
-  $('stage').innerHTML = '<div class="eyebrow">TUR ' + (round()+1) + ' / 3</div><h2 id="gameTitle">' +
+  $('stage').innerHTML = '<div class="eyebrow">TUR ' + (round()+1) + ' / ' + secondsPerRound.length + '</div><h2 id="gameTitle">' +
     heading + '</h2>' + body + '<button class="primary" id="next"></button>';
   $('next').textContent = action;
   $('next').onclick = handler;
@@ -135,9 +135,9 @@ function finish(timeout) {
     const groups = '<div class="groups" aria-hidden="true">' +
       Array.from({length:b}, () => '<span class="group">'+'●'.repeat(Math.min(5,a))+
       (a>5?'<br>'+'●'.repeat(a-5):'')+'</span>').join('')+'</div>';
-    screen(timeout?'Süre doldu':'Birlikte bakalım', equation + groups +
-      '<p>Her grupta '+a+' tane var. '+b+' grup toplam '+product+' eder. Hazır olduğunda bu adaya yeni bir soru sırasıyla başla.</p>',
-      'Adayı yeniden dene', begin);
+    screen(timeout?'Ah, süre doldu!':'Ah, bu kez olmadı!', '<p class="answer-label">Doğru cevap</p>' + equation + groups +
+      '<p>Her grupta '+a+' tane var. '+b+' grup toplam '+product+' eder. Hazır olduğunda aynı adayı yeniden dene.</p>',
+      'Tekrar dene', begin);
     return;
   }
   sound();
@@ -152,7 +152,7 @@ function finish(timeout) {
   selected = Math.min(progress.completed,total-1) % islands.length;
   render();
   const victory = progress.completed === total;
-  const message = victory ? 'Dokuz adanın hepsini üç turda tamamladın. Son turda her işlemi 5 saniye içinde çözdün.' :
+  const message = victory ? 'Dokuz adanın hepsini dört turda tamamladın. Son turda her işlemi 3 saniye içinde çözdün.' :
     previousRound !== round() ? 'Dokuz adayı tamamladın. Şimdi 2 tablosuna dönüyorsun. Bu turda her soru için '+limit()+' saniyen var.' :
     'On işlemi tek denemede doğru çözdün. Sırada '+title()+' var.';
   screen(victory?'🏆 Çarpım ustası!':'⭐ Ada tamamlandı!', '<p>'+message+'</p>' +

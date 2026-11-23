@@ -37,3 +37,9 @@ body:has(dialog[open]) { overflow: hidden; }
   #stage:has(.pad) .clock { justify-self:start; align-self:center; }
   .pad button { min-height:44px; padding:5px; }
 }
+dialog:has(.answer-label) { background: #fff0ef; color: #642f38; }
+dialog:has(.answer-label) .eyebrow, .answer-label { color: #894450; }
+.answer-label { margin: 16px 0 2px; font-weight: 750; }
+.answer-label + h3 { margin-top: 0; }
+dialog:has(.answer-label) .group { background: #ffe0dd; color: #93414b; border-color: #dda3a3; }
+dialog:has(.answer-label) .primary { background: #913f4e; border-color: #793240; box-shadow: 0 3px 0 #692c37; }
