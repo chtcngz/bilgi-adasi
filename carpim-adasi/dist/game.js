@@ -91,6 +91,10 @@ function begin() {
   }
   if (fresh.every((n,i) => n === deck[i])) [fresh[0],fresh[1]] = [fresh[1],fresh[0]];
   deck = fresh; answers = [];
+  const stats = stageStats(slot());
+  stats.attempts++;
+  stats.latest = answers;
+  save();
   question();
 }
 function question() {
@@ -131,6 +135,7 @@ function finish(timeout) {
   const correct = !timeout && Number(entry) === product;
   const seconds = timeout ? limit() : Math.round((limit()-(deadline-performance.now())/1000)*10)/10;
   answers.push({a,b,seconds,answer:timeout ? null : Number(entry)});
+  countAnswer(stageStats(slot()), answers[answers.length - 1]);
   const equation = '<h3>'+a+' × '+b+' = '+product+'</h3>';
   if (!correct) {
     progress.reports[slot()] = answers; save(); render();
@@ -144,6 +149,7 @@ function finish(timeout) {
   }
   sound();
   if (answers.length < 10) {
+    save();
     screen('Doğru!', equation, 'Sonraki soru', question);
     return;
   }
