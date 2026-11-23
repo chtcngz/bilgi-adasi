@@ -1,7 +1,8 @@
 const $ = id => document.getElementById(id);
+const ports = [[.16,.252],[.49,.257],[.83,.24],[.16,.571],[.49,.568],[.83,.565],[.16,.894],[.49,.915],[.83,.891]];
 const secondsPerRound = [15, 10, 5, 3];
 const islands = ['Palmiye Koyu', 'Çam Kumsalı', 'Kaya Geçidi', 'Fener Burnu',
-  'Mercan Koyu', 'Çam Limanı', 'Dağ Geçidi', 'Fener Adası', 'Hazine Zirvesi'];
+  'Mercan Koyu', 'Çam Limanı', 'Dağ Geçidi', 'Değirmen Adası', 'Hazine Zirvesi'];
 const total = islands.length * secondsPerRound.length;
 const storageKey = 'carpim-rotasi-v2';
 let progress = { completed: 0, reports: {} };
@@ -58,10 +59,11 @@ function render() {
     button.onclick = () => { selected = i; render(); };
     return button;
   }));
-  $('mission').innerHTML = '<div class="scene"><canvas id="mini"></canvas></div><span class="tag">Tur ' +
+  $('mission').innerHTML = '<div class="scene"></div><span class="tag">Tur ' +
     (round()+1) + ' / ' + secondsPerRound.length + ' · Her soru ' + limit() + ' sn</span><h2>' + title() +
     '</h2><p>' + islands[selected] + ' · 10 karışık işlemi art arda doğru çöz.</p>';
-  paint($('mini'), selected);
+  const scene = $('mission').querySelector('.scene');
+  scene.style.backgroundPosition = (selected % 3 * 50) + '% ' + (Math.floor(selected / 3) * 50) + '%';
   $('play').textContent = slot() === done ? '▶  Adaya başla' : 'Keşif günlüğünü aç';
   $('play').onclick = () => {
     $('game').showModal();
