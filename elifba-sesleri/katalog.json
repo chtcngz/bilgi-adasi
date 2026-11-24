@@ -14037,7 +14037,9 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "player_source_unavailable"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-uzatilmasi/uygulama/aciklama.mp3",
@@ -30769,7 +30771,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/وَوَهَبْنَا-لِدَاوُ۫دَ-سُلَيْمٰنَۜ-نِعْمَ-الْعَبْدُۜ-اِنَّهُٓ-اَوَّابٌۜ__btn_1.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_1.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/1_1_2.mp3",
@@ -30785,7 +30791,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/وَوَهَبْنَا-لِدَاوُ۫دَ-سُلَيْمٰنَۜ-نِعْمَ-الْعَبْدُۜ-اِنَّهُٓ-اَوَّابٌۜ__btn_1.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_1.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/1_1_3.mp3",
@@ -30801,7 +30811,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/وَوَهَبْنَا-لِدَاوُ۫دَ-سُلَيْمٰنَۜ-نِعْمَ-الْعَبْدُۜ-اِنَّهُٓ-اَوَّابٌۜ__btn_1.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_1.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/1_1_4.mp3",
@@ -30817,7 +30831,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/وَوَهَبْنَا-لِدَاوُ۫دَ-سُلَيْمٰنَۜ-نِعْمَ-الْعَبْدُۜ-اِنَّهُٓ-اَوَّابٌۜ__btn_1.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_1.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/1_1_5.mp3",
@@ -30833,7 +30851,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/وَوَهَبْنَا-لِدَاوُ۫دَ-سُلَيْمٰنَۜ-نِعْمَ-الْعَبْدُۜ-اِنَّهُٓ-اَوَّابٌۜ__btn_1.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_1.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/1_1_6.mp3",
@@ -30849,7 +30871,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/وَوَهَبْنَا-لِدَاوُ۫دَ-سُلَيْمٰنَۜ-نِعْمَ-الْعَبْدُۜ-اِنَّهُٓ-اَوَّابٌۜ__btn_1.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_1.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/1_1_7.mp3",
@@ -30865,7 +30891,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/وَوَهَبْنَا-لِدَاوُ۫دَ-سُلَيْمٰنَۜ-نِعْمَ-الْعَبْدُۜ-اِنَّهُٓ-اَوَّابٌۜ__btn_1.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_1.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_2.mp3",
@@ -30898,7 +30928,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/اِذْ-عُرِضَ-عَلَيْهِ-بِالْعَشِىِّ-الصّٰفِنٰتُ-الْجِيَادُۙ__btn_2.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_2.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/2_1_2.mp3",
@@ -30914,7 +30948,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/اِذْ-عُرِضَ-عَلَيْهِ-بِالْعَشِىِّ-الصّٰفِنٰتُ-الْجِيَادُۙ__btn_2.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_2.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/2_1_3.mp3",
@@ -30930,7 +30968,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/اِذْ-عُرِضَ-عَلَيْهِ-بِالْعَشِىِّ-الصّٰفِنٰتُ-الْجِيَادُۙ__btn_2.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_2.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/2_1_4.mp3",
@@ -30946,7 +30988,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/اِذْ-عُرِضَ-عَلَيْهِ-بِالْعَشِىِّ-الصّٰفِنٰتُ-الْجِيَادُۙ__btn_2.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_2.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/2_1_5.mp3",
@@ -30962,7 +31008,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/اِذْ-عُرِضَ-عَلَيْهِ-بِالْعَشِىِّ-الصّٰفِنٰتُ-الْجِيَادُۙ__btn_2.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_2.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/2_1_6.mp3",
@@ -30978,7 +31028,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/اِذْ-عُرِضَ-عَلَيْهِ-بِالْعَشِىِّ-الصّٰفِنٰتُ-الْجِيَادُۙ__btn_2.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_2.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_3.mp3",
@@ -31011,7 +31065,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/فَقَالَ-اِنّ۪ىٓ-احَْبَبْتُ-حُبَّ-الْخَيْرِ-عَنْ-ذِكْرِ-رَبّ۪ىۚ-حَتّٰى-تَوَا__btn_3.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_3.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/3_1_2.mp3",
@@ -31027,7 +31085,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/فَقَالَ-اِنّ۪ىٓ-احَْبَبْتُ-حُبَّ-الْخَيْرِ-عَنْ-ذِكْرِ-رَبّ۪ىۚ-حَتّٰى-تَوَا__btn_3.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_3.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/3_1_3.mp3",
@@ -31043,7 +31105,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/فَقَالَ-اِنّ۪ىٓ-احَْبَبْتُ-حُبَّ-الْخَيْرِ-عَنْ-ذِكْرِ-رَبّ۪ىۚ-حَتّٰى-تَوَا__btn_3.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_3.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/3_1_4.mp3",
@@ -31059,7 +31125,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/فَقَالَ-اِنّ۪ىٓ-احَْبَبْتُ-حُبَّ-الْخَيْرِ-عَنْ-ذِكْرِ-رَبّ۪ىۚ-حَتّٰى-تَوَا__btn_3.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_3.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/3_1_5.mp3",
@@ -31075,7 +31145,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/فَقَالَ-اِنّ۪ىٓ-احَْبَبْتُ-حُبَّ-الْخَيْرِ-عَنْ-ذِكْرِ-رَبّ۪ىۚ-حَتّٰى-تَوَا__btn_3.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_3.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/3_1_6.mp3",
@@ -31091,7 +31165,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/فَقَالَ-اِنّ۪ىٓ-احَْبَبْتُ-حُبَّ-الْخَيْرِ-عَنْ-ذِكْرِ-رَبّ۪ىۚ-حَتّٰى-تَوَا__btn_3.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_3.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/3_1_7.mp3",
@@ -31107,7 +31185,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/فَقَالَ-اِنّ۪ىٓ-احَْبَبْتُ-حُبَّ-الْخَيْرِ-عَنْ-ذِكْرِ-رَبّ۪ىۚ-حَتّٰى-تَوَا__btn_3.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_3.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/3_1_8.mp3",
@@ -31123,7 +31205,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/فَقَالَ-اِنّ۪ىٓ-احَْبَبْتُ-حُبَّ-الْخَيْرِ-عَنْ-ذِكْرِ-رَبّ۪ىۚ-حَتّٰى-تَوَا__btn_3.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_3.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/3_1_9.mp3",
@@ -31139,7 +31225,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/فَقَالَ-اِنّ۪ىٓ-احَْبَبْتُ-حُبَّ-الْخَيْرِ-عَنْ-ذِكْرِ-رَبّ۪ىۚ-حَتّٰى-تَوَا__btn_3.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_3.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/3_1_10.mp3",
@@ -31155,7 +31245,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/فَقَالَ-اِنّ۪ىٓ-احَْبَبْتُ-حُبَّ-الْخَيْرِ-عَنْ-ذِكْرِ-رَبّ۪ىۚ-حَتّٰى-تَوَا__btn_3.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_3.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/3_1_11.mp3",
@@ -31171,7 +31265,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/فَقَالَ-اِنّ۪ىٓ-احَْبَبْتُ-حُبَّ-الْخَيْرِ-عَنْ-ذِكْرِ-رَبّ۪ىۚ-حَتّٰى-تَوَا__btn_3.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_3.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_4.mp3",
@@ -31204,7 +31302,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/رُدُّوهَا-عَلَىَّۜ-فَطَفِقَ-مَسْحًا-بِالسُّوقِ-وَالْاَعْنَاقِ__btn_4.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_4.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/4_1_2.mp3",
@@ -31220,7 +31322,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/رُدُّوهَا-عَلَىَّۜ-فَطَفِقَ-مَسْحًا-بِالسُّوقِ-وَالْاَعْنَاقِ__btn_4.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_4.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/4_1_3.mp3",
@@ -31236,7 +31342,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/رُدُّوهَا-عَلَىَّۜ-فَطَفِقَ-مَسْحًا-بِالسُّوقِ-وَالْاَعْنَاقِ__btn_4.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_4.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/4_1_4.mp3",
@@ -31252,7 +31362,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/رُدُّوهَا-عَلَىَّۜ-فَطَفِقَ-مَسْحًا-بِالسُّوقِ-وَالْاَعْنَاقِ__btn_4.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_4.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/4_1_5.mp3",
@@ -31268,7 +31382,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/رُدُّوهَا-عَلَىَّۜ-فَطَفِقَ-مَسْحًا-بِالسُّوقِ-وَالْاَعْنَاقِ__btn_4.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_4.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/4_1_6.mp3",
@@ -31284,7 +31402,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/رُدُّوهَا-عَلَىَّۜ-فَطَفِقَ-مَسْحًا-بِالسُّوقِ-وَالْاَعْنَاقِ__btn_4.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_4.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_5.mp3",
@@ -31317,7 +31439,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/وَلَقَدْ-فَتَنَّا-سُلَيْمٰنَ-وَاَلْقَيْنَا-عَلٰى-كُرْسِيِّه۪-جَسَدًا-ثُمَّ__btn_5.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_5.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/5_1_2.mp3",
@@ -31333,7 +31459,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/وَلَقَدْ-فَتَنَّا-سُلَيْمٰنَ-وَاَلْقَيْنَا-عَلٰى-كُرْسِيِّه۪-جَسَدًا-ثُمَّ__btn_5.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_5.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/5_1_3.mp3",
@@ -31349,7 +31479,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/وَلَقَدْ-فَتَنَّا-سُلَيْمٰنَ-وَاَلْقَيْنَا-عَلٰى-كُرْسِيِّه۪-جَسَدًا-ثُمَّ__btn_5.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_5.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/5_1_4.mp3",
@@ -31365,7 +31499,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/وَلَقَدْ-فَتَنَّا-سُلَيْمٰنَ-وَاَلْقَيْنَا-عَلٰى-كُرْسِيِّه۪-جَسَدًا-ثُمَّ__btn_5.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_5.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/5_1_5.mp3",
@@ -31381,7 +31519,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/وَلَقَدْ-فَتَنَّا-سُلَيْمٰنَ-وَاَلْقَيْنَا-عَلٰى-كُرْسِيِّه۪-جَسَدًا-ثُمَّ__btn_5.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_5.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/5_1_6.mp3",
@@ -31397,7 +31539,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/وَلَقَدْ-فَتَنَّا-سُلَيْمٰنَ-وَاَلْقَيْنَا-عَلٰى-كُرْسِيِّه۪-جَسَدًا-ثُمَّ__btn_5.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_5.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/5_1_7.mp3",
@@ -31413,7 +31559,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/وَلَقَدْ-فَتَنَّا-سُلَيْمٰنَ-وَاَلْقَيْنَا-عَلٰى-كُرْسِيِّه۪-جَسَدًا-ثُمَّ__btn_5.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_5.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/5_1_8.mp3",
@@ -31429,7 +31579,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/وَلَقَدْ-فَتَنَّا-سُلَيْمٰنَ-وَاَلْقَيْنَا-عَلٰى-كُرْسِيِّه۪-جَسَدًا-ثُمَّ__btn_5.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_5.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/5_1_9.mp3",
@@ -31445,7 +31599,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/وَلَقَدْ-فَتَنَّا-سُلَيْمٰنَ-وَاَلْقَيْنَا-عَلٰى-كُرْسِيِّه۪-جَسَدًا-ثُمَّ__btn_5.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_5.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_6.mp3",
@@ -31478,7 +31636,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/قَالَ-رَبِّ-اغْفِرْ-ل۪ى-وَهَبْ-ل۪ى-مُلْكًا-لَا-يَنْبَغ۪ى-لِاَحَدٍ-مِنْ-بَعْ__btn_6.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_6.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/6_1_2.mp3",
@@ -31494,7 +31656,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/قَالَ-رَبِّ-اغْفِرْ-ل۪ى-وَهَبْ-ل۪ى-مُلْكًا-لَا-يَنْبَغ۪ى-لِاَحَدٍ-مِنْ-بَعْ__btn_6.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_6.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/6_1_3.mp3",
@@ -31510,7 +31676,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/قَالَ-رَبِّ-اغْفِرْ-ل۪ى-وَهَبْ-ل۪ى-مُلْكًا-لَا-يَنْبَغ۪ى-لِاَحَدٍ-مِنْ-بَعْ__btn_6.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_6.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/6_1_4.mp3",
@@ -31526,7 +31696,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/قَالَ-رَبِّ-اغْفِرْ-ل۪ى-وَهَبْ-ل۪ى-مُلْكًا-لَا-يَنْبَغ۪ى-لِاَحَدٍ-مِنْ-بَعْ__btn_6.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_6.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/6_1_5.mp3",
@@ -31542,7 +31716,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/قَالَ-رَبِّ-اغْفِرْ-ل۪ى-وَهَبْ-ل۪ى-مُلْكًا-لَا-يَنْبَغ۪ى-لِاَحَدٍ-مِنْ-بَعْ__btn_6.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_6.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/6_1_6.mp3",
@@ -31558,7 +31736,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/قَالَ-رَبِّ-اغْفِرْ-ل۪ى-وَهَبْ-ل۪ى-مُلْكًا-لَا-يَنْبَغ۪ى-لِاَحَدٍ-مِنْ-بَعْ__btn_6.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_6.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/6_1_7.mp3",
@@ -31574,7 +31756,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/قَالَ-رَبِّ-اغْفِرْ-ل۪ى-وَهَبْ-ل۪ى-مُلْكًا-لَا-يَنْبَغ۪ى-لِاَحَدٍ-مِنْ-بَعْ__btn_6.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_6.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/6_1_8.mp3",
@@ -31590,7 +31776,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/قَالَ-رَبِّ-اغْفِرْ-ل۪ى-وَهَبْ-ل۪ى-مُلْكًا-لَا-يَنْبَغ۪ى-لِاَحَدٍ-مِنْ-بَعْ__btn_6.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_6.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/6_1_9.mp3",
@@ -31606,7 +31796,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/قَالَ-رَبِّ-اغْفِرْ-ل۪ى-وَهَبْ-ل۪ى-مُلْكًا-لَا-يَنْبَغ۪ى-لِاَحَدٍ-مِنْ-بَعْ__btn_6.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_6.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/6_1_10.mp3",
@@ -31622,7 +31816,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/قَالَ-رَبِّ-اغْفِرْ-ل۪ى-وَهَبْ-ل۪ى-مُلْكًا-لَا-يَنْبَغ۪ى-لِاَحَدٍ-مِنْ-بَعْ__btn_6.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_6.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/6_1_11.mp3",
@@ -31638,7 +31836,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/قَالَ-رَبِّ-اغْفِرْ-ل۪ى-وَهَبْ-ل۪ى-مُلْكًا-لَا-يَنْبَغ۪ى-لِاَحَدٍ-مِنْ-بَعْ__btn_6.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_6.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/6_1_12.mp3",
@@ -31654,7 +31856,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/قَالَ-رَبِّ-اغْفِرْ-ل۪ى-وَهَبْ-ل۪ى-مُلْكًا-لَا-يَنْبَغ۪ى-لِاَحَدٍ-مِنْ-بَعْ__btn_6.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_6.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/6_1_13.mp3",
@@ -31670,7 +31876,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/قَالَ-رَبِّ-اغْفِرْ-ل۪ى-وَهَبْ-ل۪ى-مُلْكًا-لَا-يَنْبَغ۪ى-لِاَحَدٍ-مِنْ-بَعْ__btn_6.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_6.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/6_1_14.mp3",
@@ -31686,7 +31896,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/قَالَ-رَبِّ-اغْفِرْ-ل۪ى-وَهَبْ-ل۪ى-مُلْكًا-لَا-يَنْبَغ۪ى-لِاَحَدٍ-مِنْ-بَعْ__btn_6.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_6.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/6_1_15.mp3",
@@ -31702,7 +31916,11 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "word_reference_unused_by_player",
+      "availableVerseFile": "tecvid/kalkale/uygulama/okuma/قَالَ-رَبِّ-اغْفِرْ-ل۪ى-وَهَبْ-ل۪ى-مُلْكًا-لَا-يَنْبَغ۪ى-لِاَحَدٍ-مِنْ-بَعْ__btn_6.mp3",
+      "availableVerseSourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/kalkale/uygulama/btn_6.mp3"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/meddi-tabii-muttasil-munfasil/meddi-tabii-muttasil-munfasil/aciklama.mp3",
@@ -36201,7 +36419,9 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "footer_displayed_as_text"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/uygulama/bakara-suresi-285-286/bakara_285_286_4.mp3",
@@ -36224,7 +36444,9 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found"
+      "error": "HTTP Error 404: Not Found",
+      "lastChecked": "2026-11-24",
+      "playbackStatus": "footer_displayed_as_text"
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/tecvid/mushaflarda-yer-alan-isaretler/mushaflarda-yer-alan-isaretler/baslik_2.mp3",
