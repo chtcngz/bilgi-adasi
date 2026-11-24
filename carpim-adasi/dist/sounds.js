@@ -25,10 +25,35 @@ const playCue = (() => {
         .catch(() => {}); // that cue falls back to the media element
     }
   }
+  // A phone can leave the context broken after the page has been in the background: iOS
+  // keeps it "interrupted", or running but silent, and resuming does not bring the sound
+  // back. So the first touch after coming back starts a fresh context. The decoded cues
+  // are kept (an AudioBuffer plays in any context), and so are Elif Ba's voice clips,
+  // which reach the context through play.context().
+  let stale = false;
+  document.addEventListener('visibilitychange', () => {
+    if (!context) return;
+    if (document.hidden) {
+      stale = true;
+      context.suspend?.().catch(() => {});
+    } else context.resume?.().catch(() => {});
+  });
+  function renew() {
+    stale = false;
+    let fresh;
+    try { fresh = new Context({ latencyHint: 'interactive' }); } catch { return; }
+    for (const voice of voices) { try { voice.stop(); } catch {} }
+    voices.clear();
+    const old = context;
+    context = fresh;
+    old.close?.().catch(() => {});
+  }
   // Browsers only start audio inside a user gesture; resume on every one, since
   // phones can suspend the context again (calls, backgrounding).
   function unlock() {
-    if (!context || context.state === 'running') return;
+    if (!context) return;
+    if (stale) renew();
+    if (context.state === 'running') return;
     context.resume().catch(() => {});
     try { // older iOS also needs a sound started inside the gesture
       const silence = context.createBufferSource();

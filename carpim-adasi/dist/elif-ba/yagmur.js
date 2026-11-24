@@ -1,8 +1,8 @@
 // Harf Yağmuru: Elif Ba Adası's listening game. Letters the child has learned rain from the
 // clouds without a pause. The turtle says one of them; popping three drops of that letter
-// brings the next one at once, and every ten letters make a level: a rainbow, a heart back
-// and a little faster rain, all without the rain stopping. A wrong tap breaks one of three
-// hearts; the game goes on until the hearts are gone or the child leaves it.
+// brings the next one at once, and every ten letters make a level: a rainbow and a little
+// faster rain, all without the rain stopping. A wrong tap breaks one of three hearts; when
+// all three are gone the game starts again from the first level.
 const harfYagmuru = (() => {
   const { glyphs, names } = elifData;
   const voice = elifVoice;
@@ -132,11 +132,6 @@ const harfYagmuru = (() => {
   // Everything that moves or waits runs on this clock, so a paused game stands still.
   let clock = 0, last = 0, frameId = 0, paused = false, timers = [], session = 0;
   function after(seconds, fn) { timers.push({ at: clock + seconds, fn }); }
-  // Real time, for the result card, which plays on after the game clock has stopped.
-  function later(ms, fn) {
-    const mine = session;
-    setTimeout(() => { if (mine === session) fn(); }, ms);
-  }
   function frame(now) {
     frameId = requestAnimationFrame(frame);
     const dt = Math.min(0.05, Math.max(0, (now - last) / 1000));
@@ -196,12 +191,6 @@ const harfYagmuru = (() => {
   function loseHeart() {
     game.hearts--;
     heartBox.children[game.hearts]?.classList.add('lost');
-    heartBox.setAttribute('aria-label', game.hearts + ' can');
-  }
-  function gainHeart() {
-    const heart = heartBox.children[game.hearts];
-    game.hearts++;
-    if (heart) { heart.classList.remove('lost'); fx.bump(heart, 'back'); }
     heartBox.setAttribute('aria-label', game.hearts + ' can');
   }
   function drawSlots() {
@@ -538,16 +527,14 @@ const harfYagmuru = (() => {
     floatPoints('+20', at);
     vanish(drop, 'pop');
   }
-  // Ten letters done: the rain goes on, a little faster, under a rainbow, with a heart back.
+  // Ten letters done: the rain goes on, a little faster, under a rainbow.
   function levelUp() {
     game.level++;
     game.step = 0;
     game.plan = plan(options.letters, options.recent, game.completed[game.completed.length - 1]);
     const bonus = 250 * (game.level - 1);
     addScore(bonus);
-    const healed = game.hearts < HEARTS;
-    if (healed) gainHeart();
-    showToast('Seviye ' + game.level + '!', healed ? '❤️ +1 can' : '+' + bonus + ' puan');
+    showToast('Seviye ' + game.level + '!', '+' + bonus + ' puan');
     say('Seviye ' + game.level + '!');
     playCue('island');
     mood('dance', 1900);
@@ -636,7 +623,7 @@ const harfYagmuru = (() => {
     setTimeout(() => { piece.remove(); land(); }, 1200);
   }
 
-  /* ---------- The end ---------- */
+  /* ---------- Hearts gone: start again ---------- */
   function lose() {
     state = 'lost';
     pendingDone = null;
@@ -649,7 +636,7 @@ const harfYagmuru = (() => {
       playCue('retry');
       for (const drop of drops.slice()) { drop.state = 'gone'; vanish(drop, 'fade'); }
     });
-    after(1.5, result);
+    after(1.4, over);
   }
   // Best score and level are kept once per game: at its end, or when the child leaves early.
   function keep() {
@@ -657,33 +644,28 @@ const harfYagmuru = (() => {
     game.saved = true;
     options.onResult({ score: game.score, level: game.level });
   }
-  function result() {
-    state = 'result';
-    stopClock();
+  // A short look at the game just played, then it starts again from the first level by itself;
+  // "Hemen başla" does not wait, "Adaya dön" leaves.
+  const RESTART = 4.5;
+  function over() {
+    state = 'over';
     const best = { ...options.best() };
     keep();
     const record = game.score > 0 && game.score > (best.rekor || 0);
-    const { done, popped } = game;
-    const heading = done >= 20 ? 'Muhteşem!' : done >= 10 ? 'Harika!' : done >= 4 ? 'Aferin!' : done ? 'Güzel başlangıç!' : 'Bir daha deneyelim!';
-    const text = popped ? done + ' harfi tamamladın, ' + popped + ' damla patlattın. Canların bitince yağmur dindi.' :
-      'Kaplumbağanın söylediği harfi dinle, sonra o harften üç tane patlat.';
-    const unique = [...new Set(game.completed)];
-    showCard('<div class="rain-card result"><div class="rain-medal" role="img" aria-label="Seviye ' + game.level + '"><span>' +
+    const { done } = game;
+    const text = (done ? done + ' harfi tamamladın. ' : 'Sesi dikkatle dinle, sonra o harften üç tane patlat. ') +
+      'Oyun baştan başlıyor!';
+    showCard('<div class="rain-card over"><div class="rain-medal" role="img" aria-label="Seviye ' + game.level + '"><span>' +
       '<small>Seviye</small><b>' + game.level + '</b></span></div>' +
-      '<h2 id="rain-title" tabindex="-1">' + heading + '</h2><p>' + text + '</p>' +
+      '<h2 id="rain-title" tabindex="-1">Canların bitti!</h2><p>' + text + '</p>' +
       '<p class="rain-total"><b>0</b> puan</p>' +
       (record ? '<p class="rain-record new">🏆 Yeni rekor!</p>' : best.rekor ? '<p class="rain-record">🏆 Rekorun: ' + best.rekor + ' puan</p>' : '') +
-      (unique.length ? '<div class="rain-recap"><p>Tamamladığın harfler · dokun, dinle</p><div>' + unique.map((i, n) =>
-        '<button type="button" class="rain-chip t' + n % 5 + '" data-cue data-letter="' + i + '" aria-label="' + names[i] + ' harfini dinle">' +
-        glyph(i) + '<span>' + names[i] + '</span></button>').join('') + '</div></div>' : '') +
-      '<div class="rain-actions"><button type="button" class="rain-go" data-cue>↻ Tekrar oyna</button>' +
+      '<div class="rain-restart" aria-hidden="true"><i style="animation-duration:' + RESTART + 's"></i></div>' +
+      '<div class="rain-actions"><button type="button" class="rain-go" data-cue>▶ Hemen başla</button>' +
       '<button type="button" class="rain-back">Adaya dön</button></div></div>');
     overlay.querySelector('.rain-go').onclick = () => newGame(false);
     overlay.querySelector('.rain-back').onclick = () => dialog.close();
-    for (const chip of overlay.querySelectorAll('.rain-chip')) {
-      chip.onclick = () => { fx.bump(chip, 'rain-bump'); voice.letter(Number(chip.dataset.letter), unheard); };
-    }
-    later(300, () => playCue('star', { rate: 1.26 }));
+    after(RESTART, () => { if (state === 'over') newGame(false); });
     const total = overlay.querySelector('.rain-total b');
     const score = game.score, start = performance.now(), mine = session;
     const count = now => {
@@ -713,7 +695,8 @@ const harfYagmuru = (() => {
     showCard('<div class="rain-card intro"><div class="rain-intro-art" aria-hidden="true">' + sample.map((i, n) =>
       '<span class="rain-drop t' + [0, 4, 1][n] + '"><span class="rain-drop-in"><i class="rain-drop-skin"></i>' + glyph(i) + '</span></span>').join('') +
       '</div><h2 id="rain-title" tabindex="-1">Harf <em>Yağmuru</em></h2>' +
-      '<p>Yağmur hiç durmuyor! Kaplumbağa bir harfin adını söyleyecek: o harften üç tane patlat, kaplumbağa hemen yeni harfi söylesin.</p>' +
+      '<p>Yağmur hiç durmuyor! Kaplumbağa bir harfin adını söyleyecek: o harften üç tane patlat, kaplumbağa hemen yeni harfi söylesin. ' +
+      'Yanlış harfe dokunursan bir canın gider; üçü de biterse oyun baştan başlar.</p>' +
       '<ul class="rain-facts"><li><b>' + options.letters.length + '</b><span>öğrendiğin harf</span></li><li><b>3</b><span>her harften patlat</span></li>' +
       '<li><b>3</b><span>can</span></li></ul>' +
       '<div class="rain-pool" aria-label="Oyundaki harfler">' + options.letters.map(i => '<b lang="ar" title="' + names[i] + '">' + glyphs[i] + '</b>').join('') + '</div>' +
