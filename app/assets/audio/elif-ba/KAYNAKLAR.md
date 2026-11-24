@@ -2,7 +2,7 @@
 
 28 harf adı ve 84 harekeli okuma Diyanet İşleri Başkanlığının Elifba uygulamasından alınmıştır. Harf adları Harfler dersinden, heceler Fetha, Kesra ve Damme derslerinden eşleştirilmiştir.
 
-Oyun kopyaları `elifba-sesleri/katalog.json` arşivindeki kayıtlarla bayt düzeyinde aynıdır. Harf sırası oyundaki sıradır. He ve vav konumları metne göre eşleştirilmiştir.
+Oyun kopyaları `sources/elifba-sesleri/katalog.json` arşivindeki kayıtlarla bayt düzeyinde aynıdır. Harf sırası oyundaki sıradır. He ve vav konumları metne göre eşleştirilmiştir.
 
 Kaynak sayfada tüm hakların saklı olduğu belirtilmektedir.
 

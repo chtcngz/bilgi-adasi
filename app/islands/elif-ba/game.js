@@ -1,5 +1,6 @@
 // Elif Ba Adası: an island in sections. Section 1 teaches the letters, section 2 the harekes,
-// the later sections (cezm, tenvin, şedde, ...) are announced and open in coming releases.
+// the later sections (cezm, tenvin, şedde, ...) are announced and open in coming releases. Letters and
+// sections are in data.js; the listening games (Harf Yağmuru, Hece Balonları) in games/listening.js.
 (() => {
   const { glyphs, names, readings, harekeler, coves, sections, sameSound, syllable, coveLetters, mastery } = elifData;
   const voice = elifVoice;
@@ -355,7 +356,7 @@
     voice.stop();
     const done = coves.map((_, k) => k).filter(k => coveDone(info.part, k));
     const newest = coveLetters(done[done.length - 1]);
-    harfYagmuru.open({
+    elifListeningGame.open({
       kind: info.kind,
       letters: info.items(),
       recent: id === 'balon' ? newest.flatMap(i => [i * 3, i * 3 + 1, i * 3 + 2]) : newest,

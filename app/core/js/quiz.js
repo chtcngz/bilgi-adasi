@@ -6,10 +6,10 @@
 //
 // Her ada kendi game.js dosyasında soruAdasi({...}) ile kurulur:
 //   kod       sayfadaki kimliklerin öneki: din → #din-view, #din-game, #din-card …
-//             (görünüm soru-adasi.css'teki ortak .soru-* sınıflarından gelir)
+//             (görünüm core/css/quiz.css'teki ortak .soru-* sınıflarından gelir)
 //   ad        "Din Bilgisi Adası" gibi; sekme başlığında görünür
 //   kayit     ilerlemenin localStorage anahtarı öneki ('din-bilgisi-' + oyuncu kimliği)
-//   duraklar  soru bankası (bkz. din-bilgisi/sorular.js)
+//   duraklar  soru bankası (bkz. islands/din-bilgisi/sorular.js)
 //   ovgu      doğru cevaptan sonra rastgele seçilen sözler
 //   simgeler  doğru cevapta saçılan simgeler
 // Ayarlar penceresi ilerlemeyi window.soruAdalari[kod] üzerinden okur ve sıfırlar.

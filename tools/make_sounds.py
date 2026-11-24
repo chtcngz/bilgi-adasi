@@ -1,6 +1,6 @@
-"""Synthesize the game's sound cues into carpim-adasi/dist/assets/audio.
+"""Synthesize the game's sound cues into app/assets/audio/ui.
 
-Run from the repository root:  python3 carpim-adasi/tools/make_sounds.py
+Run from the repository root:  python3 tools/make_sounds.py
 Only numpy is needed. Every cue is generated, so tweaking a sound means
 editing its recipe below and running the script again.
 """
@@ -10,7 +10,7 @@ import wave
 import numpy as np
 
 RATE = 32000
-OUT = pathlib.Path(__file__).resolve().parent.parent / 'dist' / 'assets' / 'audio'
+OUT = pathlib.Path(__file__).resolve().parent.parent / 'app' / 'assets' / 'audio' / 'ui'
 rng = np.random.default_rng(7)
 
 

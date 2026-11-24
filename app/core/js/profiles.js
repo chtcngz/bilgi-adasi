@@ -1,3 +1,4 @@
+// The storage keys keep their first name (from when this was only Çarpım Adası) so saved players stay.
 const profileKey = 'carpim-adasi-profiller';
 const progressKey = profile => 'carpim-adasi-oyuncu-' + profile.id;
 function readRecord(key) {

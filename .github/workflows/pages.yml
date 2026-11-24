@@ -1,4 +1,4 @@
-name: Çarpım Adası Pages
+name: Bilgi Adası Pages
 on:
   push:
     branches: [main]
@@ -24,11 +24,11 @@ jobs:
             exit 1
           fi
           stamp="$version · $(TZ=Europe/Istanbul date +'%d.%m.%Y %H:%M')"
-          sed -i "s|__SURUM__|$stamp|" carpim-adasi/dist/index.html
-          grep -o '<meta name="surum"[^>]*>' carpim-adasi/dist/index.html
+          sed -i "s|__SURUM__|$stamp|" app/index.html
+          grep -o '<meta name="surum"[^>]*>' app/index.html
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: carpim-adasi/dist
+          path: app
   publish:
     needs: package
     runs-on: ubuntu-latest

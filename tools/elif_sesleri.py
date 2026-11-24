@@ -1,6 +1,6 @@
 """Fetch and prepare the recorded voices for Elif Ba Adası.
 
-Run from the repository root:  python3 carpim-adasi/tools/elif_sesleri.py
+Run from the repository root:  python3 tools/elif_sesleri.py
 Needs ffmpeg and numpy. Two open sources are used:
 
 * Syllables (be, bi, bu ... 84 of them): the "Pelafalan Huruf Hijaiyah" data set
@@ -12,10 +12,10 @@ Needs ffmpeg and numpy. Two open sources are used:
   owner's decision). With --harf-kaynagi lingualibre: Lingua Libre volunteers
   reading single Arabic letters on Wikimedia Commons, licence read from Commons.
 
-Downloads are kept in carpim-adasi/tools/.ses-onbellek (ignored by git). Every
+Downloads are kept in tools/.ses-onbellek (ignored by git). Every
 clip is trimmed of silence, levelled and saved as a small mono MP3 under
-dist/elif-ba/ses/ (harf/NN.mp3 and hece/NN-H.mp3, NN = letter index with
-00 = Elif, H = 0 üstün, 1 esre, 2 ötre). dist/elif-ba/ses/kayitlar.js tells the
+app/assets/audio/elif-ba/ (harf/NN.mp3 and hece/NN-H.mp3, NN = letter index with
+00 = Elif, H = 0 üstün, 1 esre, 2 ötre). app/assets/audio/elif-ba/kayitlar.js tells the
 game which clips exist; anything missing is read by the device's Turkish voice.
 KAYNAKLAR.md lists every source and licence, as the licences require.
 
@@ -43,7 +43,7 @@ import zipfile
 import numpy as np
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-OUT = ROOT / 'dist' / 'elif-ba' / 'ses'
+OUT = ROOT / 'app' / 'assets' / 'audio' / 'elif-ba'
 CACHE = ROOT / 'tools' / '.ses-onbellek'
 STATE = OUT / 'kaynak.json'
 LETTERS = 'ابتثجحخدذرزسشصضطظعغفقكلمنوهي'
@@ -112,8 +112,8 @@ def load_state():
 
 def save_state(state):
     STATE.write_text(json.dumps(state, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')
-    harf = ',\n'.join(f"    {i}: 'elif-ba/ses/harf/{int(i):02d}.mp3'" for i in sorted(state['harf'], key=int))
-    hece = ',\n'.join(f"    '{k}': 'elif-ba/ses/hece/{int(k.split('-')[0]):02d}-{k.split('-')[1]}.mp3'"
+    harf = ',\n'.join(f"    {i}: 'assets/audio/elif-ba/harf/{int(i):02d}.mp3'" for i in sorted(state['harf'], key=int))
+    hece = ',\n'.join(f"    '{k}': 'assets/audio/elif-ba/hece/{int(k.split('-')[0]):02d}-{k.split('-')[1]}.mp3'"
                       for k in sorted(state['hece'], key=lambda k: tuple(map(int, k.split('-')))))
     credit = ' '.join(source['credit'] for source in state['sources'].values())
     (OUT / 'kayitlar.js').write_text(
@@ -123,7 +123,7 @@ def save_state(state):
         json.dumps(credit, ensure_ascii=False) + '\n};\n', encoding='utf-8')
     notes = ['# Elif Ba ses kayıtları: kaynaklar', '',
              'Oyundaki kayıtlarda yalnızca baştaki ve sondaki sessizlik kırpıldı ve ses düzeyi eşitlendi',
-             '(`carpim-adasi/tools/elif_sesleri.py`). Kaydı olmayan harf ve heceleri cihazın Türkçe sesi okur.']
+             '(`tools/elif_sesleri.py`). Kaydı olmayan harf ve heceleri cihazın Türkçe sesi okur.']
     for source in state['sources'].values():
         notes += ['', '## ' + source['title'], ''] + source['notes']
     (OUT / 'KAYNAKLAR.md').write_text('\n'.join(notes) + '\n', encoding='utf-8')

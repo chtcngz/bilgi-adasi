@@ -1,5 +1,5 @@
 // Fen Bilimleri Adası: MEB 4. sınıf Fen Bilimleri ders kitabının yedi ünitesi ve
-// Proje İmam Hatip Ortaokulu 5. sınıf giriş sınavının fen testine hazırlık. Oyun, soru-adasi.js'tedir.
+// Proje İmam Hatip Ortaokulu 5. sınıf giriş sınavının fen testine hazırlık. Oyun, core/js/quiz.js'tedir.
 soruAdasi({
   kod: 'fen',
   ad: 'Fen Bilimleri Adası',

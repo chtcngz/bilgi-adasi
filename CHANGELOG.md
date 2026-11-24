@@ -7,6 +7,15 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.12.1 · 24.11.2026
+
+Proje düzeni yenilendi; oyunda görünen bir değişiklik yok, kayıtlı ilerleme korunuyor.
+
+- Yayınlanan site `carpim-adasi/dist` yerine `app/` klasöründe. Bütün adaların ortak kodu `app/core/`, her ada kendi klasöründe `app/islands/<ada>/`.
+- Bütün sesler tek yerde: efektler `app/assets/audio/ui/`, Elif Ba kayıtları bölüm bölüm `app/assets/audio/elif-ba/`. Fontlar ve görseller de `app/assets/` altında.
+- Elif Ba'nın oyun motoru (Harf Yağmuru, Hece Balonları) `islands/elif-ba/games/listening.js` oldu. Yardımcı betikler `tools/`, ham Diyanet ses arşivi `sources/elifba-sesleri/` altında.
+- README'de klasör yapısı, kurallar ve yeni bölüm/ada ekleme adımları anlatılıyor.
+
 ## 0.12.0 · 24.11.2026
 
 Elif Ba Adası'nın Harekeler bölümü yenilendi ve sonuna ikinci oyun geldi: **Hece Balonları**.

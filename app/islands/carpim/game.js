@@ -1,12 +1,11 @@
-const $ = id => document.getElementById(id);
+// Çarpım Adası: 2'den 10'a çarpım tablosu, dokuz ada ve her adada giderek kısalan dört süre turu.
 const ports = [[.16,.252],[.49,.257],[.83,.24],[.16,.571],[.49,.568],[.83,.565],[.16,.894],[.49,.915],[.83,.891]];
 const secondsPerRound = [15, 10, 5, 3];
 const islands = ['Palmiye Koyu', 'Çam Kumsalı', 'Kaya Geçidi', 'Fener Burnu',
   'Mercan Koyu', 'Çam Limanı', 'Dağ Geçidi', 'Değirmen Adası', 'Hazine Zirvesi'];
 const total = islands.length * secondsPerRound.length;
-let activeProfile, progress, selected;
+let progress, selected;
 let deck = [], answers = [], entry = '', deadline = 0, timer, playing = false;
-let storageFailed = false;
 const round = () => Math.min(secondsPerRound.length - 1, Math.floor(progress.completed / islands.length));
 const slot = () => round() * islands.length + selected;
 const limit = () => secondsPerRound[round()];

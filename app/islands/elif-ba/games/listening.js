@@ -4,7 +4,7 @@
 // Finishing with all three hearts completes the section; losing all three starts it again.
 // In Harf Yağmuru letters rain from the clouds into the sea; in Hece Balonları syllables with
 // their harekes rise from the sea up into the clouds.
-const harfYagmuru = (() => {
+const elifListeningGame = (() => {
   const { glyphs, names, readings, syllable } = elifData;
   const voice = elifVoice;
   const dialog = $('elif-rain');
