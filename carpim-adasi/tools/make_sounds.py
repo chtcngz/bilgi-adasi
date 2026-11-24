@@ -179,8 +179,17 @@ def soft_mallet(freq, decay=0.06, bend=0.0, seconds=0.45):
 # The earlier tap drew this much noise; drawing it keeps the later cues' randomness unchanged.
 rng.uniform(-1, 1, int(RATE * 0.07))
 
-# Menus and buttons: a soft, low "bloop", like a drop in a calm bay.
-cues['tap'] = finish(reverb(soft_mallet(note('E5'), 0.05, -0.04), 0.12, 0.7, 0.2), 0.2)
+def bubble(start, end, seconds=0.3, rise=0.05, attack=0.012, decay=0.045):
+    """A rising air bubble: a pure tone that swoops up while it fades in and out."""
+    t = timeline(seconds)
+    freq = end + (start - end) * np.exp(-t / rise)
+    phase = 2 * np.pi * np.cumsum(freq) / RATE
+    fade_in = np.where(t < attack, np.sin(np.pi / 2 * t / attack) ** 2, 1)
+    return lowpass(lowpass(np.sin(phase) * fade_in * np.exp(-t / decay), 1500), 1800)
+
+
+# Menus and buttons: a quiet, low "blup", like a bubble rising in a calm bay.
+cues['tap'] = finish(reverb(bubble(300, 520), 0.1, 0.7, 0.2), 0.16)
 
 # Number keys: the same felt mallet a little higher, bending gently up.
 cues['key'] = finish(reverb(soft_mallet(note('G5'), 0.055, 0.03), 0.12, 0.7, 0.2), 0.24)

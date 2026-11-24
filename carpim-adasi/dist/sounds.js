@@ -1,7 +1,7 @@
 const playCue = (() => {
   const button = document.getElementById('sound');
   const cues = ['tap', 'key', 'erase', 'tick-3', 'tick-2', 'tick-1', 'correct', 'island', 'victory', 'retry', 'oops', 'start'];
-  const source = name => 'assets/audio/' + name + '.wav?v=4';
+  const source = name => 'assets/audio/' + name + '.wav?v=5';
   let enabled = true;
   let blocked = false;
   try { enabled = localStorage.getItem('carpim-ses') !== 'off'; } catch {}
