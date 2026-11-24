@@ -1,4 +1,10 @@
 // Settings: edit or delete the player, sound options and progress resets.
+// The Pages workflow writes the version into <meta name="surum"> when it publishes.
+(() => {
+  const stamp = document.querySelector('meta[name=surum]')?.content || '';
+  const text = stamp && !stamp.startsWith('__') ? 'Sürüm ' + stamp : 'Geliştirme sürümü';
+  for (const element of document.querySelectorAll('.app-version')) element.textContent = text;
+})();
 (() => {
   const dialog = $('settings');
   const tabs = ['player', 'sound', 'progress'];

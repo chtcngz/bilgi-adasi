@@ -488,3 +488,5 @@ dialog[open]::backdrop { animation: fade .25s; backdrop-filter: blur(3px); }
   .reset-dots { gap: 3px; }
   .danger-zone { flex-wrap: wrap; }
 }
+
+.app-version { margin: 16px 0 0; color: #8a978f; font-size: 12px; font-weight: 700; text-align: center; font-variant-numeric: tabular-nums; }

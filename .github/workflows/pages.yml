@@ -16,6 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - name: Stamp the version shown in the game
+        run: |
+          stamp="${{ github.run_number }} · $(TZ=Europe/Istanbul date +'%d.%m.%Y %H:%M') · ${GITHUB_SHA::7}"
+          sed -i "s|__SURUM__|$stamp|" carpim-adasi/dist/index.html
+          grep -o '<meta name="surum"[^>]*>' carpim-adasi/dist/index.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: carpim-adasi/dist
