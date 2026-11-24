@@ -14018,8 +14018,8 @@
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-uzatilmasi/karsilastirma/btn_28.mp3",
-      "file": "elifba/kesranin-uzatilmasi/karsilastirma/okuma/ظِ__btn_28.mp3",
-      "text": "ظِ",
+      "file": "elifba/kesranin-uzatilmasi/karsilastirma/okuma/ظِ-ظ۪ى__btn_28.mp3",
+      "text": "ظِ — ظ۪ى",
       "kind": "okuma",
       "uses": [
         {
@@ -14037,9 +14037,31 @@
           "kind": "okuma"
         }
       ],
-      "error": "HTTP Error 404: Not Found",
       "lastChecked": "2026-11-24",
-      "playbackStatus": "player_source_unavailable"
+      "playbackStatus": "reconstructed_from_existing_recordings",
+      "originalSourceError": "HTTP Error 404: Not Found",
+      "bytes": 63572,
+      "sha256": "7e9d2edbf6609fd281517fd725a3876df4857c59325c14b00a635b07f0cb8846",
+      "derivedFrom": [
+        {
+          "file": "elifba/kesra/kesra/okuma/ظِ__btn_28.mp3",
+          "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_28.mp3",
+          "sha256": "4527c886f39d10504be555ee7a4725dbe36cadf7bfd64465b881e43126277e89"
+        },
+        {
+          "file": "elifba/kesranin-uzatilmasi/kesranin-uzatilmasi/okuma/ظ۪ى__btn_28.mp3",
+          "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-uzatilmasi/kesranin-uzatilmasi/btn_28.mp3",
+          "sha256": "c73f6797e7cd7724abfd026a347757ad8ffb7304702df288e6462a586767fd28"
+        }
+      ],
+      "processing": {
+        "method": "concatenate_short_then_long",
+        "addedGapSeconds": 0.35,
+        "codec": "mp3",
+        "bitrate": 128000,
+        "sampleRate": 44100,
+        "channels": 1
+      }
     },
     {
       "sourceUrl": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-uzatilmasi/uygulama/aciklama.mp3",

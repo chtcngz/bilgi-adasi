@@ -2,9 +2,11 @@
 
 Kaynak https://kuran.diyanet.gov.tr/elifba
 
-24 Kasım 2026 tarihinde resmî uygulamanın 91 ders sayfasındaki ses eşlemeleri tarandı. Başarılı olarak indirilen 1.912 MP3 toplam 109.115.793 bayttır. Uygulamanın referans verdiği diğer 57 adres sunucuda HTTP 404 döndürmektedir. Bu kayıtlar `katalog.json` içindeki `error` alanıyla bulunabilir.
+24 Kasım 2026 tarihinde resmî uygulamanın 91 ders sayfasındaki ses eşlemeleri tarandı. Başarılı olarak indirilen 1.912 MP3 toplam 109.115.793 bayttır. Uygulamanın referans verdiği diğer 57 adres sunucuda HTTP 404 döndürmektedir. Bu kayıtlar `katalog.json` içindeki `error` veya `originalSourceError` alanıyla bulunabilir.
 
 57 adres yeniden kontrol edilmiştir. Kalkale uygulamasındaki 54 kelime adresi oynatıcıda kullanılmaz. Uygulama bu kelimeleri içeren 6 ayeti bütün olarak seslendirir ve bu 6 MP3 arşivde bulunmaktadır. Kelime kayıtlarının `availableVerseFile` alanı ilgili yerel ayet dosyasını gösterir. Bakara 285–286 sayfasındaki iki kapanış metni uygulamada ses düğmesi olmadan gösterilir. Kesranın Uzatılması / Karşılaştırma dersindeki `ظِ` düğmesi ise `btn_28.mp3` adresini çağırır ve tarayıcı oynatıcısında da kaynak yükleme hatası verir. `playbackStatus` alanı bu durumları belirtir.
+
+Eksik karşılaştırma kaydı, kullanıcının isteğiyle arşivdeki kısa `ظِ` ve uzun `ظ۪ى` kayıtları sırayla birleştirilerek oluşturulmuştur. İki kayıt arasına 0,35 saniye sessizlik eklenmiştir. Dosya `elifba/kesranin-uzatilmasi/karsilastirma/okuma/ظِ-ظ۪ى__btn_28.mp3` yolundadır. Katalogdaki `derivedFrom` alanı kaynak dosyaları, `processing` alanı birleştirme ayarlarını belirtir. `originalSourceError` resmî adresteki hatayı korur. Oluşturulan dosyanın MP3 olarak çözülebildiği doğrulanmıştır. Arşivde bu eklemeyle toplam 1.913 MP3 ve 109.179.365 bayt ses bulunmaktadır.
 
 ## Klasörler ve dosya adları
 
