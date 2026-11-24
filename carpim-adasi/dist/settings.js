@@ -181,7 +181,7 @@
   function drawElif() {
     const summary = window.elifBaSummary(activeProfile.id);
     $('elif-summary').textContent = '🐚 ' + summary.harf + ' / 28 harf · 🦪 ' + summary.hareke + ' / 28 hareke' +
-      (summary.rekor ? ' · 🌧️ Harf Yağmuru rekoru ' + summary.rekor + (summary.seviye ? ' (seviye ' + summary.seviye + ')' : '') : '');
+      (summary.tamam ? ' · 🌧️ Harf Yağmuru tamamlandı (rekor ' + summary.rekor + ')' : summary.rekor ? ' · 🌧️ Harf Yağmuru rekoru ' + summary.rekor : '');
     $('elif-reset').disabled = !summary.any;
   }
   const disarmElif = confirmTwice($('elif-reset'), 'Emin misin? Evet, sıfırla', () => {

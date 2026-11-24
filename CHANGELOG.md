@@ -7,6 +7,16 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.11.0 · 24.11.2026
+
+Harf Yağmuru artık 15 harflik bir bölüm.
+
+- Bölüm 15 harf, yani 45 damla: her harften 3 tane patlatılıyor. Yağmur bölüm boyunca durmuyor ve harfler yavaş yavaş hızlanıyor. 15. harf bitince yağmur diniyor, bulutlar açılıyor, güneş ve gökkuşağı çıkıyor.
+- 45 damlanın hepsi hiç can kaybetmeden patlatılırsa bölüm tamamlanıyor: 3 yıldız ve "Bölüm tamamlandı!". Can kaybedilip sona gelinirse kalan can kadar yıldız ve "Az kaldı!" çıkıyor; bölüm, tam canla bitirilene kadar tamamlanmış sayılmıyor. Sonuç ekranında patlatılan harfler dokununca okunuyor.
+- Üç can var. Üçü de biterse kısa bir özetten sonra oyun kendiliğinden baştan başlıyor.
+- Sonsuz oyundaki seviyeler kaldırıldı. Üstteki sırada bölümün 15 harfi var; o an oynanan harfin yuvası her patlatmada üçte bir doluyor.
+- Ada sayfası, Harfler bölümü ve Ayarlar → İlerleme, bölüm tamamlandıysa "✅ Tamamlandı", değilse en iyi yıldızları ve rekoru gösteriyor. Önceki sürümlerin rekor puanı korunuyor; 10 harflik eski turların yıldızları sayılmıyor.
+
 ## 0.10.0 · 24.11.2026
 
 Harf Yağmuru artık hiç durmuyor.

@@ -10,8 +10,9 @@
 
   /* ---------- Progress ---------- */
   const storeKey = id => 'elif-ba-v2-' + id;
-  // yagmur: Harf Yağmuru's best score and the highest level reached.
-  function blank() { return { harf: Array(28).fill(0), hareke: Array(28).fill(0), tanisma: false, yagmur: { rekor: 0, seviye: 0 } }; }
+  // yagmur: Harf Yağmuru's best score, the most hearts (stars) a section was finished with,
+  // and whether it was ever finished with all three, which completes it.
+  function blank() { return { harf: Array(28).fill(0), hareke: Array(28).fill(0), tanisma: false, yagmur: { rekor: 0, yildiz: 0, tamam: false } }; }
   function load(id) {
     if (records.has(id)) return records.get(id);
     const saved = readRecord(storeKey(id));
@@ -23,10 +24,13 @@
         });
       }
       record.tanisma = saved.tanisma === true;
-      if (saved.yagmur && typeof saved.yagmur === 'object') {
-        for (const key of ['rekor', 'seviye']) {
-          const n = saved.yagmur[key];
-          if (Number.isInteger(n) && n > 0) record.yagmur[key] = n;
+      const rain = saved.yagmur;
+      if (rain && typeof rain === 'object') {
+        if (Number.isInteger(rain.rekor) && rain.rekor > 0) record.yagmur.rekor = rain.rekor;
+        // Stars from before the fifteen-letter section (0.9.0 had ten-letter rounds) do not count.
+        if ('tamam' in rain) {
+          if (Number.isInteger(rain.yildiz) && rain.yildiz > 0) record.yagmur.yildiz = Math.min(3, rain.yildiz);
+          record.yagmur.tamam = rain.tamam === true;
         }
       }
     } else {
@@ -81,7 +85,7 @@
 
   window.elifBaSummary = id => {
     const record = load(id);
-    return { harf: masteredCount('harf', record), hareke: masteredCount('hareke', record), rekor: record.yagmur.rekor, seviye: record.yagmur.seviye, any:
+    return { harf: masteredCount('harf', record), hareke: masteredCount('hareke', record), rekor: record.yagmur.rekor, tamam: record.yagmur.tamam, any:
       record.harf.some(Boolean) || record.hareke.some(Boolean) || record.tanisma || record.yagmur.rekor > 0 };
   };
   window.resetElifBa = id => {
@@ -290,10 +294,11 @@
     const best = progress.yagmur;
     const button = el('button', 'elif-section-card elif-rain-card' + (open ? '' : ' locked'));
     button.style.setProperty('--i', 1);
-    const status = !open ? '🔒 ' + coves[0] + ' harfleri öğrenilince açılır' : best.rekor ? '🏆 Rekor ' + best.rekor +
-      (best.seviye ? ' · Seviye ' + best.seviye : '') : '🌧️ ' + learnedLetters().length + ' harfle oyna';
+    const stars = n => '★'.repeat(n) + '☆'.repeat(3 - n);
+    const status = !open ? '🔒 ' + coves[0] + ' harfleri öğrenilince açılır' : best.tamam ? '✅ Tamamlandı · 🏆 ' + best.rekor :
+      best.yildiz ? stars(best.yildiz) + ' · 🏆 ' + best.rekor : best.rekor ? '🏆 Rekor ' + best.rekor : '🌧️ ' + learnedLetters().length + ' harfle oyna';
     button.innerHTML = rainArt() + '<span class="elif-section-text"><small>Oyun</small><strong>Harf Yağmuru</strong>' +
-      '<span>Yağmur hiç durmuyor: duyduğun harften üç tane patlat</span><span class="elif-badge">' + status + '</span></span>';
+      '<span>Duyduğun harften üç tane patlat, 15 harfi bitir</span><span class="elif-badge">' + status + '</span></span>';
     if (open) button.onclick = openRain;
     else {
       button.dataset.cue = '';
@@ -312,7 +317,7 @@
     banner.hidden = part !== 'harf' || !rainOpen();
     if (banner.hidden) return;
     const best = progress.yagmur;
-    banner.innerHTML = rainArt() + '<span class="elif-rain-text"><small>Oyun zamanı' + (best.rekor ? ' · 🏆 ' + best.rekor : '') +
+    banner.innerHTML = rainArt() + '<span class="elif-rain-text"><small>Oyun zamanı' + (best.tamam ? ' · ✅ Tamamlandı' : best.rekor ? ' · 🏆 ' + best.rekor : '') +
       '</small><strong>Harf Yağmuru</strong><span>Öğrendiğin ' + learnedLetters().length + ' harf gökten yağıyor!</span></span>' +
       '<span class="elif-rain-go" aria-hidden="true">▶</span>';
     banner.onclick = openRain;
@@ -325,10 +330,13 @@
       letters: learnedLetters(),
       recent: coveLetters(done[done.length - 1]),
       best: () => progress.yagmur,
-      onResult({ score, level }) {
+      onResult({ score, stars, finished }) {
         const record = progress.yagmur;
         record.rekor = Math.max(record.rekor, score);
-        record.seviye = Math.max(record.seviye, level);
+        if (finished) {
+          record.yildiz = Math.max(record.yildiz, stars);
+          if (stars === 3) record.tamam = true;
+        }
         save();
       },
       onClose() {
