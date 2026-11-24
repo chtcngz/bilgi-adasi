@@ -90,6 +90,7 @@
       localStorage.removeItem(progressKey(profile));
       localStorage.removeItem('elif-ba-' + profile.id);
       localStorage.removeItem('elif-ba-v2-' + profile.id);
+      localStorage.removeItem('elif-ba-hiz-' + profile.id);
       for (const ada of Object.values(window.soruAdalari)) localStorage.removeItem(ada.kayit + profile.id);
     } catch {}
     saveProfiles();

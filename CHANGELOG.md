@@ -7,6 +7,14 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.15.0 · 24.11.2026
+
+Harf Yağmuru ve Hece Balonları biraz daha hızlı akıyor. Kaplumbağanın söylediği harf (hece) artık peş peşe gelmiyor ve oyunun hızı üstteki bir çubukla ayarlanabiliyor.
+
+- **Daha hızlı akış:** Damlalar ve balonlar başta 7,6 yerine 6,6 saniyede iniyor (çıkıyor) ve oyun ilerledikçe biraz daha hızlanıyor. Yeni damla (balon) da daha sık geliyor, ekranda aynı anda daha çok harf oluyor.
+- **Karışık gelen harf:** Sorulan harf ya da hece hiç arka arkaya gelmiyor; iki tanesinin arasında her zaman bir ya da iki başka damla (balon) var. Aynı sütunda üst üste de çıkmıyor: havada ondan hangi sütunlarda varsa yenisi başka bir sütundan geliyor. Böylece balonları sırayla patlatıp geçmek yerine her seferinde doğrusunu aramak gerekiyor.
+- **🐌 Hız çubuğu 🐇:** Harf sırasının altında, salyangozdan tavşana uzanan bir çubuk var. Beş hız var: Çok yavaş, Yavaş, Normal, Hızlı, Çok hızlı. Çubuk oyun sırasında da kaydırılabiliyor; havadaki damlalar hemen yeni hıza geçiyor ve seçilen hızın adı bir an çubuğun altında görünüyor. Her oyuncunun hızı kendine saklanıyor ve iki oyunda da geçerli; oyuncu silinince onun hız ayarı da siliniyor.
+
 ## 0.14.1 · 24.11.2026
 
 Elif Ba Adası'nda hecelerin Türkçe okunuşu (be, bi, bu…) artık hiçbir yerde yazmıyor; heceler yalnızca dinleniyor. Bir hece, harfinin adı ve harekesiyle anılıyor, örneğin "Be üstün".

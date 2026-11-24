@@ -15,9 +15,15 @@ const elifListeningGame = (() => {
   const praise = ['Harika!', 'Süper!', 'Bravo!', 'Aferin!', 'Müthiş!', 'Şahane!'];
   // The three pops of a letter climb a major chord.
   const chord = [1, 1.26, 1.5];
-  // Drops take 7.6 s to fall at first and a little less with every letter done, never under 3.6 s.
-  const fallTime = done => 3.6 + 4 * Math.exp(-done / 16);
-  const spawnGap = done => 0.8 + 0.55 * Math.exp(-done / 16);
+  // Drops take 6.6 s to fall at first and a little less with every letter done, never under 3.2 s;
+  // a new one comes about every second, a little more often as the game goes on.
+  const fallTime = done => 3.2 + 3.4 * Math.exp(-done / 14);
+  const spawnGap = done => 0.62 + 0.4 * Math.exp(-done / 14);
+  // The bar at the top sets how fast all of that goes, from the snail to the rabbit. Each player
+  // keeps their own speed for both games.
+  const PACES = [0.6, 0.8, 1, 1.25, 1.5];
+  const paceNames = ['Çok yavaş', 'Yavaş', 'Normal', 'Hızlı', 'Çok hızlı'];
+  const NORMAL = 2;
   const clamp01 = n => Math.min(1, Math.max(0, n));
   const pick = items => items[Math.floor(Math.random() * items.length)];
   function shuffled(items) {
@@ -84,6 +90,8 @@ const elifListeningGame = (() => {
       '<button type="button" class="rain-listen" data-cue>' + speakerSvg + '</button>' +
       '<div class="rain-score"><small>Puan</small><b>0</b></div>' +
       '<ol class="rain-slots"></ol>' +
+      '<label class="rain-pace"><span aria-hidden="true">🐌</span><input type="range" min="0" max="' + (PACES.length - 1) +
+        '" step="1" aria-label="Oyun hızı"><span aria-hidden="true">🐇</span><output aria-hidden="true"></output></label>' +
     '</div>' +
     '<div class="rain-toast" aria-hidden="true"></div>' +
     '<div class="rain-count" aria-hidden="true"></div>' +
@@ -105,10 +113,14 @@ const elifListeningGame = (() => {
   const counter = find('.rain-count');
   const overlay = find('.rain-overlay');
   const live = find('.rain-live');
+  const paceBox = find('.rain-pace');
+  const paceInput = paceBox.querySelector('input');
+  const paceName = paceBox.querySelector('output');
 
   let options = null, game = null, state = 'idle', drops = [], rounds = 0, followUp = null;
   let width = 0, size = 80, laneX = [], spawnY = 0, surface = 0, topY = 0;
   let talkToken = 0, pendingDone = null, talking = false, lastTalk = -9, lastSplash = -9, moodTimer = 0, promptToken = 0;
+  let pace = 1, paceTimer = 0;
 
   /* ---------- Game clock ---------- */
   // Everything that moves or waits runs on this clock, so a paused game stands still.
@@ -213,6 +225,34 @@ const elifListeningGame = (() => {
     toast.classList.add('show');
   }
 
+  /* ---------- Speed ---------- */
+  const paceKey = () => 'elif-ba-hiz-' + activeProfile?.id;
+  function keptPace() {
+    let kept = null;
+    try { kept = localStorage.getItem(paceKey()); } catch {}
+    const step = Number(kept);
+    return kept !== null && Number.isInteger(step) && step >= 0 && step < PACES.length ? step : NORMAL;
+  }
+  function setPace(step) {
+    const was = pace;
+    pace = PACES[step];
+    paceInput.value = step;
+    paceInput.setAttribute('aria-valuetext', paceNames[step]);
+    paceBox.style.setProperty('--at', step / (PACES.length - 1));
+    paceName.textContent = paceNames[step];
+    // The drop waiting to come follows the new speed too.
+    if (game && state === 'raining') game.nextSpawn = clock + Math.max(0, game.nextSpawn - clock) * was / pace;
+  }
+  paceInput.oninput = () => {
+    const step = Number(paceInput.value);
+    setPace(step);
+    try { localStorage.setItem(paceKey(), step); } catch {}
+    // The speed's name shows under the bar for a moment.
+    paceBox.classList.add('named');
+    clearTimeout(paceTimer);
+    paceTimer = setTimeout(() => paceBox.classList.remove('named'), 1100);
+  };
+
   /* ---------- The turtle's voice ---------- */
   function talk(on, name = '') {
     talking = on;
@@ -286,7 +326,7 @@ const elifListeningGame = (() => {
     game = {
       plan: plan(options.letters, options.recent, -1), step: 0, target: null, pops: 0,
       done: 0, popped: 0, completed: [], hearts: HEARTS, score: 0, streak: 0, listening: true, first: ++rounds === 1,
-      nextSpawn: 0, sinceTarget: 2, lastLane: -1, lastLetter: -1, lastTone: -1, retalk: false, saved: false
+      nextSpawn: 0, sinceTarget: 2, lastLane: -1, targetLane: -1, lastLetter: -1, lastTone: -1, retalk: false, saved: false
     };
     drawHearts();
     drawSlots();
@@ -339,18 +379,27 @@ const elifListeningGame = (() => {
   }
 
   /* ---------- Rain ---------- */
-  function freeLane() {
+  const flying = () => drops.filter(d => d.letter === game.target && d.state === 'fall');
+  // A lane whose start is clear, other than the last one used. The letter being played also keeps
+  // away from its own lanes, so its drops (balloons) never line up one above the other.
+  function freeLane(target) {
     const blocked = new Set(drops.filter(d => kind.rising ? d.y > spawnY - size * 1.35 : d.y < spawnY + size * 1.35).map(d => d.lane));
     const all = laneX.map((_, k) => k).filter(k => !blocked.has(k));
-    const spread = all.filter(k => k !== game.lastLane);
+    let spread = all.filter(k => k !== game.lastLane);
+    if (target) {
+      const own = new Set([game.targetLane, ...flying().map(d => d.lane)]);
+      const apart = spread.filter(k => !own.has(k));
+      if (apart.length) spread = apart;
+    }
     return spread.length ? pick(spread) : all.length ? all[0] : -1;
   }
-  // The letter being played is never more than two drops away, and up to three of it fall at once.
+  // The letter being played never comes twice in a row: one or two other drops come between,
+  // and no more than three of it are in the air at once.
   function wantTarget() {
-    const falling = drops.filter(d => d.letter === game.target && d.state === 'fall').length;
+    if (game.sinceTarget === 0) return false;
+    const falling = flying().length;
     if (falling >= POPS) return false;
-    if (game.sinceTarget >= 2) return true;
-    return Math.random() < (falling ? 0.38 : 0.6);
+    return game.sinceTarget >= 2 || Math.random() < (falling ? 0.35 : 0.55);
   }
   function distractor() {
     // Never one that sounds the same as the one being played (sin üstün and se üstün are both "se").
@@ -362,9 +411,9 @@ const elifListeningGame = (() => {
     return pick(choices);
   }
   function spawn() {
-    const lane = freeLane();
-    if (lane < 0) { game.nextSpawn = clock + 0.12; return; }
     const target = wantTarget();
+    const lane = freeLane(target);
+    if (lane < 0) { game.nextSpawn = clock + 0.12; return; }
     const letter = target ? game.target : distractor();
     let tone;
     do tone = Math.floor(Math.random() * 5); while (tone === game.lastTone);
@@ -389,8 +438,8 @@ const elifListeningGame = (() => {
     game.lastLane = lane;
     game.lastLetter = letter;
     game.lastTone = tone;
-    if (target) game.sinceTarget = 0; else game.sinceTarget++;
-    game.nextSpawn = clock + spawnGap(game.done) * (0.85 + Math.random() * 0.3);
+    if (target) { game.sinceTarget = 0; game.targetLane = lane; } else game.sinceTarget++;
+    game.nextSpawn = clock + spawnGap(game.done) * (0.85 + Math.random() * 0.3) / pace;
   }
   function place(drop) {
     const still = calm.matches;
@@ -402,7 +451,7 @@ const elifListeningGame = (() => {
   function fall(drop, dt) {
     if (drop.state === 'caught') return; // waits in the air for its turn to pop
     // A wrongly tapped letter hurries into the sea (a balloon into the clouds).
-    const hurry = drop.state === 'wrong' ? 2.6 : 1;
+    const hurry = (drop.state === 'wrong' ? 2.6 : 1) * pace;
     if (kind.rising) drop.y -= (spawnY - topY) / drop.fall * dt * hurry;
     else drop.y += (surface - spawnY) / drop.fall * dt * hurry;
     drop.phase += dt;
@@ -782,6 +831,7 @@ const elifListeningGame = (() => {
     dialog.setAttribute('aria-label', kind.label);
     listen.setAttribute('aria-label', kind.t.listen);
     slotBox.setAttribute('aria-label', kind.t.slots);
+    setPace(keptPace());
     if (kind.rising) voice.preload([...new Set(settings.letters.map(k => Math.floor(k / 3)))]);
     else voice.preload(settings.letters, true);
     if (!dialog.open) dialog.showModal();
