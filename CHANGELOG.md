@@ -7,6 +7,12 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.1.2 · 24.11.2026
+
+- Yeni oyuncu eklerken pencere sadeleşiyor: oyuncu listesi ve üstteki resim gizleniyor, böylece telefonda klavye açılınca ekran karışmıyor
+- Pencere klavyenin üstünde kalıyor, isim kutusu klavyenin altında kaybolmuyor
+- Forma "Vazgeç" düğmesi eklendi; oyuncu listesine geri dönülebiliyor
+
 ## 0.1.1 · 24.11.2026
 
 - Rakam tuşu sesi, tıklama sesiyle aynı yumuşak baloncuk tınısına geçti; biraz daha ince olduğu için ayırt ediliyor

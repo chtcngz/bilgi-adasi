@@ -427,6 +427,14 @@ dialog[open]::backdrop { animation: fade .25s; backdrop-filter: blur(3px); }
 :is(#icons, #edit-icons) input:checked + span { border-color: #16716e; background: #e5f2e9; animation: pop-in .35s cubic-bezier(.2, 1.5, .4, 1); }
 @media (hover: hover) { :is(#icons, #edit-icons) label:hover span { transform: scale(1.1); } }
 #register .primary { min-height: 54px; font-size: 18px; }
+#cancel-register { width: 100%; margin: 8px 0 0; }
+#profiles.adding :is(.welcome, .welcome-eyebrow, #players) { display: none; }
+#profiles.adding #profiles-title { margin-top: 18px; }
+#profiles.adding #profiles-title::after { content: ' Yeni oyuncu'; display: block; font-size: 17px; color: #16716e; letter-spacing: 0; }
+#profiles.adding .app-version { display: none; }
+@media (max-width: 650px), (max-height: 500px) {
+  dialog { margin-bottom: var(--kb, 0px); max-height: calc(min(96dvh, var(--vvh, 100dvh)) - 8px); transition: margin-bottom .15s; }
+}
 .greeting { margin: 8px 0 0; color: #47635f; font-size: clamp(16px, 2vw, 20px); font-weight: 750; }
 @media (max-width: 650px) {
   .welcome { margin-inline: -18px; height: 84px; }
