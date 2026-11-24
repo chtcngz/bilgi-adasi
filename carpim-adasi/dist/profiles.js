@@ -20,6 +20,19 @@ for (const [icon, name] of avatars) {
   label.append(input, face);
   $('icons').append(label);
 }
+const grades = ['Okul öncesi', '1. sınıf', '2. sınıf', '3. sınıf', '4. sınıf'];
+for (const grade of grades) {
+  const label = document.createElement('label');
+  const input = document.createElement('input');
+  input.type = 'radio';
+  input.name = 'grade';
+  input.value = grade;
+  input.required = true;
+  const chip = document.createElement('span');
+  chip.textContent = grade;
+  label.append(input, chip);
+  $('grade-choices').append(label);
+}
 
 function choosePlayer(profile) {
   activeProfile = profile;
@@ -43,6 +56,7 @@ function showCatalog() {
   const cards = Array.from($('game-grid').children);
   for (const card of cards) card.hidden = !availableForPlayer(card);
   $('catalog-grade').textContent = activeProfile.grade;
+  $('catalog-greeting').textContent = 'Merhaba ' + activeProfile.name + '! Bugün hangi adayı keşfedeceksin?';
   $('elif-view').hidden = true;
   $('empty-catalog').hidden = cards.some(card => !card.hidden);
   $('island-view').hidden = true;
@@ -63,12 +77,29 @@ $('multiplication-card').onclick = () => {
 };
 
 function openProfiles() {
-  $('players').replaceChildren(...profiles.map(profile => {
+  $('players').replaceChildren(...profiles.map((profile, i) => {
     const button = document.createElement('button');
     button.type = 'button';
-    button.className = 'player-card';
-    button.textContent = profile.icon + '  ' + profile.name + ' · ' + profile.grade;
-    button.onclick = () => choosePlayer(profile);
+    button.className = 'player-card' + (profile === activeProfile ? ' current' : '');
+    button.dataset.cue = '';
+    button.style.setProperty('--i', i);
+    const face = document.createElement('span');
+    face.className = 'player-face';
+    face.setAttribute('aria-hidden', 'true');
+    face.textContent = profile.icon;
+    const name = document.createElement('strong');
+    name.textContent = profile.name;
+    const grade = document.createElement('small');
+    grade.textContent = profile.grade;
+    const text = document.createElement('span');
+    text.className = 'player-text';
+    text.append(name, grade);
+    const arrow = document.createElement('span');
+    arrow.className = 'player-go';
+    arrow.setAttribute('aria-hidden', 'true');
+    arrow.textContent = '▶';
+    button.append(face, text, arrow);
+    button.onclick = () => { playCue('start'); choosePlayer(profile); };
     return button;
   }));
   $('register').reset();
@@ -91,7 +122,7 @@ $('register').onsubmit = e => {
     return;
   }
   const profile = { id: Array.from(crypto.getRandomValues(new Uint32Array(4))).join('-'),
-    name, grade: $('class-choice').value, icon: $('register').elements.avatar.value };
+    name, grade: $('register').elements.grade.value, icon: $('register').elements.avatar.value };
   if (!profiles.length) {
     const old = readRecord('carpim-rotasi-v2');
     if (old && Number.isInteger(old.completed) && old.completed >= 0 && old.completed <= total && old.reports) {
@@ -99,6 +130,7 @@ $('register').onsubmit = e => {
     }
   }
   profiles.push(profile);
+  playCue('island');
   choosePlayer(profile);
   save();
   try { localStorage.setItem(profileKey, JSON.stringify(profiles)); }

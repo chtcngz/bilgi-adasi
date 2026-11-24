@@ -358,3 +358,78 @@ dialog[open]::backdrop { animation: fade .25s; backdrop-filter: blur(3px); }
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* ---------- Welcome: player picker ---------- */
+@keyframes drift { from { background-position: 0 0, 30% 40%; } to { background-position: 0 0, 70% 60%; } }
+@keyframes sail { 0%, 100% { transform: translateX(-30px) rotate(-3deg); } 50% { transform: translateX(30px) rotate(3deg); } }
+@keyframes card-in { from { opacity: 0; transform: translateY(12px) scale(.97); } }
+#profiles { width: min(520px, 94vw); padding-top: 0; text-align: center; background: #fffdf6; }
+#profiles::backdrop {
+  background: linear-gradient(#0f4b55b8, #123944d9), url("assets/ada-atlasi.jpg") 50% 50% / 160% auto;
+  animation: fade .3s, drift 40s ease-in-out infinite alternate;
+}
+.welcome {
+  position: relative; height: 96px; margin: 0 -28px 6px; overflow: hidden;
+  background: linear-gradient(#bfe9f2, #e8f7f4 62%, #7fd0cf 62%, #4fb6b7);
+}
+.welcome::after {
+  content: ''; position: absolute; left: -10%; right: -10%; bottom: 0; height: 30px;
+  background: radial-gradient(circle at 20px -8px, transparent 22px, #fffdf6 23px) 0 0 / 40px 30px repeat-x;
+}
+.welcome-boat { position: absolute; left: 50%; bottom: 18px; margin-left: -20px; font-size: 40px; animation: sail 6s ease-in-out infinite; }
+.welcome-sun { position: absolute; right: 22px; top: 12px; font-size: 30px; animation: spin 30s linear infinite; }
+.welcome-eyebrow { margin: 0; color: #16716e; font-weight: 850; }
+#profiles-title { margin: 2px 0 4px; font-size: clamp(26px, 6vw, 32px); }
+#players { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; text-align: left; }
+#profiles .player-card {
+  display: flex; align-items: center; gap: 12px; min-height: 76px; padding: 10px 14px;
+  border: 2px solid #eee2c6; border-radius: 20px; background: #fff; box-shadow: 0 4px 0 #ebdfc2;
+  animation: card-in .35s calc(var(--i, 0) * 60ms) both; transition: transform .15s, border-color .15s, box-shadow .15s;
+}
+#profiles .player-card.current { border-color: #9fd3be; background: #f3fbf6; }
+.player-face {
+  display: grid; place-items: center; flex: none; width: 54px; height: 54px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff9e4, #ffe7a6); box-shadow: inset 0 -3px #f0cf7a; font-size: 32px;
+}
+.player-text { flex: 1; min-width: 0; }
+.player-text strong { display: block; font-size: 20px; line-height: 1.15; overflow-wrap: anywhere; }
+.player-text small { display: inline-block; white-space: nowrap; margin-top: 3px; padding: 2px 9px; border-radius: 20px; background: #e5f2e9; color: #2d6655; font-size: 13px; font-weight: 800; }
+.player-go { display: grid; place-items: center; flex: none; width: 34px; height: 34px; border-radius: 50%; background: #176d6b; color: #fff; font-size: 13px; transition: transform .15s; }
+@media (hover: hover) {
+  #profiles .player-card:hover { transform: translateY(-3px); border-color: #16716e; box-shadow: 0 7px 0 #ebdfc2; }
+  #profiles .player-card:hover .player-go { transform: translateX(3px); }
+  #profiles .player-card:hover .player-face { animation: bob .8s ease-in-out infinite; }
+}
+#profiles .player-card:active { transform: translateY(3px); box-shadow: 0 1px 0 #ebdfc2; }
+#add-player {
+  width: 100%; min-height: 54px; margin: 4px 0 0; border: 2px dashed #b9cfc2; border-radius: 18px;
+  background: transparent; color: #2d6655; font-weight: 850; transition: background .15s, border-color .15s;
+}
+#add-player:hover { background: #f0f8f2; border-color: #16716e; }
+#add-player span { display: inline-grid; place-items: center; width: 26px; height: 26px; margin-right: 6px; border-radius: 50%; background: #e1f0e6; }
+#register { text-align: left; animation: rise .25s ease-out both; }
+#register > label { font-size: 15px; }
+#player-name { min-height: 50px; font-size: 19px; font-weight: 800; border: 2px solid #d9ccb0; border-radius: 14px; transition: border-color .15s, box-shadow .15s; }
+#player-name:focus { outline: none; border-color: #16716e; box-shadow: 0 0 0 4px #16716e26; }
+#register fieldset { margin: 14px 0; padding: 10px 12px 12px; border: 2px solid #eee2c6; border-radius: 16px; background: #fff; }
+#register legend { padding: 0 6px; font-weight: 800; }
+#grade-choices { display: flex; flex-wrap: wrap; gap: 6px; }
+#grade-choices label { position: relative; cursor: pointer; }
+#grade-choices input { position: absolute; inset: 0; opacity: 0; }
+#grade-choices span {
+  display: block; padding: 9px 14px; border: 2px solid #e3d7b8; border-radius: 30px; background: #fffaf0;
+  font-weight: 800; transition: background .15s, border-color .15s, color .15s;
+}
+#grade-choices input:checked + span { border-color: #16716e; background: #16716e; color: #fff; animation: pop .25s; }
+#grade-choices input:focus-visible + span { outline: 3px solid #ef9739; outline-offset: 2px; }
+#icons { justify-content: space-between; }
+#icons span { display: grid; place-items: center; width: 52px; height: 52px; padding: 0; border-radius: 50%; font-size: 30px; background: #fffaf0; transition: transform .15s; }
+#icons input:checked + span { border-color: #16716e; background: #e5f2e9; animation: pop-in .35s cubic-bezier(.2, 1.5, .4, 1); }
+@media (hover: hover) { #icons label:hover span { transform: scale(1.1); } }
+#register .primary { min-height: 54px; font-size: 18px; }
+.greeting { margin: 8px 0 0; color: #47635f; font-size: clamp(16px, 2vw, 20px); font-weight: 750; }
+@media (max-width: 650px) {
+  .welcome { margin-inline: -18px; height: 84px; }
+  #players { grid-template-columns: 1fr; }
+  #icons span { width: 46px; height: 46px; font-size: 26px; }
+}
