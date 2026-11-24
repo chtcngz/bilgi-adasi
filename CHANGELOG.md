@@ -9,13 +9,14 @@ Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında 
 
 ## 0.6.0 · 24.11.2026
 
-Yeni ada: **Din Bilgisi Adası** (4. sınıf). 4. sınıfın din kültürü konularını pekiştirir ve 5. sınıfa geçişteki Proje İmam Hatip Ortaokulu giriş sınavına hazırlar.
+Yeni ada: **Din Bilgisi Adası** (4. sınıf). 4. sınıfın Din Kültürü ve Ahlak Bilgisi konularını pekiştirir ve 5. sınıfa geçişteki Proje İmam Hatip Ortaokulu giriş sınavına hazırlar.
 
-- Sorular, Ankara Tevfik İleri Anadolu İmam Hatip Lisesi'nin 5. sınıfa giriş sınavlarındaki (2017-2018 ve 2023-2024) Din Kültürü ve Ahlak Bilgisi testleri incelenerek aynı konularda ve aynı tarzda yeniden yazıldı: okuma metinli sorular, ayet ve hadis yorumları, “hangisi değildir” soruları, eşleştirme ve sıralama soruları.
-- Altı durakta 153 çoktan seçmeli soru: ⚓ Selam Limanı (dinî ifadeler), ⛲ Abdest Çeşmesi (temizlik, namaz ve ibadetler), 🌷 Dua Bahçesi (Allah inancı, iman ve dua), 📖 Mushaf Koyu (Kur'an-ı Kerim ve kısa sureler), ⛰️ Hira Tepesi (Hz. Muhammed'in hayatı), 🌳 İyilik Ormanı (güzel ahlak).
-- Her turda 10 soru, 3 kalp ve bir “yarı yarıya” jokeri var. Her cevaptan sonra “Biliyor muydun?” notu konuyu kısaca anlatıyor. Üst üste doğrular 🔥 seri olarak sayılıyor. Hatasız tur 3, bir yanlış 2, iki yanlış 1 yıldız veriyor; bir durak en az bir yıldızla bitince sonraki açılıyor.
-- Yanlış cevaplanan sorular **Tekrar Kutusu**'na giriyor ve doğrusu bulunana kadar orada kalıyor. Yeni turlarda önce yanlışlar ve görülmemiş sorular geliyor.
-- Bütün duraklar bitince **Deneme Sınavı** açılıyor: gerçek sınav gibi her konudan karışık 20 soru. Sonuçta puan, süre, en iyi skor, konulara göre doğrular ve açıklamalı yanlış listesi gösteriliyor.
+- İlk beş durak, okullarda okutulan MEB 4. sınıf ders kitabının (Türkiye Yüzyılı Maarif Modeli, Ekim 2026 güncellemesi) ünitelerini sırasıyla izliyor: ⚓ Selam Limanı (Günlük hayattaki dinî ifadeler, Sübhaneke), 🌷 İman Bahçesi (İslam’ı tanıyalım, Amentü), 🌳 İyilik Ormanı (Güzel ahlak, Fatiha), ⛰️ Hira Tepesi (Hz. Muhammed’i tanıyalım, Salli-Barik), ⛲ Abdest Çeşmesi (Din ve temizlik). Kavramlar, tanımlar, ayet ve hadisler kitaptaki anlatıma göre yazıldı; kartlarda kitabın sayfa aralığı yazıyor. Beş ünite baştan açık, çocuk okulda hangi ünitedeyse oradan başlayabiliyor.
+- Soruların tarzı, Ankara Tevfik İleri Anadolu İmam Hatip Lisesi’nin 2016-2025 yıllarındaki 9 giriş sınavının Din Kültürü testleri incelenerek belirlendi: okuma metinli sorular, ayet ve hadis yorumları, “hangisi değildir”, öğrenci cevapları, eşleştirme, sıralama ve I-II-III-IV soruları. Sınav soruları aynen alınmadı, aynı tarzda yeniden yazıldı. Benzeri bir sınavda çıkmış 83 sorunun açıklamasının altında hangi yılın sınavında sorulduğu yazıyor.
+- 💎 Hazine Mağarası: kitapta olmayan ama sınavlarda sorulan konular (namazın bölümleri, cami, fidye, dört büyük melek, kısa sureler, Dört Halife, peygamberlerin meslekleri, mahremiyet…). Beş ünite bitince açılıyor.
+- Toplam 246 çoktan seçmeli soru. Her turda 10 soru, 3 kalp ve bir “yarı yarıya” jokeri var. Her cevaptan sonra “Biliyor muydun?” notu konuyu kısaca anlatıyor. Üst üste doğrular 🔥 seri olarak sayılıyor. Hatasız tur 3, bir yanlış 2, iki yanlış 1 yıldız veriyor.
+- Yanlış cevaplanan sorular **Tekrar Kutusu**’na giriyor ve doğrusu bulunana kadar orada kalıyor. Yeni turlarda önce yanlışlar ve görülmemiş sorular geliyor.
+- Beş ünite en az birer yıldızla bitince **Deneme Sınavı** açılıyor: gerçek sınav gibi her üniteden ve ekstralardan karışık 20 soru. Sonuçta puan, süre, en iyi skor, konulara göre doğrular ve açıklamalı yanlış listesi gösteriliyor.
 - Ayarlar → İlerleme bölümünden Din Bilgisi Adası ilerlemesi sıfırlanabiliyor.
 
 ## 0.5.1 · 24.11.2026

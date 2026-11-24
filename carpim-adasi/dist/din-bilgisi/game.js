@@ -3,7 +3,7 @@
 // yanlış cevapların toplandığı bir Tekrar Kutusu ve gerçek sınav gibi 20 soruluk bir deneme.
 (() => {
   const stops = dinSorular;
-  const ROUND = 10, HEARTS = 3, EXAM = 20, PER_STOP = 3;
+  const ROUND = 10, HEARTS = 3, EXAM = 20;
   const letters = ['A', 'B', 'C', 'D'];
   const praise = ['Harika!', 'Süper!', 'Bravo!', 'Aferin!', 'Maşallah!', 'Şahane!'];
   const dialog = $('din-game');
@@ -39,8 +39,13 @@
   }
   const starsOf = stop => progress.yildiz[stop.id] || 0;
   const starTotal = (record = progress) => stops.reduce((sum, stop) => sum + (record.yildiz[stop.id] || 0), 0);
-  const stopOpen = k => k === 0 || starsOf(stops[k - 1]) > 0;
-  const examOpen = () => stops.every(stop => starsOf(stop) > 0);
+  // The five textbook units are open from the start, so the child can practise the unit
+  // the class is on. The exam and the extras open once every unit has at least one star.
+  const units = stops.filter(stop => !stop.ekstra);
+  const unitsLeft = () => units.filter(stop => !starsOf(stop)).length;
+  const examOpen = () => unitsLeft() === 0;
+  const stopOpen = k => !stops[k].ekstra || examOpen();
+  const lockText = 'Beş ünite en az birer yıldızla bitince açılır';
   const missed = () => [...byId.values()].filter(q => progress.soru[q.id]?.h);
   function note(q, right) {
     const row = progress.soru[q.id] ??= { g: 0, d: 0, y: 0, h: 0 };
@@ -88,13 +93,17 @@
     const rank = q => { const row = progress.soru[q.id]; return !row ? 1 : row.h ? 0 : 2 + row.g; };
     return shuffled(shuffled(list).sort((x, y) => rank(x) - rank(y)).slice(0, count));
   }
+  // Questions modelled on a Tevfik İleri entrance exam say which year's exam it was.
+  const yearNote = q => q.y ? '<p class="din-year"><span aria-hidden="true">📝</span> Benzeri Tevfik İleri ' + q.y + ' sınavında soruldu.</p>' : '';
   const prepare = q => ({ q, order: shuffled([0, 1, 2, 3]), answer: null, gone: [] });
 
   /* ---------- Hub ---------- */
   function nextStep() {
-    const fresh = stops.findIndex(stop => !starsOf(stop));
+    const fresh = stops.findIndex(stop => !stop.ekstra && !starsOf(stop));
     if (fresh >= 0) return { kind: 'durak', k: fresh, label: stops[fresh].simge + ' ' + stops[fresh].ad };
     if (!progress.deneme.sayi) return { kind: 'deneme', label: '🏆 Deneme Sınavı' };
+    const extra = stops.findIndex(stop => stop.ekstra && !starsOf(stop));
+    if (extra >= 0) return { kind: 'durak', k: extra, label: stops[extra].simge + ' ' + stops[extra].ad };
     if (missed().length) return { kind: 'tekrar', label: '🔁 Tekrar Kutusu' };
     const better = stops.findIndex(stop => starsOf(stop) < 3);
     if (better >= 0) return { kind: 'durak', k: better, label: stops[better].simge + ' ' + stops[better].ad + ' · 3 yıldız için' };
@@ -114,15 +123,16 @@
       const button = el('button', 'din-stop tone-' + k % 4 + (open ? '' : ' locked') + (stars ? ' done' : ''));
       button.style.setProperty('--i', k);
       button.innerHTML = '<span class="din-stop-icon" aria-hidden="true">' + (open ? stop.simge : '🔒') + '</span>' +
-        '<span class="din-stop-text"><small>' + (k + 1) + '. durak</small><strong>' + stop.ad + '</strong><span>' + stop.konu +
-        '</span>' + (open ? starRow(stars) : '<em>' + stops[k - 1].ad + ' tamamlanınca açılır</em>') + '</span>';
-      button.setAttribute('aria-label', (k + 1) + '. durak, ' + stop.ad + ': ' + stop.konu + (open ? ', ' + stars + ' yıldız' : ', kilitli'));
+        '<span class="din-stop-text"><small>' + stop.unite + (stop.kitap ? ' <i>📘 Ders kitabı ' + stop.kitap + '</i>' : '') +
+        '</small><strong>' + stop.ad + '</strong><span>' + stop.konu + '</span>' +
+        (open ? starRow(stars) : '<em>' + lockText + '</em>') + '</span>';
+      button.setAttribute('aria-label', stop.unite + ', ' + stop.ad + ': ' + stop.konu + (open ? ', ' + stars + ' yıldız' : ', kilitli'));
       if (!open) {
         button.dataset.cue = '';
         button.onclick = () => {
           playCue('oops');
           fx.bump(button, 'denied');
-          $('din-note').textContent = '🔒 Önce ' + stops[k - 1].ad + ' durağını en az bir yıldızla tamamla.';
+          $('din-note').textContent = '🔒 ' + stop.ad + ' için önce ' + unitsLeft() + ' ünite daha bitirmelisin.';
         };
       } else button.onclick = () => startStop(k);
       item.append(button);
@@ -134,15 +144,14 @@
     const best = progress.deneme.en;
     examButton.innerHTML = '<span class="din-stop-icon" aria-hidden="true">' + (examOpen() ? '🏆' : '🔒') + '</span>' +
       '<span class="din-stop-text"><small>Hazine Zirvesi</small><strong>Deneme Sınavı</strong><span>Gerçek sınav gibi ' + EXAM +
-      ' soru, bütün konulardan karışık</span>' + (!examOpen() ? '<em>Bütün duraklar en az bir yıldızla bitince açılır</em>' :
+      ' soru, bütün konulardan karışık</span>' + (!examOpen() ? '<em>' + lockText + '</em>' :
         best === null ? '<b class="din-badge">Henüz girmedin</b>' : '<b class="din-badge">En iyi: ' + best + ' / ' + EXAM + '</b>') + '</span>';
     if (!examOpen()) {
       examButton.dataset.cue = '';
       examButton.onclick = () => {
         playCue('oops');
         fx.bump(examButton, 'denied');
-        const left = stops.filter(stop => !starsOf(stop)).length;
-        $('din-note').textContent = '🔒 Deneme sınavı için ' + left + ' durak daha kaldı.';
+        $('din-note').textContent = '🔒 Deneme sınavı için ' + unitsLeft() + ' ünite daha kaldı.';
       };
     } else examButton.onclick = startExam;
     exam.append(examButton);
@@ -183,9 +192,10 @@
   }
   function startExam() {
     if (!examOpen()) return;
-    const chosen = stops.flatMap(stop => pick(stop.sorular, PER_STOP));
-    const rest = shuffled([...byId.values()].filter(q => !chosen.includes(q))).slice(0, EXAM - chosen.length);
-    begin('deneme', null, shuffled([...chosen, ...rest]));
+    // As many questions from each stop as its `deneme` says, topped up from the units.
+    const chosen = stops.flatMap(stop => pick(stop.sorular, stop.deneme || 0));
+    const rest = shuffled(units.flatMap(stop => stop.sorular).filter(q => !chosen.includes(q)));
+    begin('deneme', null, shuffled([...chosen, ...rest].slice(0, EXAM)));
   }
 
   const where = () => run.kind === 'deneme' ? '🏆 Deneme Sınavı' : run.kind === 'tekrar' ? '🔁 Tekrar Kutusu' : run.stop.simge + ' ' + run.stop.ad;
@@ -303,7 +313,7 @@
         fx.bump($('din-stage').querySelector('.din-hearts'), 'denied');
       }
     }
-    feedback.insertAdjacentHTML('beforeend', '<p><span aria-hidden="true">💡</span> <b>Biliyor muydun?</b> ' + rich(q.b) + '</p>');
+    feedback.insertAdjacentHTML('beforeend', '<p><span aria-hidden="true">💡</span> <b>Biliyor muydun?</b> ' + rich(q.b) + '</p>' + yearNote(q));
     $('din-stage').querySelector('.din-dots').outerHTML = dots();
     const next = $('din-continue');
     const over = run.kind === 'durak' && run.hearts === 0;
@@ -384,13 +394,13 @@
     if (stars > before) progress.yildiz[stop.id] = stars;
     save();
     const all = starTotal() === maxStars;
-    const unlocked = firstTime && k + 1 < stops.length ? stops[k + 1] : null;
-    const examNow = firstTime && examOpen();
+    const examNow = firstTime && !stop.ekstra && examOpen();
+    const left = unitsLeft();
     let text = run.right + ' / ' + total + ' doğru';
     if (run.bestStreak >= 3) text += ' · en uzun seri 🔥 ' + run.bestStreak;
     let extra = stars < 3 ? '<p>3 yıldız için turu hatasız bitir. Jokerini akıllıca kullan!</p>' : '';
-    if (unlocked) extra += '<p class="din-unlock">🔓 Yeni durak açıldı: <b>' + unlocked.simge + ' ' + unlocked.ad + '</b></p>';
-    if (examNow) extra += '<p class="din-unlock">🔓 <b>Deneme Sınavı</b> açıldı! Gerçek sınav gibi 20 soru seni bekliyor.</p>';
+    if (firstTime && !stop.ekstra && left) extra += '<p class="din-unlock">Deneme Sınavı’na ' + left + ' ünite kaldı.</p>';
+    if (examNow) extra += '<p class="din-unlock">🔓 <b>Deneme Sınavı</b> ve <b>💎 Hazine Mağarası</b> açıldı! Gerçek sınav gibi 20 soru seni bekliyor.</p>';
     if (all) extra += '<p class="din-unlock">🏅 Bütün duraklarda 3 yıldız topladın!</p>';
     result('<div class="din-prize" aria-hidden="true">' + stop.simge + '</div>' +
       '<h2 id="din-result-title" tabindex="-1">' + (stars > before && !firstTime ? 'Yeni rekor!' : stars === 3 ? 'Mükemmel!' : 'Durak tamamlandı!') + '</h2>' +
@@ -426,7 +436,7 @@
       const right = letters[item.order.indexOf(0)];
       return '<details class="din-review-item"><summary>' + rich(q.s) + '</summary>' + (q.m ? '<div class="din-passage">' + rich(q.m) + '</div>' : '') +
         '<p class="din-yours">Senin cevabın: ' + yours + ') ' + rich(q.a[item.answer]) + '</p><p class="din-right">Doğru cevap: ' + right + ') ' +
-        rich(q.a[0]) + '</p><p><span aria-hidden="true">💡</span> ' + rich(q.b) + '</p></details>';
+        rich(q.a[0]) + '</p><p><span aria-hidden="true">💡</span> ' + rich(q.b) + '</p>' + yearNote(q) + '</details>';
     }).join('');
     result('<div class="din-prize" aria-hidden="true">' + emoji + '</div><h2 id="din-result-title" tabindex="-1">' + title + '</h2>' +
       '<p class="din-score-big"><b>' + score + '</b> / ' + total + ' doğru</p>' +
