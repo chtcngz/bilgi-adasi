@@ -131,13 +131,28 @@ dialog::backdrop { background: #123944ad; }
 }
 
 #game-tools:not([hidden]) { display:flex; align-items:center; flex-wrap:wrap; gap:inherit; }
+
+.harbor-heading { padding:clamp(20px,4vw,54px) 0 clamp(20px,3vw,34px); }
+.harbor-heading .grade { display:inline-block; background:#e1eee3; color:#285b50; }
+.harbor-heading h1 { margin-top:10px; }
+.game-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(12px,2vw,26px); }
 .catalog-card {
-  display:block; width:min(100%, 360px); padding:0; overflow:hidden;
-  background:#fffdf8; color:#193e50; text-align:left;
-  border:1px solid #d7c9ab; border-radius:22px; box-shadow:0 5px 0 #bea98238;
+  display:flex; flex-direction:column; min-width:0; padding:0; overflow:hidden; text-align:left;
+  color:#193e50; background:#fffdf8; border:1px solid #d7c9ab; border-radius:20px;
+  box-shadow:0 4px 0 #d8c8a980, 0 8px 20px #745e3510;
 }
 .catalog-card[hidden] { display:none; }
-.catalog-card img { display:block; width:100%; height:auto; aspect-ratio:2; object-fit:cover; }
-.catalog-caption { display:flex; justify-content:space-between; align-items:center; padding:16px 20px; font-size:22px; }
-.catalog-card:hover { border-color:#16716e; }
-#empty-catalog { padding:20px; border:1px solid #d7c9ab; border-radius:16px; background:#fffdf8; }
+.catalog-card img { display:block; width:100%; height:auto; aspect-ratio:1.8; object-fit:cover; }
+.catalog-caption { display:flex; width:100%; flex:1; align-items:center; justify-content:space-between; gap:6px; padding:clamp(10px,1.6vw,22px); }
+.catalog-caption small { display:block; font-size:13px; color:#43675f; font-weight:750; }
+.catalog-caption strong { display:block; margin-top:2px; font-size:clamp(17px,2vw,27px); line-height:1.12; letter-spacing:-.04em; }
+.card-arrow { display:grid; place-items:center; flex:none; width:1.8em; height:1.8em; border-radius:50%; color:#fff; background:#176d6b; }
+.catalog-card:is(:hover,:focus-visible) { border-color:#16716e; }
+@media(hover:hover) and (prefers-reduced-motion:no-preference) {
+  .catalog-card { transition:transform .18s,box-shadow .18s; }
+  .catalog-card:hover { transform:translateY(-3px); box-shadow:0 8px 18px #745e3526; }
+}
+@media(max-width:820px) {
+  .game-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+#empty-catalog { margin:0; padding:22px; border-inline-start:4px solid #75aaa1; border-radius:4px 16px 16px 4px; background:#fffdf8; }

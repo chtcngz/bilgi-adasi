@@ -36,21 +36,23 @@ function choosePlayer(profile) {
   showCatalog();
 }
 
-const multiplicationGrades = ['2. sınıf', '3. sınıf', '4. sınıf'];
+function availableForPlayer(card) {
+  return card.dataset.grades.split('|').includes(activeProfile.grade);
+}
 function showCatalog() {
-  const available = multiplicationGrades.includes(activeProfile.grade);
+  const cards = Array.from($('game-grid').children);
+  for (const card of cards) card.hidden = !availableForPlayer(card);
   $('catalog-grade').textContent = activeProfile.grade;
-  $('multiplication-card').hidden = !available;
-  $('empty-catalog').hidden = available;
+  $('empty-catalog').hidden = cards.some(card => !card.hidden);
   $('island-view').hidden = true;
   $('game-tools').hidden = true;
   $('catalog').hidden = false;
-  document.title = 'Oyun kataloğu · Bilgi Adası';
+  document.title = 'Keşif Limanı · Bilgi Adası';
   $('catalog-title').focus();
 }
 $('back-to-catalog').onclick = showCatalog;
 $('multiplication-card').onclick = () => {
-  if (!multiplicationGrades.includes(activeProfile.grade)) return;
+  if (!availableForPlayer($('multiplication-card'))) return;
   $('catalog').hidden = true;
   $('island-view').hidden = false;
   $('game-tools').hidden = false;
