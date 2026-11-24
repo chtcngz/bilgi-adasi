@@ -132,6 +132,18 @@ function resumeAttempt() {
   answers = stageStats(slot()).latest;
   question();
 }
+// A key acts on press and may replace the screen before the finger lifts. On
+// touch, the click that follows is aimed at whatever is now under the finger
+// (say "Sonraki soru"), so that one click is dropped.
+let ghostKey = null, ghostTimer;
+addEventListener('pointerdown', () => { ghostKey = null; }, true);
+addEventListener('keydown', () => { ghostKey = null; }, true);
+addEventListener('click', e => {
+  if (!ghostKey) return;
+  const origin = ghostKey;
+  ghostKey = null;
+  if (!origin.contains(e.target)) { e.preventDefault(); e.stopImmediatePropagation(); }
+}, true);
 function question() {
   stop();
   setMood('');
@@ -147,7 +159,23 @@ function question() {
     [1,2,3,4,5,6,7,8,9,'Sil',0,'Onayla'].map(n => '<button data-k="' + n + '"' +
       (n === 'Sil' ? ' aria-label="Sil" class="erase"' : n === 'Onayla' ? ' class="ok"' : '') + '>' +
       (labels[n] || n) + '</button>').join('') + '</div>';
-  $('keys').onclick = e => { const button = e.target.closest('button'); if (button) key(button.dataset.k); };
+  // Keys act on press so the digit and its sound come right away; the click
+  // that follows a press is skipped, while keyboard activation still works.
+  let pressed = null;
+  $('keys').onpointerdown = e => {
+    const button = e.target.closest('button');
+    if (!button || e.button !== 0) return;
+    pressed = ghostKey = button;
+    clearTimeout(ghostTimer);
+    ghostTimer = setTimeout(() => { ghostKey = null; }, 1000);
+    key(button.dataset.k);
+  };
+  $('keys').onclick = e => {
+    const button = e.target.closest('button');
+    if (!button) return;
+    if (button === pressed) { pressed = null; return; }
+    key(button.dataset.k);
+  };
   $('gameTitle').tabIndex = -1;
   $('gameTitle').focus();
   showEntry();

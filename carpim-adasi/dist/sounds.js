@@ -2,22 +2,76 @@ const playCue = (() => {
   const button = document.getElementById('sound');
   const cues = ['tap', 'key', 'erase', 'tick-3', 'tick-2', 'tick-1', 'correct', 'island', 'victory', 'retry', 'oops', 'start'];
   const source = name => 'assets/audio/' + name + '.wav?v=4';
-  // Reuse one media element so the initial user gesture unlocks timed cues too.
-  const player = new Audio(source('tap'));
-  player.preload = 'auto';
-  let current = 'tap';
   let enabled = true;
   let blocked = false;
   try { enabled = localStorage.getItem('carpim-ses') !== 'off'; } catch {}
 
-  // Warm the HTTP cache so switching cues does not wait on the network.
-  window.addEventListener('load', () => {
+  // Fast path: every cue decoded once into memory and started through Web Audio,
+  // which plays within a few milliseconds and lets cues overlap.
+  // Play like media so the phone's silent switch behaves as it did with <audio>.
+  try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch {}
+  const Context = window.AudioContext || window.webkitAudioContext;
+  let context = null;
+  try { if (Context) context = new Context({ latencyHint: 'interactive' }); } catch { context = null; }
+  const buffers = new Map();
+  const voices = new Set();
+  if (context) {
     for (const name of cues) {
-      const warm = new Audio();
-      warm.preload = 'auto';
-      warm.src = source(name);
+      fetch(source(name))
+        .then(response => response.ok ? response.arrayBuffer() : Promise.reject(new Error(response.status)))
+        .then(data => new Promise((resolve, reject) => context.decodeAudioData(data, resolve, reject)))
+        .then(buffer => buffers.set(name, buffer))
+        .catch(() => {}); // that cue falls back to the media element
     }
-  }, { once: true });
+  }
+  // Browsers only start audio inside a user gesture; resume on every one, since
+  // phones can suspend the context again (calls, backgrounding).
+  function unlock() {
+    if (!context || context.state === 'running') return;
+    context.resume().catch(() => {});
+    try { // older iOS also needs a sound started inside the gesture
+      const silence = context.createBufferSource();
+      silence.buffer = context.createBuffer(1, 1, 22050);
+      silence.connect(context.destination);
+      silence.start(0);
+    } catch {}
+  }
+  for (const type of ['pointerdown', 'pointerup', 'touchend', 'keydown', 'click']) {
+    document.addEventListener(type, unlock, { capture: true, passive: true });
+  }
+  function playFast(name) {
+    const buffer = buffers.get(name);
+    if (!buffer || context.state !== 'running') return false;
+    const voice = context.createBufferSource();
+    voice.buffer = buffer;
+    voice.connect(context.destination);
+    voice.onended = () => { voice.disconnect(); voices.delete(voice); };
+    voices.add(voice);
+    voice.start();
+    return true;
+  }
+
+  // Fallback: one reusable media element (also what unlocks audio when the
+  // first gesture comes before Web Audio is running).
+  const player = new Audio();
+  player.preload = 'none';
+  let current = null;
+  function playMedia(name) {
+    if (name !== current) {
+      player.src = source(name);
+      current = name;
+    } else {
+      player.currentTime = 0;
+    }
+    player.play()?.then(() => {
+      if (blocked) { blocked = false; updateButton(); document.dispatchEvent(new Event('soundchange')); }
+    }).catch(error => {
+      if (error.name === 'AbortError') return;
+      blocked = true;
+      updateButton();
+      document.dispatchEvent(new Event('soundchange'));
+    });
+  }
 
   function updateButton() {
     const active = enabled && !blocked;
@@ -28,20 +82,11 @@ const playCue = (() => {
   }
   function play(name) {
     if (!enabled) return;
-    if (name !== current) {
-      player.src = source(name);
-      current = name;
-    } else {
-      player.currentTime = 0;
+    if (context && playFast(name)) {
+      if (blocked) { blocked = false; updateButton(); document.dispatchEvent(new Event('soundchange')); }
+      return;
     }
-    player.play()?.then(() => {
-      if (blocked) { blocked = false; updateButton(); }
-    }).catch(error => {
-      if (error.name === 'AbortError') return;
-      blocked = true;
-      updateButton();
-      document.dispatchEvent(new Event('soundchange'));
-    });
+    playMedia(name);
   }
   function setEnabled(on) {
     enabled = on;
@@ -49,14 +94,39 @@ const playCue = (() => {
     try { localStorage.setItem('carpim-ses', enabled ? 'on' : 'off'); } catch {}
     updateButton();
     if (enabled) play('correct');
-    else player.pause();
+    else {
+      player.pause();
+      for (const voice of voices) { try { voice.stop(); } catch {} }
+    }
     document.dispatchEvent(new Event('soundchange'));
   }
   button.onclick = () => setEnabled(blocked || !enabled);
-  document.addEventListener('click', event => {
-    const control = event.target.closest('button, summary');
-    if (control && control !== button && !control.disabled && !control.closest('#keys, [data-cue]')) play('tap');
+
+  // Button taps sound on press for a mouse, and on release for touch so that a
+  // scroll starting on a button stays quiet. Keyboard presses sound on click.
+  const tapTarget = target => {
+    const control = target.closest?.('button, summary');
+    return control && control !== button && !control.disabled &&
+      !control.closest('#keys, [data-cue]') ? control : null;
+  };
+  let sounded = null;
+  document.addEventListener('pointerdown', event => {
+    sounded = null;
+    if (event.pointerType !== 'mouse' || event.button !== 0) return;
+    sounded = tapTarget(event.target);
+    if (sounded) play('tap');
   }, true);
+  document.addEventListener('pointerup', event => {
+    if (event.pointerType === 'mouse' || sounded) return;
+    sounded = tapTarget(event.target);
+    if (sounded) play('tap');
+  }, true);
+  document.addEventListener('click', event => {
+    const control = tapTarget(event.target);
+    if (control && control !== sounded) play('tap');
+    sounded = null;
+  }, true);
+
   updateButton();
   play.isOn = () => enabled && !blocked;
   play.setEnabled = setEnabled;
