@@ -2,7 +2,34 @@
 // is read by the device's Turkish voice instead. Sources and licences: KAYNAKLAR.md
 window.elifRecordings = {
   harf: {
-
+    0: 'elif-ba/ses/harf/00.mp3',
+    1: 'elif-ba/ses/harf/01.mp3',
+    2: 'elif-ba/ses/harf/02.mp3',
+    3: 'elif-ba/ses/harf/03.mp3',
+    4: 'elif-ba/ses/harf/04.mp3',
+    5: 'elif-ba/ses/harf/05.mp3',
+    6: 'elif-ba/ses/harf/06.mp3',
+    7: 'elif-ba/ses/harf/07.mp3',
+    8: 'elif-ba/ses/harf/08.mp3',
+    9: 'elif-ba/ses/harf/09.mp3',
+    10: 'elif-ba/ses/harf/10.mp3',
+    11: 'elif-ba/ses/harf/11.mp3',
+    12: 'elif-ba/ses/harf/12.mp3',
+    13: 'elif-ba/ses/harf/13.mp3',
+    14: 'elif-ba/ses/harf/14.mp3',
+    15: 'elif-ba/ses/harf/15.mp3',
+    16: 'elif-ba/ses/harf/16.mp3',
+    17: 'elif-ba/ses/harf/17.mp3',
+    18: 'elif-ba/ses/harf/18.mp3',
+    19: 'elif-ba/ses/harf/19.mp3',
+    20: 'elif-ba/ses/harf/20.mp3',
+    21: 'elif-ba/ses/harf/21.mp3',
+    22: 'elif-ba/ses/harf/22.mp3',
+    23: 'elif-ba/ses/harf/23.mp3',
+    24: 'elif-ba/ses/harf/24.mp3',
+    25: 'elif-ba/ses/harf/25.mp3',
+    26: 'elif-ba/ses/harf/26.mp3',
+    27: 'elif-ba/ses/harf/27.mp3'
   },
   hece: {
     '0-0': 'elif-ba/ses/hece/00-0.mp3',
@@ -90,5 +117,5 @@ window.elifRecordings = {
     '27-1': 'elif-ba/ses/hece/27-1.mp3',
     '27-2': 'elif-ba/ses/hece/27-2.mp3'
   },
-  credit: "Heceler: Pelafalan Huruf Hijaiyah veri seti, Pondok Tahfidz Yanbuul Qur’an Kudus öğrencileri (Reinjin), AFL-3.0."
+  credit: "Heceler: Pelafalan Huruf Hijaiyah veri seti, Pondok Tahfidz Yanbuul Qur’an Kudus öğrencileri (Reinjin), AFL-3.0. Harf adları: Internet Archive, “elifba_harfler_ses”."
 };

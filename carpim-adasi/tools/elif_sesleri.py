@@ -7,8 +7,10 @@ Needs ffmpeg and numpy. Two open sources are used:
   on Hugging Face (Reinjin), read by students of Pondok Tahfidz Yanbuul Qur'an,
   Kudus; Academic Free License 3.0. One reader is used throughout so the island
   has one voice; the better of the reader's two takes of each syllable is kept.
-* Letter names (elif, be, te ...): Lingua Libre volunteers reading single Arabic
-  letters, stored on Wikimedia Commons; licence and author are read from Commons.
+* Letter names (elif, be, te ...): the Internet Archive item elifba_tektek_harfler,
+  28 names read the Turkish Elif-Ba way (no licence stated; used by the project
+  owner's decision). With --harf-kaynagi lingualibre: Lingua Libre volunteers
+  reading single Arabic letters on Wikimedia Commons, licence read from Commons.
 
 Downloads are kept in carpim-adasi/tools/.ses-onbellek (ignored by git). Every
 clip is trimmed of silence, levelled and saved as a small mono MP3 under
@@ -233,6 +235,38 @@ def letter_names(state):
     print(len(rows), 'letter names written; missing:', ', '.join(missing) or 'none')
 
 
+ARCHIVE_ITEM = 'elifba_tektek_harfler'
+# 28 letter names read the Turkish Elif-Ba way, one voice. The item lists ه before و.
+ARCHIVE_FILES = ['01_elif', '02_ba', '03_ta', '04_se', '05_cim', '06_ha', '07_hi', '08_dal', '09_zal', '10_ra',
+                 '11_ze', '12_sin', '13_shin', '14_sad', '15_dad', '16_ta', '17_za', '18_ayn', '19_gayn', '20_fe',
+                 '21_gaf', '22_kef', '23_lam', '24_mim', '25_nun', '27_vav', '26_he', '28_ya']
+
+
+def letter_names_archive(state):
+    """Letter names from the Internet Archive item elifba_tektek_harfler."""
+    meta = get(f'https://archive.org/metadata/{ARCHIVE_ITEM}')['metadata']
+    CACHE.mkdir(parents=True, exist_ok=True)
+    state['harf'] = {}
+    for i, stem in enumerate(ARCHIVE_FILES):
+        raw = CACHE / f'{ARCHIVE_ITEM}-{stem}.mp3'
+        if not raw.exists():
+            print(f'  downloading {NAMES[i]}', flush=True)
+            raw.write_bytes(get(f'https://archive.org/download/{ARCHIVE_ITEM}/{stem}.mp3', binary=True))
+        prepare(raw, OUT / 'harf' / f'{i:02d}.mp3')
+        state['harf'][str(i)] = stem + '.mp3'
+    page = f'https://archive.org/details/{ARCHIVE_ITEM}'
+    state['sources']['harf'] = {
+        'title': 'Harf adları',
+        'credit': 'Harf adları: Internet Archive, “' + meta.get('title', ARCHIVE_ITEM) + '”.',
+        'notes': [f'28 harfin Türkçe Elif-Ba usulüyle okunan adları Internet Archive’daki [{meta.get("title", ARCHIVE_ITEM)}]({page})',
+                  f'kaydından alındı (yükleyen: Sesli Tefsir, {meta.get("publicdate", "")[:10]}). Kayıtta bir lisans belirtilmemiş;',
+                  'oyunda kullanılması proje sahibinin kararıdır. Hak sahibi isterse kayıtlar kaldırılır ve harf adlarını',
+                  'cihazın Türkçe sesi okur.', '', '| Harf | Dosya |', '|---|---|'] +
+                 [f'| {LETTERS[i]} {NAMES[i]} | [{stem}.mp3](https://archive.org/download/{ARCHIVE_ITEM}/{stem}.mp3) |'
+                  for i, stem in enumerate(ARCHIVE_FILES)]}
+    print(len(state['harf']), 'letter names written')
+
+
 def own_folder(state, folder, credit):
     state['harf'], state['hece'] = {}, {}
     for path in sorted(pathlib.Path(folder).iterdir()):
@@ -253,6 +287,8 @@ def own_folder(state, folder, credit):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--yalniz', choices=['hece', 'harf'], help='refresh only syllables or only letter names')
+    parser.add_argument('--harf-kaynagi', choices=['arsiv', 'lingualibre'], default='arsiv',
+                        help='letter names from the Internet Archive set (Turkish names) or Lingua Libre')
     parser.add_argument('--klasor', help='folder with your own recordings: NN.wav and NN-H.wav')
     parser.add_argument('--kaynak', default='Sesler: kendi kaydımız.', help='credit line for --klasor')
     args = parser.parse_args()
@@ -264,5 +300,5 @@ if __name__ == '__main__':
             syllables(state)
             save_state(state)
         if args.yalniz in (None, 'harf'):
-            letter_names(state)
+            letter_names_archive(state) if args.harf_kaynagi == 'arsiv' else letter_names(state)
     save_state(state)

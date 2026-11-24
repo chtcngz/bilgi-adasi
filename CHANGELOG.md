@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.4.1 · 24.11.2026
+
+- Elif Ba Adası'nda 28 harfin adı da artık gerçek bir sesle, Türkçe Elif-Ba usulüyle okunuyor (Elif, Be, Te, Se…). Kayıtlar Internet Archive'daki "elifba_harfler_ses" kaydından alındı; kaynak bilgisi `elif-ba/ses/KAYNAKLAR.md` dosyasında.
+- Ayarlar → Ses bölümünde "Türkçe okunuş" seçilirse harf adlarını ve heceleri yine cihazın sesi okuyor.
+
 ## 0.4.0 · 24.11.2026
 
 Elif Ba Adası'nda harfler ve harekeler artık iç içe ilerliyor:

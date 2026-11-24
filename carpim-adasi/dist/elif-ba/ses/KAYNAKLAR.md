@@ -42,3 +42,41 @@ Oyunda tek bir ses duyulsun diye her hece aynı öğrencinin iki okuyuşundan da
 | و Vav | `Fadli_waw_fathah_1.wav` | `Fadli_waw_kasroh_1.wav` | `Fadli_waw_dommah.wav` |
 | ه He | `Fadli_Ha_fathah.wav` | `Fadli_Ha_kasroh.wav` | `Fadli_Ha_dommah.wav` |
 | ي Ye | `Fadli_ya_fathah.wav` | `Fadli_ya_kasroh.wav` | `Fadli_ya_dommah.wav` |
+
+## Harf adları
+
+28 harfin Türkçe Elif-Ba usulüyle okunan adları Internet Archive’daki [elifba_harfler_ses](https://archive.org/details/elifba_tektek_harfler)
+kaydından alındı (yükleyen: Sesli Tefsir, 2025-11-30). Kayıtta bir lisans belirtilmemiş;
+oyunda kullanılması proje sahibinin kararıdır. Hak sahibi isterse kayıtlar kaldırılır ve harf adlarını
+cihazın Türkçe sesi okur.
+
+| Harf | Dosya |
+|---|---|
+| ا Elif | [01_elif.mp3](https://archive.org/download/elifba_tektek_harfler/01_elif.mp3) |
+| ب Be | [02_ba.mp3](https://archive.org/download/elifba_tektek_harfler/02_ba.mp3) |
+| ت Te | [03_ta.mp3](https://archive.org/download/elifba_tektek_harfler/03_ta.mp3) |
+| ث Se | [04_se.mp3](https://archive.org/download/elifba_tektek_harfler/04_se.mp3) |
+| ج Cim | [05_cim.mp3](https://archive.org/download/elifba_tektek_harfler/05_cim.mp3) |
+| ح Ha | [06_ha.mp3](https://archive.org/download/elifba_tektek_harfler/06_ha.mp3) |
+| خ Hı | [07_hi.mp3](https://archive.org/download/elifba_tektek_harfler/07_hi.mp3) |
+| د Dal | [08_dal.mp3](https://archive.org/download/elifba_tektek_harfler/08_dal.mp3) |
+| ذ Zel | [09_zal.mp3](https://archive.org/download/elifba_tektek_harfler/09_zal.mp3) |
+| ر Ra | [10_ra.mp3](https://archive.org/download/elifba_tektek_harfler/10_ra.mp3) |
+| ز Ze | [11_ze.mp3](https://archive.org/download/elifba_tektek_harfler/11_ze.mp3) |
+| س Sin | [12_sin.mp3](https://archive.org/download/elifba_tektek_harfler/12_sin.mp3) |
+| ش Şın | [13_shin.mp3](https://archive.org/download/elifba_tektek_harfler/13_shin.mp3) |
+| ص Sad | [14_sad.mp3](https://archive.org/download/elifba_tektek_harfler/14_sad.mp3) |
+| ض Dad | [15_dad.mp3](https://archive.org/download/elifba_tektek_harfler/15_dad.mp3) |
+| ط Tı | [16_ta.mp3](https://archive.org/download/elifba_tektek_harfler/16_ta.mp3) |
+| ظ Zı | [17_za.mp3](https://archive.org/download/elifba_tektek_harfler/17_za.mp3) |
+| ع Ayn | [18_ayn.mp3](https://archive.org/download/elifba_tektek_harfler/18_ayn.mp3) |
+| غ Gayn | [19_gayn.mp3](https://archive.org/download/elifba_tektek_harfler/19_gayn.mp3) |
+| ف Fe | [20_fe.mp3](https://archive.org/download/elifba_tektek_harfler/20_fe.mp3) |
+| ق Kaf | [21_gaf.mp3](https://archive.org/download/elifba_tektek_harfler/21_gaf.mp3) |
+| ك Kef | [22_kef.mp3](https://archive.org/download/elifba_tektek_harfler/22_kef.mp3) |
+| ل Lâm | [23_lam.mp3](https://archive.org/download/elifba_tektek_harfler/23_lam.mp3) |
+| م Mim | [24_mim.mp3](https://archive.org/download/elifba_tektek_harfler/24_mim.mp3) |
+| ن Nun | [25_nun.mp3](https://archive.org/download/elifba_tektek_harfler/25_nun.mp3) |
+| و Vav | [27_vav.mp3](https://archive.org/download/elifba_tektek_harfler/27_vav.mp3) |
+| ه He | [26_he.mp3](https://archive.org/download/elifba_tektek_harfler/26_he.mp3) |
+| ي Ye | [28_ya.mp3](https://archive.org/download/elifba_tektek_harfler/28_ya.mp3) |
