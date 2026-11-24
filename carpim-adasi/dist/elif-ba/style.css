@@ -40,3 +40,8 @@
   .elif-toolbar > div { min-width: 0; }
   .elif-action { padding-inline: 12px; flex-shrink: 0; }
 }
+#elif-choices .elif-tile.matched { animation: pop-in .45s cubic-bezier(.2, 1.4, .4, 1); --tint: #e1f6e5; }
+#elif-choices .elif-tile.missed { animation: shake .4s; }
+.elif-prize { animation: pop-in .6s cubic-bezier(.2, 1.6, .4, 1) both; }
+.elif-tile { transition: transform .15s; }
+@media (hover: hover) { .elif-tile:not(:disabled):hover { transform: translateY(-3px); } }

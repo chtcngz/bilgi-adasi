@@ -1,12 +1,23 @@
 const playCue = (() => {
   const button = document.getElementById('sound');
+  const cues = ['tap', 'key', 'erase', 'tick-3', 'tick-2', 'tick-1', 'correct', 'island', 'victory', 'retry', 'oops', 'start'];
+  const source = name => 'assets/audio/' + name + '.wav?v=3';
   // Reuse one media element so the initial user gesture unlocks timed cues too.
-  const player = new Audio('assets/audio/tap.wav');
+  const player = new Audio(source('tap'));
   player.preload = 'auto';
   let current = 'tap';
   let enabled = true;
   let blocked = false;
   try { enabled = localStorage.getItem('carpim-ses') !== 'off'; } catch {}
+
+  // Warm the HTTP cache so switching cues does not wait on the network.
+  window.addEventListener('load', () => {
+    for (const name of cues) {
+      const warm = new Audio();
+      warm.preload = 'auto';
+      warm.src = source(name);
+    }
+  }, { once: true });
 
   function updateButton() {
     const active = enabled && !blocked;
@@ -18,7 +29,7 @@ const playCue = (() => {
   function play(name) {
     if (!enabled) return;
     if (name !== current) {
-      player.src = 'assets/audio/' + name + '.wav';
+      player.src = source(name);
       current = name;
     } else {
       player.currentTime = 0;
@@ -41,7 +52,7 @@ const playCue = (() => {
   };
   document.addEventListener('click', event => {
     const control = event.target.closest('button, summary');
-    if (control && control !== button && !control.disabled && !control.closest('#keys')) play('tap');
+    if (control && control !== button && !control.disabled && !control.closest('#keys, [data-cue]')) play('tap');
   }, true);
   updateButton();
   return play;

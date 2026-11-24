@@ -87,6 +87,8 @@
       (pearls.size === 28 ? 'Adadaki 28 deniz kabuğunu da topladın!' : coves[cove] + ' tamamlandı.') +
       '</p><button class="elif-action" id="elif-continue">' + (next ? 'Sonraki koy' : 'Koya dön') + '</button>';
     $('elif-prompt').focus();
+    playCue('island');
+    fx.confetti(dialog);
     $('elif-continue').onclick = () => { if (next) cove++; drawCove(); dialog.close(); };
   }
   function question() {
@@ -102,15 +104,20 @@
     const others = shuffled(letters().filter(i => i !== target)).slice(0, 2);
     for (const index of shuffled([target, ...others])) {
       const button = tile(index, false);
+      button.dataset.cue = '';
       $('elif-choices').append(button);
       button.onclick = () => {
         if (index !== target) {
+          playCue('oops');
+          fx.bump(button, 'missed');
           button.disabled = true;
           feedback.textContent = 'Bir daha bakalım. Yukarıdaki şeklin eşi hangisi?';
           return;
         }
         for (const item of $('elif-choices').children) item.disabled = true;
         button.classList.add('matched');
+        playCue('correct');
+        fx.burst(button, { symbols: ['🐚', '✦', '★'] });
         pearls.add(index);
         let notice = '';
         try { localStorage.setItem('elif-ba-' + activeProfile.id, JSON.stringify([...pearls])); }
