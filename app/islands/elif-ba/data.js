@@ -1,5 +1,6 @@
 // Elif Ba Adası: letters, their readings with harekes, coves and the island's sections.
-// Readings follow the Turkish Elif-Ba convention (be-bi-bu, sa-sı-su for the thick letters).
+// Readings follow the Turkish Elif-Ba convention (be-bi-bu, sa-sı-su for the thick letters). They are
+// only spoken (by the device's Turkish voice when there is no recording) and compared, never shown.
 const elifData = (() => {
   const glyphs = Array.from('ابتثجحخدذرزسشصضطظعغفقكلمنوهي');
   const names = ['Elif', 'Be', 'Te', 'Se', 'Cim', 'Ha', 'Hı', 'Dal', 'Zel', 'Ra', 'Ze', 'Sin', 'Şın', 'Sad',
@@ -14,9 +15,9 @@ const elifData = (() => {
     ['ve', 'vi', 'vu'], ['he', 'hi', 'hu'], ['ye', 'yi', 'yu']
   ];
   const harekeler = [
-    { name: 'Üstün', mark: 'َ', place: 'Harfin üstünde eğik bir çizgi', sound: 'e ya da a' },
-    { name: 'Esre', mark: 'ِ', place: 'Harfin altında eğik bir çizgi', sound: 'i ya da ı' },
-    { name: 'Ötre', mark: 'ُ', place: 'Harfin üstünde küçük bir vav', sound: 'u' }
+    { name: 'Üstün', mark: 'َ', place: 'Harfin üstünde eğik bir çizgi' },
+    { name: 'Esre', mark: 'ِ', place: 'Harfin altında eğik bir çizgi' },
+    { name: 'Ötre', mark: 'ُ', place: 'Harfin üstünde küçük bir vav' }
   ];
   const coves = ['Kaplumbağa Koyu', 'İnci Koyu', 'Mercan Koyu', 'Yıldız Koyu', 'Yunus Koyu', 'Sedef Koyu', 'Deniz Feneri Koyu'];
   const sections = [

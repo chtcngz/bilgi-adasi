@@ -3,7 +3,10 @@
 // sections are in data.js; the listening games (Harf Yağmuru, Hece Balonları) in games/listening.js,
 // the mixed game at the end of every cove (Cam Köprü) in games/bridge.js.
 (() => {
-  const { glyphs, names, readings, harekeler, coves, sections, sameSound, syllable, coveLetters, mastery } = elifData;
+  const { glyphs, names, harekeler, coves, sections, sameSound, syllable, coveLetters, mastery } = elifData;
+  // A syllable is named by its letter and hareke ("Be üstün"); its Turkish reading is never written.
+  const hareke = h => harekeler[h].name.toLocaleLowerCase('tr');
+  const syllableName = (i, h) => names[i] + ' ' + hareke(h);
   const voice = elifVoice;
   const dialog = $('elif-game');
   const records = new Map();
@@ -278,16 +281,16 @@
       '<small aria-hidden="true">' + (mastered('hareke', i) ? '🦪' : '') + '</small>');
     const chant = el('button', 'elif-chant', '♪');
     chant.setAttribute('aria-label', names[i] + ' üstün, esre, ötre okunuşunu dinle');
-    chant.onclick = () => { $('elif-note').textContent = readings[i].join(' · '); voice.chant(i, undefined, $('elif-note')); };
+    chant.onclick = () => { $('elif-note').textContent = [0, 1, 2].map(h => syllableName(i, h)).join(' · '); voice.chant(i, undefined, $('elif-note')); };
     head.append(chant);
     const row = el('div', 'elif-syllable-row');
     for (const h of [0, 1, 2]) {
-      const button = el('button', 'elif-syllable', glyphHtml(syllable(i, h)) + '<span>' + readings[i][h] + '</span>');
-      button.setAttribute('aria-label', names[i] + ' ' + harekeler[h].name + ': ' + readings[i][h]);
+      const button = el('button', 'elif-syllable', glyphHtml(syllable(i, h)) + '<span>' + hareke(h) + '</span>');
+      button.setAttribute('aria-label', syllableName(i, h) + ', dinle');
       button.onclick = () => {
         for (const other of $('elif-cards').querySelectorAll('.selected')) other.classList.remove('selected');
         button.classList.add('selected');
-        $('elif-note').textContent = names[i] + ' ' + harekeler[h].name.toLocaleLowerCase('tr') + ' ' + readings[i][h];
+        $('elif-note').textContent = syllableName(i, h);
         voice.syllable(i, h, $('elif-note'));
       };
       row.append(button);
@@ -468,8 +471,6 @@
     const grid = el('div', 'elif-choices');
     grid.id = 'elif-choices';
     let rightButton = null;
-    // A syllable is named by its letter and hareke ("Be üstün"), never by a written Turkish reading.
-    const syllableName = (i, h) => names[i] + ' ' + harekeler[h].name.toLocaleLowerCase('tr');
     const answer = letterQuestion ? names[q.target] : syllableName(q.target, q.h);
 
     if (q.type === 'listen') {
@@ -598,7 +599,7 @@
         save();
       }
       stage.innerHTML = perfect ? '<div class="elif-prize" aria-hidden="true">✨</div><h2 id="elif-prompt" tabindex="-1">Harekelerle tanıştın!</h2>' +
-        '<p>Üstün <b lang="ar">◌َ</b> e/a, esre <b lang="ar">◌ِ</b> i/ı, ötre <b lang="ar">◌ُ</b> u okutur. Şimdi öğrendiğin harfleri ' +
+        '<p>Üstün <b lang="ar">◌َ</b>, esre <b lang="ar">◌ِ</b> ve ötre <b lang="ar">◌ُ</b> ile tanıştın. Şimdi öğrendiğin harfleri ' +
         'harekeleriyle okuyalım.</p>' + (storageNote ? '<p>' + storageNote + '</p>' : '') +
         '<button class="elif-action" id="elif-continue">▶ Devam: 🦪 Harekeler</button>' :
         retry + '<p>' + misses + ' Harekelere geçmek için hepsini ilk denemede bilmelisin.</p>' +
@@ -669,10 +670,10 @@
       const info = harekeler[slide];
       $('elif-stage').innerHTML = '<p class="elif-step">Harekelerle tanışma · ' + (slide + 1) + ' / 3</p>' +
         '<h2 id="elif-prompt" tabindex="-1">' + info.name + '</h2><button class="elif-big mark-' + slide + '" id="elif-demo" aria-label="Dinle">' +
-        glyphHtml(syllable(1, slide)) + '</button><p class="elif-lesson"><b>' + info.place + '.</b> Harfe <b>' + info.sound +
-        '</b> sesi verir: ' + names[1] + ' ' + info.name.toLocaleLowerCase('tr') + ' <b>' + readings[1][slide] + '</b>.</p>' +
+        glyphHtml(syllable(1, slide)) + '</button><p class="elif-lesson"><b>' + info.place + '.</b> Harfe dokun ve dinle: ' +
+        '<b>' + syllableName(1, slide) + '</b>.</p>' +
         '<div class="elif-examples">' + [1, 2, 3].map(i => '<button class="elif-syllable" data-i="' + i + '">' + glyphHtml(syllable(i, slide)) +
-        '<span>' + readings[i][slide] + '</span></button>').join('') + '</div><p id="elif-response" role="status"></p>' +
+        '<span>' + names[i] + '</span></button>').join('') + '</div><p id="elif-response" role="status"></p>' +
         '<button class="elif-action" id="elif-next">' + (slide < 2 ? 'Sonraki hareke' : 'Şimdi sen bul') + '</button>';
       $('elif-prompt').focus();
       const note = $('elif-response');

@@ -7,6 +7,15 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.14.1 · 24.11.2026
+
+Elif Ba Adası'nda hecelerin Türkçe okunuşu (be, bi, bu…) artık hiçbir yerde yazmıyor; heceler yalnızca dinleniyor. Bir hece, harfinin adı ve harekesiyle anılıyor, örneğin "Be üstün".
+
+- **Harekeler kartları:** Her hecenin altında okunuş yerine harekenin adı (üstün, esre, ötre) yazıyor. Heceye ya da ♪ düğmesine dokununca alttaki yazıda "Be üstün · Be esre · Be ötre" çıkıyor.
+- **Harekelerle tanış:** Anlatım sayfalarında "Harfe e ya da a sesi verir: Be üstün be" yerine "Harfe dokun ve dinle: Be üstün" yazıyor. Örnek hecelerin altında harfin adı var. Bitiş yazısındaki "e/a, i/ı, u okutur" kısmı da kaldırıldı.
+- **Hece Balonları:** Yanlış patlatılan balonun etiketi, sonuç ekranındaki heceler ve ses çalınamayan cihazlarda kaplumbağanın balonu artık "Be esre" gibi yazıyor.
+- Ayarlar'daki ses seçeneğinin açıklamasından "be-bi-bu" kaldırıldı.
+
 ## 0.14.0 · 24.11.2026
 
 Elif Ba Adası'na karma bir oyun, **Cam Köprü**, ve koyların haritası geldi.

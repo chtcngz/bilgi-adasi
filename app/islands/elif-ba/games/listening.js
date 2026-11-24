@@ -5,7 +5,7 @@
 // In Harf Yağmuru letters rain from the clouds into the sea; in Hece Balonları syllables with
 // their harekes rise from the sea up into the clouds.
 const elifListeningGame = (() => {
-  const { glyphs, names, readings, syllable, twins } = elifData;
+  const { glyphs, names, readings, harekeler, syllable, twins } = elifData;
   const voice = elifVoice;
   const dialog = $('elif-rain');
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
@@ -32,7 +32,7 @@ const elifListeningGame = (() => {
   const kinds = {
     harf: {
       rising: false, label: 'Harf Yağmuru', title: 'Harf <em>Yağmuru</em>',
-      text: i => glyphs[i], name: i => names[i], speak: (i, note, end) => voice.letter(i, note, end),
+      text: i => glyphs[i], name: i => names[i], sound: i => names[i], speak: (i, note, end) => voice.letter(i, note, end),
       // look-alike letters (the same shape, other dots) join in once a few letters are done
       alike: i => twins(i), alikeFrom: 3, alikeChance: 0.3,
       t: { listen: 'Harfi tekrar dinle', slots: 'Bölümün harfleri', first: '👆 Duyduğun harften 3 tane patlat', fresh: '🔊 Yeni harf',
@@ -45,7 +45,9 @@ const elifListeningGame = (() => {
     },
     hece: {
       rising: true, label: 'Hece Balonları', title: 'Hece <em>Balonları</em>',
-      text: k => syllable(Math.floor(k / 3), k % 3), name: k => readings[Math.floor(k / 3)][k % 3],
+      // shown by its letter and hareke ("Be üstün"); the reading only tells syllables that sound alike apart
+      text: k => syllable(Math.floor(k / 3), k % 3), sound: k => readings[Math.floor(k / 3)][k % 3],
+      name: k => names[Math.floor(k / 3)] + ' ' + harekeler[k % 3].name.toLocaleLowerCase('tr'),
       speak: (k, note, end) => voice.syllable(Math.floor(k / 3), k % 3, note, end),
       // the same letter with its other harekes is what is to be told apart
       alike: k => [0, 1, 2].map(h => k - k % 3 + h).filter(j => j !== k), alikeFrom: 1, alikeChance: 0.4,
@@ -352,7 +354,7 @@ const elifListeningGame = (() => {
   }
   function distractor() {
     // Never one that sounds the same as the one being played (sin üstün and se üstün are both "se").
-    const others = options.letters.filter(i => kind.name(i) !== kind.name(game.target));
+    const others = options.letters.filter(i => kind.sound(i) !== kind.sound(game.target));
     const fresh = others.filter(i => i !== game.lastLetter);
     const choices = fresh.length ? fresh : others;
     const alike = kind.alike(game.target).filter(i => choices.includes(i));

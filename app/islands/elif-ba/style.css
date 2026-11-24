@@ -144,7 +144,7 @@
 .elif-syllable-row, .elif-examples { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 6px; }
 .elif-syllable { display: grid; justify-items: center; padding: 2px 4px 8px; border-radius: 16px; border: 2px solid var(--rim, #b2d5c4); background: white; color: var(--ink, #174e48); }
 .elif-syllable b { font-size: clamp(44px, 6vw, 64px); line-height: 1.5; }
-.elif-syllable span { font-weight: 850; font-size: 18px; }
+.elif-syllable span { font-weight: 850; font-size: 15px; opacity: .85; }
 #elif-note { min-height: 24px; font-weight: 750; text-align: center; }
 
 /* Game dialog */
