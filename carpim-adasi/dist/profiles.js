@@ -117,15 +117,38 @@ function openProfiles() {
     return button;
   }));
   $('register').reset();
-  $('register').hidden = profiles.length > 0;
-  $('add-player').hidden = !profiles.length;
+  showRegister(!profiles.length);
   $('profiles').showModal();
 }
+// When adding a player, show only the form so the sheet stays short while the keyboard is open.
+function showRegister(open) {
+  $('register').hidden = !open;
+  $('add-player').hidden = open || !profiles.length;
+  $('cancel-register').hidden = !profiles.length;
+  $('profiles').classList.toggle('adding', open && profiles.length > 0);
+  $('profiles').scrollTop = 0;
+}
 $('add-player').onclick = () => {
-  $('register').hidden = false;
-  $('add-player').hidden = true;
-  $('player-name').focus();
+  showRegister(true);
+  $('player-name').focus({ preventScroll: true });
 };
+$('cancel-register').onclick = () => { $('register').reset(); showRegister(false); };
+// Keep open dialogs above the on-screen keyboard (iOS overlays it instead of resizing the page).
+if (window.visualViewport) {
+  const vv = window.visualViewport;
+  const fit = () => {
+    const kb = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+    document.documentElement.style.setProperty('--kb', kb + 'px');
+    document.documentElement.style.setProperty('--vvh', vv.height + 'px');
+    const field = document.activeElement;
+    if (kb > 0 && field && field.matches('dialog input:not([type=radio]):not([type=checkbox])')) {
+      requestAnimationFrame(() => field.scrollIntoView({ block: 'center' }));
+    }
+  };
+  vv.addEventListener('resize', fit);
+  vv.addEventListener('scroll', fit);
+  fit();
+}
 $('profiles').addEventListener('cancel', e => { if (!activeProfile) e.preventDefault(); });
 $('register').onsubmit = e => {
   e.preventDefault();

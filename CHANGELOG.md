@@ -14,8 +14,14 @@ Elif Ba Adası bölümlere ayrıldı:
 - **1. bölüm · Harfler:** 7 koyda 28 harf. Kartlara dokunup harfin adı dinleniyor. Oyunda harf gösterilmeden sesi çalınıyor ve çocuk harfi buluyor; ayrıca harf gösteriliyor ve üç ses arasından doğrusu seçiliyor. Önceki koylardan bir harf tekrar olarak araya giriyor. Bir harfi iki kez ilk denemede bilen çocuk o harfin deniz kabuğunu kazanıyor; koyun dört harfi tamamlanınca sonraki koy açılıyor.
 - **2. bölüm · Harekeler:** 28 harfin hepsi öğrenilince açılıyor. Önce üstün, esre ve ötre örneklerle tanıtılıyor (“Be üstün be”). Ardından her koyda dinlenen heceye göre doğru harekeyi bulma, farklı harflerin heceleri arasından duyulanı seçme ve harekenin adını söyleme soruları geliyor. Kazanılan ödül inci.
 - Sonraki bölümler (bitişik yazılış, cezm, tenvin, şedde, uzatma, kelime ve âyet) haritada “Yakında” olarak görünüyor.
-- Harf sesleri Lingua Libre gönüllülerinin gerçek kayıtlarından alındı. Kaynaklar ve lisanslar `elif-ba/ses/KAYNAKLAR.md` dosyasında. Ayarlar → Ses bölümünden Türkçe okunuşa (cihaz sesi) geçilebiliyor. Kaydı olmayan harfler ve heceler cihazın Türkçe sesiyle okunuyor.
+- Sesler önce kayıtlı ses dosyasından çalınıyor, kayıt yoksa cihazın Türkçe sesi okuyor. Gerçek harf kayıtları `carpim-adasi/tools/elif_sesleri.py` ile ekleniyor; Ayarlar → Ses bölümünden kayıt ile Türkçe okunuş arasında geçiş yapılabiliyor.
 - Eski sürümde toplanan deniz kabukları yeni ilerlemeye aktarılıyor. Ayarlar → İlerleme bölümünden iki bölümün ilerlemesi birlikte sıfırlanabiliyor.
+
+## 0.1.2 · 24.11.2026
+
+- Yeni oyuncu eklerken pencere sadeleşiyor: oyuncu listesi ve üstteki resim gizleniyor, böylece telefonda klavye açılınca ekran karışmıyor
+- Pencere klavyenin üstünde kalıyor, isim kutusu klavyenin altında kaybolmuyor
+- Forma "Vazgeç" düğmesi eklendi; oyuncu listesine geri dönülebiliyor
 
 ## 0.1.1 · 24.11.2026
 
