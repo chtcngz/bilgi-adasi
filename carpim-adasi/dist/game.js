@@ -4,14 +4,7 @@ const secondsPerRound = [15, 10, 5, 3];
 const islands = ['Palmiye Koyu', 'Çam Kumsalı', 'Kaya Geçidi', 'Fener Burnu',
   'Mercan Koyu', 'Çam Limanı', 'Dağ Geçidi', 'Değirmen Adası', 'Hazine Zirvesi'];
 const total = islands.length * secondsPerRound.length;
-const storageKey = 'carpim-rotasi-v2';
-let progress = { completed: 0, reports: {} };
-try {
-  const old = JSON.parse(localStorage.getItem(storageKey));
-  if (old && Number.isInteger(old.completed) && old.completed >= 0 && old.completed <= total &&
-      old.reports && typeof old.reports === 'object') progress = old;
-} catch {}
-let selected = Math.min(progress.completed, total - 1) % islands.length;
+let activeProfile, progress, selected;
 let deck = [], answers = [], entry = '', deadline = 0, timer, playing = false;
 let storageFailed = false;
 const round = () => Math.min(secondsPerRound.length - 1, Math.floor(progress.completed / islands.length));
@@ -19,7 +12,7 @@ const slot = () => round() * islands.length + selected;
 const limit = () => secondsPerRound[round()];
 const title = () => (selected + 2) + ' Çarpım Adası';
 function save() {
-  try { localStorage.setItem(storageKey, JSON.stringify(progress)); }
+  try { localStorage.setItem(progressKey(activeProfile), JSON.stringify(progress)); storageFailed = false; }
   catch { storageFailed = true; }
 }
 function render() {
@@ -45,10 +38,12 @@ function render() {
     '</h2><p>' + islands[selected] + ' · 10 karışık işlemi art arda doğru çöz.</p>';
   const scene = $('mission').querySelector('.scene');
   scene.style.backgroundPosition = (selected % 3 * 50) + '% ' + (Math.floor(selected / 3) * 50) + '%';
-  $('play').textContent = slot() === done ? '▶  Adaya başla' : 'Keşif günlüğünü aç';
+  $('play').textContent = slot() === done ? (progress.attempt ? '▶  Kaldığın yerden devam et' : '▶  Adaya başla') : 'Keşif günlüğünü aç';
   $('play').onclick = () => {
     $('game').showModal();
-    if (slot() === done) brief(); else journal();
+    if (slot() !== done) journal();
+    else if (progress.attempt) resumeAttempt();
+    else brief();
   };
 }
 function stop() { playing = false; clearInterval(timer); }
@@ -75,11 +70,18 @@ function begin() {
   const stats = stageStats(slot());
   stats.attempts++;
   stats.latest = answers;
+  progress.attempt = { deck, entry: '', remaining: limit()*1000 };
   save();
   question();
 }
+function resumeAttempt() {
+  deck = progress.attempt.deck;
+  answers = stageStats(slot()).latest;
+  question();
+}
 function question() {
-  stop(); entry = '';
+  stop();
+  entry = progress.attempt.entry;
   const a = selected+2, b = deck[answers.length];
   $('stage').innerHTML = '<div class="eyebrow">TUR ' + (round()+1) + ' · SORU ' +
     (answers.length+1) + ' / 10</div><h2 id="gameTitle">' + title() +
@@ -87,9 +89,13 @@ function question() {
     '</span> sn</div><h3>' + a + ' × ' + b + ' = <span id="value">?</span></h3><div class="pad" id="keys">' +
     [1,2,3,4,5,6,7,8,9,'Sil',0,'Onayla'].map(n=>'<button>'+n+'</button>').join('')+'</div>';
   $('keys').onclick = e => { if (e.target.tagName === 'BUTTON') key(e.target.textContent); };
+  $('gameTitle').tabIndex = -1;
+  $('gameTitle').focus();
+  $('value').textContent = entry || '?';
   playing = true;
-  deadline = performance.now() + limit()*1000;
-  let shown = limit();
+  deadline = performance.now() + progress.attempt.remaining;
+  let shown = Math.ceil(progress.attempt.remaining / 1000);
+  $('secs').textContent = shown;
   if (shown <= 3) playCue('tick');
   timer = setInterval(() => {
     const left = Math.ceil((deadline-performance.now())/1000);
@@ -110,7 +116,7 @@ function key(k) {
   $('value').textContent = entry || '?';
 }
 document.addEventListener('keydown', e => {
-  if (!playing || !$('game').open) return;
+  if (!playing || !$('game').open || (e.key === 'Enter' && e.target.closest('#switch-game, #close'))) return;
   if (/^\d$/.test(e.key) || ['Enter','Backspace'].includes(e.key)) {
     e.preventDefault();
     if (!e.repeat) key(e.key === 'Enter' ? 'Onayla' : e.key === 'Backspace' ? 'Sil' : e.key);
@@ -126,6 +132,7 @@ function finish(timeout) {
   countAnswer(stageStats(slot()), answers[answers.length - 1]);
   const equation = '<h3>'+a+' × '+b+' = '+product+'</h3>';
   if (!correct) {
+    delete progress.attempt;
     playCue('retry');
     progress.reports[slot()] = answers; save(); render();
     const groups = '<div class="groups" aria-hidden="true">' +
@@ -138,10 +145,12 @@ function finish(timeout) {
   }
   playCue(answers.length === 10 ? 'island' : 'correct');
   if (answers.length < 10) {
+    Object.assign(progress.attempt, { entry: '', remaining: limit()*1000 });
     save();
     screen('Doğru!', equation, 'Sonraki soru', question);
     return;
   }
+  delete progress.attempt;
   const previousRound = round();
   progress.reports[slot()] = answers;
   progress.completed++;
@@ -166,6 +175,20 @@ function journal() {
   }).join('');
   screen(title(),reports,'Haritaya dön',()=>$('game').close());
 }
-$('close').onclick = ()=>$('game').close();
-$('game').addEventListener('close',stop);
-render();
+function pauseAttempt() {
+  if (!playing) return;
+  progress.attempt.entry = entry;
+  progress.attempt.remaining = Math.max(0, deadline-performance.now());
+  stop();
+  save();
+}
+function leaveGame() {
+  pauseAttempt();
+  $('game').close();
+}
+$('close').onclick = leaveGame;
+$('game').addEventListener('cancel', pauseAttempt);
+window.addEventListener('pagehide', pauseAttempt);
+window.addEventListener('pageshow', e => {
+  if (e.persisted && $('game').open && progress?.attempt && $('keys')) resumeAttempt();
+});

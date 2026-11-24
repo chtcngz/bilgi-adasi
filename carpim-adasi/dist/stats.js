@@ -17,7 +17,8 @@ function countAnswer(stats, row) {
   else stats.wrong++;
 }
 // Earlier versions kept just the last finished attempt for each stage.
-if (!progress.stats) {
+function initializeStats() {
+  if (progress.stats) return;
   progress.stats = {};
   for (const [index, rows] of Object.entries(progress.reports)) {
     if (!Array.isArray(rows) || !rows.length) continue;
