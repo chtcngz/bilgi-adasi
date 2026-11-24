@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.4.2 · 24.11.2026
+
+- Düzeltme: Elif Ba Adası'nda kayıtlı harf ve hece sesleri bazı telefonlarda çalmıyordu. Kayıtlar artık oyunun efekt sesleriyle aynı yoldan (Web Audio) çalınıyor. Telefonun sessiz anahtarı açıkken de duyuluyor ve "Be üstün be" tekrarında hece kesilmeden geliyor.
+
 ## 0.4.1 · 24.11.2026
 
 - Elif Ba Adası'nda 28 harfin adı da artık gerçek bir sesle, Türkçe Elif-Ba usulüyle okunuyor (Elif, Be, Te, Se…). Kayıtlar Internet Archive'daki "elifba_harfler_ses" kaydından alındı; kaynak bilgisi `elif-ba/ses/KAYNAKLAR.md` dosyasında.

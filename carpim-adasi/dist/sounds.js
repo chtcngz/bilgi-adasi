@@ -130,5 +130,7 @@ const playCue = (() => {
   updateButton();
   play.isOn = () => enabled && !blocked;
   play.setEnabled = setEnabled;
+  // Shared with Elif Ba's voice clips: the context is unlocked on every gesture above.
+  play.context = () => context;
   return play;
 })();
