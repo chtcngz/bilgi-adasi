@@ -41,12 +41,28 @@ function render() {
     button.style.left = x * 100 + '%'; button.style.top = y * 100 + '%';
     button.style.setProperty('--i', i);
     button.textContent = i + 2;
+    const locked = index > done;
     if (index < done) button.insertAdjacentHTML('beforeend', '<span class="pin-star" aria-hidden="true">★</span>');
-    button.title = islands[i] + ' · ' + (i+2) + ' çarpım tablosu';
+    if (locked) {
+      button.classList.add('locked');
+      button.dataset.cue = '';
+      button.setAttribute('aria-disabled', 'true');
+      button.insertAdjacentHTML('beforeend', '<span class="pin-lock" aria-hidden="true">🔒</span>');
+    }
+    button.title = islands[i] + ' · ' + (i+2) + ' çarpım tablosu' + (locked ? ' · Kilitli' : '');
     button.setAttribute('aria-label', button.title);
     button.setAttribute('aria-pressed', selected === i);
-    button.disabled = index > done;
-    button.onclick = () => { selected = i; render(); };
+    button.onclick = () => {
+      if (locked) {
+        playCue('oops');
+        fx.bump(button, 'denied');
+        mapHint('🔒 Önce ' + islands[done % islands.length] + ' adasını tamamla');
+        return;
+      }
+      selected = i;
+      render();
+      openIsland();
+    };
     return button;
   }));
   $('mission').innerHTML = '<div class="scene"><span class="scene-name">' + islands[selected] +
@@ -56,12 +72,22 @@ function render() {
   const scene = $('mission').querySelector('.scene');
   scene.style.backgroundPosition = (selected % 3 * 50) + '% ' + (Math.floor(selected / 3) * 50) + '%';
   $('play').textContent = slot() === done ? (progress.attempt ? '▶  Kaldığın yerden devam et' : '▶  Adaya başla') : 'Keşif günlüğünü aç';
-  $('play').onclick = () => {
-    $('game').showModal();
-    if (slot() !== done) journal();
-    else if (progress.attempt) resumeAttempt();
-    else brief();
-  };
+  $('play').onclick = openIsland;
+}
+function openIsland() {
+  $('game').showModal();
+  if (slot() !== progress.completed) journal();
+  else if (progress.attempt) resumeAttempt();
+  else brief();
+}
+let hintTimer;
+function mapHint(text) {
+  const hint = $('map-hint');
+  hint.textContent = text;
+  hint.hidden = false;
+  fx.bump(hint, 'show');
+  clearTimeout(hintTimer);
+  hintTimer = setTimeout(() => { hint.hidden = true; }, 2200);
 }
 function stop() { playing = false; clearInterval(timer); }
 function setMood(mood) {
