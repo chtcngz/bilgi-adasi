@@ -33,8 +33,31 @@ function choosePlayer(profile) {
   $('player').title = profile.name + ' · Oyuncu değiştir';
   $('grade').textContent = profile.grade;
   $('profiles').close();
-  render();
+  showCatalog();
 }
+
+const multiplicationGrades = ['2. sınıf', '3. sınıf', '4. sınıf'];
+function showCatalog() {
+  const available = multiplicationGrades.includes(activeProfile.grade);
+  $('catalog-grade').textContent = activeProfile.grade;
+  $('multiplication-card').hidden = !available;
+  $('empty-catalog').hidden = available;
+  $('island-view').hidden = true;
+  $('game-tools').hidden = true;
+  $('catalog').hidden = false;
+  document.title = 'Oyun kataloğu · Bilgi Adası';
+  $('catalog-title').focus();
+}
+$('back-to-catalog').onclick = showCatalog;
+$('multiplication-card').onclick = () => {
+  if (!multiplicationGrades.includes(activeProfile.grade)) return;
+  $('catalog').hidden = true;
+  $('island-view').hidden = false;
+  $('game-tools').hidden = false;
+  document.title = 'Çarpım Adası · Bilgi Adası';
+  render();
+  $('play').focus();
+};
 
 function openProfiles() {
   $('players').replaceChildren(...profiles.map(profile => {

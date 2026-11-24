@@ -129,3 +129,15 @@ dialog::backdrop { background: #123944ad; }
   .head-right { flex-wrap:wrap; }
   .head-right #player { max-width:130px; }
 }
+
+#game-tools:not([hidden]) { display:flex; align-items:center; flex-wrap:wrap; gap:inherit; }
+.catalog-card {
+  display:block; width:min(100%, 360px); padding:0; overflow:hidden;
+  background:#fffdf8; color:#193e50; text-align:left;
+  border:1px solid #d7c9ab; border-radius:22px; box-shadow:0 5px 0 #bea98238;
+}
+.catalog-card[hidden] { display:none; }
+.catalog-card img { display:block; width:100%; height:auto; aspect-ratio:2; object-fit:cover; }
+.catalog-caption { display:flex; justify-content:space-between; align-items:center; padding:16px 20px; font-size:22px; }
+.catalog-card:hover { border-color:#16716e; }
+#empty-catalog { padding:20px; border:1px solid #d7c9ab; border-radius:16px; background:#fffdf8; }

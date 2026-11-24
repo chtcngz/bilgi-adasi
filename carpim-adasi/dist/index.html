@@ -1,8 +1,18 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Çarpım Adası · Bilgi Adası</title><link rel="stylesheet" href="style.css?v=profiles-1"></head><body>
-<header><div class="brand"><span class="brand-icon">⛵</span> Bilgi Adası</div><div class="head-right"><button id="player" aria-haspopup="dialog">Oyuncu seç</button><button id="settings-button" aria-label="Ayarlar" title="Ayarlar">⚙</button><button id="open-stats" aria-haspopup="dialog">İstatistikler</button><span id="stars">⭐ 0 yıldız</span><button id="sound" aria-label="Sesi aç" aria-pressed="false">♫</button></div></header>
-<main><div class="crumb">Bilgi Adası <b>›</b> Matematik <b>›</b> Çarpım Adası</div><div class="heading"><div><div class="eyebrow">MATEMATİK MACERASI</div><h1>Çarpım <em>Adası</em></h1><p>Dokuz adayı keşfet, çarpımları çöz ve yıldızları topla!</p></div><div class="grade" id="grade"></div></div>
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Oyun kataloğu · Bilgi Adası</title><link rel="stylesheet" href="style.css?v=catalog-1"></head><body>
+<header><div class="brand"><span class="brand-icon">⛵</span> Bilgi Adası</div><div class="head-right"><button id="player" aria-haspopup="dialog">Oyuncu seç</button><div id="game-tools" hidden><button id="settings-button" aria-label="Ayarlar" title="Ayarlar">⚙</button><button id="open-stats" aria-haspopup="dialog">İstatistikler</button><span id="stars">⭐ 0 yıldız</span><button id="sound" aria-label="Sesi aç" aria-pressed="false">♫</button></div></div></header>
+<main>
+<section id="catalog" hidden aria-labelledby="catalog-title">
+  <div class="heading"><div><div class="eyebrow" id="catalog-grade"></div><h1 id="catalog-title" tabindex="-1">Oyun kataloğu</h1></div></div>
+  <button id="multiplication-card" class="catalog-card" hidden>
+    <img src="assets/ada-atlasi.jpg" alt="" width="1536" height="1024">
+    <span class="catalog-caption"><strong>Çarpım Adası</strong><span aria-hidden="true">→</span></span>
+  </button>
+  <p id="empty-catalog" hidden>Bu yaş aralığında henüz oyun eklenmemiş.</p>
+</section>
+<section id="island-view" hidden>
+<button class="secondary" id="back-to-catalog">← Oyun kataloğuna dön</button><div class="heading"><div><div class="eyebrow">MATEMATİK MACERASI</div><h1>Çarpım <em>Adası</em></h1><p>Dokuz adayı keşfet, çarpımları çöz ve yıldızları topla!</p></div><div class="grade" id="grade"></div></div>
 <div class="layout"><section class="map" aria-label="Keşif haritası"><img class="atlas" src="assets/ada-atlasi.jpg" width="1536" height="1024" fetchpriority="high" alt="Palmiyeli koydan hazine adasına uzanan dokuz adalık keşif haritası"><div class="map-title"><span>✥</span> Keşif haritası</div><div id="pins"></div></section><aside><div class="eyebrow">SEÇİLİ BÖLÜM</div><div id="mission"></div><button class="primary" id="play">▶ &nbsp; Maceraya başla</button></aside></div>
-<section class="progress"><div class="medal">🏆</div><div class="progress-info"><div><strong>Keşif günlüğüm</strong><span id="count"></span></div><div class="track"><i id="bar"></i></div></div></section></main>
+<section class="progress"><div class="medal">🏆</div><div class="progress-info"><div><strong>Keşif günlüğüm</strong><span id="count"></span></div><div class="track"><i id="bar"></i></div></div></section></section></main>
 <dialog id="game" aria-labelledby="gameTitle"><button id="close" aria-label="Haritaya dön">×</button><button class="secondary" id="switch-game">Oyuncu değiştir</button><div id="stage"></div></dialog><dialog id="stats" aria-labelledby="stats-title">
   <div class="stats-heading"><h2 id="stats-title">İstatistikler</h2><button id="close-stats" aria-label="İstatistikleri kapat">×</button></div>
   <div id="stats-content"></div>
@@ -15,7 +25,7 @@
     <label>Oyuncunun adı<input id="player-name" required maxlength="32" autocomplete="off"></label>
     <label>Sınıf<select id="class-choice" required><option value="">Sınıf seç</option><option>Okul öncesi</option><option>1. sınıf</option><option>2. sınıf</option><option>3. sınıf</option><option>4. sınıf</option></select></label>
     <fieldset><legend>Oyuncu ikonu</legend><div id="icons"></div></fieldset>
-    <button class="primary">Kaydet ve oyna</button>
+    <button class="primary">Kaydet ve kataloğu aç</button>
   </form>
 </dialog>
 <dialog id="settings" aria-labelledby="settings-title">
@@ -23,4 +33,4 @@
   <label>Bölümü sıfırla<select id="reset-stage"></select></label>
   <p id="reset-info"></p><button class="secondary">Seçilen bölümden yeniden başla</button>
   <button type="button" class="secondary" id="close-settings">Kapat</button></form>
-</dialog><script src="sounds.js?v=2"></script><script src="game.js?v=profiles-1"></script><script src="stats.js?v=profiles-1"></script><script src="profiles.js"></script></body></html>
+</dialog><script src="sounds.js?v=2"></script><script src="game.js?v=profiles-1"></script><script src="stats.js?v=profiles-1"></script><script src="profiles.js?v=catalog-1"></script></body></html>
