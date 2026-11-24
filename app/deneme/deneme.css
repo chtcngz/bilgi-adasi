@@ -1,0 +1,257 @@
+/* Deneme Odası (deneme/deneme.js): önerilen oyunların taslakları. Oyunun stil dosyalarından bağımsızdır. */
+:root { --sea: #8bd2f1; --deep: #16716e; --sand: #f6e3b4; --ink: #173f40; }
+body { background: linear-gradient(#e9f7fb, #f7faf6 420px); min-height: 100vh; }
+.ar { font: normal 1em/1.4 "Traditional Arabic", "Times New Roman", serif; }
+.ar.small { font-size: 1.3em; vertical-align: middle; }
+main#lab { width: min(94%, 920px); margin: 18px auto 60px; }
+
+/* ---------- Ana sayfa ---------- */
+.lab-intro h1 { font-size: clamp(38px, 6vw, 60px); }
+.lab-intro h1 em { font-style: normal; color: #ed9d43; }
+.lab-intro p { color: #506c66; font-size: 17px; line-height: 1.5; max-width: 640px; }
+.lab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-top: 18px; }
+.lab-card {
+  display: flex; align-items: center; gap: 14px; padding: 16px; text-align: left; border-radius: 22px;
+  border: 1px solid #cadbd0; background: #fff; box-shadow: 0 3px 0 #d8e6dd; transition: transform .12s;
+}
+.lab-card:hover { transform: translateY(-2px); }
+.lab-card-icon { flex: none; display: grid; place-items: center; width: 62px; height: 62px; border-radius: 18px; background: #e3f4f4; font-size: 34px; }
+.lab-card-text { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.lab-card-text small { font-size: 12px; font-weight: 900; color: #357463; letter-spacing: .02em; }
+.lab-card-text strong { font-size: 21px; font-weight: 950; letter-spacing: -.5px; }
+.lab-card-text span { font-size: 14px; color: #506c66; line-height: 1.35; }
+.lab-card-text em { font-style: normal; font-size: 12px; font-weight: 800; color: #8a6420; }
+.lab-go { color: #ed9d43; font-size: 18px; }
+
+/* ---------- Oyun sayfası ---------- */
+.lab-bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.lab-bar h1 { font-size: clamp(28px, 5vw, 42px); letter-spacing: -1.5px; margin: 0; }
+.lab-back, .lab-secondary {
+  border: 1px solid #a0c8b0; background: #edf6ee; border-radius: 14px; padding: 9px 14px; font-weight: 850; color: #245c48;
+}
+.lab-primary {
+  border: 1px solid #1a674b; background: #237958; color: #fff; border-radius: 14px; padding: 12px 22px; font-weight: 900; font-size: 18px;
+  box-shadow: 0 3px 0 #155a42;
+}
+.lab-primary:active { transform: translateY(2px); box-shadow: 0 1px 0 #155a42; }
+.lab-idea { margin: 12px 0; background: #fffbea; border: 1px solid #f0dc9b; border-radius: 16px; padding: 10px 16px; }
+.lab-idea summary { font-weight: 900; color: #74501a; cursor: pointer; }
+.lab-idea li { margin: 6px 0; line-height: 1.45; color: #4e4632; }
+.lab-screen {
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px;
+  border-radius: 26px; background: linear-gradient(#bfe8f6, #e7f7fb 60%, #fbf1d6); border: 1px solid #b9dbe6; min-height: 520px; overflow: hidden;
+  touch-action: manipulation;
+}
+.lab-note { margin: 0; color: #4d6f6c; text-align: center; font-size: 15px; max-width: 560px; }
+.lab-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.lab-shake { animation: lab-shake .45s; }
+@keyframes lab-shake { 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
+.lab-wiggle { animation: lab-wiggle .5s; }
+@keyframes lab-wiggle { 30% { transform: scale(1.25) rotate(-8deg); } 60% { transform: scale(1.1) rotate(6deg); } }
+
+/* Kaplumbağa ve balonu */
+.lab-guide { display: flex; align-items: center; gap: 10px; align-self: stretch; }
+.lab-turtle { flex: none; width: 96px; }
+.lab-turtle svg { display: block; width: 100%; overflow: visible; }
+.lab-turtle .glad, .lab-turtle .frown { display: none; }
+.lab-turtle.happy { animation: lab-hop .6s; }
+.lab-turtle.happy .eyes { display: none; }
+.lab-turtle.happy .glad { display: inline; }
+.lab-turtle.sad .mouth { display: none; }
+.lab-turtle.sad .frown { display: inline; }
+.lab-turtle.sad { animation: lab-shake .45s; }
+@keyframes lab-hop { 40% { transform: translateY(-14px); } }
+.lab-guide.talk .lab-turtle { animation: lab-talk .5s ease-in-out infinite alternate; }
+@keyframes lab-talk { to { transform: rotate(-3deg) translateY(-3px); } }
+.lab-bubble {
+  position: relative; flex: 1; display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 10px 16px; text-align: left;
+  border-radius: 20px; border: 2px solid #fff; background: #fff; box-shadow: 0 3px 10px #0d525022; font-size: 18px; font-weight: 800; color: var(--ink);
+}
+.lab-bubble::before { content: ''; position: absolute; left: -12px; top: 50%; translate: 0 -50%; border: 10px solid transparent; border-right-color: #fff; border-left: 0; }
+.lab-bubble svg { flex: none; width: 30px; height: 30px; color: var(--deep); }
+.lab-bubble.mute svg { opacity: .25; }
+.lab-bubble .ar { font-size: 1.4em; color: var(--deep); }
+
+/* İlerleme noktaları */
+.lab-steps { display: flex; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.lab-steps li { width: 18px; height: 18px; border-radius: 50%; border: 2px dashed #9cc7d6; background: #f2fbfe; }
+.lab-steps li.now { border: 3px solid #ffb12b; background: #fff6dc; transform: scale(1.15); }
+.lab-steps li.got { border: 2px solid #fff; background: #53a981; }
+
+/* Bitiş */
+.lab-finale {
+  position: absolute; inset: 0; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  background: #ffffffe6; text-align: center; animation: lab-in .4s;
+}
+.lab-finale h2 { margin: 0 16px; }
+.lab-trophy { font-size: 74px; animation: lab-hop 1s infinite; }
+@keyframes lab-in { from { opacity: 0; } }
+.lab-tabs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+.lab-tabs button { border: 1px solid #b9dbe6; background: #fff; border-radius: 30px; padding: 8px 14px; font-weight: 850; color: #3d6670; }
+.lab-tabs button.on { background: var(--deep); color: #fff; border-color: var(--deep); }
+
+#lab-toast {
+  position: fixed; z-index: 50; left: 50%; bottom: 22px; translate: -50% 0; padding: 10px 18px; border-radius: 30px; background: #173f40;
+  color: #fff; font-weight: 850; opacity: 0; pointer-events: none; white-space: nowrap;
+}
+#lab-toast .ar { font-size: 1.5em; vertical-align: middle; }
+#lab-toast span { color: #ffd15e; }
+#lab-toast.show { animation: lab-toast 2.8s; }
+@keyframes lab-toast { 0% { opacity: 0; transform: translateY(20px); } 10%, 80% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+
+/* ---------- 1. Nokta Ustası ---------- */
+.dot-board {
+  position: relative; width: min(100%, 380px); aspect-ratio: 200 / 170; border-radius: 26px;
+  background: radial-gradient(circle at 50% 40%, #fff8e3, var(--sand)); box-shadow: inset 0 -6px 0 #e9cf8f;
+}
+.dot-skeleton { position: absolute; inset: 0; width: 100%; height: 100%; transition: opacity .4s; }
+.dot-skeleton path { fill: none; stroke: #5b4325; stroke-width: 13; stroke-linecap: round; stroke-linejoin: round; }
+.dot-done { position: absolute; inset: 0; display: grid; place-items: center; font-size: 170px; color: var(--deep); opacity: 0; transform: scale(.6); transition: .5s cubic-bezier(.2, 1.5, .4, 1); pointer-events: none; }
+.dot-board.alive .dot-skeleton { opacity: 0; }
+.dot-board.alive .dot-done { opacity: 1; transform: none; }
+.dot-board.alive .dot-zone { opacity: 0; }
+.dot-zone {
+  position: absolute; translate: -50% -50%; width: 34%; height: 24%; display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 4px 8px; padding: 6px; border-radius: 18px; border: 3px dashed #c9a868; background: #fff7; transition: opacity .3s;
+}
+.dot-zone.n1, .dot-zone.n2, .dot-zone.n3 { border-style: solid; border-color: #e6c886; }
+.dot-zone.n3 { flex-direction: row; }
+.dot-zone.n3 i:first-child { flex-basis: 100%; display: flex; justify-content: center; }
+.dot-zone i, .dot-pebble {
+  display: block; width: 26px; height: 26px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #8fa7b3, #3e5662 70%); box-shadow: 0 3px 0 #2a3c45;
+}
+.dot-zone.n3 i:first-child { flex-basis: auto; margin: 0 40%; }
+.dot-tray { display: flex; align-items: center; gap: 12px; min-height: 58px; padding: 8px 18px; border-radius: 30px; background: #fff9; border: 2px solid #fff; }
+.dot-tray small { font-weight: 900; color: #6b7f86; }
+.dot-pebble { width: 40px; height: 40px; cursor: grab; touch-action: none; }
+.dot-pebble.lifted { opacity: .3; }
+.dot-pebble.ghost { position: fixed; z-index: 99; translate: -50% -50%; pointer-events: none; width: 44px; height: 44px; }
+
+/* ---------- 2. Kabuk Hafızası ---------- */
+.shell-beach { display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 120px)); gap: 12px; padding: 14px; border-radius: 26px; background: var(--sand); box-shadow: inset 0 -6px 0 #e9cf8f; }
+.shell { position: relative; aspect-ratio: 1; padding: 0; border: 0; background: none; perspective: 600px; }
+.shell > span { position: absolute; inset: 0; display: grid; place-items: center; border-radius: 50% 50% 40% 40%; backface-visibility: hidden; transition: transform .45s; }
+.shell-back {
+  background: repeating-conic-gradient(from -60deg at 50% 92%, #f6b8a4 0 10deg, #fbd8c8 10deg 20deg);
+  -webkit-mask: radial-gradient(ellipse 52% 56% at 50% 52%, #000 98%, transparent); mask: radial-gradient(ellipse 52% 56% at 50% 52%, #000 98%, transparent);
+  box-shadow: 0 4px 0 #d98f78;
+}
+.shell-face { transform: rotateY(180deg); background: radial-gradient(circle at 40% 35%, #fff, #e7f6fb); border: 3px solid #bfe3f0; font-size: 52px; color: var(--ink); }
+.shell-sound svg { width: 44px; height: 44px; color: var(--deep); }
+.shell.open .shell-back { transform: rotateY(180deg); }
+.shell.open .shell-face { transform: none; }
+.shell.pearl .shell-face { background: radial-gradient(circle at 35% 30%, #fff, #f2ebff 55%, #d9cdf5); border-color: #fff; box-shadow: 0 0 18px #c9b7ff; animation: lab-hop .6s; }
+.shell.pearl .shell-sound svg { color: #6b55b8; }
+
+/* ---------- 3. Hece Treni ---------- */
+.train-track { position: relative; width: 100%; min-height: 150px; overflow: hidden; }
+.rails { position: absolute; left: 0; right: 0; bottom: 14px; height: 14px; background: repeating-linear-gradient(90deg, #8a6236 0 8px, transparent 8px 26px), linear-gradient(transparent 4px, #6b6b6b 4px 7px, transparent 7px); }
+.train { position: absolute; right: 4%; bottom: 24px; display: flex; align-items: flex-end; gap: 6px; transition: transform 1.6s cubic-bezier(.6, 0, .4, 1); }
+.train-track.go .train { transform: translateX(-130vw); }
+.loco { font-size: 92px; line-height: 1; }
+.slot {
+  display: grid; place-items: center; width: 92px; height: 78px; border-radius: 14px 14px 6px 6px; border: 3px dashed #9cc7d6; background: #ffffff88;
+  font-size: 50px; position: relative;
+}
+.slot::before, .slot::after { content: ''; position: absolute; bottom: -14px; width: 20px; height: 20px; border-radius: 50%; background: #3e5662; }
+.slot::before { left: 12px; } .slot::after { right: 12px; }
+.slot.on { border: 3px solid #fff; background: linear-gradient(#ffcf62, #f39a3d); color: #4a2c09; animation: lab-hop .4s; }
+.train-yard { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.wagon {
+  width: 96px; height: 80px; border-radius: 16px; border: 3px solid #fff; background: linear-gradient(#7cc6e8, #4a9fca); color: #0e3550;
+  font-size: 50px; box-shadow: 0 4px 0 #2f7aa0;
+}
+.wagon.used { visibility: hidden; }
+
+/* ---------- 4. Harf Bukalemunu ---------- */
+.cham-card { padding: 10px 40px; border-radius: 26px; background: linear-gradient(#e8f8df, #c8edb6); border: 3px solid #fff; box-shadow: 0 5px 0 #9bd18a; }
+.cham-word { font: normal clamp(90px, 18vw, 150px)/1.6 "Traditional Arabic", "Times New Roman", serif; color: #3b5a2a; }
+.cham-word span { cursor: pointer; transition: color .3s, text-shadow .3s; }
+.cham-word span.found { color: #e07b00; text-shadow: 0 0 18px #ffd15e; }
+.cham-word span.wrong { animation: cham-wrong .7s; }
+@keyframes cham-wrong { 30% { color: #e0435a; } }
+.cham-forms { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; font-size: 44px; color: var(--deep); }
+.cham-forms small { font-size: 14px; font-weight: 900; color: #5b8590; }
+
+/* ---------- 5. Taş Atlama ---------- */
+.stone-path { display: flex; align-items: center; gap: 6px; }
+.stone-path i { width: 30px; height: 18px; border-radius: 50%; background: #b8c5cb; box-shadow: 0 3px 0 #8d9ca3; }
+.stone-path i.got { background: #53a981; box-shadow: 0 3px 0 #2d7b58; }
+.stone-path i.now { background: #ffcf62; box-shadow: 0 3px 0 #d39a30; }
+.stone-path span { font-size: 28px; }
+.stone-sea {
+  position: relative; width: 100%; height: 330px; border-radius: 24px; overflow: hidden;
+  background: repeating-linear-gradient(170deg, #ffffff22 0 2px, transparent 2px 26px), linear-gradient(#5ec0e6, #2e8fbd);
+}
+.stone-row { position: absolute; left: 0; right: 0; top: 34px; display: flex; justify-content: center; gap: clamp(10px, 4vw, 34px); }
+.stone {
+  width: clamp(90px, 24vw, 128px); height: clamp(70px, 18vw, 96px); border-radius: 50% 50% 46% 46%; border: 0;
+  background: radial-gradient(circle at 40% 30%, #d6dde0, #8e9ea5 75%); box-shadow: 0 8px 0 #5d7078, 0 14px 18px #0003;
+  font-size: clamp(40px, 9vw, 56px); color: #22343c; transition: transform .6s, opacity .6s;
+}
+.stone.good { background: radial-gradient(circle at 40% 30%, #e7ffe9, #7fd29a 75%); box-shadow: 0 8px 0 #3e9a5e; }
+.stone.sink { transform: translateY(60px) scale(.8); opacity: .15; }
+.stone:disabled { opacity: .15; }
+.stone-turtle { position: absolute; left: 50%; bottom: 8px; width: 110px; margin-left: -55px; transition: transform .45s cubic-bezier(.3, 1.4, .5, 1); z-index: 2; }
+.stone-turtle svg { display: block; width: 100%; }
+.stone-turtle.swim { filter: saturate(.6) brightness(.9); }
+.stone-nest { position: absolute; right: 12px; top: 6px; color: #fff; font-weight: 900; }
+
+/* ---------- 6. Kumda Yaz ---------- */
+.sand-box { position: relative; width: min(100%, 380px); aspect-ratio: 1; border-radius: 26px; overflow: hidden; background: radial-gradient(circle at 50% 40%, #fff3d0, #ebcf8c); touch-action: none; }
+.sand-svg { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; }
+.sand-guide { fill: none; stroke: #b99554; stroke-width: 5; stroke-dasharray: 2 12; stroke-linecap: round; }
+.sand-done { fill: none; stroke: #8a5a1c; stroke-width: 14; stroke-linecap: round; opacity: 0; transition: opacity .6s; }
+.sand-svg.traced .sand-done { opacity: 1; }
+.sand-svg.traced .sand-ink, .sand-svg.traced .sand-start { opacity: 0; transition: opacity .6s; }
+.sand-ink polyline { fill: none; stroke: #9b6c2e; stroke-width: 12; stroke-linecap: round; stroke-linejoin: round; opacity: .8; }
+.sand-start { fill: #53a981; stroke: #fff; stroke-width: 3; animation: sand-pulse 1s infinite alternate; }
+@keyframes sand-pulse { to { r: 10; } }
+.sand-dot { fill: #fff8; stroke: #8a5a1c; stroke-width: 3; stroke-dasharray: 4 4; cursor: pointer; }
+.sand-dot.on { fill: #8a5a1c; stroke-dasharray: none; }
+.sand-progress { position: absolute; left: 14px; right: 14px; bottom: 12px; height: 8px; border-radius: 8px; background: #fff7; }
+.sand-progress i { display: block; height: 100%; width: 0; border-radius: 8px; background: #53a981; transition: width .2s; }
+.sand-box::after {
+  content: ''; position: absolute; inset: 0; translate: 110% 0; pointer-events: none;
+  background: linear-gradient(100deg, transparent, #bfeaf8ee 18%, #7cc6e8 40%, #bfeaf8ee 70%, transparent);
+}
+.sand-box.wave::after { animation: sand-wave 1.3s ease-in-out forwards; }
+.sand-box.wave .sand-svg { animation: sand-wipe 1.3s forwards; }
+@keyframes sand-wave { from { translate: 110% 0; } to { translate: -110% 0; } }
+@keyframes sand-wipe { 55% { opacity: 1; } 70%, 100% { opacity: 0; } }
+
+/* ---------- 7. Akvaryum ---------- */
+.tank {
+  position: relative; width: 100%; height: 360px; border-radius: 24px; overflow: hidden; border: 6px solid #fff;
+  background: linear-gradient(#7fd3ef, #2f8fc0 80%); box-shadow: inset 0 0 40px #0b4a6e66;
+}
+.tank-sand { position: absolute; left: 0; right: 0; bottom: 0; height: 40px; background: linear-gradient(#f2d998, #dcbc72); border-radius: 50% 50% 0 0 / 30px 30px 0 0; }
+.tank-weed { position: absolute; bottom: 18px; width: 14px; height: 120px; border-radius: 10px; background: #3fae6a; transform-origin: bottom; animation: weed 4s ease-in-out infinite alternate; }
+.tank-weed.a { left: 8%; } .tank-weed.b { right: 12%; height: 90px; animation-delay: -2s; }
+@keyframes weed { from { transform: rotate(-8deg); } to { transform: rotate(8deg); } }
+.tank-bubbles { position: absolute; inset: 0; background: radial-gradient(circle, #fff9 2px, transparent 3px) 0 0 / 60px 90px; animation: bubbles 6s linear infinite; opacity: .6; }
+@keyframes bubbles { to { background-position: 0 -180px; } }
+.tank-fish {
+  position: absolute; left: -16%; top: var(--y); width: calc(100px * var(--s)); padding: 0; border: 0; background: none;
+  animation: swim var(--d) ease-in-out var(--delay) infinite;
+}
+.tank-fish svg { display: block; width: 100%; animation: turn var(--d) step-end var(--delay) infinite; }
+.fish-letter { position: absolute; left: 50%; top: 52%; translate: -50% -50%; font-size: calc(36px * var(--s)); color: #173f40; pointer-events: none; }
+/* Sağa yüzerken (ilk yarı) gövde sağa bakar, dönüşte sola. */
+@keyframes swim { 0%, 100% { left: -16%; } 50% { left: 100%; } }
+@keyframes turn { 0% { transform: scaleX(-1); } 50% { transform: none; } }
+.tank-shelf { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; direction: rtl; }
+.tank-shelf span { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: #ffffff88; border: 2px dashed #9cc7d6; font-size: 26px; color: #9bb3bb; }
+.tank-shelf span.got { background: #fff; border: 2px solid #53a981; color: var(--deep); }
+
+@media (max-width: 560px) {
+  .lab-screen { padding: 12px; }
+  .lab-turtle { width: 70px; }
+  .lab-bubble { font-size: 16px; }
+  .slot { width: 64px; height: 60px; font-size: 38px; }
+  .loco { font-size: 64px; }
+  .wagon { width: 76px; height: 66px; font-size: 40px; }
+  .shell-beach { gap: 8px; padding: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01s !important; transition-duration: .01s !important; } }

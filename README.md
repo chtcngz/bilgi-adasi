@@ -38,20 +38,22 @@ app/                         Published site (GitHub Pages root)
 │           ├── kayitlar.js          Which clips exist (window.elifRecordings)
 │           ├── kaynak.json          Clip ↔ source mapping
 │           └── KAYNAKLAR.md         Sources and licenses
-└── islands/                 One folder per island
-    ├── carpim/              Çarpım Adası (game.js)
-    ├── elif-ba/             Elif Ba Adası
-    │   ├── data.js          Letters, readings, harekes, coves, look-alike letters, section list
-    │   ├── voice.js         Recording / Turkish speech playback (elifVoice)
-    │   ├── map.js           Map of the coves; the turtle walks between them (elifMap)
-    │   ├── game.js          Hub, Harfler and Harekeler sections, rounds
-    │   ├── style.css, koy.jpg
-    │   └── games/           Section games
-    │       ├── art.js       Turtle, hearts, speaker and stars shared by the games
-    │       ├── listening.*  Harf Yağmuru (letters) + Hece Balonları (syllables); its .rain-* kit is shared
-    │       └── bridge.*     Cam Köprü, the mixed game at the end of every cove
-    ├── din-bilgisi/         Question island: sorular.js + game.js + style.css + ada.svg
-    └── fen-bilimleri/       Question island: same pattern
+├── islands/                 One folder per island
+│   ├── carpim/              Çarpım Adası (game.js)
+│   ├── elif-ba/             Elif Ba Adası
+│   │   ├── data.js          Letters, readings, harekes, coves, look-alike letters, section list
+│   │   ├── voice.js         Recording / Turkish speech playback (elifVoice)
+│   │   ├── map.js           Map of the coves; the turtle walks between them (elifMap)
+│   │   ├── game.js          Hub, Harfler and Harekeler sections, rounds
+│   │   ├── style.css, koy.jpg
+│   │   └── games/           Section games
+│   │       ├── art.js       Turtle, hearts, speaker and stars shared by the games
+│   │       ├── listening.*  Harf Yağmuru (letters) + Hece Balonları (syllables); its .rain-* kit is shared
+│   │       └── bridge.*     Cam Köprü, the mixed game at the end of every cove
+│   ├── din-bilgisi/         Question island: sorular.js + game.js + style.css + ada.svg
+│   └── fen-bilimleri/       Question island: same pattern
+└── deneme/                  Deneme Odası: playable drafts of proposed Elif Ba games (OYUN-ONERILERI.md).
+                             Nothing in the game links to it; open …/deneme/. Its own clips are in deneme/ses/.
 tools/                       Helper scripts (not published)
 ├── make_sounds.py           → app/assets/audio/ui/*.wav
 └── elif_sesleri.py          → app/assets/audio/elif-ba/ (harf, hece, kayitlar.js)
