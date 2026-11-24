@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.1.1 · 24.11.2026
+
+- Rakam tuşu sesi, tıklama sesiyle aynı yumuşak baloncuk tınısına geçti; biraz daha ince olduğu için ayırt ediliyor
+- Silme tuşu sesi aşağı inen yumuşak bir baloncuk oldu
+
 ## 0.1.0 · 24.11.2026
 
 İlk numaralı sürüm. O güne kadar yapılanlar:

@@ -161,26 +161,12 @@ def wood(freq, seconds=0.12, noise=0.4, decay=0.025):
 
 cues = {}
 
-def soft_mallet(freq, decay=0.06, bend=0.0, seconds=0.45):
-    """A felt mallet on a soft bar: rounded attack, no click, a hint of overtone.
-
-    `bend` slides the pitch by that fraction over the first 40 ms, which reads
-    as a friendly "bloop" (positive bends up, negative down).
-    """
-    t = timeline(seconds)
-    slide = 1 + bend * (1 - np.exp(-t / 0.012)) - bend
-    phase = 2 * np.pi * np.cumsum(freq * slide) / RATE
-    attack = np.where(t < 0.005, np.sin(np.pi / 2 * t / 0.005) ** 2, 1)
-    tone = np.sin(phase) * np.exp(-t / decay)
-    tone += 0.12 * np.sin(2 * phase) * np.exp(-t / (decay * 0.4))
-    return lowpass(lowpass(tone * attack, 2600), 3200)
-
-
-# The earlier tap drew this much noise; drawing it keeps the later cues' randomness unchanged.
+# The first tap drew this much noise; drawing it keeps the later cues' randomness unchanged.
 rng.uniform(-1, 1, int(RATE * 0.07))
 
+
 def bubble(start, end, seconds=0.3, rise=0.05, attack=0.012, decay=0.045):
-    """A rising air bubble: a pure tone that swoops up while it fades in and out."""
+    """An air bubble: a pure tone that swoops from `start` to `end` Hz as it fades in and out."""
     t = timeline(seconds)
     freq = end + (start - end) * np.exp(-t / rise)
     phase = 2 * np.pi * np.cumsum(freq) / RATE
@@ -191,11 +177,11 @@ def bubble(start, end, seconds=0.3, rise=0.05, attack=0.012, decay=0.045):
 # Menus and buttons: a quiet, low "blup", like a bubble rising in a calm bay.
 cues['tap'] = finish(reverb(bubble(300, 520), 0.1, 0.7, 0.2), 0.16)
 
-# Number keys: the same felt mallet a little higher, bending gently up.
-cues['key'] = finish(reverb(soft_mallet(note('G5'), 0.055, 0.03), 0.12, 0.7, 0.2), 0.24)
+# Number keys: the same bubble a little higher, so typing feels light.
+cues['key'] = finish(reverb(bubble(380, 640, rise=0.04), 0.1, 0.7, 0.2), 0.18)
 
-# Erase: lower and bending down, so it feels like taking back.
-cues['erase'] = finish(reverb(soft_mallet(note('C5'), 0.06, -0.06), 0.12, 0.7, 0.2), 0.22)
+# Erase: a bubble sinking instead of rising, so it feels like taking back.
+cues['erase'] = finish(reverb(bubble(560, 330, rise=0.04), 0.1, 0.7, 0.2), 0.17)
 
 # Countdown: woodblock ticks climbing in pitch as time runs out.
 for left, freq in [(3, 980), (2, 1170), (1, 1400)]:
