@@ -13,7 +13,7 @@ try {
 } catch {}
 let selected = Math.min(progress.completed, total - 1) % islands.length;
 let deck = [], answers = [], entry = '', deadline = 0, timer, playing = false;
-let audioOn = false, ctx, storageFailed = false;
+let storageFailed = false;
 const round = () => Math.min(secondsPerRound.length - 1, Math.floor(progress.completed / islands.length));
 const slot = () => round() * islands.length + selected;
 const limit = () => secondsPerRound[round()];
@@ -22,25 +22,6 @@ function save() {
   try { localStorage.setItem(storageKey, JSON.stringify(progress)); }
   catch { storageFailed = true; }
 }
-function sound() {
-  if (!audioOn) return;
-  try {
-    ctx ??= new AudioContext();
-    ctx.resume();
-    const oscillator = ctx.createOscillator(), gain = ctx.createGain();
-    oscillator.connect(gain); gain.connect(ctx.destination);
-    oscillator.frequency.value = 660; gain.gain.value = 0.08;
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.17);
-    oscillator.start(); oscillator.stop(ctx.currentTime + 0.18);
-  } catch {}
-}
-$('sound').onclick = () => {
-  audioOn = !audioOn;
-  $('sound').setAttribute('aria-pressed', audioOn);
-  $('sound').setAttribute('aria-label', audioOn ? 'Sesi kapat' : 'Sesi aç');
-  $('sound').textContent = audioOn ? '♪' : '♫';
-  sound();
-};
 function render() {
   const done = progress.completed;
   $('stars').textContent = '⭐ ' + done + ' yıldız';
@@ -108,15 +89,22 @@ function question() {
   $('keys').onclick = e => { if (e.target.tagName === 'BUTTON') key(e.target.textContent); };
   playing = true;
   deadline = performance.now() + limit()*1000;
+  let shown = limit();
+  if (shown <= 3) playCue('tick');
   timer = setInterval(() => {
     const left = Math.ceil((deadline-performance.now())/1000);
-    if (left<=0) finish(true); else $('secs').textContent = left;
+    if (left <= 0) return finish(true);
+    if (left === shown) return;
+    shown = left;
+    $('secs').textContent = left;
+    if (left <= 3) playCue('tick');
   }, 75);
 }
 function key(k) {
   if (!playing) return;
   if (performance.now() >= deadline) return finish(true);
   if (k === 'Onayla') { if (entry.length) finish(false); return; }
+  playCue('tap');
   if (k === 'Sil') entry = entry.slice(0,-1);
   else if (/^\d$/.test(k) && entry.length<3) entry += k;
   $('value').textContent = entry || '?';
@@ -138,6 +126,7 @@ function finish(timeout) {
   countAnswer(stageStats(slot()), answers[answers.length - 1]);
   const equation = '<h3>'+a+' × '+b+' = '+product+'</h3>';
   if (!correct) {
+    playCue('retry');
     progress.reports[slot()] = answers; save(); render();
     const groups = '<div class="groups" aria-hidden="true">' +
       Array.from({length:b}, () => '<span class="group">'+'●'.repeat(Math.min(5,a))+
@@ -147,7 +136,7 @@ function finish(timeout) {
       'Tekrar dene', begin);
     return;
   }
-  sound();
+  playCue(answers.length === 10 ? 'island' : 'correct');
   if (answers.length < 10) {
     save();
     screen('Doğru!', equation, 'Sonraki soru', question);
