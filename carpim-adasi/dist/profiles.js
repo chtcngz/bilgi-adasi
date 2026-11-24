@@ -43,6 +43,7 @@ function showCatalog() {
   const cards = Array.from($('game-grid').children);
   for (const card of cards) card.hidden = !availableForPlayer(card);
   $('catalog-grade').textContent = activeProfile.grade;
+  $('elif-view').hidden = true;
   $('empty-catalog').hidden = cards.some(card => !card.hidden);
   $('island-view').hidden = true;
   $('game-tools').hidden = true;

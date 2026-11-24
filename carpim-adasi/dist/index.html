@@ -1,4 +1,4 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Keşif Limanı · Bilgi Adası</title><link rel="stylesheet" href="style.css?v=liman-1"></head><body>
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Keşif Limanı · Bilgi Adası</title><link rel="stylesheet" href="style.css?v=liman-1"><link rel="stylesheet" href="elif-ba/style.css"></head><body>
 <header><div class="brand"><span class="brand-icon">⛵</span> Bilgi Adası</div><div class="head-right"><button id="player" aria-haspopup="dialog">Oyuncu seç</button><div id="game-tools" hidden><button id="settings-button" aria-label="Ayarlar" title="Ayarlar">⚙</button><button id="open-stats" aria-haspopup="dialog">İstatistikler</button><span id="stars">⭐ 0 yıldız</span><button id="sound" aria-label="Sesi aç" aria-pressed="false">♫</button></div></div></header>
 <main>
 <section id="catalog" hidden aria-labelledby="catalog-title">
@@ -7,6 +7,10 @@
     <h1 id="catalog-title" tabindex="-1">Keşif <em>Limanı</em></h1>
   </div>
   <div class="game-grid" id="game-grid">
+    <button id="elif-card" class="catalog-card" data-grades="Okul öncesi" hidden>
+      <img src="elif-ba/koy.jpg" width="1536" height="1024" alt="">
+      <span class="catalog-caption"><span><small>Kur’an harfleri</small><strong>Elif Ba Adası</strong></span><span class="card-arrow" aria-hidden="true">▶</span></span>
+    </button>
     <button id="multiplication-card" class="catalog-card" data-grades="2. sınıf|3. sınıf|4. sınıf" hidden>
       <img src="assets/ada-atlasi.jpg" alt="" width="1536" height="1024">
       <span class="catalog-caption">
@@ -17,6 +21,14 @@
   </div>
   <p id="empty-catalog" hidden>Bu yaş aralığında henüz oyun eklenmemiş.</p>
 </section>
+<section id="elif-view" hidden aria-labelledby="elif-title">
+  <nav class="elif-nav"><button id="elif-back">‹ Keşif Limanı</button><span id="elif-shells"></span></nav>
+  <div class="elif-hero"><div><h1 id="elif-title" tabindex="-1">Elif Ba <em>Adası</em></h1><p>Minik kaplumbağayla Kur’an harflerini keşfet.</p></div></div>
+  <div class="elif-toolbar"><div><label for="elif-cove">Koy seç</label><select id="elif-cove"></select></div><button id="elif-play" class="elif-action">▶ Harfi bul</button></div>
+  <p class="elif-guide">Bir karta dokun, harfin adını dinle.</p>
+  <div id="elif-cards" class="elif-cards"></div><p id="elif-note" role="status"></p>
+</section>
+<dialog id="elif-game" aria-labelledby="elif-prompt"><button id="elif-close" aria-label="Koya dön">×</button><div id="elif-stage"></div></dialog>
 <section id="island-view" hidden>
 <button class="secondary" id="back-to-catalog">← Keşif Limanı’na dön</button><div class="heading"><div><div class="eyebrow">MATEMATİK MACERASI</div><h1>Çarpım <em>Adası</em></h1><p>Dokuz adayı keşfet, çarpımları çöz ve yıldızları topla!</p></div><div class="grade" id="grade"></div></div>
 <div class="layout"><section class="map" aria-label="Keşif haritası"><img class="atlas" src="assets/ada-atlasi.jpg" width="1536" height="1024" fetchpriority="high" alt="Palmiyeli koydan hazine adasına uzanan dokuz adalık keşif haritası"><div class="map-title"><span>✥</span> Keşif haritası</div><div id="pins"></div></section><aside><div class="eyebrow">SEÇİLİ BÖLÜM</div><div id="mission"></div><button class="primary" id="play">▶ &nbsp; Maceraya başla</button></aside></div>
@@ -41,4 +53,4 @@
   <label>Bölümü sıfırla<select id="reset-stage"></select></label>
   <p id="reset-info"></p><button class="secondary">Seçilen bölümden yeniden başla</button>
   <button type="button" class="secondary" id="close-settings">Kapat</button></form>
-</dialog><script src="sounds.js?v=2"></script><script src="game.js?v=profiles-1"></script><script src="stats.js?v=profiles-1"></script><script src="profiles.js?v=liman-1"></script></body></html>
+</dialog><script src="sounds.js?v=2"></script><script src="game.js?v=profiles-1"></script><script src="stats.js?v=profiles-1"></script><script src="profiles.js?v=liman-1"></script><script src="elif-ba/game.js"></script></body></html>
