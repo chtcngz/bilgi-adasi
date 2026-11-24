@@ -323,19 +323,22 @@
     }
     return shuffled(picked.slice(0, count));
   }
-  // Each letter of the cove twice: from its reading find the syllable, from the syllable its reading.
+  // Each letter of the cove twice, with no Turkish reading written anywhere: a syllable is heard
+  // and the harekeli letter found (ses-hece), a harekeli letter is shown and its sound found
+  // among the sounds of its three harekes (hece-ses).
   function harekeRound(k) {
     const own = shuffled(coveLetters(k));
     const marks = shuffled([0, 1, 2, 0, 1, 2, pick([0, 1, 2]), pick([0, 1, 2])]);
     const questions = [];
     own.forEach((target, n) => {
-      questions.push({ type: 'okunus-harf', target, h: marks[n], choices: syllableChoices(target, marks[n], k, 4) });
-      questions.push({ type: 'harf-okunus', target, h: marks[n + 4], choices: syllableChoices(target, marks[n + 4], k, 4) });
+      questions.push({ type: 'ses-hece', target, h: marks[n], choices: syllableChoices(target, marks[n], k, 4) });
+      questions.push({ type: 'hece-ses', target, h: marks[n + 4], choices: syllableChoices(target, marks[n + 4], k, 3) });
     });
     // review: earlier letters with their harekes, both ways
     review(k).forEach((target, n) => {
       const h = pick([0, 1, 2]);
-      questions.push({ type: n % 2 ? 'harf-okunus' : 'okunus-harf', target, h, choices: syllableChoices(target, h, k, 4) });
+      questions.push(n % 2 ? { type: 'hece-ses', target, h, choices: syllableChoices(target, h, k, 3) } :
+        { type: 'ses-hece', target, h, choices: syllableChoices(target, h, k, 4) });
     });
     return spread(questions);
   }
@@ -344,7 +347,7 @@
     // time, read with its three harekes.
     const known = Array.from({ length: 28 }, (_, i) => i).filter(i => mastered('harf', i));
     const letters = shuffled(known.length ? known : coveLetters(0));
-    return spread([0, 1, 2, 0, 1, 2].map((h, n) => ({ type: n < 3 ? 'harf-okunus' : 'okunus-harf', target: letters[n % letters.length], h,
+    return spread([0, 1, 2, 0, 1, 2].map((h, n) => ({ type: n < 3 ? 'hece-ses' : 'ses-hece', target: letters[n % letters.length], h,
       choices: shuffled([0, 1, 2]).map(x => [letters[n % letters.length], x]) })));
   }
   // Keep the same letter from coming up twice in a row.
@@ -388,7 +391,8 @@
     const next = el('button', 'elif-action', '');
     next.id = 'elif-next';
     next.hidden = true;
-    const play = () => q.type === 'listen' || q.type === 'sound' ? voice.letter(q.target, response) : voice.syllable(q.target, q.h, response);
+    const letterQuestion = q.type === 'listen' || q.type === 'sound';
+    const play = () => letterQuestion ? voice.letter(q.target, response) : voice.syllable(q.target, q.h, response);
     const speaker = () => {
       const button = el('button', 'elif-speaker', '<span aria-hidden="true">🔊</span><small>Tekrar dinle</small>');
       button.setAttribute('aria-label', 'Sesi tekrar dinle');
@@ -398,7 +402,9 @@
     const grid = el('div', 'elif-choices');
     grid.id = 'elif-choices';
     let rightButton = null;
-    const answer = q.type === 'listen' || q.type === 'sound' ? names[q.target] : readings[q.target][q.h];
+    // A syllable is named by its letter and hareke ("Be üstün"), never by a written Turkish reading.
+    const syllableName = (i, h) => names[i] + ' ' + harekeler[h].name.toLocaleLowerCase('tr');
+    const answer = letterQuestion ? names[q.target] : syllableName(q.target, q.h);
 
     if (q.type === 'listen') {
       prompt.textContent = 'Dinle ve harfi bul';
@@ -409,26 +415,21 @@
     } else if (q.type === 'sound') {
       prompt.textContent = 'Bu harfin adı hangisi?';
       stage.append(prompt, el('div', 'elif-big', glyphHtml(glyphs[q.target])));
-      soundChoices(q.choices.map(i => [() => voice.letter(i, response), i === q.target]), stage, response);
-    } else if (q.type === 'okunus-harf') {
-      // From the reading to the letter: the reading is written and heard, the syllable is to be found.
-      prompt.textContent = 'Okunuşu bu olan heceyi bul';
-      const big = el('button', 'elif-big elif-reading', '<span>' + readings[q.target][q.h] + '</span><small aria-hidden="true">🔊</small>');
-      big.setAttribute('aria-label', readings[q.target][q.h] + ', dinle');
-      big.onclick = play;
+      soundChoices(q.choices.map(i => [() => voice.letter(i, response), i === q.target]), stage, response, 'Bu ses başka bir harfin.');
+    } else if (q.type === 'ses-hece') {
+      // From the sound to the letter: the syllable is only heard, the harekeli letter is to be found.
+      prompt.textContent = 'Dinle ve heceyi bul';
       grid.classList.add(q.choices.length === 3 ? 'three' : 'four');
       q.choices.forEach(([i, h], n) => grid.append(choice(glyphHtml(syllable(i, h)), n, i === q.target && h === q.h,
-        () => 'Bu ' + readings[i][h] + ' okunur.')));
-      stage.append(prompt, big, grid);
+        () => 'Bu ' + syllableName(i, h) + '.')));
+      stage.append(prompt, speaker(), grid);
       play();
-    } else if (q.type === 'harf-okunus') {
-      // From the letter to the reading: only the syllable is shown, its sound comes with the answer.
-      prompt.textContent = 'Bu hece nasıl okunur?';
+    } else if (q.type === 'hece-ses') {
+      // From the letter to the sound: the harekeli letter is shown, its sound is to be found by listening.
+      prompt.textContent = 'Bu hecenin sesi hangisi?';
       stage.append(prompt, el('div', 'elif-big', glyphHtml(syllable(q.target, q.h))));
-      grid.classList.add(q.choices.length === 3 ? 'three' : 'four', 'readings');
-      q.choices.forEach(([i, h], n) => grid.append(choice('<span>' + readings[i][h] + '</span>', n, i === q.target && h === q.h,
-        () => 'Bu hece ' + readings[i][h] + ' okunmaz.', readings[i][h])));
-      stage.append(grid);
+      soundChoices(q.choices.map(([i, h]) => [() => voice.syllable(i, h, response), i === q.target && h === q.h]), stage, response,
+        'Bu ses başka bir hecenin.');
     }
     stage.append(response, next);
     prompt.focus();
@@ -475,19 +476,19 @@
       if (button) fx.burst(button, { symbols: [prizeOf(round.part), '✦', '★'] });
       round.right++;
       let message = '✓ Doğru!';
-      if (round.kind === 'intro') message += ' Bu ' + harekeler[q.h].name.toLocaleLowerCase('tr') + ': ' + readings[q.target][q.h] + '.';
+      if (round.kind === 'intro') message += ' Bu ' + syllableName(q.target, q.h) + '.';
       else if (round.part === 'harf') message += ' Bu ' + names[q.target] + '.';
-      else message += ' ' + readings[q.target][q.h] + ' okunur.';
+      else message += ' Bu ' + syllableName(q.target, q.h) + '.';
       response.textContent = message;
       if (round.kind === 'intro') voice.chant(q.target, q.h);
-      else if (q.type === 'harf-okunus' || q.type === 'sound') play();
+      else if (q.type === 'hece-ses' || q.type === 'sound') play();
       next.hidden = false;
       next.textContent = turn === total - 1 ? 'Sonucu gör' : 'Sıradaki';
       next.focus();
       next.onclick = () => { voice.stop(); turn++; turn === total ? finish() : ask(); };
     }
     // Sound options: tap to listen, then confirm the one that matches the letter.
-    function soundChoices(options, host, note) {
+    function soundChoices(options, host, note, wrongText) {
       const row = el('div', 'elif-sounds');
       let selected = null;
       const choose = el('button', 'elif-action', '✓ Bu ses');
@@ -513,7 +514,7 @@
         if (!selected) return;
         if (selected.right) return correct(selected.button);
         selected.button.setAttribute('aria-pressed', 'false');
-        wrong(selected.button, 'Bu ses başka bir harfin.');
+        wrong(selected.button, wrongText);
       };
       host.append(el('p', 'elif-hint', 'Seslere dokun, dinle, doğru olanı seç.'), row, choose);
     }

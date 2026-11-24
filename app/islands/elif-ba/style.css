@@ -162,9 +162,3 @@
   .elif-next-step, .elif-step-node.now .elif-step-icon, .elif-prize, .elif-won, .elif-choice.matched { animation: none; }
 }
 
-/* Hareke questions: a reading to find the syllable of, and readings to choose from */
-.elif-big.elif-reading { display: grid; justify-items: center; padding: 4px 28px 8px; }
-.elif-big.elif-reading span { font-size: 64px; font-weight: 950; line-height: 1.2; letter-spacing: .02em; }
-.elif-big.elif-reading small { font-size: 18px; }
-.elif-choices.readings .elif-choice { min-height: 88px; }
-.elif-choices.readings .elif-choice span { font-size: clamp(32px, 8vw, 44px); font-weight: 950; }

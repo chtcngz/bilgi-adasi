@@ -7,6 +7,15 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.13.1 · 24.11.2026
+
+Elif Ba Adası'nın Harekeler turlarında Türkçe okunuş artık yazılmıyor. Sorular yalnızca sesle ve harekeli harfle soruluyor.
+
+- **Sesten harfi bulma:** Kaplumbağa harekeli bir hece okuyor, çocuk duyduğu harekeli harfi dört seçenek arasından buluyor. 🔊 ile ses tekrar dinlenebiliyor.
+- **Harften sesi bulma:** Harekeli harf gösteriliyor. Çocuk üç sese dokunup dinliyor ve doğru olanı "✓ Bu ses" ile seçiyor. Seçenekler aynı harfin üstün, esre ve ötresi.
+- "Harekelerle tanış" turu da aynı iki soru türüyle oynanıyor.
+- Doğru ve yanlış cevaplardan sonra okunuş yerine harfin adı ve harekesi yazıyor, örneğin "Doğrusu: Be üstün".
+
 ## 0.13.0 · 24.11.2026
 
 Elif Ba Adası artık tek bir yol: çocuk neye basacağını düşünmeden adım adım ilerliyor.
