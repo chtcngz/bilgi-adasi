@@ -7,6 +7,17 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.10.0 · 24.11.2026
+
+Harf Yağmuru artık hiç durmuyor.
+
+- Yağmur, oyun başladıktan sonra hiç kesilmiyor; harfler arasında gökyüzü boşaltılmıyor. Kaplumbağa bir harfi söylüyor, çocuk o harften **3 tane** patlatınca kaplumbağa hemen yeni harfi söylüyor. Havada kalan aynı harf damlaları zincirleme kendiliğinden patlıyor.
+- Her patlatmada kaplumbağa harfin adını yeniden söylüyor. Üstteki sıradaki yuva üç parçalı bir halka olarak doluyor, üçüncüde harf yerine oturuyor. Patlatma sesi bir harfin üç damlasında do-mi-sol diye yükseliyor.
+- Yeni harf söylenene kadar yanlış damlaya dokunmak can götürmüyor; sonrasında yanlış dokunuş yine bir kalp kırıyor. Harf bir süre duyulmazsa kaplumbağa kendiliğinden hatırlatıyor.
+- Her 10 harf bir seviye: yağmur durmadan güneş açıyor, gökkuşağı çıkıyor ve konfeti yağıyor. Kaybedilen bir can geri geliyor, seviye puanı ekleniyor ve harfler biraz daha hızlı yağıyor. Üstte seviye rozeti var.
+- Oyun 3 can bitince sona eriyor. Sonuç ekranında ulaşılan seviye madalya olarak, tamamlanan harf ve patlatılan damla sayısı, puan, rekor ve tamamlanan harfler (dokununca okunuyor) gösteriliyor. Oyundan yarıda çıkılınca da puan rekora sayılıyor.
+- Yıldızların yerini en yüksek seviye aldı: ada sayfası, Harfler bölümü ve Ayarlar → İlerleme rekoru ve seviyeyi gösteriyor. Önceki sürümün rekor puanı korunuyor.
+
 ## 0.9.0 · 24.11.2026
 
 Elif Ba Adası'na ilk oyun geldi: **Harf Yağmuru**. Öğrenilen harflerle oynanan bir dinleme oyunu.

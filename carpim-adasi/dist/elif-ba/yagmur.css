@@ -1,4 +1,4 @@
-/* Harf Yağmuru: letters rain from a cloud ceiling into the sea while the turtle calls them. */
+/* Harf Yağmuru: letters rain without a pause from a cloud ceiling into the sea while the turtle calls them. */
 #elif-rain {
   width: min(780px, 100vw); height: 100vh; height: min(940px, 100dvh); max-width: 100vw; max-height: 100vh; max-height: 100dvh;
   margin: auto; padding: 0; border-radius: 28px; overflow: hidden; background: #8bd2f1; color: #173f40;
@@ -26,7 +26,7 @@
 .rain-scene.gloom .rain-sky { filter: saturate(.55) brightness(.9); }
 .rain-sun {
   position: absolute; right: 7%; top: calc(var(--ceil, 100px) + 6px); width: 104px; height: 104px;
-  opacity: 0; transform: translateY(50px) scale(.4); transition: opacity 1s .5s, transform 1.6s .5s cubic-bezier(.2, 1.3, .3, 1);
+  opacity: 0; transform: translateY(50px) scale(.4); transition: opacity .8s, transform 1.2s cubic-bezier(.2, 1.3, .3, 1);
 }
 .rain-sun::before {
   content: ''; position: absolute; inset: -34px; border-radius: 50%;
@@ -35,14 +35,15 @@
   animation: spin 30s linear infinite;
 }
 .rain-sun::after { content: ''; position: absolute; inset: 16px; border-radius: 50%; background: radial-gradient(circle at 40% 36%, #fffbe2, #ffe06b 55%, #ffc93c); box-shadow: 0 0 44px #ffe38a; }
-.rain-scene.clear .rain-sun { opacity: 1; transform: none; }
+/* A level done: the sun peeks out and a rainbow arcs over the rain for a few seconds. */
+.rain-scene.bow .rain-sun { opacity: 1; transform: none; }
 .rain-rainbow {
-  position: absolute; left: 50%; top: calc(var(--ceil, 100px) + 36px); width: 130%; aspect-ratio: 2; transform: translateX(-50%);
+  position: absolute; left: 50%; top: calc(var(--ceil, 100px) + 36px); width: min(130%, 150vh); aspect-ratio: 2; transform: translateX(-50%);
   background: radial-gradient(circle farthest-side at 50% 100%, transparent 64%, #ff8f8f 64% 69%, #ffc06e 69% 74%, #ffe877 74% 79%,
     #93e18c 79% 84%, #82d0ff 84% 89%, #b9a2ff 89% 94%, transparent 94%);
-  opacity: 0; clip-path: inset(0 100% 0 0); transition: clip-path 2.2s .6s ease-out, opacity 1s .6s;
+  opacity: 0; clip-path: inset(0 100% 0 0); transition: opacity 1s, clip-path 0s 1s;
 }
-.rain-scene.clear .rain-rainbow { opacity: .8; clip-path: inset(0); }
+.rain-scene.bow .rain-rainbow { opacity: .75; clip-path: inset(0); transition: clip-path 1.8s .2s ease-out, opacity .6s .2s; }
 .rain-far {
   position: absolute; left: 0; width: 150px; height: 75px; opacity: .8; animation: rain-cloud 80s linear infinite;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 80'%3E%3Cg fill='%23fff'%3E%3Ccircle cx='44' cy='50' r='22'/%3E%3Ccircle cx='76' cy='36' r='28'/%3E%3Ccircle cx='112' cy='46' r='24'/%3E%3Crect x='26' y='48' width='112' height='24' rx='12'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
@@ -66,7 +67,7 @@
 /* ---------- Cloud ceiling: the letters come out from under it ---------- */
 .rain-ceiling {
   position: absolute; z-index: 9; left: 0; right: 0; top: 0; height: calc(var(--ceil, 100px) + 34px); overflow: hidden;
-  pointer-events: none; transition: transform 1.4s cubic-bezier(.6, 0, .2, 1);
+  pointer-events: none;
 }
 .rain-ceiling i {
   position: absolute; top: 0; bottom: 0; left: 0; width: calc(100% + 360px); animation: rain-drift 70s linear infinite;
@@ -74,7 +75,6 @@
     linear-gradient(#e6f5fc, #fff 85%) 0 0 / 100% calc(100% - 46px) no-repeat;
 }
 @keyframes rain-drift { to { transform: translateX(-360px); } }
-.rain-scene.clear .rain-ceiling { transform: translateY(-105%); }
 
 /* ---------- Top bar ---------- */
 .rain-hud {
@@ -99,6 +99,8 @@
 .rain-heart.lost .r { transform: translate(4px, 7px) rotate(28deg); }
 .rain-heart.lost .shine { opacity: 0; }
 @keyframes rain-heart { 30% { transform: scale(1.35); } }
+.rain-heart.back { animation: rain-heart-back .7s cubic-bezier(.2, 1.6, .4, 1); }
+@keyframes rain-heart-back { 0% { transform: scale(.4); } 60% { transform: scale(1.3); } }
 .rain-listen {
   grid-area: listen; position: relative; display: grid; place-items: center; width: 60px; height: 60px; padding: 0; border-radius: 50%;
   border: 3px solid #fff; background: radial-gradient(circle at 35% 30%, #3db69e, #16716e 70%); color: #fff;
@@ -118,12 +120,26 @@
 .rain-score b { font-size: 23px; font-weight: 950; font-variant-numeric: tabular-nums; color: #173f40; }
 .rain-bump { animation: rain-bump .4s cubic-bezier(.2, 1.6, .4, 1); }
 @keyframes rain-bump { 40% { transform: scale(1.15); } }
-.rain-slots { grid-area: slots; justify-self: center; display: flex; gap: 5px; margin: 0; padding: 0; list-style: none; }
-.rain-slots li { display: grid; place-items: center; width: 27px; height: 27px; border-radius: 50%; border: 2px dashed #b4d6e5; background: #eef8fc; line-height: 1; }
-.rain-slots li.now { border-style: solid; border-color: #f2b544; background: #fff6d8; box-shadow: 0 0 0 3px #ffcf6255; animation: rain-now 1s ease-in-out infinite alternate; }
+.rain-track { grid-area: slots; justify-self: center; display: flex; align-items: center; gap: 8px; }
+.rain-level {
+  display: grid; place-items: center; flex: none; width: 30px; height: 30px; border-radius: 50%; color: #6b3f06;
+  background: radial-gradient(circle at 35% 30%, #ffe58f, #f5b42a); box-shadow: 0 2px 0 #cf8a1c, inset 0 0 0 2px #ffffff66;
+}
+.rain-level b { font-size: 16px; font-weight: 950; line-height: 1; }
+.rain-slots { display: flex; align-items: center; gap: 5px; margin: 0; padding: 0; list-style: none; }
+.rain-slots li { position: relative; display: grid; place-items: center; width: 27px; height: 27px; border-radius: 50%; border: 2px dashed #b4d6e5; background: #eef8fc; line-height: 1; }
+/* The letter being played: a ring in three parts, one for each drop popped. */
+.rain-slots li.now {
+  width: 33px; height: 33px; border: 0; background: conic-gradient(#ffb12b calc(var(--fill, 0) * 120deg), #d3e7f0 0);
+  box-shadow: 0 0 0 3px #ffcf6244; animation: rain-now 1s ease-in-out infinite alternate;
+}
+.rain-slots li.now::before { content: ''; position: absolute; inset: 5px; border-radius: 50%; background: #fffaf0; }
+.rain-slots li.now::after { content: ''; position: absolute; inset: -1px; border-radius: 50%; background: repeating-conic-gradient(#fff 0 6deg, transparent 6deg 120deg); }
+.rain-slots li.now.tick { animation: rain-tick .4s cubic-bezier(.2, 1.6, .4, 1); }
 .rain-slots li.got { border: 2px solid #fff; background: var(--mid); box-shadow: 0 2px 0 var(--deep); animation: rain-slot .5s cubic-bezier(.2, 1.6, .4, 1); }
 .rain-slots li b { font: normal 19px/1 "Traditional Arabic", "Times New Roman", serif; color: var(--ink); }
-@keyframes rain-now { to { transform: scale(1.12); } }
+@keyframes rain-now { to { transform: scale(1.1); } }
+@keyframes rain-tick { 40% { transform: scale(1.3); } }
 @keyframes rain-slot { from { transform: scale(.3); } }
 .rain-prompt {
   position: absolute; z-index: 3; left: 50%; top: calc(var(--ceil, 100px) + 46px); transform: translateX(-50%); margin: 0;
@@ -310,27 +326,24 @@
 .rain-pool b { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #e7f5fb; color: #1b5470; font: normal 22px/1 "Traditional Arabic", "Times New Roman", serif; }
 .rain-card .rain-record { display: inline-block; margin: 8px 0 0; padding: 5px 14px; border-radius: 20px; background: #f7ebca; color: #705127; font-weight: 850; }
 .rain-card .rain-record.new { background: linear-gradient(90deg, #ffd56b, #ffb23e); color: #5c3906; box-shadow: 0 3px 0 #e39a2d; animation: pop-in .6s .6s cubic-bezier(.2, 1.6, .4, 1) both; }
-.rain-stars { display: flex; justify-content: center; align-items: flex-end; gap: 4px; margin-top: 2px; }
-.rain-stars svg { width: 58px; height: 58px; overflow: visible; }
-.rain-stars svg:nth-child(2) { width: 70px; height: 70px; margin-bottom: 8px; }
-.rain-stars path { fill: #ece5d3; stroke: #ddd2b6; stroke-width: 1.3; stroke-linejoin: round; }
-.rain-stars .won path { fill: #ffc83d; stroke: #e0981b; }
-.rain-stars .won { filter: drop-shadow(0 3px 4px #e0981b66); animation: rain-star .6s var(--d) cubic-bezier(.2, 1.6, .4, 1) both; }
-@keyframes rain-star { from { opacity: 0; transform: scale(0) rotate(-40deg); } }
+/* The level reached, as a medal on two ribbons */
+.rain-medal { position: relative; width: 92px; height: 110px; margin: 0 auto -4px; animation: pop-in .6s .15s cubic-bezier(.2, 1.6, .4, 1) both; }
+.rain-medal::before, .rain-medal::after {
+  content: ''; position: absolute; top: 56px; width: 24px; height: 50px; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
+}
+.rain-medal::before { left: 20px; background: #ef6f6c; transform: rotate(16deg); }
+.rain-medal::after { right: 20px; background: #2f9b7f; transform: rotate(-16deg); }
+.rain-medal span {
+  position: relative; z-index: 1; display: grid; place-content: center; width: 92px; height: 92px; border-radius: 50%; color: #6b3f06;
+  background: radial-gradient(circle at 35% 30%, #fff3b8, #ffc93c 55%, #ef9f22); box-shadow: 0 5px 0 #cf861b, inset 0 0 0 5px #ffffff55; line-height: 1;
+}
+.rain-medal small { font-size: 11px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+.rain-medal b { font-size: 42px; font-weight: 950; }
 .rain-pause {
   display: flex; justify-content: center; gap: 9px; width: 72px; height: 72px; margin: 2px auto 0; padding-top: 20px; border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #3db69e, #16716e 70%); box-shadow: 0 4px 0 #0d5250; animation: pop-in .5s cubic-bezier(.2, 1.6, .4, 1) both;
 }
 .rain-pause i { width: 10px; height: 32px; border-radius: 5px; background: #fff; }
-/* Out of hearts: the last heart breaks in two */
-.rain-broken { width: 78px; height: 72px; margin: 4px auto 0; }
-.rain-broken svg { width: 100%; height: 100%; overflow: visible; }
-.rain-broken .ghost, .rain-broken .shine { display: none; }
-.rain-broken .half { fill: #ff7186; transform-box: fill-box; transform-origin: 50% 100%; }
-.rain-broken .l { animation: rain-break-l .8s .25s cubic-bezier(.3, 1.4, .5, 1) both; }
-.rain-broken .r { animation: rain-break-r .8s .25s cubic-bezier(.3, 1.4, .5, 1) both; }
-@keyframes rain-break-l { to { transform: translate(-3px, 2px) rotate(-14deg); } }
-@keyframes rain-break-r { to { transform: translate(3px, 2px) rotate(14deg); } }
 .rain-card .rain-total { margin: 10px 0 0; font-weight: 800; color: #5a6f6a; }
 .rain-total b { display: block; font-size: 48px; font-weight: 950; line-height: 1; letter-spacing: -.03em; color: #173f40; font-variant-numeric: tabular-nums; }
 .rain-recap { margin-top: 14px; padding-top: 12px; border-top: 2px dashed #eee2c6; }
@@ -350,11 +363,17 @@
   .rain-heart { width: 26px; height: 24px; }
   .rain-score { min-width: 76px; padding-inline: 10px; }
 }
-@media (max-width: 360px) {
+@media (max-width: 400px) {
+  .rain-track { gap: 6px; }
+  .rain-level { width: 27px; height: 27px; }
   .rain-slots { gap: 3px; }
-  .rain-slots li { width: 25px; height: 25px; }
+  .rain-slots li { width: 24px; height: 24px; }
+  .rain-slots li.now { width: 30px; height: 30px; }
+  .rain-slots li b { font-size: 17px; }
 }
 @media (max-width: 340px) {
+  .rain-slots li { width: 22px; height: 22px; }
+  .rain-slots li.now { width: 28px; height: 28px; }
   .rain-close { width: 38px; height: 38px; font-size: 24px; }
   .rain-heart { width: 22px; height: 21px; }
   .rain-listen { width: 52px; height: 52px; }
@@ -364,8 +383,10 @@
 /* Short screens: a tighter result card */
 @media (max-height: 700px) {
   .rain-card { padding-top: 16px; }
-  .rain-stars svg { width: 46px; height: 46px; }
-  .rain-stars svg:nth-child(2) { width: 56px; height: 56px; }
+  .rain-medal { width: 78px; height: 92px; }
+  .rain-medal span { width: 78px; height: 78px; }
+  .rain-medal b { font-size: 36px; }
+  .rain-medal::before, .rain-medal::after { top: 46px; height: 42px; }
   .rain-total b { font-size: 40px; }
   .rain-recap { margin-top: 10px; padding-top: 8px; }
   .rain-chip { min-width: 50px; padding: 2px 6px 4px; }

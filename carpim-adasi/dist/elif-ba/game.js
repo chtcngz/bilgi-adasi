@@ -10,8 +10,8 @@
 
   /* ---------- Progress ---------- */
   const storeKey = id => 'elif-ba-v2-' + id;
-  // yagmur: Harf Yağmuru's best score, best stars and finished rounds.
-  function blank() { return { harf: Array(28).fill(0), hareke: Array(28).fill(0), tanisma: false, yagmur: { rekor: 0, yildiz: 0, tur: 0 } }; }
+  // yagmur: Harf Yağmuru's best score and the highest level reached.
+  function blank() { return { harf: Array(28).fill(0), hareke: Array(28).fill(0), tanisma: false, yagmur: { rekor: 0, seviye: 0 } }; }
   function load(id) {
     if (records.has(id)) return records.get(id);
     const saved = readRecord(storeKey(id));
@@ -24,9 +24,9 @@
       }
       record.tanisma = saved.tanisma === true;
       if (saved.yagmur && typeof saved.yagmur === 'object') {
-        for (const key of ['rekor', 'yildiz', 'tur']) {
+        for (const key of ['rekor', 'seviye']) {
           const n = saved.yagmur[key];
-          if (Number.isInteger(n) && n > 0) record.yagmur[key] = key === 'yildiz' ? Math.min(3, n) : n;
+          if (Number.isInteger(n) && n > 0) record.yagmur[key] = n;
         }
       }
     } else {
@@ -81,7 +81,7 @@
 
   window.elifBaSummary = id => {
     const record = load(id);
-    return { harf: masteredCount('harf', record), hareke: masteredCount('hareke', record), rekor: record.yagmur.rekor, any:
+    return { harf: masteredCount('harf', record), hareke: masteredCount('hareke', record), rekor: record.yagmur.rekor, seviye: record.yagmur.seviye, any:
       record.harf.some(Boolean) || record.hareke.some(Boolean) || record.tanisma || record.yagmur.rekor > 0 };
   };
   window.resetElifBa = id => {
@@ -291,9 +291,9 @@
     const button = el('button', 'elif-section-card elif-rain-card' + (open ? '' : ' locked'));
     button.style.setProperty('--i', 1);
     const status = !open ? '🔒 ' + coves[0] + ' harfleri öğrenilince açılır' : best.rekor ? '🏆 Rekor ' + best.rekor +
-      (best.yildiz ? ' · ' + '★'.repeat(best.yildiz) + '☆'.repeat(3 - best.yildiz) : '') : '🌧️ ' + learnedLetters().length + ' harfle oyna';
+      (best.seviye ? ' · Seviye ' + best.seviye : '') : '🌧️ ' + learnedLetters().length + ' harfle oyna';
     button.innerHTML = rainArt() + '<span class="elif-section-text"><small>Oyun</small><strong>Harf Yağmuru</strong>' +
-      '<span>Sesi dinle, yağan harflerden doğrusunu yakala</span><span class="elif-badge">' + status + '</span></span>';
+      '<span>Yağmur hiç durmuyor: duyduğun harften üç tane patlat</span><span class="elif-badge">' + status + '</span></span>';
     if (open) button.onclick = openRain;
     else {
       button.dataset.cue = '';
@@ -325,13 +325,10 @@
       letters: learnedLetters(),
       recent: coveLetters(done[done.length - 1]),
       best: () => progress.yagmur,
-      onResult({ score, stars, won }) {
+      onResult({ score, level }) {
         const record = progress.yagmur;
         record.rekor = Math.max(record.rekor, score);
-        if (won) {
-          record.yildiz = Math.max(record.yildiz, stars);
-          record.tur++;
-        }
+        record.seviye = Math.max(record.seviye, level);
         save();
       },
       onClose() {

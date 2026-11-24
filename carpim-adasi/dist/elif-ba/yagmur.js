@@ -1,21 +1,26 @@
-// Harf Yağmuru: Elif Ba Adası's listening game. The turtle says a letter's name, letters rain
-// from the clouds and the child taps that letter before it falls into the sea. A catch brings
-// the next letter; a wrong tap costs one of three hearts. Ten catches end the round, and the
-// hearts that are left become its stars. Only letters the child has already learned rain.
+// Harf Yağmuru: Elif Ba Adası's listening game. Letters the child has learned rain from the
+// clouds without a pause. The turtle says one of them; popping three drops of that letter
+// brings the next one at once, and every ten letters make a level: a rainbow, a heart back
+// and a little faster rain, all without the rain stopping. A wrong tap breaks one of three
+// hearts; the game goes on until the hearts are gone or the child leaves it.
 const harfYagmuru = (() => {
   const { glyphs, names } = elifData;
   const voice = elifVoice;
   const dialog = $('elif-rain');
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
-  const TURNS = 10;
+  const LEVEL = 10; // letters in a level
+  const POPS = 3; // drops of a letter to pop before the next letter
   const HEARTS = 3;
   const praise = ['Harika!', 'Süper!', 'Bravo!', 'Aferin!', 'Müthiş!', 'Şahane!'];
   // Letters on one skeleton, told apart only by their dots: later turns rain them together.
   const families = [[1, 2, 3], [4, 5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16], [17, 18], [19, 20]];
   const twins = i => (families.find(f => f.includes(i)) || []).filter(j => j !== i);
-  // The catch sound climbs a pentatonic scale while a streak lasts.
-  const climb = [1, 9 / 8, 5 / 4, 3 / 2, 5 / 3, 2];
-  const lerp = (a, b, t) => a + (b - a) * t;
+  // The three pops of a letter climb a major chord.
+  const chord = [1, 1.26, 1.5];
+  // Drops take 7.6 s to fall at first and a little less with every letter done, never under 3.6 s.
+  const fallTime = done => 3.6 + 4 * Math.exp(-done / 16);
+  const spawnGap = done => 0.8 + 0.55 * Math.exp(-done / 16);
+  const clamp01 = n => Math.min(1, Math.max(0, n));
   const pick = items => items[Math.floor(Math.random() * items.length)];
   function shuffled(items) {
     const result = [...items];
@@ -95,7 +100,7 @@ const harfYagmuru = (() => {
       '<span class="rain-hearts" role="img"></span></div>' +
       '<button type="button" class="rain-listen" data-cue aria-label="Harfi tekrar dinle">' + speakerSvg + '</button>' +
       '<div class="rain-score"><small>Puan</small><b>0</b></div>' +
-      '<ol class="rain-slots" aria-label="Yakalanan harfler"></ol>' +
+      '<div class="rain-track"><span class="rain-level" role="img"><b>1</b></span><ol class="rain-slots" aria-label="Bu seviyenin harfleri"></ol></div>' +
     '</div>' +
     '<div class="rain-toast" aria-hidden="true"></div>' +
     '<div class="rain-count" aria-hidden="true"></div>' +
@@ -111,6 +116,7 @@ const harfYagmuru = (() => {
   const listen = find('.rain-listen');
   const heartBox = find('.rain-hearts');
   const slotBox = find('.rain-slots');
+  const levelBox = find('.rain-level');
   const scoreBox = find('.rain-score b');
   const prompt = find('.rain-prompt');
   const toast = find('.rain-toast');
@@ -120,7 +126,7 @@ const harfYagmuru = (() => {
 
   let options = null, game = null, state = 'idle', drops = [], rounds = 0;
   let width = 0, size = 80, laneX = [], spawnY = 0, surface = 0;
-  let talkToken = 0, pendingDone = null, talking = false, lastTalk = -9, lastSplash = -9, moodTimer = 0;
+  let talkToken = 0, pendingDone = null, talking = false, lastTalk = -9, lastSplash = -9, moodTimer = 0, promptToken = 0;
 
   /* ---------- Game clock ---------- */
   // Everything that moves or waits runs on this clock, so a paused game stands still.
@@ -141,7 +147,11 @@ const harfYagmuru = (() => {
       if (timers[i].at > clock) continue;
       timers.splice(i--, 1)[0].fn();
     }
-    if (state === 'raining' && clock >= game.nextSpawn) spawn();
+    if (state === 'raining') {
+      if (clock >= game.nextSpawn) spawn();
+      // A reminder when the letter has not been heard for a while.
+      if (!talking && !game.listening && clock - lastTalk > 7) narrate();
+    }
     for (const drop of drops.slice()) fall(drop, dt);
   }
   function startClock() {
@@ -183,21 +193,43 @@ const harfYagmuru = (() => {
     heartBox.innerHTML = Array.from({ length: HEARTS }, () => '<i class="rain-heart">' + heartSvg + '</i>').join('');
     heartBox.setAttribute('aria-label', HEARTS + ' can');
   }
-  function loseHeart(left) {
-    heartBox.children[left]?.classList.add('lost');
-    heartBox.setAttribute('aria-label', left + ' can');
+  function loseHeart() {
+    game.hearts--;
+    heartBox.children[game.hearts]?.classList.add('lost');
+    heartBox.setAttribute('aria-label', game.hearts + ' can');
+  }
+  function gainHeart() {
+    const heart = heartBox.children[game.hearts];
+    game.hearts++;
+    if (heart) { heart.classList.remove('lost'); fx.bump(heart, 'back'); }
+    heartBox.setAttribute('aria-label', game.hearts + ' can');
   }
   function drawSlots() {
-    slotBox.innerHTML = Array.from({ length: TURNS }, () => '<li></li>').join('');
+    slotBox.innerHTML = Array.from({ length: LEVEL }, () => '<li></li>').join('');
   }
+  // The letter being played: its slot fills in thirds, one for each drop popped.
   function markSlot() {
-    Array.from(slotBox.children).forEach((slot, n) => slot.classList.toggle('now', n === game.turn));
+    Array.from(slotBox.children).forEach((slot, n) => {
+      slot.classList.toggle('now', n === game.step);
+      if (n === game.step) slot.style.setProperty('--fill', 0);
+    });
   }
-  function setScore(value) {
-    scoreBox.textContent = value;
-    if (value) fx.bump(scoreBox.parentNode, 'rain-bump');
+  function drawLevel(bump) {
+    levelBox.firstChild.textContent = game.level;
+    levelBox.setAttribute('aria-label', 'Seviye ' + game.level);
+    if (bump) fx.bump(levelBox, 'rain-bump');
   }
-  const setPrompt = text => { prompt.textContent = text; };
+  function addScore(points) {
+    game.score += points;
+    scoreBox.textContent = game.score;
+    if (points) fx.bump(scoreBox.parentNode, 'rain-bump');
+  }
+  // A hint above the rain; `seconds` takes it away again unless another one came meanwhile.
+  function setPrompt(text, seconds) {
+    const mine = ++promptToken;
+    prompt.textContent = text;
+    if (seconds) after(seconds, () => { if (mine === promptToken) prompt.textContent = ''; });
+  }
   const say = text => { live.textContent = text; };
   function mood(name, ms) {
     clearTimeout(moodTimer);
@@ -228,8 +260,8 @@ const harfYagmuru = (() => {
     voice.stop();
     talk(false);
   }
-  // Say this turn's letter. `onDone` waits for the end of the saying (the rain starts then),
-  // and a replay asked for meanwhile keeps it waiting instead of losing it.
+  // Say the letter being played. `onDone` waits for the end of the saying, and a replay asked
+  // for meanwhile keeps it waiting instead of losing it.
   function narrate(onDone) {
     if (onDone) pendingDone = onDone;
     const token = ++talkToken;
@@ -248,23 +280,24 @@ const harfYagmuru = (() => {
     after(3.5, () => end(false)); // the voice never reported back: carry on, and show the name
   }
   listen.onclick = () => {
-    if (paused || !['speaking', 'raining'].includes(state) || (talking && clock - lastTalk < 0.5)) return;
+    if (paused || state !== 'raining' || (talking && clock - lastTalk < 0.5)) return;
     narrate();
   };
 
-  /* ---------- A round ---------- */
-  // Ten letters to catch: each of the newest cove's letters, then the earlier ones for review
+  /* ---------- A game ---------- */
+  // Ten letters for a level: each of the newest cove's letters, then the earlier ones for review
   // (every learned letter while there are no more than ten), never one letter twice in a row.
-  function plan(letters, recent) {
+  function plan(letters, recent, before) {
     const fresh = recent.filter(i => letters.includes(i));
-    const list = [...shuffled(fresh), ...shuffled(letters.filter(i => !fresh.includes(i)))].slice(0, TURNS);
+    const list = [...shuffled(fresh), ...shuffled(letters.filter(i => !fresh.includes(i)))].slice(0, LEVEL);
     let bag = [];
-    while (list.length < TURNS) {
+    while (list.length < LEVEL) {
       if (!bag.length) bag = shuffled([...letters, ...fresh]);
       list.push(bag.pop());
     }
+    const repeats = order => order[0] === before || order.some((x, n) => n > 0 && x === order[n - 1]);
     let order = shuffled(list);
-    for (let tries = 0; tries < 80 && order.some((x, n) => n > 0 && x === order[n - 1]); tries++) order = shuffled(list);
+    for (let tries = 0; tries < 80 && repeats(order); tries++) order = shuffled(list);
     return order;
   }
   function reset() {
@@ -279,21 +312,22 @@ const harfYagmuru = (() => {
     dialog.querySelector('.fx-confetti')?.remove();
     counter.classList.remove('show');
     toast.classList.remove('show');
+    prompt.textContent = '';
   }
-  function newRound(withIntro) {
+  function newGame(withIntro) {
     reset();
     game = {
-      plan: plan(options.letters, options.recent), turn: 0, target: null, round: ++rounds,
-      hearts: HEARTS, score: 0, streak: 0, caught: [], fall: 7, gap: 1.4, nextSpawn: 0,
-      spawned: 0, sinceTarget: 0, targetSeen: false, lastLane: -1, lastLetter: -1, lastTone: -1, retalk: false
+      plan: plan(options.letters, options.recent, -1), step: 0, level: 1, target: null, pops: 0,
+      done: 0, popped: 0, completed: [], hearts: HEARTS, score: 0, streak: 0, listening: true, first: ++rounds === 1,
+      nextSpawn: 0, sinceTarget: 2, lastLane: -1, lastLetter: -1, lastTone: -1, retalk: false, saved: false
     };
     drawHearts();
     drawSlots();
-    setScore(0);
+    drawLevel();
+    addScore(0);
     measure();
-    scene.classList.remove('clear', 'gloom', 'raining');
+    scene.classList.remove('bow', 'gloom', 'raining');
     mood(null);
-    setPrompt('');
     if (withIntro) intro(); else countdown();
   }
   function countdown() {
@@ -311,29 +345,30 @@ const harfYagmuru = (() => {
     show('3', 'tick-3');
     after(0.7, () => show('2', 'tick-2'));
     after(1.4, () => show('1', 'tick-1'));
-    after(2.1, () => { show('Başla!', 'start', true); scene.classList.add('raining'); });
-    after(3, startTurn); // the turtle speaks once the "Başla!" chime has rung out
+    after(2.1, () => {
+      show('Başla!', 'start', true);
+      // From here on it rains without a pause until the game ends.
+      state = 'raining';
+      scene.classList.add('raining');
+      game.nextSpawn = clock;
+      nextLetter(0.8, true); // the turtle speaks once the "Başla!" chime has rung out
+    });
   }
-  // Each turn gets a little faster: drops take 7.4 s to fall at first and 4.6 s at the end.
-  function startTurn() {
-    const t = game.turn / (TURNS - 1);
-    game.target = game.plan[game.turn];
-    game.fall = lerp(7.4, 4.6, t);
-    game.gap = lerp(1.45, 0.95, t);
-    game.spawned = 0;
-    game.sinceTarget = 0;
-    game.targetSeen = false;
-    state = 'speaking';
-    markSlot();
-    setPrompt('🔊 Dinle…');
-    say('Dinle.');
-    narrate(() => after(0.25, startRain));
-  }
-  function startRain() {
-    if (state !== 'speaking') return;
-    state = 'raining';
-    game.nextSpawn = clock;
-    setPrompt(game.round === 1 && game.turn < 2 ? '👆 Duyduğun harfe dokun' : '');
+  // The next letter takes over at once, so drops of it can already be on their way, but a
+  // wrong tap is forgiven until the turtle has said it.
+  function nextLetter(delay, mark) {
+    game.target = game.plan[game.step];
+    game.pops = 0;
+    game.listening = true;
+    game.sinceTarget = 2; // the next drop is this letter
+    if (mark) markSlot();
+    after(delay, () => {
+      if (state !== 'raining') return;
+      if (game.first && !game.done) setPrompt('👆 Duyduğun harften 3 tane patlat');
+      else setPrompt('🔊 Yeni harf', 1.8);
+      say('Yeni harf. Dinle.');
+      narrate(() => { game.listening = false; });
+    });
   }
 
   /* ---------- Rain ---------- */
@@ -343,21 +378,20 @@ const harfYagmuru = (() => {
     const spread = all.filter(k => k !== game.lastLane);
     return spread.length ? pick(spread) : all.length ? all[0] : -1;
   }
-  // The letter that was said comes as the first or second drop, then at least every third
-  // one, and never more than two of it fall at once.
+  // The letter being played is never more than two drops away, and up to three of it fall at once.
   function wantTarget() {
-    const falling = drops.filter(d => d.target && d.state === 'fall').length;
-    if (falling >= 2) return false;
-    if (!game.targetSeen) return game.spawned >= 1 || Math.random() < 0.5;
-    if (!falling && game.sinceTarget >= 2) return true;
-    return Math.random() < 0.3;
+    const falling = drops.filter(d => d.letter === game.target && d.state === 'fall').length;
+    if (falling >= POPS) return false;
+    if (game.sinceTarget >= 2) return true;
+    return Math.random() < (falling ? 0.38 : 0.6);
   }
   function distractor() {
     const others = options.letters.filter(i => i !== game.target);
     const fresh = others.filter(i => i !== game.lastLetter);
     const choices = fresh.length ? fresh : others;
+    // Look-alike letters (the same shape, other dots) join in once a few letters are done.
     const alike = twins(game.target).filter(i => choices.includes(i));
-    if (alike.length && game.turn >= 3 && Math.random() < 0.35) return pick(alike);
+    if (alike.length && game.done >= 3 && Math.random() < 0.3) return pick(alike);
     return pick(choices);
   }
   function spawn() {
@@ -373,7 +407,7 @@ const harfYagmuru = (() => {
     el.className = 'rain-drop t' + tone;
     el.setAttribute('aria-label', names[letter]);
     el.innerHTML = '<span class="rain-drop-in"><i class="rain-drop-skin"></i>' + glyph(letter) + '</span>';
-    const drop = { el, inner: el.firstChild, letter, lane, target, tone, x: laneX[lane], y: spawnY, dx: 0,
+    const drop = { el, inner: el.firstChild, letter, lane, tone, x: laneX[lane], y: spawnY, dx: 0, fall: fallTime(game.done),
       phase: Math.random() * 6.3, wobble: 0.9 + Math.random() * 0.6, state: 'fall' };
     el.addEventListener('pointerdown', event => {
       if (event.button !== 0) return;
@@ -388,9 +422,8 @@ const harfYagmuru = (() => {
     game.lastLane = lane;
     game.lastLetter = letter;
     game.lastTone = tone;
-    game.spawned++;
-    if (target) { game.targetSeen = true; game.sinceTarget = 0; } else game.sinceTarget++;
-    game.nextSpawn = clock + game.gap * (0.85 + Math.random() * 0.3);
+    if (target) game.sinceTarget = 0; else game.sinceTarget++;
+    game.nextSpawn = clock + spawnGap(game.done) * (0.85 + Math.random() * 0.3);
   }
   function place(drop) {
     const still = calm.matches;
@@ -400,8 +433,9 @@ const harfYagmuru = (() => {
       'px,0) rotate(' + tilt.toFixed(1) + 'deg)';
   }
   function fall(drop, dt) {
+    if (drop.state === 'caught') return; // waits in the air for its turn to pop
     // A wrongly tapped letter hurries into the sea.
-    drop.y += (surface - spawnY) / game.fall * dt * (drop.state === 'wrong' ? 2.6 : 1);
+    drop.y += (surface - spawnY) / drop.fall * dt * (drop.state === 'wrong' ? 2.6 : 1);
     drop.phase += dt;
     place(drop);
     if (drop.y + size * 0.92 >= surface) splash(drop);
@@ -421,7 +455,7 @@ const harfYagmuru = (() => {
     setTimeout(() => el.remove(), 900); // if the animation is cut short
   }
   function splash(drop) {
-    const missed = drop.target && drop.state === 'fall';
+    const missed = drop.letter === game.target && drop.state === 'fall';
     drop.state = 'gone';
     vanish(drop, 'sink');
     if (!calm.matches) {
@@ -438,39 +472,96 @@ const harfYagmuru = (() => {
       playCue('splash', { gain: talking ? 0.3 : 0.6, rate: 0.85 + Math.random() * 0.3, ambient: true });
     }
     // The letter got away: say it again, unless it was just said.
-    if (missed && state === 'raining' && clock - lastTalk > 2.2) narrate();
+    if (missed && state === 'raining' && !game.listening && clock - lastTalk > 2.5) narrate();
   }
 
   /* ---------- Taps ---------- */
   function tap(drop) {
     if (paused || state !== 'raining' || drop.state !== 'fall') return;
-    if (drop.letter === game.target) caught(drop); else wrong(drop);
+    if (drop.letter === game.target) popDrop(drop);
+    else if (game.listening) forgive(drop);
+    else wrong(drop);
   }
-  function caught(drop) {
-    state = 'caught';
-    drop.state = 'caught';
+  const centre = drop => {
     const box = drop.el.getBoundingClientRect(), base = scene.getBoundingClientRect();
-    const at = { x: box.left + box.width / 2 - base.left, y: box.top + box.height / 2 - base.top };
-    // 100 points, up to 60 more for catching it high, and up to double for a streak.
+    return { x: box.left + box.width / 2 - base.left, y: box.top + box.height / 2 - base.top };
+  };
+  function popDrop(drop) {
+    drop.state = 'caught';
+    const at = centre(drop);
+    game.pops++;
+    game.popped++;
     game.streak++;
-    const high = 1 - Math.min(1, Math.max(0, (drop.y - spawnY) / (surface - spawnY)));
-    const points = Math.round((100 + 60 * high) * Math.min(2, 1 + 0.25 * (game.streak - 1)) / 10) * 10;
-    game.score += points;
-    game.caught.push(drop.letter);
-    const slot = game.turn++;
-    hush();
-    playCue('pop', { rate: climb[Math.min(climb.length - 1, game.streak - 1)] });
+    // 50 points, up to 30 more for popping it high, and up to double for a long streak.
+    const high = 1 - clamp01((drop.y - spawnY) / (surface - spawnY));
+    const points = Math.round((50 + 30 * high) * Math.min(2, 1 + 0.1 * (game.streak - 1)) / 10) * 10;
+    addScore(points);
+    playCue('pop', { rate: chord[game.pops - 1] });
     sparkle(at);
-    floatPoints('+' + points, { x: Math.max(36, Math.min(width - 44, at.x + size * 0.35)), y: at.y - size * 0.4 });
-    fly(drop, at, slot);
+    floatPoints('+' + points, at);
+    fly(drop, at, game.step, game.pops);
     vanish(drop, 'pop');
-    for (const other of drops.slice()) { other.state = 'gone'; vanish(other, 'fade'); }
-    showToast(pick(praise), game.streak >= 3 ? '🔥 ' + game.streak + ' seri' : '');
-    mood('happy', 900);
+    if (game.pops < POPS) {
+      mood('happy', 700);
+      say(names[drop.letter] + '. ' + game.pops + ' / ' + POPS);
+      narrate(); // the turtle says it again: one more of the same letter
+      return;
+    }
+    completeLetter(drop.letter);
+  }
+  // Three popped: the drops of this letter still in the air pop by themselves, and the next
+  // letter follows while the rain goes on.
+  function completeLetter(letter) {
+    game.done++;
+    game.completed.push(letter);
+    pendingDone = null;
+    hush();
+    addScore(100);
+    after(0.12, () => playCue('correct', { gain: 0.8 }));
+    drops.filter(d => d.letter === letter && d.state === 'fall').forEach((drop, n) => {
+      drop.state = 'caught';
+      after(0.18 + n * 0.11, () => chainPop(drop));
+    });
+    showToast(pick(praise), game.streak >= 5 ? '🔥 ' + game.streak + ' seri' : '');
+    mood('happy', 1000);
     setPrompt('');
-    setScore(game.score);
-    say(names[drop.letter] + '. Doğru!');
-    after(1.1, () => game.turn < TURNS ? startTurn() : win());
+    say(names[letter] + ' tamam!');
+    game.step++;
+    if (game.step === LEVEL) levelUp(); else nextLetter(0.75, true);
+  }
+  function chainPop(drop) {
+    if (!drop.el.isConnected) return;
+    const at = centre(drop);
+    addScore(20);
+    playCue('pop', { rate: 2, gain: 0.45 });
+    sparkle(at);
+    floatPoints('+20', at);
+    vanish(drop, 'pop');
+  }
+  // Ten letters done: the rain goes on, a little faster, under a rainbow, with a heart back.
+  function levelUp() {
+    game.level++;
+    game.step = 0;
+    game.plan = plan(options.letters, options.recent, game.completed[game.completed.length - 1]);
+    const bonus = 250 * (game.level - 1);
+    addScore(bonus);
+    const healed = game.hearts < HEARTS;
+    if (healed) gainHeart();
+    showToast('Seviye ' + game.level + '!', healed ? '❤️ +1 can' : '+' + bonus + ' puan');
+    say('Seviye ' + game.level + '!');
+    playCue('island');
+    mood('dance', 1900);
+    scene.classList.add('bow');
+    after(4, () => scene.classList.remove('bow'));
+    fx.confetti(dialog, { count: 70, duration: 2400 });
+    // The last letter is still flying to its slot; the new row comes after it lands.
+    after(1, () => { drawSlots(); drawLevel(true); markSlot(); });
+    nextLetter(1.9, false);
+  }
+  // Before the turtle has said the new letter, a wrong tap only wobbles the drop.
+  function forgive(drop) {
+    if (!calm.matches) drop.inner.animate([{ transform: 'none' }, { transform: 'rotate(-10deg)' },
+      { transform: 'rotate(8deg)' }, { transform: 'none' }], { duration: 360 });
   }
   function wrong(drop) {
     drop.state = 'wrong';
@@ -480,8 +571,7 @@ const harfYagmuru = (() => {
     if (!calm.matches) drop.inner.animate([{ transform: 'none' }, { transform: 'translateX(-9px) rotate(-7deg)' },
       { transform: 'translateX(8px) rotate(6deg)' }, { transform: 'translateX(-4px)' }, { transform: 'none' }], { duration: 420 });
     game.streak = 0;
-    game.hearts--;
-    loseHeart(game.hearts);
+    loseHeart();
     playCue('oops');
     mood('sad', 850);
     if (!game.hearts) {
@@ -508,24 +598,29 @@ const harfYagmuru = (() => {
     const tag = document.createElement('span');
     tag.className = 'rain-points';
     tag.textContent = text;
-    tag.style.left = at.x + 'px';
-    tag.style.top = at.y + 'px';
+    tag.style.left = Math.max(36, Math.min(width - 44, at.x + size * 0.35)) + 'px';
+    tag.style.top = at.y - size * 0.4 + 'px';
     scene.append(tag);
     setTimeout(() => tag.remove(), 1000);
   }
-  // The caught letter flies up into its place in the row of ten.
-  function fly(drop, at, index) {
+  // The popped letter flies up to its slot: the first two fill a third each, the third the slot.
+  function fly(drop, at, index, stage) {
     const slot = slotBox.children[index];
     const mine = session;
     let landed = false;
-    const fill = () => {
-      if (landed || mine !== session || !slot) return;
+    const land = () => {
+      if (landed || mine !== session || !slot?.isConnected) return;
       landed = true;
-      slot.className = 'got t' + drop.tone;
-      slot.innerHTML = glyph(drop.letter);
-      playCue('key', { gain: 0.6 });
+      if (stage < POPS) {
+        slot.style.setProperty('--fill', Math.max(stage, Number(slot.style.getPropertyValue('--fill')) || 0));
+        fx.bump(slot, 'tick');
+      } else {
+        slot.className = 'got t' + drop.tone;
+        slot.innerHTML = glyph(drop.letter);
+      }
+      playCue('key', { gain: 0.45 });
     };
-    if (calm.matches || !slot) return fill();
+    if (calm.matches || !slot) return land();
     const to = slot.getBoundingClientRect(), base = scene.getBoundingClientRect();
     const x = to.left + to.width / 2 - base.left, y = to.top + to.height / 2 - base.top;
     const piece = document.createElement('b');
@@ -537,67 +632,58 @@ const harfYagmuru = (() => {
     const end = Math.max(0.2, to.width / (size * 0.8));
     const move = (px, py, scale) => ({ transform: 'translate(' + px.toFixed(0) + 'px,' + py.toFixed(0) + 'px) translate(-50%,-50%) scale(' + scale.toFixed(2) + ')' });
     piece.animate([move(at.x, at.y, 1), { ...move((at.x + x) / 2 + (at.x < x ? -46 : 46), (at.y + y) / 2, 1.05), offset: 0.45 }, move(x, y, end)],
-      { duration: 680, easing: 'cubic-bezier(.45, 0, .25, 1)', fill: 'forwards' }).onfinish = () => { piece.remove(); fill(); };
-    setTimeout(() => { piece.remove(); fill(); }, 1200);
+      { duration: 680, easing: 'cubic-bezier(.45, 0, .25, 1)', fill: 'forwards' }).onfinish = () => { piece.remove(); land(); };
+    setTimeout(() => { piece.remove(); land(); }, 1200);
   }
 
-  /* ---------- End of a round ---------- */
-  function win() {
-    state = 'won';
-    scene.classList.remove('raining');
-    scene.classList.add('clear');
-    mood('dance');
-    playCue('victory');
-    fx.confetti(dialog);
-    say('Harika! On harfin hepsini yakaladın.');
-    after(1.6, () => result(true));
-  }
+  /* ---------- The end ---------- */
   function lose() {
     state = 'lost';
     pendingDone = null;
     hush();
     setPrompt('');
-    scene.classList.remove('raining');
+    scene.classList.remove('raining', 'bow');
     scene.classList.add('gloom');
     after(0.4, () => {
       mood('sad');
       playCue('retry');
       for (const drop of drops.slice()) { drop.state = 'gone'; vanish(drop, 'fade'); }
     });
-    after(1.5, () => result(false));
+    after(1.5, result);
   }
-  function result(won) {
+  // Best score and level are kept once per game: at its end, or when the child leaves early.
+  function keep() {
+    if (!game || game.saved || (!game.score && game.level === 1)) return;
+    game.saved = true;
+    options.onResult({ score: game.score, level: game.level });
+  }
+  function result() {
     state = 'result';
     stopClock();
-    const stars = won ? game.hearts : 0;
-    const best = options.best();
+    const best = { ...options.best() };
+    keep();
     const record = game.score > 0 && game.score > (best.rekor || 0);
-    options.onResult({ score: game.score, stars, won });
-    const heading = won ? ['Başardın!', 'Çok güzel!', 'Muhteşem!'][stars - 1] : 'Canların bitti!';
-    let text;
-    if (!won) {
-      text = (game.caught.length ? game.caught.length + ' harf yakaladın. ' : '') + 'Sesi dikkatle dinle, sonra o harfe dokun. Bir daha deneyelim mi?';
-    } else if (stars === 3) text = 'Hiç yanlış yapmadan on harfi de yakaladın!';
-    else text = 'On harfi de yakaladın! ' + (HEARTS - stars === 1 ? 'Bir' : 'İki') + ' kez yanlış harfe dokundun. Şimdi üç yıldızı dene!';
-    const unique = [...new Set(game.caught)];
-    showCard('<div class="rain-card result' + (won ? '' : ' lost') + '">' +
-      (won ? '<div class="rain-stars" role="img" aria-label="' + stars + ' yıldız">' + [0, 1, 2].map(n =>
-        '<svg viewBox="0 0 24 24" aria-hidden="true"' + (n < stars ? ' class="won" style="--d:' + (0.35 + n * 0.3) + 's"' : '') +
-        '><path d="' + starPath + '"/></svg>').join('') + '</div>' : '<div class="rain-broken" aria-hidden="true">' + heartSvg + '</div>') +
+    const { done, popped } = game;
+    const heading = done >= 20 ? 'Muhteşem!' : done >= 10 ? 'Harika!' : done >= 4 ? 'Aferin!' : done ? 'Güzel başlangıç!' : 'Bir daha deneyelim!';
+    const text = popped ? done + ' harfi tamamladın, ' + popped + ' damla patlattın. Canların bitince yağmur dindi.' :
+      'Kaplumbağanın söylediği harfi dinle, sonra o harften üç tane patlat.';
+    const unique = [...new Set(game.completed)];
+    showCard('<div class="rain-card result"><div class="rain-medal" role="img" aria-label="Seviye ' + game.level + '"><span>' +
+      '<small>Seviye</small><b>' + game.level + '</b></span></div>' +
       '<h2 id="rain-title" tabindex="-1">' + heading + '</h2><p>' + text + '</p>' +
       '<p class="rain-total"><b>0</b> puan</p>' +
       (record ? '<p class="rain-record new">🏆 Yeni rekor!</p>' : best.rekor ? '<p class="rain-record">🏆 Rekorun: ' + best.rekor + ' puan</p>' : '') +
-      (unique.length ? '<div class="rain-recap"><p>Yakaladığın harfler · dokun, dinle</p><div>' + unique.map((i, n) =>
+      (unique.length ? '<div class="rain-recap"><p>Tamamladığın harfler · dokun, dinle</p><div>' + unique.map((i, n) =>
         '<button type="button" class="rain-chip t' + n % 5 + '" data-cue data-letter="' + i + '" aria-label="' + names[i] + ' harfini dinle">' +
         glyph(i) + '<span>' + names[i] + '</span></button>').join('') + '</div></div>' : '') +
       '<div class="rain-actions"><button type="button" class="rain-go" data-cue>↻ Tekrar oyna</button>' +
       '<button type="button" class="rain-back">Adaya dön</button></div></div>');
-    overlay.querySelector('.rain-go').onclick = () => newRound(false);
+    overlay.querySelector('.rain-go').onclick = () => newGame(false);
     overlay.querySelector('.rain-back').onclick = () => dialog.close();
     for (const chip of overlay.querySelectorAll('.rain-chip')) {
       chip.onclick = () => { fx.bump(chip, 'rain-bump'); voice.letter(Number(chip.dataset.letter), unheard); };
     }
-    for (let n = 0; n < stars; n++) later(350 + n * 300, () => playCue('star', { rate: [1, 1.26, 1.5][n] }));
+    later(300, () => playCue('star', { rate: 1.26 }));
     const total = overlay.querySelector('.rain-total b');
     const score = game.score, start = performance.now(), mine = session;
     const count = now => {
@@ -627,17 +713,17 @@ const harfYagmuru = (() => {
     showCard('<div class="rain-card intro"><div class="rain-intro-art" aria-hidden="true">' + sample.map((i, n) =>
       '<span class="rain-drop t' + [0, 4, 1][n] + '"><span class="rain-drop-in"><i class="rain-drop-skin"></i>' + glyph(i) + '</span></span>').join('') +
       '</div><h2 id="rain-title" tabindex="-1">Harf <em>Yağmuru</em></h2>' +
-      '<p>Kaplumbağa bir harfin adını söyleyecek. Gökten yağan harflerden onu bul, denize düşmeden dokun!</p>' +
-      '<ul class="rain-facts"><li><b>' + options.letters.length + '</b><span>öğrendiğin harf</span></li><li><b>3</b><span>can</span></li>' +
-      '<li><b>10</b><span>harf yakala</span></li></ul>' +
+      '<p>Yağmur hiç durmuyor! Kaplumbağa bir harfin adını söyleyecek: o harften üç tane patlat, kaplumbağa hemen yeni harfi söylesin.</p>' +
+      '<ul class="rain-facts"><li><b>' + options.letters.length + '</b><span>öğrendiğin harf</span></li><li><b>3</b><span>her harften patlat</span></li>' +
+      '<li><b>3</b><span>can</span></li></ul>' +
       '<div class="rain-pool" aria-label="Oyundaki harfler">' + options.letters.map(i => '<b lang="ar" title="' + names[i] + '">' + glyphs[i] + '</b>').join('') + '</div>' +
-      (best.rekor ? '<p class="rain-record">🏆 Rekorun: ' + best.rekor + ' puan</p>' : '') +
+      (best.rekor ? '<p class="rain-record">🏆 Rekorun: ' + best.rekor + ' puan · Seviye ' + Math.max(1, best.seviye || 1) + '</p>' : '') +
       '<button type="button" class="rain-go" data-cue>▶ Başla</button></div>');
     overlay.querySelector('.rain-go').onclick = countdown;
   }
-  // Leaving the app mid-round pauses the game; the child picks up where they were.
+  // Leaving the app mid-game pauses it; the child picks up where they were.
   function pause() {
-    if (paused || !['countdown', 'speaking', 'raining', 'caught'].includes(state)) return;
+    if (paused || !['countdown', 'raining'].includes(state)) return;
     paused = true;
     if (talking) game.retalk = true;
     hush();
@@ -657,6 +743,7 @@ const harfYagmuru = (() => {
 
   find('.rain-close').onclick = () => dialog.close();
   dialog.addEventListener('close', () => {
+    keep();
     reset();
     stopClock();
     hideCard();
@@ -669,13 +756,13 @@ const harfYagmuru = (() => {
   });
 
   // letters: learned letters to rain; recent: the newest cove's letters, asked more often;
-  // best(): the player's { rekor, yildiz, tur }; onResult({ score, stars, won }) keeps them.
+  // best(): the player's { rekor, seviye }; onResult({ score, level }) keeps them.
   function open(settings) {
     options = settings;
     rounds = 0;
     voice.preload(settings.letters, true);
     if (!dialog.open) dialog.showModal();
-    newRound(true);
+    newGame(true);
   }
   return { open };
 })();
