@@ -72,7 +72,7 @@ function showCatalog() {
   $('catalog-grade').textContent = activeProfile.grade;
   $('catalog-greeting').textContent = 'Merhaba ' + activeProfile.name + '! Bugün hangi adayı keşfedeceksin?';
   $('elif-view').hidden = true;
-  $('din-view').hidden = true;
+  for (const kod of Object.keys(window.soruAdalari || {})) $(kod + '-view').hidden = true;
   $('empty-catalog').hidden = cards.some(card => !card.hidden);
   $('island-view').hidden = true;
   $('game-tools').hidden = true;

@@ -7,6 +7,16 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.8.0 · 24.11.2026
+
+Yeni ada: **Fen Bilimleri Adası** (4. sınıf). Din Bilgisi Adası’yla aynı düzende çalışıyor: ders kitabının ünitelerini izleyen duraklar, her turda 10 soru, 3 kalp ve “yarı yarıya” jokeri, Tekrar Kutusu, öğrenilen soru sayacı ve 20 soruluk Deneme Sınavı.
+
+- İlk yedi durak, bu yıl okullarda okutulan MEB 4. sınıf Fen Bilimleri ders kitabının (Devlet Kitapları, 2026 baskısı) ünitelerini sırasıyla izliyor: 🌋 Yanardağ Tepesi (Yer kabuğu ve Dünya’mızın hareketleri), 🍎 Meyve Bahçesi (Besinlerimiz), 🧲 Mıknatıs Koyu (Kuvvetin etkileri), 🧪 Deney Laboratuvarı (Maddenin özellikleri), 💡 Fener Burnu (Aydınlatma ve ses teknolojileri), ♻️ Yeşil Vadi (İnsan ve çevre), 🔋 Pil Kulesi (Basit elektrik devreleri). 4. sınıf fen bu yıl henüz Maarif Modeli’ne geçmediği için 2018 programının kitabı esas alındı. Tanımlar, örnekler ve sayılar kitaptaki anlatıma göre yazıldı; kartlarda kitabın sayfa aralığı yazıyor. Yedi ünite baştan açık.
+- Soruların tarzı, Ankara Tevfik İleri Anadolu İmam Hatip Lisesi’nin 2016-2025 yıllarındaki 9 giriş sınavının fen testleri incelenerek belirlendi (2021 kitapçığı okulun sitesinde yok): tablolar, deney anlatımları, mıknatıs dizilimleri, dara-brüt-net hesapları, D-Y ve I-II-III soruları. Sınav soruları aynen alınmadı. Benzeri bir sınavda çıkmış 142 sorunun açıklamasının altında yılı yazıyor.
+- 🔭 Bilim Gözlemevi: kitapta olmayan ama sınavlarda sorulan konular (ısı alışverişi ve termometre, yoğuşma, buharlaştırma ve suda yüzdürmeyle ayırma, madde-cisim, sürat, ekinoks, bilim insanları, mikroskobik canlılar, vücudumuzdaki sistemler…). Yedi ünite bitince Deneme Sınavı ile birlikte açılıyor.
+- Toplam 289 soru. Ayarlar → İlerleme bölümünde Fen Bilimleri Adası için ünite ünite yıldızlar ve öğrenilen soru sayısı görünüyor; ilerleme buradan sıfırlanabiliyor.
+- Din Bilgisi ve Fen Bilimleri adaları artık aynı oyun motorunu (`soru-adasi.js`) ve görünümü (`soru-adasi.css`) kullanıyor; yeni bir ders adası, soru bankası ve birkaç satırlık ayarla eklenebiliyor. Din Bilgisi Adası’ndaki ilerleme olduğu gibi korunuyor.
+
 ## 0.7.0 · 24.11.2026
 
 Din Bilgisi Adası artık ders kitabının tamamını kapsıyor ve ancak bütün sorular öğrenilince bitiyor.

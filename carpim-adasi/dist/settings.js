@@ -59,7 +59,7 @@
   function refreshView() {
     const hidesGame = (view, card) => !$(view).hidden && !availableForPlayer($(card));
     if (!$('catalog').hidden || hidesGame('island-view', 'multiplication-card') || hidesGame('elif-view', 'elif-card') ||
-      hidesGame('din-view', 'din-card')) {
+      Object.keys(window.soruAdalari).some(kod => hidesGame(kod + '-view', kod + '-card'))) {
       window.speechSynthesis?.cancel();
       showCatalog();
     }
@@ -90,12 +90,13 @@
       localStorage.removeItem(progressKey(profile));
       localStorage.removeItem('elif-ba-' + profile.id);
       localStorage.removeItem('elif-ba-v2-' + profile.id);
-      localStorage.removeItem('din-bilgisi-' + profile.id);
+      for (const ada of Object.values(window.soruAdalari)) localStorage.removeItem(ada.kayit + profile.id);
     } catch {}
     saveProfiles();
     window.speechSynthesis?.cancel();
     activeProfile = null;
-    for (const view of ['catalog', 'island-view', 'elif-view', 'din-view', 'game-tools', 'settings-button']) $(view).hidden = true;
+    for (const view of ['catalog', 'island-view', 'elif-view', 'game-tools', 'settings-button']) $(view).hidden = true;
+    for (const kod of Object.keys(window.soruAdalari)) $(kod + '-view').hidden = true;
     $('player').textContent = 'Oyuncu seç';
     $('player').title = '';
     dialog.close();
@@ -187,46 +188,49 @@
     drawElif();
     playCue('start');
   });
-  function drawDin() {
-    const summary = window.dinBilgisiSummary(activeProfile.id);
-    $('din-summary').textContent = '📗 ' + summary.ogrenilen + ' / ' + summary.soru + ' soru öğrenildi · ⭐ ' + summary.yildiz +
+  // Question islands (Din Bilgisi, Fen Bilimleri): stars, learned questions and the mock exam.
+  const quizzes = Object.keys(window.soruAdalari);
+  function drawQuiz(kod) {
+    const summary = window.soruAdalari[kod].summary(activeProfile.id);
+    $(kod + '-summary').textContent = '📗 ' + summary.ogrenilen + ' / ' + summary.soru + ' soru öğrenildi · ⭐ ' + summary.yildiz +
       ' / ' + summary.toplam + ' · Deneme: ' + (summary.deneme === null ? 'henüz yok' : 'en iyi ' + summary.deneme + ' / 20');
     // One row per unit, so a parent can see what is learned and what is left.
-    $('din-units').replaceChildren(...summary.duraklar.map(stop => {
+    $(kod + '-units').replaceChildren(...summary.duraklar.map(stop => {
       const row = document.createElement('li');
       const done = stop.ogrenilen === stop.soru;
       row.innerHTML = '<span aria-hidden="true">' + stop.simge + '</span><span><b></b><small></small></span>' +
-        '<span class="din-meter" aria-hidden="true"><i></i></span><em></em>';
+        '<span class="soru-meter" aria-hidden="true"><i></i></span><em></em>';
       row.querySelector('b').textContent = stop.unite;
       row.querySelector('small').textContent = stop.ad + ' · ' + '★'.repeat(stop.yildiz) + '☆'.repeat(3 - stop.yildiz);
       row.querySelector('i').style.width = stop.ogrenilen / stop.soru * 100 + '%';
       row.querySelector('em').textContent = done ? '✅ ' + stop.soru : stop.ogrenilen + ' / ' + stop.soru;
       return row;
     }));
-    $('din-reset').disabled = !summary.any;
+    $(kod + '-reset').disabled = !summary.any;
   }
-  const disarmDin = confirmTwice($('din-reset'), 'Emin misin? Evet, sıfırla', () => {
-    window.resetDinBilgisi?.(activeProfile.id);
-    drawDin();
+  const disarmQuiz = quizzes.map(kod => confirmTwice($(kod + '-reset'), 'Emin misin? Evet, sıfırla', () => {
+    window.soruAdalari[kod].reset(activeProfile.id);
+    drawQuiz(kod);
     playCue('start');
-  });
+  }));
   function fillProgress() {
     const carpim = availableForPlayer($('multiplication-card'));
     const elif = availableForPlayer($('elif-card'));
-    const din = availableForPlayer($('din-card'));
+    const open = quizzes.filter(kod => availableForPlayer($(kod + '-card')));
     $('carpim-progress').hidden = !carpim;
     $('elif-progress').hidden = !elif;
-    $('din-progress').hidden = !din;
-    $('no-progress').hidden = carpim || elif || din;
+    for (const kod of quizzes) $(kod + '-progress').hidden = !open.includes(kod);
+    $('no-progress').hidden = carpim || elif || open.length > 0;
     resetAt = null;
     if (carpim) drawResetMap();
     if (elif) drawElif();
-    if (din) drawDin();
+    for (const kod of open) drawQuiz(kod);
   }
 
   $('settings-button').onclick = () => {
     if (!activeProfile) return;
-    disarmDelete(); disarmReset(); disarmElif(); disarmDin();
+    disarmDelete(); disarmReset(); disarmElif();
+    for (const disarm of disarmQuiz) disarm();
     fillPlayer();
     syncSound();
     syncVoice();

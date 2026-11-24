@@ -1,0 +1,160 @@
+/* Soru adaları (Din Bilgisi, Fen Bilimleri): ortak görünüm. Her adanın kendi style.css dosyası
+   resmini ve renklerini ekler. Sayfadaki kimlikler adaya göre (#din-view, #fen-view …), sınıflar ortaktır. */
+.soru-view { max-width: 1040px; margin: auto; }
+.soru-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 12px 0; font-weight: 800; color: #345a56; }
+.soru-nav button { border: 0; background: transparent; min-height: 44px; font-weight: 800; padding: 0 4px; }
+.soru-score { white-space: nowrap; padding: 6px 12px; border-radius: 20px; background: #f7ebca; color: #705127; }
+.soru-hero { min-height: clamp(200px, 26vw, 300px); display: flex; align-items: center; border-radius: 28px; overflow: hidden; background: #3f8e98 no-repeat calc(100% + 150px) 80% / auto 145%; }
+.soru-hero > div { padding: clamp(17px, 4vw, 52px); width: 58%; background: linear-gradient(90deg, #fff8e9f2, #fff8e9c4 68%, transparent); align-self: stretch; display: flex; flex-direction: column; justify-content: center; }
+.soru-hero h1 { color: #173f40; }
+.soru-hero h1 em { color: #1d6f6c; }
+.soru-hero p { max-width: 34ch; margin: 10px 0 0; font-weight: 750; font-size: clamp(16px, 2vw, 20px); line-height: 1.4; color: #2b4f4b; }
+.soru-next { display: flex; align-items: center; gap: 14px; width: 100%; margin-top: 16px; padding: 14px 20px; text-align: left; font-size: 21px; min-height: 48px; border: 0; border-radius: 15px; background: #176d60; box-shadow: 0 4px #0c5146; color: white; font-weight: 850; }
+.soru-next small { display: block; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; opacity: .85; }
+.soru-next:active { transform: translateY(2px); box-shadow: 0 2px #0c5146; }
+.soru-h { margin: 26px 0 12px; }
+
+/* Stops */
+.soru-stops { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; }
+.soru-exam-item { grid-column: 1 / -1; }
+.soru-stop { width: 100%; height: 100%; display: flex; gap: 14px; align-items: flex-start; text-align: left; padding: 16px; border: 2px solid var(--rim, #b9d8c9); border-radius: 22px; background: var(--tint, #fbfff8); box-shadow: 0 4px var(--rim, #b9d8c9); color: #173f40; animation: rise .4s calc(var(--i) * 45ms) both; transition: transform .15s; }
+.soru-stop-icon { flex: none; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: #fff; border: 2px solid var(--rim, #b9d8c9); font-size: 30px; }
+.soru-stop-text { display: grid; gap: 3px; min-width: 0; flex: 1; }
+.soru-stop-text small { color: #5a6f6a; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
+.soru-stop-text strong { font-size: 22px; }
+.soru-stop-text small i { font-style: normal; text-transform: none; letter-spacing: 0; font-weight: 700; margin-left: 6px; color: #6a7d78; }
+.soru-stop-text > span:not(.soru-stars) { color: #3f5f58; font-weight: 650; }
+.soru-stop-text em { font-style: normal; justify-self: start; margin-top: 6px; padding: 3px 10px; border-radius: 12px; background: #ebe6da; color: #6d6555; font-weight: 800; font-size: 14px; }
+.soru-stop.locked { --tint: #f6f4ee; --rim: #ddd5c4; color: #6d6555; }
+.soru-stop.locked .soru-stop-icon { filter: grayscale(1); opacity: .8; }
+.soru-stop.denied { animation: shake .4s; }
+.soru-exam { --tint: #fff6da; --rim: #ebcf8c; align-items: center; }
+.soru-exam .soru-stop-icon { width: 64px; height: 64px; font-size: 36px; background: #fff3c4; }
+.soru-exam.locked { --tint: #f6f4ee; --rim: #ddd5c4; }
+.soru-badge { justify-self: start; margin-top: 6px; padding: 3px 12px; border-radius: 20px; background: #1d6f6c; color: #fff; font-weight: 850; font-size: 14px; }
+@media (hover: hover) { .soru-stop:not(.locked):hover { transform: translateY(-3px); } }
+.soru-stars { display: inline-flex; gap: 2px; margin-top: 4px; font-size: 24px; line-height: 1; }
+.soru-stars i { font-style: normal; color: #ddd3bd; }
+.soru-stars i.won { color: #f2b234; text-shadow: 0 2px 0 #c98c1a55; }
+.soru-review { display: flex; align-items: center; gap: 14px; margin-top: 14px; padding: 14px 16px; border-radius: 22px; background: #fdeee9; border: 2px solid #efc3b4; }
+.soru-review[hidden] { display: none; }
+.soru-review > span { font-size: 32px; }
+.soru-review > div { flex: 1; display: grid; gap: 2px; }
+.soru-review strong { font-size: 19px; color: #8a3f2d; }
+.soru-review small { color: #8d5444; font-weight: 700; font-size: 15px; }
+.soru-note { min-height: 24px; font-weight: 750; }
+.soru-source { margin: 6px 0 0; color: #5a6f6a; font-size: 14px; font-weight: 650; line-height: 1.45; }
+.soru-action { min-height: 48px; border: 0; border-radius: 15px; padding: 10px 20px; background: #176d60; box-shadow: 0 4px #0c5146; color: white; font-weight: 850; }
+.soru-action.quiet { background: white; color: #176d60; box-shadow: 0 3px #b2d5c4; border: 2px solid #b2d5c4; }
+
+/* The game */
+.soru-game { width: min(600px, 95vw); background: #fffcf4; transition: background-color .3s; }
+.soru-game[data-mood=good] { background: linear-gradient(#e6f7ec, #fffcf4 45%); }
+.soru-game[data-mood=bad] { background: linear-gradient(#fff0ef, #fffcf4 45%); }
+.soru-game[data-mood=win] { background: radial-gradient(circle at 50% 0, #fff0b3, #fffcf4 62%); }
+.soru-close { float: right; border: 1px solid #adc9bc; border-radius: 50%; width: 44px; height: 44px; background: white; font-size: 24px; }
+.soru-top { display: flex; align-items: center; gap: 12px; min-height: 44px; margin-right: 54px; }
+.soru-where { flex: 1; font-weight: 900; font-size: 15px; color: #345a56; }
+.soru-hearts { display: inline-flex; gap: 2px; font-size: 22px; line-height: 1; }
+.soru-hearts i { font-style: normal; }
+.soru-hearts i.lost { opacity: .55; }
+.soru-hearts.denied { animation: shake .4s; }
+.soru-dots { clear: both; }
+.soru-step { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 8px 0 6px; font-weight: 800; color: #47635f; font-size: 14px; }
+.soru-step span:not(.soru-streak) { color: #6a807b; font-weight: 700; }
+.soru-streak { margin-left: auto; padding: 2px 10px; border-radius: 20px; background: #ffe7c2; color: #8a4b13; font-weight: 900; animation: pop .4s; }
+.soru-passage { white-space: pre-line; margin: 8px 0 10px; padding: 12px 14px; border-inline-start: 5px solid #e1b866; border-radius: 6px 16px 16px 6px; background: #fff5dc; font-weight: 650; line-height: 1.5; font-size: 17px; color: #3b3424; }
+.soru-prompt { clear: both; margin: 10px 0 14px; font-size: clamp(20px, 3.6vw, 24px); line-height: 1.3; letter-spacing: -.4px; }
+.soru-prompt u, .soru-review-item summary u { text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.soru-options { display: grid; gap: 10px; }
+.soru-option { display: flex; align-items: center; gap: 12px; min-height: 58px; padding: 10px 14px 10px 10px; text-align: left; border: 2px solid #cfe1d6; border-radius: 16px; background: #fff; box-shadow: 0 3px #cfe1d6; color: #173f40; font-weight: 750; font-size: 17px; line-height: 1.3; transition: transform .1s, background .15s, opacity .2s; }
+.soru-option > b { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #e7f2ec; color: #1d6f6c; font-weight: 950; }
+.soru-option:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px #cfe1d6; }
+@media (hover: hover) { .soru-option:not(:disabled):hover { border-color: #16716e; } }
+.soru-option:disabled { cursor: default; }
+.soru-option.right { border-color: #2f9b7f; background: #e1f6e5; box-shadow: 0 3px #2f9b7f; animation: soru-right .4s ease-out; }
+@keyframes soru-right { 45% { transform: scale(1.025); } }
+.soru-option.right > b { background: #2f9b7f; color: #fff; }
+.soru-option.wrong { border-color: #d9534f; background: #fde4e1; box-shadow: 0 3px #d9534f; }
+.soru-option.wrong > b { background: #d9534f; color: #fff; }
+.soru-option.missed { animation: shake .4s; }
+.soru-option.picked { border-color: #3a5fb0; background: #eaf0ff; box-shadow: 0 3px #3a5fb0; }
+.soru-option.picked > b { background: #3a5fb0; color: #fff; }
+.soru-option.gone { opacity: .25; text-decoration: line-through; }
+.soru-option:disabled:not(.right):not(.wrong):not(.gone) { opacity: .6; }
+.soru-tools { display: flex; justify-content: flex-start; margin: 12px 0 0; }
+.soru-tools:empty { display: none; }
+.soru-joker { position: relative; min-height: 44px; padding: 6px 14px; border-radius: 22px; border: 2px dashed #d9a441; background: #fff7e2; color: #7a5212; font-weight: 850; }
+.soru-joker span { font-weight: 950; font-size: 18px; margin-right: 2px; }
+.soru-joker:disabled { opacity: .45; cursor: default; }
+.soru-feedback { margin: 12px 0 0; border-radius: 16px; }
+.soru-feedback:empty { display: none; }
+.soru-feedback.good, .soru-feedback.bad { padding: 12px 14px; animation: rise .25s ease-out both; }
+.soru-feedback.good { background: #e1f6e5; border: 2px solid #a8dbb9; color: #1d5e46; }
+.soru-feedback.bad { background: #fde9e6; border: 2px solid #efbcb4; color: #7d3028; }
+.soru-feedback strong { display: block; font-size: 18px; }
+.soru-feedback p { margin: 8px 0 0; color: #2f4743; font-weight: 650; line-height: 1.45; }
+.soru-feedback p.soru-year, .soru-review-item p.soru-year { display: inline-block; margin-top: 8px; padding: 3px 10px; border-radius: 12px; background: #eef1fb; color: #3d4a86; font-size: 14px; font-weight: 750; }
+.soru-fire { display: inline-block; margin-left: 4px; font-size: 15px; color: #a5561a; }
+.soru-next-q { margin-top: 14px; font-size: 18px; }
+.soru-next-q:disabled { opacity: .5; cursor: default; }
+
+/* Results */
+.soru-stage:has(.soru-prize) { text-align: center; }
+.soru-prize { clear: both; font-size: 72px; line-height: 1.1; margin-top: 8px; animation: pop-in .6s cubic-bezier(.2, 1.6, .4, 1) both; }
+.soru-won { position: relative; display: flex; justify-content: center; }
+.soru-won .soru-stars { font-size: 48px; gap: 6px; }
+.soru-won .soru-stars i.won { animation: pop-in .5s cubic-bezier(.2, 1.6, .4, 1) both; }
+.soru-won .soru-stars i:nth-child(2) { animation-delay: .15s; }
+.soru-won .soru-stars i:nth-child(3) { animation-delay: .3s; }
+.soru-score-big { font-size: 20px; font-weight: 800; color: #345a56; }
+.soru-score-big b { font-size: 38px; color: #1d6f6c; }
+.soru-unlock { padding: 8px 12px; border-radius: 14px; background: #fff3c4; color: #6b4b12; font-weight: 750; }
+.soru-small { color: #5a6f6a; font-size: 14px; font-weight: 650; }
+.soru-result-actions { display: grid; gap: 8px; margin-top: 16px; }
+.soru-result-actions .primary { margin: 0; font-size: 18px; }
+.soru-facts { margin: 6px 0 10px; }
+.soru-h3 { text-align: left; margin: 18px 0 8px; font-size: 18px; }
+.soru-by-stop { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; text-align: left; }
+.soru-by-stop li { display: grid; grid-template-columns: minmax(0, 1fr) 90px auto; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; }
+.soru-bar { height: 10px; border-radius: 8px; background: #e7e1d2; overflow: hidden; }
+.soru-bar i { display: block; height: 100%; border-radius: 8px; background: #2f9b7f; }
+.soru-review-item { text-align: left; margin: 8px 0; padding: 10px 12px; border: 2px solid #efd9cc; border-radius: 14px; background: #fff; }
+.soru-review-item summary { font-weight: 800; cursor: pointer; line-height: 1.35; }
+.soru-review-item p { margin: 8px 0 0; line-height: 1.45; }
+.soru-yours { color: #a3343f; font-weight: 750; }
+.soru-right { color: #1d6f50; font-weight: 800; }
+
+@media (max-width: 580px) {
+  .soru-hero { background-position: 62% 75%; background-size: cover; }
+  .soru-hero > div { width: 84%; }
+  .soru-hero h1 { font-size: 36px; letter-spacing: -2px; }
+  .soru-stops { grid-template-columns: 1fr; }
+  .soru-stop-icon { width: 48px; height: 48px; font-size: 26px; }
+  .soru-stop-text strong { font-size: 20px; }
+  .soru-game { padding: 18px 14px; }
+  .soru-option { font-size: 16px; min-height: 54px; }
+  .soru-passage { font-size: 16px; }
+  .soru-by-stop li { grid-template-columns: minmax(0, 1fr) 56px auto; }
+  .soru-review { flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .soru-stop, .soru-prize, .soru-won .soru-stars i.won, .soru-option.right, .soru-streak, .soru-feedback.good, .soru-feedback.bad { animation: none; }
+}
+
+/* Learned questions */
+.soru-meter { display: block; height: 8px; margin-top: 8px; border-radius: 8px; background: #00000012; overflow: hidden; }
+.soru-meter i { display: block; height: 100%; border-radius: 8px; background: #2f9b7f; transition: width .4s; }
+.soru-learned { justify-self: start; margin-top: 4px; font-size: 14px; font-weight: 800; color: #2b5e52; }
+.soru-stop.mastered { box-shadow: 0 4px var(--rim), 0 0 0 3px #2f9b7f inset; }
+.soru-mastery { display: grid; gap: 4px; margin-top: 14px; padding: 12px 16px; border-radius: 18px; background: #fff; border: 2px solid #cfe1d6; }
+.soru-mastery strong { font-size: 18px; color: #1d5e4e; }
+.soru-mastery small { color: #5a6f6a; font-weight: 650; font-size: 13px; }
+.soru-learn-line { margin: 10px 0 0; font-weight: 800; color: #1d5e4e; }
+.soru-units { list-style: none; margin: 0 0 6px; padding: 0; display: grid; gap: 8px; }
+.soru-units li { display: grid; grid-template-columns: 26px minmax(0, 1fr) 70px auto; align-items: center; gap: 8px; font-size: 14px; }
+.soru-units li > span:first-child { font-size: 20px; }
+.soru-units b { display: block; font-size: 14px; }
+.soru-units small { display: block; color: #5a6f6a; font-weight: 650; overflow-wrap: anywhere; }
+.soru-units .soru-meter { margin: 0; }
+.soru-units em { font-style: normal; font-weight: 800; color: #2b5e52; white-space: nowrap; }
