@@ -7,6 +7,12 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.5.0 · 24.11.2026
+
+- Elif Ba Adası'nda bir koy artık yalnızca hatasız bir turla geçiliyor. Yanlış cevapta çocuk doğrusunu bulana kadar denemeye devam ediyor; ama turda bir tane bile hata varsa sonunda "Bir daha deneyelim!" ekranı çıkıyor ve tur tekrarlanıyor. Kabuklar ve inciler hatasız turda, koyun dört harfi için birlikte kazanılıyor.
+- Aynı kural harekelerle tanışma dersinin sorularında da geçerli.
+- Turun ilerleme noktalarında hatalı sorular kırmızı görünüyor.
+
 ## 0.4.2 · 24.11.2026
 
 - Düzeltme: Elif Ba Adası'nda kayıtlı harf ve hece sesleri bazı telefonlarda çalmıyordu. Kayıtlar artık oyunun efekt sesleriyle aynı yoldan (Web Audio) çalınıyor. Telefonun sessiz anahtarı açıkken de duyuluyor ve "Be üstün be" tekrarında hece kesilmeden geliyor.

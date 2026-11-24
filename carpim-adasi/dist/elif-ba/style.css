@@ -92,6 +92,7 @@
 .elif-dots li { width: 12px; height: 12px; border-radius: 50%; background: #e2e8e2; }
 .elif-dots li.done { background: #2f9b7f; }
 .elif-dots li.now { background: #f2b544; transform: scale(1.25); }
+.elif-dots li.miss { background: #e2735f; }
 #elif-prompt { clear: both; margin-top: 10px; }
 .elif-speaker { display: grid; justify-items: center; margin: 10px auto 16px; width: 116px; height: 116px; place-content: center; border-radius: 50%; border: 3px solid #b2d5c4; background: white; color: #174e48; box-shadow: 0 5px #b2d5c4; }
 .elif-speaker span { font-size: 44px; line-height: 1.1; }

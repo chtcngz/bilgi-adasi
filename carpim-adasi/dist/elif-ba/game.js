@@ -324,7 +324,7 @@
 
   function startRound(kind) {
     round = { kind, part: kind === 'intro' ? 'hareke' : section, cove, questions:
-      kind === 'intro' ? introRound() : section === 'harf' ? harfRound(cove) : harekeRound(cove), right: 0 };
+      kind === 'intro' ? introRound() : section === 'harf' ? harfRound(cove) : harekeRound(cove), right: 0, missed: new Set() };
     turn = 0;
     earned = [];
     dialog.showModal();
@@ -335,7 +335,8 @@
   function header(total) {
     const label = round.kind === 'intro' ? 'Harekelerle tanışma' : coves[round.cove];
     return '<p class="elif-step">' + label + ' · ' + (turn + 1) + ' / ' + total + '</p><ol class="elif-dots" aria-hidden="true">' +
-      round.questions.map((_, n) => '<li class="' + (n < turn ? 'done' : n === turn ? 'now' : '') + '"></li>').join('') + '</ol>';
+      round.questions.map((_, n) => '<li class="' + (round.missed.has(n) ? 'miss' : n < turn ? 'done' : n === turn ? 'now' : '') +
+        '"></li>').join('') + '</ol>';
   }
   function ask() {
     const q = round.questions[turn];
@@ -419,19 +420,14 @@
       button?.classList.add('matched');
       playCue('correct');
       if (button) fx.burst(button, { symbols: [prizeOf(round.part), '✦', '★'] });
-      let message = '';
-      if (round.kind === 'intro') message = '✓ Doğru! Bu ' + harekeler[q.h].name.toLocaleLowerCase('tr') + ': ' + readings[q.target][q.h] + '.';
-      else {
-        const part = round.part;
-        const before = mastered(part, q.target);
-        if (firstTry) { progress[part][q.target]++; round.right++; save(); }
-        if (!before && mastered(part, q.target)) {
-          earned.push(q.target);
-          message = prizeOf(part) + ' ' + names[q.target] + ' ' + (part === 'harf' ? 'kabuğu' : 'incisi') + ' senin!';
-        } else message = firstTry ? '✓ Doğru!' : '✓ Buldun!';
-        if (part === 'harf') message += ' Bu ' + names[q.target] + '.';
-        else message += ' ' + readings[q.target][q.h] + ' okunur.';
-      }
+      // A cove is passed only by a round with no mistakes, so every slip is counted.
+      if (firstTry) round.right++;
+      else round.missed.add(turn);
+      let message = firstTry ? '✓ Doğru!' : '✓ Buldun!';
+      if (round.kind === 'intro') message += ' Bu ' + harekeler[q.h].name.toLocaleLowerCase('tr') + ': ' + readings[q.target][q.h] + '.';
+      else if (round.part === 'harf') message += ' Bu ' + names[q.target] + '.';
+      else message += ' ' + readings[q.target][q.h] + ' okunur.';
+      if (!firstTry && round.missed.size === 1 && round.kind === 'cove' && !coveDone(round.part, round.cove)) message += ' Bu turda bir hata oldu; koyu geçmek için tur tekrarlanacak.';
       response.textContent = message;
       if (q.type === 'hareke-name' || q.type === 'sound') round.kind === 'intro' ? voice.chant(q.target, q.h) : play();
       next.hidden = false;
@@ -480,38 +476,65 @@
   function finish() {
     const total = round.questions.length;
     const stage = $('elif-stage');
+    const perfect = round.missed.size === 0;
+    const misses = total + ' sorudan ' + round.missed.size + ' tanesinde hata oldu.';
+    const retry = '<div class="elif-prize" aria-hidden="true">🔁</div><h2 id="elif-prompt" tabindex="-1">Bir daha deneyelim!</h2>';
     if (round.kind === 'intro') {
-      progress.tanisma = true;
-      save();
-      stage.innerHTML = '<div class="elif-prize" aria-hidden="true">✨</div><h2 id="elif-prompt" tabindex="-1">Harekelerle tanıştın!</h2>' +
+      if (perfect) {
+        progress.tanisma = true;
+        save();
+      }
+      stage.innerHTML = perfect ? '<div class="elif-prize" aria-hidden="true">✨</div><h2 id="elif-prompt" tabindex="-1">Harekelerle tanıştın!</h2>' +
         '<p>Üstün <b lang="ar">◌َ</b> e/a, esre <b lang="ar">◌ِ</b> i/ı, ötre <b lang="ar">◌ُ</b> u okutur. Şimdi öğrendiğin harfleri ' +
         'harekeleriyle okuyalım.</p>' + (storageNote ? '<p>' + storageNote + '</p>' : '') +
-        '<button class="elif-action" id="elif-continue">Harekelere başla</button>';
-      playCue('island');
-      fx.confetti(dialog);
+        '<button class="elif-action" id="elif-continue">Harekelere başla</button>' :
+        retry + '<p>' + misses + ' Harekelere geçmek için hepsini ilk denemede bilmelisin.</p>' +
+        '<button class="elif-action" id="elif-continue">Tekrar dene</button>';
+      playCue(perfect ? 'island' : 'retry');
+      if (perfect) fx.confetti(dialog);
     } else {
       const part = round.part;
+      const before = coveDone(part, round.cove);
+      // Only a round without a single mistake passes the cove and gives its prizes.
+      if (perfect) {
+        for (const i of coveLetters(round.cove)) {
+          if (!mastered(part, i)) earned.push(i);
+          progress[part][i] = Math.max(progress[part][i], mastery);
+        }
+        save();
+      }
       const done = coveDone(part, round.cove);
       const step = nextStep();
       const prizes = earned.map(i => '<span class="elif-won" lang="ar">' + glyphs[i] + '</span>').join('');
-      const heading = !done ? 'Güzel çalıştın!' : !step ? 'Bütün harfleri harekeleriyle okudun!' :
-        part === 'harf' ? coves[round.cove] + ' harflerini öğrendin!' : coves[round.cove] + ' harekeleri tamam!';
-      let text = total + ' sorudan ' + round.right + ' tanesini ilk denemede bildin.';
-      if (!done) text += ' Her harf için iki kez ilk denemede bilince ' + prizeOf(part) + ' kazanırsın. Bir tur daha?';
-      else if (!step) text += ' Sıradaki bölümler yakında geliyor.';
-      else if (step.intro) text += ' Yeni harflere geçmeden önce bu harfleri harekeleriyle okumayı öğrenelim.';
-      else if (step.part === 'hareke') text += ' Yeni harflere geçmeden önce bu harflerin harekelerini öğrenelim.';
-      else text += ' Sırada yeni harfler var: ' + coves[step.cove] + '.';
-      stage.innerHTML = '<div class="elif-prize" aria-hidden="true">' + (done ? prizeOf(part) : '⭐') + '</div><h2 id="elif-prompt" tabindex="-1">' +
-        heading + '</h2>' + (prizes ? '<div class="elif-won-row">' + prizes + '</div>' : '') + '<p>' + text + '</p>' +
-        (storageNote ? '<p>' + storageNote + '</p>' : '') + '<button class="elif-action" id="elif-continue"></button>';
-      $('elif-continue').textContent = !done ? 'Tekrar oyna' : !step ? 'Koya dön' : step.intro ? 'Harekelerle tanış' :
-        step.part === 'hareke' ? 'Harekelerine geç' : 'Yeni harflere geç';
-      playCue(done ? 'island' : 'correct');
-      if (done) fx.confetti(dialog);
+      if (!done) {
+        stage.innerHTML = retry + '<p>' + misses + ' Koyu geçmek için bütün soruları ilk denemede bilmelisin. Harfleri bir kez daha dinle ve tekrar oyna.</p>' +
+          '<button class="elif-action" id="elif-continue">Tekrar oyna</button>';
+        playCue('retry');
+      } else {
+        const heading = before ? (perfect ? 'Hepsi doğru!' : 'Güzel çalıştın!') : !step ? 'Bütün harfleri harekeleriyle okudun!' :
+          part === 'harf' ? coves[round.cove] + ' harflerini öğrendin!' : coves[round.cove] + ' harekeleri tamam!';
+        let text = perfect ? 'Bütün soruları ilk denemede bildin.' : misses;
+        if (!step) text += ' Sıradaki bölümler yakında geliyor.';
+        else if (step.intro) text += ' Yeni harflere geçmeden önce bu harfleri harekeleriyle okumayı öğrenelim.';
+        else if (step.part === 'hareke') text += ' Yeni harflere geçmeden önce bu harflerin harekelerini öğrenelim.';
+        else text += ' Sırada yeni harfler var: ' + coves[step.cove] + '.';
+        stage.innerHTML = '<div class="elif-prize" aria-hidden="true">' + prizeOf(part) + '</div><h2 id="elif-prompt" tabindex="-1">' +
+          heading + '</h2>' + (prizes ? '<div class="elif-won-row">' + prizes + '</div>' : '') + '<p>' + text + '</p>' +
+          (storageNote ? '<p>' + storageNote + '</p>' : '') + '<button class="elif-action" id="elif-continue"></button>';
+        $('elif-continue').textContent = !step ? 'Koya dön' : step.intro ? 'Harekelerle tanış' :
+          step.part === 'hareke' ? 'Harekelerine geç' : 'Yeni harflere geç';
+        playCue(perfect ? 'island' : 'correct');
+        if (perfect) fx.confetti(dialog);
+      }
     }
     $('elif-prompt').focus();
     $('elif-continue').onclick = () => {
+      if (round.kind === 'intro' && !progress.tanisma) {
+        round = { kind: 'intro', part: 'hareke', questions: introRound(), right: 0, missed: new Set() };
+        turn = 0;
+        ask();
+        return;
+      }
       if (round.kind === 'cove' && !coveDone(round.part, round.cove)) { startRound('cove'); return; }
       const step = nextStep();
       dialog.close();
@@ -523,7 +546,7 @@
   /* ---------- Hareke introduction ---------- */
   function startIntro() {
     let slide = 0;
-    round = { kind: 'intro', part: 'hareke', questions: introRound(), right: 0 };
+    round = { kind: 'intro', part: 'hareke', questions: introRound(), right: 0, missed: new Set() };
     turn = 0;
     earned = [];
     dialog.showModal();
