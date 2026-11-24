@@ -189,8 +189,20 @@
   });
   function drawDin() {
     const summary = window.dinBilgisiSummary(activeProfile.id);
-    $('din-summary').textContent = '⭐ ' + summary.yildiz + ' / ' + summary.toplam + ' yıldız · Deneme: ' +
-      (summary.deneme === null ? 'henüz yok' : 'en iyi ' + summary.deneme + ' / 20');
+    $('din-summary').textContent = '📗 ' + summary.ogrenilen + ' / ' + summary.soru + ' soru öğrenildi · ⭐ ' + summary.yildiz +
+      ' / ' + summary.toplam + ' · Deneme: ' + (summary.deneme === null ? 'henüz yok' : 'en iyi ' + summary.deneme + ' / 20');
+    // One row per unit, so a parent can see what is learned and what is left.
+    $('din-units').replaceChildren(...summary.duraklar.map(stop => {
+      const row = document.createElement('li');
+      const done = stop.ogrenilen === stop.soru;
+      row.innerHTML = '<span aria-hidden="true">' + stop.simge + '</span><span><b></b><small></small></span>' +
+        '<span class="din-meter" aria-hidden="true"><i></i></span><em></em>';
+      row.querySelector('b').textContent = stop.unite;
+      row.querySelector('small').textContent = stop.ad + ' · ' + '★'.repeat(stop.yildiz) + '☆'.repeat(3 - stop.yildiz);
+      row.querySelector('i').style.width = stop.ogrenilen / stop.soru * 100 + '%';
+      row.querySelector('em').textContent = done ? '✅ ' + stop.soru : stop.ogrenilen + ' / ' + stop.soru;
+      return row;
+    }));
     $('din-reset').disabled = !summary.any;
   }
   const disarmDin = confirmTwice($('din-reset'), 'Emin misin? Evet, sıfırla', () => {

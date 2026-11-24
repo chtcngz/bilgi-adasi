@@ -7,6 +7,16 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.7.0 · 24.11.2026
+
+Din Bilgisi Adası artık ders kitabının tamamını kapsıyor ve ancak bütün sorular öğrenilince bitiyor.
+
+- **Öğrenildi sayacı:** Bir soru iki ayrı turda doğru bilinince (ve son cevabı doğruysa) öğrenilmiş sayılıyor. Her durak kartında “📗 28 / 57 soru öğrenildi” çubuğu, adanın üstünde de genel ilerleme var. Durak, bütün soruları öğrenilince ✅ ile işaretleniyor; ada, 286 sorunun hepsi öğrenilince bitiyor. Yıldızlar yine tek turun başarısını gösteriyor.
+- Turlarda sırayla önce yanlış yapılan, sonra hiç görülmemiş, sonra henüz öğrenilmemiş sorular geliyor. “Sıradaki” düğmesi en çok sorusu kalan durağı gösteriyor. Tur sonunda kaç yeni soru öğrenildiği yazıyor.
+- **40 yeni soru:** Ders kitabından çıkarılan 194 maddelik kontrol listesinde sorulmayan 37 madde vardı (din ve peygamber kelimelerinin anlamı, hamt, helal, dilek cümleleri, ibadet tanımı, Kur’an okumanın ibadet olması, cüz gülü, sevgi tanımı, Haşimoğulları, Ümmü Eymen, Varaka b. Nevfel, Boykot, Medine Sözleşmesi, Hudeybiye, Hane-i Saadet, Peygamberimizin çocukları, çevre kirliliği…). Artık 194 maddenin hepsi en az bir soruyla soruluyor. Toplam soru sayısı 286.
+- **Ayarlar → İlerleme:** Din Bilgisi Adası için ünite ünite yıldızlar ve öğrenilen soru sayısı görünüyor.
+- Ada başlığındaki ve katalog kartındaki “İmam Hatip’e hazırlık” ifadesi kaldırıldı.
+
 ## 0.6.0 · 24.11.2026
 
 Yeni ada: **Din Bilgisi Adası** (4. sınıf). 4. sınıfın Din Kültürü ve Ahlak Bilgisi konularını pekiştirir ve 5. sınıfa geçişteki Proje İmam Hatip Ortaokulu giriş sınavına hazırlar.
