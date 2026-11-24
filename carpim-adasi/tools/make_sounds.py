@@ -248,6 +248,34 @@ cues['start'] = finish(reverb(mix(1.3,
     (0.40, marimba(note('G4'), 0.6, 0.3), 0.4),
 ), 0.25, 1.0, 0.6), 0.6)
 
+# Harf Yağmuru. These come after the cues above so their randomness stays as it was.
+
+# Catching the right letter: a bubble pops into a bright marimba note. The game raises
+# its pitch along a pentatonic scale as the streak grows.
+cues['pop'] = finish(reverb(mix(0.9,
+    (0.00, bubble(420, 1150, 0.25, rise=0.03, attack=0.004, decay=0.05), 0.9),
+    (0.03, marimba(note('E5'), 0.7), 0.8),
+    (0.03, marimba(note('B5'), 0.5, 0.5), 0.3),
+    *sparkle(3, 0.08, 0.035, 2800, 4600, 0.07),
+), 0.2, 0.9, 0.5), 0.75)
+
+# A letter falling into the sea: a soft, low plop with a little spray, quiet enough
+# to sit under the voice.
+spray_n = int(RATE * 0.3)
+spray = lowpass(rng.uniform(-1, 1, spray_n), np.linspace(1900, 600, spray_n)) * envelope(timeline(0.3), 0.004, 0.05)
+cues['splash'] = finish(reverb(mix(0.5,
+    (0.00, bubble(520, 210, 0.3, rise=0.03, attack=0.003, decay=0.06), 1.0),
+    (0.01, spray, 0.12),
+), 0.18, 0.8, 0.35), 0.34)
+
+# A star filling in on the result card: one bright ding (the game plays the second and
+# third star higher, as a major chord).
+cues['star'] = finish(reverb(mix(1.4,
+    (0.00, bell(note('G5'), 1.2, 0.5), 0.6),
+    (0.00, marimba(note('G5'), 0.6), 0.7),
+    *sparkle(5, 0.04, 0.04, 2400, 5200, 0.08),
+), 0.28, 1.0, 0.8), 0.7)
+
 OUT.mkdir(parents=True, exist_ok=True)
 for name, signal in cues.items():
     save(name, signal)

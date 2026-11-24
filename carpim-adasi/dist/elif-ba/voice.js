@@ -42,24 +42,32 @@ const elifVoice = (() => {
     return buffers.get(src);
   }
   // Steps are { text } for the Turkish voice or { src, text } for a recording that falls
-  // back to reading its text. Each step starts when the one before it ends.
-  function sequence(steps, note) {
+  // back to reading its text. Each step starts when the one before it ends; `after` hears
+  // when the last one has, with false if a step had no voice at all on this device.
+  function sequence(steps, note, after) {
     stop();
     const mine = run;
+    let heard = true;
     const next = i => {
-      if (mine !== run || i >= steps.length) return;
+      if (mine !== run) return;
+      if (i >= steps.length) { after?.(heard); return; }
       const step = steps[i];
       const done = () => { if (mine === run) next(i + 1); };
       const say = () => {
         if (mine !== run) return;
         const tr = turkishVoice();
-        if (!tr) { unavailable(note); return done(); }
+        if (!tr) { heard = false; unavailable(note); return done(); }
         const message = new SpeechSynthesisUtterance(step.text.replace(/ğ/g, 'g'));
         message.lang = 'tr-TR';
         if (tr.voice) message.voice = tr.voice;
         message.rate = 0.8;
         message.onend = done;
-        message.onerror = event => { if (!['interrupted', 'canceled'].includes(event.error)) unavailable(note); };
+        message.onerror = event => {
+          if (['interrupted', 'canceled'].includes(event.error)) return;
+          heard = false;
+          unavailable(note);
+          done();
+        };
         speechSynthesis.speak(message);
       };
       if (!step.src) return say();
@@ -96,9 +104,9 @@ const elifVoice = (() => {
   const hareke = h => elifData.harekeler[h].name.toLocaleLowerCase('tr');
 
   return {
-    say: (text, note) => sequence([{ text }], note),
-    letter: (i, note) => sequence([{ src: letterClip(i), text: elifData.names[i] }], note),
-    syllable: (i, h, note) => sequence([{ src: syllableClip(i, h), text: elifData.readings[i][h] }], note),
+    say: (text, note, after) => sequence([{ text }], note, after),
+    letter: (i, note, after) => sequence([{ src: letterClip(i), text: elifData.names[i] }], note, after),
+    syllable: (i, h, note, after) => sequence([{ src: syllableClip(i, h), text: elifData.readings[i][h] }], note, after),
     // "Be üstün be, be esre bi, be ötre bu": the way the harekes are chanted in class.
     chant(i, h, note) {
       const steps = [];
@@ -109,10 +117,11 @@ const elifVoice = (() => {
     },
     stop,
     // Fetch and decode a cove's clips ahead of time, so the first tap plays at once.
-    preload(letters) {
+    // Harf Yağmuru only says letter names, so it leaves the syllables out.
+    preload(letters, namesOnly = false) {
       for (const i of letters) {
         if (letterClip(i)) decode(letterClip(i));
-        for (const h of [0, 1, 2]) if (syllableClip(i, h)) decode(syllableClip(i, h));
+        if (!namesOnly) for (const h of [0, 1, 2]) if (syllableClip(i, h)) decode(syllableClip(i, h));
       }
     },
     hasRecordings: () => Object.keys(recorded.harf).length + Object.keys(recorded.hece).length > 0,

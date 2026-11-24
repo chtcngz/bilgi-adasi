@@ -1,6 +1,7 @@
 const playCue = (() => {
   const button = document.getElementById('sound');
-  const cues = ['tap', 'key', 'erase', 'tick-3', 'tick-2', 'tick-1', 'correct', 'island', 'victory', 'retry', 'oops', 'start'];
+  const cues = ['tap', 'key', 'erase', 'tick-3', 'tick-2', 'tick-1', 'correct', 'island', 'victory', 'retry', 'oops', 'start',
+    'pop', 'splash', 'star'];
   const source = name => 'assets/audio/' + name + '.wav?v=6';
   let enabled = true;
   let blocked = false;
@@ -39,13 +40,21 @@ const playCue = (() => {
   for (const type of ['pointerdown', 'pointerup', 'touchend', 'keydown', 'click']) {
     document.addEventListener(type, unlock, { capture: true, passive: true });
   }
-  function playFast(name) {
+  // `rate` plays a cue higher or lower (Harf Yağmuru climbs a scale with it), `gain` softer.
+  function playFast(name, { rate = 1, gain = 1 } = {}) {
     const buffer = buffers.get(name);
     if (!buffer || context.state !== 'running') return false;
     const voice = context.createBufferSource();
     voice.buffer = buffer;
-    voice.connect(context.destination);
-    voice.onended = () => { voice.disconnect(); voices.delete(voice); };
+    voice.playbackRate.value = rate;
+    let out = voice;
+    if (gain !== 1) {
+      out = context.createGain();
+      out.gain.value = gain;
+      voice.connect(out);
+    }
+    out.connect(context.destination);
+    voice.onended = () => { voice.disconnect(); if (out !== voice) out.disconnect(); voices.delete(voice); };
     voices.add(voice);
     voice.start();
     return true;
@@ -80,12 +89,15 @@ const playCue = (() => {
     button.setAttribute('aria-label', button.title);
     button.textContent = active ? '🔊' : '🔇';
   }
-  function play(name) {
+  function play(name, options) {
     if (!enabled) return;
-    if (context && playFast(name)) {
+    if (context && playFast(name, options)) {
       if (blocked) { blocked = false; updateButton(); document.dispatchEvent(new Event('soundchange')); }
       return;
     }
+    // A background cue (a letter splashing into the sea) would cut off the others on the
+    // one shared media element, so it stays silent there.
+    if (options?.ambient) return;
     playMedia(name);
   }
   function setEnabled(on) {

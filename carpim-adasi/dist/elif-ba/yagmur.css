@@ -1,0 +1,389 @@
+/* Harf Yağmuru: letters rain from a cloud ceiling into the sea while the turtle calls them. */
+#elif-rain {
+  width: min(780px, 100vw); height: 100vh; height: min(940px, 100dvh); max-width: 100vw; max-height: 100vh; max-height: 100dvh;
+  margin: auto; padding: 0; border-radius: 28px; overflow: hidden; background: #8bd2f1; color: #173f40;
+}
+#elif-rain::backdrop { background: #0f3a48d9; }
+@media (max-width: 650px), (max-height: 600px) {
+  #elif-rain { width: 100vw; height: 100vh; height: 100dvh; margin: 0; border-radius: 0; }
+}
+.rain-scene {
+  position: relative; width: 100%; height: 100%; overflow: hidden; isolation: isolate;
+  touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
+}
+.rain-scene button { touch-action: manipulation; }
+.rain-scene .rain-drop { touch-action: none; }
+
+/* Tints shared by drops, the row of caught letters and the result chips */
+.rain-scene .t0 { --light: #f4fcff; --mid: #c6ebfc; --deep: #8fd0ef; --ink: #134f76; }
+.rain-scene .t1 { --light: #f2fff7; --mid: #c6f1d8; --deep: #8fdcb2; --ink: #165c40; }
+.rain-scene .t2 { --light: #fff7f1; --mid: #ffdac9; --deep: #f6ae94; --ink: #8a3b22; }
+.rain-scene .t3 { --light: #f8f5ff; --mid: #ddd4fd; --deep: #b6a5f1; --ink: #46378f; }
+.rain-scene .t4 { --light: #fffbea; --mid: #fff0b5; --deep: #f3d16c; --ink: #74501a; }
+
+/* ---------- Sky ---------- */
+.rain-sky { position: absolute; inset: 0; z-index: 0; background: linear-gradient(#64bfeb, #9bd8f3 34%, #d2f0f8 70%, #f4f3dc); transition: filter 1.2s; }
+.rain-scene.gloom .rain-sky { filter: saturate(.55) brightness(.9); }
+.rain-sun {
+  position: absolute; right: 7%; top: calc(var(--ceil, 100px) + 6px); width: 104px; height: 104px;
+  opacity: 0; transform: translateY(50px) scale(.4); transition: opacity 1s .5s, transform 1.6s .5s cubic-bezier(.2, 1.3, .3, 1);
+}
+.rain-sun::before {
+  content: ''; position: absolute; inset: -34px; border-radius: 50%;
+  background: repeating-conic-gradient(#ffe38aaa 0 9deg, transparent 9deg 24deg);
+  -webkit-mask: radial-gradient(circle, #000 38%, transparent 70%); mask: radial-gradient(circle, #000 38%, transparent 70%);
+  animation: spin 30s linear infinite;
+}
+.rain-sun::after { content: ''; position: absolute; inset: 16px; border-radius: 50%; background: radial-gradient(circle at 40% 36%, #fffbe2, #ffe06b 55%, #ffc93c); box-shadow: 0 0 44px #ffe38a; }
+.rain-scene.clear .rain-sun { opacity: 1; transform: none; }
+.rain-rainbow {
+  position: absolute; left: 50%; top: calc(var(--ceil, 100px) + 36px); width: 130%; aspect-ratio: 2; transform: translateX(-50%);
+  background: radial-gradient(circle farthest-side at 50% 100%, transparent 64%, #ff8f8f 64% 69%, #ffc06e 69% 74%, #ffe877 74% 79%,
+    #93e18c 79% 84%, #82d0ff 84% 89%, #b9a2ff 89% 94%, transparent 94%);
+  opacity: 0; clip-path: inset(0 100% 0 0); transition: clip-path 2.2s .6s ease-out, opacity 1s .6s;
+}
+.rain-scene.clear .rain-rainbow { opacity: .8; clip-path: inset(0); }
+.rain-far {
+  position: absolute; left: 0; width: 150px; height: 75px; opacity: .8; animation: rain-cloud 80s linear infinite;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 80'%3E%3Cg fill='%23fff'%3E%3Ccircle cx='44' cy='50' r='22'/%3E%3Ccircle cx='76' cy='36' r='28'/%3E%3Ccircle cx='112' cy='46' r='24'/%3E%3Crect x='26' y='48' width='112' height='24' rx='12'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
+}
+.rain-far.one { top: 36%; animation-delay: -30s; }
+.rain-far.two { top: 55%; width: 104px; height: 52px; opacity: .6; animation-duration: 110s; animation-delay: -80s; }
+@keyframes rain-cloud { from { transform: translateX(-160px); } to { transform: translateX(1000px); } }
+/* Elif Ba Adası on the horizon */
+.rain-isle {
+  position: absolute; left: 4%; bottom: calc(var(--sea, 120px) - 18px); width: 124px; height: 66px; opacity: .92;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 64'%3E%3Cellipse cx='60' cy='58' rx='58' ry='10' fill='%23f2d998'/%3E%3Cpath d='M12 58C30 34 62 28 92 44c8 4 14 10 16 14z' fill='%2389c97a'/%3E%3Cpath d='M66 56c2-16 4-26 10-38' stroke='%239a6a3c' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Cg fill='%2341a35c'%3E%3Cpath d='M76 18C64 10 52 12 46 20c12-4 20-3 30-2z'/%3E%3Cpath d='M76 18c8-10 22-10 28-2-10-3-18-2-28 2z'/%3E%3Cpath d='M76 18c-6 4-12 12-14 20 6-8 10-13 14-20z'/%3E%3Cpath d='M76 18c10 4 16 10 18 18-6-7-12-12-18-18z'/%3E%3Cpath d='M76 18c-2-8-6-14-12-16 6 6 9 10 12 16z'/%3E%3C/g%3E%3C/svg%3E") center bottom / contain no-repeat;
+}
+.rain-streaks { position: absolute; inset: 0; overflow: hidden; opacity: 0; transition: opacity 1.2s; }
+.rain-streaks::before {
+  content: ''; position: absolute; left: 0; right: 0; top: -160px; bottom: 0; animation: rain-pour .5s linear infinite;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cpath d='M22 8l-3 16M74 38l-3 18M128 4l-2.5 14M150 70l-3 16M38 92l-3 18M96 112l-2.5 14M12 138l-3 16M134 128l-3 18M62 150l-2 10M104 60l-3 16' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-opacity='.8'/%3E%3C/svg%3E") 0 0 / 160px 160px;
+}
+.rain-scene.raining .rain-streaks { opacity: .55; }
+@keyframes rain-pour { to { transform: translateY(160px); } }
+
+/* ---------- Cloud ceiling: the letters come out from under it ---------- */
+.rain-ceiling {
+  position: absolute; z-index: 9; left: 0; right: 0; top: 0; height: calc(var(--ceil, 100px) + 34px); overflow: hidden;
+  pointer-events: none; transition: transform 1.4s cubic-bezier(.6, 0, .2, 1);
+}
+.rain-ceiling i {
+  position: absolute; top: 0; bottom: 0; left: 0; width: calc(100% + 360px); animation: rain-drift 70s linear infinite;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='48' viewBox='0 0 360 48'%3E%3Cg fill='%23d6ecf6'%3E%3Crect width='360' height='19'/%3E%3Ccircle cx='0' cy='17' r='22'/%3E%3Ccircle cx='48' cy='17' r='26'/%3E%3Ccircle cx='100' cy='17' r='21'/%3E%3Ccircle cx='148' cy='17' r='28'/%3E%3Ccircle cx='202' cy='17' r='23'/%3E%3Ccircle cx='252' cy='17' r='27'/%3E%3Ccircle cx='306' cy='17' r='22'/%3E%3Ccircle cx='360' cy='17' r='22'/%3E%3C/g%3E%3Cg fill='%23fff'%3E%3Crect width='360' height='14'/%3E%3Ccircle cx='0' cy='12' r='22'/%3E%3Ccircle cx='48' cy='12' r='26'/%3E%3Ccircle cx='100' cy='12' r='21'/%3E%3Ccircle cx='148' cy='12' r='28'/%3E%3Ccircle cx='202' cy='12' r='23'/%3E%3Ccircle cx='252' cy='12' r='27'/%3E%3Ccircle cx='306' cy='12' r='22'/%3E%3Ccircle cx='360' cy='12' r='22'/%3E%3C/g%3E%3C/svg%3E") repeat-x 0 100% / 360px 48px,
+    linear-gradient(#e6f5fc, #fff 85%) 0 0 / 100% calc(100% - 46px) no-repeat;
+}
+@keyframes rain-drift { to { transform: translateX(-360px); } }
+.rain-scene.clear .rain-ceiling { transform: translateY(-105%); }
+
+/* ---------- Top bar ---------- */
+.rain-hud {
+  position: absolute; z-index: 10; left: 0; right: 0; top: 0; display: grid; grid-template-columns: 1fr auto 1fr;
+  grid-template-areas: "left listen score" "slots slots slots"; align-items: center; gap: 8px 10px; padding: 10px 12px 2px; pointer-events: none;
+}
+.rain-hud > * { pointer-events: auto; }
+.rain-left { grid-area: left; display: flex; align-items: center; gap: 8px; min-width: 0; }
+.rain-close {
+  flex: none; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border-radius: 50%;
+  border: 2px solid #d4e8f1; background: #fff; color: #3d6670; font-size: 28px; line-height: 1;
+}
+.rain-hearts { display: flex; gap: 2px; }
+.rain-heart { display: block; width: 30px; height: 28px; }
+.rain-heart svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.rain-heart .ghost { fill: #e4ddcf; }
+.rain-heart .half { fill: #ff5a70; transform-box: fill-box; transform-origin: 50% 100%; transition: transform .7s cubic-bezier(.3, .6, .3, 1), opacity .6s .15s; }
+.rain-heart .shine { fill: #fff; opacity: .6; transition: opacity .3s; }
+.rain-heart.lost { animation: rain-heart .5s; }
+.rain-heart.lost .half { opacity: 0; }
+.rain-heart.lost .l { transform: translate(-4px, 7px) rotate(-28deg); }
+.rain-heart.lost .r { transform: translate(4px, 7px) rotate(28deg); }
+.rain-heart.lost .shine { opacity: 0; }
+@keyframes rain-heart { 30% { transform: scale(1.35); } }
+.rain-listen {
+  grid-area: listen; position: relative; display: grid; place-items: center; width: 60px; height: 60px; padding: 0; border-radius: 50%;
+  border: 3px solid #fff; background: radial-gradient(circle at 35% 30%, #3db69e, #16716e 70%); color: #fff;
+  box-shadow: 0 4px 0 #0d5250, 0 8px 18px #0d525044; transition: transform .08s, box-shadow .08s;
+}
+.rain-listen svg { width: 32px; height: 32px; }
+.rain-listen:active { transform: translateY(3px); box-shadow: 0 1px 0 #0d5250; }
+.rain-listen::before, .rain-listen::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 3px solid #48c2a8; opacity: 0; pointer-events: none; }
+.rain-listen.talk::before, .rain-listen.talk::after { animation: rain-ring 1.1s ease-out infinite; }
+.rain-listen.talk::after { animation-delay: .55s; }
+@keyframes rain-ring { from { transform: scale(.95); opacity: .9; } to { transform: scale(1.6); opacity: 0; } }
+.rain-score {
+  grid-area: score; justify-self: end; min-width: 86px; padding: 5px 12px 6px; border-radius: 16px;
+  border: 2px solid #d4e8f1; background: #fff; text-align: right; line-height: 1.05;
+}
+.rain-score small { display: block; font-size: 11px; font-weight: 900; letter-spacing: .07em; text-transform: uppercase; color: #5b8590; }
+.rain-score b { font-size: 23px; font-weight: 950; font-variant-numeric: tabular-nums; color: #173f40; }
+.rain-bump { animation: rain-bump .4s cubic-bezier(.2, 1.6, .4, 1); }
+@keyframes rain-bump { 40% { transform: scale(1.15); } }
+.rain-slots { grid-area: slots; justify-self: center; display: flex; gap: 5px; margin: 0; padding: 0; list-style: none; }
+.rain-slots li { display: grid; place-items: center; width: 27px; height: 27px; border-radius: 50%; border: 2px dashed #b4d6e5; background: #eef8fc; line-height: 1; }
+.rain-slots li.now { border-style: solid; border-color: #f2b544; background: #fff6d8; box-shadow: 0 0 0 3px #ffcf6255; animation: rain-now 1s ease-in-out infinite alternate; }
+.rain-slots li.got { border: 2px solid #fff; background: var(--mid); box-shadow: 0 2px 0 var(--deep); animation: rain-slot .5s cubic-bezier(.2, 1.6, .4, 1); }
+.rain-slots li b { font: normal 19px/1 "Traditional Arabic", "Times New Roman", serif; color: var(--ink); }
+@keyframes rain-now { to { transform: scale(1.12); } }
+@keyframes rain-slot { from { transform: scale(.3); } }
+.rain-prompt {
+  position: absolute; z-index: 3; left: 50%; top: calc(var(--ceil, 100px) + 46px); transform: translateX(-50%); margin: 0;
+  padding: 7px 16px; border-radius: 30px; background: #ffffffd9; box-shadow: 0 4px 14px #1b5a7022;
+  color: #1d5b63; font-size: 17px; font-weight: 900; white-space: nowrap; pointer-events: none; transition: opacity .3s;
+}
+.rain-prompt:empty { opacity: 0; padding: 0; }
+
+/* ---------- Letter drops ---------- */
+.rain-field { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+.rain-drop {
+  position: absolute; left: 0; top: 0; width: var(--drop, 80px); height: var(--drop, 80px); margin: 0; padding: 0; border: 0;
+  background: none; color: inherit; font: inherit; pointer-events: auto; cursor: pointer; will-change: transform;
+  touch-action: none; -webkit-touch-callout: none;
+}
+.rain-drop::before { content: ''; position: absolute; inset: -9%; border-radius: 50%; }
+.rain-drop:focus-visible { outline: none; }
+.rain-drop-in { position: absolute; inset: 0; display: grid; place-items: center; }
+.rain-drop-skin {
+  position: absolute; inset: 0; border-radius: 6% 50% 50%; transform: rotate(45deg); border: 3px solid #fffffff0;
+  background: radial-gradient(circle, var(--light) 0 36%, var(--mid) 72%, var(--deep));
+  box-shadow: inset -6px -6px 12px #00000012, 0 8px 16px #0b4a6a33;
+}
+.rain-drop-in::before { content: ''; position: absolute; z-index: 1; left: 17%; top: 19%; width: 26%; height: 14%; border-radius: 50%; background: #ffffffe0; transform: rotate(-40deg); }
+.rain-drop-in::after { content: ''; position: absolute; z-index: 1; left: 15%; top: 40%; width: 7%; height: 7%; border-radius: 50%; background: #ffffffb0; }
+.rain-drop b {
+  position: relative; z-index: 2; transform: translateY(3%);
+  font: normal calc(var(--drop, 80px) * .58)/1 "Traditional Arabic", "Times New Roman", serif; color: var(--ink); text-shadow: 0 2px 0 #ffffffb0;
+}
+.rain-drop.wrong .rain-drop-skin { filter: grayscale(.9) brightness(1.03); }
+.rain-drop.wrong b { color: #6c7478; }
+.rain-tag {
+  position: absolute; z-index: 3; left: 50%; top: 96%; transform: translateX(-50%); padding: 2px 10px; border-radius: 12px;
+  background: #fff; color: #b03a46; font: normal 900 15px/1.35 Nunito, "Trebuchet MS", sans-serif; white-space: nowrap; box-shadow: 0 3px 8px #0003;
+}
+.rain-splash { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+.rain-splash .ring { position: absolute; left: -30px; top: -8px; width: 60px; height: 16px; border-radius: 50%; border: 3px solid #ffffffe0; animation: rain-ripple .6s ease-out both; }
+.rain-splash .ring.late { animation-delay: .14s; }
+.rain-splash i:not(.ring) { position: absolute; left: -4px; top: -6px; width: 8px; height: 8px; border-radius: 50%; background: #f0fdff; animation: rain-spray .6s cubic-bezier(.25, .7, .45, 1) both; }
+@keyframes rain-ripple { from { transform: scale(.25); opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
+@keyframes rain-spray {
+  0% { transform: none; }
+  45% { transform: translate(calc(var(--dx) * .55), var(--dy)) scale(.9); opacity: 1; }
+  100% { transform: translate(var(--dx), 8px) scale(.35); opacity: 0; }
+}
+
+/* ---------- Sea and the turtle ---------- */
+.rain-sea { position: absolute; left: 0; right: 0; bottom: 0; height: var(--sea, 120px); pointer-events: none; }
+.rain-wave { position: absolute; left: 0; right: 0; bottom: 0; overflow: hidden; }
+.rain-wave::before {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: calc(100% + 300px); animation: rain-swell var(--speed) linear infinite;
+  background: var(--crest) repeat-x 0 0 / 300px 26px, linear-gradient(var(--top), var(--bottom)) 0 25px / 100% calc(100% - 25px) no-repeat;
+}
+.rain-wave.back {
+  top: 0; z-index: 3; --top: #88d9e3; --bottom: #6fcbd9; --speed: 12s;
+  --crest: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='26' viewBox='0 0 300 26' preserveAspectRatio='none'%3E%3Cpath d='M0 11C50 3 100 3 150 11s100 8 150 0v15H0z' fill='%2388d9e3'/%3E%3Cpath d='M0 11C50 3 100 3 150 11s100 8 150 0' fill='none' stroke='%23fff' stroke-opacity='.7' stroke-width='2.2'/%3E%3C/svg%3E");
+}
+.rain-wave.mid {
+  top: 30%; z-index: 5; --top: #4fc0cf; --bottom: #3aaec2; --speed: 9s; animation: rain-heave 4.4s ease-in-out infinite;
+  --crest: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='26' viewBox='0 0 300 26' preserveAspectRatio='none'%3E%3Cpath d='M0 11C50 3 100 3 150 11s100 8 150 0v15H0z' fill='%234fc0cf'/%3E%3Cpath d='M0 11C50 3 100 3 150 11s100 8 150 0' fill='none' stroke='%23fff' stroke-opacity='.55' stroke-width='2.2'/%3E%3C/svg%3E");
+}
+.rain-wave.mid::before { animation-direction: reverse; }
+.rain-wave.front {
+  top: 62%; z-index: 7; --top: #27a2b7; --bottom: #1a879f; --speed: 6.5s;
+  --crest: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='26' viewBox='0 0 300 26' preserveAspectRatio='none'%3E%3Cpath d='M0 11C50 3 100 3 150 11s100 8 150 0v15H0z' fill='%2327a2b7'/%3E%3Cpath d='M0 11C50 3 100 3 150 11s100 8 150 0' fill='none' stroke='%23fff' stroke-opacity='.5' stroke-width='2.2'/%3E%3C/svg%3E");
+}
+@keyframes rain-swell { to { transform: translateX(-300px); } }
+@keyframes rain-heave { 50% { transform: translateY(4px); } }
+.rain-turtle { position: absolute; z-index: 6; left: 50%; bottom: calc(24.5% - 11px); width: calc(var(--sea, 120px) * 1.1); transform: translateX(-46%); }
+.rain-turtle-body { transform-origin: 50% 85%; animation: rain-bob 3.4s ease-in-out infinite; }
+.rain-turtle svg { display: block; width: 100%; height: auto; overflow: visible; }
+.rain-turtle .eyes { transform-origin: 56px 76px; animation: rain-blink 5s infinite; }
+.rain-turtle .glad, .rain-turtle .frown { display: none; }
+.rain-turtle .mouth { transform-origin: 56px 89px; transform: scaleY(.6); transition: transform .25s; }
+.rain-turtle .flipper { transform-origin: 44px 100px; animation: rain-hello 3.4s ease-in-out infinite; }
+.rain-turtle.talk .mouth { animation: rain-chatter .2s ease-in-out infinite alternate; }
+.rain-turtle:is(.happy, .dance) .eyes { display: none; }
+.rain-turtle:is(.happy, .dance) .glad { display: inline; }
+.rain-turtle:is(.happy, .dance) .mouth { transform: scaleY(1.15); }
+.rain-turtle:is(.happy, .dance) .flipper { animation: rain-hello .5s ease-in-out infinite; }
+.rain-turtle.happy .rain-turtle-body { animation: rain-hop .8s cubic-bezier(.3, 1.4, .5, 1); }
+.rain-turtle.dance .rain-turtle-body { animation: rain-dance 1s ease-in-out infinite; }
+.rain-turtle.sad .mouth { display: none; }
+.rain-turtle.sad .frown { display: inline; }
+.rain-turtle.sad .rain-turtle-body { animation: rain-no .7s ease-in-out; }
+@keyframes rain-bob { 50% { transform: translateY(5%) rotate(-1.5deg); } }
+@keyframes rain-blink { 0%, 93%, 100% { transform: none; } 96% { transform: scaleY(.12); } }
+@keyframes rain-chatter { from { transform: scaleY(.3); } to { transform: scaleY(1.15); } }
+@keyframes rain-hello { 0%, 100% { transform: rotate(4deg); } 50% { transform: rotate(-12deg); } }
+@keyframes rain-hop { 35% { transform: translateY(-22%) scale(.96, 1.06); } 65% { transform: translateY(2%) scale(1.06, .94); } }
+@keyframes rain-no { 20% { transform: rotate(-6deg); } 45% { transform: rotate(5deg); } 70% { transform: rotate(-3deg); } }
+@keyframes rain-dance { 0%, 100% { transform: rotate(-5deg); } 50% { transform: translateY(-14%) rotate(5deg); } }
+.rain-bubble {
+  position: absolute; left: -8%; bottom: 76%; display: flex; align-items: center; gap: 6px; min-width: 64px; height: 50px;
+  padding: 0 14px; border-radius: 26px; background: #fff; color: #16716e; box-shadow: 0 6px 16px #0b4a6a33;
+  opacity: 0; transform: scale(.4); transform-origin: 80% 115%; transition: opacity .2s, transform .35s cubic-bezier(.2, 1.5, .4, 1);
+}
+.rain-bubble::after { content: ''; position: absolute; right: 20%; bottom: -7px; width: 18px; height: 18px; border-radius: 0 0 5px; background: #fff; transform: rotate(45deg); }
+.rain-bubble.on { opacity: 1; transform: none; }
+.rain-bubble svg { flex: none; width: 34px; height: 34px; }
+.rain-bubble span { font-size: 22px; font-weight: 950; white-space: nowrap; }
+.rain-bubble span:empty { display: none; }
+.rain-turtle.talk .arc, .rain-listen.talk .arc { animation: rain-arc .9s ease-in-out infinite; }
+.rain-turtle.talk .arc:nth-child(2), .rain-listen.talk .arc:nth-child(2) { animation-delay: .15s; }
+.rain-turtle.talk .arc:nth-child(3), .rain-listen.talk .arc:nth-child(3) { animation-delay: .3s; }
+@keyframes rain-arc { 0%, 100% { opacity: .25; } 40% { opacity: 1; } }
+
+/* ---------- Catches, countdown and praise ---------- */
+.rain-fx { position: absolute; z-index: 11; left: 0; top: 0; width: 0; height: 0; pointer-events: none; }
+.rain-fx .flash {
+  position: absolute; left: calc(var(--drop, 80px) * -.6); top: calc(var(--drop, 80px) * -.6); width: calc(var(--drop, 80px) * 1.2);
+  height: calc(var(--drop, 80px) * 1.2); border-radius: 50%; border: 5px solid #fff; box-shadow: 0 0 20px #fff, inset 0 0 16px #fff;
+  animation: rain-flash .55s ease-out both;
+}
+@keyframes rain-flash { from { transform: scale(.5); opacity: 1; } to { transform: scale(1.55); opacity: 0; } }
+.rain-points {
+  position: absolute; z-index: 11; font-size: 26px; font-weight: 950; color: #fff; pointer-events: none;
+  text-shadow: 0 2px 0 #e28a1c, 0 4px 12px #0005; animation: rain-points .95s ease-out both;
+}
+@keyframes rain-points {
+  0% { opacity: 0; transform: translate(-50%, -30%) scale(.6); }
+  20% { opacity: 1; transform: translate(-50%, -70%) scale(1.1); }
+  100% { opacity: 0; transform: translate(-50%, -190%); }
+}
+.rain-fly {
+  position: absolute; z-index: 12; left: 0; top: 0; pointer-events: none; color: #fff;
+  font: normal calc(var(--drop, 80px) * .58)/1 "Traditional Arabic", "Times New Roman", serif;
+  text-shadow: 0 0 10px #ffd35c, 0 0 2px #e8a92a, 0 2px 0 #e0a12a;
+}
+.rain-toast { position: absolute; z-index: 11; left: 50%; top: 40%; text-align: center; pointer-events: none; opacity: 0; transform: translate(-50%, -50%); }
+.rain-toast.show { animation: rain-toast 1.05s ease-out both; }
+.rain-toast b { display: block; font-size: clamp(34px, 9vw, 52px); font-weight: 950; letter-spacing: -.03em; color: #fff; text-shadow: 0 3px 0 #1c8a78, 0 8px 18px #0b4a5a55; }
+.rain-toast small { display: inline-block; margin-top: 4px; padding: 4px 12px; border-radius: 20px; background: #ff8a3d; color: #fff; font-size: 16px; font-weight: 900; box-shadow: 0 3px 0 #d6662a; }
+@keyframes rain-toast {
+  0% { opacity: 0; transform: translate(-50%, -30%) scale(.5); }
+  20% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+  32% { transform: translate(-50%, -50%) scale(1); }
+  75% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -85%); }
+}
+.rain-count {
+  position: absolute; z-index: 11; left: 50%; top: 46%; font-size: clamp(90px, 26vw, 150px); font-weight: 950; line-height: 1; white-space: nowrap;
+  color: #fff; text-shadow: 0 6px 0 #16716e, 0 14px 30px #0b4a5a66; pointer-events: none; opacity: 0; transform: translate(-50%, -50%);
+}
+.rain-count.go { font-size: clamp(56px, 15vw, 96px); }
+.rain-count.show { animation: rain-count .72s cubic-bezier(.2, 1.3, .4, 1) both; }
+@keyframes rain-count {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(2.2); }
+  30% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(.8); }
+}
+.rain-live { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Start, pause and result cards ---------- */
+.rain-overlay {
+  position: absolute; z-index: 12; inset: 0; display: grid; place-items: center; padding: 18px 14px; overflow-y: auto; touch-action: pan-y;
+  background: radial-gradient(circle at 50% 42%, #ffffff33, #0b3b4a66); animation: fade .3s;
+}
+.rain-overlay[hidden] { display: none; }
+.rain-card {
+  width: min(410px, 100%); padding: 22px 20px 18px; border-radius: 28px; background: #fffdf6; text-align: center;
+  box-shadow: 0 16px 44px #0b3b4a59, 0 4px 0 #e9dec6; animation: sheet .4s cubic-bezier(.2, .9, .3, 1.15) both;
+}
+.rain-card h2 { margin: 6px 0 4px; font-size: clamp(28px, 7.5vw, 38px); letter-spacing: -.04em; color: #173f40; }
+.rain-card h2 em { font-style: normal; color: #16716e; }
+.rain-card p { margin: 6px auto; max-width: 34ch; font-weight: 700; line-height: 1.4; color: #3f5f58; }
+.rain-go {
+  display: block; width: 100%; min-height: 56px; margin-top: 14px; border: 0; border-radius: 18px; background: #176d60; color: #fff;
+  font-size: 21px; font-weight: 900; box-shadow: 0 5px 0 #0c5146; transition: transform .08s, box-shadow .08s;
+}
+.rain-go:active { transform: translateY(3px); box-shadow: 0 2px 0 #0c5146; }
+.rain-back { display: block; width: 100%; min-height: 48px; margin-top: 10px; border: 2px solid #b2d5c4; border-radius: 16px; background: #fff; color: #176d60; font-weight: 850; }
+.rain-intro-art { display: flex; justify-content: center; gap: 16px; height: 96px; margin: 2px 0 6px; --drop: 64px; }
+.rain-intro-art .rain-drop { position: relative; flex: none; margin-top: 18px; animation: rain-hover 2.6s ease-in-out infinite; }
+.rain-intro-art .rain-drop:nth-child(2) { margin-top: 4px; animation-delay: -.9s; }
+.rain-intro-art .rain-drop:nth-child(3) { animation-delay: -1.7s; }
+@keyframes rain-hover { 50% { transform: translateY(8px) rotate(4deg); } }
+.rain-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0 10px; padding: 0; list-style: none; }
+.rain-facts li { padding: 8px 4px; border-radius: 16px; border: 2px solid #eee2c6; background: #fff; line-height: 1.2; }
+.rain-facts b { display: block; font-size: 24px; color: #16716e; }
+.rain-facts span { font-size: 12px; font-weight: 800; color: #5a6f6a; }
+.rain-pool { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; margin: 0 0 4px; direction: rtl; }
+.rain-pool b { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #e7f5fb; color: #1b5470; font: normal 22px/1 "Traditional Arabic", "Times New Roman", serif; }
+.rain-card .rain-record { display: inline-block; margin: 8px 0 0; padding: 5px 14px; border-radius: 20px; background: #f7ebca; color: #705127; font-weight: 850; }
+.rain-card .rain-record.new { background: linear-gradient(90deg, #ffd56b, #ffb23e); color: #5c3906; box-shadow: 0 3px 0 #e39a2d; animation: pop-in .6s .6s cubic-bezier(.2, 1.6, .4, 1) both; }
+.rain-stars { display: flex; justify-content: center; align-items: flex-end; gap: 4px; margin-top: 2px; }
+.rain-stars svg { width: 58px; height: 58px; overflow: visible; }
+.rain-stars svg:nth-child(2) { width: 70px; height: 70px; margin-bottom: 8px; }
+.rain-stars path { fill: #ece5d3; stroke: #ddd2b6; stroke-width: 1.3; stroke-linejoin: round; }
+.rain-stars .won path { fill: #ffc83d; stroke: #e0981b; }
+.rain-stars .won { filter: drop-shadow(0 3px 4px #e0981b66); animation: rain-star .6s var(--d) cubic-bezier(.2, 1.6, .4, 1) both; }
+@keyframes rain-star { from { opacity: 0; transform: scale(0) rotate(-40deg); } }
+.rain-pause {
+  display: flex; justify-content: center; gap: 9px; width: 72px; height: 72px; margin: 2px auto 0; padding-top: 20px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #3db69e, #16716e 70%); box-shadow: 0 4px 0 #0d5250; animation: pop-in .5s cubic-bezier(.2, 1.6, .4, 1) both;
+}
+.rain-pause i { width: 10px; height: 32px; border-radius: 5px; background: #fff; }
+/* Out of hearts: the last heart breaks in two */
+.rain-broken { width: 78px; height: 72px; margin: 4px auto 0; }
+.rain-broken svg { width: 100%; height: 100%; overflow: visible; }
+.rain-broken .ghost, .rain-broken .shine { display: none; }
+.rain-broken .half { fill: #ff7186; transform-box: fill-box; transform-origin: 50% 100%; }
+.rain-broken .l { animation: rain-break-l .8s .25s cubic-bezier(.3, 1.4, .5, 1) both; }
+.rain-broken .r { animation: rain-break-r .8s .25s cubic-bezier(.3, 1.4, .5, 1) both; }
+@keyframes rain-break-l { to { transform: translate(-3px, 2px) rotate(-14deg); } }
+@keyframes rain-break-r { to { transform: translate(3px, 2px) rotate(14deg); } }
+.rain-card .rain-total { margin: 10px 0 0; font-weight: 800; color: #5a6f6a; }
+.rain-total b { display: block; font-size: 48px; font-weight: 950; line-height: 1; letter-spacing: -.03em; color: #173f40; font-variant-numeric: tabular-nums; }
+.rain-recap { margin-top: 14px; padding-top: 12px; border-top: 2px dashed #eee2c6; }
+.rain-card .rain-recap p { margin: 0 0 8px; font-size: 14px; }
+.rain-recap div { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; direction: rtl; }
+.rain-chip { display: grid; justify-items: center; min-width: 58px; padding: 4px 8px 6px; border-radius: 16px; border: 2px solid var(--deep); background: var(--light); color: var(--ink); box-shadow: 0 3px 0 var(--deep); }
+.rain-chip b { font: normal 32px/1.25 "Traditional Arabic", "Times New Roman", serif; }
+.rain-chip span { direction: ltr; font-size: 13px; font-weight: 900; }
+.rain-actions { margin-top: 6px; }
+
+/* Narrow phones: the hearts and the close button make room for the speaker in the middle */
+@media (max-width: 400px) {
+  .rain-hud { padding-inline: 10px; column-gap: 8px; }
+  .rain-left { gap: 5px; }
+  .rain-close { width: 42px; height: 42px; }
+  .rain-hearts { gap: 1px; }
+  .rain-heart { width: 26px; height: 24px; }
+  .rain-score { min-width: 76px; padding-inline: 10px; }
+}
+@media (max-width: 360px) {
+  .rain-slots { gap: 3px; }
+  .rain-slots li { width: 25px; height: 25px; }
+}
+@media (max-width: 340px) {
+  .rain-close { width: 38px; height: 38px; font-size: 24px; }
+  .rain-heart { width: 22px; height: 21px; }
+  .rain-listen { width: 52px; height: 52px; }
+  .rain-score { min-width: 64px; }
+  .rain-score b { font-size: 19px; }
+}
+/* Short screens: a tighter result card */
+@media (max-height: 700px) {
+  .rain-card { padding-top: 16px; }
+  .rain-stars svg { width: 46px; height: 46px; }
+  .rain-stars svg:nth-child(2) { width: 56px; height: 56px; }
+  .rain-total b { font-size: 40px; }
+  .rain-recap { margin-top: 10px; padding-top: 8px; }
+  .rain-chip { min-width: 50px; padding: 2px 6px 4px; }
+  .rain-chip b { font-size: 26px; }
+  .rain-go { min-height: 50px; margin-top: 10px; }
+  .rain-back { min-height: 44px; margin-top: 8px; }
+}
+/* Phones on their side: one row on top, smaller cards */
+@media (max-height: 520px) {
+  .rain-hud { grid-template-columns: auto 1fr auto auto; grid-template-areas: "left slots listen score"; padding-top: 6px; }
+  .rain-listen { width: 48px; height: 48px; }
+  .rain-listen svg { width: 26px; height: 26px; }
+  .rain-slots li { width: 24px; height: 24px; }
+  .rain-prompt { top: calc(var(--ceil, 60px) + 30px); font-size: 15px; }
+  .rain-overlay { place-items: start center; }
+  .rain-card { padding: 14px 16px; }
+  .rain-intro-art, .rain-pool { display: none; }
+  .rain-facts { margin: 8px 0 4px; }
+  .rain-bubble { height: 40px; min-width: 52px; padding: 0 10px; }
+  .rain-bubble svg { width: 26px; height: 26px; }
+}

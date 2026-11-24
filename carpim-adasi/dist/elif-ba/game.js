@@ -10,7 +10,8 @@
 
   /* ---------- Progress ---------- */
   const storeKey = id => 'elif-ba-v2-' + id;
-  function blank() { return { harf: Array(28).fill(0), hareke: Array(28).fill(0), tanisma: false }; }
+  // yagmur: Harf Yağmuru's best score, best stars and finished rounds.
+  function blank() { return { harf: Array(28).fill(0), hareke: Array(28).fill(0), tanisma: false, yagmur: { rekor: 0, yildiz: 0, tur: 0 } }; }
   function load(id) {
     if (records.has(id)) return records.get(id);
     const saved = readRecord(storeKey(id));
@@ -22,6 +23,12 @@
         });
       }
       record.tanisma = saved.tanisma === true;
+      if (saved.yagmur && typeof saved.yagmur === 'object') {
+        for (const key of ['rekor', 'yildiz', 'tur']) {
+          const n = saved.yagmur[key];
+          if (Number.isInteger(n) && n > 0) record.yagmur[key] = key === 'yildiz' ? Math.min(3, n) : n;
+        }
+      }
     } else {
       // Version 0.1 kept the letters found in the matching game as a list of indexes.
       const old = readRecord('elif-ba-' + id);
@@ -74,8 +81,8 @@
 
   window.elifBaSummary = id => {
     const record = load(id);
-    return { harf: masteredCount('harf', record), hareke: masteredCount('hareke', record), any:
-      record.harf.some(Boolean) || record.hareke.some(Boolean) || record.tanisma };
+    return { harf: masteredCount('harf', record), hareke: masteredCount('hareke', record), rekor: record.yagmur.rekor, any:
+      record.harf.some(Boolean) || record.hareke.some(Boolean) || record.tanisma || record.yagmur.rekor > 0 };
   };
   window.resetElifBa = id => {
     records.set(id, blank());
@@ -141,6 +148,8 @@
       item.append(button);
       return item;
     }));
+    // The game comes right after the letters it plays with.
+    $('elif-sections').children[0].after(rainCard());
     const step = nextStep();
     $('elif-next-step').hidden = !step;
     if (step) {
@@ -205,6 +214,7 @@
       'Bir heceye dokun, okunuşunu dinle. ♪ düğmesi üç harekeyi sırayla okur.';
     $('elif-cards').className = 'elif-cards ' + (part === 'harf' ? 'letters' : 'syllables');
     $('elif-cards').replaceChildren(...letters.map(i => part === 'harf' ? letterCard(i) : syllableCard(i)));
+    drawRainBanner(part);
     const open = coveOpen(part, cove);
     $('elif-play').disabled = !open;
     $('elif-play').textContent = !open ? '🔒 ' + (needIntro ? 'Önce harekelerle tanış' : 'Kilitli') :
@@ -263,6 +273,72 @@
     const button = el('button', 'elif-action' + (done ? ' quiet' : ''), done ? 'Tekrar izle' : '▶ Başla');
     button.onclick = startIntro;
     $('elif-intro').append(button);
+  }
+
+  /* ---------- Harf Yağmuru ---------- */
+  // The listening game opens with the first cove's letters and rains every letter learned so far.
+  const rainOpen = () => coveDone('harf', 0);
+  const learnedLetters = () => glyphs.map((_, i) => i).filter(i => mastered('harf', i));
+  function rainArt() {
+    const letters = learnedLetters();
+    const shown = (letters.length ? letters : coveLetters(0)).slice(-3);
+    return '<span class="elif-rain-art" aria-hidden="true"><i></i>' + shown.map(i => '<b lang="ar">' + glyphs[i] + '</b>').join('') + '</span>';
+  }
+  function rainCard() {
+    const item = el('li');
+    const open = rainOpen();
+    const best = progress.yagmur;
+    const button = el('button', 'elif-section-card elif-rain-card' + (open ? '' : ' locked'));
+    button.style.setProperty('--i', 1);
+    const status = !open ? '🔒 ' + coves[0] + ' harfleri öğrenilince açılır' : best.rekor ? '🏆 Rekor ' + best.rekor +
+      (best.yildiz ? ' · ' + '★'.repeat(best.yildiz) + '☆'.repeat(3 - best.yildiz) : '') : '🌧️ ' + learnedLetters().length + ' harfle oyna';
+    button.innerHTML = rainArt() + '<span class="elif-section-text"><small>Oyun</small><strong>Harf Yağmuru</strong>' +
+      '<span>Sesi dinle, yağan harflerden doğrusunu yakala</span><span class="elif-badge">' + status + '</span></span>';
+    if (open) button.onclick = openRain;
+    else {
+      button.dataset.cue = '';
+      button.setAttribute('aria-disabled', 'true');
+      button.onclick = () => {
+        playCue('oops');
+        fx.bump(button, 'denied');
+        $('elif-hub-note').textContent = 'Harf Yağmuru, ' + coves[0] + ' harflerini öğrenince açılır.';
+      };
+    }
+    item.append(button);
+    return item;
+  }
+  function drawRainBanner(part) {
+    const banner = $('elif-rain-banner');
+    banner.hidden = part !== 'harf' || !rainOpen();
+    if (banner.hidden) return;
+    const best = progress.yagmur;
+    banner.innerHTML = rainArt() + '<span class="elif-rain-text"><small>Oyun zamanı' + (best.rekor ? ' · 🏆 ' + best.rekor : '') +
+      '</small><strong>Harf Yağmuru</strong><span>Öğrendiğin ' + learnedLetters().length + ' harf gökten yağıyor!</span></span>' +
+      '<span class="elif-rain-go" aria-hidden="true">▶</span>';
+    banner.onclick = openRain;
+  }
+  function openRain() {
+    if (!rainOpen()) return;
+    voice.stop();
+    const done = coves.map((_, k) => k).filter(k => coveDone('harf', k));
+    harfYagmuru.open({
+      letters: learnedLetters(),
+      recent: coveLetters(done[done.length - 1]),
+      best: () => progress.yagmur,
+      onResult({ score, stars, won }) {
+        const record = progress.yagmur;
+        record.rekor = Math.max(record.rekor, score);
+        if (won) {
+          record.yildiz = Math.max(record.yildiz, stars);
+          record.tur++;
+        }
+        save();
+      },
+      onClose() {
+        if ($('elif-view').hidden) return;
+        if (section) drawSection(); else showHub();
+      }
+    });
   }
 
   /* ---------- Rounds ---------- */
@@ -534,7 +610,9 @@
         else text += ' Sırada yeni harfler var: ' + coves[step.cove] + '.';
         stage.innerHTML = '<div class="elif-prize" aria-hidden="true">' + prizeOf(part) + '</div><h2 id="elif-prompt" tabindex="-1">' +
           heading + '</h2>' + (prizes ? '<div class="elif-won-row">' + prizes + '</div>' : '') + '<p>' + text + '</p>' +
-          (storageNote ? '<p>' + storageNote + '</p>' : '') + '<button class="elif-action" id="elif-continue"></button>';
+          (storageNote ? '<p>' + storageNote + '</p>' : '') + '<button class="elif-action" id="elif-continue"></button>' +
+          (part === 'harf' ? '<button class="elif-action quiet" id="elif-rain-go">🌧️ Harf Yağmuru’nda oyna</button>' : '');
+        if (part === 'harf') $('elif-rain-go').onclick = () => { dialog.close(); openRain(); };
         $('elif-continue').textContent = !step ? 'Koya dön' : step.intro ? 'Harekelerle tanış' :
           step.part === 'hareke' ? 'Harekelerine geç' : 'Yeni harflere geç';
         playCue(perfect ? 'island' : 'correct');

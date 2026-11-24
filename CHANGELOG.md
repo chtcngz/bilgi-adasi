@@ -7,6 +7,19 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.9.0 · 24.11.2026
+
+Elif Ba Adası'na ilk oyun geldi: **Harf Yağmuru**. Öğrenilen harflerle oynanan bir dinleme oyunu.
+
+- Kaplumbağa bir harfin adını söylüyor, ardından bulutların altından harfler damla damla yağmaya başlıyor. Çocuk duyduğu harfe denize düşmeden dokununca kaplumbağa sıradaki harfi söylüyor. Bir turda 10 harf yakalanıyor ve harfler her seferinde biraz daha hızlı yağıyor.
+- Yalnızca öğrenilmiş harfler yağıyor. Son öğrenilen koyun harfleri her turda soruluyor, önceki koyların harfleri tekrar için araya giriyor. Turun ilerleyen bölümünde yalnızca noktalarıyla ayrılan harfler (ب ت ث, ج ح خ…) birlikte yağıyor.
+- 3 can var. Yanlış harfe dokununca bir kalp kırılıyor, o harf griye dönüp adını gösteriyor ve kaplumbağa doğru harfi yeniden söylüyor. Yakalanamadan denize düşen harf can götürmüyor; kaplumbağa harfi bir daha söylüyor. Üstteki 🔊 düğmesi harfi istenince tekrarlıyor.
+- Her yakalanan harf 100 puan; harfi havadayken erken yakalamak 60 puana kadar, üst üste doğrular (🔥 seri) iki katına kadar ek puan getiriyor. Tur bitince kalan kalpler yıldız oluyor, yağmur dinip gökkuşağı çıkıyor; puan, rekor ve yakalanan harfler (dokununca okunuyor) gösteriliyor.
+- Yakalama sesi seri uzadıkça notadan notaya yükseliyor, harfler denize "şıp" diye düşüyor, yıldızlar tek tek çınlıyor. Kaplumbağa konuşurken ağzı oynuyor, doğruda zıplıyor, yanlışta üzülüyor. Yeni sesler `tools/make_sounds.py` ile üretildi.
+- Oyun, Kaplumbağa Koyu harfleri öğrenilince açılıyor. Ada sayfasında Harfler bölümünün hemen ardındaki karttan, Harfler bölümünün altından ve bir koyun harfleri bitince sonuç ekranından oyuna gidiliyor.
+- Uygulamadan çıkınca oyun duraklıyor ve kaldığı yerden devam ediyor. Ses çalınamayan cihazlarda kaplumbağanın balonunda harfin adı yazıyor.
+- Ayarlar → İlerleme bölümünde Harf Yağmuru rekoru da görünüyor; Elif Ba ilerlemesi sıfırlanınca o da sıfırlanıyor.
+
 ## 0.8.0 · 24.11.2026
 
 Yeni ada: **Fen Bilimleri Adası** (4. sınıf). Din Bilgisi Adası’yla aynı düzende çalışıyor: ders kitabının ünitelerini izleyen duraklar, her turda 10 soru, 3 kalp ve “yarı yarıya” jokeri, Tekrar Kutusu, öğrenilen soru sayacı ve 20 soruluk Deneme Sınavı.
