@@ -58,7 +58,8 @@
   }
   function refreshView() {
     const hidesGame = (view, card) => !$(view).hidden && !availableForPlayer($(card));
-    if (!$('catalog').hidden || hidesGame('island-view', 'multiplication-card') || hidesGame('elif-view', 'elif-card')) {
+    if (!$('catalog').hidden || hidesGame('island-view', 'multiplication-card') || hidesGame('elif-view', 'elif-card') ||
+      hidesGame('din-view', 'din-card')) {
       window.speechSynthesis?.cancel();
       showCatalog();
     }
@@ -89,11 +90,12 @@
       localStorage.removeItem(progressKey(profile));
       localStorage.removeItem('elif-ba-' + profile.id);
       localStorage.removeItem('elif-ba-v2-' + profile.id);
+      localStorage.removeItem('din-bilgisi-' + profile.id);
     } catch {}
     saveProfiles();
     window.speechSynthesis?.cancel();
     activeProfile = null;
-    for (const view of ['catalog', 'island-view', 'elif-view', 'game-tools', 'settings-button']) $(view).hidden = true;
+    for (const view of ['catalog', 'island-view', 'elif-view', 'din-view', 'game-tools', 'settings-button']) $(view).hidden = true;
     $('player').textContent = 'Oyuncu seç';
     $('player').title = '';
     dialog.close();
@@ -185,20 +187,34 @@
     drawElif();
     playCue('start');
   });
+  function drawDin() {
+    const summary = window.dinBilgisiSummary(activeProfile.id);
+    $('din-summary').textContent = '⭐ ' + summary.yildiz + ' / ' + summary.toplam + ' yıldız · Deneme: ' +
+      (summary.deneme === null ? 'henüz yok' : 'en iyi ' + summary.deneme + ' / 20');
+    $('din-reset').disabled = !summary.any;
+  }
+  const disarmDin = confirmTwice($('din-reset'), 'Emin misin? Evet, sıfırla', () => {
+    window.resetDinBilgisi?.(activeProfile.id);
+    drawDin();
+    playCue('start');
+  });
   function fillProgress() {
     const carpim = availableForPlayer($('multiplication-card'));
     const elif = availableForPlayer($('elif-card'));
+    const din = availableForPlayer($('din-card'));
     $('carpim-progress').hidden = !carpim;
     $('elif-progress').hidden = !elif;
-    $('no-progress').hidden = carpim || elif;
+    $('din-progress').hidden = !din;
+    $('no-progress').hidden = carpim || elif || din;
     resetAt = null;
     if (carpim) drawResetMap();
     if (elif) drawElif();
+    if (din) drawDin();
   }
 
   $('settings-button').onclick = () => {
     if (!activeProfile) return;
-    disarmDelete(); disarmReset(); disarmElif();
+    disarmDelete(); disarmReset(); disarmElif(); disarmDin();
     fillPlayer();
     syncSound();
     syncVoice();

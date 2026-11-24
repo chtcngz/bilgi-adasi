@@ -7,6 +7,17 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.6.0 · 24.11.2026
+
+Yeni ada: **Din Bilgisi Adası** (4. sınıf). 4. sınıfın din kültürü konularını pekiştirir ve 5. sınıfa geçişteki Proje İmam Hatip Ortaokulu giriş sınavına hazırlar.
+
+- Sorular, Ankara Tevfik İleri Anadolu İmam Hatip Lisesi'nin 5. sınıfa giriş sınavlarındaki (2017-2018 ve 2023-2024) Din Kültürü ve Ahlak Bilgisi testleri incelenerek aynı konularda ve aynı tarzda yeniden yazıldı: okuma metinli sorular, ayet ve hadis yorumları, “hangisi değildir” soruları, eşleştirme ve sıralama soruları.
+- Altı durakta 153 çoktan seçmeli soru: ⚓ Selam Limanı (dinî ifadeler), ⛲ Abdest Çeşmesi (temizlik, namaz ve ibadetler), 🌷 Dua Bahçesi (Allah inancı, iman ve dua), 📖 Mushaf Koyu (Kur'an-ı Kerim ve kısa sureler), ⛰️ Hira Tepesi (Hz. Muhammed'in hayatı), 🌳 İyilik Ormanı (güzel ahlak).
+- Her turda 10 soru, 3 kalp ve bir “yarı yarıya” jokeri var. Her cevaptan sonra “Biliyor muydun?” notu konuyu kısaca anlatıyor. Üst üste doğrular 🔥 seri olarak sayılıyor. Hatasız tur 3, bir yanlış 2, iki yanlış 1 yıldız veriyor; bir durak en az bir yıldızla bitince sonraki açılıyor.
+- Yanlış cevaplanan sorular **Tekrar Kutusu**'na giriyor ve doğrusu bulunana kadar orada kalıyor. Yeni turlarda önce yanlışlar ve görülmemiş sorular geliyor.
+- Bütün duraklar bitince **Deneme Sınavı** açılıyor: gerçek sınav gibi her konudan karışık 20 soru. Sonuçta puan, süre, en iyi skor, konulara göre doğrular ve açıklamalı yanlış listesi gösteriliyor.
+- Ayarlar → İlerleme bölümünden Din Bilgisi Adası ilerlemesi sıfırlanabiliyor.
+
 ## 0.5.1 · 24.11.2026
 
 - Elif Ba Adası'nda yanlış cevap artık Çarpım Adası'ndaki gibi işliyor: ilk yanlışta tur hemen bitiyor. Yanlış seçilen kırmızı, doğrusu yeşil gösteriliyor ve doğru cevap seslendiriliyor; "Tekrar dene" ile tur yeni sorularla baştan başlıyor. Koy yine yalnızca hatasız bir turla geçiliyor.
