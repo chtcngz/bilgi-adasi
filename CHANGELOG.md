@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.15.1 · 24.11.2026
+
+0.15.0'daki hız çubuğu ve hızlanan, karışık akış, tarayıcının eski oyun dosyalarını önbellekten açması yüzünden görünmüyordu. Değişen dosyaların sürüm işaretleri yenilendi; sayfa açılınca Harf Yağmuru ile Hece Balonları'nın yeni hali yükleniyor.
+
 ## 0.15.0 · 24.11.2026
 
 Harf Yağmuru ve Hece Balonları biraz daha hızlı akıyor. Kaplumbağanın söylediği harf (hece) artık peş peşe gelmiyor ve oyunun hızı üstteki bir çubukla ayarlanabiliyor.
