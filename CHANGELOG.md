@@ -7,6 +7,17 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.14.0 · 24.11.2026
+
+Yeni ada: **Sosyal Bilgiler Adası** (4. sınıf). Din Bilgisi ve Fen Bilimleri adalarıyla aynı düzende çalışıyor: ders kitabının ünitelerini izleyen duraklar, her turda 10 soru, 3 kalp ve “yarı yarıya” jokeri, Tekrar Kutusu, öğrenilen soru sayacı ve 20 soruluk Deneme Sınavı.
+
+- İlk yedi durak, bu yıl okullarda okutulan MEB 4. sınıf Sosyal Bilgiler ders kitabının (Millî Eğitim Bakanlığı Yayınları, 2026 baskısı) ünitelerini sırasıyla izliyor: 🧒 Dostluk Köyü (Toplumun parçasıyım), 🏰 Miras Kalesi (Kültürel mirasım), 🧭 Pusula Tepesi (Yaşadığım yeri tanıyorum), ⚙️ Mucitler Atölyesi (Teknoloji her yerde), 🧺 Bereket Çarşısı (Üretimden tüketime), 🏛️ Meclis Meydanı (Bilinçli vatandaşım), 🌍 Dünya Limanı (Küresel yolculuk). 4. sınıf Sosyal Bilgiler bu yıl henüz Maarif Modeli’ne geçmediği için 2018 programının kitabı esas alındı. Kartlarda kitabın sayfa aralığı yazıyor. Yedi ünite baştan açık.
+- **Kitabın tamamı soruluyor.** Kitaptan sayfa sayfa 340 maddelik bir kontrol listesi çıkarıldı. Kitabın başındaki İstiklal Marşı ile Gençliğe Hitabe, haber kutuları ve sondaki kronoloji de bu listede. Her madde en az bir soruyla soruluyor; adanın bütün sorularını öğrenen çocuğun kitapta öğrenmediği bir şey kalmıyor.
+- Soruların tarzı, Ankara Tevfik İleri Anadolu İmam Hatip Lisesi’nin 2016-2025 yıllarındaki 9 giriş sınavının Sosyal Bilgiler testleri incelenerek belirlendi (2021 kitapçığı okulun sitesinde yok): kimlik kartı, kronolojik sıralama, kroki ve yön bulma, hava durumu tabloları, bütçe hesapları, Millî Mücadele kahramanları, Türk devletleri, “hangisi söylenemez” ve I-II-III soruları. Sınav soruları aynen alınmadı. Benzeri bir sınavda çıkmış 148 sorunun açıklamasının altında yılı yazıyor.
+- 📚 Kâşif Kütüphanesi: kitapta olmayan ama sınavlarda sorulan konular (hobi, duygular, Trakya, denizlerimiz, Ankara, fay hatları, tsunami, RTÜK, TEMA…). Yedi ünite bitince Deneme Sınavı ile birlikte açılıyor.
+- Toplam 427 soru. Ayarlar → İlerleme bölümünde Sosyal Bilgiler Adası için ünite ünite yıldızlar ve öğrenilen soru sayısı görünüyor; ilerleme buradan sıfırlanabiliyor.
+- Yeni kural: Ders kitabını izleyen her soru adası, 1., 2., 3. ve 4. sınıflar dahil, kitabın tamamını sormak zorunda. Her ada kitaptan çıkarılan kontrol listesini `kapsam.md` dosyasında tutuyor; `node tools/kapsam.js` sorusu olmayan madde ya da hatalı soru kalırsa uyarıyor. Kural README’de ve CLAUDE.md’de yazıyor.
+
 ## 0.13.1 · 24.11.2026
 
 Elif Ba Adası'nın Harekeler turlarında Türkçe okunuş artık yazılmıyor. Sorular yalnızca sesle ve harekeli harfle soruluyor.
