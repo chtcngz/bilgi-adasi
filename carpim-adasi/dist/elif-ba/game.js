@@ -10,9 +10,10 @@
 
   /* ---------- Progress ---------- */
   const storeKey = id => 'elif-ba-v2-' + id;
-  // yagmur: Harf Yağmuru's best score, the most hearts (stars) a section was finished with,
-  // and whether it was ever finished with all three, which completes it.
-  function blank() { return { harf: Array(28).fill(0), hareke: Array(28).fill(0), tanisma: false, yagmur: { rekor: 0, yildiz: 0, tamam: false } }; }
+  // yagmur (Harf Yağmuru) and balon (Hece Balonları): the game's best score, the most hearts
+  // (stars) a section was finished with, and whether it was ever finished with all three.
+  const blankGame = () => ({ rekor: 0, yildiz: 0, tamam: false });
+  function blank() { return { harf: Array(28).fill(0), hareke: Array(28).fill(0), tanisma: false, yagmur: blankGame(), balon: blankGame() }; }
   function load(id) {
     if (records.has(id)) return records.get(id);
     const saved = readRecord(storeKey(id));
@@ -24,13 +25,14 @@
         });
       }
       record.tanisma = saved.tanisma === true;
-      const rain = saved.yagmur;
-      if (rain && typeof rain === 'object') {
-        if (Number.isInteger(rain.rekor) && rain.rekor > 0) record.yagmur.rekor = rain.rekor;
+      for (const name of ['yagmur', 'balon']) {
+        const game = saved[name];
+        if (!game || typeof game !== 'object') continue;
+        if (Number.isInteger(game.rekor) && game.rekor > 0) record[name].rekor = game.rekor;
         // Stars from before the fifteen-letter section (0.9.0 had ten-letter rounds) do not count.
-        if ('tamam' in rain) {
-          if (Number.isInteger(rain.yildiz) && rain.yildiz > 0) record.yagmur.yildiz = Math.min(3, rain.yildiz);
-          record.yagmur.tamam = rain.tamam === true;
+        if ('tamam' in game) {
+          if (Number.isInteger(game.yildiz) && game.yildiz > 0) record[name].yildiz = Math.min(3, game.yildiz);
+          record[name].tamam = game.tamam === true;
         }
       }
     } else {
@@ -85,8 +87,9 @@
 
   window.elifBaSummary = id => {
     const record = load(id);
-    return { harf: masteredCount('harf', record), hareke: masteredCount('hareke', record), rekor: record.yagmur.rekor, tamam: record.yagmur.tamam, any:
-      record.harf.some(Boolean) || record.hareke.some(Boolean) || record.tanisma || record.yagmur.rekor > 0 };
+    return { harf: masteredCount('harf', record), hareke: masteredCount('hareke', record), rekor: record.yagmur.rekor, tamam: record.yagmur.tamam,
+      balon: { ...record.balon }, any: record.harf.some(Boolean) || record.hareke.some(Boolean) || record.tanisma ||
+      record.yagmur.rekor > 0 || record.balon.rekor > 0 };
   };
   window.resetElifBa = id => {
     records.set(id, blank());
@@ -152,8 +155,9 @@
       item.append(button);
       return item;
     }));
-    // The game comes right after the letters it plays with.
-    $('elif-sections').children[0].after(rainCard());
+    // Each game comes right after the section it plays with.
+    $('elif-sections').children[1].after(gameCard('balon', 2));
+    $('elif-sections').children[0].after(gameCard('yagmur', 1));
     const step = nextStep();
     $('elif-next-step').hidden = !step;
     if (step) {
@@ -279,59 +283,85 @@
     $('elif-intro').append(button);
   }
 
-  /* ---------- Harf Yağmuru ---------- */
-  // The listening game opens with the first cove's letters and rains every letter learned so far.
-  const rainOpen = () => coveDone('harf', 0);
-  const learnedLetters = () => glyphs.map((_, i) => i).filter(i => mastered('harf', i));
-  function rainArt() {
-    const letters = learnedLetters();
-    const shown = (letters.length ? letters : coveLetters(0)).slice(-3);
-    return '<span class="elif-rain-art" aria-hidden="true"><i></i>' + shown.map(i => '<b lang="ar">' + glyphs[i] + '</b>').join('') + '</span>';
+  /* ---------- The games: Harf Yağmuru and Hece Balonları ---------- */
+  // Harf Yağmuru opens with the first cove's letters and rains every letter learned so far.
+  // Hece Balonları, at the end of the harekes, opens with the first cove's harekes and flies
+  // every letter read with its harekes so far, as syllables (letter * 3 + hareke).
+  const games = {
+    yagmur: {
+      part: 'harf', kind: 'harf', name: 'Harf Yağmuru', icon: '🌧️', lead: 'Duyduğun harften üç tane patlat, 15 harfi bitir',
+      unit: 'harfle', art: 'elif-rain-art', card: 'elif-rain-card',
+      banner: n => 'Öğrendiğin ' + n + ' harf gökten yağıyor!', locked: 'harfleri öğrenilince açılır',
+      items: () => glyphs.map((_, i) => i).filter(i => mastered('harf', i))
+    },
+    balon: {
+      part: 'hareke', kind: 'hece', name: 'Hece Balonları', icon: '🎈', lead: 'Duyduğun heceden üç balon patlat, 15 heceyi bitir',
+      unit: 'heceyle', art: 'elif-rain-art elif-balloon-art', card: 'elif-rain-card elif-balloon-card',
+      banner: n => 'Okuduğun ' + n + ' hece balonlarla uçuyor!', locked: 'harekeleri öğrenilince açılır',
+      items: () => glyphs.map((_, i) => i).filter(i => mastered('hareke', i)).flatMap(i => [i * 3, i * 3 + 1, i * 3 + 2])
+    }
+  };
+  const gameOpen = id => coveDone(games[id].part, 0);
+  const gameText = (id, k) => id === 'balon' ? syllable(Math.floor(k / 3), k % 3) : glyphs[k];
+  function gameArt(id) {
+    const items = games[id].items();
+    const shown = (items.length ? items : coveLetters(0).map(i => id === 'balon' ? i * 3 : i)).slice(id === 'balon' ? -6 : -3);
+    const three = id === 'balon' ? [shown[0], shown[Math.floor(shown.length / 2)], shown[shown.length - 1]] : shown;
+    return '<span class="' + games[id].art + '" aria-hidden="true"><i></i>' + three.map(k => '<b lang="ar">' + gameText(id, k) + '</b>').join('') + '</span>';
   }
-  function rainCard() {
-    const item = el('li');
-    const open = rainOpen();
-    const best = progress.yagmur;
-    const button = el('button', 'elif-section-card elif-rain-card' + (open ? '' : ' locked'));
-    button.style.setProperty('--i', 1);
+  function gameStatus(id) {
+    const best = progress[id];
     const stars = n => '★'.repeat(n) + '☆'.repeat(3 - n);
-    const status = !open ? '🔒 ' + coves[0] + ' harfleri öğrenilince açılır' : best.tamam ? '✅ Tamamlandı · 🏆 ' + best.rekor :
-      best.yildiz ? stars(best.yildiz) + ' · 🏆 ' + best.rekor : best.rekor ? '🏆 Rekor ' + best.rekor : '🌧️ ' + learnedLetters().length + ' harfle oyna';
-    button.innerHTML = rainArt() + '<span class="elif-section-text"><small>Oyun</small><strong>Harf Yağmuru</strong>' +
-      '<span>Duyduğun harften üç tane patlat, 15 harfi bitir</span><span class="elif-badge">' + status + '</span></span>';
-    if (open) button.onclick = openRain;
+    return !gameOpen(id) ? '🔒 ' + coves[0] + ' ' + games[id].locked : best.tamam ? '✅ Tamamlandı · 🏆 ' + best.rekor :
+      best.yildiz ? stars(best.yildiz) + ' · 🏆 ' + best.rekor : best.rekor ? '🏆 Rekor ' + best.rekor :
+      games[id].icon + ' ' + games[id].items().length + ' ' + games[id].unit + ' oyna';
+  }
+  function gameCard(id, n) {
+    const info = games[id];
+    const item = el('li');
+    const open = gameOpen(id);
+    const button = el('button', 'elif-section-card ' + info.card + (open ? '' : ' locked'));
+    button.style.setProperty('--i', n);
+    button.innerHTML = gameArt(id) + '<span class="elif-section-text"><small>Oyun</small><strong>' + info.name + '</strong>' +
+      '<span>' + info.lead + '</span><span class="elif-badge">' + gameStatus(id) + '</span></span>';
+    if (open) button.onclick = () => openGame(id);
     else {
       button.dataset.cue = '';
       button.setAttribute('aria-disabled', 'true');
       button.onclick = () => {
         playCue('oops');
         fx.bump(button, 'denied');
-        $('elif-hub-note').textContent = 'Harf Yağmuru, ' + coves[0] + ' harflerini öğrenince açılır.';
+        $('elif-hub-note').textContent = info.name + ', ' + coves[0] + ' ' + info.locked + '.';
       };
     }
     item.append(button);
     return item;
   }
   function drawRainBanner(part) {
+    const id = Object.keys(games).find(key => games[key].part === part);
     const banner = $('elif-rain-banner');
-    banner.hidden = part !== 'harf' || !rainOpen();
+    banner.hidden = !id || !gameOpen(id);
     if (banner.hidden) return;
-    const best = progress.yagmur;
-    banner.innerHTML = rainArt() + '<span class="elif-rain-text"><small>Oyun zamanı' + (best.tamam ? ' · ✅ Tamamlandı' : best.rekor ? ' · 🏆 ' + best.rekor : '') +
-      '</small><strong>Harf Yağmuru</strong><span>Öğrendiğin ' + learnedLetters().length + ' harf gökten yağıyor!</span></span>' +
+    const best = progress[id];
+    banner.className = 'elif-rain-banner' + (id === 'balon' ? ' elif-balloon-banner' : '');
+    banner.innerHTML = gameArt(id) + '<span class="elif-rain-text"><small>Oyun zamanı' + (best.tamam ? ' · ✅ Tamamlandı' : best.rekor ? ' · 🏆 ' + best.rekor : '') +
+      '</small><strong>' + games[id].name + '</strong><span>' + games[id].banner(games[id].items().length) + '</span></span>' +
       '<span class="elif-rain-go" aria-hidden="true">▶</span>';
-    banner.onclick = openRain;
+    banner.onclick = () => openGame(id);
   }
-  function openRain() {
-    if (!rainOpen()) return;
+  function openGame(id) {
+    if (!gameOpen(id)) return;
+    const info = games[id];
     voice.stop();
-    const done = coves.map((_, k) => k).filter(k => coveDone('harf', k));
+    const done = coves.map((_, k) => k).filter(k => coveDone(info.part, k));
+    const newest = coveLetters(done[done.length - 1]);
     harfYagmuru.open({
-      letters: learnedLetters(),
-      recent: coveLetters(done[done.length - 1]),
-      best: () => progress.yagmur,
+      kind: info.kind,
+      letters: info.items(),
+      recent: id === 'balon' ? newest.flatMap(i => [i * 3, i * 3 + 1, i * 3 + 2]) : newest,
+      best: () => progress[id],
       onResult({ score, stars, finished }) {
-        const record = progress.yagmur;
+        const record = progress[id];
         record.rekor = Math.max(record.rekor, score);
         if (finished) {
           record.yildiz = Math.max(record.yildiz, stars);
@@ -364,33 +394,35 @@
     for (const target of shuffled(own)) questions.push({ type: 'sound', target, choices: choicesFor(target, 3, own) });
     return spread(questions);
   }
+  // A syllable and the ones it is told apart from: first the same letter with the other
+  // harekes, then syllables of other letters, never two that sound alike.
+  function syllableChoices(target, h, k, count) {
+    const picked = [[target, h], ...[0, 1, 2].filter(x => x !== h).map(x => [target, x])];
+    const others = shuffled(letterPool(k).filter(i => i !== target).flatMap(i => [0, 1, 2].map(x => [i, x])));
+    for (const [i, x] of others) {
+      if (picked.length >= count) break;
+      if (!picked.some(([j, y]) => sameSound(i, x, j, y))) picked.push([i, x]);
+    }
+    return shuffled(picked.slice(0, count));
+  }
+  // Each letter of the cove twice: from its reading find the syllable, from the syllable its reading.
   function harekeRound(k) {
-    const own = coveLetters(k);
-    const later = shuffled(own);
+    const own = shuffled(coveLetters(k));
+    const marks = shuffled([0, 1, 2, 0, 1, 2, pick([0, 1, 2]), pick([0, 1, 2])]);
     const questions = [];
-    for (const target of shuffled(own)) {
-      questions.push({ type: 'hareke-listen', target, h: pick([0, 1, 2]), choices: shuffled([0, 1, 2]) });
-    }
-    for (const target of later.slice(0, 2)) {
-      const h = pick([0, 1, 2]);
-      const pool = letterPool(k).flatMap(i => [0, 1, 2].map(x => [i, x]))
-        .filter(([i, x]) => !(i === target && x === h) && !sameSound(i, x, target, h));
-      const others = [];
-      for (const [i, x] of shuffled(pool)) {
-        if (others.length === 3) break;
-        if (others.some(([j, y]) => sameSound(i, x, j, y))) continue;
-        others.push([i, x]);
-      }
-      questions.push({ type: 'syllable-listen', target, h, choices: shuffled([[target, h], ...others]) });
-    }
-    for (const target of later.slice(2)) questions.push({ type: 'hareke-name', target, h: pick([0, 1, 2]) });
+    own.forEach((target, n) => {
+      questions.push({ type: 'okunus-harf', target, h: marks[n], choices: syllableChoices(target, marks[n], k, 4) });
+      questions.push({ type: 'harf-okunus', target, h: marks[n + 4], choices: syllableChoices(target, marks[n + 4], k, 4) });
+    });
     return spread(questions);
   }
   function introRound() {
-    // Only letters the child already knows, two questions for each hareke.
+    // Only letters the child already knows, two questions for each hareke: one letter at a
+    // time, read with its three harekes.
     const known = Array.from({ length: 28 }, (_, i) => i).filter(i => mastered('harf', i));
     const letters = shuffled(known.length ? known : coveLetters(0));
-    return spread([0, 1, 2, 0, 1, 2].map((h, n) => ({ type: 'hareke-name', target: letters[n % letters.length], h })));
+    return spread([0, 1, 2, 0, 1, 2].map((h, n) => ({ type: n < 3 ? 'harf-okunus' : 'okunus-harf', target: letters[n % letters.length], h,
+      choices: shuffled([0, 1, 2]).map(x => [letters[n % letters.length], x]) })));
   }
   // Keep the same letter from coming up twice in a row.
   function spread(questions) {
@@ -443,8 +475,7 @@
     const grid = el('div', 'elif-choices');
     grid.id = 'elif-choices';
     let rightButton = null;
-    const answer = q.type === 'hareke-name' ? harekeler[q.h].name + ' (' + harekeler[q.h].place.toLocaleLowerCase('tr') + ')' : q.type === 'listen' || q.type === 'sound' ?
-      names[q.target] : readings[q.target][q.h];
+    const answer = q.type === 'listen' || q.type === 'sound' ? names[q.target] : readings[q.target][q.h];
 
     if (q.type === 'listen') {
       prompt.textContent = 'Dinle ve harfi bul';
@@ -456,29 +487,25 @@
       prompt.textContent = 'Bu harfin adı hangisi?';
       stage.append(prompt, el('div', 'elif-big', glyphHtml(glyphs[q.target])));
       soundChoices(q.choices.map(i => [() => voice.letter(i, response), i === q.target]), stage, response);
-    } else if (q.type === 'hareke-listen') {
-      prompt.textContent = 'Dinle, doğru harekeyi bul';
-      grid.classList.add('three');
-      q.choices.forEach((h, n) => grid.append(choice(glyphHtml(syllable(q.target, h)), n, h === q.h,
-        () => 'Bu ' + harekeler[h].name.toLocaleLowerCase('tr') + ': ' + readings[q.target][h] + ' okunur.')));
-      stage.append(prompt, speaker(), grid);
-      play();
-    } else if (q.type === 'syllable-listen') {
-      prompt.textContent = 'Dinle ve heceyi bul';
-      grid.classList.add('four');
+    } else if (q.type === 'okunus-harf') {
+      // From the reading to the letter: the reading is written and heard, the syllable is to be found.
+      prompt.textContent = 'Okunuşu bu olan heceyi bul';
+      const big = el('button', 'elif-big elif-reading', '<span>' + readings[q.target][q.h] + '</span><small aria-hidden="true">🔊</small>');
+      big.setAttribute('aria-label', readings[q.target][q.h] + ', dinle');
+      big.onclick = play;
+      grid.classList.add(q.choices.length === 3 ? 'three' : 'four');
       q.choices.forEach(([i, h], n) => grid.append(choice(glyphHtml(syllable(i, h)), n, i === q.target && h === q.h,
         () => 'Bu ' + readings[i][h] + ' okunur.')));
-      stage.append(prompt, speaker(), grid);
-      play();
-    } else if (q.type === 'hareke-name') {
-      prompt.textContent = 'Bu harekenin adı ne?';
-      const big = el('button', 'elif-big', glyphHtml(syllable(q.target, q.h)));
-      big.setAttribute('aria-label', 'Heceyi dinle');
-      big.onclick = play;
-      grid.classList.add('three', 'names');
-      harekeler.forEach((info, h) => grid.append(choice('<i lang="ar" aria-hidden="true">◌' + info.mark + '</i><span>' + info.name +
-        '</span>', h, h === q.h, () => 'Bu ' + info.name.toLocaleLowerCase('tr') + ' değil.', info.name)));
       stage.append(prompt, big, grid);
+      play();
+    } else if (q.type === 'harf-okunus') {
+      // From the letter to the reading: only the syllable is shown, its sound comes with the answer.
+      prompt.textContent = 'Bu hece nasıl okunur?';
+      stage.append(prompt, el('div', 'elif-big', glyphHtml(syllable(q.target, q.h))));
+      grid.classList.add(q.choices.length === 3 ? 'three' : 'four', 'readings');
+      q.choices.forEach(([i, h], n) => grid.append(choice('<span>' + readings[i][h] + '</span>', n, i === q.target && h === q.h,
+        () => 'Bu hece ' + readings[i][h] + ' okunmaz.', readings[i][h])));
+      stage.append(grid);
     }
     stage.append(response, next);
     prompt.focus();
@@ -503,7 +530,7 @@
       stage.querySelector('.elif-dots li.now')?.classList.replace('now', 'miss');
       response.textContent = 'Ah, bu kez olmadı! ' + text + ' Doğrusu: ' + answer + '. Tur baştan başlıyor.';
       setTimeout(() => { if (dialog.open && round.questions[turn] === q) {
-        if (q.type === 'hareke-name') voice.chant(q.target, q.h); else play();
+        if (round.kind === 'intro') voice.chant(q.target, q.h); else play();
       } }, 600);
       next.hidden = false;
       next.textContent = '↻ Tekrar dene';
@@ -529,7 +556,8 @@
       else if (round.part === 'harf') message += ' Bu ' + names[q.target] + '.';
       else message += ' ' + readings[q.target][q.h] + ' okunur.';
       response.textContent = message;
-      if (q.type === 'hareke-name' || q.type === 'sound') round.kind === 'intro' ? voice.chant(q.target, q.h) : play();
+      if (round.kind === 'intro') voice.chant(q.target, q.h);
+      else if (q.type === 'harf-okunus' || q.type === 'sound') play();
       next.hidden = false;
       next.textContent = turn === total - 1 ? 'Sonucu gör' : 'Sıradaki';
       next.focus();
@@ -616,8 +644,8 @@
         stage.innerHTML = '<div class="elif-prize" aria-hidden="true">' + prizeOf(part) + '</div><h2 id="elif-prompt" tabindex="-1">' +
           heading + '</h2>' + (prizes ? '<div class="elif-won-row">' + prizes + '</div>' : '') + '<p>' + text + '</p>' +
           (storageNote ? '<p>' + storageNote + '</p>' : '') + '<button class="elif-action" id="elif-continue"></button>' +
-          (part === 'harf' ? '<button class="elif-action quiet" id="elif-rain-go">🌧️ Harf Yağmuru’nda oyna</button>' : '');
-        if (part === 'harf') $('elif-rain-go').onclick = () => { dialog.close(); openRain(); };
+          '<button class="elif-action quiet" id="elif-rain-go">' + (part === 'harf' ? '🌧️ Harf Yağmuru’nda oyna' : '🎈 Hece Balonları’nda oyna') + '</button>';
+        $('elif-rain-go').onclick = () => { dialog.close(); openGame(part === 'harf' ? 'yagmur' : 'balon'); };
         $('elif-continue').textContent = !step ? 'Koya dön' : step.intro ? 'Harekelerle tanış' :
           step.part === 'hareke' ? 'Harekelerine geç' : 'Yeni harflere geç';
         playCue(perfect ? 'island' : 'correct');

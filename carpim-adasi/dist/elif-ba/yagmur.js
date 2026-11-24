@@ -1,9 +1,11 @@
-// Harf Yağmuru: Elif Ba Adası's listening game. A section is fifteen letters: the turtle says
-// one, popping three drops of it brings the next one at once, and the rain does not stop until
-// all 45 drops are popped. A wrong tap breaks one of three hearts. Finishing with all three
-// hearts completes the section; losing all three starts the game again from the beginning.
+// Harf Yağmuru and Hece Balonları: Elif Ba Adası's listening games. A section is fifteen letters
+// (or syllables): the turtle says one, popping three drops (balloons) of it brings the next one at
+// once, and the game does not stop until all 45 are popped. A wrong tap breaks one of three hearts.
+// Finishing with all three hearts completes the section; losing all three starts it again.
+// In Harf Yağmuru letters rain from the clouds into the sea; in Hece Balonları syllables with
+// their harekes rise from the sea up into the clouds.
 const harfYagmuru = (() => {
-  const { glyphs, names } = elifData;
+  const { glyphs, names, readings, syllable } = elifData;
   const voice = elifVoice;
   const dialog = $('elif-rain');
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
@@ -29,7 +31,38 @@ const harfYagmuru = (() => {
     }
     return result;
   }
-  const glyph = i => '<b lang="ar" dir="rtl">' + glyphs[i] + '</b>';
+  // What a game plays with. Harf Yağmuru: letter indexes. Hece Balonları: letter * 3 + hareke.
+  const kinds = {
+    harf: {
+      rising: false, label: 'Harf Yağmuru', title: 'Harf <em>Yağmuru</em>',
+      text: i => glyphs[i], name: i => names[i], speak: (i, note, end) => voice.letter(i, note, end),
+      // look-alike letters (the same shape, other dots) join in once a few letters are done
+      alike: i => twins(i), alikeFrom: 3, alikeChance: 0.3,
+      t: { listen: 'Harfi tekrar dinle', slots: 'Bölümün harfleri', first: '👆 Duyduğun harften 3 tane patlat', fresh: '🔊 Yeni harf',
+        freshSay: 'Yeni harf. Dinle.', allDone: 'On beş harfin hepsini patlattın.', whole: 'Hiç can kaybetmeden 15 harfin hepsini, 45 damlayı patlattın!',
+        partly: '15 harfin hepsini patlattın ama ', recap: 'Patlattığın harfler · dokun, dinle', chip: ' harfini dinle',
+        some: ' harfi patlattın. ', none: 'Sesi dikkatle dinle, sonra o harften üç tane patlat. ',
+        intro: 'Kaplumbağa bir harf söyleyecek: o harften üç tane patlat, hemen yeni harf gelsin. 15 harfi hiç can kaybetmeden ' +
+          'bitirirsen bölümü tamamlarsın! Canların biterse oyun baştan başlar.',
+        unit: 'harf', piece: 'damla patlat', pool: 'Oyundaki harfler' }
+    },
+    hece: {
+      rising: true, label: 'Hece Balonları', title: 'Hece <em>Balonları</em>',
+      text: k => syllable(Math.floor(k / 3), k % 3), name: k => readings[Math.floor(k / 3)][k % 3],
+      speak: (k, note, end) => voice.syllable(Math.floor(k / 3), k % 3, note, end),
+      // the same letter with its other harekes is what is to be told apart
+      alike: k => [0, 1, 2].map(h => k - k % 3 + h).filter(j => j !== k), alikeFrom: 1, alikeChance: 0.4,
+      t: { listen: 'Heceyi tekrar dinle', slots: 'Bölümün heceleri', first: '👆 Duyduğun heceden 3 balon patlat', fresh: '🔊 Yeni hece',
+        freshSay: 'Yeni hece. Dinle.', allDone: 'On beş hecenin hepsini patlattın.', whole: 'Hiç can kaybetmeden 15 hecenin hepsini, 45 balonu patlattın!',
+        partly: '15 hecenin hepsini patlattın ama ', recap: 'Patlattığın heceler · dokun, dinle', chip: ' hecesini dinle',
+        some: ' heceyi patlattın. ', none: 'Sesi dikkatle dinle, sonra o heceden üç balon patlat. ',
+        intro: 'Kaplumbağa harekeli bir hece okuyacak: o heceden üç balon patlat, hemen yeni hece gelsin. 15 heceyi hiç can kaybetmeden ' +
+          'bitirirsen bölümü tamamlarsın! Canların biterse oyun baştan başlar.',
+        unit: 'hece', piece: 'balon patlat', pool: 'Oyundaki heceler' }
+    }
+  };
+  let kind = kinds.harf;
+  const glyph = i => '<b lang="ar" dir="rtl">' + kind.text(i) + '</b>';
   // The voice writes its "no Turkish voice here" note into this; the turtle's bubble shows
   // the letter's name instead, so the game can still be played by reading.
   const unheard = {};
@@ -97,9 +130,9 @@ const harfYagmuru = (() => {
     '<div class="rain-hud">' +
       '<div class="rain-left"><button type="button" class="rain-close" aria-label="Oyundan çık">×</button>' +
       '<span class="rain-hearts" role="img"></span></div>' +
-      '<button type="button" class="rain-listen" data-cue aria-label="Harfi tekrar dinle">' + speakerSvg + '</button>' +
+      '<button type="button" class="rain-listen" data-cue>' + speakerSvg + '</button>' +
       '<div class="rain-score"><small>Puan</small><b>0</b></div>' +
-      '<ol class="rain-slots" aria-label="Bölümün harfleri"></ol>' +
+      '<ol class="rain-slots"></ol>' +
     '</div>' +
     '<div class="rain-toast" aria-hidden="true"></div>' +
     '<div class="rain-count" aria-hidden="true"></div>' +
@@ -123,7 +156,7 @@ const harfYagmuru = (() => {
   const live = find('.rain-live');
 
   let options = null, game = null, state = 'idle', drops = [], rounds = 0;
-  let width = 0, size = 80, laneX = [], spawnY = 0, surface = 0;
+  let width = 0, size = 80, laneX = [], spawnY = 0, surface = 0, topY = 0;
   let talkToken = 0, pendingDone = null, talking = false, lastTalk = -9, lastSplash = -9, moodTimer = 0, promptToken = 0;
 
   /* ---------- Game clock ---------- */
@@ -170,7 +203,8 @@ const harfYagmuru = (() => {
     size = Math.round(Math.max(54, Math.min(112, (width - 2 * pad) / (lanes * 1.12), (surface - top) / 3.4)));
     scene.style.setProperty('--drop', size + 'px');
     laneX = Array.from({ length: lanes }, (_, k) => pad + (k + 0.5) * (width - 2 * pad) / lanes);
-    spawnY = top + 16 - size;
+    topY = top - size * 0.45; // where a balloon has gone into the clouds
+    spawnY = kind.rising ? surface - size * 0.55 : top + 16 - size;
     for (const drop of drops) {
       drop.lane = Math.min(drop.lane, lanes - 1);
       drop.x = laneX[drop.lane];
@@ -253,12 +287,12 @@ const harfYagmuru = (() => {
     const end = heard => {
       if (over || token !== talkToken) return;
       over = true;
-      talk(false, heard === false ? names[game.target] : '');
+      talk(false, heard === false ? kind.name(game.target) : '');
       const done = pendingDone;
       pendingDone = null;
       done?.();
     };
-    voice.letter(game.target, unheard, end);
+    kind.speak(game.target, unheard, end);
     after(3.5, () => end(false)); // the voice never reported back: carry on, and show the name
   }
   listen.onclick = () => {
@@ -346,16 +380,16 @@ const harfYagmuru = (() => {
     if (mark) markSlot();
     after(delay, () => {
       if (state !== 'raining') return;
-      if (game.first && !game.done) setPrompt('👆 Duyduğun harften 3 tane patlat');
-      else setPrompt('🔊 Yeni harf', 1.8);
-      say('Yeni harf. Dinle.');
+      if (game.first && !game.done) setPrompt(kind.t.first);
+      else setPrompt(kind.t.fresh, 1.8);
+      say(kind.t.freshSay);
       narrate(() => { game.listening = false; });
     });
   }
 
   /* ---------- Rain ---------- */
   function freeLane() {
-    const blocked = new Set(drops.filter(d => d.y < spawnY + size * 1.35).map(d => d.lane));
+    const blocked = new Set(drops.filter(d => kind.rising ? d.y > spawnY - size * 1.35 : d.y < spawnY + size * 1.35).map(d => d.lane));
     const all = laneX.map((_, k) => k).filter(k => !blocked.has(k));
     const spread = all.filter(k => k !== game.lastLane);
     return spread.length ? pick(spread) : all.length ? all[0] : -1;
@@ -368,12 +402,12 @@ const harfYagmuru = (() => {
     return Math.random() < (falling ? 0.38 : 0.6);
   }
   function distractor() {
-    const others = options.letters.filter(i => i !== game.target);
+    // Never one that sounds the same as the one being played (sin üstün and se üstün are both "se").
+    const others = options.letters.filter(i => kind.name(i) !== kind.name(game.target));
     const fresh = others.filter(i => i !== game.lastLetter);
     const choices = fresh.length ? fresh : others;
-    // Look-alike letters (the same shape, other dots) join in once a few letters are done.
-    const alike = twins(game.target).filter(i => choices.includes(i));
-    if (alike.length && game.done >= 3 && Math.random() < 0.3) return pick(alike);
+    const alike = kind.alike(game.target).filter(i => choices.includes(i));
+    if (alike.length && game.done >= kind.alikeFrom && Math.random() < kind.alikeChance) return pick(alike);
     return pick(choices);
   }
   function spawn() {
@@ -387,8 +421,8 @@ const harfYagmuru = (() => {
     el.type = 'button';
     el.tabIndex = -1;
     el.className = 'rain-drop t' + tone;
-    el.setAttribute('aria-label', names[letter]);
-    el.innerHTML = '<span class="rain-drop-in"><i class="rain-drop-skin"></i>' + glyph(letter) + '</span>';
+    el.setAttribute('aria-label', kind.name(letter));
+    el.innerHTML = '<span class="rain-drop-in">' + (kind.rising ? '<i class="rain-string"></i>' : '') + '<i class="rain-drop-skin"></i>' + glyph(letter) + '</span>';
     const drop = { el, inner: el.firstChild, letter, lane, tone, x: laneX[lane], y: spawnY, dx: 0, fall: fallTime(game.done),
       phase: Math.random() * 6.3, wobble: 0.9 + Math.random() * 0.6, state: 'fall' };
     el.addEventListener('pointerdown', event => {
@@ -416,11 +450,13 @@ const harfYagmuru = (() => {
   }
   function fall(drop, dt) {
     if (drop.state === 'caught') return; // waits in the air for its turn to pop
-    // A wrongly tapped letter hurries into the sea.
-    drop.y += (surface - spawnY) / drop.fall * dt * (drop.state === 'wrong' ? 2.6 : 1);
+    // A wrongly tapped letter hurries into the sea (a balloon into the clouds).
+    const hurry = drop.state === 'wrong' ? 2.6 : 1;
+    if (kind.rising) drop.y -= (spawnY - topY) / drop.fall * dt * hurry;
+    else drop.y += (surface - spawnY) / drop.fall * dt * hurry;
     drop.phase += dt;
     place(drop);
-    if (drop.y + size * 0.92 >= surface) splash(drop);
+    if (kind.rising ? drop.y <= topY : drop.y + size * 0.92 >= surface) splash(drop);
   }
   function vanish(drop, how) {
     const el = drop.el;
@@ -439,6 +475,12 @@ const harfYagmuru = (() => {
   function splash(drop) {
     const missed = drop.letter === game.target && drop.state === 'fall';
     drop.state = 'gone';
+    if (kind.rising) {
+      // A balloon floats away into the clouds without a sound.
+      vanish(drop, 'fade');
+      if (missed && state === 'raining' && !game.listening && clock - lastTalk > 2.5) narrate();
+      return;
+    }
     vanish(drop, 'sink');
     if (!calm.matches) {
       const ring = document.createElement('span');
@@ -474,8 +516,8 @@ const harfYagmuru = (() => {
     game.pops++;
     game.popped++;
     game.streak++;
-    // 50 points, up to 30 more for popping it high, and up to double for a long streak.
-    const high = 1 - clamp01((drop.y - spawnY) / (surface - spawnY));
+    // 50 points, up to 30 more for popping it early, and up to double for a long streak.
+    const high = 1 - clamp01(kind.rising ? (spawnY - drop.y) / (spawnY - topY) : (drop.y - spawnY) / (surface - spawnY));
     const points = Math.round((50 + 30 * high) * Math.min(2, 1 + 0.1 * (game.streak - 1)) / 10) * 10;
     addScore(points);
     playCue('pop', { rate: chord[game.pops - 1] });
@@ -485,7 +527,7 @@ const harfYagmuru = (() => {
     vanish(drop, 'pop');
     if (game.pops < POPS) {
       mood('happy', 700);
-      say(names[drop.letter] + '. ' + game.pops + ' / ' + POPS);
+      say(kind.name(drop.letter) + '. ' + game.pops + ' / ' + POPS);
       narrate(); // the turtle says it again: one more of the same letter
       return;
     }
@@ -507,7 +549,7 @@ const harfYagmuru = (() => {
     showToast(pick(praise), game.streak >= 5 ? '🔥 ' + game.streak + ' seri' : '');
     mood('happy', 1000);
     setPrompt('');
-    say(names[letter] + ' tamam!');
+    say(kind.name(letter) + ' tamam!');
     game.step++;
     if (game.step === ROUND) finish(); else nextLetter(0.75, true);
   }
@@ -529,7 +571,7 @@ const harfYagmuru = (() => {
     drop.state = 'wrong';
     drop.el.classList.add('wrong');
     drop.el.style.pointerEvents = 'none';
-    drop.inner.insertAdjacentHTML('beforeend', '<em class="rain-tag">' + names[drop.letter] + '</em>');
+    drop.inner.insertAdjacentHTML('beforeend', '<em class="rain-tag">' + kind.name(drop.letter) + '</em>');
     if (!calm.matches) drop.inner.animate([{ transform: 'none' }, { transform: 'translateX(-9px) rotate(-7deg)' },
       { transform: 'translateX(8px) rotate(6deg)' }, { transform: 'translateX(-4px)' }, { transform: 'none' }], { duration: 420 });
     game.streak = 0;
@@ -537,11 +579,11 @@ const harfYagmuru = (() => {
     playCue('oops');
     mood('sad', 850);
     if (!game.hearts) {
-      say('Bu ' + names[drop.letter] + '. Canların bitti.');
+      say('Bu ' + kind.name(drop.letter) + '. Canların bitti.');
       lose();
       return;
     }
-    say('Bu ' + names[drop.letter] + '. ' + game.hearts + ' can kaldı.');
+    say('Bu ' + kind.name(drop.letter) + '. ' + game.hearts + ' can kaldı.');
     after(0.65, () => { if (state === 'raining') narrate(); });
   }
 
@@ -589,7 +631,7 @@ const harfYagmuru = (() => {
     piece.className = 'rain-fly';
     piece.lang = 'ar';
     piece.dir = 'rtl';
-    piece.textContent = glyphs[drop.letter];
+    piece.textContent = kind.text(drop.letter);
     scene.append(piece);
     const end = Math.max(0.2, to.width / (size * 0.8));
     const move = (px, py, scale) => ({ transform: 'translate(' + px.toFixed(0) + 'px,' + py.toFixed(0) + 'px) translate(-50%,-50%) scale(' + scale.toFixed(2) + ')' });
@@ -636,7 +678,7 @@ const harfYagmuru = (() => {
     mood('dance');
     playCue(whole ? 'victory' : 'island');
     fx.confetti(dialog, whole ? undefined : { count: 70 });
-    say(whole ? 'Bölüm tamamlandı!' : 'On beş harfin hepsini patlattın.');
+    say(whole ? 'Bölüm tamamlandı!' : kind.t.allDone);
     after(1.7, result);
   }
   // With all three hearts the section is complete; otherwise it is to be played again.
@@ -648,23 +690,23 @@ const harfYagmuru = (() => {
     const best = { ...options.best() };
     keep(true);
     const record = game.score > 0 && game.score > (best.rekor || 0);
-    const text = whole ? 'Hiç can kaybetmeden 15 harfin hepsini, 45 damlayı patlattın!' :
-      '15 harfin hepsini patlattın ama ' + (HEARTS - stars) + ' can kaybettin. Bölümü tamamlamak için hiç can kaybetmeden bitir!';
+    const text = whole ? kind.t.whole :
+      kind.t.partly + (HEARTS - stars) + ' can kaybettin. Bölümü tamamlamak için hiç can kaybetmeden bitir!';
     const unique = [...new Set(game.completed)];
     showCard('<div class="rain-card result"><div class="rain-stars" role="img" aria-label="' + stars + ' yıldız">' + [0, 1, 2].map(n =>
       '<svg viewBox="0 0 24 24" aria-hidden="true"' + (n < stars ? ' class="won" style="--d:' + (0.35 + n * 0.3) + 's"' : '') +
       '><path d="' + starPath + '"/></svg>').join('') + '</div>' +
       '<h2 id="rain-title" tabindex="-1">' + (whole ? 'Bölüm tamamlandı!' : 'Az kaldı!') + '</h2><p>' + text + '</p>' +
       '<p class="rain-total"><b>0</b> puan</p>' + recordLine(record, best) +
-      '<div class="rain-recap"><p>Patlattığın harfler · dokun, dinle</p><div>' + unique.map((i, n) =>
-        '<button type="button" class="rain-chip t' + n % 5 + '" data-cue data-letter="' + i + '" aria-label="' + names[i] + ' harfini dinle">' +
-        glyph(i) + '<span>' + names[i] + '</span></button>').join('') + '</div></div>' +
+      '<div class="rain-recap"><p>' + kind.t.recap + '</p><div>' + unique.map((i, n) =>
+        '<button type="button" class="rain-chip t' + n % 5 + '" data-cue data-letter="' + i + '" aria-label="' + kind.name(i) + kind.t.chip + '">' +
+        glyph(i) + '<span>' + kind.name(i) + '</span></button>').join('') + '</div></div>' +
       '<div class="rain-actions"><button type="button" class="rain-go" data-cue>↻ ' + (whole ? 'Tekrar oyna' : 'Tekrar dene') + '</button>' +
       '<button type="button" class="rain-back">Adaya dön</button></div></div>');
     overlay.querySelector('.rain-go').onclick = () => newGame(false);
     overlay.querySelector('.rain-back').onclick = () => dialog.close();
     for (const chip of overlay.querySelectorAll('.rain-chip')) {
-      chip.onclick = () => { fx.bump(chip, 'rain-bump'); voice.letter(Number(chip.dataset.letter), unheard); };
+      chip.onclick = () => { fx.bump(chip, 'rain-bump'); kind.speak(Number(chip.dataset.letter), unheard); };
     }
     for (let n = 0; n < stars; n++) later(350 + n * 300, () => playCue('star', { rate: chord[n] }));
     countUp(overlay.querySelector('.rain-total b'), game.score);
@@ -693,7 +735,7 @@ const harfYagmuru = (() => {
     const best = { ...options.best() };
     keep(false);
     const record = game.score > 0 && game.score > (best.rekor || 0);
-    const text = (game.done ? game.done + ' / ' + ROUND + ' harfi patlattın. ' : 'Sesi dikkatle dinle, sonra o harften üç tane patlat. ') +
+    const text = (game.done ? game.done + ' / ' + ROUND + kind.t.some : kind.t.none) +
       'Oyun baştan başlıyor!';
     showCard('<div class="rain-card over"><div class="rain-broken" aria-hidden="true">' + heartSvg + '</div>' +
       '<h2 id="rain-title" tabindex="-1">Canların bitti!</h2><p>' + text + '</p>' +
@@ -723,13 +765,13 @@ const harfYagmuru = (() => {
     const best = options.best();
     const sample = shuffled(options.letters).slice(0, 3);
     showCard('<div class="rain-card intro"><div class="rain-intro-art" aria-hidden="true">' + sample.map((i, n) =>
-      '<span class="rain-drop t' + [0, 4, 1][n] + '"><span class="rain-drop-in"><i class="rain-drop-skin"></i>' + glyph(i) + '</span></span>').join('') +
-      '</div><h2 id="rain-title" tabindex="-1">Harf <em>Yağmuru</em></h2>' +
-      '<p>Kaplumbağa bir harf söyleyecek: o harften üç tane patlat, hemen yeni harf gelsin. 15 harfi hiç can kaybetmeden ' +
-      'bitirirsen bölümü tamamlarsın! Canların biterse oyun baştan başlar.</p>' +
-      '<ul class="rain-facts"><li><b>15</b><span>harf</span></li><li><b>45</b><span>damla patlat</span></li>' +
+      '<span class="rain-drop t' + [0, 4, 1][n] + '"><span class="rain-drop-in">' + (kind.rising ? '<i class="rain-string"></i>' : '') +
+      '<i class="rain-drop-skin"></i>' + glyph(i) + '</span></span>').join('') +
+      '</div><h2 id="rain-title" tabindex="-1">' + kind.title + '</h2>' +
+      '<p>' + kind.t.intro + '</p>' +
+      '<ul class="rain-facts"><li><b>15</b><span>' + kind.t.unit + '</span></li><li><b>45</b><span>' + kind.t.piece + '</span></li>' +
       '<li><b>3</b><span>can</span></li></ul>' +
-      '<div class="rain-pool" aria-label="Oyundaki harfler">' + options.letters.map(i => '<b lang="ar" title="' + names[i] + '">' + glyphs[i] + '</b>').join('') + '</div>' +
+      '<div class="rain-pool" aria-label="' + kind.t.pool + '">' + options.letters.map(i => '<b lang="ar" title="' + kind.name(i) + '">' + kind.text(i) + '</b>').join('') + '</div>' +
       (best.tamam ? '<p class="rain-record">✅ Bölümü tamamladın · 🏆 ' + best.rekor + ' puan</p>' :
         best.rekor ? '<p class="rain-record">🏆 Rekorun: ' + best.rekor + ' puan</p>' : '') +
       '<button type="button" class="rain-go" data-cue>▶ Başla</button></div>');
@@ -769,12 +811,19 @@ const harfYagmuru = (() => {
     done?.();
   });
 
-  // letters: learned letters to rain; recent: the newest cove's letters, asked more often;
+  // kind: 'harf' (Harf Yağmuru, the default) or 'hece' (Hece Balonları);
+  // letters: learned letters (syllables) to play with; recent: the newest cove's, asked more often;
   // best(): the player's { rekor, yildiz, tamam }; onResult({ score, stars, finished }) keeps them.
   function open(settings) {
     options = settings;
+    kind = kinds[settings.kind] || kinds.harf;
     rounds = 0;
-    voice.preload(settings.letters, true);
+    scene.classList.toggle('balloons', kind.rising);
+    dialog.setAttribute('aria-label', kind.label);
+    listen.setAttribute('aria-label', kind.t.listen);
+    slotBox.setAttribute('aria-label', kind.t.slots);
+    if (kind.rising) voice.preload([...new Set(settings.letters.map(k => Math.floor(k / 3)))]);
+    else voice.preload(settings.letters, true);
     if (!dialog.open) dialog.showModal();
     newGame(true);
   }

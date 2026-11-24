@@ -7,6 +7,15 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.12.0 · 24.11.2026
+
+Elif Ba Adası'nın Harekeler bölümü yenilendi ve sonuna ikinci oyun geldi: **Hece Balonları**.
+
+- "Bu harekenin adı ne?" sorusu kaldırıldı. Hareke turları artık iki tür sorudan oluşuyor: **okunuştan heceyi bulma** (okunuş yazılı ve sesli verilir, doğru harekeli harf seçilir) ve **heceden okunuşu bulma** (harekeli harf gösterilir, doğru okunuş seçilir). Seçeneklerde önce aynı harfin diğer harekeleri, sonra başka harfler var; aynı okunan iki hece hiçbir zaman birlikte çıkmıyor.
+- "Harekelerle tanış" turu da aynı iki soru türüyle oynanıyor ve doğru cevapta "Be üstün be" diye okunuyor.
+- **Hece Balonları:** Kaplumbağa harekeli bir hece okuyor, denizden yükselen balonlardan o heceyi taşıyan üç tanesi patlatılıyor. Bölüm 15 hece, 45 balon, 3 can; kurallar Harf Yağmuru ile aynı. Balonlar bulutlara kaçmadan patlatılmalı. Aynı harfin diğer harekeleri sıkça araya karışıyor.
+- Oyun, Kaplumbağa Koyu'nun harekeleri öğrenilince açılıyor ve harekeleriyle okunmuş bütün harflerin hecelerini kullanıyor. Ada sayfasında Harekeler bölümünün hemen altında, Harekeler bölümünde ise afiş olarak duruyor. Ayarlar → İlerleme rekoru ve tamamlanma durumunu gösteriyor.
+
 ## 0.11.1 · 24.11.2026
 
 Elif Ba Adası'ndaki 28 harf adı ve 84 üstün, esre ve ötre kaydı Diyanet Elifba sesleriyle değiştirildi. Harf kartları, hareke alıştırmaları ve Harf Yağmuru yeni kayıtları kullanıyor. Ses dosyalarının önbellek adresleri yenilendi.
