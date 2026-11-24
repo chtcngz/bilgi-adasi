@@ -7,6 +7,16 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.2.0 · 24.11.2026
+
+Elif Ba Adası bölümlere ayrıldı:
+
+- **1. bölüm · Harfler:** 7 koyda 28 harf. Kartlara dokunup harfin adı dinleniyor. Oyunda harf gösterilmeden sesi çalınıyor ve çocuk harfi buluyor; ayrıca harf gösteriliyor ve üç ses arasından doğrusu seçiliyor. Önceki koylardan bir harf tekrar olarak araya giriyor. Bir harfi iki kez ilk denemede bilen çocuk o harfin deniz kabuğunu kazanıyor; koyun dört harfi tamamlanınca sonraki koy açılıyor.
+- **2. bölüm · Harekeler:** 28 harfin hepsi öğrenilince açılıyor. Önce üstün, esre ve ötre örneklerle tanıtılıyor (“Be üstün be”). Ardından her koyda dinlenen heceye göre doğru harekeyi bulma, farklı harflerin heceleri arasından duyulanı seçme ve harekenin adını söyleme soruları geliyor. Kazanılan ödül inci.
+- Sonraki bölümler (bitişik yazılış, cezm, tenvin, şedde, uzatma, kelime ve âyet) haritada “Yakında” olarak görünüyor.
+- Harf sesleri Lingua Libre gönüllülerinin gerçek kayıtlarından alındı. Kaynaklar ve lisanslar `elif-ba/ses/KAYNAKLAR.md` dosyasında. Ayarlar → Ses bölümünden Türkçe okunuşa (cihaz sesi) geçilebiliyor. Kaydı olmayan harfler ve heceler cihazın Türkçe sesiyle okunuyor.
+- Eski sürümde toplanan deniz kabukları yeni ilerlemeye aktarılıyor. Ayarlar → İlerleme bölümünden iki bölümün ilerlemesi birlikte sıfırlanabiliyor.
+
 ## 0.1.1 · 24.11.2026
 
 - Rakam tuşu sesi, tıklama sesiyle aynı yumuşak baloncuk tınısına geçti; biraz daha ince olduğu için ayırt ediliyor

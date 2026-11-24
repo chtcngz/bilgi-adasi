@@ -1,37 +1,61 @@
+// Elif Ba Adası: an island in sections. Section 1 teaches the letters, section 2 the harekes,
+// the later sections (cezm, tenvin, şedde, ...) are announced and open in coming releases.
 (() => {
-  const glyphs = Array.from('ابتثجحخدذرزسشصضطظعغفقكلمنوهي');
-  const names = 'Elif Be Te Se Cim Ha Hı Dal Zel Ra Ze Sin Şın Sad Dad Tı Zı Ayn Gayn Fe Kaf Kef Lâm Mim Nun Vav He Ye'.split(' ');
-  const coves = ['Kaplumbağa Koyu', 'İnci Koyu', 'Mercan Koyu', 'Yıldız Koyu', 'Yunus Koyu', 'Sedef Koyu', 'Deniz Feneri Koyu'];
-  const visits = new Map();
-  let cove = 0, pearls, order, turn;
+  const { glyphs, names, readings, harekeler, coves, sections, sameSound, syllable, coveLetters, mastery } = elifData;
+  const voice = elifVoice;
   const dialog = $('elif-game');
-  const picker = $('elif-cove');
-  coves.forEach((name, i) => picker.add(new Option(name, i)));
-  window.resetElifBa = profileId => {
-    const key = 'elif-ba-' + profileId;
-    visits.get(key)?.clear();
-    try { localStorage.removeItem(key); } catch {}
-    if (!$('elif-view').hidden && pearls === visits.get(key)) { cove = 0; drawCove(); }
+  const records = new Map();
+  let progress, section = null, cove = 0;
+  let round, turn, firstTry, earned;
+
+  /* ---------- Progress ---------- */
+  const storeKey = id => 'elif-ba-v2-' + id;
+  function blank() { return { harf: Array(28).fill(0), hareke: Array(28).fill(0), tanisma: false }; }
+  function load(id) {
+    if (records.has(id)) return records.get(id);
+    const saved = readRecord(storeKey(id));
+    const record = blank();
+    if (saved && typeof saved === 'object') {
+      for (const part of ['harf', 'hareke']) {
+        if (Array.isArray(saved[part])) saved[part].slice(0, 28).forEach((n, i) => {
+          if (Number.isInteger(n) && n > 0) record[part][i] = n;
+        });
+      }
+      record.tanisma = saved.tanisma === true;
+    } else {
+      // Version 0.1 kept the letters found in the matching game as a list of indexes.
+      const old = readRecord('elif-ba-' + id);
+      if (Array.isArray(old)) for (const i of old) if (Number.isInteger(i) && i >= 0 && i < 28) record.harf[i] = 1;
+    }
+    records.set(id, record);
+    return record;
+  }
+  let storageNote = '';
+  function save() {
+    try {
+      localStorage.setItem(storeKey(activeProfile.id), JSON.stringify(progress));
+      localStorage.removeItem('elif-ba-' + activeProfile.id);
+      storageNote = '';
+    } catch { storageNote = 'İlerlemen yalnızca bu oturumda saklanabildi.'; }
+  }
+  const mastered = (part, i, record = progress) => record[part][i] >= mastery;
+  const masteredCount = (part, record = progress) => record[part].filter(n => n >= mastery).length;
+  const coveDone = (part, k) => coveLetters(k).every(i => mastered(part, i));
+  const coveOpen = (part, k) => (part !== 'hareke' || progress.tanisma) && (k === 0 || coveDone(part, k - 1));
+  const sectionOpen = id => id === 'harf' || (id === 'hareke' && masteredCount('harf') === 28);
+
+  window.elifBaSummary = id => {
+    const record = load(id);
+    return { harf: masteredCount('harf', record), hareke: masteredCount('hareke', record), any:
+      record.harf.some(Boolean) || record.hareke.some(Boolean) || record.tanisma };
+  };
+  window.resetElifBa = id => {
+    records.set(id, blank());
+    try { localStorage.removeItem(storeKey(id)); localStorage.removeItem('elif-ba-' + id); } catch {}
+    if (activeProfile?.id === id && !$('elif-view').hidden) { progress = records.get(id); showHub(); }
   };
 
-  function stopVoice() { window.speechSynthesis?.cancel(); }
-  function speak(words, note) {
-    stopVoice();
-    const unavailable = () => { note.textContent = 'Bu cihazda Türkçe ses kullanılamıyor. Aynı şekli bulabilirsin.'; };
-    if (!window.speechSynthesis) return unavailable();
-    const voices = speechSynthesis.getVoices();
-    const voice = voices.find(item => /^tr\b/i.test(item.lang));
-    if (voices.length && !voice) return unavailable();
-    const message = new SpeechSynthesisUtterance(words);
-    message.lang = 'tr-TR';
-    if (voice) message.voice = voice;
-    message.rate = 0.82;
-    message.onerror = event => {
-      if (!['interrupted', 'canceled'].includes(event.error)) unavailable();
-    };
-    speechSynthesis.speak(message);
-  }
-
+  /* ---------- Helpers ---------- */
   function shuffled(items) {
     const result = [...items];
     for (let i = result.length - 1; i > 0; i--) {
@@ -40,109 +64,452 @@
     }
     return result;
   }
-  function letters() { return [0, 1, 2, 3].map(offset => cove * 4 + offset); }
-  function tile(index, discover) {
-    const button = document.createElement('button');
-    button.className = 'elif-tile tone-' + index % 4;
-    button.setAttribute('aria-label', names[index]);
-    button.innerHTML = '<b lang="ar">' + glyphs[index] + '</b>';
-    if (discover) {
-      button.innerHTML += '<strong>' + names[index] + '</strong><small aria-hidden="true">' +
-        (pearls.has(index) ? '🐚' : '♪') + '</small>';
-      button.onclick = () => {
-        for (const other of $('elif-cards').children) other.classList.remove('selected');
-        button.classList.add('selected');
-        $('elif-note').textContent = names[index];
-        speak(names[index], $('elif-note'));
-      };
-    }
-    return button;
+  const pick = items => items[Math.floor(Math.random() * items.length)];
+  const el = (tag, className, html) => {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (html !== undefined) node.innerHTML = html;
+    return node;
+  };
+  const glyphHtml = text => '<b lang="ar" dir="rtl">' + text + '</b>';
+  const prizeOf = part => sections.find(s => s.id === part).prize;
+  function setTitle(text) { document.title = text + ' · Bilgi Adası'; }
+
+  /* ---------- Hub: the island's sections ---------- */
+  function showHub() {
+    voice.stop();
+    section = null;
+    $('elif-hub').hidden = false;
+    $('elif-section').hidden = true;
+    $('elif-shells').textContent = '🐚 ' + masteredCount('harf') + '/28 · 🦪 ' + masteredCount('hareke') + '/28';
+    $('elif-sections').replaceChildren(...sections.map((info, n) => {
+      const item = el('li');
+      const open = !info.soon && sectionOpen(info.id);
+      const button = el('button', 'elif-section-card' + (info.soon ? ' soon' : open ? '' : ' locked'));
+      button.style.setProperty('--i', n);
+      let status;
+      if (info.soon) status = '<span class="elif-badge">Yakında</span>';
+      else if (!open) status = '<span class="elif-badge">🔒 Önce Harfler bölümünü bitir</span>';
+      else {
+        const done = masteredCount(info.id);
+        status = '<span class="elif-meter" aria-hidden="true"><i style="width:' + done / 28 * 100 + '%"></i></span>' +
+          '<span class="elif-badge">' + info.prize + ' ' + done + ' / 28 ' + info.prizeName + '</span>';
+      }
+      button.innerHTML = '<span class="elif-section-no" aria-hidden="true">' + (n + 1) + '</span><span class="elif-section-text">' +
+        '<small>' + (n + 1) + '. bölüm</small><strong>' + info.title + '</strong><span>' + info.lead + '</span>' + status + '</span>';
+      if (info.soon || !open) {
+        button.dataset.cue = '';
+        button.setAttribute('aria-disabled', 'true');
+        button.onclick = () => {
+          playCue('oops');
+          fx.bump(button, 'denied');
+          $('elif-hub-note').textContent = info.soon ? info.title + ' bölümü yakında açılacak.' :
+            'Harekeler, 28 harfin hepsini sesinden tanıyınca açılır.';
+        };
+      } else button.onclick = () => openSection(info.id);
+      item.append(button);
+      return item;
+    }));
+    $('elif-hub-note').textContent = '';
+    setTitle('Elif Ba Adası');
   }
-  function drawCove() {
-    picker.value = cove;
-    $('elif-shells').textContent = '🐚 ' + pearls.size + ' / 28 deniz kabuğu';
-    $('elif-cards').replaceChildren(...letters().map(i => tile(i, true)));
+
+  /* ---------- A section: coves and letter cards ---------- */
+  function openSection(id, focus = true) {
+    section = id;
+    const info = sections.find(s => s.id === id);
+    $('elif-hub').hidden = true;
+    $('elif-section').hidden = false;
+    $('elif-section-title').textContent = info.title;
+    const first = coves.findIndex((_, k) => !coveDone(id, k));
+    cove = first < 0 ? 0 : first;
+    drawSection();
+    setTitle(info.title + ' · Elif Ba Adası');
+    if (focus) $('elif-section-title').focus();
+  }
+  function drawSection() {
+    const part = section;
+    const info = sections.find(s => s.id === part);
+    $('elif-section-count').textContent = info.prize + ' ' + masteredCount(part) + ' / 28';
+    const needIntro = part === 'hareke' && !progress.tanisma;
+    $('elif-intro').hidden = part !== 'hareke';
+    if (part === 'hareke') drawIntro();
+    $('elif-coves').replaceChildren(...coves.map((name, k) => {
+      const open = coveOpen(part, k);
+      const done = coveDone(part, k);
+      const chip = el('button', 'elif-cove' + (k === cove ? ' current' : '') + (done ? ' done' : '') + (open ? '' : ' locked'));
+      chip.innerHTML = '<span class="elif-cove-glyphs" lang="ar" dir="rtl">' + coveLetters(k).map(i => glyphs[i]).join(' ') +
+        '</span><small>' + (done ? info.prize + ' ' : open ? '' : '🔒 ') + name + '</small>';
+      chip.setAttribute('aria-pressed', String(k === cove));
+      chip.setAttribute('aria-label', name + (done ? ', tamamlandı' : open ? '' : ', kilitli'));
+      if (!open) chip.dataset.cue = '';
+      chip.onclick = () => {
+        if (!open) {
+          playCue('oops');
+          fx.bump(chip, 'denied');
+          $('elif-note').textContent = needIntro ? '🔒 Önce harekelerle tanış.' : '🔒 Önce ' + coves[k - 1] + ' tamamlanmalı.';
+          return;
+        }
+        voice.stop();
+        cove = k;
+        drawSection();
+      };
+      return chip;
+    }));
+    const letters = coveLetters(cove);
+    voice.preload(letters);
+    $('elif-guide').textContent = part === 'harf' ? 'Bir harfe dokun, adını dinle. Sonra oyunda sesinden bul.' :
+      'Bir heceye dokun, okunuşunu dinle. ♪ düğmesi üç harekeyi sırayla okur.';
+    $('elif-cards').className = 'elif-cards ' + (part === 'harf' ? 'letters' : 'syllables');
+    $('elif-cards').replaceChildren(...letters.map(i => part === 'harf' ? letterCard(i) : syllableCard(i)));
+    const open = coveOpen(part, cove);
+    $('elif-play').disabled = !open;
+    $('elif-play').textContent = needIntro ? '🔒 Önce harekelerle tanış' : coveDone(part, cove) ? '↻ Yeniden oyna' : '▶ Oyna';
     $('elif-note').textContent = '';
   }
+  function letterCard(i) {
+    const button = el('button', 'elif-tile tone-' + i % 4);
+    button.innerHTML = glyphHtml(glyphs[i]) + '<strong>' + names[i] + '</strong><small aria-hidden="true">' +
+      (mastered('harf', i) ? '🐚' : '♪') + '</small>';
+    button.setAttribute('aria-label', names[i] + ' harfini dinle');
+    button.onclick = () => {
+      for (const other of $('elif-cards').querySelectorAll('.selected')) other.classList.remove('selected');
+      button.classList.add('selected');
+      $('elif-note').textContent = names[i];
+      voice.letter(i, $('elif-note'));
+    };
+    return button;
+  }
+  function syllableCard(i) {
+    const card = el('div', 'elif-syllables tone-' + i % 4);
+    const head = el('div', 'elif-syllables-head', glyphHtml(glyphs[i]) + '<strong>' + names[i] + '</strong>' +
+      '<small aria-hidden="true">' + (mastered('hareke', i) ? '🦪' : '') + '</small>');
+    const chant = el('button', 'elif-chant', '♪');
+    chant.setAttribute('aria-label', names[i] + ' üstün, esre, ötre okunuşunu dinle');
+    chant.onclick = () => { $('elif-note').textContent = readings[i].join(' · '); voice.chant(i, undefined, $('elif-note')); };
+    head.append(chant);
+    const row = el('div', 'elif-syllable-row');
+    for (const h of [0, 1, 2]) {
+      const button = el('button', 'elif-syllable', glyphHtml(syllable(i, h)) + '<span>' + readings[i][h] + '</span>');
+      button.setAttribute('aria-label', names[i] + ' ' + harekeler[h].name + ': ' + readings[i][h]);
+      button.onclick = () => {
+        for (const other of $('elif-cards').querySelectorAll('.selected')) other.classList.remove('selected');
+        button.classList.add('selected');
+        $('elif-note').textContent = names[i] + ' ' + harekeler[h].name.toLocaleLowerCase('tr') + ' ' + readings[i][h];
+        voice.syllable(i, h, $('elif-note'));
+      };
+      row.append(button);
+    }
+    card.append(head, row);
+    return card;
+  }
+  function drawIntro() {
+    const done = progress.tanisma;
+    $('elif-intro').innerHTML = '<div class="elif-intro-marks" aria-hidden="true">' +
+      harekeler.map((_, h) => '<b lang="ar">' + syllable(1, h) + '</b>').join('') + '</div><div><strong>' +
+      (done ? '✓ Harekelerle tanıştın' : 'Harekelerle tanış') + '</strong><span>Üstün, esre ve ötre harfe nasıl ses verir?</span></div>';
+    const button = el('button', 'elif-action' + (done ? ' quiet' : ''), done ? 'Tekrar izle' : '▶ Başla');
+    button.onclick = startIntro;
+    $('elif-intro').append(button);
+  }
+
+  /* ---------- Rounds ---------- */
+  function choicesFor(target, count, pool) {
+    return shuffled([target, ...shuffled(pool.filter(i => i !== target)).slice(0, count - 1)]);
+  }
+  // Earlier coves supply one review letter, so the child keeps telling new letters from old ones.
+  function letterPool(k) {
+    const own = coveLetters(k);
+    if (k === 0) return own;
+    return [...own, pick(Array.from({ length: k * 4 }, (_, i) => i))];
+  }
+  function harfRound(k) {
+    const own = coveLetters(k);
+    const pool = letterPool(k);
+    const questions = [];
+    for (const target of shuffled(own)) questions.push({ type: 'listen', target, choices: choicesFor(target, 4, pool) });
+    for (const target of shuffled(own)) questions.push({ type: 'sound', target, choices: choicesFor(target, 3, own) });
+    return spread(questions);
+  }
+  function harekeRound(k) {
+    const own = coveLetters(k);
+    const later = shuffled(own);
+    const questions = [];
+    for (const target of shuffled(own)) {
+      questions.push({ type: 'hareke-listen', target, h: pick([0, 1, 2]), choices: shuffled([0, 1, 2]) });
+    }
+    for (const target of later.slice(0, 2)) {
+      const h = pick([0, 1, 2]);
+      const pool = letterPool(k).flatMap(i => [0, 1, 2].map(x => [i, x]))
+        .filter(([i, x]) => !(i === target && x === h) && !sameSound(i, x, target, h));
+      const others = [];
+      for (const [i, x] of shuffled(pool)) {
+        if (others.length === 3) break;
+        if (others.some(([j, y]) => sameSound(i, x, j, y))) continue;
+        others.push([i, x]);
+      }
+      questions.push({ type: 'syllable-listen', target, h, choices: shuffled([[target, h], ...others]) });
+    }
+    for (const target of later.slice(2)) questions.push({ type: 'hareke-name', target, h: pick([0, 1, 2]) });
+    return spread(questions);
+  }
+  function introRound() {
+    const letters = shuffled(Array.from({ length: 28 }, (_, i) => i)).slice(0, 6);
+    return letters.map((target, n) => ({ type: 'hareke-name', target, h: n % 3 })).sort(() => Math.random() - .5);
+  }
+  // Keep the same letter from coming up twice in a row.
+  function spread(questions) {
+    const result = shuffled(questions);
+    for (let i = 1; i < result.length; i++) {
+      if (result[i].target !== result[i - 1].target) continue;
+      const j = result.findIndex((q, n) => n > i && q.target !== result[i - 1].target);
+      if (j > 0) [result[i], result[j]] = [result[j], result[i]];
+    }
+    return result;
+  }
+
+  function startRound(kind) {
+    round = { kind, part: kind === 'intro' ? 'hareke' : section, cove, questions:
+      kind === 'intro' ? introRound() : section === 'harf' ? harfRound(cove) : harekeRound(cove), right: 0 };
+    turn = 0;
+    earned = [];
+    dialog.showModal();
+    ask();
+  }
+  $('elif-play').onclick = () => { if (coveOpen(section, cove)) { playCue('start'); startRound('cove'); } };
+
+  function header(total) {
+    const label = round.kind === 'intro' ? 'Harekelerle tanışma' : coves[round.cove];
+    return '<p class="elif-step">' + label + ' · ' + (turn + 1) + ' / ' + total + '</p><ol class="elif-dots" aria-hidden="true">' +
+      round.questions.map((_, n) => '<li class="' + (n < turn ? 'done' : n === turn ? 'now' : '') + '"></li>').join('') + '</ol>';
+  }
+  function ask() {
+    const q = round.questions[turn];
+    firstTry = true;
+    const total = round.questions.length;
+    const stage = $('elif-stage');
+    stage.innerHTML = header(total);
+    const prompt = el('h2', '', '');
+    prompt.id = 'elif-prompt';
+    prompt.tabIndex = -1;
+    const response = el('p', '', '');
+    response.id = 'elif-response';
+    response.setAttribute('role', 'status');
+    const next = el('button', 'elif-action', '');
+    next.id = 'elif-next';
+    next.hidden = true;
+    const play = () => q.type === 'listen' || q.type === 'sound' ? voice.letter(q.target, response) : voice.syllable(q.target, q.h, response);
+    const speaker = () => {
+      const button = el('button', 'elif-speaker', '<span aria-hidden="true">🔊</span><small>Tekrar dinle</small>');
+      button.setAttribute('aria-label', 'Sesi tekrar dinle');
+      button.onclick = play;
+      return button;
+    };
+    const grid = el('div', 'elif-choices');
+    grid.id = 'elif-choices';
+
+    if (q.type === 'listen') {
+      prompt.textContent = 'Dinle ve harfi bul';
+      grid.classList.add('four');
+      q.choices.forEach((i, n) => grid.append(choice(glyphHtml(glyphs[i]), n, i === q.target, () => names[i] + ' değil.')));
+      stage.append(prompt, speaker(), grid);
+      play();
+    } else if (q.type === 'sound') {
+      prompt.textContent = 'Bu harfin adı hangisi?';
+      stage.append(prompt, el('div', 'elif-big', glyphHtml(glyphs[q.target])));
+      soundChoices(q.choices.map(i => [() => voice.letter(i, response), i === q.target]), stage, response);
+    } else if (q.type === 'hareke-listen') {
+      prompt.textContent = 'Dinle, doğru harekeyi bul';
+      grid.classList.add('three');
+      q.choices.forEach((h, n) => grid.append(choice(glyphHtml(syllable(q.target, h)), n, h === q.h,
+        () => 'Bu ' + harekeler[h].name.toLocaleLowerCase('tr') + ': ' + readings[q.target][h] + ' okunur.')));
+      stage.append(prompt, speaker(), grid);
+      play();
+    } else if (q.type === 'syllable-listen') {
+      prompt.textContent = 'Dinle ve heceyi bul';
+      grid.classList.add('four');
+      q.choices.forEach(([i, h], n) => grid.append(choice(glyphHtml(syllable(i, h)), n, i === q.target && h === q.h,
+        () => 'Bu ' + readings[i][h] + ' okunur.')));
+      stage.append(prompt, speaker(), grid);
+      play();
+    } else if (q.type === 'hareke-name') {
+      prompt.textContent = 'Bu harekenin adı ne?';
+      const big = el('button', 'elif-big', glyphHtml(syllable(q.target, q.h)));
+      big.setAttribute('aria-label', 'Heceyi dinle');
+      big.onclick = play;
+      grid.classList.add('three', 'names');
+      harekeler.forEach((info, h) => grid.append(choice('<i lang="ar" aria-hidden="true">◌' + info.mark + '</i><span>' + info.name +
+        '</span>', h, h === q.h, () => 'Bu ' + info.name.toLocaleLowerCase('tr') + ' değil. ' + harekeler[q.h].place.toLocaleLowerCase('tr') + ' var mı?', info.name)));
+      stage.append(prompt, big, grid);
+    }
+    stage.append(response, next);
+    prompt.focus();
+
+    function choice(html, n, right, wrongText, label) {
+      const button = el('button', 'elif-choice tone-' + n % 4, html);
+      button.dataset.cue = '';
+      button.setAttribute('aria-label', label || (n + 1) + '. seçenek');
+      button.onclick = () => right ? correct(button) : wrong(button, wrongText());
+      return button;
+    }
+    function wrong(button, text) {
+      firstTry = false;
+      playCue('oops');
+      fx.bump(button, 'missed');
+      button.disabled = true;
+      response.textContent = text + ' Bir daha dene.';
+      if (q.type !== 'hareke-name') setTimeout(() => { if (dialog.open && round.questions[turn] === q) play(); }, 900);
+    }
+    function correct(button) {
+      for (const item of stage.querySelectorAll('.elif-choice, .elif-sound, #elif-choose')) item.disabled = true;
+      button?.classList.add('matched');
+      playCue('correct');
+      if (button) fx.burst(button, { symbols: [prizeOf(round.part), '✦', '★'] });
+      let message = '';
+      if (round.kind === 'intro') message = '✓ Doğru! Bu ' + harekeler[q.h].name.toLocaleLowerCase('tr') + ': ' + readings[q.target][q.h] + '.';
+      else {
+        const part = round.part;
+        const before = mastered(part, q.target);
+        if (firstTry) { progress[part][q.target]++; round.right++; save(); }
+        if (!before && mastered(part, q.target)) {
+          earned.push(q.target);
+          message = prizeOf(part) + ' ' + names[q.target] + ' ' + (part === 'harf' ? 'kabuğu' : 'incisi') + ' senin!';
+        } else message = firstTry ? '✓ Doğru!' : '✓ Buldun!';
+        if (part === 'harf') message += ' Bu ' + names[q.target] + '.';
+        else message += ' ' + readings[q.target][q.h] + ' okunur.';
+      }
+      response.textContent = message;
+      if (q.type === 'hareke-name' || q.type === 'sound') round.kind === 'intro' ? voice.chant(q.target, q.h) : play();
+      next.hidden = false;
+      next.textContent = turn === total - 1 ? 'Sonucu gör' : 'Sıradaki';
+      next.focus();
+      next.onclick = () => { voice.stop(); turn++; turn === total ? finish() : ask(); };
+    }
+    // Sound options: tap to listen, then confirm the one that matches the letter.
+    function soundChoices(options, host, note) {
+      const row = el('div', 'elif-sounds');
+      let selected = null;
+      const choose = el('button', 'elif-action', '✓ Bu ses');
+      choose.id = 'elif-choose';
+      choose.disabled = true;
+      choose.dataset.cue = '';
+      options.forEach(([listen, right], n) => {
+        const button = el('button', 'elif-sound tone-' + n % 4, '<span aria-hidden="true">🔊</span><small>' + (n + 1) + '</small>');
+        button.setAttribute('aria-label', (n + 1) + '. sesi dinle');
+        button.setAttribute('aria-pressed', 'false');
+        button.onclick = () => {
+          for (const other of row.children) other.setAttribute('aria-pressed', 'false');
+          button.setAttribute('aria-pressed', 'true');
+          selected = { button, right };
+          choose.disabled = false;
+          note.textContent = (n + 1) + '. ses seçildi. Doğruysa “Bu ses”e dokun.';
+          listen();
+        };
+        row.append(button);
+      });
+      choose.onclick = () => {
+        if (!selected) return;
+        if (selected.right) return correct(selected.button);
+        firstTry = false;
+        playCue('oops');
+        fx.bump(selected.button, 'missed');
+        selected.button.disabled = true;
+        selected.button.setAttribute('aria-pressed', 'false');
+        selected = null;
+        choose.disabled = true;
+        note.textContent = 'Bu ses başka bir harfin. Diğer seslere de dokun.';
+      };
+      host.append(el('p', 'elif-hint', 'Seslere dokun, dinle, doğru olanı seç.'), row, choose);
+    }
+  }
+
+  function finish() {
+    const total = round.questions.length;
+    const stage = $('elif-stage');
+    if (round.kind === 'intro') {
+      progress.tanisma = true;
+      save();
+      stage.innerHTML = '<div class="elif-prize" aria-hidden="true">✨</div><h2 id="elif-prompt" tabindex="-1">Harekelerle tanıştın!</h2>' +
+        '<p>Üstün <b lang="ar">◌َ</b> e/a, esre <b lang="ar">◌ِ</b> i/ı, ötre <b lang="ar">◌ُ</b> u okutur. Şimdi ' + coves[0] + ' seni bekliyor.</p>' +
+        (storageNote ? '<p>' + storageNote + '</p>' : '') + '<button class="elif-action" id="elif-continue">Koylara geç</button>';
+      playCue('island');
+      fx.confetti(dialog);
+    } else {
+      const part = round.part;
+      const done = coveDone(part, round.cove);
+      const allDone = masteredCount(part) === 28;
+      const last = round.cove === coves.length - 1;
+      const prizes = earned.map(i => '<span class="elif-won" lang="ar">' + glyphs[i] + '</span>').join('');
+      const heading = allDone && done ? (part === 'harf' ? '28 harfin hepsini tanıdın!' : 'Bütün harekeleri okudun!') :
+        done ? coves[round.cove] + ' tamamlandı!' : 'Güzel çalıştın!';
+      let text = total + ' sorudan ' + round.right + ' tanesini ilk denemede bildin.';
+      if (!done) text += ' Her harf için iki kez ilk denemede bilince ' + prizeOf(part) + ' kazanırsın. Bir tur daha?';
+      else if (allDone && part === 'harf') text += ' Harekeler bölümü açıldı!';
+      else if (allDone) text += ' Sıradaki bölümler yakında geliyor.';
+      else if (!last) text += ' Sırada ' + coves[round.cove + 1] + ' var.';
+      stage.innerHTML = '<div class="elif-prize" aria-hidden="true">' + (done ? prizeOf(part) : '⭐') + '</div><h2 id="elif-prompt" tabindex="-1">' +
+        heading + '</h2>' + (prizes ? '<div class="elif-won-row">' + prizes + '</div>' : '') + '<p>' + text + '</p>' +
+        (storageNote ? '<p>' + storageNote + '</p>' : '') + '<button class="elif-action" id="elif-continue"></button>';
+      $('elif-continue').textContent = !done ? 'Tekrar oyna' : allDone && part === 'harf' ? 'Harekelere git' : allDone || last ? 'Koya dön' : 'Sonraki koy';
+      playCue(done ? 'island' : 'correct');
+      if (done) fx.confetti(dialog);
+    }
+    $('elif-prompt').focus();
+    $('elif-continue').onclick = () => {
+      const part = round.part;
+      if (round.kind === 'cove' && !coveDone(part, round.cove)) { startRound('cove'); return; }
+      dialog.close();
+      if (round.kind === 'intro') { openSection('hareke'); return; }
+      if (part === 'harf' && masteredCount('harf') === 28 && !progress.tanisma) { openSection('hareke'); return; }
+      if (round.cove < coves.length - 1 && coveDone(part, round.cove)) cove = round.cove + 1;
+      drawSection();
+    };
+  }
+
+  /* ---------- Hareke introduction ---------- */
+  function startIntro() {
+    let slide = 0;
+    round = { kind: 'intro', part: 'hareke', questions: introRound(), right: 0 };
+    turn = 0;
+    earned = [];
+    dialog.showModal();
+    const show = () => {
+      const info = harekeler[slide];
+      $('elif-stage').innerHTML = '<p class="elif-step">Harekelerle tanışma · ' + (slide + 1) + ' / 3</p>' +
+        '<h2 id="elif-prompt" tabindex="-1">' + info.name + '</h2><button class="elif-big mark-' + slide + '" id="elif-demo" aria-label="Dinle">' +
+        glyphHtml(syllable(1, slide)) + '</button><p class="elif-lesson"><b>' + info.place + '.</b> Harfe <b>' + info.sound +
+        '</b> sesi verir: ' + names[1] + ' ' + info.name.toLocaleLowerCase('tr') + ' <b>' + readings[1][slide] + '</b>.</p>' +
+        '<div class="elif-examples">' + [1, 23, 24].map(i => '<button class="elif-syllable" data-i="' + i + '">' + glyphHtml(syllable(i, slide)) +
+        '<span>' + readings[i][slide] + '</span></button>').join('') + '</div><p id="elif-response" role="status"></p>' +
+        '<button class="elif-action" id="elif-next">' + (slide < 2 ? 'Sonraki hareke' : 'Şimdi sen bul') + '</button>';
+      $('elif-prompt').focus();
+      const note = $('elif-response');
+      $('elif-demo').onclick = () => voice.chant(1, slide, note);
+      for (const button of $('elif-stage').querySelectorAll('.elif-examples button')) {
+        button.onclick = () => voice.syllable(Number(button.dataset.i), slide, note);
+      }
+      voice.chant(1, slide, note);
+      $('elif-next').onclick = () => { voice.stop(); if (slide < 2) { slide++; show(); } else ask(); };
+    };
+    show();
+  }
+
+  /* ---------- Entry and leaving ---------- */
   $('elif-card').onclick = () => {
     if (!availableForPlayer($('elif-card'))) return;
-    const key = 'elif-ba-' + activeProfile.id;
-    if (!visits.has(key)) {
-      const saved = readRecord(key);
-      visits.set(key, new Set(Array.isArray(saved) ? saved.filter(i => Number.isInteger(i) && i >= 0 && i < 28) : []));
-    }
-    pearls = visits.get(key);
-    const first = glyphs.findIndex((_, i) => !pearls.has(i));
-    cove = first < 0 ? 0 : Math.floor(first / 4);
+    progress = load(activeProfile.id);
     $('catalog').hidden = true;
     $('elif-view').hidden = false;
-    document.title = 'Elif Ba Adası · Bilgi Adası';
-    drawCove();
+    showHub();
     $('elif-title').focus();
     window.speechSynthesis?.getVoices();
   };
-  picker.onchange = () => { stopVoice(); cove = Number(picker.value); drawCove(); };
-  $('elif-back').onclick = () => { stopVoice(); showCatalog(); };
-  $('player').addEventListener('click', stopVoice);
+  $('elif-up').onclick = () => { showHub(); $('elif-title').focus(); };
+  $('elif-back').onclick = () => { voice.stop(); showCatalog(); };
+  $('player').addEventListener('click', () => voice.stop());
   $('elif-close').onclick = () => dialog.close();
-  dialog.addEventListener('close', stopVoice);
-
-  function finish() {
-    const next = cove < coves.length - 1;
-    $('elif-stage').innerHTML = '<div class="elif-prize" aria-hidden="true">🐚</div><h2 id="elif-prompt" tabindex="-1">Dört harfi de buldun!</h2><p>' +
-      (pearls.size === 28 ? 'Adadaki 28 deniz kabuğunu da topladın!' : coves[cove] + ' tamamlandı.') +
-      '</p><button class="elif-action" id="elif-continue">' + (next ? 'Sonraki koy' : 'Koya dön') + '</button>';
-    $('elif-prompt').focus();
-    playCue('island');
-    fx.confetti(dialog);
-    $('elif-continue').onclick = () => { if (next) cove++; drawCove(); dialog.close(); };
-  }
-  function question() {
-    const target = order[turn];
-    $('elif-stage').innerHTML = '<p class="elif-step">' + coves[cove] + ' · ' + (turn + 1) +
-      ' / 4</p><h2 id="elif-prompt" tabindex="-1">Eşini bul!</h2><button id="elif-listen" aria-label="' +
-      names[target] + ' harfini dinle"><b lang="ar">' + glyphs[target] + '</b><span>♪ ' + names[target] +
-      '</span></button><div id="elif-choices"></div><p id="elif-response" role="status">Aynı harfe dokun.</p>' +
-      '<button id="elif-next" class="elif-action" hidden></button>';
-    $('elif-prompt').focus();
-    const feedback = $('elif-response');
-    $('elif-listen').onclick = () => speak(names[target], feedback);
-    const others = shuffled(letters().filter(i => i !== target)).slice(0, 2);
-    for (const index of shuffled([target, ...others])) {
-      const button = tile(index, false);
-      button.dataset.cue = '';
-      $('elif-choices').append(button);
-      button.onclick = () => {
-        if (index !== target) {
-          playCue('oops');
-          fx.bump(button, 'missed');
-          button.disabled = true;
-          feedback.textContent = 'Bir daha bakalım. Yukarıdaki şeklin eşi hangisi?';
-          return;
-        }
-        for (const item of $('elif-choices').children) item.disabled = true;
-        button.classList.add('matched');
-        playCue('correct');
-        fx.burst(button, { symbols: ['🐚', '✦', '★'] });
-        pearls.add(index);
-        let notice = '';
-        try { localStorage.setItem('elif-ba-' + activeProfile.id, JSON.stringify([...pearls])); }
-        catch { notice = ' İlerlemen bu oturumda saklanıyor.'; }
-        drawCove();
-        feedback.textContent = '🐚 Buldun! ' + names[index] + ' kabuğu senin.' + notice;
-        const next = $('elif-next');
-        next.hidden = false;
-        next.textContent = turn === 3 ? 'Kabuğumu göster' : 'Sıradaki harf';
-        next.focus();
-        next.onclick = () => { stopVoice(); turn++; if (turn === 4) finish(); else question(); };
-      };
-    }
-    speak(names[target], feedback);
-  }
-  $('elif-play').onclick = () => {
-    order = shuffled(letters());
-    turn = 0;
-    dialog.showModal();
-    question();
-  };
+  dialog.addEventListener('close', () => {
+    voice.stop();
+    if (section && !$('elif-view').hidden) drawSection();
+  });
 })();

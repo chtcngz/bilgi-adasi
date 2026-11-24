@@ -1,4 +1,4 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Keşif Limanı · Bilgi Adası</title><meta name="surum" content="__SURUM__"><link rel="stylesheet" href="style.css?v=surum-1"><link rel="stylesheet" href="elif-ba/style.css"></head><body>
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Keşif Limanı · Bilgi Adası</title><meta name="surum" content="__SURUM__"><link rel="stylesheet" href="style.css?v=surum-1"><link rel="stylesheet" href="elif-ba/style.css?v=bolum-1"></head><body>
 <header><div class="brand"><span class="brand-icon">⛵</span> Bilgi Adası</div><div class="head-right"><button id="player" aria-haspopup="dialog">Oyuncu seç</button><button id="settings-button" aria-label="Ayarlar" title="Ayarlar" aria-haspopup="dialog" hidden>⚙</button><div id="game-tools" hidden><button id="open-stats" aria-haspopup="dialog">İstatistikler</button><span id="stars">⭐ 0 yıldız</span><button id="sound" aria-label="Sesi aç" aria-pressed="false">♫</button></div></div></header>
 <main>
 <section id="catalog" hidden aria-labelledby="catalog-title">
@@ -24,10 +24,21 @@
 </section>
 <section id="elif-view" hidden aria-labelledby="elif-title">
   <nav class="elif-nav"><button id="elif-back">‹ Keşif Limanı</button><span id="elif-shells"></span></nav>
-  <div class="elif-hero"><div><h1 id="elif-title" tabindex="-1">Elif Ba <em>Adası</em></h1><p>Minik kaplumbağayla Kur’an harflerini keşfet.</p></div></div>
-  <div class="elif-toolbar"><div><label for="elif-cove">Koy seç</label><select id="elif-cove"></select></div><button id="elif-play" class="elif-action">▶ Harfi bul</button></div>
-  <p class="elif-guide">Bir karta dokun, harfin adını dinle.</p>
-  <div id="elif-cards" class="elif-cards"></div><p id="elif-note" role="status"></p>
+  <div id="elif-hub">
+    <div class="elif-hero"><div><h1 id="elif-title" tabindex="-1">Elif Ba <em>Adası</em></h1><p>Minik kaplumbağayla Kur’an harflerini tanı, sesinden bul ve okumayı öğren.</p></div></div>
+    <h2 class="elif-h">Bölümler</h2>
+    <ol id="elif-sections" class="elif-sections"></ol>
+    <p id="elif-hub-note" class="elif-hub-note" role="status"></p>
+  </div>
+  <div id="elif-section" hidden>
+    <div class="elif-section-head"><button id="elif-up">‹ Bölümler</button><h2 id="elif-section-title" tabindex="-1"></h2><span id="elif-section-count"></span></div>
+    <div id="elif-intro" class="elif-intro" hidden></div>
+    <div id="elif-coves" class="elif-coves" aria-label="Koylar"></div>
+    <p id="elif-guide" class="elif-guide"></p>
+    <div id="elif-cards" class="elif-cards"></div>
+    <p id="elif-note" role="status"></p>
+    <div class="elif-toolbar"><button id="elif-play" class="elif-action">▶ Oyna</button></div>
+  </div>
 </section>
 <dialog id="elif-game" aria-labelledby="elif-prompt"><button id="elif-close" aria-label="Koya dön">×</button><div id="elif-stage"></div></dialog>
 <section id="island-view" hidden>
@@ -76,6 +87,11 @@
       <button type="button" data-cue data-try="tick-1">⏱ Süre</button>
       <button type="button" data-cue data-try="island">⭐ Ada</button>
     </div>
+    <fieldset id="elif-voice" class="voice-choice" hidden><legend>Elif Ba harf sesleri</legend>
+      <label><input type="radio" name="elif-voice" value="kayit"><span><strong>Gerçek ses kaydı</strong><small>Harflerin Arapça okunuşu, insan sesiyle</small></span></label>
+      <label><input type="radio" name="elif-voice" value="turkce"><span><strong>Türkçe okunuş</strong><small>Elif, Be, Te… cihazın Türkçe sesiyle</small></span></label>
+      <small id="elif-voice-credit" class="set-note"></small>
+    </fieldset>
     <p class="set-note">Telefonun sessiz modu açıksa ses duyulmayabilir.</p>
   </div>
   <div id="panel-progress" class="set-panel" role="tabpanel" aria-labelledby="tab-progress" hidden>
@@ -88,9 +104,9 @@
     </section>
     <section id="elif-progress">
       <div class="set-who"><span class="player-face" aria-hidden="true">🐚</span><div><strong>Elif Ba Adası</strong><small id="elif-summary"></small></div></div>
-      <button type="button" class="danger wide" id="elif-reset">Deniz kabuklarını sıfırla</button>
+      <button type="button" class="danger wide" id="elif-reset">Elif Ba ilerlemesini sıfırla</button>
     </section>
     <p id="no-progress" class="set-note" hidden>Bu oyuncunun sınıfı için sıfırlanacak ilerleme yok.</p>
   </div>
   <p class="app-version"></p>
-</dialog><script src="sounds.js?v=8"></script><script src="fx.js?v=1"></script><script src="game.js?v=hiz-2"></script><script src="stats.js?v=profiles-1"></script><script src="profiles.js?v=ayar-1"></script><script src="elif-ba/game.js?v=ayar-1"></script><script src="settings.js?v=2"></script></body></html>
+</dialog><script src="sounds.js?v=8"></script><script src="fx.js?v=1"></script><script src="game.js?v=hiz-2"></script><script src="stats.js?v=profiles-1"></script><script src="profiles.js?v=ayar-1"></script><script src="elif-ba/data.js?v=1"></script><script src="elif-ba/ses/kayitlar.js?v=1"></script><script src="elif-ba/voice.js?v=1"></script><script src="elif-ba/game.js?v=bolum-1"></script><script src="settings.js?v=3"></script></body></html>

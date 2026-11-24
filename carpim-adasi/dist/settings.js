@@ -88,6 +88,7 @@
     try {
       localStorage.removeItem(progressKey(profile));
       localStorage.removeItem('elif-ba-' + profile.id);
+      localStorage.removeItem('elif-ba-v2-' + profile.id);
     } catch {}
     saveProfiles();
     window.speechSynthesis?.cancel();
@@ -101,6 +102,15 @@
 
   /* ---------- Sound ---------- */
   const syncSound = () => { $('sound-switch').checked = playCue.isOn(); };
+  function syncVoice() {
+    const box = $('elif-voice');
+    box.hidden = !elifVoice.hasRecordings() || !availableForPlayer($('elif-card'));
+    for (const input of box.querySelectorAll('input')) input.checked = input.value === elifVoice.mode();
+    $('elif-voice-credit').textContent = elifVoice.credit();
+  }
+  for (const input of $('elif-voice').querySelectorAll('input')) {
+    input.onchange = () => { elifVoice.setMode(input.value); elifVoice.letter(1); };
+  }
   $('sound-switch').onchange = () => playCue.setEnabled($('sound-switch').checked);
   document.addEventListener('soundchange', syncSound);
   for (const button of dialog.querySelectorAll('[data-try]')) {
@@ -165,14 +175,10 @@
     playCue('start');
     $('reset-info').textContent = '✓ Sıfırlandı. ' + describe(index) + ' seni bekliyor.';
   });
-  function elifCount() {
-    const saved = readRecord('elif-ba-' + activeProfile.id);
-    return Array.isArray(saved) ? saved.length : 0;
-  }
   function drawElif() {
-    const count = elifCount();
-    $('elif-summary').textContent = '🐚 ' + count + ' / 28 deniz kabuğu';
-    $('elif-reset').disabled = count === 0;
+    const summary = window.elifBaSummary(activeProfile.id);
+    $('elif-summary').textContent = '🐚 ' + summary.harf + ' / 28 harf · 🦪 ' + summary.hareke + ' / 28 hareke';
+    $('elif-reset').disabled = !summary.any;
   }
   const disarmElif = confirmTwice($('elif-reset'), 'Emin misin? Evet, sıfırla', () => {
     window.resetElifBa?.(activeProfile.id);
@@ -195,6 +201,7 @@
     disarmDelete(); disarmReset(); disarmElif();
     fillPlayer();
     syncSound();
+    syncVoice();
     fillProgress();
     showTab(tab);
     dialog.showModal();
