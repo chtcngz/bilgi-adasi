@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.5.1 · 24.11.2026
+
+- Elif Ba Adası'nda yanlış cevap artık Çarpım Adası'ndaki gibi işliyor: ilk yanlışta tur hemen bitiyor. Yanlış seçilen kırmızı, doğrusu yeşil gösteriliyor ve doğru cevap seslendiriliyor; "Tekrar dene" ile tur yeni sorularla baştan başlıyor. Koy yine yalnızca hatasız bir turla geçiliyor.
+
 ## 0.5.0 · 24.11.2026
 
 - Elif Ba Adası'nda bir koy artık yalnızca hatasız bir turla geçiliyor. Yanlış cevapta çocuk doğrusunu bulana kadar denemeye devam ediyor; ama turda bir tane bile hata varsa sonunda "Bir daha deneyelim!" ekranı çıkıyor ve tur tekrarlanıyor. Kabuklar ve inciler hatasız turda, koyun dört harfi için birlikte kazanılıyor.

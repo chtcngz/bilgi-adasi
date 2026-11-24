@@ -6,7 +6,7 @@
   const dialog = $('elif-game');
   const records = new Map();
   let progress, section = null, cove = 0;
-  let round, turn, firstTry, earned;
+  let round, turn, earned;
 
   /* ---------- Progress ---------- */
   const storeKey = id => 'elif-ba-v2-' + id;
@@ -327,7 +327,7 @@
       kind === 'intro' ? introRound() : section === 'harf' ? harfRound(cove) : harekeRound(cove), right: 0, missed: new Set() };
     turn = 0;
     earned = [];
-    dialog.showModal();
+    if (!dialog.open) dialog.showModal();
     ask();
   }
   $('elif-play').onclick = () => { if (coveOpen(section, cove)) { playCue('start'); startRound('cove'); } };
@@ -340,7 +340,6 @@
   }
   function ask() {
     const q = round.questions[turn];
-    firstTry = true;
     const total = round.questions.length;
     const stage = $('elif-stage');
     stage.innerHTML = header(total);
@@ -362,6 +361,9 @@
     };
     const grid = el('div', 'elif-choices');
     grid.id = 'elif-choices';
+    let rightButton = null;
+    const answer = q.type === 'hareke-name' ? harekeler[q.h].name + ' (' + harekeler[q.h].place.toLocaleLowerCase('tr') + ')' : q.type === 'listen' || q.type === 'sound' ?
+      names[q.target] : readings[q.target][q.h];
 
     if (q.type === 'listen') {
       prompt.textContent = 'Dinle ve harfi bul';
@@ -394,7 +396,7 @@
       big.onclick = play;
       grid.classList.add('three', 'names');
       harekeler.forEach((info, h) => grid.append(choice('<i lang="ar" aria-hidden="true">◌' + info.mark + '</i><span>' + info.name +
-        '</span>', h, h === q.h, () => 'Bu ' + info.name.toLocaleLowerCase('tr') + ' değil. ' + harekeler[q.h].place.toLocaleLowerCase('tr') + ' var mı?', info.name)));
+        '</span>', h, h === q.h, () => 'Bu ' + info.name.toLocaleLowerCase('tr') + ' değil.', info.name)));
       stage.append(prompt, big, grid);
     }
     stage.append(response, next);
@@ -404,30 +406,47 @@
       const button = el('button', 'elif-choice tone-' + n % 4, html);
       button.dataset.cue = '';
       button.setAttribute('aria-label', label || (n + 1) + '. seçenek');
+      if (right) rightButton = button;
       button.onclick = () => right ? correct(button) : wrong(button, wrongText());
       return button;
     }
+    // As on Çarpım Adası: the first mistake ends the round. The right answer is shown
+    // and read out, then the round starts again from the beginning with new questions.
     function wrong(button, text) {
-      firstTry = false;
-      playCue('oops');
+      round.missed.add(turn);
+      for (const item of stage.querySelectorAll('.elif-choice, .elif-sound, #elif-choose, .elif-speaker')) item.disabled = true;
+      playCue('retry');
       fx.bump(button, 'missed');
-      button.disabled = true;
-      response.textContent = text + ' Bir daha dene.';
-      if (q.type !== 'hareke-name') setTimeout(() => { if (dialog.open && round.questions[turn] === q) play(); }, 900);
+      button.classList.add('chosen-wrong');
+      rightButton?.classList.add('matched');
+      stage.querySelector('.elif-dots li.now')?.classList.replace('now', 'miss');
+      response.textContent = 'Ah, bu kez olmadı! ' + text + ' Doğrusu: ' + answer + '. Tur baştan başlıyor.';
+      setTimeout(() => { if (dialog.open && round.questions[turn] === q) {
+        if (q.type === 'hareke-name') voice.chant(q.target, q.h); else play();
+      } }, 600);
+      next.hidden = false;
+      next.textContent = '↻ Tekrar dene';
+      next.focus();
+      next.onclick = () => {
+        voice.stop();
+        playCue('start');
+        if (round.kind === 'intro') {
+          round = { kind: 'intro', part: 'hareke', questions: introRound(), right: 0, missed: new Set() };
+          turn = 0;
+          ask();
+        } else startRound('cove');
+      };
     }
     function correct(button) {
       for (const item of stage.querySelectorAll('.elif-choice, .elif-sound, #elif-choose')) item.disabled = true;
       button?.classList.add('matched');
       playCue('correct');
       if (button) fx.burst(button, { symbols: [prizeOf(round.part), '✦', '★'] });
-      // A cove is passed only by a round with no mistakes, so every slip is counted.
-      if (firstTry) round.right++;
-      else round.missed.add(turn);
-      let message = firstTry ? '✓ Doğru!' : '✓ Buldun!';
+      round.right++;
+      let message = '✓ Doğru!';
       if (round.kind === 'intro') message += ' Bu ' + harekeler[q.h].name.toLocaleLowerCase('tr') + ': ' + readings[q.target][q.h] + '.';
       else if (round.part === 'harf') message += ' Bu ' + names[q.target] + '.';
       else message += ' ' + readings[q.target][q.h] + ' okunur.';
-      if (!firstTry && round.missed.size === 1 && round.kind === 'cove' && !coveDone(round.part, round.cove)) message += ' Bu turda bir hata oldu; koyu geçmek için tur tekrarlanacak.';
       response.textContent = message;
       if (q.type === 'hareke-name' || q.type === 'sound') round.kind === 'intro' ? voice.chant(q.target, q.h) : play();
       next.hidden = false;
@@ -455,19 +474,14 @@
           note.textContent = (n + 1) + '. ses seçildi. Doğruysa “Bu ses”e dokun.';
           listen();
         };
+        if (right) rightButton = button;
         row.append(button);
       });
       choose.onclick = () => {
         if (!selected) return;
         if (selected.right) return correct(selected.button);
-        firstTry = false;
-        playCue('oops');
-        fx.bump(selected.button, 'missed');
-        selected.button.disabled = true;
         selected.button.setAttribute('aria-pressed', 'false');
-        selected = null;
-        choose.disabled = true;
-        note.textContent = 'Bu ses başka bir harfin. Diğer seslere de dokun.';
+        wrong(selected.button, 'Bu ses başka bir harfin.');
       };
       host.append(el('p', 'elif-hint', 'Seslere dokun, dinle, doğru olanı seç.'), row, choose);
     }

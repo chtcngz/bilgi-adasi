@@ -111,6 +111,8 @@
 .elif-choice:disabled:not(.matched), .elif-sound:disabled { opacity: .4; }
 .elif-choice.matched, .elif-sound.matched { outline: 4px solid #2f9b7f; outline-offset: -5px; background: #e1f6e5; animation: pop-in .45s cubic-bezier(.2, 1.4, .4, 1); }
 .elif-choice.missed, .elif-sound.missed { animation: shake .4s; }
+.elif-choice.chosen-wrong, .elif-sound.chosen-wrong { opacity: 1 !important; outline: 4px solid #d9534f; outline-offset: -5px; background: #fde4e1; }
+.elif-choice.matched:disabled, .elif-sound.matched:disabled { opacity: 1; }
 .elif-hint { margin: 0 0 8px; font-weight: 700; color: #3f5f58; }
 .elif-sounds { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
 .elif-sound { display: grid; justify-items: center; padding: 12px 6px; border-radius: 20px; border: 2px solid var(--rim); background: var(--tint); color: var(--ink); box-shadow: 0 4px var(--rim); }
