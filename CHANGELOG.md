@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.11.1 · 24.11.2026
+
+Elif Ba Adası'ndaki 28 harf adı ve 84 üstün, esre ve ötre kaydı Diyanet Elifba sesleriyle değiştirildi. Harf kartları, hareke alıştırmaları ve Harf Yağmuru yeni kayıtları kullanıyor. Ses dosyalarının önbellek adresleri yenilendi.
+
 ## 0.11.0 · 24.11.2026
 
 Harf Yağmuru artık 15 harflik bir bölüm.

@@ -1,82 +1,40 @@
-# Elif Ba ses kayıtları: kaynaklar
+# Elif Ba ses kayıtları
 
-Oyundaki kayıtlarda yalnızca baştaki ve sondaki sessizlik kırpıldı ve ses düzeyi eşitlendi
-(`carpim-adasi/tools/elif_sesleri.py`). Kaydı olmayan harf ve heceleri cihazın Türkçe sesi okur.
+28 harf adı ve 84 harekeli okuma Diyanet İşleri Başkanlığının Elifba uygulamasından alınmıştır. Harf adları Harfler dersinden, heceler Fetha, Kesra ve Damme derslerinden eşleştirilmiştir.
 
-## Heceler (üstün, esre, ötre)
+Oyun kopyaları `elifba-sesleri/katalog.json` arşivindeki kayıtlarla bayt düzeyinde aynıdır. Harf sırası oyundaki sıradır. He ve vav konumları metne göre eşleştirilmiştir.
 
-84 hece, Hugging Face’teki [Pelafalan Huruf Hijaiyah](https://huggingface.co/datasets/Reinjin/Pelafalan_Huruf_Hijaiyah) veri setinden alındı. Veri seti
-Endonezya’nın Kudus şehrindeki Pondok Tahfidz Yanbuul Qur’an hafızlık okulunun MTs/MA öğrencilerinin
-okuyuşlarından oluşuyor ve [Academic Free License 3.0](https://opensource.org/license/afl-3-0-php)
-ile yayımlanıyor (veri setini hazırlayan: Reinjin).
+Kaynak sayfada tüm hakların saklı olduğu belirtilmektedir.
 
-Oyunda tek bir ses duyulsun diye her hece aynı öğrencinin iki okuyuşundan daha temiz olanından alındı: Fadli, Hamzah_MTS. ع harfinin üç hecesi Hamzah_MTS’ten, diğerleri Fadli’den.
+[Diyanet Elifba](https://kuran.diyanet.gov.tr/elifba)
 
-| Harf | Üstün | Esre | Ötre |
-|---|---|---|---|
-| ا Elif | `Fadli_alif_fathah_1.wav` | `Fadli_alif_kasroh_1.wav` | `Fadli_alif_dommah.wav` |
-| ب Be | `Fadli_ba_fathah_1.wav` | `Fadli_ba_kasroh_1.wav` | `Fadli_ba_dommah_1.wav` |
-| ت Te | `Fadli_ta_fathah_1.wav` | `Fadli_ta_kasroh_1.wav` | `Fadli_ta_dommah.wav` |
-| ث Se | `Fadli_tsa_fathah_1.wav` | `Fadli_tsa_kasroh_1.wav` | `Fadli_tsa_dommah_1.wav` |
-| ج Cim | `Fadli_jim_fathah_1.wav` | `Fadli_jim_kasroh.wav` | `Fadli_jim_dommah_1.wav` |
-| ح Ha | `Fadli_hah_fathah_1.wav` | `Fadli_hah_kasroh_1.wav` | `Fadli_hah_dommah_1.wav` |
-| خ Hı | `Fadli_kha_fathah_1.wav` | `Fadli_kha_kasroh_1.wav` | `Fadli_kha_dommah.wav` |
-| د Dal | `Fadli_dal_fathah_1.wav` | `Fadli_dal_kasroh_1.wav` | `Fadli_dal_dommah.wav` |
-| ذ Zel | `Fadli_dzal_fathah_1.wav` | `Fadli_dzal_kasroh_1.wav` | `Fadli_dzal_dommah_1.wav` |
-| ر Ra | `Fadli_ra_fathah_1.wav` | `Fadli_ra_kasroh_1.wav` | `Fadli_ra_dommah.wav` |
-| ز Ze | `Fadli_zay_fathah_1.wav` | `Fadli_zay_kasroh.wav` | `Fadli_zay_dommah.wav` |
-| س Sin | `Fadli_sin_fathah_1.wav` | `Fadli_sin_kasroh.wav` | `Fadli_sin_dommah.wav` |
-| ش Şın | `Fadli_shin_fathah.wav` | `Fadli_shin_kasroh.wav` | `Fadli_shin_dommah_1.wav` |
-| ص Sad | `Fadli_sad_fathah_1.wav` | `Fadli_sad_kasroh.wav` | `Fadli_sad_dommah.wav` |
-| ض Dad | `Fadli_dad_fathah_1.wav` | `Fadli_dad_kasroh_1.wav` | `Fadli_dad_dommah.wav` |
-| ط Tı | `Fadli_tah_fathah_1.wav` | `Fadli_tah_kasroh_1.wav` | `Fadli_tah_dommah.wav` |
-| ظ Zı | `Fadli_zah_fathah.wav` | `Fadli_zah_kasroh.wav` | `Fadli_zah_dommah.wav` |
-| ع Ayn | `Hamzah_MTS_ain_fathah.wav` | `Hamzah_MTS_ain_kasroh.wav` | `Hamzah_MTS_ain_dommah.wav` |
-| غ Gayn | `Fadli_ghaiin_fathah_1.wav` | `Fadli_ghaiin_kasroh.wav` | `Fadli_ghaiin_dommah.wav` |
-| ف Fe | `Fadli_fa_fathah.wav` | `Fadli_fa_kasroh.wav` | `Fadli_fa_dommah.wav` |
-| ق Kaf | `Fadli_qaf_fathah.wav` | `Fadli_qaf_kasroh.wav` | `Fadli_qaf_dommah.wav` |
-| ك Kef | `Fadli_kaf_fathah_1.wav` | `Fadli_kaf_kasroh.wav` | `Fadli_kaf_dommah_1.wav` |
-| ل Lâm | `Fadli_lam_fathah.wav` | `Fadli_lam_kasroh.wav` | `Fadli_lam_dommah_1.wav` |
-| م Mim | `Fadli_mim_fathah.wav` | `Fadli_mim_kasroh.wav` | `Fadli_mim_dommah_1.wav` |
-| ن Nun | `Fadli_nun_fathah_1.wav` | `Fadli_nun_kasroh_1.wav` | `Fadli_nun_dommah.wav` |
-| و Vav | `Fadli_waw_fathah_1.wav` | `Fadli_waw_kasroh_1.wav` | `Fadli_waw_dommah.wav` |
-| ه He | `Fadli_Ha_fathah.wav` | `Fadli_Ha_kasroh.wav` | `Fadli_Ha_dommah.wav` |
-| ي Ye | `Fadli_ya_fathah.wav` | `Fadli_ya_kasroh.wav` | `Fadli_ya_dommah.wav` |
-
-## Harf adları
-
-28 harfin Türkçe Elif-Ba usulüyle okunan adları Internet Archive’daki [elifba_harfler_ses](https://archive.org/details/elifba_tektek_harfler)
-kaydından alındı (yükleyen: Sesli Tefsir, 2025-11-30). Kayıtta bir lisans belirtilmemiş;
-oyunda kullanılması proje sahibinin kararıdır. Hak sahibi isterse kayıtlar kaldırılır ve harf adlarını
-cihazın Türkçe sesi okur.
-
-| Harf | Dosya |
-|---|---|
-| ا Elif | [01_elif.mp3](https://archive.org/download/elifba_tektek_harfler/01_elif.mp3) |
-| ب Be | [02_ba.mp3](https://archive.org/download/elifba_tektek_harfler/02_ba.mp3) |
-| ت Te | [03_ta.mp3](https://archive.org/download/elifba_tektek_harfler/03_ta.mp3) |
-| ث Se | [04_se.mp3](https://archive.org/download/elifba_tektek_harfler/04_se.mp3) |
-| ج Cim | [05_cim.mp3](https://archive.org/download/elifba_tektek_harfler/05_cim.mp3) |
-| ح Ha | [06_ha.mp3](https://archive.org/download/elifba_tektek_harfler/06_ha.mp3) |
-| خ Hı | [07_hi.mp3](https://archive.org/download/elifba_tektek_harfler/07_hi.mp3) |
-| د Dal | [08_dal.mp3](https://archive.org/download/elifba_tektek_harfler/08_dal.mp3) |
-| ذ Zel | [09_zal.mp3](https://archive.org/download/elifba_tektek_harfler/09_zal.mp3) |
-| ر Ra | [10_ra.mp3](https://archive.org/download/elifba_tektek_harfler/10_ra.mp3) |
-| ز Ze | [11_ze.mp3](https://archive.org/download/elifba_tektek_harfler/11_ze.mp3) |
-| س Sin | [12_sin.mp3](https://archive.org/download/elifba_tektek_harfler/12_sin.mp3) |
-| ش Şın | [13_shin.mp3](https://archive.org/download/elifba_tektek_harfler/13_shin.mp3) |
-| ص Sad | [14_sad.mp3](https://archive.org/download/elifba_tektek_harfler/14_sad.mp3) |
-| ض Dad | [15_dad.mp3](https://archive.org/download/elifba_tektek_harfler/15_dad.mp3) |
-| ط Tı | [16_ta.mp3](https://archive.org/download/elifba_tektek_harfler/16_ta.mp3) |
-| ظ Zı | [17_za.mp3](https://archive.org/download/elifba_tektek_harfler/17_za.mp3) |
-| ع Ayn | [18_ayn.mp3](https://archive.org/download/elifba_tektek_harfler/18_ayn.mp3) |
-| غ Gayn | [19_gayn.mp3](https://archive.org/download/elifba_tektek_harfler/19_gayn.mp3) |
-| ف Fe | [20_fe.mp3](https://archive.org/download/elifba_tektek_harfler/20_fe.mp3) |
-| ق Kaf | [21_gaf.mp3](https://archive.org/download/elifba_tektek_harfler/21_gaf.mp3) |
-| ك Kef | [22_kef.mp3](https://archive.org/download/elifba_tektek_harfler/22_kef.mp3) |
-| ل Lâm | [23_lam.mp3](https://archive.org/download/elifba_tektek_harfler/23_lam.mp3) |
-| م Mim | [24_mim.mp3](https://archive.org/download/elifba_tektek_harfler/24_mim.mp3) |
-| ن Nun | [25_nun.mp3](https://archive.org/download/elifba_tektek_harfler/25_nun.mp3) |
-| و Vav | [27_vav.mp3](https://archive.org/download/elifba_tektek_harfler/27_vav.mp3) |
-| ه He | [26_he.mp3](https://archive.org/download/elifba_tektek_harfler/26_he.mp3) |
-| ي Ye | [28_ya.mp3](https://archive.org/download/elifba_tektek_harfler/28_ya.mp3) |
+| Harf | Harf adı | Üstün | Esre | Ötre |
+|---|---|---|---|---|
+| ا | [ا](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_1.mp3) | [اَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_1.mp3) | [اِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_1.mp3) | [اُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_1.mp3) |
+| ب | [ب](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_2.mp3) | [بَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_2.mp3) | [بِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_2.mp3) | [بُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_2.mp3) |
+| ت | [ت](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_3.mp3) | [تَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_3.mp3) | [تِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_3.mp3) | [تُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_3.mp3) |
+| ث | [ث](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_4.mp3) | [ثَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_4.mp3) | [ثِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_4.mp3) | [ثُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_4.mp3) |
+| ج | [ج](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_5.mp3) | [جَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_5.mp3) | [جِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_5.mp3) | [جُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_5.mp3) |
+| ح | [ح](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_6.mp3) | [حَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_6.mp3) | [حِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_6.mp3) | [حُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_6.mp3) |
+| خ | [خ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_7.mp3) | [خَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_25.mp3) | [خِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_22.mp3) | [خُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_21.mp3) |
+| د | [د](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_8.mp3) | [دَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_7.mp3) | [دِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_7.mp3) | [دُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_7.mp3) |
+| ذ | [ذ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_9.mp3) | [ذَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_8.mp3) | [ذِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_8.mp3) | [ذُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_8.mp3) |
+| ر | [ر](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_10.mp3) | [رَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_26.mp3) | [رِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_9.mp3) | [رُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_22.mp3) |
+| ز | [ز](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_11.mp3) | [زَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_9.mp3) | [زِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_10.mp3) | [زُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_9.mp3) |
+| س | [س](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_12.mp3) | [سَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_10.mp3) | [سِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_11.mp3) | [سُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_10.mp3) |
+| ش | [ش](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_13.mp3) | [شَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_11.mp3) | [شِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_12.mp3) | [شُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_11.mp3) |
+| ص | [ص](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_14.mp3) | [صَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_30.mp3) | [صِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_25.mp3) | [صُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_25.mp3) |
+| ض | [ض](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_15.mp3) | [ضَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_31.mp3) | [ضِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_26.mp3) | [ضُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_26.mp3) |
+| ط | [ط](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_16.mp3) | [طَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_32.mp3) | [طِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_27.mp3) | [طُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_27.mp3) |
+| ظ | [ظ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_17.mp3) | [ظَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_33.mp3) | [ظِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_28.mp3) | [ظُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_28.mp3) |
+| ع | [ع](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_18.mp3) | [عَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_12.mp3) | [عِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_13.mp3) | [عُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_12.mp3) |
+| غ | [غ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_19.mp3) | [غَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_27.mp3) | [غِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_23.mp3) | [غُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_23.mp3) |
+| ف | [ف](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_20.mp3) | [فَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_13.mp3) | [فِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_14.mp3) | [فُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_13.mp3) |
+| ق | [ق](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_21.mp3) | [قَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_28.mp3) | [قِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_24.mp3) | [قُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_24.mp3) |
+| ك | [ك](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_22.mp3) | [كَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_14.mp3) | [كِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_15.mp3) | [كُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_14.mp3) |
+| ل | [ل](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_23.mp3) | [لَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_15.mp3) | [لِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_16.mp3) | [لُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_15.mp3) |
+| م | [م](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_24.mp3) | [مَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_16.mp3) | [مِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_17.mp3) | [مُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_16.mp3) |
+| ن | [ن](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_25.mp3) | [نَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_17.mp3) | [نِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_18.mp3) | [نُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_17.mp3) |
+| و | [و](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_27.mp3) | [وَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_19.mp3) | [وِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_20.mp3) | [وُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_19.mp3) |
+| ه | [هـ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_26.mp3) | [هَـ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_18.mp3) | [هِـ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_19.mp3) | [هُـ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_18.mp3) |
+| ي | [ى](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_28.mp3) | [ىَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_20.mp3) | [ىِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_21.mp3) | [ىُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_20.mp3) |
