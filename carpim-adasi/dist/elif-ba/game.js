@@ -43,8 +43,34 @@
   const mastered = (part, i, record = progress) => record[part][i] >= mastery;
   const masteredCount = (part, record = progress) => record[part].filter(n => n >= mastery).length;
   const coveDone = (part, k) => coveLetters(k).every(i => mastered(part, i));
-  const coveOpen = (part, k) => (part !== 'hareke' || progress.tanisma) && (k === 0 || coveDone(part, k - 1));
-  const sectionOpen = id => id === 'harf' || (id === 'hareke' && masteredCount('harf') === 28);
+  // The two sections take turns, cove by cove: a cove's letters, then the same letters with
+  // harekes, and only then the next cove's new letters. A finished cove always stays open.
+  const coveOpen = (part, k) => coveDone(part, k) || (part === 'harf'
+    ? k === 0 || (coveDone('harf', k - 1) && coveDone('hareke', k - 1))
+    : progress.tanisma && coveDone('harf', k) && (k === 0 || coveDone('hareke', k - 1)));
+  const sectionOpen = id => id === 'harf' || (id === 'hareke' && coveDone('harf', 0));
+  function lockReason(part, k) {
+    if (part === 'harf') return coveDone('harf', k - 1) ? 'Önce ' + coves[k - 1] + ' harflerinin harekelerini öğren, sonra yeni harflere geç.' :
+      'Önce ' + coves[k - 1] + ' harflerini öğren.';
+    if (!coveDone('harf', k)) return 'Önce Harfler bölümünde ' + coves[k] + ' harflerini öğren.';
+    if (!progress.tanisma) return 'Önce harekelerle tanış.';
+    return 'Önce ' + coves[k - 1] + ' harekelerini bitir.';
+  }
+  // The next thing to learn, in the order above.
+  function nextStep() {
+    for (let k = 0; k < coves.length; k++) {
+      if (!coveDone('harf', k)) return { part: 'harf', cove: k };
+      if (!progress.tanisma) return { part: 'hareke', cove: k, intro: true };
+      if (!coveDone('hareke', k)) return { part: 'hareke', cove: k };
+    }
+    return null;
+  }
+  const stepLabel = step => step.intro ? 'Harekelerle tanış' :
+    coves[step.cove] + ' · ' + (step.part === 'harf' ? 'harfler' : 'harekeler');
+  function goTo(step) {
+    if (step.intro) { openSection('hareke', step.cove); startIntro(); return; }
+    openSection(step.part, step.cove);
+  }
 
   window.elifBaSummary = id => {
     const record = load(id);
@@ -78,12 +104,15 @@
   function setTitle(text) { document.title = text + ' · Bilgi Adası'; }
 
   /* ---------- Hub: the island's sections ---------- */
+  function drawShells() {
+    $('elif-shells').textContent = '🐚 ' + masteredCount('harf') + '/28 · 🦪 ' + masteredCount('hareke') + '/28';
+  }
   function showHub() {
     voice.stop();
     section = null;
     $('elif-hub').hidden = false;
     $('elif-section').hidden = true;
-    $('elif-shells').textContent = '🐚 ' + masteredCount('harf') + '/28 · 🦪 ' + masteredCount('hareke') + '/28';
+    drawShells();
     $('elif-sections').replaceChildren(...sections.map((info, n) => {
       const item = el('li');
       const open = !info.soon && sectionOpen(info.id);
@@ -91,7 +120,7 @@
       button.style.setProperty('--i', n);
       let status;
       if (info.soon) status = '<span class="elif-badge">Yakında</span>';
-      else if (!open) status = '<span class="elif-badge">🔒 Önce Harfler bölümünü bitir</span>';
+      else if (!open) status = '<span class="elif-badge">🔒 ' + coves[0] + ' harfleri öğrenilince açılır</span>';
       else {
         const done = masteredCount(info.id);
         status = '<span class="elif-meter" aria-hidden="true"><i style="width:' + done / 28 * 100 + '%"></i></span>' +
@@ -106,33 +135,45 @@
           playCue('oops');
           fx.bump(button, 'denied');
           $('elif-hub-note').textContent = info.soon ? info.title + ' bölümü yakında açılacak.' :
-            'Harekeler, 28 harfin hepsini sesinden tanıyınca açılır.';
+            'Harekeler, ' + coves[0] + ' harflerini sesinden tanıyınca açılır.';
         };
       } else button.onclick = () => openSection(info.id);
       item.append(button);
       return item;
     }));
+    const step = nextStep();
+    $('elif-next-step').hidden = !step;
+    if (step) {
+      $('elif-next-step').innerHTML = '<span aria-hidden="true">▶</span> <span><small>Sıradaki</small>' + stepLabel(step) + '</span>';
+      $('elif-next-step').onclick = () => goTo(step);
+    }
     $('elif-hub-note').textContent = '';
     setTitle('Elif Ba Adası');
   }
 
   /* ---------- A section: coves and letter cards ---------- */
-  function openSection(id, focus = true) {
+  function openSection(id, at) {
     section = id;
     const info = sections.find(s => s.id === id);
     $('elif-hub').hidden = true;
     $('elif-section').hidden = false;
     $('elif-section-title').textContent = info.title;
-    const first = coves.findIndex((_, k) => !coveDone(id, k));
-    cove = first < 0 ? 0 : first;
+    if (at !== undefined) cove = at;
+    else {
+      // the first cove still to do here, or else the last one that is open
+      const todo = coves.findIndex((_, k) => !coveDone(id, k) && coveOpen(id, k));
+      const opened = coves.map((_, k) => k).filter(k => coveOpen(id, k));
+      cove = todo >= 0 ? todo : opened.length ? opened[opened.length - 1] : 0;
+    }
     drawSection();
     setTitle(info.title + ' · Elif Ba Adası');
-    if (focus) $('elif-section-title').focus();
+    $('elif-section-title').focus();
   }
   function drawSection() {
     const part = section;
     const info = sections.find(s => s.id === part);
     $('elif-section-count').textContent = info.prize + ' ' + masteredCount(part) + ' / 28';
+    drawShells();
     const needIntro = part === 'hareke' && !progress.tanisma;
     $('elif-intro').hidden = part !== 'hareke';
     if (part === 'hareke') drawIntro();
@@ -149,7 +190,7 @@
         if (!open) {
           playCue('oops');
           fx.bump(chip, 'denied');
-          $('elif-note').textContent = needIntro ? '🔒 Önce harekelerle tanış.' : '🔒 Önce ' + coves[k - 1] + ' tamamlanmalı.';
+          $('elif-note').textContent = '🔒 ' + lockReason(part, k);
           return;
         }
         voice.stop();
@@ -166,8 +207,17 @@
     $('elif-cards').replaceChildren(...letters.map(i => part === 'harf' ? letterCard(i) : syllableCard(i)));
     const open = coveOpen(part, cove);
     $('elif-play').disabled = !open;
-    $('elif-play').textContent = needIntro ? '🔒 Önce harekelerle tanış' : coveDone(part, cove) ? '↻ Yeniden oyna' : '▶ Oyna';
-    $('elif-note').textContent = '';
+    $('elif-play').textContent = !open ? '🔒 ' + (needIntro ? 'Önce harekelerle tanış' : 'Kilitli') :
+      coveDone(part, cove) ? '↻ Yeniden oyna' : '▶ Oyna';
+    $('elif-note').textContent = open ? '' : '🔒 ' + lockReason(part, cove);
+    // When the next step is in the other section, offer the way there.
+    const step = nextStep();
+    const elsewhere = step && step.part !== part;
+    $('elif-switch').hidden = !elsewhere;
+    if (elsewhere) {
+      $('elif-switch').textContent = 'Sıradaki: ' + stepLabel(step) + ' ›';
+      $('elif-switch').onclick = () => goTo(step);
+    }
   }
   function letterCard(i) {
     const button = el('button', 'elif-tile tone-' + i % 4);
@@ -256,8 +306,10 @@
     return spread(questions);
   }
   function introRound() {
-    const letters = shuffled(Array.from({ length: 28 }, (_, i) => i)).slice(0, 6);
-    return letters.map((target, n) => ({ type: 'hareke-name', target, h: n % 3 })).sort(() => Math.random() - .5);
+    // Only letters the child already knows, two questions for each hareke.
+    const known = Array.from({ length: 28 }, (_, i) => i).filter(i => mastered('harf', i));
+    const letters = shuffled(known.length ? known : coveLetters(0));
+    return spread([0, 1, 2, 0, 1, 2].map((h, n) => ({ type: 'hareke-name', target: letters[n % letters.length], h })));
   }
   // Keep the same letter from coming up twice in a row.
   function spread(questions) {
@@ -432,39 +484,39 @@
       progress.tanisma = true;
       save();
       stage.innerHTML = '<div class="elif-prize" aria-hidden="true">✨</div><h2 id="elif-prompt" tabindex="-1">Harekelerle tanıştın!</h2>' +
-        '<p>Üstün <b lang="ar">◌َ</b> e/a, esre <b lang="ar">◌ِ</b> i/ı, ötre <b lang="ar">◌ُ</b> u okutur. Şimdi ' + coves[0] + ' seni bekliyor.</p>' +
-        (storageNote ? '<p>' + storageNote + '</p>' : '') + '<button class="elif-action" id="elif-continue">Koylara geç</button>';
+        '<p>Üstün <b lang="ar">◌َ</b> e/a, esre <b lang="ar">◌ِ</b> i/ı, ötre <b lang="ar">◌ُ</b> u okutur. Şimdi öğrendiğin harfleri ' +
+        'harekeleriyle okuyalım.</p>' + (storageNote ? '<p>' + storageNote + '</p>' : '') +
+        '<button class="elif-action" id="elif-continue">Harekelere başla</button>';
       playCue('island');
       fx.confetti(dialog);
     } else {
       const part = round.part;
       const done = coveDone(part, round.cove);
-      const allDone = masteredCount(part) === 28;
-      const last = round.cove === coves.length - 1;
+      const step = nextStep();
       const prizes = earned.map(i => '<span class="elif-won" lang="ar">' + glyphs[i] + '</span>').join('');
-      const heading = allDone && done ? (part === 'harf' ? '28 harfin hepsini tanıdın!' : 'Bütün harekeleri okudun!') :
-        done ? coves[round.cove] + ' tamamlandı!' : 'Güzel çalıştın!';
+      const heading = !done ? 'Güzel çalıştın!' : !step ? 'Bütün harfleri harekeleriyle okudun!' :
+        part === 'harf' ? coves[round.cove] + ' harflerini öğrendin!' : coves[round.cove] + ' harekeleri tamam!';
       let text = total + ' sorudan ' + round.right + ' tanesini ilk denemede bildin.';
       if (!done) text += ' Her harf için iki kez ilk denemede bilince ' + prizeOf(part) + ' kazanırsın. Bir tur daha?';
-      else if (allDone && part === 'harf') text += ' Harekeler bölümü açıldı!';
-      else if (allDone) text += ' Sıradaki bölümler yakında geliyor.';
-      else if (!last) text += ' Sırada ' + coves[round.cove + 1] + ' var.';
+      else if (!step) text += ' Sıradaki bölümler yakında geliyor.';
+      else if (step.intro) text += ' Yeni harflere geçmeden önce bu harfleri harekeleriyle okumayı öğrenelim.';
+      else if (step.part === 'hareke') text += ' Yeni harflere geçmeden önce bu harflerin harekelerini öğrenelim.';
+      else text += ' Sırada yeni harfler var: ' + coves[step.cove] + '.';
       stage.innerHTML = '<div class="elif-prize" aria-hidden="true">' + (done ? prizeOf(part) : '⭐') + '</div><h2 id="elif-prompt" tabindex="-1">' +
         heading + '</h2>' + (prizes ? '<div class="elif-won-row">' + prizes + '</div>' : '') + '<p>' + text + '</p>' +
         (storageNote ? '<p>' + storageNote + '</p>' : '') + '<button class="elif-action" id="elif-continue"></button>';
-      $('elif-continue').textContent = !done ? 'Tekrar oyna' : allDone && part === 'harf' ? 'Harekelere git' : allDone || last ? 'Koya dön' : 'Sonraki koy';
+      $('elif-continue').textContent = !done ? 'Tekrar oyna' : !step ? 'Koya dön' : step.intro ? 'Harekelerle tanış' :
+        step.part === 'hareke' ? 'Harekelerine geç' : 'Yeni harflere geç';
       playCue(done ? 'island' : 'correct');
       if (done) fx.confetti(dialog);
     }
     $('elif-prompt').focus();
     $('elif-continue').onclick = () => {
-      const part = round.part;
-      if (round.kind === 'cove' && !coveDone(part, round.cove)) { startRound('cove'); return; }
+      if (round.kind === 'cove' && !coveDone(round.part, round.cove)) { startRound('cove'); return; }
+      const step = nextStep();
       dialog.close();
-      if (round.kind === 'intro') { openSection('hareke'); return; }
-      if (part === 'harf' && masteredCount('harf') === 28 && !progress.tanisma) { openSection('hareke'); return; }
-      if (round.cove < coves.length - 1 && coveDone(part, round.cove)) cove = round.cove + 1;
-      drawSection();
+      if (step && (round.kind === 'intro' || step.part !== round.part || step.cove !== round.cove)) goTo(step);
+      else drawSection();
     };
   }
 
@@ -481,7 +533,7 @@
         '<h2 id="elif-prompt" tabindex="-1">' + info.name + '</h2><button class="elif-big mark-' + slide + '" id="elif-demo" aria-label="Dinle">' +
         glyphHtml(syllable(1, slide)) + '</button><p class="elif-lesson"><b>' + info.place + '.</b> Harfe <b>' + info.sound +
         '</b> sesi verir: ' + names[1] + ' ' + info.name.toLocaleLowerCase('tr') + ' <b>' + readings[1][slide] + '</b>.</p>' +
-        '<div class="elif-examples">' + [1, 23, 24].map(i => '<button class="elif-syllable" data-i="' + i + '">' + glyphHtml(syllable(i, slide)) +
+        '<div class="elif-examples">' + [1, 2, 3].map(i => '<button class="elif-syllable" data-i="' + i + '">' + glyphHtml(syllable(i, slide)) +
         '<span>' + readings[i][slide] + '</span></button>').join('') + '</div><p id="elif-response" role="status"></p>' +
         '<button class="elif-action" id="elif-next">' + (slide < 2 ? 'Sonraki hareke' : 'Şimdi sen bul') + '</button>';
       $('elif-prompt').focus();
@@ -511,6 +563,7 @@
   $('player').addEventListener('click', () => voice.stop());
   $('elif-close').onclick = () => dialog.close();
   dialog.addEventListener('close', () => {
+    if (dialog.open) return; // already reopened for the next step (the hareke introduction)
     voice.stop();
     if (section && !$('elif-view').hidden) drawSection();
   });

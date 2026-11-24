@@ -7,6 +7,17 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.4.0 · 24.11.2026
+
+Elif Ba Adası'nda harfler ve harekeler artık iç içe ilerliyor:
+
+- Bir koyun dört harfi öğrenilince aynı harflerin harekeleri açılıyor. Yeni koyun harflerine, önceki koyun harekeleri bitmeden geçilmiyor. Sıra: Kaplumbağa Koyu harfleri → harekelerle tanışma → Kaplumbağa Koyu harekeleri → İnci Koyu harfleri → …
+- Harekeler bölümü, 28 harfin hepsini beklemeden ilk koyun harfleri öğrenilince açılıyor.
+- Ada sayfasında "Sıradaki" düğmesi çocuğu bir sonraki adıma götürüyor. Kilitli bir koya dokununca neyin önce yapılması gerektiği yazıyor; bölüm sayfasında sıradaki adım diğer bölümdeyse oraya giden bir düğme çıkıyor.
+- Bir koy bitince sonuç ekranı doğrudan sıradaki adıma yönlendiriyor; ilk koydan sonra harekelerle tanışma dersi kendiliğinden başlıyor.
+- Harekelerle tanışma dersi yalnızca öğrenilmiş harflerle yapılıyor.
+- Daha önce birçok harfi öğrenmiş olan oyuncuların bitirdiği koylar açık kalıyor; kaldıkları yerden harekelerle devam ediyorlar.
+
 ## 0.3.0 · 24.11.2026
 
 - Elif Ba Adası'ndaki 84 hece (üstün, esre ve ötre ile her harf) artık gerçek bir insan sesiyle okunuyor. Kayıtlar, Kudus'taki (Endonezya) Pondok Tahfidz Yanbuul Qur'an hafızlık okulu öğrencilerinin okuyuşlarından oluşan açık lisanslı (AFL-3.0) bir veri setinden alındı. Adada tek bir ses duyulsun diye her hece aynı öğrencinin daha temiz kaydından seçildi. Kaynaklar `elif-ba/ses/KAYNAKLAR.md` dosyasında.
