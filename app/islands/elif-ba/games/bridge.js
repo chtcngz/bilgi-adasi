@@ -1,6 +1,6 @@
 // Cam Köprü: Elif Ba Adası's mixed game at the end of every cove. A glass bridge of fifteen rows
-// leads over the sea to the next cove, and each row has three glass panes with letters or
-// harekeli syllables on them, mixed. The turtle says one; the child taps its pane and the turtle
+// leads over the sea to the next cove, and each row has three glass panes with harekeli syllables
+// on them, of this cove's letters and the earlier ones mixed. The turtle says one; the child taps its pane and the turtle
 // hops onto it. A wrong pane cracks and breaks, the turtle falls into the sea and a dolphin throws
 // it back onto the last pane it stood on. Three hearts, as in the other games: reaching the far
 // shore passes the step, losing all three starts the bridge again.
@@ -36,63 +36,66 @@ const elifBridgeGame = (() => {
   const speak = (item, end) => isSyllable(item) ? voice.syllable(item.i, item.h, unheard, end) : voice.letter(item.i, unheard, end);
   const syllableOf = i => ({ i, h: Math.floor(Math.random() * 3) });
 
-  // Fifteen rows: every letter of the newest cove once by its name and once with a hareke, then
-  // the earlier coves' letters for review. The first cove, with nothing before it, fills the
-  // bridge with its letters again, by name and with their other harekes in turn. A row is never
-  // about the letter of the row before, the kinds take turns at least every two rows, and the
-  // bridge starts with a letter.
+  // Fifteen rows, every one a harekeli syllable: the harekes are learned before the bridge, so no
+  // pane is a bare letter. Every letter of the newest cove comes twice, with two different harekes,
+  // then the earlier coves' letters once each for review, the harekes taking turns. The first cove,
+  // with nothing before it, fills the bridge with its letters' third harekes and then again. A row
+  // is never about the letter of the row before nor of the one before that, and one hareke is
+  // never asked three rows running.
   function plan(letters, recent) {
     const fresh = shuffled(recent.filter(i => letters.includes(i)));
     const earlier = letters.filter(i => !fresh.includes(i));
-    const marks = shuffled([0, 1, 2, Math.floor(Math.random() * 3)]);
-    const rows = fresh.flatMap((i, n) => [{ i }, { i, h: marks[n] }]);
-    // review in turns, one letter by its name and one with a hareke; each earlier letter comes
-    // once before any of them comes the other way round
-    const byName = new Set(shuffled(earlier).filter((_, n) => n % 2 === 0));
-    const first = shuffled(earlier), second = shuffled(earlier);
-    const named = [...first.filter(i => byName.has(i)), ...second.filter(i => !byName.has(i))].map(i => ({ i }));
-    const marked = [...first.filter(i => !byName.has(i)), ...second.filter(i => byName.has(i))].map(syllableOf);
-    const review = named.flatMap((row, n) => marked[n] ? [row, marked[n]] : [row]);
-    rows.push(...review.slice(0, ROWS - rows.length));
-    const spare = shuffled(fresh.flatMap(i => [0, 1, 2].map(h => ({ i, h })))
-      .filter(s => !rows.some(r => r.i === s.i && r.h === s.h)));
-    const again = shuffled(fresh);
-    for (let n = 0; rows.length < ROWS; n++) {
-      if (n % 2 === 0 && again.length) rows.push({ i: again.pop() });
-      else if (spare.length) rows.push(spare.pop());
-      else rows.push(syllableOf(pick(letters)));
+    const rows = [], spare = [];
+    for (const i of fresh) {
+      const [a, b, c] = shuffled([0, 1, 2]);
+      rows.push({ i, h: a }, { i, h: b });
+      spare.push({ i, h: c });
+    }
+    let marks = [];
+    for (const i of shuffled(earlier).slice(0, Math.max(0, ROWS - rows.length))) {
+      if (!marks.length) marks = shuffled([0, 1, 2]);
+      rows.push({ i, h: marks.pop() });
+    }
+    rows.push(...shuffled(spare).slice(0, Math.max(0, ROWS - rows.length)));
+    // still short (the first cove): each letter once more before any comes a fourth time
+    let bag = [];
+    while (rows.length < ROWS) {
+      if (!bag.length) bag = shuffled(fresh.length ? fresh : letters);
+      rows.push(syllableOf(bag.pop()));
     }
     // Rows are laid one by one, each picked at random among those that keep the rules; a dead end
-    // starts over. If no order keeps them all (it nearly always does), the last try is used.
-    const allowed = (order, row) => order.length ? row.i !== order.at(-1).i && !(order.length > 1 &&
-      isSyllable(row) === isSyllable(order.at(-1)) && isSyllable(row) === isSyllable(order.at(-2))) : !isSyllable(row);
+    // starts over. If no order keeps them all, the rules ease: first the letter two rows back, then
+    // the hareke, and the last try is used.
+    const rules = [
+      (order, row) => row.i !== order.at(-1)?.i && row.i !== order.at(-2)?.i &&
+        !(order.length > 1 && row.h === order.at(-1).h && row.h === order.at(-2).h),
+      (order, row) => row.i !== order.at(-1)?.i && !(order.length > 1 && row.h === order.at(-1).h && row.h === order.at(-2).h),
+      (order, row) => row.i !== order.at(-1)?.i
+    ];
     let order = [];
-    for (let tries = 0; tries < 300; tries++) {
-      const left = shuffled(rows);
-      order = [];
-      while (left.length) {
-        const at = left.findIndex(row => allowed(order, row));
-        if (at < 0) break;
-        order.push(left.splice(at, 1)[0]);
+    for (const allowed of rules) {
+      for (let tries = 0; tries < 200; tries++) {
+        const left = shuffled(rows);
+        order = [];
+        while (left.length) {
+          const at = left.findIndex(row => allowed(order, row));
+          if (at < 0) break;
+          order.push(left.splice(at, 1)[0]);
+        }
+        if (!left.length) return order;
+        order.push(...left);
       }
-      if (!left.length) return order;
-      order.push(...left);
     }
     return order;
   }
-  // The two wrong panes of a row. From the fourth row on, half the rows get the hard ones: a
-  // letter that differs only by its dots, or the same letter with both other harekes.
+  // The two wrong panes of a row, both syllables too. From the fourth row on, half the rows get
+  // the hard ones: the same letter with both other harekes, or a letter that differs only by its
+  // dots with the same hareke.
   function wrongPanes(target, n, letters) {
     const hard = n >= 3 && Math.random() < 0.5;
-    if (!isSyllable(target)) {
-      const pool = letters.filter(i => i !== target.i);
-      const picked = [];
-      const alike = twins(target.i).filter(i => pool.includes(i));
-      if (hard && alike.length) picked.push(pick(alike));
-      for (const i of shuffled(pool)) if (picked.length < 2 && !picked.includes(i)) picked.push(i);
-      return picked.map(i => ({ i }));
-    }
     const picked = shuffled([0, 1, 2].filter(h => h !== target.h)).slice(0, hard ? 2 : 1).map(h => ({ i: target.i, h }));
+    const alike = twins(target.i).filter(i => letters.includes(i) && !sameSound(i, target.h, target.i, target.h));
+    if (hard && alike.length && Math.random() < 0.5) picked[1] = { i: pick(alike), h: target.h };
     const others = shuffled(letters.filter(i => i !== target.i).flatMap(i => [0, 1, 2].map(h => ({ i, h }))));
     for (const s of others) {
       if (picked.length >= 2) break;
@@ -698,7 +701,7 @@ const elifBridgeGame = (() => {
       '><path d="' + starPath + '"/></svg>').join('') + '</div>' +
       '<h2 id="rain-title" tabindex="-1">' + (whole ? 'Mükemmel!' : 'Köprüyü geçtin!') + '</h2><p>' + words + '</p>' +
       '<p class="rain-total"><b>0</b> puan</p>' + recordLine(record, best) +
-      '<div class="rain-recap"><p>Köprüdeki harfler ve heceler · dokun, dinle</p><div>' + game.crossed.map((item, n) =>
+      '<div class="rain-recap"><p>Köprüdeki heceler · dokun, dinle</p><div>' + game.crossed.map((item, n) =>
         '<button type="button" class="rain-chip t' + n % 5 + '" data-cue data-n="' + n + '" aria-label="' + nameOf(item) + ' dinle">' +
         glyph(item) + '<span>' + nameOf(item) + '</span></button>').join('') + '</div></div>' +
       '<div class="rain-actions">' + (next ? '<button type="button" class="rain-go rain-next" data-cue>▶ Devam: ' + next.label + '</button>' +
@@ -758,13 +761,13 @@ const elifBridgeGame = (() => {
   function intro() {
     state = 'intro';
     const best = options.best();
-    const sample = [{ i: options.recent[0] }, { i: options.recent[1], h: 0 }, { i: options.recent[2] ?? options.recent[0], h: 2 }];
+    const sample = [{ i: options.recent[0], h: 1 }, { i: options.recent[1], h: 0 }, { i: options.recent[2] ?? options.recent[0], h: 2 }];
     showCard('<div class="rain-card intro"><div class="bridge-intro-art" aria-hidden="true">' + sample.map((item, n) =>
       '<span class="bridge-pane t' + [0, 4, 1][n] + '"><i class="bridge-glass"></i>' + glyph(item) + '</span>').join('') +
       '</div><h2 id="rain-title" tabindex="-1">Cam <em>Köprü</em></h2>' +
-      '<p>Kaplumbağa ' + options.toDative + ' gitmek için cam köprüden geçecek. Her sırada üç cam var. Kaplumbağa bir harf ya da ' +
+      '<p>Kaplumbağa ' + options.toDative + ' gitmek için cam köprüden geçecek. Her sırada üç cam var. Kaplumbağa harekeli bir ' +
       'hece söyleyecek, sen o camı bul. Yanlış cam kırılır, kaplumbağa denize düşer! Hiç cam kırmazsan üç yıldız.</p>' +
-      '<ul class="rain-facts"><li><b>15</b><span>sıra</span></li><li><b>Karma</b><span>harf ve hece</span></li><li><b>3</b><span>can</span></li></ul>' +
+      '<ul class="rain-facts"><li><b>15</b><span>sıra</span></li><li><b>Hece</b><span>harekeli</span></li><li><b>3</b><span>can</span></li></ul>' +
       '<div class="rain-pool bridge-pool" aria-label="Köprüdeki harfler">' + options.letters.map(i => '<b lang="ar" title="' + names[i] + '">' + glyphs[i] + '</b>').join('') + '</div>' +
       (best.tamam ? '<p class="rain-record">✅ Köprüyü hiç cam kırmadan geçtin · 🏆 ' + best.rekor + ' puan</p>' :
         best.rekor ? '<p class="rain-record">🏆 Rekorun: ' + best.rekor + ' puan</p>' : '') +

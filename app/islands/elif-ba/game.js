@@ -301,7 +301,7 @@
   /* ---------- The games: Harf Yağmuru, Hece Balonları and Cam Köprü ---------- */
   // Each cove has all three as steps of the path: Harf Yağmuru after its letters rains every letter
   // learned so far, Hece Balonları after its harekes flies those letters' syllables (letter * 3 + hareke),
-  // and Cam Köprü mixes both on the bridge to the next cove.
+  // and Cam Köprü lays harekeli syllables of this cove and the earlier ones on the bridge to the next cove.
   const games = {
     yagmur: {
       kind: 'harf', name: 'Harf Yağmuru', icon: '🌧️', tag: 'Oyun',

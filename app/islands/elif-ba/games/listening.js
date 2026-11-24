@@ -326,7 +326,7 @@ const elifListeningGame = (() => {
     game = {
       plan: plan(options.letters, options.recent, -1), step: 0, target: null, pops: 0,
       done: 0, popped: 0, completed: [], hearts: HEARTS, score: 0, streak: 0, listening: true, first: ++rounds === 1,
-      nextSpawn: 0, sinceTarget: 2, lastLane: -1, targetLane: -1, lastLetter: -1, lastTone: -1, retalk: false, saved: false
+      nextSpawn: 0, sinceTarget: 3, lastLane: -1, targetLane: -1, lastLetter: -1, prevLetter: -1, lastTone: -1, retalk: false, saved: false
     };
     drawHearts();
     drawSlots();
@@ -366,7 +366,7 @@ const elifListeningGame = (() => {
     game.target = game.plan[game.step];
     game.pops = 0;
     game.listening = true;
-    game.sinceTarget = 2; // the next drop is this letter, and it comes soon
+    game.sinceTarget = 3; // the next drop is this letter, and it comes soon
     game.nextSpawn = Math.min(game.nextSpawn, clock + 0.3);
     if (mark) markSlot();
     after(delay, () => {
@@ -393,18 +393,19 @@ const elifListeningGame = (() => {
     }
     return spread.length ? pick(spread) : all.length ? all[0] : -1;
   }
-  // The letter being played never comes twice in a row: one or two other drops come between,
+  // The letter being played never comes twice in a row: two or three other drops come between,
   // and no more than three of it are in the air at once.
   function wantTarget() {
-    if (game.sinceTarget === 0) return false;
+    if (game.sinceTarget < 2) return false;
     const falling = flying().length;
     if (falling >= POPS) return false;
-    return game.sinceTarget >= 2 || Math.random() < (falling ? 0.35 : 0.55);
+    return game.sinceTarget >= 3 || Math.random() < (falling ? 0.3 : 0.5);
   }
   function distractor() {
     // Never one that sounds the same as the one being played (sin üstün and se üstün are both "se").
     const others = options.letters.filter(i => kind.sound(i) !== kind.sound(game.target));
-    const fresh = others.filter(i => i !== game.lastLetter);
+    // nor one of the last two drops, so the same letter does not come again right away
+    const fresh = others.filter(i => i !== game.lastLetter && i !== game.prevLetter);
     const choices = fresh.length ? fresh : others;
     const alike = kind.alike(game.target).filter(i => choices.includes(i));
     if (alike.length && game.done >= kind.alikeFrom && Math.random() < kind.alikeChance) return pick(alike);
@@ -436,6 +437,7 @@ const elifListeningGame = (() => {
     if (!calm.matches) drop.inner.animate([{ transform: 'scale(.55, .75)' }, { transform: 'none' }],
       { duration: 380, easing: 'cubic-bezier(.2, 1.5, .4, 1)' });
     game.lastLane = lane;
+    game.prevLetter = game.lastLetter;
     game.lastLetter = letter;
     game.lastTone = tone;
     if (target) { game.sinceTarget = 0; game.targetLane = lane; } else game.sinceTarget++;

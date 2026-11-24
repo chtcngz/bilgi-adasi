@@ -70,7 +70,7 @@ sources/                     Raw material (not published)
 ## Adding something new
 
 **A new Elif Ba section** (Cezm, Tenvin, Şedde …):
-Elif Ba is a single path (the `steps` list in `game.js`). Each cove's steps run Harfler → Harf Yağmuru → Harekeler → Hece Balonları → Cam Köprü; the first cove also has Harekelerle tanış before Harekeler. Cam Köprü is the cove's mixed (Karma) game and crosses over to the next cove. Only the next step can be opened, and from the second cove on every round mixes in letters from the earlier coves. The hub shows the coves as a map (`map.js`): the turtle stands on one cove, the steps below are that cove's, and it walks over the bridges before a step in another cove opens. To add a section:
+Elif Ba is a single path (the `steps` list in `game.js`). Each cove's steps run Harfler → Harf Yağmuru → Harekeler → Hece Balonları → Cam Köprü; the first cove also has Harekelerle tanış before Harekeler. Cam Köprü is the cove's mixed (Karma) game: only harekeli syllables, of this cove and the earlier ones, and it crosses over to the next cove. Only the next step can be opened, and from the second cove on every round mixes in letters from the earlier coves. The hub shows the coves as a map (`map.js`): the turtle stands on one cove, the steps below are that cove's, and it walks over the bridges before a step in another cove opens. To add a section:
 1. Remove the `soon` flag from the section's entry in `islands/elif-ba/data.js`, and add its steps to the `steps` list in `game.js`.
 2. Add the section's screen and rounds to `islands/elif-ba/game.js`.
 3. Put its recordings under `app/assets/audio/elif-ba/<bölüm>/` and register them in `kayitlar.js`.

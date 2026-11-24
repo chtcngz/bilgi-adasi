@@ -7,6 +7,14 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.16.0 · 24.11.2026
+
+Harekeler öğrenildikten sonra gelen Cam Köprü'de artık harekesiz harf yok, ve oyunlarda aynı harf (hece) eskisinden de seyrek arka arkaya geliyor.
+
+- **Cam Köprü yalnızca harekeli:** Köprünün 15 sırasındaki bütün camlar harekeli hece. Koyun dört harfi ikişer kez, iki farklı harekeyle geliyor; kalan sıralar önceki koyların harflerinden, harekeler sırayla dağıtılarak. İlk koyda harflerin üçüncü harekeleri de çıkıyor. Zor sıralarda yanlış camlar ya aynı harfin öteki iki harekesi ya da yalnızca noktasıyla ayrılan harfin aynı harekesi oluyor. Kaplumbağa harf adı söylemiyor, yalnızca hece okuyor.
+- **Köprüde daha az tekrar:** Bir sıra, önceki iki sıradan hiçbirinin harfiyle gelmiyor (önceden yalnızca bir öncekiyle gelmiyordu). Aynı hareke de üç sıra üst üste sorulmuyor.
+- **Harf Yağmuru ve Hece Balonları'nda daha az tekrar:** Sorulan harfin (hecenin) iki damlası (balonu) arasında artık en az iki, çoğu zaman üç başka damla var. Diğer damlalarda da aynı harf, son iki damladan sonra hemen yeniden gelmiyor.
+
 ## 0.15.1 · 24.11.2026
 
 0.15.0'daki hız çubuğu ve hızlanan, karışık akış, tarayıcının eski oyun dosyalarını önbellekten açması yüzünden görünmüyordu. Değişen dosyaların sürüm işaretleri yenilendi; sayfa açılınca Harf Yağmuru ile Hece Balonları'nın yeni hali yükleniyor.
