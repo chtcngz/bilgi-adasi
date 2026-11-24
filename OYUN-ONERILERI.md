@@ -1,6 +1,15 @@
 # Elif Ba Adası · Oyun önerileri
 
-Bu öneriler henüz oyuna eklenmedi. İlk, oynanabilir taslakları **Deneme Odası**'nda duruyor: `app/deneme/` (yayında `…/deneme/` adresi). Oyunun hiçbir ekranı bu sayfaya bağlantı vermez. Deneme Odası profil, yıldız ya da ilerleme kullanmaz; yalnızca akvaryum kendi anahtarında (`elif-deneme-akvaryum`) saklanır. Bir oyun doğrudan da açılabilir: `deneme/#nokta`, `#kabuk`, `#tren`, `#bukalemun`, `#tas`, `#kum`, `#akvaryum`.
+Oynanabilir taslaklar **Deneme Odası**'nda duruyor: `app/deneme/` (yayında `…/deneme/` adresi). Oyunun hiçbir ekranı bu sayfaya bağlantı vermez. Deneme Odası profil, yıldız ya da ilerleme kullanmaz, hiçbir şey saklamaz. Bir oyun doğrudan da açılabilir: `deneme/#kabuk`, `#tren`, `#giydir`, `#kolye`.
+
+| Öneri | Durum |
+|---|---|
+| 🐠 Akvaryum | **Oyunda** (0.16.0) |
+| 🐚 Kabuk Hafızası | Deneme Odası'nda |
+| 🚂 Hece Treni | Deneme Odası'nda |
+| 🎩 Harekeyi Giydir | Yeni fikir, Deneme Odası'nda |
+| 📿 İnci Kolye | Yeni fikir, Deneme Odası'nda |
+| 🔍 Nokta Ustası, 🦎 Harf Bukalemunu, 🐢 Taş Atlama, ✏️ Kumda Yaz | Denendi, şimdilik bırakıldı (taslakları çıkarıldı) |
 
 ## 1. 🔍 Nokta Ustası: en zor yeri hedefliyor
 
@@ -10,7 +19,7 @@ Ekranda noktasız bir harf iskeleti var (ٮ). Kaplumbağa "Te" diyor, çocuk den
 - Yeni kayıt gerekmiyor, mevcut harf sesleri yetiyor.
 - Harfler adımına yeni bir oyun olarak eklenebilir.
 
-**Taslakta:** 8 tur; üç iskelet (ٮ, ح, س) ve sekiz harf. Taş sürüklenebiliyor ya da bölgeye dokunarak konabiliyor. Konan noktalar başka bir harfi oluşturursa kaplumbağa "Bu Se oldu, Te istedi" diyor ve iki harfi de okuyor. Noktasız harfler (ح, س) için "✓ Tamam" düğmesi var.
+**Durum:** Şimdilik bırakıldı; taslağı Deneme Odası'ndan çıkarıldı. Taslakta 8 tur; üç iskelet (ٮ, ح, س) ve sekiz harf. Taş sürüklenebiliyor ya da bölgeye dokunarak konabiliyor. Konan noktalar başka bir harfi oluşturursa kaplumbağa "Bu Se oldu, Te istedi" diyor ve iki harfi de okuyor. Noktasız harfler (ح, س) için "✓ Tamam" düğmesi var.
 
 ## 2. 🐚 Kabuk Hafızası: küçükler için en kolayı
 
@@ -39,7 +48,7 @@ Bir harf kelimenin başında, ortasında ve sonunda farklı görünüyor. Kaplum
 - Arşivde bu ders hazır: `harfler/sekilleri` klasöründe "Kelimenin Başında / Ortasında / Sonunda" kayıtları var.
 - Şu an "Yakında" görünen Bitişik yazılış bölümünün oyunu olabilir.
 
-**Taslakta:** 4 harf × 3 kelime (ع, ج, ه, ف; başta, ortada, sonda), kayıtlar `deneme/ses/sekil-*.mp3`. Yanlış harfe dokununca o harfin adı okunuyor.
+**Durum:** Şimdilik bırakıldı; taslağı çıkarıldı. Taslakta 4 harf × 3 kelime (ع, ج, ه, ف; başta, ortada, sonda). Yanlış harfe dokununca o harfin adı okunuyor.
 
 ## 5. 🐢 Taş Atlama: hızlı oyunlarla bulmacalar arasında
 
@@ -48,16 +57,36 @@ Kaplumbağa denizdeki taşlardan karşı kıyıya, yuvasına geçmeye çalışı
 - Hareke ve tenvin farkı için çok uygun: بَ / بً / بٌ yan yana taşlarda durabilir.
 - Arşivde tenvin dersleri hazır: Fetha, Kesra ve Damme tenvinleri için toplam yaklaşık 270 kayıt.
 
-**Taslakta:** 7 taş; ب ت ث ج د ر harflerinin üç tenvini (`deneme/ses/tenvin-*.mp3`) ve oyunun mevcut hece kayıtları. Her sırada duyulan hecenin "ikizi" (aynı sesli harfin hareke ya da tenvin hali) mutlaka var.
+**Durum:** Şimdilik bırakıldı; taslağı çıkarıldı. Taslakta 7 taş; ب ت ث ج د ر harflerinin üç tenvini ve oyunun mevcut hece kayıtları. Her sırada duyulan hecenin "ikizi" (aynı sesli harfin hareke ya da tenvin hali) mutlaka var.
 
 ## 6. ✏️ Kumda Yaz
 
 Çocuk parmağıyla harfi kumun üstünde kesik çizgilerin üzerinden çiziyor, dalga gelip yazıyı siliyor. Çocuklar çizmeyi çok sever ama bu en zahmetli fikir, çünkü 28 harfin çizim yolları tek tek hazırlanmalı. Sona bırakılabilir.
 
-**Taslakta:** 4 harf (ا ب ت ن). Çizginin %90'ı kapanınca harf tamamlanıyor, sonra noktalar konuyor.
+**Durum:** Şimdilik bırakıldı; taslağı çıkarıldı. Taslakta 4 harf (ا ب ت ن) vardı. Çizginin %90'ı kapanınca harf tamamlanıyor, sonra noktalar konuyor.
 
 ## 🐠 Bütün oyunlar için: Akvaryum
 
 Kabuk ve inci ödülleri zaten var. Bunlara ek olarak her tamamlanan harf için koya bir deniz canlısı eklenebilir: dokununca o harfi söyleyen bir balık. Çocuklar için "koleksiyonumu tamamlayayım" duygusu çok güçlü bir motivasyon. Oyunlara her gün geri dönmeyi sağlar.
 
-**Taslakta:** Deneme Odası'ndaki oyunlarda başarılan her harf akvaryuma bir balık ekliyor. Üst çubukta 🐠 sayacı var; akvaryumda "Hepsini ekle" ve "Boşalt" düğmeleri bulunuyor.
+**Oyunda (0.16.0):** Elif Ba Adası'nın ana sayfasında bir Akvaryum kartı var. Harekeler adımında öğrenilen her harf (🦪) için akvaryuma bir balık geliyor. Balıkların üstünde harekeli harf yazıyor; dokununca o heceyi okuyor ve sonraki dokunuşta öteki harekeye geçiyor. Balıklar yavaşça, kendi başlarına yüzüyor; suya dokununca yem düşüyor ve yakındaki balıklar yemeğe geliyor. Yeni gelen balıklar akvaryum açılınca yandan yüzerek giriyor. Kod: `islands/elif-ba/games/aquarium.*`.
+
+## 🎩 Harekeyi Giydir (yeni fikir)
+
+Ekranda harekesiz bir harf var. Kaplumbağa bir hece söylüyor (örneğin "Be ötre"), çocuk üstün, esre ve ötreden doğrusunu harfe giydiriyor: üstün ve ötre şapka gibi harfin üstüne, esre ayakkabı gibi altına oturuyor.
+
+- Hece Balonları sesten heceyi buldurur; bu oyun tersini yapar ve harekeyi çocuğun kendisine kurdurur. Harekenin harfin neresine konduğunu da öğretir.
+- Yanlış hareke giydirilince o hece okunur ("Bu Be esre oldu"), çocuk iki sesin farkını duyar.
+- Yeni kayıt gerekmiyor; mevcut 84 hece kaydı yetiyor. Harekeler adımına ikinci oyun olarak eklenebilir.
+
+**Taslakta:** 8 tur, her turda başka bir harf.
+
+## 📿 İnci Kolye (yeni fikir)
+
+Her koyun dört harfi, Elif Ba sırasıyla bir inci kolyeye diziliyor. İpin başında bir önceki koyun son harfi duruyor (örneğin د), çocuk sıradaki inciyi (ذ) bulup takıyor.
+
+- Elif Ba sırası derste ezberlenir ve çocuklar harfleri sırayla sayarak hatırlar; oyun bu sırayı koylarla birlikte öğretir.
+- Aralarına başka koylardan iki "şaşırtmaca" inci karışıyor. Her inciye dokununca adı okunur; kolye tamamlanınca dört harf sırayla okunur.
+- Yeni kayıt gerekmiyor. Her koyun Harfler adımının sonuna ya da Cam Köprü'den önceye küçük bir bulmaca olarak eklenebilir.
+
+**Taslakta:** Yedi koyun yedi kolyesi, 28 harfin hepsi.

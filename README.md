@@ -49,11 +49,12 @@ app/                         Published site (GitHub Pages root)
 │   │   └── games/           Section games
 │   │       ├── art.js       Turtle, hearts, speaker and stars shared by the games
 │   │       ├── listening.*  Harf Yağmuru (letters) + Hece Balonları (syllables); its .rain-* kit is shared
-│   │       └── bridge.*     Cam Köprü, the mixed game at the end of every cove
+│   │       ├── bridge.*     Cam Köprü, the mixed game at the end of every cove
+│   │       └── aquarium.*   Akvaryum: a fish for every letter whose harekes are learned
 │   ├── din-bilgisi/         Question island: sorular.js + game.js + style.css + ada.svg
 │   └── fen-bilimleri/       Question island: same pattern
 └── deneme/                  Deneme Odası: playable drafts of proposed Elif Ba games (OYUN-ONERILERI.md).
-                             Nothing in the game links to it; open …/deneme/. Its own clips are in deneme/ses/.
+                             Nothing in the game links to it; open …/deneme/. Hece Treni's word clips are in deneme/ses/.
 tools/                       Helper scripts (not published)
 ├── make_sounds.py           → app/assets/audio/ui/*.wav
 └── elif_sesleri.py          → app/assets/audio/elif-ba/ (harf, hece, kayitlar.js)

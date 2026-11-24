@@ -23,7 +23,9 @@
   const gameNames = ['yagmur', 'balon', 'kopru'];
   const blankGame = () => ({ rekor: 0, yildiz: 0, tamam: false, koylar: Array(7).fill(false) });
   function blank() {
-    return { harf: Array(28).fill(0), hareke: Array(28).fill(0), tanisma: false, yagmur: blankGame(), balon: blankGame(), kopru: blankGame() };
+    // balik: the letters whose fish the player has already seen arrive in the Akvaryum.
+    return { harf: Array(28).fill(0), hareke: Array(28).fill(0), tanisma: false, yagmur: blankGame(), balon: blankGame(), kopru: blankGame(),
+      balik: Array(28).fill(false) };
   }
   function load(id) {
     if (records.has(id)) return records.get(id);
@@ -36,6 +38,7 @@
         });
       }
       record.tanisma = saved.tanisma === true;
+      if (Array.isArray(saved.balik)) saved.balik.slice(0, 28).forEach((on, i) => { record.balik[i] = on === true; });
       for (const name of gameNames) {
         const game = saved[name];
         if (!game || typeof game !== 'object') continue;
@@ -166,8 +169,28 @@
       $('elif-next-step').onclick = () => goTo(next);
     }
     $('elif-done').hidden = !!next;
+    drawAquariumCard();
     if (!elifMap.walking()) $('elif-hub-note').textContent = '';
     setTitle('Elif Ba Adası');
+  }
+  // Akvaryum: a fish for every letter whose harekes are learned. Fish not seen yet arrive when it opens.
+  const fishLetters = () => glyphs.map((_, i) => i).filter(i => mastered('hareke', i));
+  function drawAquariumCard() {
+    const have = fishLetters();
+    const fresh = have.filter(i => !progress.balik[i]);
+    const card = $('elif-aquarium-open');
+    card.classList.toggle('fresh', fresh.length > 0);
+    card.innerHTML = '<span class="elif-aq-fish" aria-hidden="true">' + (have.length ? have.slice(-3) : [1, 13, 23]).map(i => elifAquarium.fishSvg(i, 'hub-aq', false)).join('') +
+      '</span><span class="elif-aq-text"><strong>Akvaryum</strong><small>' + (have.length ? have.length + ' / 28 balık' : 'Harekeleri öğren, balıklar gelsin') +
+      '</small></span>' + (fresh.length ? '<span class="elif-aq-new">✨ ' + fresh.length + ' yeni</span>' : '') + '<span class="elif-aq-go" aria-hidden="true">▶</span>';
+    card.setAttribute('aria-label', 'Akvaryum, ' + have.length + ' balık' + (fresh.length ? ', ' + fresh.length + ' yeni balık' : ''));
+    card.onclick = () => {
+      if (elifMap.walking()) return;
+      voice.stop();
+      elifAquarium.open({ have, fresh, onClose: () => { if (!$('elif-view').hidden && !section) showHub(); } });
+      for (const i of fresh) progress.balik[i] = true;
+      if (fresh.length) save();
+    };
   }
   // The map: coves done, the cove being learned, coves still locked, and the bridges crossed.
   const coveState = (k, next, nextCove) => k < nextCove || !next ? 'done' : k === nextCove ? 'current' : 'locked';

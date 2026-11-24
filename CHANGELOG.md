@@ -7,6 +7,17 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.16.0 · 24.11.2026
+
+Elif Ba Adası'na bir **🐠 Akvaryum** geldi.
+
+- **Her harf için bir balık:** Harekeler adımında öğrenilen her harf (🦪) için akvaryuma bir balık geliyor. Adanın ana sayfasında, yolculuk haritasının üstünde Akvaryum kartı var; kaç balık olduğunu ve yeni gelen balıkları (✨ yeni) gösteriyor.
+- **Harekeli harfler:** Her balığın üstünde harekeli bir harf yazıyor. Balığa dokununca o hece okunuyor ve "Be üstün" gibi adı bir an görünüyor; sonraki dokunuşta balık öteki harekeye geçiyor (üstün, esre, ötre). Türkçe okunuş hiçbir yerde yazmıyor.
+- **Gerçek bir akvaryum gibi:** Balıklar dört türden, yavaşça ve kendi başlarına yüzüyor, yön değiştirirken usulca dönüyor. Su yukarıdan ışık alıyor; yosunlar sallanıyor, sandıktan kabarcıklar çıkıyor. Suya dokununca yem düşüyor ve yakındaki balıklar yemeğe yüzüyor.
+- **Yeni balıklar:** Akvaryum açılınca yeni balıklar yandan yüzerek giriyor ve bir süre parlıyor.
+- **Harf rafı:** Altta 28 harfin rafı var. Balığı olan harfe dokununca balığı ortaya gelip hecesini okuyor; olmayanlar için hangi adımın bitirilmesi gerektiği yazıyor.
+- Daha önce harekeleri öğrenmiş oyuncuların balıkları akvaryum ilk açıldığında yeni balık olarak geliyor.
+
 ## 0.15.1 · 24.11.2026
 
 0.15.0'daki hız çubuğu ve hızlanan, karışık akış, tarayıcının eski oyun dosyalarını önbellekten açması yüzünden görünmüyordu. Değişen dosyaların sürüm işaretleri yenilendi; sayfa açılınca Harf Yağmuru ile Hece Balonları'nın yeni hali yükleniyor.
