@@ -7,6 +7,17 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.13.0 · 24.11.2026
+
+Elif Ba Adası artık tek bir yol: çocuk neye basacağını düşünmeden adım adım ilerliyor.
+
+- Her koy sırayla **Harfler → 🌧️ Harf Yağmuru → Harekeler → 🎈 Hece Balonları** adımlarından oluşuyor (ilk koyda Harekeler'den önce "Harekelerle tanış" var). Bir adım bitmeden sonrakine geçilemiyor. Biten adımlar ✓ ile işaretleniyor ve tekrar oynanabiliyor; sıradaki adım parlıyor, sonrakiler kilitli.
+- Ada sayfasındaki ayrı bölüm ve oyun kartlarının yerini "Yolculuk" aldı. En üstteki büyük "Sıradaki" düğmesi her zaman yapılacak adımı açıyor. Gelecek bölümler "Yakında" altında duruyor.
+- Bölüm ekranında koy seçme şeridi ve ek düğmeler kaldırıldı. Ekranda yalnızca o koyun kartları ve "Oyna" düğmesi var. Tur bitince "▶ Devam" doğrudan bir sonraki adımı açıyor.
+- Oyunlar artık her koyun bir adımı ve o koya kadar öğrenilen harflerle oynanıyor. Bir oyun sonuna kadar oynanınca (can kaybedilse bile) yol açılıyor ve sonuç ekranında "▶ Devam" çıkıyor; hiç can kaybetmeden bitirince üç yıldız veriliyor. Canlar biterse oyun baştan başlıyor ve adım geçilmiyor.
+- **2. koydan itibaren** her harf ve hareke turu önceki koyların harfleriyle karışık: seçenekler arasında eski harfler çıkıyor, ayrıca turda önceki koylardan 4 tekrar sorusu var (12 soru).
+- Mevcut ilerleme korunuyor: daha önce geçilmiş adımlardan önceki oyunlar oynanmış sayılıyor.
+
 ## 0.12.1 · 24.11.2026
 
 Proje düzeni yenilendi; oyunda görünen bir değişiklik yok, kayıtlı ilerleme korunuyor.

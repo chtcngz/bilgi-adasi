@@ -42,8 +42,8 @@ const elifListeningGame = (() => {
         freshSay: 'Yeni harf. Dinle.', allDone: 'On beş harfin hepsini patlattın.', whole: 'Hiç can kaybetmeden 15 harfin hepsini, 45 damlayı patlattın!',
         partly: '15 harfin hepsini patlattın ama ', recap: 'Patlattığın harfler · dokun, dinle', chip: ' harfini dinle',
         some: ' harfi patlattın. ', none: 'Sesi dikkatle dinle, sonra o harften üç tane patlat. ',
-        intro: 'Kaplumbağa bir harf söyleyecek: o harften üç tane patlat, hemen yeni harf gelsin. 15 harfi hiç can kaybetmeden ' +
-          'bitirirsen bölümü tamamlarsın! Canların biterse oyun baştan başlar.',
+        intro: 'Kaplumbağa bir harf söyleyecek: o harften üç tane patlat, hemen yeni harf gelsin. 15 harfi bitirince ' +
+          'yoluna devam edersin; hiç can kaybetmezsen üç yıldız! Canların biterse oyun baştan başlar.',
         unit: 'harf', piece: 'damla patlat', pool: 'Oyundaki harfler' }
     },
     hece: {
@@ -56,8 +56,8 @@ const elifListeningGame = (() => {
         freshSay: 'Yeni hece. Dinle.', allDone: 'On beş hecenin hepsini patlattın.', whole: 'Hiç can kaybetmeden 15 hecenin hepsini, 45 balonu patlattın!',
         partly: '15 hecenin hepsini patlattın ama ', recap: 'Patlattığın heceler · dokun, dinle', chip: ' hecesini dinle',
         some: ' heceyi patlattın. ', none: 'Sesi dikkatle dinle, sonra o heceden üç balon patlat. ',
-        intro: 'Kaplumbağa harekeli bir hece okuyacak: o heceden üç balon patlat, hemen yeni hece gelsin. 15 heceyi hiç can kaybetmeden ' +
-          'bitirirsen bölümü tamamlarsın! Canların biterse oyun baştan başlar.',
+        intro: 'Kaplumbağa harekeli bir hece okuyacak: o heceden üç balon patlat, hemen yeni hece gelsin. 15 heceyi bitirince ' +
+          'yoluna devam edersin; hiç can kaybetmezsen üç yıldız! Canların biterse oyun baştan başlar.',
         unit: 'hece', piece: 'balon patlat', pool: 'Oyundaki heceler' }
     }
   };
@@ -155,7 +155,7 @@ const elifListeningGame = (() => {
   const overlay = find('.rain-overlay');
   const live = find('.rain-live');
 
-  let options = null, game = null, state = 'idle', drops = [], rounds = 0;
+  let options = null, game = null, state = 'idle', drops = [], rounds = 0, followUp = null;
   let width = 0, size = 80, laneX = [], spawnY = 0, surface = 0, topY = 0;
   let talkToken = 0, pendingDone = null, talking = false, lastTalk = -9, lastSplash = -9, moodTimer = 0, promptToken = 0;
 
@@ -678,7 +678,7 @@ const elifListeningGame = (() => {
     mood('dance');
     playCue(whole ? 'victory' : 'island');
     fx.confetti(dialog, whole ? undefined : { count: 70 });
-    say(whole ? 'Bölüm tamamlandı!' : kind.t.allDone);
+    say(whole ? 'Mükemmel! Bölüm tamamlandı.' : kind.t.allDone);
     after(1.7, result);
   }
   // With all three hearts the section is complete; otherwise it is to be played again.
@@ -691,20 +691,25 @@ const elifListeningGame = (() => {
     keep(true);
     const record = game.score > 0 && game.score > (best.rekor || 0);
     const text = whole ? kind.t.whole :
-      kind.t.partly + (HEARTS - stars) + ' can kaybettin. Bölümü tamamlamak için hiç can kaybetmeden bitir!';
+      kind.t.partly + (HEARTS - stars) + ' can kaybettin. Üç yıldız için bir dahaki sefere hiç can kaybetmeden bitirmeyi dene!';
+    // On the island's path, the game played to the end opens the next step.
+    const next = options.next?.();
     const unique = [...new Set(game.completed)];
     showCard('<div class="rain-card result"><div class="rain-stars" role="img" aria-label="' + stars + ' yıldız">' + [0, 1, 2].map(n =>
       '<svg viewBox="0 0 24 24" aria-hidden="true"' + (n < stars ? ' class="won" style="--d:' + (0.35 + n * 0.3) + 's"' : '') +
       '><path d="' + starPath + '"/></svg>').join('') + '</div>' +
-      '<h2 id="rain-title" tabindex="-1">' + (whole ? 'Bölüm tamamlandı!' : 'Az kaldı!') + '</h2><p>' + text + '</p>' +
+      '<h2 id="rain-title" tabindex="-1">' + (whole ? 'Mükemmel!' : 'Bölüm tamamlandı!') + '</h2><p>' + text + '</p>' +
       '<p class="rain-total"><b>0</b> puan</p>' + recordLine(record, best) +
       '<div class="rain-recap"><p>' + kind.t.recap + '</p><div>' + unique.map((i, n) =>
         '<button type="button" class="rain-chip t' + n % 5 + '" data-cue data-letter="' + i + '" aria-label="' + kind.name(i) + kind.t.chip + '">' +
         glyph(i) + '<span>' + kind.name(i) + '</span></button>').join('') + '</div></div>' +
-      '<div class="rain-actions"><button type="button" class="rain-go" data-cue>↻ ' + (whole ? 'Tekrar oyna' : 'Tekrar dene') + '</button>' +
-      '<button type="button" class="rain-back">Adaya dön</button></div></div>');
-    overlay.querySelector('.rain-go').onclick = () => newGame(false);
-    overlay.querySelector('.rain-back').onclick = () => dialog.close();
+      '<div class="rain-actions">' + (next ? '<button type="button" class="rain-go rain-next" data-cue>▶ Devam: ' + next.label + '</button>' +
+        '<button type="button" class="rain-back rain-again">↻ Tekrar oyna</button>' :
+        '<button type="button" class="rain-go rain-again" data-cue>↻ Tekrar oyna</button><button type="button" class="rain-back">Adaya dön</button>') +
+      '</div></div>');
+    overlay.querySelector('.rain-again').onclick = () => newGame(false);
+    if (next) overlay.querySelector('.rain-next').onclick = () => { followUp = next.go; dialog.close(); };
+    else overlay.querySelector('.rain-back').onclick = () => dialog.close();
     for (const chip of overlay.querySelectorAll('.rain-chip')) {
       chip.onclick = () => { fx.bump(chip, 'rain-bump'); kind.speak(Number(chip.dataset.letter), unheard); };
     }
@@ -806,14 +811,18 @@ const elifListeningGame = (() => {
     mood(null);
     state = 'idle';
     const done = options?.onClose;
+    const then = followUp;
+    followUp = null;
     options = null;
     game = null;
     done?.();
+    then?.();
   });
 
   // kind: 'harf' (Harf Yağmuru, the default) or 'hece' (Hece Balonları);
   // letters: learned letters (syllables) to play with; recent: the newest cove's, asked more often;
-  // best(): the player's { rekor, yildiz, tamam }; onResult({ score, stars, finished }) keeps them.
+  // best(): the player's { rekor, yildiz, tamam }; onResult({ score, stars, finished }) keeps them;
+  // next(): optional, { label, go } of the step after a game played to the end.
   function open(settings) {
     options = settings;
     kind = kinds[settings.kind] || kinds.harf;

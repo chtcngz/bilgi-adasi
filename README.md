@@ -67,7 +67,8 @@ sources/                     Raw material (not published)
 ## Adding something new
 
 **A new Elif Ba section** (Cezm, Tenvin, Şedde …):
-1. Remove the `soon` flag from the section's entry in `islands/elif-ba/data.js`.
+Elif Ba is a single path (the `steps` list in `game.js`). Each cove's steps run Harfler → Harf Yağmuru → Harekeler → Hece Balonları; the first cove also has Harekelerle tanış before Harekeler. Only the next step can be opened, and from the second cove on every round mixes in letters from the earlier coves. To add a section:
+1. Remove the `soon` flag from the section's entry in `islands/elif-ba/data.js`, and add its steps to the `steps` list in `game.js`.
 2. Add the section's screen and rounds to `islands/elif-ba/game.js`.
 3. Put its recordings under `app/assets/audio/elif-ba/<bölüm>/` and register them in `kayitlar.js`.
 4. If it gets a game, add it under `islands/elif-ba/games/`. Listening games can reuse `listening.js` with a new `kind`.
