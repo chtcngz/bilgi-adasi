@@ -161,17 +161,32 @@ def wood(freq, seconds=0.12, noise=0.4, decay=0.025):
 
 cues = {}
 
-# Soft wooden pop for menus and buttons.
-pop = glide(900, 520, 0.07, curve=0.5) * envelope(timeline(0.07), 0.001, 0.018)
-cues['tap'] = finish(reverb(pop + 0.3 * wood(1400, 0.07), 0.12, 0.6, 0.15), 0.32)
+def soft_mallet(freq, decay=0.06, bend=0.0, seconds=0.45):
+    """A felt mallet on a soft bar: rounded attack, no click, a hint of overtone.
 
-# Bubbly plip for number keys: a quick upward glide.
-plip = glide(520, 1050, 0.09, curve=0.6) * envelope(timeline(0.09), 0.002, 0.035)
-cues['key'] = finish(reverb(plip, 0.15, 0.6, 0.15), 0.36)
+    `bend` slides the pitch by that fraction over the first 40 ms, which reads
+    as a friendly "bloop" (positive bends up, negative down).
+    """
+    t = timeline(seconds)
+    slide = 1 + bend * (1 - np.exp(-t / 0.012)) - bend
+    phase = 2 * np.pi * np.cumsum(freq * slide) / RATE
+    attack = np.where(t < 0.005, np.sin(np.pi / 2 * t / 0.005) ** 2, 1)
+    tone = np.sin(phase) * np.exp(-t / decay)
+    tone += 0.12 * np.sin(2 * phase) * np.exp(-t / (decay * 0.4))
+    return lowpass(lowpass(tone * attack, 2600), 3200)
 
-# Erase: the plip played downwards, a touch lower.
-blip = glide(760, 360, 0.1, curve=0.7) * envelope(timeline(0.1), 0.002, 0.04)
-cues['erase'] = finish(reverb(blip, 0.15, 0.6, 0.15), 0.34)
+
+# The earlier tap drew this much noise; drawing it keeps the later cues' randomness unchanged.
+rng.uniform(-1, 1, int(RATE * 0.07))
+
+# Menus and buttons: a soft, low "bloop", like a drop in a calm bay.
+cues['tap'] = finish(reverb(soft_mallet(note('E5'), 0.05, -0.04), 0.12, 0.7, 0.2), 0.2)
+
+# Number keys: the same felt mallet a little higher, bending gently up.
+cues['key'] = finish(reverb(soft_mallet(note('G5'), 0.055, 0.03), 0.12, 0.7, 0.2), 0.24)
+
+# Erase: lower and bending down, so it feels like taking back.
+cues['erase'] = finish(reverb(soft_mallet(note('C5'), 0.06, -0.06), 0.12, 0.7, 0.2), 0.22)
 
 # Countdown: woodblock ticks climbing in pitch as time runs out.
 for left, freq in [(3, 980), (2, 1170), (1, 1400)]:

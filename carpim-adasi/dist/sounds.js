@@ -1,7 +1,7 @@
 const playCue = (() => {
   const button = document.getElementById('sound');
   const cues = ['tap', 'key', 'erase', 'tick-3', 'tick-2', 'tick-1', 'correct', 'island', 'victory', 'retry', 'oops', 'start'];
-  const source = name => 'assets/audio/' + name + '.wav?v=3';
+  const source = name => 'assets/audio/' + name + '.wav?v=4';
   // Reuse one media element so the initial user gesture unlocks timed cues too.
   const player = new Audio(source('tap'));
   player.preload = 'auto';
