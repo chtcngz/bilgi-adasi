@@ -1,7 +1,7 @@
 // Elif Ba Adası: letters, their readings with harekes, coves and the island's sections.
 // Readings follow the Turkish Elif-Ba convention (be-bi-bu, sa-sı-su for the thick letters).
 const elifData = (() => {
-  const glyphs = Array.from('ابتثجحخدذرزسشصضطظعغفقكلمنهوي');
+  const glyphs = Array.from('ابتثجحخدذرزسشصضطظعغفقكلمنوهي');
   const names = ['Elif', 'Be', 'Te', 'Se', 'Cim', 'Ha', 'Hı', 'Dal', 'Zel', 'Ra', 'Ze', 'Sin', 'Şın', 'Sad',
     'Dad', 'Tı', 'Zı', 'Ayn', 'Gayn', 'Fe', 'Kaf', 'Kef', 'Lâm', 'Mim', 'Nun', 'Vav', 'He', 'Ye'];
   // [üstün, esre, ötre]

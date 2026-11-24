@@ -7,6 +7,12 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.3.0 · 24.11.2026
+
+- Elif Ba Adası'ndaki 84 hece (üstün, esre ve ötre ile her harf) artık gerçek bir insan sesiyle okunuyor. Kayıtlar, Kudus'taki (Endonezya) Pondok Tahfidz Yanbuul Qur'an hafızlık okulu öğrencilerinin okuyuşlarından oluşan açık lisanslı (AFL-3.0) bir veri setinden alındı. Adada tek bir ses duyulsun diye her hece aynı öğrencinin daha temiz kaydından seçildi. Kaynaklar `elif-ba/ses/KAYNAKLAR.md` dosyasında.
+- "Be üstün be" tekrarında harfin ve harekenin adı Türkçe söyleniyor, hece ise kayıttan çalıyor.
+- Düzeltme: ه ile و harflerinin adları yer değiştirmişti (ه kartında "Vav" yazıyordu). Sıra artık Elif-Ba'daki gibi: … Nun, Vav, He, Ye. Eski sürümde toplanan kabuklar doğru harfe aktarılıyor.
+
 ## 0.2.0 · 24.11.2026
 
 Elif Ba Adası bölümlere ayrıldı:

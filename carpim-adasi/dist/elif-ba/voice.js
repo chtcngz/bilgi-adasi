@@ -4,28 +4,23 @@ const elifVoice = (() => {
   const recorded = window.elifRecordings || { harf: {}, hece: {} };
   const clips = new Map();
   let playing = null;
+  let run = 0; // every new request cancels the sequence that was playing
   let mode = 'kayit';
   try { if (localStorage.getItem('elif-ses') === 'turkce') mode = 'turkce'; } catch {}
 
   function stop() {
+    run++;
     window.speechSynthesis?.cancel();
     if (playing) { playing.pause(); playing = null; }
   }
   function unavailable(note) {
     if (note) note.textContent = 'Bu cihazda Türkçe ses bulunamadı. Harflerin adı kartların üzerinde yazıyor.';
   }
-  function speak(text, note) {
-    stop();
-    if (!window.speechSynthesis) return unavailable(note);
+  function turkishVoice() {
+    if (!window.speechSynthesis) return null;
     const voices = speechSynthesis.getVoices();
     const voice = voices.find(item => /^tr\b/i.test(item.lang));
-    if (voices.length && !voice) return unavailable(note);
-    const message = new SpeechSynthesisUtterance(text.replace(/ğ/g, 'g'));
-    message.lang = 'tr-TR';
-    if (voice) message.voice = voice;
-    message.rate = 0.8;
-    message.onerror = event => { if (!['interrupted', 'canceled'].includes(event.error)) unavailable(note); };
-    speechSynthesis.speak(message);
+    return voices.length && !voice ? null : { voice };
   }
   function clip(src) {
     if (!clips.has(src)) {
@@ -35,45 +30,61 @@ const elifVoice = (() => {
     }
     return clips.get(src);
   }
-  function play(src, fallback) {
+  // Steps are { text } for the Turkish voice or { src, text } for a recording that falls
+  // back to reading its text. Each step starts when the one before it ends.
+  function sequence(steps, note) {
     stop();
-    const audio = clip(src);
-    playing = audio;
-    let fell = false;
-    const fall = () => { if (!fell && playing === audio) { fell = true; playing = null; fallback(); } };
-    audio.onerror = fall;
-    try { audio.currentTime = 0; } catch {}
-    audio.play()?.catch(error => { if (error.name !== 'AbortError') fall(); });
+    const mine = run;
+    const next = i => {
+      if (mine !== run || i >= steps.length) return;
+      const step = steps[i];
+      const say = () => {
+        const tr = turkishVoice();
+        if (!tr) { unavailable(note); return next(i + 1); }
+        const message = new SpeechSynthesisUtterance(step.text.replace(/ğ/g, 'g'));
+        message.lang = 'tr-TR';
+        if (tr.voice) message.voice = tr.voice;
+        message.rate = 0.8;
+        message.onend = () => next(i + 1);
+        message.onerror = event => { if (!['interrupted', 'canceled'].includes(event.error)) unavailable(note); };
+        speechSynthesis.speak(message);
+      };
+      if (!step.src) return say();
+      const audio = clip(step.src);
+      playing = audio;
+      let done = false;
+      const fall = () => { if (!done && mine === run) { done = true; playing = null; say(); } };
+      audio.onerror = fall;
+      audio.onended = () => { if (!done && mine === run) { done = true; playing = null; next(i + 1); } };
+      try { audio.currentTime = 0; } catch {}
+      audio.play()?.catch(error => { if (error.name !== 'AbortError') fall(); });
+    };
+    next(0);
   }
   const letterClip = i => mode === 'kayit' ? recorded.harf[i] : null;
   const syllableClip = (i, h) => mode === 'kayit' ? recorded.hece[i + '-' + h] : null;
+  const hareke = h => elifData.harekeler[h].name.toLocaleLowerCase('tr');
 
-  function letter(i, note) {
-    const say = () => speak(elifData.names[i], note);
-    const src = letterClip(i);
-    src ? play(src, say) : say();
-  }
-  function syllable(i, h, note) {
-    const say = () => speak(elifData.readings[i][h], note);
-    const src = syllableClip(i, h);
-    src ? play(src, say) : say();
-  }
-  // "Be üstün be, be esre bi, be ötre bu": the way the harekes are chanted in class.
-  function chant(i, h, note) {
-    const name = elifData.names[i];
-    const parts = (h === undefined ? [0, 1, 2] : [h]).map(k =>
-      name + ' ' + elifData.harekeler[k].name.toLocaleLowerCase('tr') + ' ' + elifData.readings[i][k]);
-    speak(parts.join(', '), note);
-  }
-  function preload(letters) {
-    for (const i of letters) {
-      if (letterClip(i)) clip(letterClip(i));
-      for (const h of [0, 1, 2]) if (syllableClip(i, h)) clip(syllableClip(i, h));
-    }
-  }
   return {
-    letter, syllable, chant, say: speak, stop, preload,
-    hasRecordings: () => Object.keys(recorded.harf).length > 0,
+    say: (text, note) => sequence([{ text }], note),
+    letter: (i, note) => sequence([{ src: letterClip(i), text: elifData.names[i] }], note),
+    syllable: (i, h, note) => sequence([{ src: syllableClip(i, h), text: elifData.readings[i][h] }], note),
+    // "Be üstün be, be esre bi, be ötre bu": the way the harekes are chanted in class.
+    chant(i, h, note) {
+      const steps = [];
+      for (const k of h === undefined ? [0, 1, 2] : [h]) {
+        steps.push({ text: elifData.names[i] + ' ' + hareke(k) }, { src: syllableClip(i, k), text: elifData.readings[i][k] });
+      }
+      sequence(steps, note);
+    },
+    stop,
+    preload(letters) {
+      for (const i of letters) {
+        if (letterClip(i)) clip(letterClip(i));
+        for (const h of [0, 1, 2]) if (syllableClip(i, h)) clip(syllableClip(i, h));
+      }
+    },
+    hasRecordings: () => Object.keys(recorded.harf).length + Object.keys(recorded.hece).length > 0,
     credit: () => recorded.credit || '',
     mode: () => mode,
     setMode(next) {

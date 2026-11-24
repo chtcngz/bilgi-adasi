@@ -1,61 +1,176 @@
-"""Fetch and prepare the recorded letter voices for Elif Ba Adası.
+"""Fetch and prepare the recorded voices for Elif Ba Adası.
 
 Run from the repository root:  python3 carpim-adasi/tools/elif_sesleri.py
-Needs ffmpeg. The recordings come from Lingua Libre (native speakers reading
-single Arabic letters) and are stored on Wikimedia Commons; their licence and
-author are read from Commons and written next to the clips, because the
-licences ask for attribution.
+Needs ffmpeg and numpy. Two open sources are used:
 
-Each source file is downloaded once into carpim-adasi/tools/.ses-onbellek
-(ignored by git). Every clip is trimmed of silence, levelled and saved as a
-small mono MP3 in dist/elif-ba/ses/harf/NN.mp3 (NN = letter index, 00 = Elif).
-dist/elif-ba/ses/kayitlar.js tells the game which clips exist; a letter with
-no clip is read by the device's Turkish voice instead.
+* Syllables (be, bi, bu ... 84 of them): the "Pelafalan Huruf Hijaiyah" data set
+  on Hugging Face (Reinjin), read by students of Pondok Tahfidz Yanbuul Qur'an,
+  Kudus; Academic Free License 3.0. One reader is used throughout so the island
+  has one voice; the better of the reader's two takes of each syllable is kept.
+* Letter names (elif, be, te ...): Lingua Libre volunteers reading single Arabic
+  letters, stored on Wikimedia Commons; licence and author are read from Commons.
 
-To use your own recordings (a teacher's voice, say), put WAV/MP3/M4A files
-named 00.wav ... 27.wav in a folder and run:
-    python3 carpim-adasi/tools/elif_sesleri.py --klasor KLASOR --kaynak "Ses: ..."
+Downloads are kept in carpim-adasi/tools/.ses-onbellek (ignored by git). Every
+clip is trimmed of silence, levelled and saved as a small mono MP3 under
+dist/elif-ba/ses/ (harf/NN.mp3 and hece/NN-H.mp3, NN = letter index with
+00 = Elif, H = 0 üstün, 1 esre, 2 ötre). dist/elif-ba/ses/kayitlar.js tells the
+game which clips exist; anything missing is read by the device's Turkish voice.
+KAYNAKLAR.md lists every source and licence, as the licences require.
+
+    --yalniz hece|harf     only refresh one of the two parts
+    --klasor KLASOR        use your own recordings instead (a teacher's voice):
+                           NN.wav for letter names, NN-H.wav for syllables
+    --kaynak "..."         credit line for --klasor
 """
 import argparse
 import hashlib
 import html
+import io
 import json
 import pathlib
 import re
 import subprocess
+import tempfile
 import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import wave
+import zipfile
+
+import numpy as np
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / 'dist' / 'elif-ba' / 'ses'
 CACHE = ROOT / 'tools' / '.ses-onbellek'
-LETTERS = 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي'
+STATE = OUT / 'kaynak.json'
+LETTERS = 'ابتثجحخدذرزسشصضطظعغفقكلمنوهي'
 NAMES = ['Elif', 'Be', 'Te', 'Se', 'Cim', 'Ha', 'Hı', 'Dal', 'Zel', 'Ra', 'Ze', 'Sin', 'Şın', 'Sad',
          'Dad', 'Tı', 'Zı', 'Ayn', 'Gayn', 'Fe', 'Kaf', 'Kef', 'Lâm', 'Mim', 'Nun', 'Vav', 'He', 'Ye']
+HAREKE = ['üstün', 'esre', 'ötre']
 UA = 'bilgi-adasi/0.2 (Elif Ba educational game; one-off download of a few clips)'
-# One voice for as many letters as possible; the second speaker fills the gaps.
+
+# Lingua Libre: one voice for as many letters as possible, the second fills the gaps.
 SPEAKERS = ['AlNatiq', 'Zinou2go']
-
-
-def commons_title(speaker, letter):
-    return f'File:LL-Q13955 (ara)-{speaker}-{letter}.wav'
+# Hugging Face syllables. Fadli has the cleanest complete set; his ع with ötre measures
+# like an "i", so the three ع syllables come from Hamzah_MTS, whose vowels measure right.
+SYLLABLES_URL = 'https://huggingface.co/datasets/Reinjin/Pelafalan_Huruf_Hijaiyah/resolve/main/dataset.zip'
+SYLLABLES_PAGE = 'https://huggingface.co/datasets/Reinjin/Pelafalan_Huruf_Hijaiyah'
+SYLLABLE_VOICE = 'Fadli'
+SYLLABLE_VOICE_FOR = {17: 'Hamzah_MTS'}
+# The data set orders ... ن ه و ي; the game follows the Elif-Ba order ... ن و ه ي.
+DATASET_TO_GAME = {25: 26, 26: 25}
 
 
 def get(url, binary=False):
     while True:
         try:
             request = urllib.request.Request(url, headers={'User-Agent': UA})
-            with urllib.request.urlopen(request, timeout=60) as response:
+            with urllib.request.urlopen(request, timeout=300) as response:
                 data = response.read()
             return data if binary else json.loads(data)
         except urllib.error.HTTPError as error:
             if error.code not in (429, 503):
                 raise
             wait = int(error.headers.get('retry-after') or 60) + 5
-            print(f'  Wikimedia asks to wait {wait} s ...', flush=True)
+            print(f'  server asks to wait {wait} s ...', flush=True)
             time.sleep(wait)
+
+
+def prepare(source, target):
+    """Trim silence at both ends, level the loudness and save as mono MP3."""
+    trim = ('silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.04,'
+            'areverse,silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.08,areverse,'
+            'loudnorm=I=-18:TP=-2:LRA=7,afade=t=in:d=0.01')
+    target.parent.mkdir(parents=True, exist_ok=True)
+    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(source), '-af', trim, '-ac', '1', '-ar', '44100',
+                    '-c:a', 'libmp3lame', '-b:a', '80k', str(target)], check=True)
+
+
+def clarity(data):
+    """Loud speech against a quiet background, in dB; a clipped take scores lower."""
+    with wave.open(io.BytesIO(data)) as w:
+        width, channels = w.getsampwidth(), w.getnchannels()
+        x = np.frombuffer(w.readframes(w.getnframes()), {1: np.uint8, 2: np.int16, 4: np.int32}[width]).astype(float)
+        rate = w.getframerate()
+    x = (x - 128) / 128 if width == 1 else x / 2 ** (8 * width - 1)
+    if channels > 1:
+        x = x.reshape(-1, channels).mean(1)
+    size = int(rate * 0.02)
+    frames = x[:len(x) // size * size].reshape(-1, size)
+    level = 20 * np.log10(np.sqrt((frames ** 2).mean(1)) + 1e-9)
+    return np.percentile(level, 95) - np.percentile(level, 10) - 400 * (np.abs(x) > 0.99).mean()
+
+
+def load_state():
+    if STATE.exists():
+        return json.loads(STATE.read_text(encoding='utf-8'))
+    return {'harf': {}, 'hece': {}, 'sources': {}}
+
+
+def save_state(state):
+    STATE.write_text(json.dumps(state, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')
+    harf = ',\n'.join(f"    {i}: 'elif-ba/ses/harf/{int(i):02d}.mp3'" for i in sorted(state['harf'], key=int))
+    hece = ',\n'.join(f"    '{k}': 'elif-ba/ses/hece/{int(k.split('-')[0]):02d}-{k.split('-')[1]}.mp3'"
+                      for k in sorted(state['hece'], key=lambda k: tuple(map(int, k.split('-')))))
+    credit = ' '.join(source['credit'] for source in state['sources'].values())
+    (OUT / 'kayitlar.js').write_text(
+        '// Recorded voice clips for Elif Ba, written by tools/elif_sesleri.py; anything missing\n'
+        "// is read by the device's Turkish voice instead. Sources and licences: KAYNAKLAR.md\n"
+        'window.elifRecordings = {\n  harf: {\n' + harf + '\n  },\n  hece: {\n' + hece + '\n  },\n  credit: ' +
+        json.dumps(credit, ensure_ascii=False) + '\n};\n', encoding='utf-8')
+    notes = ['# Elif Ba ses kayıtları: kaynaklar', '',
+             'Oyundaki kayıtlarda yalnızca baştaki ve sondaki sessizlik kırpıldı ve ses düzeyi eşitlendi',
+             '(`carpim-adasi/tools/elif_sesleri.py`). Kaydı olmayan harf ve heceleri cihazın Türkçe sesi okur.']
+    for source in state['sources'].values():
+        notes += ['', '## ' + source['title'], ''] + source['notes']
+    (OUT / 'KAYNAKLAR.md').write_text('\n'.join(notes) + '\n', encoding='utf-8')
+
+
+def syllables(state):
+    CACHE.mkdir(parents=True, exist_ok=True)
+    archive = CACHE / 'pelafalan_huruf_hijaiyah.zip'
+    if not archive.exists():
+        print('Downloading the syllable data set (about 240 MB) ...', flush=True)
+        archive.write_bytes(get(SYLLABLES_URL, binary=True))
+    takes = {}
+    with zipfile.ZipFile(archive) as z:
+        for name in z.namelist():
+            match = re.match(r'(\d+)\. (\w+?)_(fathah|kasroh|dommah)/(.+?)_\2_\3(?:_\d+)?\.wav$', name)
+            if not match:
+                continue
+            number = int(match.group(1)) - 1
+            letter = DATASET_TO_GAME.get(number // 3, number // 3)
+            if match.group(4) == SYLLABLE_VOICE_FOR.get(letter, SYLLABLE_VOICE):
+                takes.setdefault((letter, number % 3), []).append(name)
+        state['hece'] = {}
+        with tempfile.TemporaryDirectory() as folder:
+            for (letter, hareke), names in sorted(takes.items()):
+                best = max(names, key=lambda n: clarity(z.read(n)))
+                raw = pathlib.Path(folder) / 'take.wav'
+                raw.write_bytes(z.read(best))
+                prepare(raw, OUT / 'hece' / f'{letter:02d}-{hareke}.mp3')
+                state['hece'][f'{letter}-{hareke}'] = best.split('/')[-1]
+    readers = sorted({SYLLABLE_VOICE, *SYLLABLE_VOICE_FOR.values()})
+    state['sources']['hece'] = {
+        'title': 'Heceler (üstün, esre, ötre)',
+        'credit': 'Heceler: Pelafalan Huruf Hijaiyah veri seti, Pondok Tahfidz Yanbuul Qur’an Kudus öğrencileri '
+                  '(Reinjin), AFL-3.0.',
+        'notes': [
+            f'84 hece, Hugging Face’teki [Pelafalan Huruf Hijaiyah]({SYLLABLES_PAGE}) veri setinden alındı. Veri seti',
+            'Endonezya’nın Kudus şehrindeki Pondok Tahfidz Yanbuul Qur’an hafızlık okulunun MTs/MA öğrencilerinin',
+            'okuyuşlarından oluşuyor ve [Academic Free License 3.0](https://opensource.org/license/afl-3-0-php)',
+            'ile yayımlanıyor (veri setini hazırlayan: Reinjin).', '',
+            'Oyunda tek bir ses duyulsun diye her hece aynı öğrencinin iki okuyuşundan daha temiz olanından alındı: '
+            + ', '.join(readers) + '. ع harfinin üç hecesi Hamzah_MTS’ten, diğerleri Fadli’den.', '',
+            '| Harf | Üstün | Esre | Ötre |', '|---|---|---|---|'] + [
+            f'| {LETTERS[i]} {NAMES[i]} | ' + ' | '.join(f"`{state['hece'].get(f'{i}-{h}', '—')}`" for h in range(3)) + ' |'
+            for i in range(28)]}
+    print(len(state['hece']), 'syllables written')
+
+
+def commons_title(speaker, letter):
+    return f'File:LL-Q13955 (ara)-{speaker}-{letter}.wav'
 
 
 def file_info(titles):
@@ -80,37 +195,19 @@ def file_info(titles):
     return found
 
 
-def prepare(source, target):
-    """Trim silence at both ends, level the loudness and save as mono MP3."""
-    trim = ('silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.04,'
-            'areverse,silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.08,areverse,'
-            'loudnorm=I=-18:TP=-2:LRA=7,afade=t=in:d=0.01')
-    subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', str(source), '-af', trim, '-ac', '1', '-ar', '44100',
-                    '-c:a', 'libmp3lame', '-b:a', '80k', str(target)], check=True)
-
-
-def write_manifest(clips, credit):
-    lines = ',\n'.join(f"    {i}: 'elif-ba/ses/harf/{i:02d}.mp3'" for i in sorted(clips))
-    (OUT / 'kayitlar.js').write_text(
-        '// Recorded voice clips for Elif Ba, written by tools/elif_sesleri.py; a letter with no clip\n'
-        "// is read by the device's Turkish voice instead. Sources and licences: KAYNAKLAR.md\n"
-        'window.elifRecordings = {\n  harf: {\n' + lines + '\n  },\n  hece: {},\n  credit: ' +
-        json.dumps(credit, ensure_ascii=False) + '\n};\n', encoding='utf-8')
-
-
-def from_lingua_libre():
+def letter_names(state):
     titles = [commons_title(s, l) for s in SPEAKERS for l in LETTERS]
-    print('Looking up', len(titles), 'Commons files ...')
+    print('Looking up', len(titles), 'Commons files ...', flush=True)
     info = file_info(titles)
     chosen = {}
     for i, letter in enumerate(LETTERS):
         for speaker in SPEAKERS:
-            title = commons_title(speaker, letter).replace('_', ' ')
+            title = commons_title(speaker, letter)
             if title in info:
                 chosen[i] = (speaker, title, info[title])
                 break
     CACHE.mkdir(parents=True, exist_ok=True)
-    (OUT / 'harf').mkdir(parents=True, exist_ok=True)
+    state['harf'] = {}
     rows = []
     for i, (speaker, title, meta) in sorted(chosen.items()):
         raw = CACHE / (hashlib.md5(title.encode()).hexdigest() + '.wav')
@@ -119,45 +216,53 @@ def from_lingua_libre():
             raw.write_bytes(get(meta['url'], binary=True))
             time.sleep(3)
         prepare(raw, OUT / 'harf' / f'{i:02d}.mp3')
-        rows.append((i, speaker, title, meta))
+        state['harf'][str(i)] = title[5:]
+        rows.append(f"| {LETTERS[i]} {NAMES[i]} | {meta['artist'] or speaker} | "
+                    f"[{meta['license']}]({meta['license_url']}) | [{title[5:]}]({meta['page']}) |")
+        save_state(state)  # a long download can be resumed
     missing = [NAMES[i] for i in range(28) if i not in chosen]
-    speakers = sorted({speaker for _, speaker, _, _ in rows})
-    licences = sorted({meta['license'] for *_, meta in rows})
-    credit = ('Harf sesleri: Lingua Libre gönüllüleri (' + ', '.join(speakers) + '), ' + ', '.join(licences) +
-              '. Kaydı olmayan harfler cihazın Türkçe sesiyle okunur.')
-    write_manifest({i for i, *_ in rows}, credit)
-    notes = ['# Elif Ba harf sesleri: kaynaklar', '',
-             'Harflerin ses kayıtları [Lingua Libre](https://lingualibre.org) projesinde ana dili Arapça olan',
-             'gönüllülerin tek tek okuduğu harflerden alındı. Dosyalar Wikimedia Commons’ta, aşağıdaki',
-             'lisanslarla yayımlanıyor. Oyundaki sürümlerde yalnızca baştaki ve sondaki sessizlik kırpıldı ve',
-             'ses düzeyi eşitlendi (`carpim-adasi/tools/elif_sesleri.py`).', '',
-             '| Harf | Okuyan | Lisans | Kaynak |', '|---|---|---|---|']
-    for i, speaker, title, meta in rows:
-        notes.append(f"| {LETTERS[i]} {NAMES[i]} | {meta['artist'] or speaker} | "
-                     f"[{meta['license']}]({meta['license_url']}) | [{title[5:]}]({meta['page']}) |")
-    if missing:
-        notes += ['', 'Kaydı bulunamayan harfler (cihazın Türkçe sesiyle okunur): ' + ', '.join(missing) + '.']
-    (OUT / 'KAYNAKLAR.md').write_text('\n'.join(notes) + '\n', encoding='utf-8')
-    print(f'{len(rows)} clips written; missing: {", ".join(missing) or "none"}')
+    licences = sorted({meta['license'] for _, _, meta in chosen.values()})
+    speakers = sorted({speaker for speaker, _, _ in chosen.values()})
+    state['sources']['harf'] = {
+        'title': 'Harf adları',
+        'credit': 'Harf adları: Lingua Libre gönüllüleri (' + ', '.join(speakers) + '), ' + ', '.join(licences) + '.',
+        'notes': ['Harf adları [Lingua Libre](https://lingualibre.org) projesinde ana dili Arapça olan gönüllülerin',
+                  'tek tek okuduğu harflerden alındı; dosyalar Wikimedia Commons’ta aşağıdaki lisanslarla yayımlanıyor.',
+                  '', '| Harf | Okuyan | Lisans | Kaynak |', '|---|---|---|---|'] + rows +
+                 ([ '', 'Kaydı bulunamayan harfler: ' + ', '.join(missing) + '.'] if missing else [])}
+    print(len(rows), 'letter names written; missing:', ', '.join(missing) or 'none')
 
 
-def from_folder(folder, credit):
-    (OUT / 'harf').mkdir(parents=True, exist_ok=True)
-    clips = set()
+def own_folder(state, folder, credit):
+    state['harf'], state['hece'] = {}, {}
     for path in sorted(pathlib.Path(folder).iterdir()):
-        if path.stem.isdigit() and 0 <= int(path.stem) < 28:
-            prepare(path, OUT / 'harf' / f'{int(path.stem):02d}.mp3')
-            clips.add(int(path.stem))
-    write_manifest(clips, credit)
-    print(f'{len(clips)} clips written from {folder}')
+        match = re.fullmatch(r'(\d\d)(?:-([012]))?', path.stem)
+        if not match or int(match.group(1)) > 27:
+            continue
+        i = int(match.group(1))
+        if match.group(2) is None:
+            prepare(path, OUT / 'harf' / f'{i:02d}.mp3')
+            state['harf'][str(i)] = path.name
+        else:
+            prepare(path, OUT / 'hece' / f'{i:02d}-{match.group(2)}.mp3')
+            state['hece'][f'{i}-{match.group(2)}'] = path.name
+    state['sources'] = {'kendi': {'title': 'Kendi kayıtlarımız', 'credit': credit, 'notes': [credit]}}
+    print(len(state['harf']), 'letter names and', len(state['hece']), 'syllables written from', folder)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('--klasor', help='folder with your own recordings named 00 ... 27')
-    parser.add_argument('--kaynak', default='Harf sesleri: kendi kaydımız.', help='credit line shown in settings')
+    parser.add_argument('--yalniz', choices=['hece', 'harf'], help='refresh only syllables or only letter names')
+    parser.add_argument('--klasor', help='folder with your own recordings: NN.wav and NN-H.wav')
+    parser.add_argument('--kaynak', default='Sesler: kendi kaydımız.', help='credit line for --klasor')
     args = parser.parse_args()
+    state = load_state()
     if args.klasor:
-        from_folder(args.klasor, args.kaynak)
+        own_folder(state, args.klasor, args.kaynak)
     else:
-        from_lingua_libre()
+        if args.yalniz in (None, 'hece'):
+            syllables(state)
+            save_state(state)
+        if args.yalniz in (None, 'harf'):
+            letter_names(state)
+    save_state(state)

@@ -25,7 +25,9 @@
     } else {
       // Version 0.1 kept the letters found in the matching game as a list of indexes.
       const old = readRecord('elif-ba-' + id);
-      if (Array.isArray(old)) for (const i of old) if (Number.isInteger(i) && i >= 0 && i < 28) record.harf[i] = 1;
+      // It listed ه before و, so those two indexes trade places.
+      const moved = i => i === 25 ? 26 : i === 26 ? 25 : i;
+      if (Array.isArray(old)) for (const i of old) if (Number.isInteger(i) && i >= 0 && i < 28) record.harf[moved(i)] = 1;
     }
     records.set(id, record);
     return record;
