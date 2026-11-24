@@ -1,0 +1,196 @@
+/* Cam Köprü (games/bridge.js): a glass bridge seen from above, over the sea from one cove to the next.
+   The dialog, top bar, hearts, cards and stars are the .rain-* kit of listening.css, loaded before this. */
+.bridge-scene { background: #35b0c3; --pane: 110px; --pane-high: 94px; --row: 120px; --turtle: 96px; }
+/* The bridge slides under the top bar, so the bar gets a band of deep sea behind it. */
+.bridge-scene .rain-hud { padding-bottom: 10px; background: linear-gradient(#0d6577f5, #0f6e80e8 78%, #0f6e8000); }
+.bridge-scene .rain-slots li:not(.got, .now) { border-color: #9fd3e0; background: #e3f5fa; }
+
+/* ---------- The world: sea, shores and the bridge, moved together by the camera ---------- */
+.bridge-world {
+  position: absolute; z-index: 0; left: 0; top: 0; width: 100%; height: var(--total, 2000px);
+  transition: transform .8s cubic-bezier(.3, .7, .3, 1), filter 1s; will-change: transform;
+}
+.bridge-world.still { transition: filter 1s; }
+.bridge-scene.gloom .bridge-world { filter: saturate(.6) brightness(.92); }
+.bridge-water { position: absolute; left: 0; right: 0; top: -100vh; bottom: -100vh; overflow: hidden; background: linear-gradient(90deg, #2c9fb6, #3fbccb 50%, #2c9fb6); }
+.bridge-water::before {
+  content: ''; position: absolute; top: 0; bottom: 0; left: 0; width: calc(100% + 160px); opacity: .55; animation: bridge-swell 10s linear infinite;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='96'%3E%3Cg fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M12 20q9-7 18 0t18 0' stroke-opacity='.7'/%3E%3Cpath d='M92 54q8-6 16 0t16 0' stroke-opacity='.55'/%3E%3Cpath d='M40 82q7-5 14 0' stroke-opacity='.5'/%3E%3Cpath d='M124 12q6-5 12 0' stroke-opacity='.45'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 160px 96px;
+}
+@keyframes bridge-swell { to { transform: translateX(-160px); } }
+
+/* ---------- Shores: the cove left behind at the bottom, the next one at the top ---------- */
+.bridge-shore { position: absolute; left: 0; right: 0; }
+.bridge-shore.to { top: 0; height: var(--far, 240px); background: linear-gradient(#9fd88a, #d9e59a 30%, #f3d892 62%); }
+.bridge-shore.to::before { content: ''; position: absolute; left: 0; right: 0; bottom: 100%; height: 100vh; background: #9fd88a; }
+.bridge-shore.from { bottom: 0; height: var(--near, 180px); background: linear-gradient(#f3d892, #ebc97c); }
+.bridge-shore.from::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 100vh; background: #ebc97c; }
+.bridge-foam { position: absolute; left: 0; width: 100%; height: 22px; color: #f3d892; }
+.bridge-foam.down { bottom: -11px; transform: scaleY(-1); }
+.bridge-foam.up { top: -11px; }
+.bridge-sign {
+  position: absolute; z-index: 1; display: grid; justify-items: center; max-width: 42%; padding: 3px 12px 6px; border-radius: 10px;
+  border: 3px solid #7a4a22; background: linear-gradient(#cf9356, #a96a35); color: #fff8e6; box-shadow: 0 4px 0 #6a3d1a, 0 8px 12px #6a3d1a33;
+  line-height: 1.15; text-align: center;
+}
+.bridge-sign small { font-size: 10px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; opacity: .85; }
+.bridge-sign b { font-size: 15px; font-weight: 950; }
+.bridge-shore.to .bridge-sign { left: 4%; bottom: 22%; }
+.bridge-shore.from .bridge-sign { right: 4%; top: 34%; }
+.bridge-palm, .bridge-shell { position: absolute; line-height: 1; }
+.bridge-palm { font-size: 44px; filter: drop-shadow(4px 6px 0 #4a7a3a55); }
+.bridge-palm.one { right: 7%; bottom: 40%; }
+.bridge-palm.two { right: 21%; bottom: 62%; font-size: 34px; }
+.bridge-shell { font-size: 22px; }
+.bridge-shell.one { left: 8%; top: 30%; }
+.bridge-shell.two { left: 19%; top: 62%; font-size: 18px; }
+/* The treasure chest waiting where the bridge lands */
+.bridge-chest { position: absolute; left: 50%; bottom: 60%; width: min(112px, calc(var(--pane, 110px) * .95)); translate: -50% 0; overflow: visible; filter: drop-shadow(0 6px 4px #6a4a2244); }
+.bridge-chest-lid { transform-box: fill-box; transform-origin: 0 100%; transition: transform .55s cubic-bezier(.3, 1.7, .5, 1); }
+.bridge-chest-shine { opacity: 0; transform-box: view-box; transform-origin: 60px 50px; transform: scale(.3); transition: opacity .4s, transform .6s cubic-bezier(.3, 1.5, .5, 1); }
+.bridge-chest.open .bridge-chest-lid { transform: translateY(-16%) rotate(-16deg); }
+.bridge-chest.open .bridge-chest-shine { opacity: .9; transform: none; animation: bridge-shine 1.6s ease-in-out .6s infinite alternate; }
+@keyframes bridge-shine { to { opacity: .5; transform: scale(1.12); } }
+
+/* ---------- The bridge: two wooden rails, beams between the lanes and between the rows ---------- */
+.bridge-track { position: absolute; z-index: 1; left: 50%; top: 0; width: var(--bridge, 360px); height: var(--total, 2000px); margin-left: calc(var(--bridge, 360px) / -2); }
+.bridge-frame { position: absolute; z-index: 1; left: 0; right: 0; top: var(--far, 240px); bottom: var(--near, 180px); filter: drop-shadow(7px 10px 0 #0b4a5a40); }
+.bridge-frame i { position: absolute; top: -8px; bottom: -8px; }
+.bridge-frame .rail { width: var(--rail, 14px); border-radius: 6px; background: linear-gradient(90deg, #8d5a2b, #d49a5c 45%, #9b6331); }
+.bridge-frame .rail::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: repeating-linear-gradient(#0000 0 34px, #6a3d1a55 34px 36px); }
+.bridge-frame .left { left: 0; }
+.bridge-frame .right { right: 0; }
+.bridge-frame .beam { width: calc(var(--gap, 12px) * .55); background: linear-gradient(90deg, #95602f, #c88d52 50%, #95602f); }
+.bridge-frame .beam.one { left: calc(var(--rail, 14px) + var(--gap, 12px) * 1.225 + var(--pane, 110px)); }
+.bridge-frame .beam.two { left: calc(var(--rail, 14px) + var(--gap, 12px) * 2.225 + var(--pane, 110px) * 2); }
+/* a cross beam on every border between two rows */
+.bridge-frame .cross {
+  top: 0; bottom: 0; left: var(--rail, 14px); right: var(--rail, 14px); --beam: calc((var(--row, 120px) - var(--pane-high, 94px)) * .5);
+  background: linear-gradient(#a8703d 0 calc(var(--beam) / 2), #0000 calc(var(--beam) / 2) calc(var(--row, 120px) - var(--beam) / 2), #a8703d 0) 0 0 / 100% var(--row, 120px);
+}
+
+/* ---------- Glass panes ---------- */
+.bridge-panes { position: absolute; z-index: 2; inset: 0; }
+.bridge-pane {
+  position: absolute; left: 0; top: 0; display: grid; place-items: center; width: var(--pane, 110px); height: var(--pane-high, 94px);
+  margin: 0; padding: 0; border: 0; border-radius: 12px; background: none; color: inherit; font: inherit; cursor: pointer;
+  transition: opacity .4s, filter .4s; -webkit-touch-callout: none;
+}
+.bridge-pane:disabled { cursor: default; }
+.bridge-pane:focus-visible { outline: 4px solid #ffe066; outline-offset: 3px; }
+.bridge-glass, .bridge-shard {
+  position: absolute; inset: 0; border-radius: 12px; border: 3px solid #ffffffd0;
+  background: linear-gradient(150deg, #ffffffc0, #ffffff40 36%, #ffffff14 52%, #ffffff66 72%, #ffffff2a) #c6ebfc66;
+  background-color: color-mix(in srgb, var(--mid, #c6ebfc) 50%, transparent);
+  box-shadow: inset 0 0 14px #ffffff80, 0 5px 0 #0f5f7340, 0 10px 14px #0b4a5a30;
+}
+.bridge-glass::before {
+  content: ''; position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(118deg, #0000 0 16%, #ffffffa0 16% 22%, #0000 22% 27%, #ffffff70 27% 29.5%, #0000 29.5%);
+}
+.bridge-pane b {
+  position: relative; z-index: 1; font: normal calc(var(--pane-high, 94px) * .56)/1.35 "Traditional Arabic", "Times New Roman", serif;
+  color: var(--ink, #134f76); text-shadow: 0 2px 0 #ffffffd0;
+}
+/* the row to answer: a white glow that breathes */
+.bridge-pane.active .bridge-glass {
+  border-color: #fff; animation: bridge-glow 1.3s ease-in-out infinite alternate;
+  box-shadow: inset 0 0 18px #ffffffb0, 0 0 0 3px #ffffffc0, 0 5px 0 #0f5f7340, 0 0 18px #ffffff80;
+}
+@keyframes bridge-glow { to { box-shadow: inset 0 0 24px #ffffffe0, 0 0 0 5px #ffffff, 0 5px 0 #0f5f7340, 0 0 30px #e6fbff; } }
+/* the pane that held: it shines like gold */
+.bridge-pane.safe .bridge-glass {
+  border-color: #ffd45e; background-color: #fff2bfb8; animation: none;
+  box-shadow: inset 0 0 18px #fff6c8, 0 0 0 3px #f2b93b, 0 5px 0 #c98a1f66, 0 0 22px #ffe38a;
+}
+.bridge-pane.safe b { color: #7a4f12; }
+.bridge-pane.dim:not(.safe) { opacity: .5; filter: saturate(.7); }
+/* cracks run out from the middle, then the glass is gone and only the sea is left */
+.bridge-cracks { position: absolute; z-index: 2; inset: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; }
+.bridge-pane.flip .bridge-cracks { transform: scaleX(-1); }
+.bridge-cracks path { fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke-dasharray: 100; stroke-dashoffset: 100; }
+.bridge-pane.cracked .bridge-cracks { opacity: 1; filter: drop-shadow(0 0 1.5px #0b5d73); }
+.bridge-pane.cracked .bridge-cracks path { animation: bridge-crack .34s ease-out forwards; }
+.bridge-pane.cracked { animation: bridge-shudder .34s; }
+@keyframes bridge-crack { to { stroke-dashoffset: 0; } }
+@keyframes bridge-shudder { 25% { translate: -3px 0; } 50% { translate: 3px 1px; } 75% { translate: -2px 0; } }
+.bridge-pane.gone :is(.bridge-glass, b, .bridge-cracks) { visibility: hidden; }
+.bridge-pane.gone::after { content: ''; position: absolute; inset: 2px; border-radius: 12px; border: 3px dashed #ffffff60; }
+.bridge-shard { z-index: 4; left: 0; top: 0; right: auto; bottom: auto; width: var(--pane, 110px); height: var(--pane-high, 94px); border-width: 2px; pointer-events: none; }
+.bridge-sink {
+  position: absolute; z-index: 1; left: 0; top: 0; pointer-events: none; color: #0e4f60; opacity: .8;
+  font: normal calc(var(--pane-high, 94px) * .56)/1.35 "Traditional Arabic", "Times New Roman", serif;
+}
+.bridge-tag {
+  position: absolute; z-index: 7; left: 0; top: 0; translate: -50% 0; padding: 2px 10px; border-radius: 12px; background: #fff; color: #b03a46;
+  font-size: 15px; font-weight: 900; line-height: 1.35; white-space: nowrap; box-shadow: 0 3px 8px #0003; pointer-events: none;
+  animation: bridge-tag 2.6s ease-out both;
+}
+@keyframes bridge-tag { 0% { opacity: 0; scale: .6; } 10% { opacity: 1; scale: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
+.bridge-ripple { position: absolute; z-index: 3; left: 0; top: 0; width: 0; height: 0; pointer-events: none; }
+.bridge-ripple i {
+  position: absolute; left: calc(var(--pane, 110px) * -.32); top: calc(var(--pane, 110px) * -.32); width: calc(var(--pane, 110px) * .64);
+  height: calc(var(--pane, 110px) * .64); border-radius: 50%; border: 3px solid #ffffffe0; animation: bridge-ripple 1s ease-out both;
+}
+.bridge-ripple i:nth-child(2) { animation-delay: .16s; }
+.bridge-ripple i:nth-child(3) { animation-delay: .32s; }
+@keyframes bridge-ripple { from { transform: scale(.2); opacity: 1; } to { transform: scale(1.5); opacity: 0; } }
+
+/* ---------- The turtle, seen from above but still smiling at us ---------- */
+.bridge-turtle { position: absolute; z-index: 5; left: 0; top: 0; width: 0; height: 0; pointer-events: none; }
+.bridge-turtle-at { position: absolute; left: calc(var(--turtle, 96px) / -2); top: calc(var(--turtle, 96px) * -.62); width: var(--turtle, 96px); }
+.bridge-shadow { position: absolute; left: 14%; right: 6%; bottom: -2%; height: 20%; border-radius: 50%; background: #0b3b4a; opacity: .4; filter: blur(3px); }
+.bridge-turtle-hop { position: relative; transform-origin: 50% 70%; }
+.bridge-turtle-body { transform-origin: 50% 85%; animation: rain-bob 3.4s ease-in-out infinite; }
+.bridge-turtle svg { display: block; width: 100%; height: auto; overflow: visible; }
+.bridge-turtle .eyes { transform-origin: 56px 76px; animation: rain-blink 5s infinite; }
+.bridge-turtle .glad, .bridge-turtle .frown { display: none; }
+.bridge-turtle .mouth { transform-origin: 56px 89px; transform: scaleY(.6); transition: transform .25s; }
+.bridge-turtle .flipper { transform-origin: 44px 100px; animation: rain-hello 3.4s ease-in-out infinite; }
+.bridge-turtle.talk .mouth { animation: rain-chatter .2s ease-in-out infinite alternate; }
+.bridge-turtle:is(.happy, .dance) .eyes { display: none; }
+.bridge-turtle:is(.happy, .dance) .glad { display: inline; }
+.bridge-turtle:is(.happy, .dance) .mouth { transform: scaleY(1.15); }
+.bridge-turtle:is(.happy, .dance) .flipper { animation: rain-hello .5s ease-in-out infinite; }
+.bridge-turtle.happy .bridge-turtle-body { animation: rain-hop .8s cubic-bezier(.3, 1.4, .5, 1); }
+.bridge-turtle.dance .bridge-turtle-body { animation: rain-dance 1s ease-in-out infinite; }
+.bridge-turtle.sad .mouth { display: none; }
+.bridge-turtle.sad .frown { display: inline; }
+.bridge-turtle.sad .bridge-turtle-body { animation: rain-no .7s ease-in-out; }
+.bridge-bubble {
+  position: absolute; left: calc(var(--turtle, 96px) * .36); top: calc(var(--turtle, 96px) * -.62); display: flex; align-items: center; gap: 6px;
+  min-width: 58px; height: 46px; padding: 0 12px; border-radius: 24px; background: #fff; color: #16716e; box-shadow: 0 6px 16px #0b4a6a33;
+  opacity: 0; transform: scale(.4); transform-origin: 0 100%; transition: opacity .2s, transform .35s cubic-bezier(.2, 1.5, .4, 1);
+}
+.bridge-bubble::after { content: ''; position: absolute; left: 4px; bottom: -6px; width: 16px; height: 16px; border-radius: 0 0 0 5px; background: #fff; transform: rotate(-20deg) skewX(20deg); }
+.bridge-bubble.left { left: auto; right: calc(var(--turtle, 96px) * .36); transform-origin: 100% 100%; }
+.bridge-bubble.left::after { left: auto; right: 4px; border-radius: 0 0 5px; transform: rotate(20deg) skewX(-20deg); }
+.bridge-bubble.on { opacity: 1; transform: none; }
+.bridge-bubble svg { flex: none; width: 30px; height: 30px; }
+.bridge-bubble span { font-size: 19px; font-weight: 950; white-space: nowrap; }
+.bridge-bubble span:empty { display: none; }
+.bridge-turtle.talk .arc { animation: rain-arc .9s ease-in-out infinite; }
+.bridge-turtle.talk .arc:nth-child(2) { animation-delay: .15s; }
+.bridge-turtle.talk .arc:nth-child(3) { animation-delay: .3s; }
+.bridge-dolphin { position: absolute; z-index: 6; left: 0; top: 0; opacity: 0; font-size: calc(var(--turtle, 96px) * .78); line-height: 1; pointer-events: none; }
+.bridge-dolphin i { display: block; font-style: normal; }
+.bridge-dolphin.flip i { transform: scaleX(-1); }
+
+/* ---------- Start card ---------- */
+.bridge-intro-art { display: flex; justify-content: center; gap: 10px; height: 84px; margin: 4px 0 8px; --pane: 82px; --pane-high: 70px; }
+.bridge-intro-art .bridge-pane { position: relative; flex: none; animation: rain-hover 2.6s ease-in-out infinite; }
+.bridge-intro-art .bridge-pane:nth-child(2) { margin-top: 10px; animation-delay: -.9s; }
+.bridge-intro-art .bridge-pane:nth-child(3) { animation-delay: -1.7s; }
+.rain-facts li b { white-space: nowrap; }
+
+/* Narrow phones and phones on their side */
+@media (max-width: 400px) {
+  .bridge-sign b { font-size: 13px; }
+  .bridge-palm { font-size: 36px; }
+}
+@media (max-height: 520px) {
+  .bridge-intro-art { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bridge-water::before, .bridge-pane.active .bridge-glass { animation: none; }
+}

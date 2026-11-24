@@ -7,6 +7,24 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.14.0 · 24.11.2026
+
+Elif Ba Adası'na karma bir oyun, **Cam Köprü**, ve koyların haritası geldi.
+
+**🌉 Cam Köprü**
+- Her koy, bir sonraki koya uzanan bir cam köprüyle bitiyor. Yol artık Harfler → 🌧️ Harf Yağmuru → Harekeler → 🎈 Hece Balonları → 🌉 Cam Köprü sırasıyla ilerliyor. Köprü adımı yolda "Karma" olarak görünüyor.
+- Köprü 15 sıra; her sırada üç cam var. Camlarda harfler ve harekeli heceler karışık duruyor. Kaplumbağa bir harfin adını ya da bir heceyi söylüyor. Çocuk o camı bulunca kaplumbağa üstüne zıplıyor, cam çınlayıp altın rengine dönüyor.
+- Yanlış cam çatlayıp kırılıyor ve kaplumbağa denize düşüyor. Bir yunus onu son sağlam cama geri atıyor. Kırılan camın adı (örneğin "Te esre") kısa bir süre görünüyor ve sıra kalan camlarla yeniden soruluyor. Türkçe okunuş hiçbir yerde yazılmıyor.
+- Köprüde koyun dört harfi hem adıyla hem harekesiyle mutlaka çıkıyor; kalan sıralar önceki koyların harflerinden geliyor. İlk koyda kendi harfleri tekrar ediliyor. Dördüncü sıradan sonra bazı sıralarda yalnızca noktasıyla ayrılan harfler (ب ت ث) ya da aynı harfin üç harekesi yan yana geliyor. Aynı okunan iki hece aynı sırada hiç çıkmıyor.
+- Kurallar diğer oyunlarla aynı. 3 can var ve karşı kıyıya varınca adım geçiliyor. Hiç cam kırılmadan geçilirse üç yıldız alınıyor. Canlar biterse köprü baştan başlıyor. Karşı kıyıda hazine sandığı açılıyor.
+- Sonraki koya daha önce geçmiş oyuncuların köprüleri geçilmiş sayılıyor. Ayarlar → İlerleme'de geçilen köprü sayısı ve rekor görünüyor.
+- Yeni sesler: cam çınlaması, çatlama ve kırılma.
+
+**🗺️ Koylar haritası**
+- Ada sayfasındaki "Yolculuk" artık bir harita. Yedi koy, cam köprülerle bağlı adacıklar olarak duruyor: en altta Kaplumbağa Koyu, en tepede Deniz Feneri. Geçilen köprüler altın rengi. Biten koylarda ✓, sıradaki koyda numarası, kilitli koylarda 🔒 var ve her adacıkta koyun dört harfi yazıyor.
+- Haritanın altında, kaplumbağa hangi koydaysa o koyun adımları görünüyor. Başka bir koya dokununca kaplumbağa köprülerin üstünden adacık adacık o koya yürüyor; ileri de gidiyor, geri de dönüyor. Kilitli bir koya dokununca sıradaki adım hatırlatılıyor.
+- "Sıradaki" düğmesi ya da oyun sonundaki "▶ Devam" başka bir koydaki adımı açıyorsa kaplumbağa önce oraya yürüyor, adım sonra açılıyor. Köprü geçilince kaplumbağa yeni koya yürüyerek varıyor.
+
 ## 0.13.1 · 24.11.2026
 
 Elif Ba Adası'nın Harekeler turlarında Türkçe okunuş artık yazılmıyor. Sorular yalnızca sesle ve harekeli harfle soruluyor.

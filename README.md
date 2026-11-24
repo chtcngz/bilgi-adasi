@@ -41,12 +41,15 @@ app/                         Published site (GitHub Pages root)
 └── islands/                 One folder per island
     ├── carpim/              Çarpım Adası (game.js)
     ├── elif-ba/             Elif Ba Adası
-    │   ├── data.js          Letters, readings, harekes, coves, section list
+    │   ├── data.js          Letters, readings, harekes, coves, look-alike letters, section list
     │   ├── voice.js         Recording / Turkish speech playback (elifVoice)
+    │   ├── map.js           Map of the coves; the turtle walks between them (elifMap)
     │   ├── game.js          Hub, Harfler and Harekeler sections, rounds
     │   ├── style.css, koy.jpg
     │   └── games/           Section games
-    │       └── listening.*  Harf Yağmuru (letters) + Hece Balonları (syllables)
+    │       ├── art.js       Turtle, hearts, speaker and stars shared by the games
+    │       ├── listening.*  Harf Yağmuru (letters) + Hece Balonları (syllables); its .rain-* kit is shared
+    │       └── bridge.*     Cam Köprü, the mixed game at the end of every cove
     ├── din-bilgisi/         Question island: sorular.js + game.js + style.css + ada.svg
     └── fen-bilimleri/       Question island: same pattern
 tools/                       Helper scripts (not published)
@@ -67,11 +70,11 @@ sources/                     Raw material (not published)
 ## Adding something new
 
 **A new Elif Ba section** (Cezm, Tenvin, Şedde …):
-Elif Ba is a single path (the `steps` list in `game.js`). Each cove's steps run Harfler → Harf Yağmuru → Harekeler → Hece Balonları; the first cove also has Harekelerle tanış before Harekeler. Only the next step can be opened, and from the second cove on every round mixes in letters from the earlier coves. To add a section:
+Elif Ba is a single path (the `steps` list in `game.js`). Each cove's steps run Harfler → Harf Yağmuru → Harekeler → Hece Balonları → Cam Köprü; the first cove also has Harekelerle tanış before Harekeler. Cam Köprü is the cove's mixed (Karma) game and crosses over to the next cove. Only the next step can be opened, and from the second cove on every round mixes in letters from the earlier coves. The hub shows the coves as a map (`map.js`): the turtle stands on one cove, the steps below are that cove's, and it walks over the bridges before a step in another cove opens. To add a section:
 1. Remove the `soon` flag from the section's entry in `islands/elif-ba/data.js`, and add its steps to the `steps` list in `game.js`.
 2. Add the section's screen and rounds to `islands/elif-ba/game.js`.
 3. Put its recordings under `app/assets/audio/elif-ba/<bölüm>/` and register them in `kayitlar.js`.
-4. If it gets a game, add it under `islands/elif-ba/games/`. Listening games can reuse `listening.js` with a new `kind`.
+4. If it gets a game, add it under `islands/elif-ba/games/`. Listening games can reuse `listening.js` with a new `kind`; a new game can take its top bar, hearts and cards from the `.rain-*` classes of `listening.css` and its turtle from `art.js`, as `bridge.js` does.
 
 **A new question island** (for example Türkçe):
 1. Create `islands/<ada>/sorular.js` (the question bank), `game.js` (a single `soruAdasi({...})` call), `style.css` and `ada.svg`.

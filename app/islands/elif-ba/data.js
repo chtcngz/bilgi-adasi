@@ -33,5 +33,8 @@ const elifData = (() => {
   const sameSound = (a, ha, b, hb) => readings[a][ha] === readings[b][hb];
   const syllable = (letter, hareke) => glyphs[letter] + harekeler[hareke].mark;
   const coveLetters = cove => [0, 1, 2, 3].map(offset => cove * 4 + offset);
-  return { glyphs, names, readings, harekeler, coves, sections, sameSound, syllable, coveLetters, mastery: 2 };
+  // Letters on one skeleton, told apart only by their dots (ب ت ث, ج ح خ …): the games set them side by side.
+  const families = [[1, 2, 3], [4, 5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16], [17, 18], [19, 20]];
+  const twins = i => (families.find(f => f.includes(i)) || []).filter(j => j !== i);
+  return { glyphs, names, readings, harekeler, coves, sections, sameSound, syllable, coveLetters, twins, mastery: 2 };
 })();

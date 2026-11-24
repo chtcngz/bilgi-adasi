@@ -1,11 +1,12 @@
-/* Elif Ba listening games (games/listening.js): Harf Yağmuru rains letters from a cloud ceiling into the sea, Hece Balonları (.balloons) floats syllables up into the clouds. */
-#elif-rain {
+/* Elif Ba listening games (games/listening.js): Harf Yağmuru rains letters from a cloud ceiling into the sea, Hece Balonları (.balloons) floats syllables up into the clouds.
+   The dialog, top bar, hearts and cards (.rain-*) are shared with Cam Köprü (bridge.css). */
+#elif-rain, #elif-bridge {
   width: min(780px, 100vw); height: 100vh; height: min(940px, 100dvh); max-width: 100vw; max-height: 100vh; max-height: 100dvh;
   margin: auto; padding: 0; border-radius: 28px; overflow: hidden; background: #8bd2f1; color: #173f40;
 }
-#elif-rain::backdrop { background: #0f3a48d9; }
+#elif-rain::backdrop, #elif-bridge::backdrop { background: #0f3a48d9; }
 @media (max-width: 650px), (max-height: 600px) {
-  #elif-rain { width: 100vw; height: 100vh; height: 100dvh; margin: 0; border-radius: 0; }
+  #elif-rain, #elif-bridge { width: 100vw; height: 100vh; height: 100dvh; margin: 0; border-radius: 0; }
 }
 .rain-scene {
   position: relative; width: 100%; height: 100%; overflow: hidden; isolation: isolate;
