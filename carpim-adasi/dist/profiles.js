@@ -6,6 +6,7 @@ function readRecord(key) {
 const profiles = readRecord(profileKey) || [];
 const sessionProgress = new Map();
 const avatars = [['🐢','Kaplumbağa'], ['🐬','Yunus'], ['🦊','Tilki'], ['🐼','Panda'], ['🐙','Ahtapot'], ['🐧','Penguen']];
+function fillAvatars(host) {
 for (const [icon, name] of avatars) {
   const label = document.createElement('label');
   const input = document.createElement('input');
@@ -18,9 +19,12 @@ for (const [icon, name] of avatars) {
   face.textContent = icon;
   label.title = name;
   label.append(input, face);
-  $('icons').append(label);
+  host.append(label);
 }
+}
+fillAvatars($('icons'));
 const grades = ['Okul öncesi', '1. sınıf', '2. sınıf', '3. sınıf', '4. sınıf'];
+function fillGrades(host) {
 for (const grade of grades) {
   const label = document.createElement('label');
   const input = document.createElement('input');
@@ -31,7 +35,18 @@ for (const grade of grades) {
   const chip = document.createElement('span');
   chip.textContent = grade;
   label.append(input, chip);
-  $('grade-choices').append(label);
+  host.append(label);
+}
+}
+fillGrades($('grade-choices'));
+function saveProfiles() {
+  try { localStorage.setItem(profileKey, JSON.stringify(profiles)); return true; }
+  catch { storageFailed = true; return false; }
+}
+function showPlayerButton() {
+  $('player').textContent = activeProfile.icon + ' ' + activeProfile.name;
+  $('player').title = activeProfile.name + ' · Oyuncu değiştir';
+  $('grade').textContent = activeProfile.grade;
 }
 
 function choosePlayer(profile) {
@@ -42,9 +57,8 @@ function choosePlayer(profile) {
   initializeStats();
   selected = Math.min(progress.completed, total - 1) % islands.length;
   deck = []; answers = []; entry = '';
-  $('player').textContent = profile.icon + ' ' + profile.name;
-  $('player').title = profile.name + ' · Oyuncu değiştir';
-  $('grade').textContent = profile.grade;
+  showPlayerButton();
+  $('settings-button').hidden = false;
   $('profiles').close();
   showCatalog();
 }
@@ -133,36 +147,10 @@ $('register').onsubmit = e => {
   playCue('island');
   choosePlayer(profile);
   save();
-  try { localStorage.setItem(profileKey, JSON.stringify(profiles)); }
-  catch { storageFailed = true; }
+  saveProfiles();
   if (storageFailed) alert('Oyuncu kaydı yalnızca bu oturumda saklanabildi.');
 };
 $('player-name').oninput = () => $('player-name').setCustomValidity('');
 $('player').onclick = openProfiles;
 $('switch-game').onclick = () => { leaveGame(); openProfiles(); };
-$('settings-button').onclick = () => {
-  const last = Math.min(progress.completed, total - 1);
-  const stages = Array.from({length: last + 1}, (_, index) =>
-    new Option('Tur ' + (1 + Math.floor(index / islands.length)) + ' · ' + islands[index % islands.length], index));
-  $('reset-stage').replaceChildren(...stages);
-  $('reset-stage').value = last;
-  $('reset-info').textContent = activeProfile.name + ' için seçilen bölüm ve sonraki bölümlerin ilerlemesi ve istatistikleri silinir.';
-  $('settings').showModal();
-};
-$('reset-form').onsubmit = e => {
-  e.preventDefault();
-  const index = Number($('reset-stage').value);
-  if (!confirm(activeProfile.name + ' için ' + $('reset-stage').selectedOptions[0].text +
-    ' ve sonraki bölümler sıfırlansın mı?')) return;
-  for (const records of [progress.reports, progress.stats]) {
-    for (const key of Object.keys(records)) if (Number(key) >= index) delete records[key];
-  }
-  progress.completed = index;
-  delete progress.attempt;
-  selected = index % islands.length;
-  save();
-  render();
-  $('settings').close();
-};
-$('close-settings').onclick = () => $('settings').close();
 openProfiles();

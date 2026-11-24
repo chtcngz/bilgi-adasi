@@ -7,6 +7,12 @@
   const dialog = $('elif-game');
   const picker = $('elif-cove');
   coves.forEach((name, i) => picker.add(new Option(name, i)));
+  window.resetElifBa = profileId => {
+    const key = 'elif-ba-' + profileId;
+    visits.get(key)?.clear();
+    try { localStorage.removeItem(key); } catch {}
+    if (!$('elif-view').hidden && pearls === visits.get(key)) { cove = 0; drawCove(); }
+  };
 
   function stopVoice() { window.speechSynthesis?.cancel(); }
   function speak(words, note) {

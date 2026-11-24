@@ -1,5 +1,5 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Keşif Limanı · Bilgi Adası</title><link rel="stylesheet" href="style.css?v=giris-1"><link rel="stylesheet" href="elif-ba/style.css"></head><body>
-<header><div class="brand"><span class="brand-icon">⛵</span> Bilgi Adası</div><div class="head-right"><button id="player" aria-haspopup="dialog">Oyuncu seç</button><div id="game-tools" hidden><button id="settings-button" aria-label="Ayarlar" title="Ayarlar">⚙</button><button id="open-stats" aria-haspopup="dialog">İstatistikler</button><span id="stars">⭐ 0 yıldız</span><button id="sound" aria-label="Sesi aç" aria-pressed="false">♫</button></div></div></header>
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Keşif Limanı · Bilgi Adası</title><link rel="stylesheet" href="style.css?v=ayar-1"><link rel="stylesheet" href="elif-ba/style.css"></head><body>
+<header><div class="brand"><span class="brand-icon">⛵</span> Bilgi Adası</div><div class="head-right"><button id="player" aria-haspopup="dialog">Oyuncu seç</button><button id="settings-button" aria-label="Ayarlar" title="Ayarlar" aria-haspopup="dialog" hidden>⚙</button><div id="game-tools" hidden><button id="open-stats" aria-haspopup="dialog">İstatistikler</button><span id="stars">⭐ 0 yıldız</span><button id="sound" aria-label="Sesi aç" aria-pressed="false">♫</button></div></div></header>
 <main>
 <section id="catalog" hidden aria-labelledby="catalog-title">
   <div class="harbor-heading">
@@ -52,8 +52,43 @@
   </form>
 </dialog>
 <dialog id="settings" aria-labelledby="settings-title">
-  <h2 id="settings-title">Ayarlar</h2><form id="reset-form">
-  <label>Bölümü sıfırla<select id="reset-stage"></select></label>
-  <p id="reset-info"></p><button class="secondary">Seçilen bölümden yeniden başla</button>
-  <button type="button" class="secondary" id="close-settings">Kapat</button></form>
-</dialog><script src="sounds.js?v=3"></script><script src="fx.js?v=1"></script><script src="game.js?v=fx-2"></script><script src="stats.js?v=profiles-1"></script><script src="profiles.js?v=giris-1"></script><script src="elif-ba/game.js"></script></body></html>
+  <div class="stats-heading"><h2 id="settings-title">Ayarlar</h2><button id="close-settings" aria-label="Ayarları kapat">×</button></div>
+  <div class="set-tabs" role="tablist" aria-label="Ayar bölümleri">
+    <button role="tab" id="tab-player" aria-controls="panel-player" aria-selected="true"><span aria-hidden="true">🧒</span> Oyuncu</button>
+    <button role="tab" id="tab-sound" aria-controls="panel-sound" aria-selected="false" tabindex="-1"><span aria-hidden="true">🔊</span> Ses</button>
+    <button role="tab" id="tab-progress" aria-controls="panel-progress" aria-selected="false" tabindex="-1"><span aria-hidden="true">🗺️</span> İlerleme</button>
+  </div>
+  <div id="panel-player" class="set-panel" role="tabpanel" aria-labelledby="tab-player"><form id="edit-player">
+    <div class="set-who"><span id="edit-face" class="player-face" aria-hidden="true"></span><div><strong id="edit-title"></strong><small>Oyuncu bilgilerini düzenle</small></div></div>
+    <label class="set-field">Ad<input id="edit-name" name="name" required maxlength="32" autocomplete="off"></label>
+    <fieldset class="grades"><legend>Sınıf</legend><div id="edit-grades" class="grade-choices"></div></fieldset>
+    <fieldset><legend>İkon</legend><div id="edit-icons" class="icon-choices"></div></fieldset>
+    <button class="primary">Değişiklikleri kaydet</button>
+    <p id="edit-note" class="set-note" role="status"></p>
+    <div class="danger-zone"><div><strong>Oyuncuyu sil</strong><small>Bu oyuncunun bütün ilerlemesi ve istatistikleri silinir.</small></div><button type="button" class="danger" id="delete-player">Sil</button></div>
+  </form></div>
+  <div id="panel-sound" class="set-panel" role="tabpanel" aria-labelledby="tab-sound" hidden>
+    <label class="switch-row"><span><strong>Ses efektleri</strong><small>Doğru, yanlış, geri sayım ve kutlama sesleri</small></span><input type="checkbox" id="sound-switch" role="switch"><i aria-hidden="true"></i></label>
+    <div class="sound-tests"><span>Sesleri dene</span>
+      <button type="button" data-cue data-try="correct">✓ Doğru</button>
+      <button type="button" data-cue data-try="retry">↺ Yanlış</button>
+      <button type="button" data-cue data-try="tick-1">⏱ Süre</button>
+      <button type="button" data-cue data-try="island">⭐ Ada</button>
+    </div>
+    <p class="set-note">Telefonun sessiz modu açıksa ses duyulmayabilir.</p>
+  </div>
+  <div id="panel-progress" class="set-panel" role="tabpanel" aria-labelledby="tab-progress" hidden>
+    <section id="carpim-progress">
+      <div class="set-who"><span class="player-face" aria-hidden="true">🏝️</span><div><strong>Çarpım Adası</strong><small id="carpim-summary"></small></div></div>
+      <p class="set-hint">Yeniden başlamak istediğin adaya dokun.</p>
+      <div id="reset-map" class="reset-map"></div>
+      <p id="reset-info" class="set-note" role="status"></p>
+      <button type="button" class="danger wide" id="reset-go" disabled>Buradan yeniden başla</button>
+    </section>
+    <section id="elif-progress">
+      <div class="set-who"><span class="player-face" aria-hidden="true">🐚</span><div><strong>Elif Ba Adası</strong><small id="elif-summary"></small></div></div>
+      <button type="button" class="danger wide" id="elif-reset">Deniz kabuklarını sıfırla</button>
+    </section>
+    <p id="no-progress" class="set-note" hidden>Bu oyuncunun sınıfı için sıfırlanacak ilerleme yok.</p>
+  </div>
+</dialog><script src="sounds.js?v=4"></script><script src="fx.js?v=1"></script><script src="game.js?v=fx-2"></script><script src="stats.js?v=profiles-1"></script><script src="profiles.js?v=ayar-1"></script><script src="elif-ba/game.js?v=ayar-1"></script><script src="settings.js?v=1"></script></body></html>

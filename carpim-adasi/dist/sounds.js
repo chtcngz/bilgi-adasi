@@ -40,20 +40,25 @@ const playCue = (() => {
       if (error.name === 'AbortError') return;
       blocked = true;
       updateButton();
+      document.dispatchEvent(new Event('soundchange'));
     });
   }
-  button.onclick = () => {
-    enabled = blocked || !enabled;
+  function setEnabled(on) {
+    enabled = on;
     blocked = false;
     try { localStorage.setItem('carpim-ses', enabled ? 'on' : 'off'); } catch {}
     updateButton();
     if (enabled) play('correct');
     else player.pause();
-  };
+    document.dispatchEvent(new Event('soundchange'));
+  }
+  button.onclick = () => setEnabled(blocked || !enabled);
   document.addEventListener('click', event => {
     const control = event.target.closest('button, summary');
     if (control && control !== button && !control.disabled && !control.closest('#keys, [data-cue]')) play('tap');
   }, true);
   updateButton();
+  play.isOn = () => enabled && !blocked;
+  play.setEnabled = setEnabled;
   return play;
 })();
