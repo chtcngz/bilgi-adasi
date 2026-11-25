@@ -3,8 +3,10 @@
 // the game keeps about them. It only reads the game's keys; the one key it writes is its own list of
 // added backups (bilgi-adasi-yonetici-yedekler).
 //
-// The page opens with the admin's Firebase e-mail and password. Firebase checks them, and the Firestore
-// rules let only that account read the devices' documents (cihazlar/*), so the password is not kept here.
+// The page opens with the admin's Google account or Firebase e-mail and password. Firebase checks them, and
+// the Firestore rules let only the admin read the devices' documents (cihazlar/*), so no password is kept here.
+// Google sign-in uses Google Identity Services with auto_select: when the browser is already signed in to
+// Google and that account has signed in here before, the page opens without a click.
 const adminCloud = (() => {
   const $ = id => document.getElementById(id);
   const SESSION = 'bilgi-adasi-yonetici-oturum';
@@ -16,19 +18,64 @@ const adminCloud = (() => {
   const errors = {
     INVALID_LOGIN_CREDENTIALS: 'E-posta ya da şifre yanlış.', INVALID_PASSWORD: 'E-posta ya da şifre yanlış.',
     EMAIL_NOT_FOUND: 'E-posta ya da şifre yanlış.', INVALID_EMAIL: 'E-posta adresi geçersiz.',
-    USER_DISABLED: 'Bu hesap kapatılmış.', OPERATION_NOT_ALLOWED: 'Firebase’de e-posta ile giriş açık değil (Authentication → Sign-in method).',
+    USER_DISABLED: 'Bu hesap kapatılmış.', OPERATION_NOT_ALLOWED: 'Firebase’de bu giriş yolu açık değil (Authentication → Sign-in method).',
+    INVALID_IDP_RESPONSE: 'Google girişi doğrulanamadı, yeniden deneyin.',
     TOO_MANY_ATTEMPTS_TRY_LATER: 'Çok fazla deneme yapıldı, biraz sonra yeniden deneyin.'
   };
-  async function signIn(email, password) {
-    const reply = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + key, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password, returnSecureToken: true }) });
+  async function account(method, body) {
+    const reply = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:' + method + '?key=' + key, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...body, returnSecureToken: true }) });
     const data = await reply.json().catch(() => ({}));
     if (!reply.ok) {
       const code = String(data.error?.message || reply.status).split(' ')[0];
       throw new Error(errors[code] || 'Giriş yapılamadı (' + code + ').');
     }
+    if (!data.idToken) throw new Error('Bu Google hesabı Firebase’deki hesaba bağlanamadı' + (data.email ? ' (' + data.email + ')' : '') + '.');
     session = { email: data.email, idToken: data.idToken, refreshToken: data.refreshToken, bitis: Date.now() + Number(data.expiresIn) * 1000 };
     keep();
+  }
+  const signIn = (email, password) => account('signInWithPassword', { email, password });
+  // credential: the Google ID token Google Identity Services hands the page.
+  const signInGoogle = credential => account('signInWithIdp',
+    { postBody: 'id_token=' + encodeURIComponent(credential) + '&providerId=google.com', requestUri: location.origin, returnIdpCredential: true });
+  // The Web client ID of the project's Google sign-in: from bulut-ayar.js, or else from the project's public
+  // auth settings (present once Google is turned on in Firebase → Authentication → Sign-in method).
+  async function googleClientId() {
+    if (bulutAyar.googleClientId) return bulutAyar.googleClientId;
+    try {
+      const reply = await fetch('https://www.googleapis.com/identitytoolkit/v3/relyingparty/getProjectConfig?key=' + key);
+      const data = await reply.json();
+      return (data.idpConfig || []).find(c => /google/i.test(c.provider) && c.enabled !== false)?.clientId || '';
+    } catch { return ''; }
+  }
+  function loadGoogle() {
+    if (window.google?.accounts?.id) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://accounts.google.com/gsi/client';
+      script.async = true;
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+  }
+  async function offerGoogle(enter, fail) {
+    const clientId = await googleClientId();
+    if (!clientId) return;
+    try { await loadGoogle(); } catch { return; }
+    google.accounts.id.initialize({
+      client_id: clientId, auto_select: true, cancel_on_tap_outside: false, use_fedcm_for_prompt: true,
+      callback: async reply => {
+        $('adm-lock-note').textContent = 'Google ile giriliyor…';
+        try { await signInGoogle(reply.credential); enter(); }
+        catch (error) { fail(error); }
+      }
+    });
+    google.accounts.id.renderButton($('adm-google'), { theme: 'outline', size: 'large', text: 'signin_with', shape: 'pill', locale: 'tr',
+      width: Math.min(320, $('adm-lock-form').clientWidth - 56) });
+    $('adm-google-box').hidden = false;
+    // Signs in on its own when the browser's Google account has signed in here before; otherwise it offers the account.
+    google.accounts.id.prompt();
   }
   async function token() {
     if (session.bitis > Date.now() + 60000) return session.idToken;
@@ -44,6 +91,8 @@ const adminCloud = (() => {
   function signOut() {
     session = null;
     try { sessionStorage.removeItem(SESSION); } catch {}
+    // Without this, Google would sign the page straight back in after the reload.
+    try { google.accounts.id.disableAutoSelect(); } catch {}
     location.reload();
   }
   // Every device document, decoded: { uid, cihaz, surum, son, oyuncular: { id: ms }, kayitlar: { key: text } }.
@@ -80,17 +129,17 @@ const adminCloud = (() => {
   if (session?.refreshToken) queueMicrotask(open);
   else {
     $('adm-lock').hidden = false;
-    $('adm-email').focus();
+    const fail = error => {
+      $('adm-lock-note').textContent = '✗ ' + (navigator.onLine === false ? 'İnternet bağlantısı yok.' : error.message);
+    };
+    offerGoogle(open, fail);
     $('adm-lock-form').onsubmit = async e => {
       e.preventDefault();
       const button = $('adm-lock-form').querySelector('button');
       button.disabled = true;
       $('adm-lock-note').textContent = '';
       try { await signIn($('adm-email').value.trim(), $('adm-password').value); open(); }
-      catch (error) {
-        $('adm-lock-note').textContent = '✗ ' + (navigator.onLine === false ? 'İnternet bağlantısı yok.' : error.message);
-        $('adm-password').select();
-      }
+      catch (error) { fail(error); $('adm-password').select(); }
       button.disabled = false;
     };
   }

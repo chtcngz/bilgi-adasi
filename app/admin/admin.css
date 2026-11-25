@@ -4,13 +4,16 @@ body { background: linear-gradient(#e9f7fb, #f7faf6 420px); min-height: 100vh; }
 main#admin { width: min(94%, 1240px); margin: 22px auto 60px; }
 .adm-back { font-weight: 800; color: #237958; text-decoration: none; border: 1px solid #cdded4; background: #fff; border-radius: 30px; padding: 8px 15px; font-size: 14px; }
 
-/* ---------- Password ---------- */
+/* ---------- Sign-in ---------- */
 .adm-lock { width: min(92%, 380px); margin: 9vh auto; background: #fff; border: 1px solid #cadbd0; border-radius: 22px; padding: 28px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 3px 0 #d8e6dd; }
 .adm-lock h1 { font-size: 38px; letter-spacing: -2px; }
 .adm-lock-icon { font-size: 40px; }
 .adm-lock label { font-weight: 800; font-size: 14px; color: #357463; }
 .adm-lock input { font: inherit; font-size: 18px; padding: 12px 14px; border: 1px solid #a0c8b0; border-radius: 12px; }
 .adm-lock input:focus { outline: 3px solid #ef9739; outline-offset: 1px; }
+.adm-google { display: flex; justify-content: center; min-height: 44px; }
+.adm-or { display: flex; align-items: center; gap: 10px; color: #7a8f8a; font-size: 13px; font-weight: 700; margin: 8px 0 2px; }
+.adm-or::before, .adm-or::after { content: ''; flex: 1; border-top: 1px solid #d6e5db; }
 
 /* ---------- Buttons and notes ---------- */
 .adm-tools { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 6px; }

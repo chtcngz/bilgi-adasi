@@ -59,7 +59,8 @@ app/                         Published site (GitHub Pages root)
 │   ├── fen-bilimleri/       Question island: same pattern
 │   └── sosyal-bilgiler/     Question island: same pattern
 ├── admin/                   Yönetici sayfası: every player of every device, read from the cloud copy; signs in with
-│                            the admin's Firebase e-mail and password. Nothing links to it; open …/admin/.
+│                            the admin's Google account (automatically when the browser is already signed in to it)
+│                            or Firebase e-mail and password. Nothing links to it; open …/admin/.
 └── deneme/                  Deneme Odası: playable drafts of proposed Elif Ba games (OYUN-ONERILERI.md).
                              Nothing in the game links to it; open …/deneme/.
 tools/                       Helper scripts (not published)
@@ -84,6 +85,11 @@ sources/                     Raw material (not published)
     allow write: if request.auth != null && request.auth.uid == uid;
   }
   ```
+  Google sign-in on the admin page needs Google turned on in Firebase (Authentication → Sign-in method), and the
+  site's address (`https://chtcngz.github.io`) under *Authorized JavaScript origins* of that Web client in Google
+  Cloud Console (APIs & Services → Credentials). The client ID is read from Firebase, or from `googleClientId` in
+  `core/js/bulut-ayar.js` when set. If the Google account gets a different UID from the old e-mail account,
+  `isAdmin()` must name it too.
 - **Saved-data keys never change.** Progress is kept in localStorage (`carpim-adasi-profiller`, `carpim-adasi-oyuncu-*`, `elif-ba-v2-*`, `din-bilgisi-*` …). Renaming a key wipes the children's progress.
 
 ## Adding something new

@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.29.0 · 25.11.2026
+
+- **Yönetici sayfası: Google ile giriş.** Giriş kutusunda “Google ile oturum aç” düğmesi var. Tarayıcıda Google hesabı zaten açıksa ve bu hesapla bir kez girildiyse sayfa kendiliğinden açılıyor, hiçbir şeye basmak gerekmiyor. Çıkış’a basınca kendiliğinden girme, bir sonraki Google girişine kadar duruyor. E-posta ve şifreyle giriş de yerinde.
+
 ## 0.28.2 · 25.11.2026
 
 - **Geçici geliştirme anahtarı:** Adı `admin` olan oyuncuda Elif Ba haritasındaki koylar kilitli (🔒) görünüyordu; dokununca açılsalar da kilitli çiziliyorlardı. Artık bütün koylar açık ve numaralı görünüyor. Diğer oyuncularda bir şey değişmedi.
