@@ -331,6 +331,10 @@
   width: min(410px, 100%); padding: 22px 20px 18px; border-radius: 28px; background: #fffdf6; text-align: center;
   box-shadow: 0 16px 44px #0b3b4a59, 0 4px 0 #e9dec6; animation: sheet .4s cubic-bezier(.2, .9, .3, 1.15) both;
 }
+/* The turtle button on a game's first card says the game aloud again (for children who cannot read yet). */
+.rain-card { position: relative; }
+.rain-tell { position: absolute; left: 12px; top: 12px; width: 52px; height: 52px; border-radius: 50%; border: 2px solid #b2d5c4; background: #fff; font-size: 18px; white-space: nowrap; box-shadow: 0 3px #b2d5c4; }
+.rain-tell:active { transform: translateY(2px); box-shadow: 0 1px #b2d5c4; }
 .rain-card h2 { margin: 6px 0 4px; font-size: clamp(28px, 7.5vw, 38px); letter-spacing: -.04em; color: #173f40; }
 .rain-card h2 em { font-style: normal; color: #16716e; }
 .rain-card p { margin: 6px auto; max-width: 34ch; font-weight: 700; line-height: 1.4; color: #3f5f58; }

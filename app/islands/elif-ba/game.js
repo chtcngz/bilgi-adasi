@@ -290,15 +290,27 @@
     drawShells();
     const letters = coveLetters(cove);
     voice.preload(letters, false, part === 'bitisik');
-    $('elif-guide').textContent = part === 'harf' ? '1. Harflere dokun, adlarını dinle.\n2. Hazır olunca “Oyna”ya bas.' :
-      part === 'hareke' ? '1. Hecelere dokun, okunuşlarını dinle. ♪ üç harekeyi sırayla okur.\n2. Hazır olunca “Oyna”ya bas.' :
-      'Kelimeler sağdan sola yazılır ve okunur. Harfler kelimede yan yana gelince birbirine bağlanır, bu yüzden başta, ' +
-      'ortada ve sonda biraz başka görünür.\n1. Şekillere ve kelimelere dokun, dinle. Renkli harf, öğrendiğin harf.\n2. Hazır olunca “Oyna”ya bas.';
+    // The guide is said aloud the first time a section is opened, and again from its turtle button;
+    // the written words are for the grown-ups.
+    const guide = guides[part];
+    $('elif-guide').innerHTML = '';
+    const tell = el('button', 'elif-howto', '<span aria-hidden="true">🐢💬</span>');
+    tell.setAttribute('aria-label', 'Ne yapacağımı söyle');
+    tell.onclick = () => voice.instruct(guide);
+    $('elif-guide').append(tell, el('span', '', guide));
+    if (!told.has(part)) { told.add(part); voice.instruct(guide); }
     $('elif-cards').className = 'elif-cards ' + (part === 'harf' ? 'letters' : part === 'hareke' ? 'syllables' : 'shapes');
     $('elif-cards').replaceChildren(...letters.map(i => part === 'harf' ? letterCard(i) : part === 'hareke' ? syllableCard(i) : shapeCard(i)));
     $('elif-play').textContent = coveDone(part, cove) ? '↻ Yeniden oyna' : '▶ Oyna';
     $('elif-note').textContent = '';
   }
+  const guides = {
+    harf: 'Harflere dokun, adlarını dinle. Hazır olunca aşağıdaki yeşil oyna düğmesine bas.',
+    hareke: 'Hecelere dokun, okunuşlarını dinle. Nota düğmesi üç harekeyi sırayla okur. Hazır olunca yeşil oyna düğmesine bas.',
+    bitisik: 'Harfler kelimede yan yana gelince birbirine bağlanır ve şekilleri biraz değişir. Kelimeler sağdan sola okunur. ' +
+      'Şekillere ve kelimelere dokun, dinle. Kırmızı harf, öğrendiğin harf. Hazır olunca yeşil oyna düğmesine bas.'
+  };
+  const told = new Set(); // the sections whose guide was said in this visit
   function letterCard(i) {
     const button = el('button', 'elif-tile tone-' + i % 4);
     button.innerHTML = glyphHtml(glyphs[i]) + '<strong>' + names[i] + '</strong><small aria-hidden="true">' +
@@ -339,6 +351,18 @@
   // middle, end) with the letter's shape there and Diyanet's example word, the letter coloured in it.
   const placeLower = f => places[f].toLocaleLowerCase('tr');
   const inWord = ['', 'kelimenin başında', 'kelimenin ortasında', 'kelimenin sonunda'];
+  // A place in the word as a picture: three boxes for its letters, right to left, the place's box coloured.
+  const placeIcon = f => '<span class="elif-place" aria-hidden="true">' + [1, 2, 3].map(g => '<i' + (g === f ? ' class="on"' : '') + '></i>').join('') + '</span>';
+  // What to do in each kind of question, said aloud (the children cannot read yet).
+  const howTo = {
+    listen: 'Dinle. Duyduğun harfi bul.',
+    sound: 'Bu harfin sesi hangisi? Seslere dokun, dinle. Doğru sesi bulunca yeşil tike bas.',
+    'ses-hece': 'Dinle. Duyduğun heceyi bul.',
+    'hece-ses': 'Bu hecenin sesi hangisi? Seslere dokun, dinle. Doğru sesi bulunca yeşil tike bas.',
+    'sekil-harf': 'Bu şekil hangi harfin? Harfi bul.',
+    'dinle-sekil': 'Dinle. Harfin bu şeklini bul.',
+    yer: 'Kırmızı harf kelimenin neresinde? Başında mı, ortasında mı, sonunda mı? Kelimeler sağdan sola okunur.'
+  };
   function shapeCard(i) {
     const card = el('div', 'elif-shapes tone-' + i % 4);
     const head = el('div', 'elif-syllables-head', glyphHtml(glyphs[i]) + '<strong>' + names[i] + '</strong>' +
@@ -356,7 +380,7 @@
     for (const f of [1, 2, 3]) {
       const column = el('div', 'elif-shape-col');
       column.dir = 'ltr';
-      const form = el('button', 'elif-syllable', glyphHtml(shape(i, f)) + '<span>' + places[f] + '</span>');
+      const form = el('button', 'elif-syllable', glyphHtml(shape(i, f)) + placeIcon(f));
       form.setAttribute('aria-label', names[i] + ', ' + inWord[f] + ', dinle');
       form.onclick = () => { select(form); $('elif-note').textContent = names[i] + ' ' + inWord[f]; voice.shape(i, f, $('elif-note')); };
       const sample = el('button', 'elif-word', wordHtml(i, f));
@@ -366,7 +390,13 @@
       row.append(column);
     }
     card.append(head, row);
-    if (!joinsNext(i)) card.append(el('p', 'elif-apart', '⚠️ ' + names[i] + ' kendinden sonraki harfe bağlanmaz.'));
+    if (!joinsNext(i)) {
+      // Said aloud, too: the letter does not join the one after it.
+      const sentence = names[i] + ' kendinden sonraki harfe bağlanmaz.';
+      const apart = el('button', 'elif-apart', '<span aria-hidden="true">🔊</span> ' + glyphHtml(glyphs[i] + glyphs[1]) + '<span>' + sentence + '</span>');
+      apart.onclick = () => { $('elif-note').textContent = sentence; voice.instruct(sentence); };
+      card.append(apart);
+    }
     return card;
   }
   // An example word with its letter coloured. The coloured letter keeps its joins to its neighbours
@@ -598,13 +628,24 @@
     let rightButton = null;
     const answer = q.type === 'yer' ? places[q.f] : q.type === 'dinle-sekil' ? names[q.target] + ', ' + placeLower(q.f) :
       letterQuestion || joined ? names[q.target] : syllableName(q.target, q.h);
+    // The children cannot read yet: what to do is said aloud the first time a kind of question comes
+    // in a round, and the turtle button says it again. Listening questions then play their sound.
+    let autoplay = false;
+    round.told ||= new Set();
+    const fresh = !round.told.has(q.type);
+    round.told.add(q.type);
+    const tell = then => voice.instruct(howTo[q.type], () => { if (dialog.open && round.questions[turn] === q) then?.(); });
+    const howto = el('button', 'elif-howto', '<span aria-hidden="true">🐢💬</span>');
+    howto.setAttribute('aria-label', 'Ne yapacağımı tekrar söyle');
+    howto.onclick = () => tell(autoplay ? play : null);
+    stage.append(howto);
 
     if (q.type === 'listen') {
       prompt.textContent = 'Dinle ve harfi bul';
       grid.classList.add('four');
       q.choices.forEach((i, n) => grid.append(choice(glyphHtml(glyphs[i]), n, i === q.target, () => names[i] + ' değil.')));
       stage.append(prompt, speaker(), grid);
-      play();
+      autoplay = true;
     } else if (q.type === 'sound') {
       prompt.textContent = 'Bu harfin adı hangisi?';
       stage.append(prompt, el('div', 'elif-big', glyphHtml(glyphs[q.target])));
@@ -616,7 +657,7 @@
       q.choices.forEach(([i, h], n) => grid.append(choice(glyphHtml(syllable(i, h)), n, i === q.target && h === q.h,
         () => 'Bu ' + syllableName(i, h) + '.')));
       stage.append(prompt, speaker(), grid);
-      play();
+      autoplay = true;
     } else if (q.type === 'hece-ses') {
       // From the letter to the sound: the harekeli letter is shown, its sound is to be found by listening.
       prompt.textContent = 'Bu hecenin sesi hangisi?';
@@ -632,25 +673,28 @@
       stage.append(grid);
     } else if (q.type === 'dinle-sekil') {
       // The letter and its place are heard: which shape is it?
-      prompt.innerHTML = 'Dinle ve harfin <em>' + placeLower(q.f) + '</em> yazılışını bul';
+      prompt.innerHTML = 'Dinle ve harfin şeklini bul ' + placeIcon(q.f);
       grid.classList.add('four');
       q.choices.forEach((i, n) => grid.append(choice(glyphHtml(shape(i, q.f)), n, i === q.target, () => 'Bu ' + names[i] + '.')));
       stage.append(prompt, speaker(), grid);
-      play();
+      autoplay = true;
     } else if (q.type === 'yer') {
       // An example word with the letter coloured: where in the word is it? The places run right to left.
       prompt.textContent = 'Renkli harf kelimenin neresinde?';
-      const sample = el('button', 'elif-big elif-word-big', wordHtml(q.target, q.f) + '<small>🔊 Harflerini dinle</small>');
+      const sample = el('button', 'elif-big elif-word-big', wordHtml(q.target, q.f) + '<small aria-hidden="true">🔊</small>');
       sample.setAttribute('aria-label', 'Kelimenin harflerini dinle');
       sample.onclick = () => voice.word(q.target, q.f, response);
+      // The choices are pictures, not words: three boxes for the letters of a word, right to left,
+      // the box of the place coloured like the letter in the word.
       grid.classList.add('three', 'places');
       grid.dir = 'rtl';
-      q.choices.sort((a, b) => a - b).forEach((f, n) => grid.append(choice('<span>' + places[f] + '</span>', n, f === q.f,
+      q.choices.sort((a, b) => a - b).forEach((f, n) => grid.append(choice(placeIcon(f), n, f === q.f,
         () => names[q.target] + ' ' + placeLower(f) + ' değil.', places[f])));
-      stage.append(prompt, sample, el('p', 'elif-hint', '← Kelimeyi sağdan sola oku'), grid);
+      stage.append(prompt, sample, el('p', 'elif-rtl', '<span aria-hidden="true">⬅</span>'), grid);
     }
     stage.append(response, next);
     prompt.focus();
+    if (fresh) tell(autoplay ? play : null); else if (autoplay) play();
 
     function choice(html, n, right, wrongText, label) {
       const button = el('button', 'elif-choice tone-' + n % 4, html);
@@ -675,7 +719,8 @@
         if (round.kind === 'intro') voice.chant(q.target, q.h); else play();
       } }, 600);
       next.hidden = false;
-      next.textContent = '↻ Tekrar dene';
+      next.textContent = '↻';
+      next.setAttribute('aria-label', 'Tekrar dene');
       next.focus();
       next.onclick = () => {
         voice.stop();
@@ -702,7 +747,8 @@
       if (round.kind === 'intro') voice.chant(q.target, q.h);
       else if (q.type === 'hece-ses' || q.type === 'sound' || joined) play();
       next.hidden = false;
-      next.textContent = turn === total - 1 ? 'Sonucu gör' : 'Sıradaki';
+      next.textContent = turn === total - 1 ? '🏁' : '▶';
+      next.setAttribute('aria-label', turn === total - 1 ? 'Sonucu gör' : 'Sıradaki soru');
       next.focus();
       next.onclick = () => { voice.stop(); turn++; turn === total ? finish() : ask(); };
     }
@@ -735,7 +781,7 @@
         selected.button.setAttribute('aria-pressed', 'false');
         wrong(selected.button, wrongText);
       };
-      host.append(el('p', 'elif-hint', 'Seslere dokun, dinle, doğru olanı seç.'), row, choose);
+      host.append(row, choose);
     }
   }
 
@@ -755,7 +801,7 @@
         'harekeleriyle okuyalım.</p>' + (storageNote ? '<p>' + storageNote + '</p>' : '') +
         '<button class="elif-action" id="elif-continue">▶ Devam: 🦪 Harekeler</button>' :
         retry + '<p>' + misses + ' Harekelere geçmek için hepsini ilk denemede bilmelisin.</p>' +
-        '<button class="elif-action" id="elif-continue">Tekrar dene</button>';
+        '<button class="elif-action" id="elif-continue">↻ Tekrar dene</button>';
       playCue(perfect ? 'island' : 'retry');
       if (perfect) fx.confetti(dialog);
     } else {
@@ -774,7 +820,7 @@
       const prizes = earned.map(i => '<span class="elif-won" lang="ar">' + (part === 'bitisik' ? shape(i, 2) : glyphs[i]) + '</span>').join('');
       if (!done) {
         stage.innerHTML = retry + '<p>' + misses + ' Koyu geçmek için bütün soruları ilk denemede bilmelisin. Harfleri bir kez daha dinle ve tekrar oyna.</p>' +
-          '<button class="elif-action" id="elif-continue">Tekrar oyna</button>';
+          '<button class="elif-action" id="elif-continue">↻ Tekrar oyna</button>';
         playCue('retry');
       } else {
         const heading = before ? (perfect ? 'Hepsi doğru!' : 'Güzel çalıştın!') : !step ? 'Yolun sonuna geldin!' :
@@ -797,6 +843,7 @@
       }
     }
     $('elif-prompt').focus();
+    voice.instruct($('elif-prompt').textContent);
     $('elif-continue').onclick = () => {
       if (round.kind === 'intro' && !progress.tanisma) {
         round = { kind: 'intro', part: 'hareke', questions: introRound(), right: 0, missed: new Set() };
@@ -828,14 +875,19 @@
         '<b>' + syllableName(1, slide) + '</b>.</p>' +
         '<div class="elif-examples">' + [1, 2, 3].map(i => '<button class="elif-syllable" data-i="' + i + '">' + glyphHtml(syllable(i, slide)) +
         '<span>' + names[i] + '</span></button>').join('') + '</div><p id="elif-response" role="status"></p>' +
-        '<button class="elif-action" id="elif-next">' + (slide < 2 ? 'Sonraki hareke' : 'Şimdi sen bul') + '</button>';
+        '<button class="elif-action" id="elif-next">▶ ' + (slide < 2 ? 'Sonraki hareke' : 'Şimdi sen bul') + '</button>';
       $('elif-prompt').focus();
       const note = $('elif-response');
+      // Said aloud for children who cannot read yet: the hareke's name, where it sits, then the chant.
+      const lesson = () => voice.instruct(info.name + '. ' + info.place + '. Harfe dokun ve dinle.', () => voice.chant(1, slide, note));
+      $('elif-stage').prepend(el('button', 'elif-howto', '<span aria-hidden="true">🐢💬</span>'));
+      $('elif-stage').querySelector('.elif-howto').onclick = lesson;
+      $('elif-stage').querySelector('.elif-howto').setAttribute('aria-label', 'Tekrar anlat');
       $('elif-demo').onclick = () => voice.chant(1, slide, note);
       for (const button of $('elif-stage').querySelectorAll('.elif-examples button')) {
         button.onclick = () => voice.syllable(Number(button.dataset.i), slide, note);
       }
-      voice.chant(1, slide, note);
+      lesson();
       $('elif-next').onclick = () => { voice.stop(); if (slide < 2) { slide++; show(); } else ask(); };
     };
     show();
@@ -846,6 +898,7 @@
     if (!availableForPlayer($('elif-card'))) return;
     progress = load(activeProfile.id);
     mapCove = null;
+    told.clear();
     $('catalog').hidden = true;
     $('elif-view').hidden = false;
     showHub();

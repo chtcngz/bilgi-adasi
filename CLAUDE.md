@@ -26,6 +26,18 @@ be left unlearned.
   ever append questions to the end of a stop; never delete or reorder them.
 - Topics an exam asks but the book does not teach go to the island's `ekstra` stop, not to a unit stop.
 
+## Elif Ba: the children cannot read yet (set by the owner)
+
+The children who learn the Elif Ba cannot read or write, in Turkish or in Arabic. Design every section and
+game of Elif Ba Adası for them:
+
+- Nothing may need reading. Every instruction is said aloud (`elifVoice.instruct`, the device's Turkish voice)
+  when it first comes, and a 🐢💬 button says it again. Written text may stay for the grown-ups.
+- Choices are letters, sounds or pictures, never words. A place in a word is a picture of three boxes, right
+  to left (`placeIcon`), not "Başta / Ortada / Sonda".
+- Buttons carry a symbol (▶ ↻ 🏁 ✓), not only a word; right and wrong are shown by colour, sound and the
+  right answer being played.
+
 ## Question style
 
 - Turkish, for 9-10 year olds. The first option is the correct one (the game shuffles them). Keep the

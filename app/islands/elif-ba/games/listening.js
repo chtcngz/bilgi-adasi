@@ -46,6 +46,7 @@ const elifListeningGame = (() => {
         freshSay: 'Yeni harf. Dinle.', allDone: 'On beş harfin hepsini patlattın.', whole: 'Hiç can kaybetmeden 15 harfin hepsini, 45 damlayı patlattın!',
         partly: '15 harfin hepsini patlattın ama ', recap: 'Patlattığın harfler · dokun, dinle', chip: ' harfini dinle',
         some: ' harfi patlattın. ', none: 'Sesi dikkatle dinle, sonra o harften üç tane patlat. ',
+        say: 'Harf Yağmuru! Kaplumbağa bir harf söyleyecek. O harften üç damla patlat. Başlamak için yeşil düğmeye bas.',
         intro: 'Kaplumbağa bir harf söyleyecek: o harften üç tane patlat, hemen yeni harf gelsin. 15 harfi bitirince ' +
           'yoluna devam edersin; hiç can kaybetmezsen üç yıldız! Canların biterse oyun baştan başlar.',
         unit: 'harf', piece: 'damla patlat', pool: 'Oyundaki harfler' }
@@ -62,6 +63,7 @@ const elifListeningGame = (() => {
         freshSay: 'Yeni hece. Dinle.', allDone: 'On beş hecenin hepsini patlattın.', whole: 'Hiç can kaybetmeden 15 hecenin hepsini, 45 balonu patlattın!',
         partly: '15 hecenin hepsini patlattın ama ', recap: 'Patlattığın heceler · dokun, dinle', chip: ' hecesini dinle',
         some: ' heceyi patlattın. ', none: 'Sesi dikkatle dinle, sonra o heceden üç balon patlat. ',
+        say: 'Hece Balonları! Kaplumbağa bir hece okuyacak. O heceden üç balon patlat. Başlamak için yeşil düğmeye bas.',
         intro: 'Kaplumbağa harekeli bir hece okuyacak: o heceden üç balon patlat, hemen yeni hece gelsin. 15 heceyi bitirince ' +
           'yoluna devam edersin; hiç can kaybetmezsen üç yıldız! Canların biterse oyun baştan başlar.',
         unit: 'hece', piece: 'balon patlat', pool: 'Oyundaki heceler' }
@@ -76,6 +78,8 @@ const elifListeningGame = (() => {
         freshSay: 'Yeni harf. Dinle.', allDone: 'On beş harfin hepsini patlattın.', whole: 'Hiç can kaybetmeden 15 harfin hepsini, 45 damlayı patlattın!',
         partly: '15 harfin hepsini patlattın ama ', recap: 'Patlattığın harfler · dokun, dinle', chip: ' harfini dinle',
         some: ' harfi patlattın. ', none: 'Sesi dikkatle dinle, sonra o harften üç tane patlat. ',
+        say: 'Şekil Yağmuru! Harfler bitişik şekilleriyle yağıyor. Kaplumbağa bir harf söyleyecek. Şekli değişse de o harften üç damla patlat. ' +
+          'Başlamak için yeşil düğmeye bas.',
         intro: 'Harfler bitişik yazılışlarıyla yağıyor: kelimenin başındaki, ortasındaki ve sonundaki şekilleriyle. Kaplumbağa bir harf ' +
           'söyleyecek: o harften üç tane patlat, şekli değişse de aynı harf! 15 harfi bitirince yoluna devam edersin; hiç can kaybetmezsen ' +
           'üç yıldız! Canların biterse oyun baştan başlar.',
@@ -797,7 +801,17 @@ const elifListeningGame = (() => {
       (best.tamam ? '<p class="rain-record">✅ Bölümü tamamladın · 🏆 ' + best.rekor + ' puan</p>' :
         best.rekor ? '<p class="rain-record">🏆 Rekorun: ' + best.rekor + ' puan</p>' : '') +
       '<button type="button" class="rain-go" data-cue>▶ Başla</button></div>');
-    overlay.querySelector('.rain-go').onclick = countdown;
+    // Said aloud for children who cannot read yet; the turtle button says it again.
+    const tell = () => voice.instruct(kind.t.say);
+    const again = document.createElement('button');
+    again.type = 'button';
+    again.className = 'rain-tell';
+    again.setAttribute('aria-label', 'Oyunu anlat');
+    again.innerHTML = '<span aria-hidden="true">🐢💬</span>';
+    again.onclick = tell;
+    overlay.querySelector('.rain-card').prepend(again);
+    tell();
+    overlay.querySelector('.rain-go').onclick = () => { voice.stop(); countdown(); };
   }
   // Leaving the app mid-game pauses it; the child picks up where they were.
   function pause() {

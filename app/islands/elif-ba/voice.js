@@ -61,12 +61,16 @@ const elifVoice = (() => {
         message.lang = 'tr-TR';
         if (tr.voice) message.voice = tr.voice;
         message.rate = 0.8;
-        message.onend = done;
+        // Some phones never report the end of a sentence: the sequence goes on after a while all the same.
+        let over = false;
+        const end = () => { if (over) return; over = true; clearTimeout(guard); done(); };
+        const guard = setTimeout(() => { if (mine === run) speechSynthesis.cancel(); end(); }, 2000 + step.text.length * 120);
+        message.onend = end;
         message.onerror = event => {
           if (['interrupted', 'canceled'].includes(event.error)) return;
           heard = false;
           unavailable(note);
-          done();
+          end();
         };
         speechSynthesis.speak(message);
       };
@@ -113,6 +117,9 @@ const elifVoice = (() => {
 
   return {
     say: (text, note, after) => sequence([{ text }], note, after),
+    // A spoken instruction for children who cannot read yet, always in the device's Turkish voice;
+    // `after` goes on (to the letter to listen to) when it has been said, or at once on a device without one.
+    instruct: (text, after) => sequence([{ text }], null, after),
     letter: (i, note, after) => sequence([{ src: letterClip(i), text: elifData.names[i] }], note, after),
     syllable: (i, h, note, after) => sequence([{ src: syllableClip(i, h), text: elifData.readings[i][h] }], note, after),
     word: (i, f, note, after) => sequence([{ src: wordClip(i, f), text: spelled(elifData.word(i, f).text) }], note, after),

@@ -810,7 +810,18 @@ const elifBridgeGame = (() => {
       (best.tamam ? '<p class="rain-record">✅ Köprüyü hiç cam kırmadan geçtin · 🏆 ' + best.rekor + ' puan</p>' :
         best.rekor ? '<p class="rain-record">🏆 Rekorun: ' + best.rekor + ' puan</p>' : '') +
       '<button type="button" class="rain-go" data-cue>▶ Başla</button></div>');
-    overlay.querySelector('.rain-go').onclick = begin;
+    // Said aloud for children who cannot read yet; the turtle button says it again.
+    const tell = () => voice.instruct('Cam Köprü! Kaplumbağa bir harf ya da hece söyleyecek. Doğru cama dokun, kaplumbağa üstüne zıplasın. ' +
+      (options.joined ? 'Harfler camlarda bitişik şekilleriyle duruyor. ' : '') + 'Yanlış cam kırılır! Başlamak için yeşil düğmeye bas.');
+    const again = document.createElement('button');
+    again.type = 'button';
+    again.className = 'rain-tell';
+    again.setAttribute('aria-label', 'Oyunu anlat');
+    again.innerHTML = '<span aria-hidden="true">🐢💬</span>';
+    again.onclick = tell;
+    overlay.querySelector('.rain-card').prepend(again);
+    tell();
+    overlay.querySelector('.rain-go').onclick = () => { voice.stop(); begin(); };
   }
   // Leaving the app mid-game pauses it; the child picks up where they were.
   function pause() {

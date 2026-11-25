@@ -77,6 +77,8 @@ sources/                     Raw material (not published)
 
 ## Adding something new
 
+**Elif Ba is for children who cannot read yet.** Every instruction is spoken (`elifVoice.instruct`) and repeated by a 🐢💬 button, choices are letters, sounds or pictures, never words (see `CLAUDE.md`).
+
 **A new Elif Ba section** (Cezm, Tenvin, Şedde …):
 Elif Ba is a single path (the `steps` list in `game.js`). The first seven coves (`LETTER_COVES` in `data.js`) teach the letters, four each: Harfler → Harf Yağmuru → Harekeler → Hece Balonları → Cam Köprü; the first cove also has Harekelerle tanış before Harekeler. From the eighth cove on (`coveTopic(k)` is `bitisik`), the same groups of four come again for bitişik yazılış: Bitişik yazılış → Şekil Yağmuru → Cam Köprü, with the panes in the letters' joined shapes. Martı Koyu (ا ب ت ث) is the first of them; the next bitişik cove needs only its name in `coves` and on the map (`spots`, `short` in `map.js`) and its example-word recordings in `kelime/` and `kayitlar.js` (the words of all 28 letters are already in `data.js`). Cam Köprü is the cove's mixed (Karma) game and crosses over to the next cove. Only the next step can be opened, and from the second cove on every round mixes in letters from the earlier coves. The hub shows the coves as a map (`map.js`): the turtle stands on one cove, the steps below are that cove's, and it walks over the bridges before a step in another cove opens. To add a section:
 1. Remove the `soon` flag from the section's entry in `islands/elif-ba/data.js`, and add its steps to the `steps` list in `game.js`.
