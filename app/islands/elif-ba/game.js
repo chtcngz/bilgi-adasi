@@ -680,7 +680,7 @@
       autoplay = true;
     } else if (q.type === 'yer') {
       // An example word with the letter coloured: where in the word is it? The places run right to left.
-      prompt.textContent = 'Renkli harf kelimenin neresinde?';
+      prompt.textContent = 'Kırmızı harf kelimenin neresinde?';
       const sample = el('button', 'elif-big elif-word-big', wordHtml(q.target, q.f) + '<small aria-hidden="true">🔊</small>');
       sample.setAttribute('aria-label', 'Kelimenin harflerini dinle');
       sample.onclick = () => voice.word(q.target, q.f, response);

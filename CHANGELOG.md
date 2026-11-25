@@ -14,7 +14,7 @@ Elif Ba Adası’nı öğrenen çocuklar henüz okuma yazma bilmiyor. Adanın b�
 - **Sesli yönergeler:** Harfler, Harekeler ve Bitişik yazılış ekranları açılınca ne yapılacağı sesli anlatılıyor. Turlarda her soru türünün ilk sorusunda yönerge okunuyor (“Dinle. Duyduğun harfi bul.”), ardından harf ya da hece çalıyor. Her ekranda bir 🐢💬 düğmesi yönergeyi istenince yeniden söylüyor. Yönergeleri cihazın Türkçe sesi okuyor.
 - **Oyunların giriş kartları:** Harf Yağmuru, Hece Balonları, Şekil Yağmuru ve Cam Köprü nasıl oynanacağını sesli anlatıyor; 🐢💬 ile tekrar dinlenebiliyor.
 - **Harekelerle tanışma:** Her harekenin adı ve harfin neresine konduğu sesli söyleniyor.
-- **Yazı yerine resim:** Bitişik yazılışta “Başta / Ortada / Sonda” yazıları yerine üç kutulu bir resim var. Kutular sağdan sola diziliyor ve harfin yerindeki kutu, kelimedeki harf gibi kırmızı. “Renkli harf kelimenin neresinde?” sorusunun şıkları da bu resimler. Okuma yönünü bir ok gösteriyor.
+- **Yazı yerine resim:** Bitişik yazılışta “Başta / Ortada / Sonda” yazıları yerine üç kutulu bir resim var. Kutular sağdan sola diziliyor ve harfin yerindeki kutu, kelimedeki harf gibi kırmızı. “Kırmızı harf kelimenin neresinde?” sorusunun şıkları da bu resimler. Okuma yönünü bir ok gösteriyor.
 - “Elif kendinden sonraki harfe bağlanmaz” notu bir örnekle (اب) gösteriliyor ve dokununca sesli okunuyor.
 - Yalnızca yazısı olan düğmelere simge geldi (▶ sıradaki soru, 🏁 sonuç, ↻ tekrar). Ekranlardaki yazılar büyükler için duruyor.
 - Bir cihaz cümlenin bittiğini bildirmezse oyun beklemede kalmıyor, kısa bir süre sonra devam ediyor.
