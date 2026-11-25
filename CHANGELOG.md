@@ -7,6 +7,17 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.32.0 · 25.11.2026
+
+Elif Ba Adası’nın bitişik yazılış turunda **“Kırmızı harf kelimenin neresinde?” sorusu kalktı**, yerine **Harf avı** geldi. Artık çocuk, harfin bitişik şeklini gerçek bir kelimenin içinde kendisi buluyor.
+
+- **Nasıl oynanıyor:** Üstte harf tek başına bir baloncukta (ت), altta bir kelime (تعجب) duruyor. Harf kelimede saklanmış; çocuk kelimede harfin üstüne dokunuyor ya da baloncuğu parmağıyla tutup harfin üstüne bırakıyor. Sürüklerken baloncuk parmağın biraz üstünde gidiyor ve altındaki harf sarı yanıyor. Baloncuğa dokununca harfin adı okunuyor.
+- **Okumadan anlaşılıyor:** Yönerge sesli söyleniyor; ayrıca bir el baloncuktan kelimeye gidip yolu gösteriyor. Bir süre bir şey yapılmazsa el yeniden geliyor.
+- **Bulununca:** Baloncuk kelimedeki harfin üstüne uçup kayboluyor, harf yeşil yanıyor ve baloncuk harfin o kelimedeki bitişik şekline dönüşüyor (ت ⬅ تـ). Sonra “Te, kelimenin başında” deniyor ve kelimenin bütün harfleri sağdan sola, her biri adı söylenirken sırayla yanarak okunuyor.
+- **Kelimeler:** Diyanet Elifba’nın 84 örnek kelimesinin hepsinden seçiliyor, yalnızca harfin kendi kelimelerinden değil; çoğu zaman içinde harfin noktadaş eşi de var (ت ararken ثبت), böylece noktalara bakmak gerekiyor.
+- Yanlış harfe dokununca o harf kırmızı, doğrusu yeşil yanıyor ve tur, öteki sorulardaki gibi baştan başlıyor.
+- Çocukların kayıtlı ilerlemesi olduğu gibi duruyor.
+
 ## 0.31.0 · 25.11.2026
 
 Elif Ba Adası’na **Cezm** bölümü geldi. Bitişik yazılışı bitiren çocuklar Gökkuşağı Koyu’ndan köprüyle yedi yeni koya geçiyor: Dalga, Yelken, Köpük, Rüzgâr, Pusula, Kumsal ve Ay Işığı Koyu. Her koyda yine dört harf var; 28 harfin her biri bir kez cezimli okunuyor. Yolda artık 21 koy var.
