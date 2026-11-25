@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.36.0 · 25.11.2026
+
+- **Tanıtım sesleri artık kendiliğinden çalmıyor:** Elif Ba Adası’nda Harf Yağmuru, Hece Balonları, Şekil Yağmuru, Cezm Balonları ve Cam Köprü açılınca, ya da Harfler, Harekeler, Bitişik yazılış ve Cezm bölümlerine girilince tanıtım artık sesli okunmuyor. Kaplumbağa düğmesine (🐢💬) dokununca okunuyor. Sorulardaki “ne yapacağım” söylemeleri ve Harekelerle tanışma dersi eskisi gibi kendiliğinden söyleniyor.
+- **Geri ve kapat düğmeleri yenilendi:** Her adada, oyunda ve derste geri dönme düğmeleri artık aynı boyda ve aynı görünümde. “Keşif Limanı” ve “Yol” düğmeleri yeşil oklu, yuvarlak köşeli birer kapsül; oyunlardan, turlardan ve harita katlarından çıkan düğmeler de aynı büyüklükte, beyaz, yuvarlak düğmeler (× ya da ‹). Çarpım Adası’nın “← Keşif Limanı’na dön” düğmesi de aynı kapsül oldu.
+
 ## 0.35.2 · 25.11.2026
 
 - **Donma düzeltildi:** Elif Ba Adası’nda harfleri henüz öğrenilmemiş bir oyun açılınca sayfa donuyordu: adı `admin` olan oyuncuda Martı Adacığı’nın Şekil Yağmuru’na dokununca böyle oluyordu; Harf Yağmuru, Hece Balonları ve Cezm Balonları’nda da aynısı vardı. Artık bu oyunlarda adacığın kendi harfleri her zaman oynanıyor ve oyun açılıyor.

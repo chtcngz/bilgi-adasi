@@ -125,7 +125,7 @@ const elifListeningGame = (() => {
       '<div class="rain-bubble">' + speakerSvg + '<span></span></div></div><i class="rain-wave front"></i></div>' +
     '<div class="rain-ceiling" aria-hidden="true"><i></i></div>' +
     '<div class="rain-hud">' +
-      '<div class="rain-left"><button type="button" class="rain-close" aria-label="Oyundan çık">×</button>' +
+      '<div class="rain-left"><button type="button" class="rain-close btn-round" aria-label="Oyundan çık"></button>' +
       '<span class="rain-hearts" role="img"></span></div>' +
       '<button type="button" class="rain-listen" data-cue>' + speakerSvg + '</button>' +
       '<div class="rain-score"><small>Puan</small><b>0</b></div>' +
@@ -818,7 +818,7 @@ const elifListeningGame = (() => {
       (best.tamam ? '<p class="rain-record">✅ Bölümü tamamladın · 🏆 ' + best.rekor + ' puan</p>' :
         best.rekor ? '<p class="rain-record">🏆 Rekorun: ' + best.rekor + ' puan</p>' : '') +
       '<button type="button" class="rain-go" data-cue>▶ Başla</button></div>');
-    // Said aloud for children who cannot read yet; the turtle button says it again.
+    // The game's introduction is said aloud only when the turtle (info) button is tapped.
     const tell = () => voice.instruct(kind.t.say);
     const again = document.createElement('button');
     again.type = 'button';
@@ -827,7 +827,6 @@ const elifListeningGame = (() => {
     again.innerHTML = '<span aria-hidden="true">🐢💬</span>';
     again.onclick = tell;
     overlay.querySelector('.rain-card').prepend(again);
-    tell();
     overlay.querySelector('.rain-go').onclick = () => { voice.stop(); countdown(); };
   }
   // Leaving the app mid-game pauses it; the child picks up where they were.

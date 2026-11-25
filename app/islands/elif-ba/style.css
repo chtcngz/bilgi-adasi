@@ -1,9 +1,7 @@
 #elif-view { max-width: 1040px; margin: auto; }
 .elif-nav, .elif-toolbar, .elif-section-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .elif-nav { margin: 12px 0; font-weight: 800; color: #345a56; }
-.elif-nav button, #elif-up { border: 0; background: transparent; min-height: 44px; font-weight: 800; padding: 0 4px; }
 #elif-shells { white-space: nowrap; }
-#elif-back { white-space: nowrap; }
 @media (max-width: 420px) { #elif-shells { font-size: 13px; } .elif-nav { gap: 6px; } }
 .elif-hero { min-height: clamp(190px, 24vw, 290px); display: flex; align-items: center; border-radius: 28px; overflow: hidden; background: #bde8e3 url(koy.jpg) center 55% / cover; }
 .elif-hero > div { padding: clamp(17px, 4vw, 55px); width: 65%; background: linear-gradient(90deg,#e6f7dded, #e6f7ddb0 65%, transparent); }
@@ -199,12 +197,7 @@
 @keyframes map-station { 0% { scale: 1; } 40% { scale: 1.28; rotate: -8deg; } 70% { rotate: 6deg; } 100% { scale: 1; rotate: 0deg; } }
 
 /* The headers of a bay and an islet: back out, and the place's name, which is said aloud when tapped. */
-.elif-map-back {
-  position: absolute; left: 3%; top: 2.2%; z-index: 3; display: grid; place-items: center; width: 12cqw; max-width: 50px; min-width: 42px; aspect-ratio: 1;
-  margin: 0; padding: 0; border: 3px solid #fff; border-radius: 50%; background: #176d60; color: #fff; cursor: pointer;
-  box-shadow: 0 3px 0 #0b4a5a55;
-}
-.elif-map-back svg { width: 58%; height: 58%; margin-left: -6%; }
+.elif-map-back { position: absolute; left: 3%; top: 2.2%; z-index: 3; }
 .elif-map-title {
   position: absolute; left: 50%; top: 2.2%; z-index: 3; translate: -50% 0; display: grid; justify-items: center; max-width: 66%; margin: 0; padding: 4px 14px 5px;
   border: 0; border-radius: 16px; background: #fffdf6; color: #173f40; font: inherit; white-space: nowrap; cursor: pointer; box-shadow: 0 3px 0 #0b4a5a33;
@@ -363,7 +356,7 @@
 
 /* Game dialog */
 #elif-game { text-align: center; background: #fffcf4; width: min(520px, 94vw); }
-#elif-close { float: right; border: 1px solid #adc9bc; border-radius: 50%; width: 44px; height: 44px; background: white; font-size: 24px; }
+#elif-close { float: right; }
 .elif-step { text-align: left; min-height: 28px; margin: 8px 0 4px; font-weight: bold; }
 .elif-dots { clear: both; display: flex; gap: 6px; justify-content: center; list-style: none; padding: 0; margin: 8px 0 4px; }
 .elif-dots li { width: 12px; height: 12px; border-radius: 50%; background: #e2e8e2; }

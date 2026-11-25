@@ -31,8 +31,10 @@ be left unlearned.
 The children who learn the Elif Ba cannot read or write, in Turkish or in Arabic. Design every section and
 game of Elif Ba Adası for them:
 
-- Nothing may need reading. Every instruction is said aloud (`elifVoice.instruct`, the device's Turkish voice)
-  when it first comes, and a 🐢💬 button says it again. Written text may stay for the grown-ups.
+- Nothing may need reading. Every instruction can be heard (`elifVoice.instruct`, the device's Turkish voice) from a
+  🐢💬 (info) button. The introductions of games and sections (what the game or the section is about) are silent by
+  default and said only when 🐢💬 is tapped; the instructions of a question are still said when they first come.
+  Written text may stay for the grown-ups.
 - Choices are letters, sounds or pictures, never words. A place in a word is a picture of three boxes, right
   to left (`placeIcon`), not "Başta / Ortada / Sonda".
 - Buttons carry a symbol (▶ ↻ 🏁 ✓), not only a word; right and wrong are shown by colour, sound and the
