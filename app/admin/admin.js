@@ -391,9 +391,9 @@ function startAdmin() {
         const g = game(id);
         return [name, String(num(g.rekor)), '★'.repeat(num(g.yildiz)) + '☆'.repeat(3 - Math.min(3, num(g.yildiz))),
           g.tamam ? '✅' : '–', koylar(id) + ' / ' + E.coves.length,
-          (g.koylar || []).map((on, k) => on ? E.coves[k].replace(' Koyu', '') : '').filter(Boolean).join(', ') || '–'];
+          (g.koylar || []).map((on, k) => on ? E.coves[k].replace(' Adacığı', '') : '').filter(Boolean).join(', ') || '–'];
       });
-    box.append(fold('Oyunlar', table(['Oyun', 'Rekor', 'En iyi', 'Tamamı', 'Koy', 'Oynanan koylar'], games)));
+    box.append(fold('Oyunlar', table(['Oyun', 'Rekor', 'En iyi', 'Tamamı', 'Adacık', 'Oynanan adacıklar'], games)));
     box.append(el('p', 'adm-small', 'Harekelerle tanışma: ' + (record.tanisma ? 'yapıldı ✓' : 'henüz yapılmadı')));
     return box;
   }

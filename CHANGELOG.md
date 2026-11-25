@@ -7,9 +7,22 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
-## 0.34.1 · 25.11.2026
+## 0.35.1 · 25.11.2026
 
 - Elif Ba Adası’nda harfi, heceyi ya da talimatı seslendiren düğmelere (harf ve hece kartları, 🔊 ses kutucukları, 🐢💬, tur ekranındaki harfler) dokununca artık “blup” tıklama sesi çıkmıyor; yalnızca seslendirme duyuluyor.
+
+## 0.35.0 · 25.11.2026
+
+Elif Ba Adası’nın haritası yenilendi: 21 ada artık tek uzun haritada değil, **koylarda** duruyor. Önce koylar görünüyor; bir koya dokununca içine giriliyor ve o koyun adacıkları, bir adacığa dokununca da adacığın adımları açılıyor.
+
+- **Koylar haritası:** Harf Koyu (28 harf ve harekeleri), Bitişik Koyu (harfler başta, ortada, sonda) ve Cezm Koyu (cezimli harflerle hece). Her koyda adı, orada ne öğrenildiği, küçük bir tabelası (ا ب ت، ـبـ، بِسْ) ve lagününde yedi adacığı nokta nokta görünüyor: biten adacıklar sarı, sıradaki zıplıyor. Gelecek bölümlerin koyları (Tenvin, Şedde, Uzatma ve Âyet Koyu) bulutların altında, kilitli ve “Yakında” yazıyor; dokununca “yakında açılacak” diye söyleniyor.
+- **Koyun içi:** Koya dokununca harita o koya yakınlaşıyor, yedi adacık denizden tek tek çıkıyor. Her koyun kendi havası var: Harf Koyu’nda deniz feneri, Bitişik Koyu’nda gökkuşağı ve martılar, Cezm Koyu’nda akşam denizi ve parlayan yıldızlar. Koyun ağzında bir sonraki koya giden tekne bekliyor.
+- **Adacığa dokununca içine giriliyor:** Kaplumbağa köprülerden yürüyüp adacığa giriyor. Adacığın adımları (Harfler, Harf Yağmuru, Harekeler, oyunlar, Cam Köprü) bir patika boyunca büyük resimli duraklar olarak duruyor; bitmiş bir durağa dokununca tekrar oynanıyor, sıradaki zıplıyor. Haritanın altındaki iskele kalktı.
+- **Bir adım bitince** durağında ✓ zıplıyor, yıldızlar saçılıyor ve kaplumbağa patikada bir sonraki durağa yürüyor.
+- **Koy bitince:** Son adacığın Cam Köprüsü geçilince kaplumbağa koyun ağzındaki tekneye biniyor, koydan çıkıyor, koylar haritasında yelken açıp bir sonraki koya gidiyor. Yeni koy kutlamayla açılıyor, adı sesli söyleniyor ve kaplumbağa ilk adacığa giriyor. Koyun son adacığının köprüsü artık hedef olarak yeni koyu gösteriyor.
+- ‹ düğmesi bir üst katmana çıkıyor; koyun ya da adacığın adına dokununca adı sesli söyleniyor. “Sıradaki” düğmesi de kaplumbağayı aynı yolculukla sıradaki adıma götürüyor. Eski bir koya dokununca kaplumbağa tekneyle oraya geri gidiyor.
+- Koyların içindeki adalar artık **adacık**: Kaplumbağa Adacığı, İnci Adacığı … Ay Işığı Adacığı. Yönetici sayfası da adacık diyor.
+- Cihazda “hareketi azalt” ayarı açıksa geçişler animasyonsuz, hemen oluyor.
 
 ## 0.34.0 · 25.11.2026
 
