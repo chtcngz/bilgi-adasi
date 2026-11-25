@@ -1,5 +1,11 @@
 # Elif Ba ses kayıtları
 
+## Kız çocuk sesi
+
+`cocuk/` klasöründeki kayıtlar oyunun sahibinin eklediği çocuk sesi kayıtlarıdır (`elifba-ses-onizleme/`): `harf/NN.mp3` harf adları (ve `hemze.mp3`), `hece/NN-H.mp3` üstün, esre, ötre ile okunuşlar, `yer/P.mp3` “başta / ortada / sonda”, `hareke/` üstün, esre, ötre ve cezm adları. Ayarlarda **Kız çocuk sesi** seçiliyken (varsayılan) bunlar çalınır; çocuk sesinde kaydı olmayanlar (bitişik yazılış örnek kelimeleri, cezimli heceler ve cezm örnekleri) aşağıdaki Diyanet kayıtlarından erkek sesiyle çalınır. **Erkek sesi** seçilince hepsi Diyanet kayıtlarıdır.
+
+## Erkek sesi (Diyanet)
+
 28 harf adı, 84 harekeli okuma, bitişik yazılış ve cezm kayıtları Diyanet İşleri Başkanlığının Elifba uygulamasından alınmıştır. Harf adları Harfler dersinden, heceler Fetha, Kesra ve Damme derslerinden, bitişik yazılış örnek kelimeleri ile “Kelimenin Başında / Ortasında / Sonunda” kayıtları Harfler ve Şekilleri dersinden, cezimli heceler Cezm dersinden eşleştirilmiştir.
 
 Oyun kopyaları `sources/elifba-sesleri/katalog.json` arşivindeki kayıtlarla bayt düzeyinde aynıdır. Harf sırası oyundaki sıradır. He ve vav konumları metne göre eşleştirilmiştir.

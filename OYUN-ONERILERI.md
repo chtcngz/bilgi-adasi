@@ -11,7 +11,8 @@ Oynanabilir taslaklar **Deneme Odası**'nda duruyor: `app/deneme/` (yayında `�
 | 🚂 Hece Treni | Deneme Odası'nda |
 | 🎩 Harekeyi Giydir | Yeni fikir, Deneme Odası'nda |
 | 📿 İnci Kolye | Yeni fikir, Deneme Odası'nda |
-| 🔍 Nokta Ustası, 🦎 Harf Bukalemunu, 🐢 Taş Atlama, ✏️ Kumda Yaz | Denendi, şimdilik bırakıldı (taslakları çıkarıldı) |
+| 🦎 Harf Bukalemunu | **Oyunda** (0.32.0) · Bitişik yazılış turunda “Harf avı” sorusu |
+| 🔍 Nokta Ustası, 🐢 Taş Atlama, ✏️ Kumda Yaz | Denendi, şimdilik bırakıldı (taslakları çıkarıldı) |
 
 ## 1. 🔍 Nokta Ustası: en zor yeri hedefliyor
 
@@ -50,7 +51,7 @@ Bir harf kelimenin başında, ortasında ve sonunda farklı görünüyor. Kaplum
 - Arşivde bu ders hazır: `harfler/sekilleri` klasöründe "Kelimenin Başında / Ortasında / Sonunda" kayıtları var.
 - Şu an "Yakında" görünen Bitişik yazılış bölümünün oyunu olabilir.
 
-**Durum:** Şimdilik bırakıldı; taslağı çıkarıldı. Taslakta 4 harf × 3 kelime (ع, ج, ه, ف; başta, ortada, sonda). Yanlış harfe dokununca o harfin adı okunuyor.
+**Oyunda (0.32.0):** Bitişik yazılış turundaki “Kırmızı harf kelimenin neresinde?” sorusunun yerine geldi. Harf tek başına bir baloncukta duruyor; çocuk onu Diyanet Elifba’nın 84 örnek kelimesinden birinde bitişik şekliyle buluyor: kelimede harfe dokunuyor ya da baloncuğu tutup harfin üstüne bırakıyor. Kelimeler çoğu zaman harfin noktadaş eşlerini de içeriyor (ت için ثبت). Yazılı yönerge gerekmiyor: bir el baloncuktan kelimeye gidip yolu gösteriyor. Bulununca baloncuk harfin bitişik şekline dönüşüyor (ت ⬅ تـ) ve kelimenin harfleri sağdan sola, her biri adı söylenirken yanarak okunuyor. Kod: `game.js` içindeki `huntBoard`.
 
 ## 5. 🐢 Taş Atlama: hızlı oyunlarla bulmacalar arasında
 

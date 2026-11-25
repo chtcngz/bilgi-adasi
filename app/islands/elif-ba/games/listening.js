@@ -1,6 +1,6 @@
-// Harf Yağmuru and Hece Balonları: Elif Ba Adası's listening games. A section is fifteen letters
-// (or syllables): the turtle says one, popping three drops (balloons) of it brings the next one at
-// once, and the game does not stop until all 45 are popped. A wrong tap breaks one of three hearts.
+// Harf Yağmuru and Hece Balonları: Elif Ba Adası's listening games. A section is 24 turns with the
+// newest cove's four letters, each of them six times: the turtle says one, popping a drop (balloon) of
+// it brings the next one at once, and the game does not stop until all 24 are popped. A wrong tap breaks one of three hearts.
 // Finishing with all three hearts completes the section; losing all three starts it again.
 // In Harf Yağmuru letters rain from the clouds into the sea; in Hece Balonları syllables with
 // their harekes rise from the sea up into the clouds; in Şekil Yağmuru the letters rain in their
@@ -11,16 +11,16 @@ const elifListeningGame = (() => {
   const voice = elifVoice;
   const dialog = $('elif-rain');
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
-  const ROUND = 15; // letters in a section
-  const POPS = 3; // drops of a letter to pop before the next letter
+  const ROUND = 24; // turns in a section: four letters, six times each
+  const AIR = 2; // drops of the letter being played in the air at once
   const HEARTS = 3;
   const praise = ['Harika!', 'Süper!', 'Bravo!', 'Aferin!', 'Müthiş!', 'Şahane!'];
-  // The three pops of a letter climb a major chord.
+  // Pops in a row climb a major chord.
   const chord = [1, 1.26, 1.5];
   // Drops take 6.6 s to fall at first and a little less with every letter done, never under 3.2 s;
   // a new one comes about every second, a little more often as the game goes on.
-  const fallTime = done => 3.2 + 3.4 * Math.exp(-done / 14);
-  const spawnGap = done => 0.62 + 0.4 * Math.exp(-done / 14);
+  const fallTime = done => 3.2 + 3.4 * Math.exp(-done / 22);
+  const spawnGap = done => 0.62 + 0.4 * Math.exp(-done / 22);
   // The bar at the top sets how fast all of that goes, from the snail to the rabbit. Each player
   // keeps their own speed for both games.
   const PACES = [0.6, 0.8, 1, 1.25, 1.5];
@@ -40,15 +40,15 @@ const elifListeningGame = (() => {
   const kinds = {
     harf: {
       rising: false, label: 'Harf Yağmuru', title: 'Harf <em>Yağmuru</em>',
-      text: i => glyphs[i], name: i => names[i], sound: i => names[i], speak: (i, note, end) => voice.letter(i, note, end),
+      text: i => glyphs[i], name: i => names[i], sound: i => names[i], speak: (i, note, end) => voice.letter(i, note, end), group: i => i,
       // look-alike letters (the same shape, other dots) join in once a few letters are done
       alike: i => twins(i), alikeFrom: 3, alikeChance: 0.3,
-      t: { listen: 'Harfi tekrar dinle', slots: 'Bölümün harfleri', first: '👆 Duyduğun harften 3 tane patlat', fresh: '🔊 Yeni harf',
-        freshSay: 'Yeni harf. Dinle.', allDone: 'On beş harfin hepsini patlattın.', whole: 'Hiç can kaybetmeden 15 harfin hepsini, 45 damlayı patlattın!',
-        partly: '15 harfin hepsini patlattın ama ', recap: 'Patlattığın harfler · dokun, dinle', chip: ' harfini dinle',
-        some: ' harfi patlattın. ', none: 'Sesi dikkatle dinle, sonra o harften üç tane patlat. ',
-        say: 'Harf Yağmuru! Kaplumbağa bir harf söyleyecek. O harften üç damla patlat. Başlamak için yeşil düğmeye bas.',
-        intro: 'Kaplumbağa bir harf söyleyecek: o harften üç tane patlat, hemen yeni harf gelsin. 15 harfi bitirince ' +
+      t: { listen: 'Harfi tekrar dinle', slots: 'Bölümün harfleri', first: '👆 Duyduğun harfi patlat', fresh: '🔊 Yeni harf',
+        freshSay: 'Yeni harf. Dinle.', allDone: '24 harfin hepsini patlattın.', whole: 'Hiç can kaybetmeden 24 harfin hepsini patlattın!',
+        partly: '24 harfin hepsini patlattın ama ', recap: 'Patlattığın harfler · dokun, dinle', chip: ' harfini dinle',
+        some: ' harfi patlattın. ', none: 'Sesi dikkatle dinle, sonra o harfi patlat. ',
+        say: 'Harf Yağmuru! Kaplumbağa bir harf söyleyecek. O harfi patlat. Başlamak için yeşil düğmeye bas.',
+        intro: 'Kaplumbağa bir harf söyleyecek: o harfi patlat, hemen yeni harf gelsin. Her harf altı kez gelir. 24 harfi bitirince ' +
           'yoluna devam edersin; hiç can kaybetmezsen üç yıldız! Canların biterse oyun baştan başlar.',
         unit: 'harf', piece: 'damla patlat', pool: 'Oyundaki harfler' }
     },
@@ -57,15 +57,16 @@ const elifListeningGame = (() => {
       // shown by its letter and hareke ("Be üstün"); the reading only tells syllables that sound alike apart
       text: k => syllable(Math.floor(k / 3), k % 3), sound: k => readings[Math.floor(k / 3)][k % 3],
       name: k => names[Math.floor(k / 3)] + ' ' + harekeler[k % 3].name.toLocaleLowerCase('tr'),
-      speak: (k, note, end) => voice.syllable(Math.floor(k / 3), k % 3, note, end),
+      speak: (k, note, end) => voice.syllable(Math.floor(k / 3), k % 3, note, end), group: k => Math.floor(k / 3),
       // the same letter with its other harekes is what is to be told apart
       alike: k => [0, 1, 2].map(h => k - k % 3 + h).filter(j => j !== k), alikeFrom: 1, alikeChance: 0.4,
-      t: { listen: 'Heceyi tekrar dinle', slots: 'Bölümün heceleri', first: '👆 Duyduğun heceden 3 balon patlat', fresh: '🔊 Yeni hece',
-        freshSay: 'Yeni hece. Dinle.', allDone: 'On beş hecenin hepsini patlattın.', whole: 'Hiç can kaybetmeden 15 hecenin hepsini, 45 balonu patlattın!',
-        partly: '15 hecenin hepsini patlattın ama ', recap: 'Patlattığın heceler · dokun, dinle', chip: ' hecesini dinle',
-        some: ' heceyi patlattın. ', none: 'Sesi dikkatle dinle, sonra o heceden üç balon patlat. ',
-        say: 'Hece Balonları! Kaplumbağa bir hece okuyacak. O heceden üç balon patlat. Başlamak için yeşil düğmeye bas.',
-        intro: 'Kaplumbağa harekeli bir hece okuyacak: o heceden üç balon patlat, hemen yeni hece gelsin. 15 heceyi bitirince ' +
+      t: { listen: 'Heceyi tekrar dinle', slots: 'Bölümün heceleri', first: '👆 Duyduğun hecenin balonunu patlat', fresh: '🔊 Yeni hece',
+        freshSay: 'Yeni hece. Dinle.', allDone: '24 hecenin hepsini patlattın.', whole: 'Hiç can kaybetmeden 24 balonun hepsini patlattın!',
+        partly: '24 hecenin hepsini patlattın ama ', recap: 'Patlattığın heceler · dokun, dinle', chip: ' hecesini dinle',
+        some: ' heceyi patlattın. ', none: 'Sesi dikkatle dinle, sonra o hecenin balonunu patlat. ',
+        say: 'Hece Balonları! Kaplumbağa bir hece okuyacak. O hecenin balonunu patlat. Başlamak için yeşil düğmeye bas.',
+        intro: 'Kaplumbağa harekeli bir hece okuyacak: o hecenin balonunu patlat, hemen yeni hece gelsin. Her harf altı kez gelir, ' +
+          'her hecesi iki kez. 24 heceyi bitirince ' +
           'yoluna devam edersin; hiç can kaybetmezsen üç yıldız! Canların biterse oyun baştan başlar.',
         unit: 'hece', piece: 'balon patlat', pool: 'Oyundaki heceler' }
     },
@@ -73,16 +74,16 @@ const elifListeningGame = (() => {
       rising: false, label: 'Şekil Yağmuru', title: 'Şekil <em>Yağmuru</em>',
       // a drop shows the letter at the start, in the middle or at the end of a word, picked when it is made
       text: i => shape(i, 1 + Math.floor(Math.random() * 3)), name: i => names[i], sound: i => names[i],
-      speak: (i, note, end) => voice.letter(i, note, end),
+      speak: (i, note, end) => voice.letter(i, note, end), group: i => i,
       alike: i => twins(i), alikeFrom: 2, alikeChance: 0.4,
-      t: { listen: 'Harfi tekrar dinle', slots: 'Bölümün harfleri', first: '👆 Duyduğun harften 3 tane patlat', fresh: '🔊 Yeni harf',
-        freshSay: 'Yeni harf. Dinle.', allDone: 'On beş harfin hepsini patlattın.', whole: 'Hiç can kaybetmeden 15 harfin hepsini, 45 damlayı patlattın!',
-        partly: '15 harfin hepsini patlattın ama ', recap: 'Patlattığın harfler · dokun, dinle', chip: ' harfini dinle',
-        some: ' harfi patlattın. ', none: 'Sesi dikkatle dinle, sonra o harften üç tane patlat. ',
-        say: 'Şekil Yağmuru! Harfler bitişik şekilleriyle yağıyor. Kaplumbağa bir harf söyleyecek. Şekli değişse de o harften üç damla patlat. ' +
+      t: { listen: 'Harfi tekrar dinle', slots: 'Bölümün harfleri', first: '👆 Duyduğun harfi patlat', fresh: '🔊 Yeni harf',
+        freshSay: 'Yeni harf. Dinle.', allDone: '24 harfin hepsini patlattın.', whole: 'Hiç can kaybetmeden 24 harfin hepsini patlattın!',
+        partly: '24 harfin hepsini patlattın ama ', recap: 'Patlattığın harfler · dokun, dinle', chip: ' harfini dinle',
+        some: ' harfi patlattın. ', none: 'Sesi dikkatle dinle, sonra o harfi patlat. ',
+        say: 'Şekil Yağmuru! Harfler bitişik şekilleriyle yağıyor. Kaplumbağa bir harf söyleyecek. Şekli değişse de o harfi patlat. ' +
           'Başlamak için yeşil düğmeye bas.',
         intro: 'Harfler bitişik yazılışlarıyla yağıyor: kelimenin başındaki, ortasındaki ve sonundaki şekilleriyle. Kaplumbağa bir harf ' +
-          'söyleyecek: o harften üç tane patlat, şekli değişse de aynı harf! 15 harfi bitirince yoluna devam edersin; hiç can kaybetmezsen ' +
+          'söyleyecek: o harfi patlat, şekli değişse de aynı harf! Her harf altı kez gelir. 24 harfi bitirince yoluna devam edersin; hiç can kaybetmezsen ' +
           'üç yıldız! Canların biterse oyun baştan başlar.',
         unit: 'harf', piece: 'damla patlat', pool: 'Oyundaki harfler' }
     },
@@ -91,16 +92,16 @@ const elifListeningGame = (() => {
       // i: the letter with the cezm. Shown as "Be esre, Sin cezm", the way it is chanted.
       text: i => cezm(i).text, sound: i => cezmReadings[i].replace(/[’‘]/g, '').replace(/ı/g, 'i'),
       name: i => { const { before } = cezm(i); return names[before.i] + ' ' + harekeler[before.h].name.toLocaleLowerCase('tr') + ', ' + (i ? names[i] : 'Hemze') + ' cezm'; },
-      speak: (i, note, end) => voice.cezm(i, note, end),
+      speak: (i, note, end) => voice.cezm(i, note, end), group: i => i,
       // syllables that start with the same harekeli letter (bis, bi’) are what is to be told apart
       alike: i => glyphs.map((_, j) => j).filter(j => j !== i && !cezmAlike(i, j) && cezm(j).text.slice(0, 2) === cezm(i).text.slice(0, 2)),
       alikeFrom: 1, alikeChance: 0.4, preload: letters => voice.preload(letters, true, false, true),
-      t: { listen: 'Heceyi tekrar dinle', slots: 'Bölümün heceleri', first: '👆 Duyduğun heceden 3 balon patlat', fresh: '🔊 Yeni hece',
-        freshSay: 'Yeni hece. Dinle.', allDone: 'On beş hecenin hepsini patlattın.', whole: 'Hiç can kaybetmeden 15 hecenin hepsini, 45 balonu patlattın!',
-        partly: '15 hecenin hepsini patlattın ama ', recap: 'Patlattığın heceler · dokun, dinle', chip: ' hecesini dinle',
-        some: ' heceyi patlattın. ', none: 'Sesi dikkatle dinle, sonra o heceden üç balon patlat. ',
-        say: 'Cezm Balonları! Kaplumbağa cezimli bir hece okuyacak. O heceden üç balon patlat. Başlamak için yeşil düğmeye bas.',
-        intro: 'Kaplumbağa cezimli bir hece okuyacak: o heceden üç balon patlat, hemen yeni hece gelsin. 15 heceyi bitirince ' +
+      t: { listen: 'Heceyi tekrar dinle', slots: 'Bölümün heceleri', first: '👆 Duyduğun hecenin balonunu patlat', fresh: '🔊 Yeni hece',
+        freshSay: 'Yeni hece. Dinle.', allDone: '24 hecenin hepsini patlattın.', whole: 'Hiç can kaybetmeden 24 balonun hepsini patlattın!',
+        partly: '24 hecenin hepsini patlattın ama ', recap: 'Patlattığın heceler · dokun, dinle', chip: ' hecesini dinle',
+        some: ' heceyi patlattın. ', none: 'Sesi dikkatle dinle, sonra o hecenin balonunu patlat. ',
+        say: 'Cezm Balonları! Kaplumbağa cezimli bir hece okuyacak. O hecenin balonunu patlat. Başlamak için yeşil düğmeye bas.',
+        intro: 'Kaplumbağa cezimli bir hece okuyacak: o hecenin balonunu patlat, hemen yeni hece gelsin. Her hece altı kez gelir. 24 heceyi bitirince ' +
           'yoluna devam edersin; hiç can kaybetmezsen üç yıldız! Canların biterse oyun baştan başlar.',
         unit: 'hece', piece: 'balon patlat', pool: 'Oyundaki heceler' }
     }
@@ -230,12 +231,9 @@ const elifListeningGame = (() => {
   function drawSlots() {
     slotBox.innerHTML = Array.from({ length: ROUND }, () => '<li></li>').join('');
   }
-  // The letter being played: its slot fills in thirds, one for each drop popped.
+  // The letter being played: its slot glows.
   function markSlot() {
-    Array.from(slotBox.children).forEach((slot, n) => {
-      slot.classList.toggle('now', n === game.step);
-      if (n === game.step) slot.style.setProperty('--fill', 0);
-    });
+    Array.from(slotBox.children).forEach((slot, n) => slot.classList.toggle('now', n === game.step));
   }
   function addScore(points) {
     game.score += points;
@@ -331,20 +329,33 @@ const elifListeningGame = (() => {
   };
 
   /* ---------- A game ---------- */
-  // Fifteen letters for a section: each of the newest cove's letters, then the earlier ones for
-  // review (every learned letter while there are no more than fifteen), never one twice in a row.
-  function plan(letters, recent, before) {
-    const fresh = recent.filter(i => letters.includes(i));
-    const list = [...shuffled(fresh), ...shuffled(letters.filter(i => !fresh.includes(i)))].slice(0, ROUND);
-    let bag = [];
-    while (list.length < ROUND) {
-      if (!bag.length) bag = shuffled([...letters, ...fresh]);
-      list.push(bag.pop());
+  // The newest cove's letters, each of them in the same number of turns (in Hece Balonları the
+  // letter's three syllables share its turns). The turns go in rounds: every letter once a round,
+  // in a new order each time, and two other letters always come before a letter comes again.
+  function plan(letters, recent) {
+    let fresh = recent.filter(i => letters.includes(i));
+    if (!fresh.length) fresh = letters;
+    const groups = new Map();
+    for (const i of fresh) groups.set(kind.group(i), [...(groups.get(kind.group(i)) || []), i]);
+    const keys = [...groups.keys()];
+    const laps = Math.ceil(ROUND / keys.length);
+    // A letter's own turns: its syllables taking turns, the same one never twice running.
+    const turns = new Map(keys.map(g => {
+      const items = groups.get(g);
+      const list = Array.from({ length: laps }, (_, n) => items[n % items.length]);
+      let mixed = shuffled(list);
+      for (let tries = 0; tries < 60 && mixed.some((x, n) => n && x === mixed[n - 1]); tries++) mixed = shuffled(list);
+      return [g, mixed];
+    }));
+    const gap = Math.min(2, keys.length - 1); // letters between two turns of one letter
+    const order = [];
+    for (let lap = 0; lap < laps; lap++) {
+      const tooSoon = round => round.some((g, n) => order.slice(order.length - gap + n).includes(g));
+      let round = shuffled(keys);
+      for (let tries = 0; tries < 200 && order.length && tooSoon(round); tries++) round = shuffled(keys);
+      order.push(...round);
     }
-    const repeats = order => order[0] === before || order.some((x, n) => n > 0 && x === order[n - 1]);
-    let order = shuffled(list);
-    for (let tries = 0; tries < 80 && repeats(order); tries++) order = shuffled(list);
-    return order;
+    return order.slice(0, ROUND).map(g => turns.get(g).pop());
   }
   function reset() {
     session++;
@@ -363,7 +374,7 @@ const elifListeningGame = (() => {
   function newGame(withIntro) {
     reset();
     game = {
-      plan: plan(options.letters, options.recent, -1), step: 0, target: null, pops: 0,
+      plan: plan(options.letters, options.recent), step: 0, target: null,
       done: 0, popped: 0, completed: [], hearts: HEARTS, score: 0, streak: 0, listening: true, first: ++rounds === 1,
       nextSpawn: 0, sinceTarget: 2, lastLane: -1, targetLane: -1, lastLetter: -1, lastTone: -1, retalk: false, saved: false
     };
@@ -403,7 +414,6 @@ const elifListeningGame = (() => {
   // wrong tap is forgiven until the turtle has said it.
   function nextLetter(delay, mark) {
     game.target = game.plan[game.step];
-    game.pops = 0;
     game.listening = true;
     game.sinceTarget = 2; // the next drop is this letter, and it comes soon
     game.nextSpawn = Math.min(game.nextSpawn, clock + 0.3);
@@ -433,11 +443,11 @@ const elifListeningGame = (() => {
     return spread.length ? pick(spread) : all.length ? all[0] : -1;
   }
   // The letter being played never comes twice in a row: one or two other drops come between,
-  // and no more than three of it are in the air at once.
+  // and no more than two of it are in the air at once.
   function wantTarget() {
     if (game.sinceTarget === 0) return false;
     const falling = flying().length;
-    if (falling >= POPS) return false;
+    if (falling >= AIR) return false;
     return game.sinceTarget >= 2 || Math.random() < (falling ? 0.35 : 0.55);
   }
   function distractor() {
@@ -553,27 +563,20 @@ const elifListeningGame = (() => {
   function popDrop(drop) {
     drop.state = 'caught';
     const at = centre(drop);
-    game.pops++;
     game.popped++;
     game.streak++;
     // 50 points, up to 30 more for popping it early, and up to double for a long streak.
     const high = 1 - clamp01(kind.rising ? (spawnY - drop.y) / (spawnY - topY) : (drop.y - spawnY) / (surface - spawnY));
     const points = Math.round((50 + 30 * high) * Math.min(2, 1 + 0.1 * (game.streak - 1)) / 10) * 10;
     addScore(points);
-    playCue('pop', { rate: chord[game.pops - 1] });
+    playCue('pop', { rate: chord[(game.streak - 1) % chord.length] });
     sparkle(at);
     floatPoints('+' + points, at);
-    fly(drop, at, game.step, game.pops);
+    fly(drop, at, game.step);
     vanish(drop, 'pop');
-    if (game.pops < POPS) {
-      mood('happy', 700);
-      say(kind.name(drop.letter) + '. ' + game.pops + ' / ' + POPS);
-      narrate(); // the turtle says it again: one more of the same letter
-      return;
-    }
     completeLetter(drop.letter);
   }
-  // Three popped: the drops of this letter still in the air pop by themselves, and the next
+  // Popped: the other drops of this letter still in the air pop by themselves, and the next
   // letter follows while the rain goes on.
   function completeLetter(letter) {
     game.done++;
@@ -647,21 +650,16 @@ const elifListeningGame = (() => {
     scene.append(tag);
     setTimeout(() => tag.remove(), 1000);
   }
-  // The popped letter flies up to its slot: the first two fill a third each, the third the slot.
-  function fly(drop, at, index, stage) {
+  // The popped letter flies up to its slot.
+  function fly(drop, at, index) {
     const slot = slotBox.children[index];
     const mine = session;
     let landed = false;
     const land = () => {
       if (landed || mine !== session || !slot?.isConnected) return;
       landed = true;
-      if (stage < POPS) {
-        slot.style.setProperty('--fill', Math.max(stage, Number(slot.style.getPropertyValue('--fill')) || 0));
-        fx.bump(slot, 'tick');
-      } else {
-        slot.className = 'got t' + drop.tone;
-        slot.innerHTML = glyph(drop.letter, drop.text);
-      }
+      slot.className = 'got t' + drop.tone;
+      slot.innerHTML = glyph(drop.letter, drop.text);
       playCue('key', { gain: 0.45 });
     };
     if (calm.matches || !slot) return land();
@@ -706,7 +704,7 @@ const elifListeningGame = (() => {
   const recordLine = (record, best) => record ? '<p class="rain-record new">🏆 Yeni rekor!</p>' :
     best.rekor ? '<p class="rain-record">🏆 Rekorun: ' + best.rekor + ' puan</p>' : '';
 
-  // All 45 drops popped: the rain stops and the sun comes out.
+  // All 24 popped: the rain stops and the sun comes out.
   function finish() {
     state = 'won';
     setPrompt('');
@@ -814,7 +812,7 @@ const elifListeningGame = (() => {
       '<i class="rain-drop-skin"></i>' + glyph(i) + '</span></span>').join('') +
       '</div><h2 id="rain-title" tabindex="-1">' + kind.title + '</h2>' +
       '<p>' + kind.t.intro + '</p>' +
-      '<ul class="rain-facts"><li><b>15</b><span>' + kind.t.unit + '</span></li><li><b>45</b><span>' + kind.t.piece + '</span></li>' +
+      '<ul class="rain-facts"><li><b>' + new Set(game.plan).size + '</b><span>' + kind.t.unit + '</span></li><li><b>' + ROUND + '</b><span>' + kind.t.piece + '</span></li>' +
       '<li><b>3</b><span>can</span></li></ul>' +
       '<div class="rain-pool" aria-label="' + kind.t.pool + '">' + options.letters.map(i => '<b lang="ar" title="' + kind.name(i) + '">' + kind.text(i) + '</b>').join('') + '</div>' +
       (best.tamam ? '<p class="rain-record">✅ Bölümü tamamladın · 🏆 ' + best.rekor + ' puan</p>' :

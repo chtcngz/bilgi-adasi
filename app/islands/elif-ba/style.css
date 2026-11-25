@@ -316,14 +316,50 @@
 .elif-place { display: inline-flex; direction: rtl; gap: 4px; vertical-align: middle; padding: 4px 0; }
 .elif-place i { width: 14px; height: 18px; border-radius: 4px; background: #d9d2c3; }
 .elif-place i.on { background: #d2452f; }
-.elif-choices.places .elif-place { gap: 6px; }
-.elif-choices.places .elif-place i { width: 24px; height: 32px; border-radius: 6px; }
 #elif-prompt .elif-place i { width: 16px; height: 22px; }
-.elif-rtl { margin: -4px 0 8px; font-size: 30px; color: #d2452f; line-height: 1; }
-.elif-word-big { display: grid; justify-items: center; padding: 4px 26px 10px; }
-.elif-word-big b { font-size: clamp(64px, 16vw, 88px); color: #3d3a33; }
-.elif-word-big small { font-size: 20px; }
-.elif-choices.places .elif-choice { min-height: 72px; }
+/* Harf avı: the letter alone in a bubble above a word it hides in, found there in its joined shape. */
+.elif-hunt { position: relative; display: grid; justify-items: center; margin: 6px 0 4px; }
+.elif-hunt-bubble {
+  position: relative; z-index: 2; display: grid; place-items: center; width: 124px; height: 124px; padding: 0; border-radius: 50%;
+  border: 3px solid var(--rim); color: var(--ink); touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none;
+  background: radial-gradient(circle at 32% 28%, #fff 0 14%, transparent 15%), radial-gradient(circle at 50% 45%, #fff, var(--tint) 70%);
+  box-shadow: 0 6px var(--rim), 0 10px 22px #0000001a; animation: elif-hunt-bob 2.6s ease-in-out infinite;
+}
+.elif-hunt-bubble b { font-size: 84px; line-height: 1.5; pointer-events: none; }
+.elif-hunt-bubble.dragging { cursor: grabbing; animation: none; box-shadow: 0 14px 30px #0003; }
+.elif-hunt-bubble.returning { animation: none; transition: transform .3s cubic-bezier(.3, 1.5, .5, 1); }
+.elif-hunt-bubble.flying { animation: none; transition: transform .38s ease-in, opacity .38s ease-in; opacity: .2; }
+.elif-hunt-bubble.became { width: auto; height: auto; padding: 0 22px; border-radius: 30px; background: var(--tint); animation: pop-in .45s cubic-bezier(.2, 1.4, .4, 1); cursor: default; }
+.elif-hunt-bubble.became span { display: flex; align-items: center; gap: 10px; }
+.elif-hunt-bubble.became b { font-size: 64px; }
+.elif-hunt-bubble.became i { font-style: normal; font-size: 36px; line-height: 1; }
+.elif-hunt-bubble:disabled { opacity: 1; }
+@keyframes elif-hunt-bob { 50% { transform: translateY(-6px); } }
+.elif-hunt-trail { width: 0; height: 26px; margin: 4px 0; border-left: 5px dotted #e3c98f; }
+.elif-hunt-word {
+  min-width: 72%; padding: 0 22px 8px; border-radius: 26px; border: 3px dashed #e3c98f; color: #3d3a33; cursor: pointer;
+  background: linear-gradient(#fffaf0, #fbefd4); box-shadow: inset 0 -6px #f3e1b8;
+}
+.elif-hunt-word b { display: block; font: normal clamp(76px, 20vw, 108px)/1.65 "Traditional Arabic", "Times New Roman", serif; white-space: nowrap; }
+.elif-hunt-word:disabled { opacity: 1; cursor: default; }
+.elif-hunt-letter { border-radius: 12px; transition: background-color .2s, color .2s; }
+.elif-hunt-letter.hover { background: #ffd86a; color: #7a4a00; }
+.elif-hunt-letter.found, .elif-hunt-letter.matched { color: #1f8a6e; background: #d6f2de; }
+.elif-hunt-letter.chosen-wrong { color: #c63a2b; background: #fde1dc; }
+.elif-hunt-letter.say { background: #ffe08a; }
+.elif-hunt-hand {
+  position: absolute; left: 0; top: 0; z-index: 3; font-size: 46px; line-height: 1; opacity: 0; pointer-events: none;
+  transform: translate(calc(var(--x0, 0px) - 23px), var(--y0, 0px));
+}
+.elif-hunt-hand.go { animation: elif-hunt-hand 2.4s ease-in-out; }
+@keyframes elif-hunt-hand {
+  0% { opacity: 0; transform: translate(calc(var(--x0) - 23px), var(--y0)); }
+  15% { opacity: 1; transform: translate(calc(var(--x0) - 23px), var(--y0)); }
+  62% { opacity: 1; transform: translate(calc(var(--x1) - 23px), var(--y1)); }
+  72% { opacity: 1; transform: translate(calc(var(--x1) - 23px), var(--y1)) scale(.82); }
+  84% { opacity: 1; transform: translate(calc(var(--x1) - 23px), var(--y1)); }
+  100% { opacity: 0; transform: translate(calc(var(--x1) - 23px), var(--y1)); }
+}
 
 /* Game dialog */
 #elif-game { text-align: center; background: #fffcf4; width: min(520px, 94vw); }
@@ -384,10 +420,12 @@
   .elif-cards.syllables, .elif-cards.shapes, .elif-cards.cezms { grid-template-columns: 1fr; }
   .elif-tile { min-height: 116px; }
   .elif-big b { font-size: 80px; }
+  .elif-hunt-word { min-width: 0; width: 100%; padding: 0 10px 6px; }
   #elif-game { padding: 20px 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .elif-next-step, .elif-prize, .elif-won, .elif-choice.matched, .elif-map *, .elif-map-turtle { animation: none !important; }
+  .elif-next-step, .elif-prize, .elif-won, .elif-choice.matched, .elif-hunt-bubble { animation: none; }
+  .elif-map *, .elif-map-turtle { animation: none !important; }
 }
 
 

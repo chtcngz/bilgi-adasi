@@ -7,7 +7,7 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
-## 0.32.0 · 25.11.2026
+## 0.35.0 · 25.11.2026
 
 Elif Ba Adası’nın haritası yenilendi: 21 ada artık tek uzun haritada değil, **koylarda** duruyor. Önce koylar görünüyor; bir koya dokununca içine giriliyor ve o koyun adacıkları, bir adacığa dokununca da adacığın adımları açılıyor.
 
@@ -19,6 +19,35 @@ Elif Ba Adası’nın haritası yenilendi: 21 ada artık tek uzun haritada deği
 - ‹ düğmesi bir üst katmana çıkıyor; koyun ya da adacığın adına dokununca adı sesli söyleniyor. “Sıradaki” düğmesi de kaplumbağayı aynı yolculukla sıradaki adıma götürüyor. Eski bir koya dokununca kaplumbağa tekneyle oraya geri gidiyor.
 - Koyların içindeki adalar artık **adacık**: Kaplumbağa Adacığı, İnci Adacığı … Ay Işığı Adacığı. Yönetici sayfası da adacık diyor.
 - Cihazda “hareketi azalt” ayarı açıksa geçişler animasyonsuz, hemen oluyor.
+## 0.34.0 · 25.11.2026
+
+Elif Ba Adası’na **kız çocuk sesi** geldi ve artık ses Ayarlar’dan seçilebiliyor.
+
+- **Kız çocuk sesi (varsayılan):** Harf adları, üstün, esre, ötre ile okunuşlar (be, bi, bu …) ve bitişik yazılıştaki “kelimenin başında / ortasında / sonunda” artık çocuk sesiyle. “Be üstün be” ve “Sin cezm bis” gibi okuyuşlarda harekenin ve cezmin adını da çocuk söylüyor.
+- Çocuk sesinin kaydı olmayanlar (bitişik yazılış örnek kelimeleri, cezimli heceler) eskisi gibi erkek sesiyle çalınıyor.
+- **Ayarlar → Ses → Elif Ba sesleri:** *Kız çocuk sesi*, *Erkek sesi* (bütün kayıtlar önceki erkek sesiyle) ya da *Türkçe okunuş* (cihazın sesi) seçilebiliyor. Önceki erkek sesi kayıtlarının hepsi duruyor.
+- Daha önce Ayarlar’dan erkek sesini seçmiş olanlarda seçim değişmiyor.
+
+## 0.33.0 · 25.11.2026
+
+Elif Ba Adası’nın **Harf Yağmuru, Hece Balonları, Şekil Yağmuru ve Cezm Balonları** oyunları değişti: artık bir harf üst üste üç kez söylenmiyor.
+
+- **Bir harf, bir damla:** Kaplumbağa harfi bir kez söylüyor, o harften bir damla (balon) patlatılınca hemen yeni harf geliyor. Eskiden her harften üç damla patlatılıyor, harf her patlatmada yeniden söyleniyordu.
+- **Bölüm 24 soru:** Bölümde artık koyun dört harfi var ve her biri altı kez, farklı zamanlarda soruluyor (4 × 6 = 24). Eskiden bölüm 15 harf, 45 damlaydı. Önceki koyların harfleri yine araya karışan damlalarda çıkıyor.
+- **Sıra karışık ama üst üste gelmiyor:** Harfler dörtlü turlar hâlinde, her turda başka bir sırayla geliyor (ör. 1-4-3-2, 3-2-1-4). Bir harf, araya en az iki başka harf girmeden yeniden sorulmuyor.
+- **Hece Balonları:** Koyun dört harfi yine altışar kez geliyor; her harfin üç hecesi (üstün, esre, ötre) ikişer kez soruluyor.
+- Üstteki sıra 24 yuvaya çıktı ve iki satıra yerleşti; giriş kartı “4 harf · 24 damla patlat · 3 can” gösteriyor. Damlalar oyun ilerledikçe yine yavaş yavaş hızlanıyor.
+- Çocukların kayıtlı ilerlemesi ve rekorları olduğu gibi duruyor.
+
+## 0.32.0 · 25.11.2026
+
+Elif Ba Adası’nın bitişik yazılış turunda **“Kırmızı harf kelimenin neresinde?” sorusu kalktı**, yerine **Harf avı** geldi. Artık çocuk, harfin bitişik şeklini gerçek bir kelimenin içinde kendisi buluyor.
+
+- **Nasıl oynanıyor:** Üstte harf tek başına bir baloncukta (ت), altta bir kelime (تعجب) duruyor. Harf kelimede saklanmış; çocuk kelimede harfin üstüne dokunuyor ya da baloncuğu parmağıyla tutup harfin üstüne bırakıyor. Sürüklerken baloncuk parmağın biraz üstünde gidiyor ve altındaki harf sarı yanıyor. Baloncuğa dokununca harfin adı okunuyor.
+- **Okumadan anlaşılıyor:** Yönerge sesli söyleniyor; ayrıca bir el baloncuktan kelimeye gidip yolu gösteriyor. Bir süre bir şey yapılmazsa el yeniden geliyor.
+- **Bulununca:** Baloncuk kelimedeki harfin üstüne uçup kayboluyor, harf yeşil yanıyor ve baloncuk harfin o kelimedeki bitişik şekline dönüşüyor (ت ⬅ تـ). Sonra “Te, kelimenin başında” deniyor ve kelimenin bütün harfleri sağdan sola, her biri adı söylenirken sırayla yanarak okunuyor.
+- **Kelimeler:** Diyanet Elifba’nın 84 örnek kelimesinin hepsinden seçiliyor, yalnızca harfin kendi kelimelerinden değil; çoğu zaman içinde harfin noktadaş eşi de var (ت ararken ثبت), böylece noktalara bakmak gerekiyor.
+- Yanlış harfe dokununca o harf kırmızı, doğrusu yeşil yanıyor ve tur, öteki sorulardaki gibi baştan başlıyor.
 - Çocukların kayıtlı ilerlemesi olduğu gibi duruyor.
 
 ## 0.31.0 · 25.11.2026
