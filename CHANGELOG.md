@@ -7,6 +7,15 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.20.2 · 25.11.2026
+
+Doğru şıkkın öteki şıklardan belirgin biçimde kısa olduğu sorular da düzeltildi. Artık üç adada da doğru cevap şıkların uzunluğundan tahmin edilemiyor: doğru şık ne en uzun ne de en kısa olarak göze batıyor.
+
+- **Din Bilgisi Adası:** 5 soru (günah olan davranışlar, “İnşallah”, ilk mabet Kâbe, Ensar-Muhacir kardeşliği, Salli ve Barik duaları).
+- **Sosyal Bilgiler Adası:** 4 soru (pusula, Ankara, bilinçli tüketici, Spor Kulübü).
+- **Fen Bilimleri Adası:** 3 soru (dönme hareketi, eleme yöntemi, damla sulama).
+- Soruların anlamı ve doğru cevapları değişmedi; çocukların ilerlemesi olduğu gibi duruyor.
+
 ## 0.20.1 · 25.11.2026
 
 Doğru cevabı şıkkın uzunluğundan tahmin edilebilen sorular düzeltildi. Artık üç adada da doğru şık, öteki şıklardan belirgin biçimde uzun değil.
