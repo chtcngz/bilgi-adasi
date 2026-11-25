@@ -1,19 +1,22 @@
 // The coves of Elif Ba Adası as a map: islets joined by glass bridges (the Cam Köprü of each cove),
 // from Kaplumbağa Koyu at the bottom up to the lighthouse of the seventh cove, where the letters and
-// their harekes are done, and on to the seven coves of bitişik yazılış above it. The sea is taller
+// their harekes are done, on to the seven coves of bitişik yazılış above it, under a rainbow at their end,
+// and the seven coves of cezm, with sailing boats, up to the moon. The sea is taller
 // than the map's window and scrolls: it follows the turtle, which stands on the cove being looked at
 // and walks over the bridges, islet by islet, to wherever the child goes: forward to a new cove or
 // back to an earlier one. Below the sea, a wooden pier holds the steps of the cove the turtle stands
 // on (letters, harekes, games), as round buttons with pictures only.
 const elifMap = (() => {
-  const { coves, coveGlyphs, coveTopic } = elifData;
+  const { coves, coveGlyphs, coveTopic, LETTER_COVES } = elifData;
   // The frame is W × H: the window on the sea is the top SEA, the pier (PIER high) is below it. The sea
   // itself is W × WORLD; its bottom is shown first.
-  const W = 400, H = 672, SEA = 580, PIER = 68, WORLD = 1124;
-  const spots = [[84, 1034], [248, 1042], [334, 944], [180, 926], [72, 830], [214, 792], [326, 718], [128, 628],
-    [296, 560], [174, 476], [80, 390], [214, 330], [334, 236], [176, 118]];
+  const W = 400, H = 672, SEA = 580, PIER = 68, WORLD = 1724;
+  const spots = [[84, 1634], [248, 1642], [334, 1544], [180, 1526], [72, 1430], [214, 1392], [326, 1318], [128, 1228],
+    [296, 1160], [174, 1076], [80, 990], [214, 930], [334, 836], [176, 718],
+    [318, 640], [196, 560], [70, 480], [200, 404], [330, 330], [210, 236], [96, 136]];
   const short = ['Kaplumbağa', 'İnci', 'Mercan', 'Yıldız', 'Yunus', 'Sedef', 'Deniz Feneri', 'Martı',
-    'Yengeç', 'Ahtapot', 'Denizatı', 'Balina', 'Pelikan', 'Gökkuşağı'];
+    'Yengeç', 'Ahtapot', 'Denizatı', 'Balina', 'Pelikan', 'Gökkuşağı',
+    'Dalga', 'Yelken', 'Köpük', 'Rüzgâr', 'Pusula', 'Kumsal', 'Ay Işığı'];
   const LIGHTHOUSE = 6;
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
   const left = x => (x / W * 100).toFixed(2) + '%';
@@ -30,11 +33,17 @@ const elifMap = (() => {
     const lighthouse = '<g class="map-lighthouse" transform="translate(26 -6)"><circle cx="0" cy="-40" r="16" fill="#fff6b8" opacity=".55"/>' +
       '<path d="M-8 2-5.5-34H5.5L8 2Z" fill="#fff" stroke="#b94040" stroke-width="2"/><path d="M-7.2-8H7.2L6.6-17H-6.6ZM-6-25H6L5.6-31H-5.6Z" fill="#e05a5a"/>' +
       '<rect x="-6.5" y="-43" width="13" height="9" rx="2" fill="#ffe38a" stroke="#c98a1f" stroke-width="1.6"/><path d="M-9-43 0-50 9-43Z" fill="#b94040"/></g>';
-    // The last cove, where bitişik yazılış is done, has a rainbow over it.
+    // The cove where bitişik yazılış is done has a rainbow over it.
     const rainbow = '<g class="map-rainbow" fill="none" stroke-width="4.5" stroke-linecap="round">' +
       ['#e05a5a', '#f2a93b', '#ffd863', '#41a35c', '#3c8fd8', '#8a5ad8'].map((color, n) => '<path d="M' + (-40 + n * 4.5) + ' -8a' + (40 - n * 4.5) + ' ' + (34 - n * 4.5) +
       ' 0 0 1 ' + (80 - n * 9) + ' 0" stroke="' + color + '"/>').join('') + '</g>';
-    const LAST = coves.length - 1;
+    const RAINBOW = 2 * LETTER_COVES - 1, LAST = coves.length - 1;
+    // The coves of cezm have a sailing boat by them; the last one, Ay Işığı, a moon over it.
+    const boat = '<g class="map-boat" transform="translate(' + (k % 2 ? 50 : -58) + ' 10)"><path d="M-12 0H12L7 7H-7Z" fill="#b5652b" stroke="#7a3f17" stroke-width="1.6"/>' +
+      '<path d="M0-1V-24" stroke="#7a3f17" stroke-width="1.8"/><path d="M1.5-23 13-4H1.5Z" fill="#fffdf6" stroke="#d8d2c4" stroke-width="1"/>' +
+      '<path d="M-1.5-18-9-4H-1.5Z" fill="#ffd863"/></g>';
+    const moon = '<g class="map-moon" transform="translate(24 -30)"><circle r="17" fill="#fff6b8" opacity=".45"/>' +
+      '<path d="M4-12A13 13 0 1 0 4 12A10 10 0 1 1 4-12Z" fill="#ffe38a" stroke="#c98a1f" stroke-width="1.6"/></g>';
     // The coves of bitişik yazılış have seagulls over them.
     const gulls = '<g class="map-gulls" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">' +
       '<path d="M-30-36q5-6 10 0q5-6 10 0"/><path d="M-12-50q4-5 8 0q4-5 8 0"/></g>';
@@ -42,8 +51,8 @@ const elifMap = (() => {
       '<ellipse class="map-halo" rx="64" ry="40" fill="none" stroke="#ffe38a" stroke-width="5"/>' +
       '<ellipse rx="60" ry="37" fill="#a8ecf2" opacity=".75"/><ellipse class="map-sand" rx="49" ry="29" fill="#f3d892"/>' +
       '<g transform="' + flip.trim() + '"><path class="map-grass" d="M-34-4C-30-20 0-26 20-18c14 6 10 18-6 20C-8 5-36 8-34-4Z" fill="#9fd88a"/>' +
-      (k === LIGHTHOUSE || k === LAST ? '' : palm) + '</g>' + (k === LIGHTHOUSE ? lighthouse : '') + (k === LAST ? rainbow : '') +
-      (coveTopic(k) === 'bitisik' ? gulls : '') + '</g>';
+      ([LIGHTHOUSE, RAINBOW, LAST].includes(k) ? '' : palm) + '</g>' + (k === LIGHTHOUSE ? lighthouse : '') + (k === RAINBOW ? rainbow : '') +
+      (k === LAST ? moon : '') + (coveTopic(k) === 'bitisik' ? gulls : '') + (coveTopic(k) === 'cezm' ? boat : '') + '</g>';
   }
   function bridge(k) {
     const [x1, y1] = spots[k], [x2, y2] = spots[k + 1];
@@ -56,8 +65,7 @@ const elifMap = (() => {
     '<g stroke="#b9854c" stroke-width="2">' + [1, 2, 3, 4, 5, 6, 7, 8].map(n => '<line x1="' + (14 + n * 41.3) + '" y1="' + (SEA + 8) + '" x2="' + (14 + n * 41.3) + '" y2="' + (SEA + PIER + 4) + '"/>').join('') + '</g>' +
     '<path d="M18 ' + (SEA + PIER + 4) + 'q46 12 91 0t91 0t91 0t91 0" fill="none" stroke="#f3e2c0" stroke-width="3" stroke-linecap="round"/></g>';
   const wave = ([x, y]) => '<path d="M' + x + ' ' + y + 'q7-6 14 0t14 0"/>';
-  const waves = [[250, 40], [40, 60], [330, 150], [60, 220], [290, 330], [124, 300], [340, 420], [40, 500], [150, 560], [30, 640],
-    [250, 650], [330, 600], [372, 840], [250, 860], [40, 930], [120, 990], [330, 1060], [250, 900], [140, 1094], [24, 1110], [372, 1114]].map(wave).join('');
+  const waves = [[250, 40], [40, 70], [340, 110], [150, 200], [40, 300], [300, 250], [120, 340], [370, 420], [280, 470], [30, 580], [130, 640], [250, 640], [40, 660], [330, 750], [60, 820], [290, 930], [124, 900], [340, 1020], [40, 1100], [150, 1160], [30, 1240], [250, 1250], [330, 1200], [372, 1440], [250, 1460], [40, 1530], [120, 1590], [330, 1660], [250, 1500], [140, 1694], [24, 1710], [372, 1714]].map(wave).join('');
   const waveRow = '<g class="map-waves" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity=".55">';
 
   let host = null, sea = null, turtle = null, dockList = null, buttons = [], at = 0, walking = false;

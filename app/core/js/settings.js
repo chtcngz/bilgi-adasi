@@ -203,11 +203,14 @@
     const summary = window.elifBaSummary(activeProfile.id);
     $('elif-summary').textContent = '🐚 ' + summary.harf + ' / 28 harf · 🦪 ' + summary.hareke + ' / 28 hareke' +
       (summary.bitisik ? ' · 🪸 ' + summary.bitisik + ' / 28 bitişik yazılış' : '') +
+      (summary.cezm ? ' · ⭐ ' + summary.cezm + ' / 28 cezm' : '') +
       (summary.tamam ? ' · 🌧️ Harf Yağmuru tamamlandı (rekor ' + summary.rekor + ')' : summary.rekor ? ' · 🌧️ Harf Yağmuru rekoru ' + summary.rekor : '') +
       (summary.balon?.tamam ? ' · 🎈 Hece Balonları tamamlandı (rekor ' + summary.balon.rekor + ')' :
         summary.balon?.rekor ? ' · 🎈 Hece Balonları rekoru ' + summary.balon.rekor : '') +
       (summary.sekil?.tamam ? ' · ☔ Şekil Yağmuru tamamlandı (rekor ' + summary.sekil.rekor + ')' :
         summary.sekil?.rekor ? ' · ☔ Şekil Yağmuru rekoru ' + summary.sekil.rekor : '') +
+      (summary.cezmbalon?.tamam ? ' · 🎐 Cezm Balonları tamamlandı (rekor ' + summary.cezmbalon.rekor + ')' :
+        summary.cezmbalon?.rekor ? ' · 🎐 Cezm Balonları rekoru ' + summary.cezmbalon.rekor : '') +
       (summary.kopru?.gecilen ? ' · 🌉 ' + summary.kopru.gecilen + ' / ' + summary.kopru.koy + ' Cam Köprü geçildi' + (summary.kopru.rekor ? ' (rekor ' + summary.kopru.rekor + ')' : '') :
         summary.kopru?.rekor ? ' · 🌉 Cam Köprü rekoru ' + summary.kopru.rekor : '');
     $('elif-reset').disabled = !summary.any;

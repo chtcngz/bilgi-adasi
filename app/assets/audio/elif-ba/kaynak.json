@@ -118,7 +118,7 @@
  "sources": {
   "diyanet": {
    "title": "Diyanet Elifba",
-   "credit": "Harf adları, harekeli okumalar ve bitişik yazılış örnekleri: Diyanet İşleri Başkanlığı, Kur’an-ı Kerim Elifba.",
+   "credit": "Harf adları, harekeli okumalar, bitişik yazılış örnekleri ve cezimli heceler: Diyanet İşleri Başkanlığı, Kur’an-ı Kerim Elifba.",
    "notes": [
     "28 harf adı ve 84 harekeli okuma Diyanet İşleri Başkanlığının Elifba uygulamasından alınmıştır. Harf adları Harfler dersinden, heceler Fetha, Kesra ve Damme derslerinden eşleştirilmiştir.",
     "",
@@ -1156,6 +1156,221 @@
    "text": "لق{ى}",
    "archiveFile": "elifba/harfler/sekilleri/okuma/لقى__btn_90.mp3",
    "sha256": "6eba60cd18821a7dfffcd8aa41975b56bdda85777f11b0b6bc2b645415bab659"
+  },
+  "cezm/00.mp3": {
+   "text": "بِئْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/بِئْ__btn_1.mp3",
+   "sha256": "63bc8857b913e9fc0ba86c524a651c33658266e383060a4a740acfe03f022222"
+  },
+  "cezm/01.mp3": {
+   "text": "تِبْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/تِبْ__btn_2.mp3",
+   "sha256": "ed1b3ee36cc770acdd7e8ca35c5f02f569f6b58587f98d4c025c3b56484df443"
+  },
+  "cezm/02.mp3": {
+   "text": "مُتْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/مُتْ__btn_3.mp3",
+   "sha256": "a4aeea58f73533ae37a1b896ef49163c2c275ee4a7778152bf3ad7140407eeb5"
+  },
+  "cezm/03.mp3": {
+   "text": "هَثْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/هَثْ__btn_4.mp3",
+   "sha256": "acf886deec05bfe3e0d9625efde3135b0efca557d744c708b5dc1f52acf9642c"
+  },
+  "cezm/04.mp3": {
+   "text": "يَجْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/يَجْ__btn_5.mp3",
+   "sha256": "d40c63e847690ce9dcba7b7895b3478cce8227b0ee5f8f79b0a4ae7d9e46adf4"
+  },
+  "cezm/05.mp3": {
+   "text": "يَحْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/يَحْ__btn_6.mp3",
+   "sha256": "060287f878fcceb581a95f5265c48651a7408d623e01f7cf7eb8a8653e5359d8"
+  },
+  "cezm/06.mp3": {
+   "text": "سِخْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/سِخْ__btn_7.mp3",
+   "sha256": "221912f2694e3fe0efc21d65a464f48f453350741230b4a71339bd1e8a8b418e"
+  },
+  "cezm/07.mp3": {
+   "text": "قَدْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/قَدْ__btn_8.mp3",
+   "sha256": "8e2398deb376433ed50abf3651d99394a71d2424a487d2d61849ccba6b862a78"
+  },
+  "cezm/08.mp3": {
+   "text": "عُذْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/عُذْ__btn_9.mp3",
+   "sha256": "6a73bffdbbaca9c4d8cf5ba367e1b14415062301670d80e807ce32c27c8379a9"
+  },
+  "cezm/09.mp3": {
+   "text": "صِرْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/صِرْ__btn_10.mp3",
+   "sha256": "c88b23f19589dbb2f1a5821375d0fbe6ab5805fe0128d742e429c25b9b0d2bee"
+  },
+  "cezm/10.mp3": {
+   "text": "وَزْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/وَزْ__btn_11.mp3",
+   "sha256": "9d43bbb89a0095d53c11236d8426c69e1ad3516f62cfa16160f58f8544471b98"
+  },
+  "cezm/11.mp3": {
+   "text": "بِسْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/بِسْ__btn_12.mp3",
+   "sha256": "012c6bd9207b873590bee886ea2d746b4e9b856d1c1e6ca1e105578095e25a87"
+  },
+  "cezm/12.mp3": {
+   "text": "خَشْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/خَشْ__btn_13.mp3",
+   "sha256": "7247846a94044484e19dd273925c53b6f7f82ffd7991e06e88ee667968c3d707"
+  },
+  "cezm/13.mp3": {
+   "text": "فَصْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/فَصْ__btn_14.mp3",
+   "sha256": "9924dde8f2d04f29acaefe2835f236e62bea2c6cec019815d3252484edcdb2d2"
+  },
+  "cezm/14.mp3": {
+   "text": "رِضْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/رِضْ__btn_15.mp3",
+   "sha256": "db1bb358451b0e32de34d5927ccc8aa50666cc4f02df11e8d67d389b69737c7e"
+  },
+  "cezm/15.mp3": {
+   "text": "شَطْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/شَطْ__btn_16.mp3",
+   "sha256": "a2a9e8c2d3dc106b0855850547dd79f718a4cd378e5eacae6c13824b4dbedf46"
+  },
+  "cezm/16.mp3": {
+   "text": "تُظْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/تُظْ__btn_17.mp3",
+   "sha256": "873b43cf9c04e7d3c93c6ffb3052d776b60acd9bbf2058a2d10101633c4ce6df"
+  },
+  "cezm/17.mp3": {
+   "text": "نَعْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/نَعْ__btn_18.mp3",
+   "sha256": "841af6e4efc484e57fdef941e01202b69c2db471344385c479da615daf21d7f8"
+  },
+  "cezm/18.mp3": {
+   "text": "مَغْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/مَغْ__btn_19.mp3",
+   "sha256": "afd68559af112fd57368d40376f7471ea256a378f27b9049a197c9a96ceaa4ff"
+  },
+  "cezm/19.mp3": {
+   "text": "غُفْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/غُفْ__btn_20.mp3",
+   "sha256": "d6019ecb219c6ac53c2c907650848b8cbb9fb55f08c2e524dea392a218bc3781"
+  },
+  "cezm/20.mp3": {
+   "text": "فَقْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/فَقْ__btn_21.mp3",
+   "sha256": "e68643f7981077c765bcb92be5f46deb9c5407b2664003dcec65feb9241d80e6"
+  },
+  "cezm/21.mp3": {
+   "text": "رَكْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/رَكْ__btn_22.mp3",
+   "sha256": "fde2a86c15095e8f23e41965e9b3d25a3444b207c0f147e22be359eef56e69f4"
+  },
+  "cezm/22.mp3": {
+   "text": "زُلْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/زُلْ__btn_23.mp3",
+   "sha256": "2b8b814d2c9de8f5d590f5a2e279db7e3c8ffefca04f797edb5fb6143bcafa76"
+  },
+  "cezm/23.mp3": {
+   "text": "هُمْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/هُمْ__btn_24.mp3",
+   "sha256": "ca284736112e2185f45cf0deb53570a92f696fe746f8785d579b9829e7911150"
+  },
+  "cezm/24.mp3": {
+   "text": "مَنْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/مَنْ__btn_25.mp3",
+   "sha256": "785b1863d046e95c2439fbcd70d7fb034e41d6056f35f718d4217c9cfd7ae29c"
+  },
+  "cezm/25.mp3": {
+   "text": "اَوْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/اَوْ__btn_27.mp3",
+   "sha256": "3d5c4e3612299fc200517bf78abf91d4b9d6e12fe45e9d6ce22e9c2d0dbb7f85"
+  },
+  "cezm/26.mp3": {
+   "text": "صِهْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/صِهْ__btn_26.mp3",
+   "sha256": "7de55930fbfc91c87aa99c5dd5c3a4d3f4f753803d1a037e1cbbf65c446eed1a"
+  },
+  "cezm/27.mp3": {
+   "text": "وَىْ",
+   "archiveFile": "elifba/cezm/kavrama/okuma/وَىْ__btn_28.mp3",
+   "sha256": "753502ab74d1952c09c93e0ed7e490f25332bc4369383c9053abfbf26b276abc"
+  },
+  "cezm-ornek/0-0.mp3": {
+   "text": "اَصَ",
+   "archiveFile": "elifba/cezm/cezm/okuma/اَصَ__btn_1.mp3",
+   "sha256": "699e45dbd48f7b2953a47fd13117e37e96bd5b06d8482120f70588efdce91a05"
+  },
+  "cezm-ornek/0-1.mp3": {
+   "text": "اَصْ",
+   "archiveFile": "elifba/cezm/cezm/okuma/اَصْ__btn_2.mp3",
+   "sha256": "08055834c10504edbec0b4847b6f8012f18ed462a793cde5f9470e33469adcbf"
+  },
+  "cezm-ornek/0-2.mp3": {
+   "text": "اَصْلَحَ",
+   "archiveFile": "elifba/cezm/cezm/okuma/اَصْلَحَ__btn_3.mp3",
+   "sha256": "b16c0c8a58213344534daa92b784a8d1d3c0b7ae6d751ad8da57aa0919bd9562"
+  },
+  "cezm-ornek/1-0.mp3": {
+   "text": "وِرَ",
+   "archiveFile": "elifba/cezm/cezm/okuma/وِرَ__btn_4.mp3",
+   "sha256": "e1677cf59135c938e02794d4e4b530659e9580edf6bd456b6610fe3670a924d1"
+  },
+  "cezm-ornek/1-1.mp3": {
+   "text": "وِرْ",
+   "archiveFile": "elifba/cezm/cezm/okuma/وِرْ__btn_5.mp3",
+   "sha256": "262997b3abd2774d4246e9a607747eedeac922a13169a8e8dcc1905d0095953c"
+  },
+  "cezm-ornek/1-2.mp3": {
+   "text": "وِرْدًا",
+   "archiveFile": "elifba/cezm/cezm/okuma/وِرْدًا__btn_6.mp3",
+   "sha256": "ac984299194ced5b32f55131e1c00e2d1f4e8b36d215f0111c1e8db723b9c8db"
+  },
+  "cezm-ornek/2-0.mp3": {
+   "text": "يَئِسَ",
+   "archiveFile": "elifba/cezm/cezm/okuma/يَئِسَ__btn_7.mp3",
+   "sha256": "87906164d9f6c4596bfafc12addcd7aeb336ef5449c778b0c24ab36cf42d7e98"
+  },
+  "cezm-ornek/2-1.mp3": {
+   "text": "يَئِسْ",
+   "archiveFile": "elifba/cezm/cezm/okuma/يَئِسْ__btn_8.mp3",
+   "sha256": "36262dd3d1dfd9e2715d064ac47948880efb31c3794a2ccd00e3a003eafd7f6a"
+  },
+  "cezm-ornek/2-2.mp3": {
+   "text": "يَئِسْنَ",
+   "archiveFile": "elifba/cezm/cezm/okuma/يَئِسْنَ__btn_9.mp3",
+   "sha256": "f63da60bf0e6a615f81574ead34883a457bcc5a667789de66c9f56b7ca73aabe"
+  },
+  "cezm-ornek/3-0.mp3": {
+   "text": "فَحُكَ",
+   "archiveFile": "elifba/cezm/cezm/okuma/فَحُكَ__btn_10.mp3",
+   "sha256": "1bd19d7695054546a825365a9fc358f1f8a0f1e868c5e4e850140ef16661cab1"
+  },
+  "cezm-ornek/3-1.mp3": {
+   "text": "فَحُكْ",
+   "archiveFile": "elifba/cezm/cezm/okuma/فَحُكْ__btn_11.mp3",
+   "sha256": "aab4c4d24b3050c43450e28f4b46f917d26ce59d07809d194280e777ac212e71"
+  },
+  "cezm-ornek/3-2.mp3": {
+   "text": "فَحُكْمُ",
+   "archiveFile": "elifba/cezm/cezm/okuma/فَحُكْمُ__btn_12.mp3",
+   "sha256": "7b691f7355c2c35ec7ce785cc5a352f4e34eb250badbc1e74826705338865fcd"
+  },
+  "cezm-ornek/4-0.mp3": {
+   "text": "اِذَ",
+   "archiveFile": "elifba/cezm/cezm/okuma/اِذَ__btn_13.mp3",
+   "sha256": "cf5f099cae518eb49674738a9e9a0bf86a11d835b5ce392e8d21e837b3fb0208"
+  },
+  "cezm-ornek/4-1.mp3": {
+   "text": "اِذْ",
+   "archiveFile": "elifba/cezm/cezm/okuma/اِذْ__btn_14.mp3",
+   "sha256": "221c38914b66476b0c96dd1500f93c1e0f85b9c1a91b0341723ea75171558b29"
+  },
+  "cezm-ornek/4-2.mp3": {
+   "text": "اِذْ قَامُوا",
+   "archiveFile": "elifba/cezm/cezm/okuma/اِذْ-قَامُوا__btn_15.mp3",
+   "sha256": "cbe29fdf60c9931d048cdd8e53e80c38157aa5da047f671f00518adf0053aa1b"
   }
  },
  "kelime": {
@@ -1248,5 +1463,52 @@
   "1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/basinda.mp3",
   "2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/ortasinda.mp3",
   "3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/sonunda.mp3"
+ },
+ "cezm": {
+  "00": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_1.mp3",
+  "01": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_2.mp3",
+  "02": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_3.mp3",
+  "03": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_4.mp3",
+  "04": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_5.mp3",
+  "05": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_6.mp3",
+  "06": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_7.mp3",
+  "07": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_8.mp3",
+  "08": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_9.mp3",
+  "09": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_10.mp3",
+  "10": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_11.mp3",
+  "11": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_12.mp3",
+  "12": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_13.mp3",
+  "13": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_14.mp3",
+  "14": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_15.mp3",
+  "15": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_16.mp3",
+  "16": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_17.mp3",
+  "17": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_18.mp3",
+  "18": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_19.mp3",
+  "19": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_20.mp3",
+  "20": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_21.mp3",
+  "21": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_22.mp3",
+  "22": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_23.mp3",
+  "23": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_24.mp3",
+  "24": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_25.mp3",
+  "25": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_27.mp3",
+  "26": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_26.mp3",
+  "27": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_28.mp3"
+ },
+ "cezmOrnek": {
+  "0-0": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_1.mp3",
+  "0-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_2.mp3",
+  "0-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_3.mp3",
+  "1-0": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_4.mp3",
+  "1-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_5.mp3",
+  "1-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_6.mp3",
+  "2-0": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_7.mp3",
+  "2-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_8.mp3",
+  "2-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_9.mp3",
+  "3-0": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_10.mp3",
+  "3-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_11.mp3",
+  "3-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_12.mp3",
+  "4-0": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_13.mp3",
+  "4-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_14.mp3",
+  "4-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_15.mp3"
  }
 }

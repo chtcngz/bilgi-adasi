@@ -19,17 +19,20 @@ const elifData = (() => {
     { name: 'Esre', mark: 'ِ', place: 'Harfin altında eğik bir çizgi' },
     { name: 'Ötre', mark: 'ُ', place: 'Harfin üstünde küçük bir vav' }
   ];
-  // The first seven coves teach the letters and their harekes, four letters each; from the eighth on,
-  // the same groups of four come again to learn how they are written joined (bitişik yazılış).
+  // The first seven coves teach the letters and their harekes, four letters each; the next seven go
+  // through the same groups of four again to learn how they are written joined (bitişik yazılış), and
+  // the seven after them to read each letter with a cezm.
   const coves = ['Kaplumbağa Koyu', 'İnci Koyu', 'Mercan Koyu', 'Yıldız Koyu', 'Yunus Koyu', 'Sedef Koyu', 'Deniz Feneri Koyu',
-    'Martı Koyu', 'Yengeç Koyu', 'Ahtapot Koyu', 'Denizatı Koyu', 'Balina Koyu', 'Pelikan Koyu', 'Gökkuşağı Koyu'];
+    'Martı Koyu', 'Yengeç Koyu', 'Ahtapot Koyu', 'Denizatı Koyu', 'Balina Koyu', 'Pelikan Koyu', 'Gökkuşağı Koyu',
+    'Dalga Koyu', 'Yelken Koyu', 'Köpük Koyu', 'Rüzgâr Koyu', 'Pusula Koyu', 'Kumsal Koyu', 'Ay Işığı Koyu'];
   const LETTER_COVES = 7;
-  const coveTopic = k => k < LETTER_COVES ? 'harf' : 'bitisik';
+  const TOPICS = ['harf', 'bitisik', 'cezm'];
+  const coveTopic = k => TOPICS[Math.floor(k / LETTER_COVES)];
   const sections = [
     { id: 'harf', title: 'Harfler', lead: '28 harfi tanı, sesinden bul', prize: '🐚', prizeName: 'deniz kabuğu' },
     { id: 'hareke', title: 'Harekeler', lead: 'Üstün, esre ve ötre ile oku', prize: '🦪', prizeName: 'inci' },
     { id: 'bitisik', title: 'Bitişik yazılış', lead: 'Harflerin başta, ortada ve sonda yazılışı', prize: '🪸', prizeName: 'mercan' },
-    { id: 'cezm', title: 'Cezm', lead: 'Sessiz harflerle hece kur', soon: true },
+    { id: 'cezm', title: 'Cezm', lead: 'Sessiz harflerle hece kur', prize: '⭐', prizeName: 'deniz yıldızı' },
     { id: 'tenvin', title: 'Tenvin', lead: 'İki üstün, iki esre, iki ötre', soon: true },
     { id: 'sedde', title: 'Şedde', lead: 'Harfi iki kez oku', soon: true },
     { id: 'med', title: 'Uzatma', lead: 'Med harfleriyle uzun okuma', soon: true },
@@ -47,8 +50,35 @@ const elifData = (() => {
   const joinsNext = i => !apart.has(i);
   const KASHIDA = 'ـ';
   const shape = (i, f) => (f >= 2 ? KASHIDA : '') + glyphs[i] + ((f === 1 || f === 2) && joinsNext(i) ? KASHIDA : '');
-  // A cove's letters as the map and the path show them: alone, or in their middle shape in a bitişik cove.
-  const coveGlyphs = k => coveLetters(k).map(i => coveTopic(k) === 'bitisik' ? shape(i, 2) : glyphs[i]);
+  // Cezm: the letter with a cezm (sükûn, ْ) has no hareke of its own and is read together with the
+  // harekeli letter before it (be esre bi, sin cezm: bis). Diyanet's Elifba ("Cezm", Kavrama) has one such
+  // syllable for every letter, the letter being the one with the cezm; in Elif's place it is a hemze.
+  const SUKUN = 'ْ';
+  const cezmTexts = ['بِئْ', 'تِبْ', 'مُتْ', 'هَثْ', 'يَجْ', 'يَحْ', 'سِخْ', 'قَدْ', 'عُذْ', 'صِرْ', 'وَزْ', 'بِسْ', 'خَشْ', 'فَصْ',
+    'رِضْ', 'شَطْ', 'تُظْ', 'نَعْ', 'مَغْ', 'غُفْ', 'فَقْ', 'رَكْ', 'زُلْ', 'هُمْ', 'مَنْ', 'اَوْ', 'صِهْ', 'وَىْ'];
+  // Their readings, only spoken by the Turkish voice and compared, never shown.
+  const cezmReadings = ['bi’', 'tib', 'mut', 'hes', 'yec', 'yah', 'sih', 'kad', '‘uz', 'sır', 'vez', 'bis', 'haş', 'fas',
+    'rıd', 'şat', 'tuz', 'ne‘', 'mağ', 'ğuf', 'fak', 'rek', 'zul', 'hum', 'men', 'ev', 'sıh', 'vey'];
+  // cezm(i): the syllable in which letter i has the cezm: its text, the harekeli letter before it
+  // ({ i, h }) and the letter with its cezm on its own (سْ).
+  function cezm(i) {
+    const text = cezmTexts[i];
+    const before = glyphs.indexOf(text[0] === 'ى' ? 'ي' : text[0]);
+    return { text, before: { i: before, h: harekeler.findIndex(x => x.mark === text[1]) }, sakin: text.slice(2) };
+  }
+  const plain = reading => reading.replace(/[’‘]/g, '').replace(/ı/g, 'i');
+  const cezmAlike = (a, b) => plain(cezmReadings[a]) === plain(cezmReadings[b]);
+  // A hemze or ayn with a cezm is only a catch in the voice: its syllable is never set beside the same
+  // syllable without the cezm (bi’ and bi), which cannot be told apart by ear.
+  const cezmFaint = i => i === 0 || i === 17;
+  // Diyanet's own five examples of a cezm: the letters without it, with it, then the word they begin.
+  const cezmExamples = [['اَصَ', 'اَصْ', 'اَصْلَحَ'], ['وِرَ', 'وِرْ', 'وِرْدًا'], ['يَئِسَ', 'يَئِسْ', 'يَئِسْنَ'], ['فَحُكَ', 'فَحُكْ', 'فَحُكْمُ'],
+    ['اِذَ', 'اِذْ', 'اِذْ قَامُوا']];
+  const cezmExampleReadings = [['ase', 'as', 'aslaha'], ['vira', 'vir', 'virden'], ['yeise', 'yeis', 'yeisne'], ['fehuke', 'fehuk', 'fehukmu'],
+    ['ize', 'iz', 'iz kamu']];
+  // A cove's letters as the map and the path show them: alone, in their middle shape in a bitişik cove,
+  // with their cezm in a cezm cove.
+  const coveGlyphs = k => coveLetters(k).map(i => coveTopic(k) === 'bitisik' ? shape(i, 2) : coveTopic(k) === 'cezm' ? cezm(i).sakin : glyphs[i]);
   // The example words of Diyanet's Elifba ("Harfler ve Şekilleri"): for every letter one word with it at
   // the start, one in the middle and one at the end. The letter meant is in braces. Its recordings spell
   // the word's letters by name, right to left.
@@ -77,5 +107,5 @@ const elifData = (() => {
   const families = [[1, 2, 3], [4, 5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16], [17, 18], [19, 20]];
   const twins = i => (families.find(f => f.includes(i)) || []).filter(j => j !== i);
   return { glyphs, names, readings, harekeler, coves, LETTER_COVES, coveTopic, sections, sameSound, syllable, coveLetters, coveGlyphs, twins,
-    places, joinsNext, shape, word, mastery: 2 };
+    places, joinsNext, shape, word, SUKUN, cezm, cezmReadings, cezmAlike, cezmFaint, cezmExamples, cezmExampleReadings, mastery: 2 };
 })();

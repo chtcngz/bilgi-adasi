@@ -3,6 +3,8 @@
 .elif-nav { margin: 12px 0; font-weight: 800; color: #345a56; }
 .elif-nav button, #elif-up { border: 0; background: transparent; min-height: 44px; font-weight: 800; padding: 0 4px; }
 #elif-shells { white-space: nowrap; }
+#elif-back { white-space: nowrap; }
+@media (max-width: 420px) { #elif-shells { font-size: 13px; } .elif-nav { gap: 6px; } }
 .elif-hero { min-height: clamp(190px, 24vw, 290px); display: flex; align-items: center; border-radius: 28px; overflow: hidden; background: #bde8e3 url(koy.jpg) center 55% / cover; }
 .elif-hero > div { padding: clamp(17px, 4vw, 55px); width: 65%; background: linear-gradient(90deg,#e6f7dded, #e6f7ddb0 65%, transparent); }
 .elif-hero h1 { color: #173f40; }
@@ -168,6 +170,23 @@
 .elif-word b, .elif-word-big b { font: normal clamp(26px, 4vw, 36px)/1.5 "Traditional Arabic", "Times New Roman", serif; text-align: center; }
 .elif-word.selected { outline: 3px solid var(--ink); outline-offset: -4px; }
 .elif-mark { color: #d2452f; }
+/* Cezm: the harekeli letter + the letter with its cezm = the syllable, right to left. */
+.elif-cards.cezms { grid-template-columns: repeat(2, 1fr); }
+.elif-cezm, .elif-cezm-lesson { position: relative; padding: 10px 12px 12px; border-radius: 20px; border: 2px solid var(--rim); background: var(--tint); color: var(--ink); box-shadow: 0 4px var(--rim); }
+.elif-cezm-lesson { grid-column: 1 / -1; --tint: #e3f4f6; --rim: #a9d6dc; --ink: #176d60; }
+.elif-cezm .elif-syllables-head b, .elif-cezm-lesson .elif-syllables-head b { display: block; font: normal 46px/1.3 "Traditional Arabic", "Times New Roman", serif; }
+.elif-cezm-row, .elif-cezm-steps { display: flex; align-items: center; justify-content: center; gap: 4px; margin-top: 6px; }
+.elif-cezm-row .elif-syllable { flex: 1 1 0; min-width: 0; padding: 2px 2px 6px; }
+.elif-cezm-row .elif-syllable b { font-size: clamp(36px, 5vw, 52px); }
+.elif-cezm-row .elif-syllable.whole { flex-grow: 1.4; border-width: 3px; border-color: var(--ink); }
+.elif-cezm-row .elif-syllable.sakin b { color: #c0392b; }
+.elif-cezm-sign { flex: none; font-weight: 950; font-size: 22px; opacity: .7; }
+.elif-cezm-steps .elif-syllable { flex: 1 1 0; min-width: 0; padding: 2px 4px 8px; }
+.elif-cezm-steps .elif-syllable b { font-size: clamp(32px, 5vw, 50px); }
+.elif-cezm-steps .elif-syllable.step-1 { border-color: var(--ink); border-width: 3px; }
+.elif-big.elif-cezm-gap { display: flex; align-items: center; justify-content: center; gap: 10px; }
+.elif-cezm-blank { display: grid; place-items: center; width: 64px; height: 84px; border-radius: 14px; border: 3px dashed #c0392b; color: #c0392b; font-size: 40px; font-weight: 950; }
+.elif-choices.cezm .elif-choice b { font-size: clamp(44px, 9vw, 64px); }
 .elif-apart { display: flex; align-items: center; gap: 10px; width: 100%; margin: 8px 0 0; padding: 4px 12px; border-radius: 14px; border: 2px dashed var(--rim); background: #fffdf8; color: var(--ink); text-align: left; }
 .elif-apart b { font: normal 36px/1.4 "Traditional Arabic", "Times New Roman", serif; }
 .elif-apart span:last-child { font-weight: 750; font-size: 13px; }
@@ -240,7 +259,7 @@
   .elif-hero > div { width: 76%; }
   .elif-hero h1 { font-size: 38px; letter-spacing: -2px; }
   .elif-cards { grid-template-columns: repeat(2, 1fr); }
-  .elif-cards.syllables, .elif-cards.shapes { grid-template-columns: 1fr; }
+  .elif-cards.syllables, .elif-cards.shapes, .elif-cards.cezms { grid-template-columns: 1fr; }
   .elif-tile { min-height: 116px; }
   .elif-big b { font-size: 80px; }
   #elif-game { padding: 20px 16px; }

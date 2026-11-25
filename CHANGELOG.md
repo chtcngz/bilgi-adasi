@@ -7,6 +7,18 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.31.0 · 25.11.2026
+
+Elif Ba Adası’na **Cezm** bölümü geldi. Bitişik yazılışı bitiren çocuklar Gökkuşağı Koyu’ndan köprüyle yedi yeni koya geçiyor: Dalga, Yelken, Köpük, Rüzgâr, Pusula, Kumsal ve Ay Işığı Koyu. Her koyda yine dört harf var; 28 harfin her biri bir kez cezimli okunuyor. Yolda artık 21 koy var.
+
+- **Cezm adımı:** Her harf için Diyanet Elifba’nın cezimli hecesi bir kartta gösteriliyor: harekeli harf + cezimli harf = hece (بِ + سْ = بِسْ). Her parçaya dokununca sesi geliyor; ♪ düğmesi heceyi derslerdeki gibi okuyor: “Be esre bi, sin cezm bis”. Koyun başında Diyanet’in örneklerinden biri üç adımda duruyor: cezimsiz, cezimli ve kelime (وِرَ ← وِرْ ← وِرْدًا).
+- **Cezm turu (16 soru):** Duyulan heceyi yazılı heceler arasında bulma, gösterilen hecenin sesini üç ses arasında bulma ve “Hangi harf cezimli?”: harekeli harf gösterilip hece dinletiliyor, eksik cezimli harf bulunuyor. Şıklarda aynı hecenin cezimsizi de var (bis ile bi); yalnızca cezimli hemze ve ayn, kulakla ayırt edilemediği için cezimsiziyle yan yana gelmiyor. Önceki cezm koylarının heceleri tekrar için karışıyor. Bütün sorular ilk denemede bilinince koyun ⭐ deniz yıldızları kazanılıyor.
+- **🎐 Cezm Balonları:** Hece Balonları gibi, ama balonlarda cezimli heceler uçuyor.
+- **🌉 Cam Köprü:** Cezm koylarının köprüsünde camlarda cezimli heceler, yanlarında aynı hecenin cezimsizi ve araya karışan harekeli heceler var.
+- **Harita:** Yedi yeni adacık yelkenlileriyle Gökkuşağı Koyu’nun üstünde; en sondaki Ay Işığı Koyu’nda bir ay var. Üstteki sayaçlara ⭐ cezm, Ayarlar’daki ilerleme özetine ve yönetici sayfasına Cezm ve Cezm Balonları eklendi.
+- **43 yeni ses kaydı** Diyanet Elifba’nın Cezm dersinden bayt bayt aynen alındı: 28 cezimli hece ve beş örneğin 15 kaydı.
+- Çocukların kayıtlı ilerlemesi olduğu gibi duruyor.
+
 ## 0.30.0 · 25.11.2026
 
 Elif Ba Adası’nda **bitişik yazılış tamamlandı**: Martı Koyu’ndan sonra altı yeni koy geldi ve 28 harfin hepsinin kelimenin başında, ortasında ve sonundaki şekli öğreniliyor. Yolda artık 14 koy var.

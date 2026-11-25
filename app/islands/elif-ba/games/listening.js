@@ -4,9 +4,10 @@
 // Finishing with all three hearts completes the section; losing all three starts it again.
 // In Harf Yağmuru letters rain from the clouds into the sea; in Hece Balonları syllables with
 // their harekes rise from the sea up into the clouds; in Şekil Yağmuru the letters rain in their
-// joined shapes, each drop of a letter in another one (at the start, in the middle, at the end).
+// joined shapes, each drop of a letter in another one (at the start, in the middle, at the end); in Cezm
+// Balonları syllables with a cezm rise as balloons.
 const elifListeningGame = (() => {
-  const { glyphs, names, readings, harekeler, syllable, twins, shape } = elifData;
+  const { glyphs, names, readings, harekeler, syllable, twins, shape, cezm, cezmReadings, cezmAlike } = elifData;
   const voice = elifVoice;
   const dialog = $('elif-rain');
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
@@ -84,6 +85,24 @@ const elifListeningGame = (() => {
           'söyleyecek: o harften üç tane patlat, şekli değişse de aynı harf! 15 harfi bitirince yoluna devam edersin; hiç can kaybetmezsen ' +
           'üç yıldız! Canların biterse oyun baştan başlar.',
         unit: 'harf', piece: 'damla patlat', pool: 'Oyundaki harfler' }
+    },
+    cezm: {
+      rising: true, label: 'Cezm Balonları', title: 'Cezm <em>Balonları</em>',
+      // i: the letter with the cezm. Shown as "Be esre, Sin cezm", the way it is chanted.
+      text: i => cezm(i).text, sound: i => cezmReadings[i].replace(/[’‘]/g, '').replace(/ı/g, 'i'),
+      name: i => { const { before } = cezm(i); return names[before.i] + ' ' + harekeler[before.h].name.toLocaleLowerCase('tr') + ', ' + (i ? names[i] : 'Hemze') + ' cezm'; },
+      speak: (i, note, end) => voice.cezm(i, note, end),
+      // syllables that start with the same harekeli letter (bis, bi’) are what is to be told apart
+      alike: i => glyphs.map((_, j) => j).filter(j => j !== i && !cezmAlike(i, j) && cezm(j).text.slice(0, 2) === cezm(i).text.slice(0, 2)),
+      alikeFrom: 1, alikeChance: 0.4, preload: letters => voice.preload(letters, true, false, true),
+      t: { listen: 'Heceyi tekrar dinle', slots: 'Bölümün heceleri', first: '👆 Duyduğun heceden 3 balon patlat', fresh: '🔊 Yeni hece',
+        freshSay: 'Yeni hece. Dinle.', allDone: 'On beş hecenin hepsini patlattın.', whole: 'Hiç can kaybetmeden 15 hecenin hepsini, 45 balonu patlattın!',
+        partly: '15 hecenin hepsini patlattın ama ', recap: 'Patlattığın heceler · dokun, dinle', chip: ' hecesini dinle',
+        some: ' heceyi patlattın. ', none: 'Sesi dikkatle dinle, sonra o heceden üç balon patlat. ',
+        say: 'Cezm Balonları! Kaplumbağa cezimli bir hece okuyacak. O heceden üç balon patlat. Başlamak için yeşil düğmeye bas.',
+        intro: 'Kaplumbağa cezimli bir hece okuyacak: o heceden üç balon patlat, hemen yeni hece gelsin. 15 heceyi bitirince ' +
+          'yoluna devam edersin; hiç can kaybetmezsen üç yıldız! Canların biterse oyun baştan başlar.',
+        unit: 'hece', piece: 'balon patlat', pool: 'Oyundaki heceler' }
     }
   };
   let kind = kinds.harf;
@@ -850,7 +869,7 @@ const elifListeningGame = (() => {
     then?.();
   });
 
-  // kind: 'harf' (Harf Yağmuru, the default), 'hece' (Hece Balonları) or 'sekil' (Şekil Yağmuru);
+  // kind: 'harf' (Harf Yağmuru, the default), 'hece' (Hece Balonları), 'sekil' (Şekil Yağmuru) or 'cezm' (Cezm Balonları);
   // letters: learned letters (syllables) to play with; recent: the newest cove's, asked more often;
   // best(): the player's { rekor, yildiz, tamam }; onResult({ score, stars, finished }) keeps them;
   // next(): optional, { label, go } of the step after a game played to the end.
@@ -863,7 +882,8 @@ const elifListeningGame = (() => {
     listen.setAttribute('aria-label', kind.t.listen);
     slotBox.setAttribute('aria-label', kind.t.slots);
     setPace(keptPace());
-    if (kind.rising) voice.preload([...new Set(settings.letters.map(k => Math.floor(k / 3)))]);
+    if (kind.preload) kind.preload(settings.letters);
+    else if (kind.rising) voice.preload([...new Set(settings.letters.map(k => Math.floor(k / 3)))]);
     else voice.preload(settings.letters, true);
     if (!dialog.open) dialog.showModal();
     newGame(true);

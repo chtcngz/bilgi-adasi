@@ -6,7 +6,7 @@
 // memory. Phones are strict with <audio> elements: iOS wants a touch for each new
 // element and Android caps how many may exist, so an element is only the fallback.
 const elifVoice = (() => {
-  const recorded = { harf: {}, hece: {}, kelime: {}, yer: {}, ...window.elifRecordings };
+  const recorded = { harf: {}, hece: {}, kelime: {}, yer: {}, cezm: {}, cezmOrnek: {}, ...window.elifRecordings };
   const buffers = new Map();
   const elements = new Map();
   let source = null, element = null;
@@ -112,6 +112,9 @@ const elifVoice = (() => {
   const wordClip = (i, f) => mode === 'kayit' ? recorded.kelime[pad(i) + '-' + f] : null;
   const placeClip = f => mode === 'kayit' ? recorded.yer[f] : null;
   const placeText = ['', 'Kelimenin başında', 'Kelimenin ortasında', 'Kelimenin sonunda'];
+  // Cezm: the syllable in which letter i has the cezm, and Diyanet's five examples (p) in three steps (s).
+  const cezmClip = i => mode === 'kayit' ? recorded.cezm[i] : null;
+  const exampleClip = (p, s) => mode === 'kayit' ? recorded.cezmOrnek[p + '-' + s] : null;
   const spelled = text => Array.from(text.replace(/\s/g, '')).map(c => elifData.names[elifData.glyphs.indexOf({ 'ة': 'ت', 'ى': 'ي' }[c] || c)])
     .filter(Boolean).join(', ');
 
@@ -126,6 +129,14 @@ const elifVoice = (() => {
     // "Be. Kelimenin başında": a letter's shape at a place in the word (f 0: the letter alone).
     shape: (i, f, note, after) => sequence([{ src: letterClip(i), text: elifData.names[i] },
       ...(f ? [{ src: placeClip(f), text: placeText[f] }] : [])], note, after),
+    cezm: (i, note, after) => sequence([{ src: cezmClip(i), text: elifData.cezmReadings[i] }], note, after),
+    // "Be esre bi, sin cezm bis": a cezm syllable the way it is chanted in class.
+    cezmChant(i, note, after) {
+      const { before } = elifData.cezm(i);
+      sequence([{ text: elifData.names[before.i] + ' ' + hareke(before.h) }, { src: syllableClip(before.i, before.h), text: elifData.readings[before.i][before.h] },
+        { text: (i === 0 ? 'Hemze' : elifData.names[i]) + ' cezm' }, { src: cezmClip(i), text: elifData.cezmReadings[i] }], note, after);
+    },
+    cezmExample: (p, s, note, after) => sequence([{ src: exampleClip(p, s), text: elifData.cezmExampleReadings[p][s] }], note, after),
     // "Be üstün be, be esre bi, be ötre bu": the way the harekes are chanted in class.
     chant(i, h, note) {
       const steps = [];
@@ -137,9 +148,14 @@ const elifVoice = (() => {
     stop,
     // Fetch and decode a cove's clips ahead of time, so the first tap plays at once.
     // Harf Yağmuru only says letter names, so it leaves the syllables out; a bitişik cove (joined)
-    // also wants its example words and the three places.
-    preload(letters, namesOnly = false, joined = false) {
+    // also wants its example words and the three places, a cezm cove (cezm) its cezm syllables and the
+    // syllables they start with.
+    preload(letters, namesOnly = false, joined = false, cezm = false) {
       if (joined) for (const f of [1, 2, 3]) if (placeClip(f)) decode(placeClip(f));
+      if (cezm) for (const i of letters) {
+        const { before } = elifData.cezm(i);
+        for (const src of [cezmClip(i), syllableClip(before.i, before.h)]) if (src) decode(src);
+      }
       for (const i of letters) {
         if (letterClip(i)) decode(letterClip(i));
         if (joined) for (const f of [1, 2, 3]) if (wordClip(i, f)) decode(wordClip(i, f));

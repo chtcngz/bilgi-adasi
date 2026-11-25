@@ -1,6 +1,6 @@
 # Elif Ba ses kayıtları
 
-28 harf adı, 84 harekeli okuma ve bitişik yazılış kayıtları Diyanet İşleri Başkanlığının Elifba uygulamasından alınmıştır. Harf adları Harfler dersinden, heceler Fetha, Kesra ve Damme derslerinden, bitişik yazılış örnek kelimeleri ile “Kelimenin Başında / Ortasında / Sonunda” kayıtları Harfler ve Şekilleri dersinden eşleştirilmiştir.
+28 harf adı, 84 harekeli okuma, bitişik yazılış ve cezm kayıtları Diyanet İşleri Başkanlığının Elifba uygulamasından alınmıştır. Harf adları Harfler dersinden, heceler Fetha, Kesra ve Damme derslerinden, bitişik yazılış örnek kelimeleri ile “Kelimenin Başında / Ortasında / Sonunda” kayıtları Harfler ve Şekilleri dersinden, cezimli heceler Cezm dersinden eşleştirilmiştir.
 
 Oyun kopyaları `sources/elifba-sesleri/katalog.json` arşivindeki kayıtlarla bayt düzeyinde aynıdır. Harf sırası oyundaki sıradır. He ve vav konumları metne göre eşleştirilmiştir.
 
@@ -132,3 +132,53 @@ Kaynak sayfada tüm hakların saklı olduğu belirtilmektedir.
 | `yer/1.mp3` | Kelimenin Başında | [basinda.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/basinda.mp3) |
 | `yer/2.mp3` | Kelimenin Ortasında | [ortasinda.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/ortasinda.mp3) |
 | `yer/3.mp3` | Kelimenin Sonunda | [sonunda.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/sonunda.mp3) |
+
+## Cezm
+
+Cezimli hecelerin ve örneklerin kayıtları Cezm dersinden alınmıştır. `cezm/NN.mp3`: Kavrama bölümünde NN harfinin cezimli olduğu hece (00 = Elif’in yerindeki hemze). `cezm-ornek/P-S.mp3`: Cezm bölümündeki beş örneğin (P) üç adımı (S: cezimsiz, cezimli, kelime).
+
+| Dosya | Metin | Kaynak |
+|---|---|---|
+| `cezm/00.mp3` | بِئْ | [kavrama/btn_1.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_1.mp3) |
+| `cezm/01.mp3` | تِبْ | [kavrama/btn_2.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_2.mp3) |
+| `cezm/02.mp3` | مُتْ | [kavrama/btn_3.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_3.mp3) |
+| `cezm/03.mp3` | هَثْ | [kavrama/btn_4.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_4.mp3) |
+| `cezm/04.mp3` | يَجْ | [kavrama/btn_5.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_5.mp3) |
+| `cezm/05.mp3` | يَحْ | [kavrama/btn_6.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_6.mp3) |
+| `cezm/06.mp3` | سِخْ | [kavrama/btn_7.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_7.mp3) |
+| `cezm/07.mp3` | قَدْ | [kavrama/btn_8.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_8.mp3) |
+| `cezm/08.mp3` | عُذْ | [kavrama/btn_9.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_9.mp3) |
+| `cezm/09.mp3` | صِرْ | [kavrama/btn_10.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_10.mp3) |
+| `cezm/10.mp3` | وَزْ | [kavrama/btn_11.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_11.mp3) |
+| `cezm/11.mp3` | بِسْ | [kavrama/btn_12.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_12.mp3) |
+| `cezm/12.mp3` | خَشْ | [kavrama/btn_13.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_13.mp3) |
+| `cezm/13.mp3` | فَصْ | [kavrama/btn_14.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_14.mp3) |
+| `cezm/14.mp3` | رِضْ | [kavrama/btn_15.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_15.mp3) |
+| `cezm/15.mp3` | شَطْ | [kavrama/btn_16.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_16.mp3) |
+| `cezm/16.mp3` | تُظْ | [kavrama/btn_17.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_17.mp3) |
+| `cezm/17.mp3` | نَعْ | [kavrama/btn_18.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_18.mp3) |
+| `cezm/18.mp3` | مَغْ | [kavrama/btn_19.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_19.mp3) |
+| `cezm/19.mp3` | غُفْ | [kavrama/btn_20.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_20.mp3) |
+| `cezm/20.mp3` | فَقْ | [kavrama/btn_21.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_21.mp3) |
+| `cezm/21.mp3` | رَكْ | [kavrama/btn_22.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_22.mp3) |
+| `cezm/22.mp3` | زُلْ | [kavrama/btn_23.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_23.mp3) |
+| `cezm/23.mp3` | هُمْ | [kavrama/btn_24.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_24.mp3) |
+| `cezm/24.mp3` | مَنْ | [kavrama/btn_25.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_25.mp3) |
+| `cezm/25.mp3` | اَوْ | [kavrama/btn_27.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_27.mp3) |
+| `cezm/26.mp3` | صِهْ | [kavrama/btn_26.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_26.mp3) |
+| `cezm/27.mp3` | وَىْ | [kavrama/btn_28.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/kavrama/btn_28.mp3) |
+| `cezm-ornek/0-0.mp3` | اَصَ | [cezm/btn_1.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_1.mp3) |
+| `cezm-ornek/0-1.mp3` | اَصْ | [cezm/btn_2.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_2.mp3) |
+| `cezm-ornek/0-2.mp3` | اَصْلَحَ | [cezm/btn_3.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_3.mp3) |
+| `cezm-ornek/1-0.mp3` | وِرَ | [cezm/btn_4.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_4.mp3) |
+| `cezm-ornek/1-1.mp3` | وِرْ | [cezm/btn_5.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_5.mp3) |
+| `cezm-ornek/1-2.mp3` | وِرْدًا | [cezm/btn_6.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_6.mp3) |
+| `cezm-ornek/2-0.mp3` | يَئِسَ | [cezm/btn_7.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_7.mp3) |
+| `cezm-ornek/2-1.mp3` | يَئِسْ | [cezm/btn_8.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_8.mp3) |
+| `cezm-ornek/2-2.mp3` | يَئِسْنَ | [cezm/btn_9.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_9.mp3) |
+| `cezm-ornek/3-0.mp3` | فَحُكَ | [cezm/btn_10.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_10.mp3) |
+| `cezm-ornek/3-1.mp3` | فَحُكْ | [cezm/btn_11.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_11.mp3) |
+| `cezm-ornek/3-2.mp3` | فَحُكْمُ | [cezm/btn_12.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_12.mp3) |
+| `cezm-ornek/4-0.mp3` | اِذَ | [cezm/btn_13.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_13.mp3) |
+| `cezm-ornek/4-1.mp3` | اِذْ | [cezm/btn_14.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_14.mp3) |
+| `cezm-ornek/4-2.mp3` | اِذْ قَامُوا | [cezm/btn_15.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_15.mp3) |

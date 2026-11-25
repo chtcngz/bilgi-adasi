@@ -38,6 +38,8 @@ app/                         Published site (GitHub Pages root)
 │           ├── harf/NN.mp3          Letter names (00 = Elif)
 │           ├── hece/NN-H.mp3        Syllables (H: 0 üstün, 1 esre, 2 ötre)
 │           ├── kelime/NN-P.mp3      Bitişik yazılış example words, spelled (P: 1 start, 2 middle, 3 end)
+│           ├── cezm/NN.mp3          The syllable in which letter NN has the cezm (00: a hemze)
+│           ├── cezm-ornek/P-S.mp3   Diyanet's five cezm examples (S: 0 without the cezm, 1 with it, 2 the word)
 │           ├── yer/P.mp3            "Kelimenin başında / ortasında / sonunda"
 │           ├── kayitlar.js          Which clips exist (window.elifRecordings)
 │           ├── kaynak.json          Clip ↔ source mapping
@@ -48,11 +50,11 @@ app/                         Published site (GitHub Pages root)
 │   │   ├── data.js          Letters, readings, harekes, joined shapes and example words, coves, look-alike letters, section list
 │   │   ├── voice.js         Recording / Turkish speech playback (elifVoice)
 │   │   ├── map.js           Map of the coves (a sea that scrolls) and the pier of steps; the turtle walks between them (elifMap)
-│   │   ├── game.js          Hub, Harfler, Harekeler and Bitişik yazılış sections, rounds
+│   │   ├── game.js          Hub, Harfler, Harekeler, Bitişik yazılış and Cezm sections, rounds
 │   │   ├── style.css, koy.jpg
 │   │   └── games/           Section games
 │   │       ├── art.js       Turtle, hearts, speaker and stars shared by the games
-│   │       ├── listening.*  Harf Yağmuru (letters), Hece Balonları (syllables), Şekil Yağmuru (joined shapes); its .rain-* kit is shared
+│   │       ├── listening.*  Harf Yağmuru (letters), Hece Balonları (syllables), Şekil Yağmuru (joined shapes), Cezm Balonları; its .rain-* kit is shared
 │   │       ├── bridge.*     Cam Köprü, the mixed game at the end of every cove
 │   │       └── aquarium.*   Akvaryum: a fish for every letter whose harekes are learned
 │   ├── din-bilgisi/         Question island: sorular.js + game.js + style.css + ada.svg + kapsam.md
@@ -96,8 +98,8 @@ sources/                     Raw material (not published)
 
 **Elif Ba is for children who cannot read yet.** Every instruction is spoken (`elifVoice.instruct`) and repeated by a 🐢💬 button, choices are letters, sounds or pictures, never words (see `CLAUDE.md`).
 
-**A new Elif Ba section** (Cezm, Tenvin, Şedde …):
-Elif Ba is a single path (the `steps` list in `game.js`). The first seven coves (`LETTER_COVES` in `data.js`) teach the letters, four each: Harfler → Harf Yağmuru → Harekeler → Hece Balonları → Cam Köprü; the first cove also has Harekelerle tanış before Harekeler. From the eighth cove on (`coveTopic(k)` is `bitisik`), the same groups of four come again for bitişik yazılış: Bitişik yazılış → Şekil Yağmuru → Cam Köprü, with the panes in the letters' joined shapes. There are seven of them, Martı Koyu (ا ب ت ث) to Gökkuşağı Koyu (ن و ه ي), so the path has fourteen coves; the example words of all 28 letters are in `data.js` and their recordings in `kelime/`. Cam Köprü is the cove's mixed (Karma) game and crosses over to the next cove. Only the next step can be opened, and from the second cove on every round mixes in letters from the earlier coves. The hub shows the coves as a map (`map.js`): the sea is taller than the map's window and scrolls (▲ ▼ show there is more), the turtle stands on one cove and the sea follows it, the pier below the sea holds that cove's steps as picture buttons, and the turtle walks over the bridges before a step in another cove opens. A new cove needs its name in `coves` (`data.js`) and its islet in `spots` and `short` (`map.js`); make `WORLD` taller if the sea runs out of room. To add a section:
+**A new Elif Ba section** (Tenvin, Şedde …):
+Elif Ba is a single path (the `steps` list in `game.js`). The first seven coves (`LETTER_COVES` in `data.js`) teach the letters, four each: Harfler → Harf Yağmuru → Harekeler → Hece Balonları → Cam Köprü; the first cove also has Harekelerle tanış before Harekeler. From the eighth cove on (`coveTopic(k)` is `bitisik`), the same groups of four come again for bitişik yazılış: Bitişik yazılış → Şekil Yağmuru → Cam Köprü, with the panes in the letters' joined shapes. There are seven of them, Martı Koyu (ا ب ت ث) to Gökkuşağı Koyu (ن و ه ي); the example words of all 28 letters are in `data.js` and their recordings in `kelime/`. From the fifteenth cove on (`cezm`), the groups of four come a third time: Cezm → Cezm Balonları → Cam Köprü, Dalga Koyu to Ay Işığı Koyu, with Diyanet's cezm syllable of each letter (`cezm(i)` in `data.js`: بِسْ for sin), so the path has 21 coves. `coveTopic(k)` gives a cove's section from `TOPICS`; a new section of seven coves adds its id there. Cam Köprü is the cove's mixed (Karma) game and crosses over to the next cove. Only the next step can be opened, and from the second cove on every round mixes in letters from the earlier coves. The hub shows the coves as a map (`map.js`): the sea is taller than the map's window and scrolls (▲ ▼ show there is more), the turtle stands on one cove and the sea follows it, the pier below the sea holds that cove's steps as picture buttons, and the turtle walks over the bridges before a step in another cove opens. A new cove needs its name in `coves` (`data.js`) and its islet in `spots` and `short` (`map.js`); make `WORLD` taller if the sea runs out of room. To add a section:
 1. Remove the `soon` flag from the section's entry in `islands/elif-ba/data.js`, add its steps to the `steps` list in `game.js`, and delete its line from `YAPILACAKLAR.md` (the sections still to come are listed there; the hub no longer shows them).
 2. Add the section's screen and rounds to `islands/elif-ba/game.js`.
 3. Put its recordings under `app/assets/audio/elif-ba/<bölüm>/` and register them in `kayitlar.js`.

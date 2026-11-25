@@ -4,9 +4,10 @@
 // hops onto it. A wrong pane cracks and breaks, the turtle falls into the sea and a dolphin throws
 // it back onto the last pane it stood on. Three hearts, as in the other games: reaching the far
 // shore passes the step, losing all three starts the bridge again. In a cove of bitişik yazılış the
-// panes show the letters in their joined shapes, with a few harekeli syllables mixed in for review.
+// panes show the letters in their joined shapes, with a few harekeli syllables mixed in for review; in a
+// cezm cove they show syllables with a cezm (بِسْ), next to the same syllables without one.
 const elifBridgeGame = (() => {
-  const { glyphs, names, harekeler, syllable, sameSound, twins, shape, places } = elifData;
+  const { glyphs, names, harekeler, syllable, sameSound, twins, shape, places, cezm, cezmAlike, cezmFaint } = elifData;
   const { heart: heartSvg, speaker: speakerSvg, star: starPath } = elifArt;
   const voice = elifVoice;
   const dialog = $('elif-bridge');
@@ -29,15 +30,20 @@ const elifBridgeGame = (() => {
   /* ---------- Letters and syllables ---------- */
   // An item is a letter said by its name ({ i }), a harekeli syllable ({ i, h }) or a letter in its
   // joined shape at a place in the word ({ i, f }, f 1-3: start, middle, end), said by its name too.
+  // A cezm syllable ({ i, c: true }) is the one in which letter i has the cezm, said as it is read.
   const isSyllable = item => item.h !== undefined;
   const isShape = item => item.f !== undefined;
-  const text = item => isSyllable(item) ? syllable(item.i, item.h) : isShape(item) ? shape(item.i, item.f) : glyphs[item.i];
-  const nameOf = item => isSyllable(item) ? names[item.i] + ' ' + harekeler[item.h].name.toLocaleLowerCase('tr') :
-    isShape(item) ? names[item.i] + ' · ' + places[item.f].toLocaleLowerCase('tr') : names[item.i];
+  const isCezm = item => item.c === true;
+  const hareke = h => harekeler[h].name.toLocaleLowerCase('tr');
+  const text = item => isSyllable(item) ? syllable(item.i, item.h) : isShape(item) ? shape(item.i, item.f) : isCezm(item) ? cezm(item.i).text : glyphs[item.i];
+  const cezmName = i => { const { before } = cezm(i); return names[before.i] + ' ' + hareke(before.h) + ', ' + (i ? names[i] : 'Hemze') + ' cezm'; };
+  const nameOf = item => isSyllable(item) ? names[item.i] + ' ' + hareke(item.h) :
+    isShape(item) ? names[item.i] + ' · ' + places[item.f].toLocaleLowerCase('tr') : isCezm(item) ? cezmName(item.i) : names[item.i];
   const glyph = item => '<b lang="ar" dir="rtl">' + text(item) + '</b>';
   // The voice writes its "no Turkish voice here" note into this; the turtle's bubble then shows the name.
   const unheard = {};
-  const speak = (item, end) => isSyllable(item) ? voice.syllable(item.i, item.h, unheard, end) : voice.letter(item.i, unheard, end);
+  const speak = (item, end) => isSyllable(item) ? voice.syllable(item.i, item.h, unheard, end) : isCezm(item) ? voice.cezm(item.i, unheard, end) :
+    voice.letter(item.i, unheard, end);
   const syllableOf = i => ({ i, h: Math.floor(Math.random() * 3) });
 
   // Fifteen rows: every letter of the newest cove once by its name and once with a hareke, then
@@ -108,11 +114,44 @@ const elifBridgeGame = (() => {
     }
     return order;
   }
+  // A cezm bridge: every syllable of the cove twice, then the earlier cezm coves' syllables, and harekeli
+  // syllables of all the letters to fill the fifteen rows. No letter comes twice in a row, no two harekeli
+  // syllable rows touch, and it starts with a cezm.
+  function planCezm(letters, recent, known) {
+    const fresh = recent.filter(i => letters.includes(i));
+    const rows = [...fresh, ...fresh].map(i => ({ i, c: true }));
+    const earlier = shuffled(letters.filter(i => !fresh.includes(i)));
+    while (rows.length < ROWS - 3 && earlier.length) rows.push({ i: earlier.pop(), c: true });
+    for (const i of shuffled(known)) if (rows.length < ROWS) rows.push(syllableOf(i));
+    const allowed = (order, row) => order.length ? row.i !== order.at(-1).i && !(isSyllable(row) && isSyllable(order.at(-1))) : isCezm(row);
+    let order = [];
+    for (let tries = 0; tries < 300; tries++) {
+      const left = shuffled(rows.slice(0, ROWS));
+      order = [];
+      while (left.length) {
+        const at = left.findIndex(row => allowed(order, row));
+        if (at < 0) break;
+        order.push(left.splice(at, 1)[0]);
+      }
+      if (!left.length) return order;
+      order.push(...left);
+    }
+    return order;
+  }
   // The two wrong panes of a row. From the fourth row on, half the rows get the hard ones: a
   // letter that differs only by its dots, or the same letter with both other harekes. A shape's
   // wrong panes are other letters' shapes at the same place.
   function wrongPanes(target, n, letters) {
     const hard = n >= 3 && Math.random() < 0.5;
+    if (isCezm(target)) {
+      // the hard pane is the same syllable without its cezm (bi for bis); the others are other cezm
+      // syllables, never two that sound alike
+      const picked = hard && !cezmFaint(target.i) ? [cezm(target.i).before] : [];
+      for (const i of [...shuffled(letters), ...shuffled(glyphs.map((_, j) => j))]) {
+        if (picked.length < 2 && i !== target.i && !picked.some(p => isCezm(p) && p.i === i) && !cezmAlike(i, target.i)) picked.push({ i, c: true });
+      }
+      return picked;
+    }
     if (isShape(target)) {
       const alike = shuffled(twins(target.i));
       const picked = hard ? alike.slice(0, 1) : [];
@@ -138,14 +177,14 @@ const elifBridgeGame = (() => {
     }
     return picked;
   }
-  function build({ letters, recent, joined, known }) {
-    const targets = joined ? planJoined(letters, recent, known) : plan(letters, recent);
+  function build({ letters, recent, joined, cezm: cezmCove, known }) {
+    const targets = cezmCove ? planCezm(letters, recent, known) : joined ? planJoined(letters, recent, known) : plan(letters, recent);
     const rows = [];
     targets.forEach((target, n) => {
       let panes;
       // the right pane is not in the same column three rows running
       for (let tries = 0; tries < 12; tries++) {
-        panes = shuffled([target, ...wrongPanes(target, n, joined && isSyllable(target) ? known : letters)]);
+        panes = shuffled([target, ...wrongPanes(target, n, (joined || cezmCove) && isSyllable(target) ? known : letters)]);
         const right = panes.indexOf(target);
         if (n < 2 || rows[n - 1].right !== right || rows[n - 2].right !== right) break;
       }
@@ -805,24 +844,25 @@ const elifBridgeGame = (() => {
   function intro() {
     state = 'intro';
     const best = options.best();
-    const sample = options.joined ? [{ i: options.recent[1], f: 1 }, { i: options.recent[2], f: 2 }, { i: options.recent[3] ?? options.recent[0], f: 3 }] :
+    const sample = options.cezm ? [{ i: options.recent[1], c: true }, cezm(options.recent[1]).before, { i: options.recent[2], c: true }] :
+      options.joined ? [{ i: options.recent[1], f: 1 }, { i: options.recent[2], f: 2 }, { i: options.recent[3] ?? options.recent[0], f: 3 }] :
       [{ i: options.recent[0] }, { i: options.recent[1], h: 0 }, { i: options.recent[2] ?? options.recent[0], h: 2 }];
     showCard('<div class="rain-card intro"><div class="bridge-intro-art" aria-hidden="true">' + sample.map((item, n) =>
       '<span class="bridge-pane t' + [0, 4, 1][n] + '"><i class="bridge-glass"></i>' + glyph(item) + '</span>').join('') +
       '</div><h2 id="rain-title" tabindex="-1">Cam <em>Köprü</em></h2>' +
       '<p>Kaplumbağa ' + options.toDative + ' gitmek için cam köprüden geçecek. Her sırada üç cam var. Kaplumbağa bir harf ya da ' +
       'hece söyleyecek, sen o camı bul.' + (options.joined ? ' Harfler camlarda bitişik yazılışlarıyla duruyor: kelimenin başındaki, ' +
-      'ortasındaki ya da sonundaki şekilleriyle.' : '') + ' Yanlış cam kırılır, kaplumbağa denize düşer! Hiç cam kırmazsan üç yıldız.</p>' +
-      '<ul class="rain-facts"><li><b>15</b><span>sıra</span></li><li><b>Karma</b><span>' + (options.joined ? 'şekil ve hece' : 'harf ve hece') +
+      'ortasındaki ya da sonundaki şekilleriyle.' : options.cezm ? ' Camlarda cezimli heceler var; aynı hecenin cezimsizi de çıkabilir.' : '') + ' Yanlış cam kırılır, kaplumbağa denize düşer! Hiç cam kırmazsan üç yıldız.</p>' +
+      '<ul class="rain-facts"><li><b>15</b><span>sıra</span></li><li><b>Karma</b><span>' + (options.joined ? 'şekil ve hece' : options.cezm ? 'cezm ve hece' : 'harf ve hece') +
       '</span></li><li><b>3</b><span>can</span></li></ul>' +
       '<div class="rain-pool bridge-pool" aria-label="Köprüdeki harfler">' + options.letters.map(i => '<b lang="ar" title="' + names[i] + '">' +
-        (options.joined ? shape(i, 2) : glyphs[i]) + '</b>').join('') + '</div>' +
+        (options.joined ? shape(i, 2) : options.cezm ? cezm(i).text : glyphs[i]) + '</b>').join('') + '</div>' +
       (best.tamam ? '<p class="rain-record">✅ Köprüyü hiç cam kırmadan geçtin · 🏆 ' + best.rekor + ' puan</p>' :
         best.rekor ? '<p class="rain-record">🏆 Rekorun: ' + best.rekor + ' puan</p>' : '') +
       '<button type="button" class="rain-go" data-cue>▶ Başla</button></div>');
     // Said aloud for children who cannot read yet; the turtle button says it again.
     const tell = () => voice.instruct('Cam Köprü! Kaplumbağa bir harf ya da hece söyleyecek. Doğru cama dokun, kaplumbağa üstüne zıplasın. ' +
-      (options.joined ? 'Harfler camlarda bitişik şekilleriyle duruyor. ' : '') + 'Yanlış cam kırılır! Başlamak için yeşil düğmeye bas.');
+      (options.joined ? 'Harfler camlarda bitişik şekilleriyle duruyor. ' : options.cezm ? 'Camlarda cezimli heceler var. Dikkatle dinle. ' : '') + 'Yanlış cam kırılır! Başlamak için yeşil düğmeye bas.');
     const again = document.createElement('button');
     again.type = 'button';
     again.className = 'rain-tell';
@@ -872,7 +912,8 @@ const elifBridgeGame = (() => {
 
   // letters: the letters learned up to this cove; recent: the cove's own, asked most; joined: a bitişik
   // yazılış cove, whose panes show the letters' joined shapes, with known: all the letters, for the
-  // harekeli syllables mixed in;
+  // harekeli syllables mixed in; cezm: a cezm cove, whose panes show the letters' cezm syllables, with
+  // harekeli syllables of known mixed in;
   // from, to, toDative: the cove the bridge starts at and the one it leads to ("İnci Koyu'na");
   // best(): the player's { rekor, yildiz, tamam }; onResult({ score, stars, finished }) keeps them;
   // next(): optional, { label, go } of the step after the bridge.
@@ -881,7 +922,7 @@ const elifBridgeGame = (() => {
     rounds = 0;
     find('.bridge-from').textContent = settings.from;
     find('.bridge-to').textContent = settings.to;
-    voice.preload(settings.letters);
+    voice.preload(settings.letters, false, false, settings.cezm);
     if (!dialog.open) dialog.showModal();
     newGame(true);
   }
