@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="tr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Elif Ba · Harfleri dinle</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#faf8f1;color:#183e38;font:16px "Segoe UI",sans-serif}main{max-width:960px;margin:auto;padding:32px 20px}h1{font:600 clamp(2rem,6vw,3.2rem) Georgia,serif;margin:0}p{margin:10px 0 22px}fieldset{margin:0 0 24px;border:1px solid #c5cec4;border-radius:14px;padding:12px;display:flex;flex-wrap:wrap;gap:6px}legend{padding:0 5px;font-weight:600}label{cursor:pointer;position:relative}label span{display:block;padding:9px 13px;border-radius:9px}input{position:absolute;opacity:0}input:checked+span{background:#185d4d;color:white}input:focus-visible+span,button:focus-visible{outline:3px solid #a85c16;outline-offset:2px}section{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:9px}button{font:inherit;color:inherit;cursor:pointer;border:1px solid #c8d3c9;border-radius:13px;background:#fffefa;padding:7px 2px 11px}button:hover{background:#e9f3e9}button.active{color:white;background:#185d4d}b{font:normal 42px/1.5 "Traditional Arabic","Times New Roman",serif;display:block}small{font-size:14px}#status{min-height:1.5em;margin:8px 0}@media(max-width:650px){section{grid-template-columns:repeat(4,minmax(0,1fr))}main{padding:20px 12px}}
+</style>
+<main><h1>Harfleri dinle</h1><p>Okuma türünü seç, ardından dinlemek istediğin harfe dokun.</p>
+<fieldset><legend>Okuma türü</legend></fieldset><div id="status" role="status"></div><section dir="rtl" aria-label="Harfler"></section></main>
+<script>
+const glyphs = [...'ابتثجحخدذرزسشصضطظعغفقكلمنوهي','ء','لا'];
+const names = 'Elif Be Te Se Cim Ha Hı Dal Zel Ra Ze Sin Şın Sad Dad Tı Zı Ayn Gayn Fe Kaf Kef Lâm Mim Nun Vav He Ye Hemze Lâm-Elif'.split(' ');
+const folders = '01-elif 02-be 03-te 04-se 05-cim 06-ha 07-hi 08-dal 09-zel 10-ra 11-ze 12-sin 13-shin 14-sad 15-dad 16-ti 17-zi 18-ayn 19-gayn 20-fe 21-kaf 22-kef 23-lam 24-mim 25-nun 26-vav 27-he 28-ye hemze lam-elif'.split(' ');
+const modes = ['Harekesiz','Üstün','Esre','Ötre','İki üstün','İki esre','İki ötre'];
+const marks = ['','َ','ِ','ُ','ً','ٍ','ٌ'];
+const files = ['','01-ustun','02-esre','03-otre','04-iki-ustun','05-iki-esre','06-iki-otre'];
+const grid = document.querySelector('section');
+const status = document.querySelector('#status');
+let player;
+function stop(){
+  if(player){player.pause();player=null}
+  grid.querySelector('.active')?.classList.remove('active');
+  status.textContent='';
+}
+function render(mode){
+  stop();
+  grid.replaceChildren();
+  glyphs.slice(0,mode ? 28 : 30).forEach((glyph,i)=>{
+    const button=document.createElement('button');
+    const symbol=document.createElement('b');
+    symbol.lang='ar';
+    symbol.textContent=(i===0 && mode ? ['','أ','إ','أ','أ','إ','أ'][mode] : glyph)+marks[mode];
+    const caption=document.createElement('small');
+    caption.textContent=names[i];
+    button.append(symbol,caption);
+    button.setAttribute('aria-label',names[i]+' · '+modes[mode]);
+    button.onclick=()=>{
+      stop();
+      const source=mode ? folders[i]+'/'+files[mode]+'.mp3' : 'harf-adlari/'+folders[i]+'.mp3';
+      const audio=new Audio(source);
+      player=audio;
+      button.classList.add('active');
+      status.textContent=names[i]+' · '+modes[mode];
+      audio.onended=()=>{if(player===audio) stop()};
+      audio.play().catch(()=>{if(player===audio){stop();status.textContent='Ses dosyası açılamadı.'}});
+    };
+    grid.append(button);
+  });
+}
+modes.forEach((name,i)=>{
+  const label=document.createElement('label');
+  const input=document.createElement('input');
+  input.type='radio';input.name='mode';input.checked=i===0;
+  input.onchange=()=>render(i);
+  const text=document.createElement('span');text.textContent=name;
+  label.append(input,text);document.querySelector('fieldset').append(label);
+});
+render(0);
+</script>
+</html>
