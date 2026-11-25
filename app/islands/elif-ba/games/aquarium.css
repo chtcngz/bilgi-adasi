@@ -3,7 +3,8 @@
   width: min(900px, 100vw); height: 100vh; height: min(900px, 100dvh); max-width: 100vw; max-height: 100vh; max-height: 100dvh;
   margin: auto; padding: 0; border: 0; border-radius: 28px; overflow: hidden; background: #0f5f86; color: #fff;
 }
-#elif-aquarium::backdrop { background: #082c3dd9; }
+#elif-aquarium[open], #elif-aquarium[open]::backdrop { animation: none; }
+#elif-aquarium::backdrop { background: #082c3d; }
 @media (max-width: 650px), (max-height: 600px) {
   #elif-aquarium { width: 100vw; height: 100vh; height: 100dvh; margin: 0; border-radius: 0; }
 }
@@ -61,21 +62,23 @@
 .aq-tank { position: absolute; inset: 0; z-index: 3; cursor: pointer; }
 .aq-fish {
   position: absolute; left: 0; top: 0; width: calc(120px * var(--size, 1)); padding: 0; border: 0; background: none;
-  will-change: transform; filter: drop-shadow(0 6px 6px #0a3a5333);
+  will-change: transform; box-shadow: none;
 }
-.aq-body { display: block; transition: transform .9s ease-in-out; }
-.aq-fish.right .aq-body { transform: scaleX(-1); }
+.aq-body { display: block; }
+.aq-silhouette { transform-origin: 50% 50%; }
+.aq-silhouette, .aq-badge { transition: transform .58s ease-in-out; }
+.aq-fish.right .aq-silhouette { transform: scaleX(-1); }
+.aq-fish.right .aq-badge { transform: translateX(var(--turn-offset)); }
+.aq-fish.darting :is(.aq-tail, .aq-pectoral) { animation-duration: calc(var(--beat) * .52); }
 .aq-body svg { display: block; width: 100%; overflow: visible; }
-.aq-tail { transform-origin: 112px 50px; animation: aq-tail 1.3s ease-in-out infinite alternate; }
+.aq-tail { transform-box: fill-box; transform-origin: left center; animation: aq-tail var(--beat, .7s) ease-in-out var(--delay, 0s) infinite alternate; }
+.aq-pectoral { transform-box: fill-box; transform-origin: left top; animation: aq-paddle var(--beat, .7s) ease-in-out var(--delay, 0s) infinite alternate; }
+@keyframes aq-paddle { from { transform: rotate(-9deg) scaleY(.65); } to { transform: rotate(12deg); } }
 .aq-fin { transform-box: fill-box; transform-origin: 50% 100%; animation: aq-fin 1.8s ease-in-out infinite alternate; }
 .aq-fin.low { transform-origin: 50% 0; animation-delay: -.9s; }
-@keyframes aq-tail { from { transform: skewY(-9deg) scaleX(.94); } to { transform: skewY(9deg) scaleX(1.03); } }
+@keyframes aq-tail { from { transform: skewY(-7deg) scaleX(.72); } to { transform: skewY(8deg) scaleX(1); } }
 @keyframes aq-fin { to { transform: scaleY(.85); } }
-.aq-letter {
-  position: absolute; left: 41%; top: 52%; translate: -50% -50%; pointer-events: none;
-  font: normal calc(34px * var(--size, 1))/1 "Traditional Arabic", "Times New Roman", serif; color: #173f40; white-space: nowrap;
-}
-.aq-fish.right .aq-letter { left: 59%; }
+.aq-letter { font: 40px "Traditional Arabic", "Times New Roman", serif; fill: #142e35; }
 .aq-fish.joy .aq-body { animation: aq-joy .8s cubic-bezier(.3, 1.6, .5, 1); }
 @keyframes aq-joy { 30% { scale: 1.22; rotate: -8deg; } 60% { scale: 1.1; rotate: 6deg; } }
 /* A fish that has just been earned: a sparkle around it for a while */
@@ -89,7 +92,6 @@
   border: 1.5px solid #ffffffcc; background: #ffffff22; animation: aq-puff 2s ease-out both;
 }
 @keyframes aq-puff { from { transform: scale(.4); opacity: 1; } to { transform: translateY(-120px) scale(1.1); opacity: 0; } }
-.aq-glass { position: absolute; inset: 0; z-index: 4; pointer-events: none; background: linear-gradient(115deg, #ffffff14 0 18%, transparent 26%), radial-gradient(ellipse at 50% 50%, transparent 60%, #04283c55); }
 
 /* ---------- Top bar, caption and the shelf of letters ---------- */
 .aq-top { position: absolute; z-index: 6; left: 0; right: 0; top: 0; display: flex; align-items: center; gap: 12px; padding: 12px 14px; pointer-events: none; }
@@ -118,6 +120,8 @@
 .aq-slot b { font: normal 22px/1 "Traditional Arabic", "Times New Roman", serif; }
 .aq-slot.got { border: 2px solid #fff; background: #fff; color: #16716e; box-shadow: 0 2px 0 #0a3d57; }
 @media (prefers-reduced-motion: reduce) {
+  .aq-silhouette, .aq-badge { transition: none; }
+  .aq-tail, .aq-pectoral, .aq-fin { animation: none !important; }
   .aq-scene *, .aq-scene *::before, .aq-scene *::after { animation-duration: .01s !important; animation-iteration-count: 1 !important; }
 }
 @media (max-width: 520px) {

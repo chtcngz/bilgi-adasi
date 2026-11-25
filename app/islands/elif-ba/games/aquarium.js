@@ -18,47 +18,55 @@ const elifAquarium = (() => {
     ['#ff8a80', '#e04a3f', '#fff1ef'], ['#7ee8e0', '#1fa8a0', '#e9fffd']
   ];
   const kinds = ['round', 'long', 'angel', 'clown'];
+  // Speed, vertical range and tail cadence shape each species' swimming rhythm.
+  const swim = {
+    round: { speed: 19, rise: .13, beat: .76, wave: 2 },
+    long:  { speed: 32, rise: .09, beat: .32, wave: 1 },
+    angel: { speed: 20, rise: .34, beat: .94, wave: 4 },
+    clown: { speed: 26, rise: .20, beat: .45, wave: 5 }
+  };
   // `prefix` keeps the gradients of the hub's little fish apart from the tank's (a gradient inside a closed dialog does not paint).
   function fishSvg(i, prefix = 'aq', badge = true) {
     const [light, deep, pale] = palettes[(i * 3) % palettes.length];
     const kind = kinds[i % kinds.length];
     const id = prefix + i;
     const grad = '<defs><linearGradient id="' + id + 'b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + light + '"/>' +
-      '<stop offset=".62" stop-color="' + deep + '"/><stop offset="1" stop-color="' + deep + '" stop-opacity=".9"/></linearGradient>' +
+      '<stop offset=".42" stop-color="' + deep + '"/><stop offset=".78" stop-color="' + light + '"/><stop offset="1" stop-color="' + pale + '"/></linearGradient>' +
       '<linearGradient id="' + id + 'f" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="' + deep + '"/><stop offset="1" stop-color="' + light + '" stop-opacity=".55"/></linearGradient>' +
       '<clipPath id="' + id + 'c"><path d="BODY"/></clipPath></defs>';
     const shapes = {
       round: { body: 'M8 50C8 26 34 12 62 12 92 12 112 32 116 50 112 68 92 88 62 88 34 88 8 74 8 50Z', tail: 'M112 50L148 24C140 40 140 60 148 76Z',
         top: 'M42 18C54 0 86 -2 100 26Z', low: 'M58 84C64 98 80 98 86 82Z', eye: [32, 42], badge: [64, 52, 24] },
-      long: { body: 'M4 50C10 34 40 24 76 24 104 24 120 38 124 50 120 62 104 76 76 76 40 76 10 66 4 50Z', tail: 'M120 50L150 30C144 42 144 58 150 70Z',
+      long: { body: 'M4 50C14 40 40 23 72 25S108 42 124 46L124 54C108 56 102 73 73 74S17 63 4 50Z', tail: 'M118 46Q132 43 151 26Q149 40 138 50Q148 60 151 73Q129 56 118 54Z',
         top: 'M56 28C70 12 92 12 104 30Z', low: 'M66 72C72 84 86 84 90 72Z', eye: [24, 44], badge: [70, 51, 21] },
       angel: { body: 'M10 50C24 26 46 14 66 14 90 14 108 34 112 50 108 66 90 86 66 86 46 86 24 74 10 50Z', tail: 'M108 50L140 30 134 50 140 70Z',
-        top: 'M44 20C50 -6 92 -14 100 28Z', low: 'M44 80C50 106 92 114 100 72Z', eye: [30, 44], badge: [64, 51, 23] },
+        top: 'M43 24Q60 18 95 -11Q87 9 103 32Z', low: 'M44 77Q61 86 94 105Q86 86 103 70Z', eye: [30, 44], badge: [64, 51, 23] },
       clown: { body: 'M8 50C8 28 32 16 60 16 90 16 110 34 114 50 110 66 90 84 60 84 32 84 8 72 8 50Z', tail: 'M110 50L144 28C138 42 138 58 144 72Z',
         top: 'M46 20C58 4 86 4 98 26Z', low: 'M56 80C62 94 78 94 82 80Z', eye: [30, 43], badge: [64, 51, 22] }
     };
     const s = shapes[kind];
     const pattern = kind === 'clown'
-      ? '<g clip-path="url(#' + id + 'c)" fill="' + pale + '" opacity=".95"><path d="M40 0h12v100H40z"/><path d="M84 0h10v100H84z"/></g>' +
-        '<g clip-path="url(#' + id + 'c)" fill="none" stroke="#1d2a33" stroke-opacity=".35" stroke-width="2"><path d="M40 0v100M52 0v100M84 0v100M94 0v100"/></g>'
+      ? '<path clip-path="url(#' + id + 'c)" d="M42 12Q56 46 40 86M86 18Q77 49 91 82" fill="none" stroke="' + pale + '" stroke-width="9"/>'
       : kind === 'angel'
         ? '<g clip-path="url(#' + id + 'c)" fill="' + pale + '" opacity=".5"><path d="M46 0l8 0-10 100h-8z"/><path d="M80 0l8 0-10 100h-8z"/></g>'
         : '<g clip-path="url(#' + id + 'c)" fill="' + pale + '" opacity=".45"><circle cx="90" cy="34" r="5"/><circle cx="100" cy="52" r="4"/>' +
           '<circle cx="88" cy="68" r="5"/><circle cx="48" cy="26" r="3.5"/></g>';
     const [ex, ey] = s.eye;
     const [bx, by, br] = s.badge;
-    return '<svg viewBox="-4 -16 160 132" aria-hidden="true">' + grad.replace('BODY', s.body) +
+    return '<svg viewBox="-4 -16 160 132" aria-hidden="true">' + grad.replace('BODY', s.body) + '<g class="aq-silhouette">' +
       '<g class="aq-tail"><path d="' + s.tail + '" fill="url(#' + id + 'f)"/><path d="' + s.tail + '" fill="none" stroke="' + deep + '" stroke-opacity=".4" stroke-width="1.5"/></g>' +
       '<path class="aq-fin" d="' + s.top + '" fill="url(#' + id + 'f)" opacity=".9"/>' +
       '<path class="aq-fin low" d="' + s.low + '" fill="url(#' + id + 'f)" opacity=".85"/>' +
       '<path d="' + s.body + '" fill="url(#' + id + 'b)"/>' + pattern +
       '<path d="' + s.body + '" fill="none" stroke="' + deep + '" stroke-opacity=".35" stroke-width="2"/>' +
-      '<ellipse cx="' + (bx - 6) + '" cy="' + (by - 22) + '" rx="30" ry="7" fill="#fff" opacity=".3"/>' +
+      '<g clip-path="url(#' + id + 'c)" fill="none" stroke="' + pale + '" opacity=".48"><path d="M40 33Q70 18 103 39M81 54q5 5 9 0m2 4q5 5 9 0m-19 3q5 5 9 0"/></g>' +
+      '<path class="aq-pectoral" d="M40 54q11 1 17 16-15 2-17-16Z" fill="url(#' + id + 'f)" stroke="' + deep + '" stroke-width="1"/>' +
       '<path d="M' + (ex + 14) + ' ' + (ey - 14) + 'Q' + (ex + 22) + ' ' + ey + ' ' + (ex + 14) + ' ' + (ey + 16) + '" fill="none" stroke="' + deep + '" stroke-opacity=".5" stroke-width="2.5" stroke-linecap="round"/>' +
-      (badge ? '<circle cx="' + bx + '" cy="' + by + '" r="' + br + '" fill="#fff" opacity=".82"/>' : '') +
-      '<circle cx="' + ex + '" cy="' + ey + '" r="9" fill="#fff"/><circle cx="' + (ex - 2) + '" cy="' + (ey + 1) + '" r="5.6" fill="#1d2a33"/>' +
+      '<circle cx="' + ex + '" cy="' + ey + '" r="6.8" fill="' + pale + '"/><circle cx="' + (ex - 1) + '" cy="' + ey + '" r="4.7" fill="#172e39"/>' +
       '<circle cx="' + (ex - 4) + '" cy="' + (ey - 2) + '" r="2" fill="#fff"/>' +
-      '<path d="M' + (ex - 22) + ' ' + (ey + 14) + 'q4 3 8 0" fill="none" stroke="#1d2a33" stroke-opacity=".6" stroke-width="2" stroke-linecap="round"/></svg>';
+      '<path d="M' + (ex - 22) + ' ' + (ey + 14) + 'q4 3 8 0" fill="none" stroke="#1d2a33" stroke-opacity=".6" stroke-width="2" stroke-linecap="round"/></g>' +
+      (badge ? '<g class="aq-badge" style="--turn-offset:' + (152 - 2 * bx) + 'px"><circle cx="' + bx + '" cy="' + by + '" r="' + br + '" fill="#fff9e9"/><g transform="translate(' + bx + ' ' + by + ')"><g class="aq-reading"><text class="aq-letter" lang="ar" direction="rtl" data-radius="' + br + '"></text></g></g></g>' : '') +
+      '</svg>';
   }
 
   /* ---------- Scene ---------- */
@@ -81,7 +89,7 @@ const elifAquarium = (() => {
     '</svg>' +
     '<div class="aq-bubbles" aria-hidden="true"></div>' +
     '<div class="aq-tank" data-cue></div>' +
-    '<div class="aq-glass" aria-hidden="true"></div></div>' +
+    '</div>' +
     '<div class="aq-top"><button type="button" class="aq-close" aria-label="Akvaryumdan çık">×</button>' +
       '<h2 class="aq-title">Akvaryum <span></span></h2></div>' +
     '<p class="aq-say" role="status"></p>' +
@@ -116,13 +124,21 @@ const elifAquarium = (() => {
   new ResizeObserver(() => { if (dialog.open) measure(); }).observe(tank);
   // The water a fish may swim in: under the title, over the sand and the letters' shelf.
   const area = () => ({ x0: 40, x1: w - 40, y0: h * 0.16, y1: h * 0.7 });
-  const pickTarget = f => {
+  const burstSpeed = 2.85;
+  const burstDuration = 3.2;
+  const pickTarget = (f, dart = false) => {
     const a = area();
-    // a long, mostly sideways trip, as fish swim across a tank
-    const x = f.x < w / 2 ? rand(w * 0.55, a.x1) : rand(a.x0, w * 0.45);
-    f.tx = Math.random() < 0.25 ? rand(a.x0, a.x1) : x;
-    f.ty = Math.min(a.y1, Math.max(a.y0, f.y + rand(-h * 0.22, h * 0.22)));
-    f.rest = Math.random() < 0.3 ? rand(1.2, 3.5) : 0;
+    const angle = rand(0, Math.PI * 2);
+    const dx = Math.cos(angle) * (a.x1 - a.x0) * rand(.35, .7);
+    const dy = Math.sin(angle) * (a.y1 - a.y0) * (dart ? .7 : .35 + f.swim.rise);
+    // Turn inward when the chosen route would run into the glass.
+    const target = (pos, delta, low, high) => {
+      const next = pos + delta;
+      return Math.max(low, Math.min(high, next < low || next > high ? pos - delta : next));
+    };
+    f.tx = target(f.x, dx, a.x0, a.x1);
+    f.ty = target(f.y, dy, a.y0, a.y1);
+    f.rest = !dart && Math.random() < 0.3 ? rand(1.2, 3.5) : 0;
   };
   function addFish(i, h0, arriving) {
     const node = document.createElement('button');
@@ -130,16 +146,20 @@ const elifAquarium = (() => {
     node.className = 'aq-fish' + (arriving ? ' new' : '');
     node.dataset.cue = '';
     node.setAttribute('aria-label', names[i] + ' balığı');
-    node.innerHTML = '<span class="aq-body">' + fishSvg(i) + '</span><b class="aq-letter" lang="ar" dir="rtl"></b>';
+    node.innerHTML = '<span class="aq-body">' + fishSvg(i) + '</span>';
     tank.append(node);
     const a = area();
     const size = rand(0.78, 1.08);
+    const kind = kinds[i % kinds.length];
+    const profile = swim[kind];
     const f = {
       i, h: h0, node, size,
-      x: arriving ? (Math.random() < 0.5 ? -120 : w + 120) : rand(a.x0, a.x1), y: rand(a.y0, a.y1),
-      vx: 0, vy: 0, dir: 1, speed: rand(16, 26) * (1.15 - size * 0.25), phase: rand(0, 6.3), rest: 0, joy: 0
+      x: arriving && !calm.matches ? (Math.random() < 0.5 ? -120 : w + 120) : rand(a.x0, a.x1), y: rand(a.y0, a.y1),
+      kind, swim: profile, vx: 0, vy: 0, dir: 1, speed: profile.speed * rand(.88, 1.12), phase: rand(0, 6.3), rest: 0, boost: 0
     };
     node.style.setProperty('--size', size.toFixed(2));
+    node.style.setProperty('--beat', profile.beat + 's');
+    node.style.setProperty('--delay', -f.phase + 's');
     node.style.zIndex = Math.round(size * 100);
     f.tx = arriving ? rand(w * 0.3, w * 0.7) : f.x;
     f.ty = f.y;
@@ -150,26 +170,44 @@ const elifAquarium = (() => {
     place(f);
     return f;
   }
+  const pen = document.createElement('canvas').getContext('2d');
   function drawLetter(f) {
-    f.node.querySelector('.aq-letter').textContent = syllable(f.i, f.h);
+    const label = f.node.querySelector('.aq-letter');
+    label.textContent = syllable(f.i, f.h);
+    const style = getComputedStyle(label);
+    pen.font = style.fontSize + ' ' + style.fontFamily;
+    pen.direction = 'rtl';
+    pen.textAlign = 'start';
+    const ink = pen.measureText(label.textContent);
+    const width = ink.actualBoundingBoxLeft + ink.actualBoundingBoxRight;
+    const height = ink.actualBoundingBoxAscent + ink.actualBoundingBoxDescent;
+    const scale = label.dataset.radius * 1.72 / Math.max(1, Math.hypot(width, height));
+    const x = (ink.actualBoundingBoxLeft - ink.actualBoundingBoxRight) / 2;
+    const y = (ink.actualBoundingBoxAscent - ink.actualBoundingBoxDescent) / 2;
+    label.setAttribute('transform', 'scale(' + scale + ') translate(' + x + ' ' + y + ')');
   }
   function place(f) {
-    const bob = Math.sin(f.phase) * 4;
-    f.node.style.transform = 'translate(' + (f.x - 60).toFixed(1) + 'px,' + (f.y - 45 + bob).toFixed(1) + 'px)';
+    const bob = Math.sin(f.phase) * f.swim.wave;
+    const pitch = Math.max(-14, Math.min(14, -f.dir * f.vy * .65));
+    f.node.style.transform = 'translate(' + f.x.toFixed(1) + 'px,' + (f.y + bob).toFixed(1) + 'px) translate(-50%, -50%) rotate(' + pitch.toFixed(1) + 'deg)';
     f.node.classList.toggle('right', f.dir < 0);
   }
   function step(dt) {
     for (const f of fish) {
-      f.phase += dt * 1.6;
-      if (f.joy > 0) f.joy -= dt;
-      if (f.rest > 0 && !f.meal) { f.rest -= dt; f.vx *= 0.96; f.vy *= 0.96; }
+      f.phase += dt * (f.kind === 'clown' ? 3 : 1.6);
+      f.boost = Math.max(0, f.boost - dt);
+      f.node.classList.toggle('darting', f.boost > 0);
+      if (f.rest > 0 && !f.meal && !f.boost) { f.rest -= dt; const drag = Math.exp(-2.5 * dt); f.vx *= drag; f.vy *= drag; }
       else {
         const tx = f.meal ? f.meal.x : f.tx, ty = f.meal ? f.meal.y : f.ty;
         const dx = tx - f.x, dy = ty - f.y, dist = Math.hypot(dx, dy);
-        const want = (f.meal ? 1.9 : 1) * f.speed * Math.min(1, dist / 60 + 0.15);
-        const ax = dist > 1 ? dx / dist * want : 0, ay = dist > 1 ? dy / dist * want * 0.6 : 0;
+        // Slender fish alternate a tail-powered sprint with a glide.
+        const pace = f.kind === 'long' ? 1 + .85 * Math.sin(f.phase) : 1;
+        const cruise = f.meal ? 1.9 : pace;
+        const want = (cruise + (burstSpeed - cruise) * Math.min(1, f.boost)) * f.speed * Math.min(1, dist / 60 + 0.15);
+        const ax = dist > 1 ? dx / dist * want : 0, ay = dist > 1 ? dy / dist * want * .88 : 0;
         // easing towards the wanted speed makes the turns wide and slow
-        const ease = Math.min(1, dt * (f.meal ? 1.6 : 0.7));
+        const ease = Math.min(1, dt * (f.boost ? 4 : f.meal || f.kind === 'long' ? 1.6 : 0.7));
         f.vx += (ax - f.vx) * ease;
         f.vy += (ay - f.vy) * ease;
         if (f.meal && dist < 14) eat(f);
@@ -212,10 +250,16 @@ const elifAquarium = (() => {
     f.node.classList.remove('joy'); void f.node.offsetWidth; f.node.classList.add('joy');
     puff(f.x - f.dir * 50, f.y - 6, 5);
     // a little dash away, and the next touch says the next hareke
-    f.vx = (f.dir > 0 ? -1 : 1) * f.speed * 2.4;
+    if (!calm.matches) {
+      f.boost = burstDuration;
+      pickTarget(f, true);
+      const dx = (f.meal?.x ?? f.tx) - f.x, dy = (f.meal?.y ?? f.ty) - f.y;
+      const impulse = f.speed * 2.5 / Math.max(1, Math.hypot(dx, dy));
+      f.vx = dx * impulse;
+      f.vy = dy * impulse;
+    }
     f.h = (f.h + 1) % 3;
     setTimeout(() => drawLetter(f), 900);
-    pickTarget(f);
   }
   // A few bubbles where a fish was touched.
   function puff(x, y, n) {
