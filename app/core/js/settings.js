@@ -82,27 +82,47 @@
     playCue('correct');
     $('edit-note').textContent = stored ? '✓ Kaydedildi' : 'Değişiklik yalnızca bu oturumda saklanabildi.';
   };
-  const disarmDelete = confirmTwice($('delete-player'), 'Emin misin? Evet, sil', () => {
+  // Deleting asks for a typed word, so a child tapping around cannot do it by accident.
+  const confirmWord = 'SİL';
+  const confirmed = () => $('delete-confirm').value.trim().toLocaleUpperCase('tr-TR') === confirmWord;
+  function disarmDelete() {
+    $('delete-confirm').value = '';
+    $('delete-player').disabled = true;
+  }
+  $('delete-confirm').oninput = () => { $('delete-player').disabled = !confirmed(); };
+  // The field sits inside the edit form: Enter there deletes (once the word is right) instead of saving.
+  $('delete-confirm').onkeydown = e => {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    if (confirmed()) $('delete-player').click();
+  };
+  $('delete-player').onclick = () => {
+    if (!confirmed()) return;
     const profile = activeProfile;
     profiles.splice(profiles.indexOf(profile), 1);
     sessionProgress.delete(profile.id);
     try {
-      localStorage.removeItem(progressKey(profile));
-      localStorage.removeItem('elif-ba-' + profile.id);
-      localStorage.removeItem('elif-ba-v2-' + profile.id);
-      localStorage.removeItem('elif-ba-hiz-' + profile.id);
-      for (const ada of Object.values(window.soruAdalari)) localStorage.removeItem(ada.kayit + profile.id);
+      // Every key of this player ends in its id (carpim-adasi-oyuncu-, elif-ba-v2-, elif-ba-hiz-, din-bilgisi- …).
+      const keys = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.endsWith('-' + profile.id)) keys.push(key);
+      }
+      for (const key of keys) localStorage.removeItem(key);
     } catch {}
     saveProfiles();
+    // The cloud copy changes now, not a few seconds later, so the admin page drops the player too.
+    bulut.oyuncuSilindi(profile.id);
     window.speechSynthesis?.cancel();
     activeProfile = null;
     for (const view of ['catalog', 'island-view', 'elif-view', 'game-tools', 'settings-button']) $(view).hidden = true;
     for (const kod of Object.keys(window.soruAdalari)) $(kod + '-view').hidden = true;
     $('player').textContent = 'Oyuncu seç';
     $('player').title = '';
+    disarmDelete();
     dialog.close();
     openProfiles();
-  });
+  };
 
   /* ---------- Sound ---------- */
   const syncSound = () => { $('sound-switch').checked = playCue.isOn(); };

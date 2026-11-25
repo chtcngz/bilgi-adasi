@@ -464,6 +464,10 @@ dialog[open]::backdrop { animation: fade .25s; backdrop-filter: blur(3px); }
 .danger.wide { width: 100%; margin-top: 8px; }
 .danger-zone { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; padding: 12px 14px; border: 2px solid #f3d6d7; border-radius: 16px; background: #fffafa; }
 .danger-zone .danger { flex: none; }
+.danger-zone:has(.danger-confirm) { flex-wrap: wrap; }
+.danger-confirm { display: flex; gap: 8px; width: 100%; }
+.danger-confirm input { flex: 1; min-width: 0; min-height: 44px; padding: 8px 12px; border: 2px solid #e8b9bd; border-radius: 14px; font: inherit; font-weight: 850; letter-spacing: .08em; }
+.danger-confirm input:focus-visible { outline: 3px solid #ef9739; outline-offset: 1px; }
 .switch-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px; border: 2px solid #eee2c6; border-radius: 16px; background: #fff; cursor: pointer; }
 .switch-row input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .switch-row i { position: relative; flex: none; width: 56px; height: 32px; border-radius: 20px; background: #d8d0bd; transition: background .2s; }

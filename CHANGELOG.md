@@ -11,6 +11,11 @@ Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında 
 
 - **Yönetici sayfası: Google ile giriş.** Giriş kutusunda “Google ile oturum aç” düğmesi var. Tarayıcıda Google hesabı zaten açıksa ve bu hesapla bir kez girildiyse sayfa kendiliğinden açılıyor, hiçbir şeye basmak gerekmiyor. Çıkış’a basınca kendiliğinden girme, bir sonraki Google girişine kadar duruyor. E-posta ve şifreyle giriş de yerinde.
 
+## 0.28.3 · 25.11.2026
+
+- **Oyuncuyu sil:** Ayarlar → Oyuncu’daki silme artık iki kez basarak değil, kutuya **SİL** yazarak onaylanıyor; yazı doğru olmadan Sil düğmesi açılmıyor. Böylece çocuklar yanlışlıkla oyuncu silemiyor.
+- Silinen oyuncunun bu cihazdaki bütün kayıtları siliniyor ve bulut kaydı hemen güncelleniyor: oyuncu yönetici sayfasından da kalkıyor. Cihazda hiç oyuncu kalmazsa cihaz da yönetici sayfasından kalkıyor. İnternet yoksa silme, bağlantı gelince buluta gidiyor.
+
 ## 0.28.2 · 25.11.2026
 
 - **Geçici geliştirme anahtarı:** Adı `admin` olan oyuncuda Elif Ba haritasındaki koylar kilitli (🔒) görünüyordu; dokununca açılsalar da kilitli çiziliyorlardı. Artık bütün koylar açık ve numaralı görünüyor. Diğer oyuncularda bir şey değişmedi.
