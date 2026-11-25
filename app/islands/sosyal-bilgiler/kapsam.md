@@ -438,3 +438,125 @@ soran soru `sorular.js`'te ilgili durağın sonuna eklenir ve kimliği maddenin 
 - s. 195 · 10 Kasım 1938: Atatürk Dolmabahçe Sarayı’nda vefat etti. → miras:76
 - s. 195 · 1989-1990: Çocuk Haklarına Dair Sözleşme’nin kabulü ve imzalanması. → vatandas:2, vatandas:3
 - s. 195 · 15 Temmuz 2016: millî iradeye darbe girişimi. → vatandas:42
+
+## Kitabın sonundaki sözlük (s. 196-201)
+
+Sözlükteki her kelime bir madde. Kelime ünitelerdeki bir soruda zaten soruluyorsa o soru yazılı; sorulmuyorsa kelimenin geçtiği ünitenin durağına bir soru eklendi.
+
+- s. 196 · acil: hemen yapılması gereken. → yer:69
+- s. 196 · afet: doğa olaylarının sebep olduğu yıkım. → yer:44
+- s. 196 · aile: evlilik ve kan bağına dayanan en küçük birlik. → miras:0
+- s. 196 · akarsu: bir yatak içinde eğim boyunca akan su. → yer:71
+- s. 196 · albüm: fotoğraf, pul gibi görselleri saklama defteri. → miras:83
+- s. 196 · ambalaj: eşyayı sarmaya yarayan malzeme. → ekonomi:67
+- s. 196 · anayasa: devletin yönetim biçimini, güçlerin kullanılışını, hak ve özgürlükleri gösteren temel yasa. → vatandas:59
+- s. 196 · anıt: bir olayı ya da kişiyi anmak için yapılan yapı. → miras:104
+- s. 196 · antlaşma: devletlerin uymayı kabul ettikleri karar. → miras:93
+- s. 196 · askerî: askerlikle ilgili. → miras:90
+- s. 196 · atasözü: gözlem ve deneyime dayanan, halka mal olmuş öğüt verici söz. → miras:84
+- s. 196 · ateşkes: savaşan tarafların savaşı durdurması, mütareke. → miras:94
+- s. 196 · bağımsızlık: bağımsız olma durumu. → vatandas:34
+- s. 196 · barkod: ürünün bilgilerini taşıyan, aygıtların okuyabildiği etiket. → birey:46
+- s. 196 · başkomutan: savaşta bütün kara, deniz ve hava kuvvetlerini yöneten komutan. → miras:107
+- s. 196 · bellek: öğrenileni zihinde saklama gücü, hafıza. → teknoloji:50
+- s. 196 · birey: toplumu oluşturan insanların her biri, fert. → birey:51
+- s. 196 · biyografi: bir kişinin hayatını anlatan yazı, özgeçmiş. → miras:67
+- s. 197 · cemiyet: ortak amaçla kurulan yasal topluluk, dernek. → miras:100
+- s. 197 · cephe: savaşın sürdüğü bölge. → miras:92
+- s. 197 · cihaz: aygıt, alet. → birey:47
+- s. 197 · cumhuriyet: milletin egemenliği seçtiği milletvekilleriyle kullandığı yönetim biçimi. → vatandas:58
+- s. 197 · çevre: kişinin içinde bulunduğu ortam. → yer:21
+- s. 197 · çiftçi: geçimini toprağı ekerek sağlayan kimse. → yer:74
+- s. 197 · darbe: silah zoruyla ya da seçim dışı yollarla hükûmeti devirme girişimi. → vatandas:54
+- s. 197 · dayanışma: topluluktakilerin birbirine karşılıklı bağlanması. → vatandas:55
+- s. 197 · değişim: bir zaman diliminde çeşitli alanlardaki değişikliklerin tümü. → birey:48
+- s. 197 · demokrasi: halkın egemenliğine dayanan yönetim biçimi. → vatandas:57
+- s. 197 · destan: kahramanlık hikâyesi ya da olay anlatan on bir heceli halk şiiri. → miras:85
+- s. 197 · dijital: verilerin ekranda elektronik olarak gösterilmesi. → teknoloji:56
+- s. 197 · diyagram: bir olayın değişimini gösteren grafik. → yer:68
+- s. 197 · doğal: doğada bulunan, doğaya uygun. → yer:22, yer:24
+- s. 197 · dönüşüm: başka bir biçime girme. → ekonomi:51
+- s. 197 · egemenlik: milletin ve devletin yetkilerinin hepsi, hâkimiyet. → vatandas:35, vatandas:51
+- s. 197 · endoskopi: organların içinin endoskopla incelenmesi, iç görüm. → teknoloji:48
+- s. 197 · etiket: malın türünü, miktarını ve fiyatını gösteren küçük kâğıt. → ekonomi:69
+- s. 198 · fatura: satıcının alıcıya verdiği hesap belgesi. → ekonomi:70
+- s. 198 · festival: sanat dalında gösteri ve ödüllerin olduğu etkinlik. → dunya:56
+- s. 198 · finans: para kazanmak için yatırım yapmak ve onu değerlendirmek. → ekonomi:59
+- s. 198 · fondü: peynir ya da etin ortak tencerede pişirilip yendiği yemek. → dunya:3
+- s. 198 · gazi: düşmanı yenen komutanlara verilen onur unvanı. → miras:109
+- s. 198 · gelenek: kuşaktan kuşağa aktarılan alışkanlıklar. → miras:13, miras:11
+- s. 198 · genelge: yol göstermek için ilgililere gönderilen yazı. → miras:99
+- s. 198 · gidon: bisikletin iki elle tutulan yön değiştirme aracı. → teknoloji:51
+- s. 198 · hak: kişiye hukuken tanınmış yetki, özgürlük ve olanaklar. → vatandas:0, vatandas:20
+- s. 198 · han: yolcuların konakladığı yapı. → ekonomi:66
+- s. 198 · harçlık: ufak tefek ihtiyaçlar için harcanan para. → ekonomi:71
+- s. 198 · harp akademisi: komutan ve subay yetiştiren okul. → miras:91
+- s. 198 · hasat: ürün kaldırma, ekin biçme işi. → ekonomi:60
+- s. 198 · hijyen: sağlığı korumak için alınan temizlik önlemlerinin tümü. → birey:55
+- s. 198 · ilham: akla gelen yaratıcı duygu ya da düşünce. → birey:57
+- s. 198 · istiklal: bağımsızlık. → vatandas:38, miras:68
+- s. 198 · jeoloji: yer kürenin yapısını ve oluşumunu inceleyen bilim. → ekonomi:63
+- s. 199 · kauçuk: öz suyu yapışkan ve süt kıvamında olan sıcak ülke bitkisi. → teknoloji:53
+- s. 199 · kılavuz: cihazların nasıl kullanılacağını gösteren belge. → teknoloji:32
+- s. 199 · kitre: geven bitkisinden elde edilen toz hâlinde bitki özü. → miras:88
+- s. 199 · kongre: temsilcilerin katılımıyla yapılan toplantı. → miras:101
+- s. 199 · konservatuvar: müzik, bale ve tiyatro okulu. → birey:52
+- s. 199 · kulüp: üyelerin belli amaçlarla toplandığı yer. → vatandas:31, vatandas:32
+- s. 199 · kuvayımilliye: Millî Mücadele’de halkın oluşturduğu milis güçler. → miras:55
+- s. 199 · küresel: dünya ölçüsünde, global. → yer:70
+- s. 199 · logo: bir kurumu ya da ürünü tanıtan resim, harf vb. → ekonomi:68
+- s. 199 · makam: devlette yüksek ve önemli görev, mevki. → vatandas:56
+- s. 199 · mamul: yapılmış, işlenmiş, imal edilmiş eşya ya da yiyecek. → ekonomi:61
+- s. 199 · mareşal: en yüksek askerî rütbe. → miras:110
+- s. 199 · Mebusân Meclisi: Osmanlı Devleti’nin Meşrutiyet dönemlerindeki yasama organı. → miras:102
+- s. 199 · meclis: toplantının yapıldığı yer, şûra. → miras:103
+- s. 199 · medeni hâl: evli olup olmama durumu. → birey:49
+- s. 199 · meteoroloji: hava durumunu inceleyen bilim, hava bilgisi. → yer:28
+- s. 199 · millî mücadele: bağımsızlık için yapılan savaş. → miras:40, vatandas:44
+- s. 199 · miting: dikkat çekmek için açık yerde yapılan toplantı. → miras:97
+- s. 199 · mizah: gerçeğin güldürücü yanlarını ortaya koymak. → vatandas:52
+- s. 199 · mucit: yeni bir buluş ortaya koyan kimse. → teknoloji:42
+- s. 199 · muharebe: savaştaki çarpışmaların her biri. → miras:105
+- s. 199 · müfettiş: denetleme işi yapan kimse, denetmen. → miras:98
+- s. 200 · nüfus: bir yerde belli bir anda yaşayanların toplam sayısı. → birey:50
+- s. 200 · otizm: doğuştan ya da ilk yıllarda ortaya çıkan sinirsel ve gelişimsel farklılık. → birey:54
+- s. 200 · özerk: bir üst organa bağlı olup kendi yasasıyla kendini yöneten. → yer:73
+- s. 200 · planör: uçağa benzer motorsuz hava taşıtı. → teknoloji:54
+- s. 200 · plato: akarsularla yarılmış, düzlükleri olan yüksek yer, yayla. → yer:72
+- s. 200 · reçine: özellikle çamlarda oluşan yapışkan bitki salgısı. → ekonomi:64
+- s. 200 · rezerv: henüz işletilmemiş kaynak (kömür, demir, petrol). → dunya:55
+- s. 200 · risk: zarara uğrama tehlikesi. → yer:75
+- s. 200 · rol: bir işte birinin ya da bir şeyin üstüne düşen görev. → miras:87
+- s. 200 · röntgen: bir organın durumunu görmek için çekilen film. → teknoloji:45
+- s. 200 · santral: telefonların bağlı olduğu merkez. → teknoloji:49
+- s. 200 · sele: yayvan, genişçe sepet. → teknoloji:52
+- s. 200 · sensör: ortamdaki değişiklikleri algılayıp cihazlara bildiren parça. → teknoloji:55
+- s. 200 · set: toprağın kaymasını ya da suyun akmasını önleyen kalın duvar. → yer:77
+- s. 200 · sorumluluk: davranışların sonuçlarını üstlenmek. → vatandas:18
+- s. 200 · sosyalleşme: kişinin toplumun kültürünü öğrenme süreci. → birey:56
+- s. 200 · stetoskop: kalbin ve iç organların seslerini dinleme aracı. → teknoloji:43
+- s. 201 · talih: baht, şans, kader. → miras:106
+- s. 201 · tansiyon aleti: kan basıncını gösteren alet. → teknoloji:44
+- s. 201 · taraça: duvarla desteklenen yüksek düzlük. → yer:76
+- s. 201 · taviz: anlaşmak için hakkından bir kısmından vazgeçmek, ödün. → vatandas:53
+- s. 201 · tayfa: gemide çalışan işçi. → ekonomi:65
+- s. 201 · telgraf: işaretlerle yazılı haber ileten haberleşme düzeni. → miras:95
+- s. 201 · terhis: askerlik ödevini bitirenlerin ordudan ayrılması. → miras:96
+- s. 201 · termometre: sıcaklık ölçer. → yer:29
+- s. 201 · tomografi: bir organın kesitlerinin röntgenle çekilmesi. → teknoloji:47
+- s. 201 · türkü: hece ölçüsüyle yazılıp halk ezgileriyle bestelenen şiir. → miras:86
+- s. 201 · ultrason: ses dalgalarıyla vücudun görüntülenmesi. → teknoloji:46
+- s. 201 · ulusal egemenlik: milletin hâkimiyeti. → vatandas:35, vatandas:41
+- s. 201 · üye: bir topluluğu oluşturanların her biri, aza. → birey:53
+- s. 201 · vadi: iki dağ arasındaki çukur arazi ya da geçit. → yer:78
+- s. 201 · yadigâr: bir kişiyi ya da olayı hatırlatan nesne. → miras:7
+- s. 201 · yöre: bir bölgenin belli bir yeri ve çevresi. → miras:89
+- s. 201 · yükümlülük: bir işi yapma zorunluluğu. → miras:108
+- s. 201 · ziraat: topraktan ürün elde etmek için yapılan etkinlik, tarım. → ekonomi:62
+
+## Kitabın sonundaki haritalar (s. 203-204)
+
+- s. 203 · Türkiye’nin kara ve deniz komşuları. → dunya:10, dunya:11
+- s. 204 · Türk dünyası haritası: bağımsız Türk devletleri ve KKTC. → dunya:24, dunya:25
+- s. 203 · Türkiye’nin mülki idare bölümleri (81 il) haritası. → dunya:57
+- s. 204 · Türk dünyası haritası: Türk cumhuriyetleri, bölgeleri ve toplulukları. → dunya:58

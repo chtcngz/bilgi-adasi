@@ -7,6 +7,15 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.19.0 · 25.11.2026
+
+Din Bilgisi ve Sosyal Bilgiler kitaplarının sonundaki sözlükler, baş sayfaları ve haritaları da artık soruluyor. Böylece iki adada da kitapta sorulmayan bilgi kalmadı.
+
+- **Din Bilgisi Adası (+80 soru, toplam 561):** Kitabın sözlüğündeki 97 kelimenin 20'si zaten soruluyordu. Kalan 73 kelime (arife, emniyet, irade, mükellef, sıfat, harç, vicdan, mucize, müşrik, Ravza-i Mutahhara, mikrop…) için, kelimenin kitapta geçtiği ünitenin durağına bir soru eklendi. Kitabın başındaki İstiklal Marşı ve Gençliğe Hitabe için 3 soru, sondaki Türkiye ve Türk dünyası haritaları için 💎 Hazine Mağarası’na 4 soru geldi. Kontrol listesi 494 madde.
+- **Sosyal Bilgiler Adası (+91 soru, toplam 518):** Sözlükteki 110 kelimenin 21'i zaten soruluyordu. Kalan 89 kelime (barkod, medeni hâl, destan, telgraf, terhis, plato, taraça, stetoskop, sensör, hasat, ziraat, taviz, anayasa…) için ilgili ünitenin durağına bir soru eklendi. Kitabın sonundaki haritalar için 2 soru daha var. Kontrol listesi 454 madde.
+- Din Bilgisi Adası’nın açıklamasına da “Kitaptaki her bilgi en az bir soruyla soruluyor” cümlesi eklendi.
+- Eski sorular yerinde duruyor; yeni sorular durakların sonuna eklendi, çocukların ilerlemesi kaybolmuyor.
+
 ## 0.18.0 · 25.11.2026
 
 Din Bilgisi Adası ders kitabıyla sayfa sayfa karşılaştırıldı. Kitapta olup henüz sorulmayan her bilgi için yeni soru yazıldı; adada artık 286 yerine 481 soru var.

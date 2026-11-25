@@ -13,7 +13,11 @@ be left unlearned.
   owner for the PDF.
 - Write `app/islands/<ada>/kapsam.md` first: the book, page by page, as a checklist. Every definition,
   concept, event, date, person, place and example is one line. The front pages (İstiklal Marşı,
-  Gençliğe Hitabe), boxes, news clippings, glossary terms and the chronology at the back count too.
+  Gençliğe Hitabe), boxes, news clippings, every glossary (sözlük) word, the chronology and the maps
+  at the back count too.
+- A glossary word that a unit question already asks points at that question; otherwise it gets a new
+  question at the end of the stop of the unit where the word is used. Front pages and back maps that
+  belong to no unit go to the first stop or the stop closest in topic, or to `ekstra`.
 - Every line ends with `→` and the ids of the questions that ask it (`birey:0` is the first question of
   the stop whose id is `birey`). A fact that only appears in an explanation (`b`) does not count: it
   needs a question that asks it.

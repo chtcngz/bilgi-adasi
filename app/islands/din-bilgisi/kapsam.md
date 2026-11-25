@@ -12,6 +12,12 @@ kalmadığını ve her kimliğin gerçekten bir soruya karşılık geldiğini de
 Kitaba yeni bir bilgi eklenirse ya da bir bilgi atlanmışsa önce buraya madde olarak yazılır, sonra o bilgiyi
 soran soru `sorular.js`'te ilgili durağın sonuna eklenir ve kimliği maddenin yanına yazılır.
 
+## Kitabın baş sayfaları (s. 3-5)
+
+- s. 3 · İstiklal Marşı; şairi Mehmet Âkif Ersoy. → ifade:57
+- s. 3 · İstiklal Marşı’nda ezanlar: “…ki şehadetleri dinin temeli”. → ifade:58
+- s. 4-5 · Gençliğe Hitabe (Mustafa Kemal Atatürk): birinci görev istiklali ve cumhuriyeti korumaktır. → ifade:59
+
 ## 1. ünite · Günlük Hayattaki Dinî İfadeler (s. 10-31)
 
 ### Günlük konuşmalarda dinî ifadeler (s. 12-25)
@@ -465,3 +471,110 @@ soran soru `sorular.js`'te ilgili durağın sonuna eklenir ve kimliği maddenin 
 
 ### Ünite sonu değerlendirme (s. 120-123)
 - s. 120-122 · Değerlendirmedeki sorular yukarıdaki maddeleri yoklar (abdest, maddi/manevi temizlik, taharet, beden temizliği, çevre kirliliği, salih amel, abdest sırası, çevre temizliği). → temizlik:8, temizlik:2, temizlik:5, temizlik:0, temizlik:17, temizlik:33, temizlik:7, temizlik:13, temizlik:22, temizlik:16
+
+## Kitabın sonundaki sözlük (s. 124-128)
+
+Sözlükteki her kelime bir madde. Kelime ünitelerdeki bir soruda zaten soruluyorsa o soru yazılı; sorulmuyorsa kelimenin kitapta ilk geçtiği ünitenin durağına bir soru eklendi.
+
+- s. 124 · adalet: hak ve hukuka uygunluk, hakkı gözetmek. → ahlak:44, ahlak:4
+- s. 124 · ahlak: huylar ve bunların etkisiyle yapılan davranışlar. → ahlak:0
+- s. 124 · alçak gönüllü: başkalarını küçük görmeyen, büyüklenmeyen; mütevazı. → islam:109
+- s. 124 · amentü: altı inanç esasını sayan “inandım” cümlesi. → islam:35
+- s. 124 · arife: bir günden, olaydan önceki gün; Kurban Bayramı’ndan önceki gün. → ifade:60
+- s. 124 · bayram: dinî ya da millî önemi olan, topluca kutlanan gün. → ifade:76
+- s. 124 · bedevi: çölde göçebe yaşayan Arap. → siyer:136
+- s. 124 · bereket: Allah’tan gelen hayrın görünmesi, artıp çoğalması. → ifade:77
+- s. 124 · bilinç: kendini ve çevresini tanıma yeteneği, şuur. → islam:126
+- s. 124 · billur: duru, temiz ve akıcı. → siyer:137
+- s. 124 · birey: toplumu oluşturan insanların her biri; bireysel: bireyle ilgili. → islam:120
+- s. 124 · cami: Müslümanların ibadet için toplandığı yer. → ifade:78
+- s. 124 · cennet: iman edip iyi işler yapanların sonsuz mutluluk yurdu. → ahlak:46
+- s. 124 · cömertlik: imkânlarını esirgemeden paylaşmak, eli açık olmak. → ahlak:96
+- s. 125 · çevre: canlıların ilişkilerini sürdürdüğü ortam. → temizlik:20
+- s. 125 · çevrim içi: bilgisayarın ağa bağlı ve çalışır olması. → ahlak:91
+- s. 125 · dilek: istek, temenni. → ifade:61
+- s. 125 · emin: güvenilir. → siyer:16
+- s. 125 · emniyet: tehlikeden uzak olmak, güvenlik. → ifade:63
+- s. 125 · esas: bir şeyin özünü oluşturan ana öge, temel. → islam:110
+- s. 125 · esenlik: sağlık, afiyet, selamet. → ifade:64
+- s. 125 · ezan: namaz vaktini bildiren çağrı. → ifade:66
+- s. 125 · farz: kesinlikle yapılması emredilen. → islam:18
+- s. 125 · fedakârlık: özverili olmak, karşılık beklemeden iyilik yapmak. → ahlak:92
+- s. 125 · günah: Allah’ın emir ve yasaklarına aykırı davranış. → ifade:21
+- s. 125 · güven: korkmadan, şüphe duymadan inanma ve bağlanma duygusu. → ifade:65
+- s. 125 · hanif: Hz. İbrahim’in dinine bağlı olanlar. → siyer:6
+- s. 125 · harç: taş ve tuğlaları bağlayıp duvarı sağlamlaştıran malzeme. → ahlak:97
+- s. 125 · hicret: göç; 622’de Mekke’den Medine’ye göç. → siyer:126
+- s. 125 · hitabet: etkili söz söyleme sanatı. → siyer:138
+- s. 125 · huy: yaradılıştan gelen özellikler, mizaç, alışkanlık. → ahlak:98
+- s. 125 · hüküm: karar verme, idare etme. → islam:125
+- s. 125 · ırk: aynı soydan gelen, ortak fiziksel özelliklere sahip insanlar. → islam:121
+- s. 126 · ibadet: kulun Allah’a sevgi, saygı ve bağlılığını gösteren davranışlar. → islam:51
+- s. 126 · ikram: bir şeyi hediye olarak vermek, misafire sunmak. → ifade:67
+- s. 126 · ilahi: Allah’la ilgili, Allah’a ait. → ifade:68
+- s. 126 · iletişim: duygu, düşünce ve bilgileri başkalarına aktarmak. → ifade:69
+- s. 126 · ilke: temel düşünce, temel inanç. → islam:111
+- s. 126 · imkân: yararlanılan uygun şart, olanak. → islam:112
+- s. 126 · irade: bir şeyi yapıp yapmamaya karar verme gücü. → islam:113
+- s. 126 · Kâbe: Mekke’de, kıble olan ve tavaf edilen kutsal yapı. → siyer:0, siyer:66
+- s. 126 · kabile: aynı soydan ailelerin topluluğu, boy, aşiret. → siyer:129
+- s. 126 · kabir: mezar. → ahlak:93
+- s. 126 · kâinat: evren. → ifade:70
+- s. 126 · kervan: yolcu ve yük taşıyan hayvan katarı. → siyer:130
+- s. 126 · kibir: büyüklenme, kendini üstün görme. → islam:114
+- s. 126 · köle: tutsak alınan ya da satın alınan, özgür olmayan kimse. → siyer:131
+- s. 126 · kul: Allah’ın yarattığı her varlık. → ifade:79
+- s. 126 · kutsal: dinen saygı duyulan. → islam:123
+- s. 126 · kültür: bir topluma özgü düşünce ve sanat eserlerinin bütünü. → islam:122
+- s. 126 · lakap: kişiye adı dışında sonradan verilen isim. → ahlak:99
+- s. 126 · mabet: ibadethane, tapınak. → siyer:139
+- s. 126 · mahcubiyet: utangaçlık. → ahlak:100
+- s. 126 · Mâlik: Allah’ın güzel isimlerinden; her şeyin sahibi. → ahlak:101
+- s. 126 · mesaj: yazı ya da sözle anlatılmak istenen duygu ve düşünce. → ifade:80
+- s. 126 · Mescid-i Haram: Mekke’de Kâbe’nin içinde bulunduğu alanı çevreleyen mescit. → siyer:140
+- s. 126 · mesh: abdestte ıslak eli başa ve boyna sürmek. → temizlik:15, temizlik:47
+- s. 127 · mikrop: mikroskopla görülen, hastalık yapan tek hücreli canlı. → temizlik:59
+- s. 127 · minnettar: gördüğü iyilik için kendini borçlu hisseden. → ifade:71
+- s. 127 · mucize: peygamberlerin Allah’ın izniyle gösterdiği olağanüstü olay. → siyer:132
+- s. 127 · mükâfat: ödül. → islam:115
+- s. 127 · mükellef: akli dengesi yerinde, ergenlik çağına ulaşmış, dinin emir ve yasaklarından sorumlu kişi. → islam:116
+- s. 127 · müşrik: Allah’a ortak koşan kimse. → siyer:133
+- s. 127 · namaz: İslam’ın beş temel esasından biri; tekbirle başlayıp selamla biten ibadet. → islam:19
+- s. 127 · nefis: kişinin kendisi; arzu, istek; öz varlık. → islam:117
+- s. 127 · nida: çağırma, seslenme. → ifade:72
+- s. 127 · öf: usanç, bezginlik bildiren ünlem. → ahlak:102
+- s. 127 · öğüt: doğru yolu göstermek için söylenen söz, nasihat. → ifade:81
+- s. 127 · panayır: belli zamanlarda kurulan büyük pazar. → siyer:75
+- s. 127 · put: doğaüstü gücü olduğuna inanılan canlı ya da cansız nesne. → siyer:141
+- s. 127 · putperest: puta tapan. → siyer:142
+- s. 127 · Rab: yetiştiren, besleyen, olgunlaştıran. → ahlak:23
+- s. 127 · Rahman: dünyada bütün canlılara merhamet eden, nimet veren; Rahîm: ahirette mümin kullarına şefkat edecek olan. → ifade:82
+- s. 128 · Ravza-i Mutahhara: Hz. Peygamber’in kabrinin bulunduğu yer; kabri ile minberi arasındaki bölüm. → siyer:134
+- s. 128 · rehber: doğruyu bulmaya yardım eden, yol gösteren; rehberlik: yol gösterme. → ifade:73
+- s. 128 · rıza: hoşnutluk, razı olma. → ifade:74
+- s. 128 · salavat: Hz. Muhammed’e saygı için okunan dua. → siyer:121, ifade:14
+- s. 128 · salgın: bir hastalığın yayılıp birçok kişiye bulaşması. → ahlak:94
+- s. 128 · selam: karşılaşınca söz ve işaretle gösterilen nezaket. → ifade:5, ifade:6
+- s. 128 · sıfat: bir adı niteleyen kelime. → islam:118
+- s. 128 · sorumluluk: kişinin davranışlarının sonuçlarını üstlenmesi. → islam:119
+- s. 128 · soy: aynı kandan gelen geçmiş ve yaşayan nesiller. → ahlak:95
+- s. 128 · sülale: soy, sop. → siyer:135
+- s. 128 · sütannelik: sütanne olma durumu. → siyer:89, siyer:10
+- s. 128 · şifa: hastalıktan kurtulma, iyileşme. → ifade:75
+- s. 128 · talep: birinden bir şeyi yapmasını ya da yapmamasını istemek. → ifade:62
+- s. 128 · tavaf: Kâbe’nin etrafında yedi kez dönmek. → islam:124
+- s. 128 · vefat: ölüm. → ahlak:103
+- s. 128 · vicdan: kişiyi kendi davranışları hakkında yargıya iten iç ses. → ahlak:104
+- s. 128 · yetim: babası ölmüş olan; öksüz: annesi ölmüş olan. → siyer:143
+- s. 128 · zan: sanı, kesin olmayan bilgi, kuşku. → ahlak:105
+- s. 128 · zemzem: Kâbe yakınındaki kuyunun suyu. → siyer:2
+- s. 128 · zulüm: adalete aykırı davranma, haksızlık. → siyer:144
+
+## Kitabın sonundaki haritalar (s. 131-132)
+
+Ünitelere ait olmayan bu sayfaların soruları 💎 Hazine Mağarası’nda.
+
+- s. 131 · Türkiye’nin mülki idare bölümleri (81 il) haritası. → ekstra:36
+- s. 131 · Türkiye’nin kara ve deniz komşuları. → ekstra:37
+- s. 132 · Türk dünyası haritası: bağımsız Türk devletleri. → ekstra:38
+- s. 132 · Türk dünyası haritası: Türk cumhuriyetleri, bölgeleri ve toplulukları. → ekstra:39
