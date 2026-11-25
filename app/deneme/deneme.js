@@ -159,16 +159,16 @@
     },
     {
       id: 'album', icon: '📖', title: 'İlk Harf Albümüm', tag: 'İlk tanışma', where: 'Harfler',
-      lead: 'Bir koy seç. Dört harfin kartlarını aç, adlarını dinle ve şekillerini incele.',
-      idea: ['Her sayfada dört harf var. Kartı açınca harf büyür, adı duyulur ve şekline dair küçük bir gözlem görünür.',
+      lead: 'Yumurtalara dokun. Her yavru bir harfle çıksın ve sana adını söylesin.',
+      idea: ['El işaretini izleyip yumurtaya dokun. Çıkan harf hem yavrunun kartında hem büyük kartta görünür.',
         'Çocuk istediği karta dönebilir. Yedi sayfada 28 harfin hepsini kendi hızında keşfeder.'],
       start: startAlbum
     },
     {
       id: 'buyutec', icon: '🔬', title: 'Harf Büyüteci', tag: 'Benzer harfleri ayırt et', where: 'Harfler',
-      lead: 'Önce benzer harflerle tanış. Sonra şekil ipucunu dinleyip gizli harfi bul.',
-      idea: ['Her turda benzer gövdeli iki ya da üç harf yan yana durur. Kartlara dokunarak adlarını dinleyebilirsin.',
-        'Bulmacayı açınca adlar gizlenir. Noktanın yeri veya sayısı hangi harfi aradığını söyler.'],
+      lead: 'Kaplumbağanın gösterdiği harfin eşine dokun.',
+      idea: ['Kaplumbağa harfi gösterir. İlk eşleşmede el işareti dokunulacak kartı gösterir.',
+        'Sonraki turlarda örnek hep görünür. Çocuk benzer harflerin noktalarına bakarak eşini bulur.'],
       start: startMagnifier
     }
   ];
@@ -200,6 +200,7 @@
     lab.innerHTML = '';
     const bar = el('div', 'lab-bar');
     const back = el('button', 'lab-back', '← Odaya dön'); back.onclick = showHub;
+    if (g.id === 'album' || g.id === 'buyutec') { back.textContent = '🏠'; back.setAttribute('aria-label', 'Odaya dön'); }
     bar.append(back, el('h1', '', g.icon + ' ' + g.title));
     const idea = el('details', 'lab-idea', '<summary>💡 Öneri</summary><ul>' + g.idea.map(t => '<li>' + t + '</li>').join('') + '</ul>');
     const screen = el('div', 'lab-screen');
@@ -608,126 +609,117 @@
     draw();
   }
 
-  // Shape cues describe isolated letters in the order used by elifData.
-  const shapeHints = [
-    'Tek bir uzun çizgi gibi durur.', 'Altında bir nokta var.', 'Üstünde iki nokta var.', 'Üstünde üç nokta var.',
-    'Kıvrımının içinde bir nokta var.', 'Geniş bir kıvrımı var. Noktası yok.', 'Kıvrımının üstünde bir nokta var.',
-    'Kısa, köşeli bir çizgi. Noktası yok.', 'Köşeli çizginin üstünde bir nokta var.',
-    'Kuyruğu aşağı kıvrılır. Noktası yok.', 'Kıvrılan kuyruğunun üstünde bir nokta var.',
-    'Küçük dişleri var. Noktası yok.', 'Küçük dişlerinin üstünde üç nokta var.',
-    'Geniş, kapalı bir gözü var. Noktası yok.', 'Geniş, kapalı gözünün üstünde bir nokta var.',
-    'Kapalı gövdesinden uzun bir çizgi yükselir. Noktası yok.', 'Uzun çizgisinin yanında bir nokta var.',
-    'Üstte küçük bir kıvrımı var. Noktası yok.', 'Üstteki küçük kıvrımın üzerinde bir nokta var.',
-    'Yuvarlak başının üstünde bir nokta var.', 'Yuvarlak başının üstünde iki nokta var.',
-    'Gövdesinin içinde küçük bir işaret var.', 'Uzun çizgisi altta sola kıvrılır.',
-    'Küçük bir başı ve aşağı inen bir kuyruğu var.', 'Çanağının içinde bir nokta var.',
-    'Yuvarlak başından kıvrık bir kuyruk uzanır.', 'Küçük bir halka gibi durur.', 'Kıvrımının altında iki nokta var.'
-  ];
+  function pictureButton(label, content, cls = '') {
+    const button = el('button', 'picture-button ' + cls, content);
+    button.type = 'button';
+    button.setAttribute('aria-label', label);
+    return button;
+  }
 
   function startAlbum(screen) {
-    const label = el('label', 'album-picker', 'Hangi koyu keşfedelim? ');
-    const select = el('select', '');
-    coves.forEach((name, k) => select.add(new Option((k + 1) + '. ' + name, k)));
-    label.append(select);
-    const shelf = el('div', 'work-choices');
-    const page = el('div', 'work-sheet');
-    const face = el('div', 'work-sample');
-    const title = el('h2', '');
-    const hint = el('p', 'work-caption');
-    const listen = el('button', 'lab-secondary', '🔊 Adını dinle');
-    page.append(face, title, hint, listen);
-    screen.append(label, shelf, page);
+    const steps = dotsRow(coves.length);
+    const nest = el('section', 'nest-board');
+    const face = pictureButton('Yuvayı keşfet', '🪺', 'nest-face');
+    const eggs = el('div', 'egg-row');
+    const nav = el('div', 'lab-actions');
+    const prev = pictureButton('Önceki koy', '◀');
+    const next = pictureButton('Sonraki koy', '▶');
+    const opened = new Set();
+    nav.append(prev, next);
+    nest.append(face, eggs, nav);
+    screen.append(steps.row, nest);
+    let cove = 0;
     function draw() {
       stopAll();
-      shelf.replaceChildren();
-      const letters = coveLetters(Number(select.value));
-      function open(i) {
-        face.innerHTML = ar(glyphs[i]);
-        title.textContent = names[i];
-        hint.textContent = shapeHints[i];
-        listen.onclick = () => sayLetter(i);
-        Array.from(shelf.children).forEach((b, k) => b.setAttribute('aria-pressed', letters[k] === i));
+      steps.mark(cove);
+      eggs.replaceChildren();
+      const letters = coveLetters(cove);
+      const birds = ['🐣', '🐥', '🐤', '🐣'];
+      const firstEgg = letters.find(i => !opened.has(i));
+      face.innerHTML = '🪺';
+      face.setAttribute('aria-label', 'Yuvadaki harfi aç');
+      face.onclick = () => eggs.children[Math.max(0, letters.indexOf(firstEgg))].click();
+      prev.disabled = cove === 0;
+      next.disabled = cove === coves.length - 1;
+      for (const [k, i] of letters.entries()) {
+        const hatched = '<span aria-hidden="true">' + birds[k] + '</span>' + ar(glyphs[i]);
+        const egg = pictureButton(names[i], opened.has(i) ? hatched : '🥚', 'nest-egg');
+        egg.classList.toggle('tap-hint', i === firstEgg);
+        egg.onclick = () => {
+          opened.add(i);
+          egg.innerHTML = hatched;
+          face.innerHTML = '<span aria-hidden="true">' + birds[k] + '</span>' + ar(glyphs[i]);
+          face.setAttribute('aria-label', names[i] + ' harfini tekrar dinle');
+          face.onclick = () => sayLetter(i);
+          sayLetter(i);
+          for (const [n, card] of Array.from(eggs.children).entries()) {
+            card.classList.toggle('tap-hint', letters[n] === letters.find(j => !opened.has(j)));
+            card.setAttribute('aria-pressed', n === k);
+          }
+          next.classList.toggle('tap-hint', !next.disabled && letters.every(j => opened.has(j)));
+          if (opened.size === glyphs.length && !nest.classList.contains('complete')) {
+            nest.classList.add('complete');
+            fx.confetti(screen, { count: 35 });
+          }
+        };
+        eggs.append(egg);
       }
-      letters.forEach(i => {
-        const b = el('button', 'work-choice', ar(glyphs[i]));
-        b.setAttribute('aria-label', names[i]);
-        b.onclick = () => { open(i); sayLetter(i); };
-        shelf.append(b);
-      });
-      open(letters[0]);
+      next.classList.toggle('tap-hint', !next.disabled && firstEgg === undefined);
     }
-    select.onchange = draw;
+    prev.onclick = () => { cove--; draw(); };
+    next.onclick = () => { cove++; draw(); };
     draw();
   }
 
   function startMagnifier(screen) {
     const families = glyphs.map((_, i) => [i, ...elifData.twins(i)])
       .filter(group => group.length > 1 && group[0] === Math.min(...group));
-    const rounds = shuffled(families).slice(0, 4);
+    const rounds = [[0, 1], ...shuffled(families).slice(0, 5)];
     const steps = dotsRow(rounds.length);
-    const sheet = el('section', 'work-sheet');
-    const title = el('h2', 'work-prompt');
-    const choices = el('div', 'work-choices');
-    const note = el('p', 'work-feedback');
-    note.setAttribute('role', 'status');
-    const listen = el('button', 'lab-secondary', '🔊 İpucunu dinle');
-    const action = el('button', 'lab-primary');
-    const actions = el('div', 'lab-actions');
-    actions.append(listen, action);
-    sheet.append(title, choices, note, actions);
-    screen.append(steps.row, sheet);
+    const board = el('section', 'match-board');
+    const turtle = el('div', 'lab-turtle', turtleSvg('match-guide'));
+    const model = pictureButton('Harfi dinle', '', 'match-model');
+    const guideRow = el('div', 'match-guide');
+    guideRow.append(turtle, model);
+    const tray = el('div', 'match-tray');
+    board.append(guideRow, tray);
+    screen.append(steps.row, board);
     let round = 0;
     function draw() {
-      stopAll();
       const family = rounds[round];
-      const target = pick(family);
+      const target = round === 0 ? 0 : pick(family);
+      model.innerHTML = ar(glyphs[target]) + '<small aria-hidden="true">🔊</small>';
+      model.onclick = () => sayLetter(target);
+      model.classList.remove('matched');
+      tray.replaceChildren();
       steps.mark(round);
-      title.textContent = 'Harfleri karşılaştır';
-      note.textContent = 'Her karta dokun. Harfin adını dinlerken şekline bak.';
-      listen.hidden = true;
-      function cards(quiz) {
-        choices.replaceChildren();
-        for (const i of quiz ? shuffled(family) : family) {
-          const b = el('button', 'work-choice', ar(glyphs[i]) + (quiz ? '' : '<small>' + names[i] + '</small>'));
-          b.setAttribute('aria-label', names[i]);
-          b.onclick = () => {
-            sayLetter(i);
-            if (!quiz || i !== target) {
-              note.textContent = names[i] + ' · ' + shapeHints[i] + (quiz ? ' İpucuna bir daha bak.' : '');
-              if (quiz) b.disabled = true;
-              return;
-            }
-            for (const card of choices.children) card.disabled = true;
-            b.classList.add('solved');
-            note.textContent = 'Buldun! ' + names[i] + ' · ' + shapeHints[i];
-            listen.hidden = true;
-            action.hidden = false;
-            action.textContent = round + 1 === rounds.length ? 'Turu tamamla' : 'Yeni harf ailesi →';
-            action.onclick = () => {
-              if (++round < rounds.length) return draw();
-              stopAll();
-              steps.mark(round);
-              sheet.remove();
-              finale(screen, 'Dört harf ailesini keşfettin!', () => openGame(games.find(g => g.id === 'buyutec')));
-            };
-            action.focus();
-          };
-          choices.append(b);
-        }
+      for (const i of shuffled(family)) {
+        const card = pictureButton(names[i], ar(glyphs[i]), 'match-card');
+        const correct = i === target;
+        card.classList.toggle('tap-hint', correct && !round);
+        card.onclick = () => {
+          sayLetter(i);
+          if (!correct) {
+            card.disabled = true;
+            tray.querySelector('[data-match]').classList.add('tap-hint');
+            return;
+          }
+          for (const other of tray.children) other.disabled = true;
+          card.classList.remove('tap-hint');
+          card.classList.add('matched');
+          model.classList.add('matched');
+          fx.burst(card, { count: 8 });
+          wait(1450, () => {
+            if (++round < rounds.length) return draw();
+            steps.mark(round);
+            board.remove();
+            finale(screen, '🌟', () => openGame(games.find(g => g.id === 'buyutec')));
+          });
+        };
+        if (correct) card.dataset.match = '';
+        tray.append(card);
       }
-      cards(false);
-      action.hidden = false;
-      action.textContent = 'Bulmacayı aç';
-      action.onclick = () => {
-        title.textContent = shapeHints[target];
-        note.textContent = 'Bu ipucu hangi harfi anlatıyor?';
-        action.hidden = true;
-        listen.hidden = false;
-        listen.onclick = () => sayText(shapeHints[target]);
-        listen.focus();
-        listen.onclick();
-        cards(true);
-      };
+      sayLetter(target);
     }
     draw();
   }

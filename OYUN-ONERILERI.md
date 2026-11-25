@@ -4,8 +4,8 @@ Oynanabilir taslaklar **Deneme Odası**'nda duruyor: `app/deneme/` (yayında `�
 
 | Öneri | Durum |
 |---|---|
-| 📖 İlk Harf Albümüm | Deneme Odası’nda · yedi koyda 28 sesli harf kartı |
-| 🔬 Harf Büyüteci | Deneme Odası’nda · benzer harfleri şekil ipucuyla ayırt etme |
+| 📖 İlk Harf Albümüm | Deneme Odası’nda · yumurtalardan çıkan 28 sesli harf |
+| 🔬 Harf Büyüteci | Deneme Odası’nda · gösterilen harfin eşine dokunma |
 | 🔎 Harf Dedektifi | Deneme Odası’nda · kelime içinde harf bulma |
 | 🧵 Bağ Atölyesi | Deneme Odası’nda · iki harfin bağlantısını tahmin etme |
 | 🐠 Akvaryum | **Oyunda** (0.16.0) |

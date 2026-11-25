@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.23.0 · 25.11.2026
+
+- Okul öncesi çocuklar İlk Harf Albümüm’de yumurtalara dokunarak harfleri açıp dinleyebilir. Harf Büyüteci’nde kaplumbağanın gösterdiği harfin eşini bulur. El işareti ilk dokunuşu gösterir.
+
 ## 0.22.0 · 25.11.2026
 
 - İlk Harf Albümüm’de 28 harf için sesli kartlar ve şekil ipuçları var. Harf Büyüteci’nde çocuk önce benzer harfleri dinliyor, sonra verilen ipucundan harfi buluyor. İki oyun da Deneme Odası’nda.
