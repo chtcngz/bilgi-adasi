@@ -56,7 +56,7 @@ function choosePlayer(profile) {
     { completed: 0, reports: {}, stats: {} };
   sessionProgress.set(profile.id, progress);
   initializeStats();
-  selected = Math.min(progress.completed, total - 1) % islands.length;
+  selected = stageIsland(Math.min(progress.completed, total - 1));
   deck = []; answers = []; entry = '';
   showPlayerButton();
   $('settings-button').hidden = false;

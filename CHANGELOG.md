@@ -7,6 +7,16 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.38.0 · 25.11.2026
+
+Çarpım Adası’na iki **karma bölüm** geldi. Dört tur bitince haritada balinanın üstündeki × düğmesi (**Balina Denizi**) açılıyor.
+
+- **Karma bölüm 1 (5 sn) ve Karma bölüm 2 (3 sn):** 2’den 9’a bütün çarpımlar karışık sırayla soruluyor. 1’ler ve 10’lar yok; her çarpım bir kez geliyor (3 × 4 varsa 4 × 3 yok). Böylece bir bölüm 36 soru.
+- Yanlış cevapta ya da süre dolunca bölüm baştan başlıyor ve sorular **her seferinde yeni bir sırayla** geliyor.
+- Her bölüm bir yıldız ve akvaryuma bir balık ya da süs getiriyor; Çarpım Adası artık 38 yıldız. Dört turu bitirmiş oyuncular karma bölümlerle hemen devam edebiliyor.
+- Dört tur bitmeden balinaya dokununca “Karma bölüm dört tur bitince açılır” yazıyor.
+- İstatistikler, Ayarlar → İlerleme (sıfırlama haritasında yeni *Karma* satırı) ve yönetici sayfası karma bölümleri de gösteriyor.
+
 ## 0.37.0 · 25.11.2026
 
 1., 2., 3. ve 4. sınıf oyuncularının artık **kendi akvaryumu** var. Her oyuncunun akvaryumu ayrı; balıklar, süsler ve verilen isimler o oyuncuya kaydediliyor.

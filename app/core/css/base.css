@@ -328,6 +328,12 @@ dialog[open]::backdrop { animation: fade .25s; backdrop-filter: blur(3px); }
   border: 2px solid #fff5d6; border-radius: 50%; background: #ffcf62; color: #8a5a12;
   font-size: 11px; line-height: 1; box-shadow: 0 2px 0 #60462185;
 }
+/* The whale's pin: the mixed stages after the four rounds */
+.pin.mixed { width: 42px; height: 42px; font-size: 26px; }
+.pin.mixed:not(.done, .active, .locked) { background: #2b6aa6; }
+@media (max-width:500px) { .pin.mixed { width: 34px; height: 34px; font-size: 21px; } }
+.dots.many { gap: 2px; }
+.dots.many li { height: 7px; }
 .scene { position: relative; }
 .track { position: relative; height: 12px; }
 .track i { position: relative; overflow: hidden; border-radius: 8px; background: linear-gradient(90deg, #f2b234, #e4892d); transition: width .9s cubic-bezier(.2, .8, .2, 1); }
@@ -488,6 +494,7 @@ dialog[open]::backdrop { animation: fade .25s; backdrop-filter: blur(3px); }
   aspect-ratio: 1; min-width: 0; padding: 0; border: 2px solid transparent; border-radius: 50%;
   font-size: clamp(11px, 3vw, 14px); font-weight: 900; line-height: 1; transition: transform .12s, background .15s;
 }
+.reset-dots .wide { grid-column: span 2; aspect-ratio: auto; padding: 7px 0; border-radius: 20px; }
 .reset-dots .done { background: #2a9467; color: #fff; }
 .reset-dots .next { background: #ffcf62; color: #604317; }
 .reset-dots .locked { background: #ebe5d5; color: #a99f88; }
