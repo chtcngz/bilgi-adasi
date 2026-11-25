@@ -7,6 +7,17 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.33.0 · 25.11.2026
+
+Elif Ba Adası’nın **Harf Yağmuru, Hece Balonları, Şekil Yağmuru ve Cezm Balonları** oyunları değişti: artık bir harf üst üste üç kez söylenmiyor.
+
+- **Bir harf, bir damla:** Kaplumbağa harfi bir kez söylüyor, o harften bir damla (balon) patlatılınca hemen yeni harf geliyor. Eskiden her harften üç damla patlatılıyor, harf her patlatmada yeniden söyleniyordu.
+- **Bölüm 24 soru:** Bölümde artık koyun dört harfi var ve her biri altı kez, farklı zamanlarda soruluyor (4 × 6 = 24). Eskiden bölüm 15 harf, 45 damlaydı. Önceki koyların harfleri yine araya karışan damlalarda çıkıyor.
+- **Sıra karışık ama üst üste gelmiyor:** Harfler dörtlü turlar hâlinde, her turda başka bir sırayla geliyor (ör. 1-4-3-2, 3-2-1-4). Bir harf, araya en az iki başka harf girmeden yeniden sorulmuyor.
+- **Hece Balonları:** Koyun dört harfi yine altışar kez geliyor; her harfin üç hecesi (üstün, esre, ötre) ikişer kez soruluyor.
+- Üstteki sıra 24 yuvaya çıktı ve iki satıra yerleşti; giriş kartı “4 harf · 24 damla patlat · 3 can” gösteriyor. Damlalar oyun ilerledikçe yine yavaş yavaş hızlanıyor.
+- Çocukların kayıtlı ilerlemesi ve rekorları olduğu gibi duruyor.
+
 ## 0.32.0 · 25.11.2026
 
 Elif Ba Adası’nın bitişik yazılış turunda **“Kırmızı harf kelimenin neresinde?” sorusu kalktı**, yerine **Harf avı** geldi. Artık çocuk, harfin bitişik şeklini gerçek bir kelimenin içinde kendisi buluyor.
