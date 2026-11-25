@@ -356,15 +356,13 @@
     drawShells();
     const letters = coveLetters(cove);
     voice.preload(letters, false, part === 'bitisik', part === 'cezm');
-    // The guide is said aloud the first time a section is opened, and again from its turtle button;
-    // the written words are for the grown-ups.
+    // The guide is said aloud only when its turtle (info) button is tapped; the written words are for the grown-ups.
     const guide = guides[part];
     $('elif-guide').innerHTML = '';
     const tell = el('button', 'elif-howto', '<span aria-hidden="true">🐢💬</span>');
     tell.setAttribute('aria-label', 'Ne yapacağımı söyle');
     tell.onclick = () => voice.instruct(guide);
     $('elif-guide').append(tell, el('span', '', guide));
-    if (!told.has(part)) { told.add(part); voice.instruct(guide); }
     $('elif-cards').className = 'elif-cards ' + ({ harf: 'letters', hareke: 'syllables', bitisik: 'shapes', cezm: 'cezms' })[part];
     $('elif-cards').replaceChildren(...(part === 'cezm' ? [cezmLesson(cove)] : []),
       ...letters.map(i => part === 'harf' ? letterCard(i) : part === 'hareke' ? syllableCard(i) : part === 'cezm' ? cezmCard(i) : shapeCard(i)));
@@ -379,7 +377,7 @@
     cezm: 'Harfin üstündeki küçük yuvarlağa cezm denir. Cezimli harfin harekesi yoktur; kendinden önceki harfle birlikte okunur. ' +
       'Be esre bi, sin cezm bis. Hecelere dokun, dinle. Hazır olunca yeşil oyna düğmesine bas.'
   };
-  const told = new Set(); // the sections whose guide was said in this visit
+  const told = new Set(); // the bays whose name was said in this visit
   function letterCard(i) {
     const button = el('button', 'elif-tile tone-' + i % 4);
     button.innerHTML = glyphHtml(glyphs[i]) + '<strong>' + names[i] + '</strong><small aria-hidden="true">' +

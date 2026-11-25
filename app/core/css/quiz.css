@@ -2,7 +2,6 @@
    resmini ve renklerini ekler. Sayfadaki kimlikler adaya göre (#din-view, #fen-view …), sınıflar ortaktır. */
 .soru-view { max-width: 1040px; margin: auto; }
 .soru-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 12px 0; font-weight: 800; color: #345a56; }
-.soru-nav button { border: 0; background: transparent; min-height: 44px; font-weight: 800; padding: 0 4px; }
 .soru-score { white-space: nowrap; padding: 6px 12px; border-radius: 20px; background: #f7ebca; color: #705127; }
 .soru-hero { min-height: clamp(200px, 26vw, 300px); display: flex; align-items: center; border-radius: 28px; overflow: hidden; background: #3f8e98 no-repeat calc(100% + 150px) 80% / auto 145%; }
 .soru-hero > div { padding: clamp(17px, 4vw, 52px); width: 58%; background: linear-gradient(90deg, #fff8e9f2, #fff8e9c4 68%, transparent); align-self: stretch; display: flex; flex-direction: column; justify-content: center; }
@@ -52,7 +51,7 @@
 .soru-game[data-mood=good] { background: linear-gradient(#e6f7ec, #fffcf4 45%); }
 .soru-game[data-mood=bad] { background: linear-gradient(#fff0ef, #fffcf4 45%); }
 .soru-game[data-mood=win] { background: radial-gradient(circle at 50% 0, #fff0b3, #fffcf4 62%); }
-.soru-close { float: right; border: 1px solid #adc9bc; border-radius: 50%; width: 44px; height: 44px; background: white; font-size: 24px; }
+.soru-close { float: right; }
 .soru-top { display: flex; align-items: center; gap: 12px; min-height: 44px; margin-right: 54px; }
 .soru-where { flex: 1; font-weight: 900; font-size: 15px; color: #345a56; }
 .soru-hearts { display: inline-flex; gap: 2px; font-size: 22px; line-height: 1; }

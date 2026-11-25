@@ -7,7 +7,7 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
-## 0.36.0 · 25.11.2026
+## 0.37.0 · 25.11.2026
 
 1., 2., 3. ve 4. sınıf oyuncularının artık **kendi akvaryumu** var. Her oyuncunun akvaryumu ayrı; balıklar, süsler ve verilen isimler o oyuncuya kaydediliyor.
 
@@ -20,6 +20,11 @@ Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında 
 - **Akvaryum dolunca yenisi:** Bir akvaryuma 12 balık ve 6 süs sığıyor; sonraki ödülle yeni bir akvaryum açılıyor: Mercan Koyu, Yeşil Vadi, Gece Mavisi ve Gün Batımı Lagünü. Akvaryumlar arasında ‹ › düğmeleriyle geçiliyor; alttaki dolaptaki çubuk akvaryumun dolmasına kaç ödül kaldığını gösteriyor.
 - **Akvaryuma giriş:** Keşif Limanı’nın en üstündeki akvaryum kartından ve her ekranda üst çubuktaki 🐠 düğmesinden açılıyor. Görülmemiş yeni ödül varsa düğmede turuncu bir nokta yanıyor.
 - Yönetici sayfası her oyuncunun akvaryumunu da gösteriyor: balık ve süs sayısı, isimli balıklar ve hangi ödülün nereden geldiği.
+
+## 0.36.0 · 25.11.2026
+
+- **Tanıtım sesleri artık kendiliğinden çalmıyor:** Elif Ba Adası’nda Harf Yağmuru, Hece Balonları, Şekil Yağmuru, Cezm Balonları ve Cam Köprü açılınca, ya da Harfler, Harekeler, Bitişik yazılış ve Cezm bölümlerine girilince tanıtım artık sesli okunmuyor. Kaplumbağa düğmesine (🐢💬) dokununca okunuyor. Sorulardaki “ne yapacağım” söylemeleri ve Harekelerle tanışma dersi eskisi gibi kendiliğinden söyleniyor.
+- **Geri ve kapat düğmeleri yenilendi:** Her adada, oyunda ve derste geri dönme düğmeleri artık aynı boyda ve aynı görünümde. “Keşif Limanı” ve “Yol” düğmeleri yeşil oklu, yuvarlak köşeli birer kapsül; oyunlardan, turlardan ve harita katlarından çıkan düğmeler de aynı büyüklükte, beyaz, yuvarlak düğmeler (× ya da ‹). Çarpım Adası’nın “← Keşif Limanı’na dön” düğmesi de aynı kapsül oldu.
 
 ## 0.35.2 · 25.11.2026
 

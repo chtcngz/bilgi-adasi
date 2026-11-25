@@ -76,8 +76,7 @@ const elifMap = (() => {
     '<svg class="elif-map-hull" viewBox="0 0 180 150"><path d="M-6 108H186L160 150H20Z" fill="#b5652b" stroke="#7a3f17" stroke-width="5" stroke-linejoin="round"/>' +
     '<path d="M2 122H176" stroke="#ffd863" stroke-width="6"/><g fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".8"><path class="map-wake" d="M-30 150q12-10 24 0t24 0"/>' +
     '<path class="map-wake" d="M168 152q12-10 24 0"/></g></svg></div></div>';
-  const header = (back, label) => '<button type="button" class="elif-map-back" aria-label="' + back + '"><svg viewBox="0 0 24 24" aria-hidden="true">' +
-    '<path d="M15 4 7 12l8 8" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+  const header = (back, label) => '<button type="button" class="elif-map-back btn-round is-back" aria-label="' + back + '"></button>' +
     '<button type="button" class="elif-map-title" data-cue aria-label="' + label + '"></button>';
 
   /* ---------- Level 1: the bays ---------- */

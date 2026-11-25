@@ -166,7 +166,7 @@ const akvaryum = (() => {
   /* ---------- The tank ---------- */
   const dialog = $('akvaryum');
   dialog.innerHTML = '<div class="ak-room">' +
-    '<div class="ak-top"><button type="button" class="ak-close" aria-label="Akvaryumdan çık">×</button>' +
+    '<div class="ak-top"><button type="button" class="btn-round ak-close" aria-label="Akvaryumdan çık"></button>' +
       '<h2 class="ak-title" id="ak-title"></h2>' +
       '<div class="ak-nav"><button type="button" class="ak-prev" aria-label="Önceki akvaryum">‹</button><span class="ak-which"></span>' +
       '<button type="button" class="ak-next" aria-label="Sonraki akvaryum">›</button></div></div>' +
@@ -182,7 +182,7 @@ const akvaryum = (() => {
       '<div class="ak-meter" aria-hidden="true"><i></i></div><p class="ak-help"></p></div>' +
     '<form class="ak-name" hidden autocomplete="off"><span class="ak-name-pic" aria-hidden="true"></span>' +
       '<label class="ak-name-field"><small class="ak-name-kind"></small><input class="ak-name-input" maxlength="14" enterkeyhint="done" spellcheck="false" placeholder="Bir isim yaz"></label>' +
-      '<button class="ak-name-ok"><span aria-hidden="true">✓</span> Kaydet</button><button type="button" class="ak-name-x" aria-label="Vazgeç">×</button></form>' +
+      '<button class="ak-name-ok"><span aria-hidden="true">✓</span> Kaydet</button><button type="button" class="btn-round ak-name-x" aria-label="Vazgeç"></button></form>' +
   '</div>';
   dialog.setAttribute('aria-labelledby', 'ak-title');
   const find = s => dialog.querySelector(s);

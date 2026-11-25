@@ -90,7 +90,7 @@ const elifAquarium = (() => {
     '<div class="aq-bubbles" aria-hidden="true"></div>' +
     '<div class="aq-tank" data-cue></div>' +
     '</div>' +
-    '<div class="aq-top"><button type="button" class="aq-close" aria-label="Akvaryumdan çık">×</button>' +
+    '<div class="aq-top"><button type="button" class="aq-close btn-round" aria-label="Akvaryumdan çık"></button>' +
       '<h2 class="aq-title">Akvaryum <span></span></h2></div>' +
     '<p class="aq-say" role="status"></p>' +
     '<div class="aq-shelf"></div>' +

@@ -96,10 +96,6 @@
 /* ---------- Top bar, caption and the shelf of letters ---------- */
 .aq-top { position: absolute; z-index: 6; left: 0; right: 0; top: 0; display: flex; align-items: center; gap: 12px; padding: 12px 14px; pointer-events: none; }
 .aq-top > * { pointer-events: auto; }
-.aq-close {
-  display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border-radius: 50%; border: 2px solid #ffffff88;
-  background: #ffffffdd; color: #1d5a73; font-size: 28px; line-height: 1;
-}
 .aq-title { margin: 0; font-size: 26px; font-weight: 950; letter-spacing: -.5px; text-shadow: 0 2px 6px #0a3a5366; }
 .aq-title span { margin-left: 6px; padding: 3px 12px; border-radius: 20px; background: #ffffff2e; font-size: 16px; vertical-align: middle; }
 .aq-say {

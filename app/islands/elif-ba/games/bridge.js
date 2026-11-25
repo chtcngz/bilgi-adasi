@@ -223,7 +223,7 @@ const elifBridgeGame = (() => {
     '</div>' +
     '<p class="rain-prompt" aria-hidden="true"></p>' +
     '<div class="rain-hud">' +
-      '<div class="rain-left"><button type="button" class="rain-close" aria-label="Oyundan çık">×</button>' +
+      '<div class="rain-left"><button type="button" class="rain-close btn-round" aria-label="Oyundan çık"></button>' +
       '<span class="rain-hearts" role="img"></span></div>' +
       '<button type="button" class="rain-listen" data-cue aria-label="Tekrar dinle">' + speakerSvg + '</button>' +
       '<div class="rain-score"><small>Puan</small><b>0</b></div>' +
@@ -860,7 +860,7 @@ const elifBridgeGame = (() => {
       (best.tamam ? '<p class="rain-record">✅ Köprüyü hiç cam kırmadan geçtin · 🏆 ' + best.rekor + ' puan</p>' :
         best.rekor ? '<p class="rain-record">🏆 Rekorun: ' + best.rekor + ' puan</p>' : '') +
       '<button type="button" class="rain-go" data-cue>▶ Başla</button></div>');
-    // Said aloud for children who cannot read yet; the turtle button says it again.
+    // The game's introduction is said aloud only when the turtle (info) button is tapped.
     const tell = () => voice.instruct('Cam Köprü! Kaplumbağa bir harf ya da hece söyleyecek. Doğru cama dokun, kaplumbağa üstüne zıplasın. ' +
       (options.joined ? 'Harfler camlarda bitişik şekilleriyle duruyor. ' : options.cezm ? 'Camlarda cezimli heceler var. Dikkatle dinle. ' : '') + 'Yanlış cam kırılır! Başlamak için yeşil düğmeye bas.');
     const again = document.createElement('button');
@@ -870,7 +870,6 @@ const elifBridgeGame = (() => {
     again.innerHTML = '<span aria-hidden="true">🐢💬</span>';
     again.onclick = tell;
     overlay.querySelector('.rain-card').prepend(again);
-    tell();
     overlay.querySelector('.rain-go').onclick = () => { voice.stop(); begin(); };
   }
   // Leaving the app mid-game pauses it; the child picks up where they were.
