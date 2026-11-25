@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.22.0 · 25.11.2026
+
+- İlk Harf Albümüm’de 28 harf için sesli kartlar ve şekil ipuçları var. Harf Büyüteci’nde çocuk önce benzer harfleri dinliyor, sonra verilen ipucundan harfi buluyor. İki oyun da Deneme Odası’nda.
+
 ## 0.21.0 · 25.11.2026
 
 - Deneme Odası’na Harf Dedektifi ve Bağ Atölyesi eklendi. Çocuklar kelimenin başındaki, ortasındaki ve sonundaki harfleri bulabilir, iki harfin sırası değişince aralarındaki bağın nasıl değiştiğini deneyebilir.

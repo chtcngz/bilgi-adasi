@@ -156,6 +156,20 @@
       idea: ['İki harf önce ayrı kartlarda görülür. Çocuk aralarında bağ oluşup oluşmayacağını tahmin eder.',
         'Çözümde iki harf birlikte yazılır. Aynı iki harfin yer değiştirdiği tur çiftleri, okuma yönünün bağı nasıl değiştirdiğini gösterir.'],
       start: screen => startWorkshop(screen, true)
+    },
+    {
+      id: 'album', icon: '📖', title: 'İlk Harf Albümüm', tag: 'İlk tanışma', where: 'Harfler',
+      lead: 'Bir koy seç. Dört harfin kartlarını aç, adlarını dinle ve şekillerini incele.',
+      idea: ['Her sayfada dört harf var. Kartı açınca harf büyür, adı duyulur ve şekline dair küçük bir gözlem görünür.',
+        'Çocuk istediği karta dönebilir. Yedi sayfada 28 harfin hepsini kendi hızında keşfeder.'],
+      start: startAlbum
+    },
+    {
+      id: 'buyutec', icon: '🔬', title: 'Harf Büyüteci', tag: 'Benzer harfleri ayırt et', where: 'Harfler',
+      lead: 'Önce benzer harflerle tanış. Sonra şekil ipucunu dinleyip gizli harfi bul.',
+      idea: ['Her turda benzer gövdeli iki ya da üç harf yan yana durur. Kartlara dokunarak adlarını dinleyebilirsin.',
+        'Bulmacayı açınca adlar gizlenir. Noktanın yeri veya sayısı hangi harfi aradığını söyler.'],
+      start: startMagnifier
     }
   ];
 
@@ -591,6 +605,130 @@
       sheet.remove();
       finale(screen, joining ? 'Altı harf çiftinin bağını çözdün!' : 'Altı gizli harfi de buldun!', () => openGame(game));
     };
+    draw();
+  }
+
+  // Shape cues describe isolated letters in the order used by elifData.
+  const shapeHints = [
+    'Tek bir uzun çizgi gibi durur.', 'Altında bir nokta var.', 'Üstünde iki nokta var.', 'Üstünde üç nokta var.',
+    'Kıvrımının içinde bir nokta var.', 'Geniş bir kıvrımı var. Noktası yok.', 'Kıvrımının üstünde bir nokta var.',
+    'Kısa, köşeli bir çizgi. Noktası yok.', 'Köşeli çizginin üstünde bir nokta var.',
+    'Kuyruğu aşağı kıvrılır. Noktası yok.', 'Kıvrılan kuyruğunun üstünde bir nokta var.',
+    'Küçük dişleri var. Noktası yok.', 'Küçük dişlerinin üstünde üç nokta var.',
+    'Geniş, kapalı bir gözü var. Noktası yok.', 'Geniş, kapalı gözünün üstünde bir nokta var.',
+    'Kapalı gövdesinden uzun bir çizgi yükselir. Noktası yok.', 'Uzun çizgisinin yanında bir nokta var.',
+    'Üstte küçük bir kıvrımı var. Noktası yok.', 'Üstteki küçük kıvrımın üzerinde bir nokta var.',
+    'Yuvarlak başının üstünde bir nokta var.', 'Yuvarlak başının üstünde iki nokta var.',
+    'Gövdesinin içinde küçük bir işaret var.', 'Uzun çizgisi altta sola kıvrılır.',
+    'Küçük bir başı ve aşağı inen bir kuyruğu var.', 'Çanağının içinde bir nokta var.',
+    'Yuvarlak başından kıvrık bir kuyruk uzanır.', 'Küçük bir halka gibi durur.', 'Kıvrımının altında iki nokta var.'
+  ];
+
+  function startAlbum(screen) {
+    const label = el('label', 'album-picker', 'Hangi koyu keşfedelim? ');
+    const select = el('select', '');
+    coves.forEach((name, k) => select.add(new Option((k + 1) + '. ' + name, k)));
+    label.append(select);
+    const shelf = el('div', 'work-choices');
+    const page = el('div', 'work-sheet');
+    const face = el('div', 'work-sample');
+    const title = el('h2', '');
+    const hint = el('p', 'work-caption');
+    const listen = el('button', 'lab-secondary', '🔊 Adını dinle');
+    page.append(face, title, hint, listen);
+    screen.append(label, shelf, page);
+    function draw() {
+      stopAll();
+      shelf.replaceChildren();
+      const letters = coveLetters(Number(select.value));
+      function open(i) {
+        face.innerHTML = ar(glyphs[i]);
+        title.textContent = names[i];
+        hint.textContent = shapeHints[i];
+        listen.onclick = () => sayLetter(i);
+        Array.from(shelf.children).forEach((b, k) => b.setAttribute('aria-pressed', letters[k] === i));
+      }
+      letters.forEach(i => {
+        const b = el('button', 'work-choice', ar(glyphs[i]));
+        b.setAttribute('aria-label', names[i]);
+        b.onclick = () => { open(i); sayLetter(i); };
+        shelf.append(b);
+      });
+      open(letters[0]);
+    }
+    select.onchange = draw;
+    draw();
+  }
+
+  function startMagnifier(screen) {
+    const families = glyphs.map((_, i) => [i, ...elifData.twins(i)])
+      .filter(group => group.length > 1 && group[0] === Math.min(...group));
+    const rounds = shuffled(families).slice(0, 4);
+    const steps = dotsRow(rounds.length);
+    const sheet = el('section', 'work-sheet');
+    const title = el('h2', 'work-prompt');
+    const choices = el('div', 'work-choices');
+    const note = el('p', 'work-feedback');
+    note.setAttribute('role', 'status');
+    const listen = el('button', 'lab-secondary', '🔊 İpucunu dinle');
+    const action = el('button', 'lab-primary');
+    const actions = el('div', 'lab-actions');
+    actions.append(listen, action);
+    sheet.append(title, choices, note, actions);
+    screen.append(steps.row, sheet);
+    let round = 0;
+    function draw() {
+      stopAll();
+      const family = rounds[round];
+      const target = pick(family);
+      steps.mark(round);
+      title.textContent = 'Harfleri karşılaştır';
+      note.textContent = 'Her karta dokun. Harfin adını dinlerken şekline bak.';
+      listen.hidden = true;
+      function cards(quiz) {
+        choices.replaceChildren();
+        for (const i of quiz ? shuffled(family) : family) {
+          const b = el('button', 'work-choice', ar(glyphs[i]) + (quiz ? '' : '<small>' + names[i] + '</small>'));
+          b.setAttribute('aria-label', names[i]);
+          b.onclick = () => {
+            sayLetter(i);
+            if (!quiz || i !== target) {
+              note.textContent = names[i] + ' · ' + shapeHints[i] + (quiz ? ' İpucuna bir daha bak.' : '');
+              if (quiz) b.disabled = true;
+              return;
+            }
+            for (const card of choices.children) card.disabled = true;
+            b.classList.add('solved');
+            note.textContent = 'Buldun! ' + names[i] + ' · ' + shapeHints[i];
+            listen.hidden = true;
+            action.hidden = false;
+            action.textContent = round + 1 === rounds.length ? 'Turu tamamla' : 'Yeni harf ailesi →';
+            action.onclick = () => {
+              if (++round < rounds.length) return draw();
+              stopAll();
+              steps.mark(round);
+              sheet.remove();
+              finale(screen, 'Dört harf ailesini keşfettin!', () => openGame(games.find(g => g.id === 'buyutec')));
+            };
+            action.focus();
+          };
+          choices.append(b);
+        }
+      }
+      cards(false);
+      action.hidden = false;
+      action.textContent = 'Bulmacayı aç';
+      action.onclick = () => {
+        title.textContent = shapeHints[target];
+        note.textContent = 'Bu ipucu hangi harfi anlatıyor?';
+        action.hidden = true;
+        listen.hidden = false;
+        listen.onclick = () => sayText(shapeHints[target]);
+        listen.focus();
+        listen.onclick();
+        cards(true);
+      };
+    }
     draw();
   }
 

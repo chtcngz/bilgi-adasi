@@ -186,3 +186,7 @@ main#lab { width: min(94%, 920px); margin: 18px auto 60px; }
 .work-choice:disabled { opacity: .5; }
 .work-choice.solved { opacity: 1; background: #dbefcf; border-color: #448352; }
 .work-sheet [hidden] { display: none; }
+
+.album-picker select { max-width: 100%; padding: .55rem; border-radius: 10px; font: inherit; color: #174a43; background: white; }
+.work-choice[aria-pressed="true"] { background: #dbefcf; border-color: #448352; }
+.work-choice small { display: block; }
