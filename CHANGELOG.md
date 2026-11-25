@@ -7,6 +7,25 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.20.0 · 25.11.2026
+
+Fen Bilimleri Adası, bu yıl okullarda okutulan MEB 4. sınıf Fen Bilimleri ders kitabıyla (2026 baskısı) sayfa sayfa karşılaştırıldı. Kitapta olup henüz sorulmayan her bilgi için yeni soru yazıldı; adada artık 289 yerine 523 soru var. Din Bilgisi ve Sosyal Bilgiler’den sonra Fen Bilimleri’nde de kitapta sorulmayan bilgi kalmadı.
+
+- **Kontrol listesi:** Kitaptan 430 maddelik bir liste çıkarıldı (`kapsam.md`): yedi ünite, baş sayfalar, proje sayfaları, sözlük ve sondaki haritalar. Her madde en az bir soruyla soruluyor.
+- **1. ünite (+22):** Eskişehir Kayaç Parkı, madenlerin çıkarılması ve arındırılması, ülkemizin madenleri (bor, gümüş, taş kömürü), paleontoloji ve Şehit Cuma Dağ Tabiat Tarihi Müzesi, mağaraların oluşumu, dönme ve dolanma hareketleri, Dünya’nın şekli.
+- **2. ünite (+29):** Besin içeriklerinin görevleri, taze ve doğal besinler, tarım ilacı kalıntıları, raf ömrü ve TSE, besin ihtiyacının yaşla değişmesi, obezite, besin israfı, alkolün ve sigaranın zararları.
+- **3. ünite (+19):** Kuvvetin hızlandırıcı, yavaşlatıcı, yön ve şekil değiştirici etkileri; mıknatısın kutupları, çeşitleri ve günlük hayattaki kullanımı (terzi, radyo, elektrikli taşıtlar, temassız kartlar).
+- **4. ünite (+29):** Maddelerin duyularla sınıflandırılması, kütle ve hacim birimleri, maddenin hâlleri ve hâl değişimleri, karışımlar, geri dönüşüm kutuları, altı şapkalı düşünme tekniği.
+- **5. ünite (+42):** Aydınlatma araçlarının tarihi, uygun aydınlatma, Edison, ışık kirliliği ve canlılara etkileri, ses teknolojileri (mikrofon, işitme cihazı, ultrason, radyo, fonograf, Beethoven), ses kirliliği.
+- **6. ünite (+24):** Tüketiciyi Koruma Haftası, su, besin ve elektrik tasarrufu, enerji etiketi, yeniden kullanma ve geri dönüşümün kazandırdıkları.
+- **7. ünite (+12):** Pilin kutupları, binalardaki devre elemanları ve şehir elektriği, kabloların duvarlara döşenmesi, Nikola Tesla’nın çalışmaları.
+- **Baş ve son sayfalar (+26):** İstiklal Marşı, Gençliğe Hitabe, güvenlik uyarıları, bilimsel yöntem, mühendislik tasarım döngüsü, Onuncu Yıl Nutku ve örnek kompost projesi; üç ünite projesi ve Proje Değerlendirme Formu; sondaki Türkiye ve Türk Dünyası haritaları. Ünitelere ait olmayanlar 🔭 Bilim Gözlemevi’nde.
+- **Sözlük (+31):** Sözlükteki 36 kelimenin 4’ü zaten soruluyordu. Kalan 32 kelime (kalıntı, katman, sarkıt, dikit, mukavva, reçine, çömlek, kefe, fitil, hazne, ziraat, bağışıklık, laboratuvar…) için kelimenin geçtiği ünitenin durağına soru eklendi.
+- Doğru cevabı şıkkın uzunluğundan belli olan 14 eski sorunun şıkları dengelendi.
+- Fen Bilimleri Adası’nın açıklamasına da “Kitaptaki her bilgi en az bir soruyla soruluyor” cümlesi eklendi.
+- Site artık yayımlanmadan önce bu kontrolü yapıyor: bir adada sorusu olmayan bir kitap bilgisi kalırsa yayın durur.
+- Eski sorular yerinde duruyor; yeni sorular durakların sonuna eklendi, çocukların ilerlemesi kaybolmuyor.
+
 ## 0.19.0 · 25.11.2026
 
 Din Bilgisi ve Sosyal Bilgiler kitaplarının sonundaki sözlükler, baş sayfaları ve haritaları da artık soruluyor. Böylece iki adada da kitapta sorulmayan bilgi kalmadı.
