@@ -7,6 +7,19 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.18.0 · 25.11.2026
+
+Din Bilgisi Adası ders kitabıyla sayfa sayfa karşılaştırıldı. Kitapta olup henüz sorulmayan her bilgi için yeni soru yazıldı; adada artık 286 yerine 481 soru var.
+
+- **Kontrol listesi:** Kitabın beş ünitesinden 394 maddelik bir liste çıkarıldı (`kapsam.md`). Her tanım, ayet, hadis, dua, kişi, olay ve örnek bir madde; her madde en az bir soruyla soruluyor.
+- **1. ünite (+7):** Duanın anlamı, “Yaratan Rabbinin adıyla oku!”, “Bana şükredin” ayeti, “Sübhanallahi ve bihamdihî”, iyiliğin Allah katında bulunması, eve selamla girmek ve cuma günü salavat.
+- **2. ünite (+52):** İmanın insana kazandırdıkları, meleklerin görevleri, ilahi kitaplar, peygamber tanımı ve ilk peygamber, ahiret ve kaza tanımları, İslam’ın şartlarının insana kazandırdıkları, Kur’an’ın iç düzeni (sure, surelerin adları, ayetlerin uzunluğu), Amentü’nün bütün cümleleri.
+- **3. ünite (+48):** Güzel ahlakın değerleri, sevgi ve saygının tanımları, saygı ağı, kardeşlik, anne babaya karşı davranışlar, akrabalık adları (anneanne, hala, kuzen, dünür…), komşulukla ilgili ayet, hadis ve atasözleri, mağaradaki iki dost, öğretmenler ve Fatiha’nın ayet anlamları.
+- **4. ünite (+64):** Cahiliye toplumu, Peygamberimizin ailesi, sütanne geleneği, çocukluk ve gençlik yılları, Hz. Hatice ve çocukları, ilk vahiy, Taif, miraç, Suffe, Bedir, Uhud ve Hendek’in sırası, Mekke’nin Fethi, Veda Haccı, kabri, Ehlibeyt, Salli duasının anlamı.
+- **5. ünite (+24):** Müddessir suresinin ayetleri, salih amel, abdestin son adımları, beden ve elbise temizliği, evde, okulda ve çevrede temizlik sorumlulukları.
+- Eski sorular yerinde duruyor; yeni sorular durakların sonuna eklendi, çocukların ilerlemesi kaybolmuyor.
+- Kitabın baş sayfaları ile sonundaki sözlük bir sonraki sürümde ekleniyor.
+
 ## 0.17.0 · 25.11.2026
 
 Yeni ada: **Sosyal Bilgiler Adası** (4. sınıf). Din Bilgisi ve Fen Bilimleri adalarıyla aynı düzende çalışıyor: ders kitabının ünitelerini izleyen duraklar, her turda 10 soru, 3 kalp ve “yarı yarıya” jokeri, Tekrar Kutusu, öğrenilen soru sayacı ve 20 soruluk Deneme Sınavı.
