@@ -1,21 +1,32 @@
 // Elif Ba Adası: an island in sections. Section 1 teaches the letters, section 2 the harekes,
 // the later sections (cezm, tenvin, şedde, ...) are announced and open in coming releases. Letters and
-// sections are in data.js; the listening games (Harf Yağmuru, Hece Balonları) in games/listening.js.
+// sections are in data.js; the listening games (Harf Yağmuru, Hece Balonları) in games/listening.js,
+// the mixed game at the end of every cove (Cam Köprü) in games/bridge.js.
 (() => {
-  const { glyphs, names, readings, harekeler, coves, sections, sameSound, syllable, coveLetters, mastery } = elifData;
+  const { glyphs, names, harekeler, coves, sections, sameSound, syllable, coveLetters, mastery } = elifData;
+  // A syllable is named by its letter and hareke ("Be üstün"); its Turkish reading is never written.
+  const hareke = h => harekeler[h].name.toLocaleLowerCase('tr');
+  const syllableName = (i, h) => names[i] + ' ' + hareke(h);
   const voice = elifVoice;
   const dialog = $('elif-game');
   const records = new Map();
   let progress, section = null, cove = 0;
+  // The cove the turtle stands on in the map (null: the cove being learned, set on arrival).
+  let mapCove = null;
   let round, turn, earned;
 
   /* ---------- Progress ---------- */
   const storeKey = id => 'elif-ba-v2-' + id;
-  // yagmur (Harf Yağmuru) and balon (Hece Balonları): the game's best score, the most hearts
-  // (stars) a section was finished with, whether it was ever finished with all three, and the
-  // coves whose game step was played to the end (koylar).
+  // yagmur (Harf Yağmuru), balon (Hece Balonları) and kopru (Cam Köprü): the game's best score,
+  // the most hearts (stars) a section was finished with, whether it was ever finished with all
+  // three, and the coves whose game step was played to the end (koylar).
+  const gameNames = ['yagmur', 'balon', 'kopru'];
   const blankGame = () => ({ rekor: 0, yildiz: 0, tamam: false, koylar: Array(7).fill(false) });
-  function blank() { return { harf: Array(28).fill(0), hareke: Array(28).fill(0), tanisma: false, yagmur: blankGame(), balon: blankGame() }; }
+  function blank() {
+    // balik: the letters whose fish the player has already seen arrive in the Akvaryum.
+    return { harf: Array(28).fill(0), hareke: Array(28).fill(0), tanisma: false, yagmur: blankGame(), balon: blankGame(), kopru: blankGame(),
+      balik: Array(28).fill(false) };
+  }
   function load(id) {
     if (records.has(id)) return records.get(id);
     const saved = readRecord(storeKey(id));
@@ -27,7 +38,8 @@
         });
       }
       record.tanisma = saved.tanisma === true;
-      for (const name of ['yagmur', 'balon']) {
+      if (Array.isArray(saved.balik)) saved.balik.slice(0, 28).forEach((on, i) => { record.balik[i] = on === true; });
+      for (const name of gameNames) {
         const game = saved[name];
         if (!game || typeof game !== 'object') continue;
         if (Number.isInteger(game.rekor) && game.rekor > 0) record[name].rekor = game.rekor;
@@ -44,6 +56,8 @@
       for (let k = 0; k < 7; k++) {
         if (done('hareke', k) || done('harf', k + 1)) record.yagmur.koylar[k] = true;
         if (done('harf', k + 1)) record.balon.koylar[k] = true;
+        // Cam Köprü came in 0.14.0 as the last step of a cove: coves already left behind have crossed it.
+        if (done('harf', k + 1)) record.kopru.koylar[k] = true;
       }
     } else {
       // Version 0.1 kept the letters found in the matching game as a list of indexes.
@@ -67,14 +81,16 @@
   const masteredCount = (part, record = progress) => record[part].filter(n => n >= mastery).length;
   const coveDone = (part, k) => coveLetters(k).every(i => mastered(part, i));
   // The island is one path, cove by cove: the cove's letters, Harf Yağmuru, (before the first
-  // harekes: meeting the harekes), the same letters with harekes, Hece Balonları; then the next
-  // cove. Only the first step not yet done can be started; every step done stays open to replay.
+  // harekes: meeting the harekes), the same letters with harekes, Hece Balonları, and Cam Köprü,
+  // the mixed game that crosses over to the next cove. Only the first step not yet done can be
+  // started; every step done stays open to replay.
   const steps = coves.flatMap((_, k) => [
     { part: 'harf', cove: k },
     { game: 'yagmur', cove: k },
     ...(k === 0 ? [{ intro: true, cove: 0 }] : []),
     { part: 'hareke', cove: k },
-    { game: 'balon', cove: k }
+    { game: 'balon', cove: k },
+    { game: 'kopru', cove: k }
   ]);
   const stepDone = step => step.intro ? progress.tanisma : step.game ? progress[step.game].koylar[step.cove] : coveDone(step.part, step.cove);
   const nextStep = () => steps.find(step => !stepDone(step)) || null;
@@ -83,7 +99,14 @@
   const stepIcon = step => step.intro ? '✨' : step.game ? games[step.game].icon : prizeOf(step.part);
   const stepName = step => step.intro ? 'Harekelerle tanış' : step.game ? games[step.game].name : step.part === 'harf' ? 'Harfler' : 'Harekeler';
   const stepLabel = step => coves[step.cove] + ' · ' + stepName(step);
+  // A step in another cove: the turtle first walks there on the map.
   function goTo(step) {
+    if (elifMap.walking()) return;
+    if (mapCove !== null && step.cove !== mapCove) {
+      showHub();
+      visit(step.cove, () => goTo(step));
+      return;
+    }
     if (step.intro) { showHub(); startIntro(); return; }
     if (step.game) { showHub(); openGame(step.game, step.cove); return; }
     openSection(step.part, step.cove);
@@ -92,13 +115,13 @@
   window.elifBaSummary = id => {
     const record = load(id);
     return { harf: masteredCount('harf', record), hareke: masteredCount('hareke', record), rekor: record.yagmur.rekor, tamam: record.yagmur.tamam,
-      balon: { ...record.balon }, any: record.harf.some(Boolean) || record.hareke.some(Boolean) || record.tanisma ||
-      record.yagmur.rekor > 0 || record.balon.rekor > 0 };
+      balon: { ...record.balon }, kopru: { ...record.kopru, gecilen: record.kopru.koylar.filter(Boolean).length },
+      any: record.harf.some(Boolean) || record.hareke.some(Boolean) || record.tanisma || gameNames.some(name => record[name].rekor > 0) };
   };
   window.resetElifBa = id => {
     records.set(id, blank());
     try { localStorage.removeItem(storeKey(id)); localStorage.removeItem('elif-ba-' + id); } catch {}
-    if (activeProfile?.id === id && !$('elif-view').hidden) { progress = records.get(id); showHub(); }
+    if (activeProfile?.id === id && !$('elif-view').hidden) { progress = records.get(id); mapCove = null; showHub(); }
   };
 
   /* ---------- Helpers ---------- */
@@ -133,40 +156,10 @@
     drawShells();
     const next = nextStep();
     const nextCove = next ? next.cove : coves.length - 1;
-    // The path: done coves and the cove being learned show their steps, later coves only their name.
-    $('elif-path').replaceChildren(...coves.map((name, k) => {
-      const item = el('li', 'elif-stop' + (k < nextCove || !next ? ' done' : k === nextCove ? ' current' : ' locked'));
-      const head = el('div', 'elif-stop-head', '<span class="elif-stop-glyphs" lang="ar" dir="rtl" aria-hidden="true">' +
-        coveLetters(k).map(i => glyphs[i]).join(' ') + '</span><strong>' + (k + 1) + '. ' + name + '</strong>' +
-        (k > nextCove && next ? '<span class="elif-stop-lock">🔒</span>' : ''));
-      item.append(head);
-      if (k > nextCove && next) return item;
-      const list = el('ol', 'elif-steps');
-      for (const step of steps.filter(s => s.cove === k)) {
-        const done = stepDone(step);
-        const now = step === next;
-        const button = el('button', 'elif-step-node' + (done ? ' done' : now ? ' now' : ' locked') + (step.game ? ' game' : ''),
-          '<span class="elif-step-icon" aria-hidden="true">' + stepIcon(step) + '</span><span class="elif-step-name">' + stepName(step) +
-          (step.game ? '<small>Oyun</small>' : '') + '</span><span class="elif-step-state" aria-hidden="true">' +
-          (done ? '✓' : now ? '▶' : '🔒') + '</span>');
-        button.setAttribute('aria-label', stepLabel(step) + (done ? ', tamamlandı' : now ? ', sıradaki' : ', kilitli'));
-        if (done || now) button.onclick = () => goTo(step);
-        else {
-          button.dataset.cue = '';
-          button.setAttribute('aria-disabled', 'true');
-          button.onclick = () => {
-            playCue('oops');
-            fx.bump(button, 'denied');
-            $('elif-hub-note').textContent = '🔒 Önce sıradaki adımı bitir: ' + stepName(next) + '.';
-          };
-        }
-        const li = el('li');
-        li.append(button);
-        list.append(li);
-      }
-      item.append(list);
-      return item;
-    }));
+    if (mapCove === null) mapCove = nextCove;
+    drawMap(next, nextCove);
+    if (!elifMap.walking()) elifMap.place(mapCove);
+    drawCove(mapCove, next);
     $('elif-soon').replaceChildren(...sections.filter(info => info.soon).map(info =>
       el('li', '', '<strong>' + info.title + '</strong><span>' + info.lead + '</span>')));
     $('elif-next-step').hidden = !next;
@@ -176,8 +169,93 @@
       $('elif-next-step').onclick = () => goTo(next);
     }
     $('elif-done').hidden = !!next;
-    $('elif-hub-note').textContent = '';
+    drawAquariumCard();
+    if (!elifMap.walking()) $('elif-hub-note').textContent = '';
     setTitle('Elif Ba Adası');
+  }
+  // Akvaryum: a fish for every letter whose harekes are learned. Fish not seen yet arrive when it opens.
+  const fishLetters = () => glyphs.map((_, i) => i).filter(i => mastered('hareke', i));
+  function drawAquariumCard() {
+    const have = fishLetters();
+    const fresh = have.filter(i => !progress.balik[i]);
+    const card = $('elif-aquarium-open');
+    card.classList.toggle('fresh', fresh.length > 0);
+    card.innerHTML = '<span class="elif-aq-fish" aria-hidden="true">' + (have.length ? have.slice(-3) : [1, 13, 23]).map(i => elifAquarium.fishSvg(i, 'hub-aq', false)).join('') +
+      '</span><span class="elif-aq-text"><strong>Akvaryum</strong><small>' + (have.length ? have.length + ' / 28 balık' : 'Harekeleri öğren, balıklar gelsin') +
+      '</small></span>' + (fresh.length ? '<span class="elif-aq-new">✨ ' + fresh.length + ' yeni</span>' : '') + '<span class="elif-aq-go" aria-hidden="true">▶</span>';
+    card.setAttribute('aria-label', 'Akvaryum, ' + have.length + ' balık' + (fresh.length ? ', ' + fresh.length + ' yeni balık' : ''));
+    card.onclick = () => {
+      if (elifMap.walking()) return;
+      voice.stop();
+      elifAquarium.open({ have, fresh, onClose: () => { if (!$('elif-view').hidden && !section) showHub(); } });
+      for (const i of fresh) progress.balik[i] = true;
+      if (fresh.length) save();
+    };
+  }
+  // The map: coves done, the cove being learned, coves still locked, and the bridges crossed.
+  const coveState = (k, next, nextCove) => k < nextCove || !next ? 'done' : k === nextCove ? 'current' : 'locked';
+  function drawMap(next, nextCove) {
+    elifMap.update({ state: k => coveState(k, next, nextCove), crossed: k => progress.kopru.koylar[k], selected: mapCove });
+  }
+  elifMap.build($('elif-map'), k => {
+    const next = nextStep();
+    if (coveState(k, next, next ? next.cove : coves.length - 1) === 'locked') {
+      playCue('oops');
+      fx.bump($('elif-map').querySelector('.elif-isle[data-k="' + k + '"]'), 'denied');
+      $('elif-hub-note').textContent = '🔒 ' + coves[k] + ' kilitli. Önce sıradaki adımı bitir: ' + stepLabel(next) + '.';
+      return;
+    }
+    visit(k, () => $('elif-path').scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
+  });
+  // The turtle walks over the bridges to cove k, then `then` goes on (opens a step, shows the cove).
+  function visit(k, then) {
+    if (elifMap.walking()) return;
+    if (k === mapCove) { then?.(); return; }
+    const map = $('elif-map');
+    const box = map.getBoundingClientRect();
+    if (box.top < 0 || box.bottom > innerHeight) map.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    $('elif-hub-note').textContent = '🐢 ' + coves[k] + "'na " + (k > mapCove ? 'yürüyor' : 'geri dönüyor') + '…';
+    elifMap.walk(k).then(() => {
+      mapCove = k;
+      if ($('elif-view').hidden || !$('elif-section').hidden) return; // the child left meanwhile
+      playCue('key');
+      showHub();
+      setTimeout(() => { if (!$('elif-view').hidden && !section) then?.(); }, 250);
+    });
+  }
+  // The steps of the cove the turtle stands on.
+  function drawCove(k, next) {
+    const nextCove = next ? next.cove : coves.length - 1;
+    const state = coveState(k, next, nextCove);
+    const item = el('li', 'elif-stop ' + (state === 'current' ? 'current' : 'done'));
+    item.append(el('div', 'elif-stop-head', '<span class="elif-stop-glyphs" lang="ar" dir="rtl" aria-hidden="true">' +
+      coveLetters(k).map(i => glyphs[i]).join(' ') + '</span><strong>' + (k + 1) + '. ' + coves[k] + '</strong>' +
+      (state === 'done' ? '<span class="elif-stop-done">✓ Tamam</span>' : '')));
+    const list = el('ol', 'elif-steps');
+    for (const step of steps.filter(s => s.cove === k)) {
+      const done = stepDone(step);
+      const now = step === next;
+      const button = el('button', 'elif-step-node' + (done ? ' done' : now ? ' now' : ' locked') + (step.game ? ' game' : ''),
+        '<span class="elif-step-icon" aria-hidden="true">' + stepIcon(step) + '</span><span class="elif-step-name">' + stepName(step) +
+        (step.game ? '<small>' + games[step.game].tag + '</small>' : '') + '</span><span class="elif-step-state" aria-hidden="true">' +
+        (done ? '✓' : now ? '▶' : '🔒') + '</span>');
+      button.setAttribute('aria-label', stepLabel(step) + (done ? ', tamamlandı' : now ? ', sıradaki' : ', kilitli'));
+      if (done || now) button.onclick = () => goTo(step);
+      else {
+        button.dataset.cue = '';
+        button.setAttribute('aria-disabled', 'true');
+        button.onclick = () => {
+          playCue('oops');
+          fx.bump(button, 'denied');
+          $('elif-hub-note').textContent = '🔒 Önce sıradaki adımı bitir: ' + stepName(next) + '.';
+        };
+      }
+      const li = el('li');
+      li.append(button);
+      list.append(li);
+    }
+    item.append(list);
+    $('elif-path').replaceChildren(item);
   }
 
   /* ---------- A section: coves and letter cards ---------- */
@@ -226,16 +304,16 @@
       '<small aria-hidden="true">' + (mastered('hareke', i) ? '🦪' : '') + '</small>');
     const chant = el('button', 'elif-chant', '♪');
     chant.setAttribute('aria-label', names[i] + ' üstün, esre, ötre okunuşunu dinle');
-    chant.onclick = () => { $('elif-note').textContent = readings[i].join(' · '); voice.chant(i, undefined, $('elif-note')); };
+    chant.onclick = () => { $('elif-note').textContent = [0, 1, 2].map(h => syllableName(i, h)).join(' · '); voice.chant(i, undefined, $('elif-note')); };
     head.append(chant);
     const row = el('div', 'elif-syllable-row');
     for (const h of [0, 1, 2]) {
-      const button = el('button', 'elif-syllable', glyphHtml(syllable(i, h)) + '<span>' + readings[i][h] + '</span>');
-      button.setAttribute('aria-label', names[i] + ' ' + harekeler[h].name + ': ' + readings[i][h]);
+      const button = el('button', 'elif-syllable', glyphHtml(syllable(i, h)) + '<span>' + hareke(h) + '</span>');
+      button.setAttribute('aria-label', syllableName(i, h) + ', dinle');
       button.onclick = () => {
         for (const other of $('elif-cards').querySelectorAll('.selected')) other.classList.remove('selected');
         button.classList.add('selected');
-        $('elif-note').textContent = names[i] + ' ' + harekeler[h].name.toLocaleLowerCase('tr') + ' ' + readings[i][h];
+        $('elif-note').textContent = syllableName(i, h);
         voice.syllable(i, h, $('elif-note'));
       };
       row.append(button);
@@ -243,25 +321,57 @@
     card.append(head, row);
     return card;
   }
-  /* ---------- The games: Harf Yağmuru and Hece Balonları ---------- */
-  // Each cove has both as steps of the path: Harf Yağmuru after its letters rains every letter
-  // learned so far, Hece Balonları after its harekes flies those letters' syllables (letter * 3 + hareke).
+  /* ---------- The games: Harf Yağmuru, Hece Balonları and Cam Köprü ---------- */
+  // Each cove has all three as steps of the path: Harf Yağmuru after its letters rains every letter
+  // learned so far, Hece Balonları after its harekes flies those letters' syllables (letter * 3 + hareke),
+  // and Cam Köprü mixes both on the bridge to the next cove.
   const games = {
     yagmur: {
-      kind: 'harf', name: 'Harf Yağmuru', icon: '🌧️',
+      kind: 'harf', name: 'Harf Yağmuru', icon: '🌧️', tag: 'Oyun',
       items: () => glyphs.map((_, i) => i).filter(i => mastered('harf', i))
     },
     balon: {
-      kind: 'hece', name: 'Hece Balonları', icon: '🎈',
+      kind: 'hece', name: 'Hece Balonları', icon: '🎈', tag: 'Oyun',
       items: () => glyphs.map((_, i) => i).filter(i => mastered('hareke', i)).flatMap(i => [i * 3, i * 3 + 1, i * 3 + 2])
-    }
+    },
+    kopru: { name: 'Cam Köprü', icon: '🌉', tag: 'Karma' }
   };
+  // The bridge of the last cove leads to the lighthouse itself.
+  const destination = k => k < coves.length - 1 ? { to: coves[k + 1], toDative: coves[k + 1] + "'na" } :
+    { to: 'Deniz Feneri', toDative: "Deniz Feneri'ne" };
   // A cove's game plays with everything learned up to and including that cove.
   function openGame(id, k) {
     const info = games[id];
     const step = steps.find(s => s.game === id && s.cove === k);
     if (!stepOpen(step)) return;
     voice.stop();
+    const result = ({ score, stars, finished }) => {
+      const record = progress[id];
+      record.rekor = Math.max(record.rekor, score);
+      if (finished) {
+        record.yildiz = Math.max(record.yildiz, stars);
+        if (stars === 3) record.tamam = true;
+        record.koylar[k] = true; // played to the end: the path goes on
+      }
+      save();
+    };
+    // After a game played to the end, the result card leads on to the next step.
+    const next = () => {
+      const after = nextStep();
+      return after ? { label: stepIcon(after) + ' ' + stepName(after), go: () => goTo(after) } : null;
+    };
+    const onClose = () => {
+      if ($('elif-view').hidden) return;
+      if (section) drawSection(); else showHub();
+    };
+    if (id === 'kopru') {
+      elifBridgeGame.open({
+        letters: glyphs.map((_, i) => i).filter(i => Math.floor(i / 4) <= k),
+        recent: coveLetters(k), from: coves[k], ...destination(k),
+        best: () => progress.kopru, onResult: result, next, onClose
+      });
+      return;
+    }
     const upTo = i => Math.floor((id === 'balon' ? Math.floor(i / 3) : i) / 4) <= k;
     const recent = coveLetters(k);
     elifListeningGame.open({
@@ -269,25 +379,7 @@
       letters: info.items().filter(upTo),
       recent: id === 'balon' ? recent.flatMap(i => [i * 3, i * 3 + 1, i * 3 + 2]) : recent,
       best: () => progress[id],
-      onResult({ score, stars, finished }) {
-        const record = progress[id];
-        record.rekor = Math.max(record.rekor, score);
-        if (finished) {
-          record.yildiz = Math.max(record.yildiz, stars);
-          if (stars === 3) record.tamam = true;
-          record.koylar[k] = true; // played to the end: the path goes on
-        }
-        save();
-      },
-      // After a game played to the end, the result card leads on to the next step.
-      next() {
-        const after = nextStep();
-        return after ? { label: stepIcon(after) + ' ' + stepName(after), go: () => goTo(after) } : null;
-      },
-      onClose() {
-        if ($('elif-view').hidden) return;
-        if (section) drawSection(); else showHub();
-      }
+      onResult: result, next, onClose
     });
   }
 
@@ -402,8 +494,6 @@
     const grid = el('div', 'elif-choices');
     grid.id = 'elif-choices';
     let rightButton = null;
-    // A syllable is named by its letter and hareke ("Be üstün"), never by a written Turkish reading.
-    const syllableName = (i, h) => names[i] + ' ' + harekeler[h].name.toLocaleLowerCase('tr');
     const answer = letterQuestion ? names[q.target] : syllableName(q.target, q.h);
 
     if (q.type === 'listen') {
@@ -532,7 +622,7 @@
         save();
       }
       stage.innerHTML = perfect ? '<div class="elif-prize" aria-hidden="true">✨</div><h2 id="elif-prompt" tabindex="-1">Harekelerle tanıştın!</h2>' +
-        '<p>Üstün <b lang="ar">◌َ</b> e/a, esre <b lang="ar">◌ِ</b> i/ı, ötre <b lang="ar">◌ُ</b> u okutur. Şimdi öğrendiğin harfleri ' +
+        '<p>Üstün <b lang="ar">◌َ</b>, esre <b lang="ar">◌ِ</b> ve ötre <b lang="ar">◌ُ</b> ile tanıştın. Şimdi öğrendiğin harfleri ' +
         'harekeleriyle okuyalım.</p>' + (storageNote ? '<p>' + storageNote + '</p>' : '') +
         '<button class="elif-action" id="elif-continue">▶ Devam: 🦪 Harekeler</button>' :
         retry + '<p>' + misses + ' Harekelere geçmek için hepsini ilk denemede bilmelisin.</p>' +
@@ -603,10 +693,10 @@
       const info = harekeler[slide];
       $('elif-stage').innerHTML = '<p class="elif-step">Harekelerle tanışma · ' + (slide + 1) + ' / 3</p>' +
         '<h2 id="elif-prompt" tabindex="-1">' + info.name + '</h2><button class="elif-big mark-' + slide + '" id="elif-demo" aria-label="Dinle">' +
-        glyphHtml(syllable(1, slide)) + '</button><p class="elif-lesson"><b>' + info.place + '.</b> Harfe <b>' + info.sound +
-        '</b> sesi verir: ' + names[1] + ' ' + info.name.toLocaleLowerCase('tr') + ' <b>' + readings[1][slide] + '</b>.</p>' +
+        glyphHtml(syllable(1, slide)) + '</button><p class="elif-lesson"><b>' + info.place + '.</b> Harfe dokun ve dinle: ' +
+        '<b>' + syllableName(1, slide) + '</b>.</p>' +
         '<div class="elif-examples">' + [1, 2, 3].map(i => '<button class="elif-syllable" data-i="' + i + '">' + glyphHtml(syllable(i, slide)) +
-        '<span>' + readings[i][slide] + '</span></button>').join('') + '</div><p id="elif-response" role="status"></p>' +
+        '<span>' + names[i] + '</span></button>').join('') + '</div><p id="elif-response" role="status"></p>' +
         '<button class="elif-action" id="elif-next">' + (slide < 2 ? 'Sonraki hareke' : 'Şimdi sen bul') + '</button>';
       $('elif-prompt').focus();
       const note = $('elif-response');
@@ -624,6 +714,7 @@
   $('elif-card').onclick = () => {
     if (!availableForPlayer($('elif-card'))) return;
     progress = load(activeProfile.id);
+    mapCove = null;
     $('catalog').hidden = true;
     $('elif-view').hidden = false;
     showHub();

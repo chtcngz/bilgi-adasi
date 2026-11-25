@@ -90,6 +90,7 @@
       localStorage.removeItem(progressKey(profile));
       localStorage.removeItem('elif-ba-' + profile.id);
       localStorage.removeItem('elif-ba-v2-' + profile.id);
+      localStorage.removeItem('elif-ba-hiz-' + profile.id);
       for (const ada of Object.values(window.soruAdalari)) localStorage.removeItem(ada.kayit + profile.id);
     } catch {}
     saveProfiles();
@@ -183,7 +184,9 @@
     $('elif-summary').textContent = '🐚 ' + summary.harf + ' / 28 harf · 🦪 ' + summary.hareke + ' / 28 hareke' +
       (summary.tamam ? ' · 🌧️ Harf Yağmuru tamamlandı (rekor ' + summary.rekor + ')' : summary.rekor ? ' · 🌧️ Harf Yağmuru rekoru ' + summary.rekor : '') +
       (summary.balon?.tamam ? ' · 🎈 Hece Balonları tamamlandı (rekor ' + summary.balon.rekor + ')' :
-        summary.balon?.rekor ? ' · 🎈 Hece Balonları rekoru ' + summary.balon.rekor : '');
+        summary.balon?.rekor ? ' · 🎈 Hece Balonları rekoru ' + summary.balon.rekor : '') +
+      (summary.kopru?.gecilen ? ' · 🌉 ' + summary.kopru.gecilen + ' / 7 Cam Köprü geçildi' + (summary.kopru.rekor ? ' (rekor ' + summary.kopru.rekor + ')' : '') :
+        summary.kopru?.rekor ? ' · 🌉 Cam Köprü rekoru ' + summary.kopru.rekor : '');
     $('elif-reset').disabled = !summary.any;
   }
   const disarmElif = confirmTwice($('elif-reset'), 'Emin misin? Evet, sıfırla', () => {

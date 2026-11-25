@@ -5,7 +5,7 @@
 // In Harf Yağmuru letters rain from the clouds into the sea; in Hece Balonları syllables with
 // their harekes rise from the sea up into the clouds.
 const elifListeningGame = (() => {
-  const { glyphs, names, readings, syllable } = elifData;
+  const { glyphs, names, readings, harekeler, syllable, twins } = elifData;
   const voice = elifVoice;
   const dialog = $('elif-rain');
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
@@ -13,14 +13,17 @@ const elifListeningGame = (() => {
   const POPS = 3; // drops of a letter to pop before the next letter
   const HEARTS = 3;
   const praise = ['Harika!', 'Süper!', 'Bravo!', 'Aferin!', 'Müthiş!', 'Şahane!'];
-  // Letters on one skeleton, told apart only by their dots: later turns rain them together.
-  const families = [[1, 2, 3], [4, 5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16], [17, 18], [19, 20]];
-  const twins = i => (families.find(f => f.includes(i)) || []).filter(j => j !== i);
   // The three pops of a letter climb a major chord.
   const chord = [1, 1.26, 1.5];
-  // Drops take 7.6 s to fall at first and a little less with every letter done, never under 3.6 s.
-  const fallTime = done => 3.6 + 4 * Math.exp(-done / 16);
-  const spawnGap = done => 0.8 + 0.55 * Math.exp(-done / 16);
+  // Drops take 6.6 s to fall at first and a little less with every letter done, never under 3.2 s;
+  // a new one comes about every second, a little more often as the game goes on.
+  const fallTime = done => 3.2 + 3.4 * Math.exp(-done / 14);
+  const spawnGap = done => 0.62 + 0.4 * Math.exp(-done / 14);
+  // The bar at the top sets how fast all of that goes, from the snail to the rabbit. Each player
+  // keeps their own speed for both games.
+  const PACES = [0.6, 0.8, 1, 1.25, 1.5];
+  const paceNames = ['Çok yavaş', 'Yavaş', 'Normal', 'Hızlı', 'Çok hızlı'];
+  const NORMAL = 2;
   const clamp01 = n => Math.min(1, Math.max(0, n));
   const pick = items => items[Math.floor(Math.random() * items.length)];
   function shuffled(items) {
@@ -35,7 +38,7 @@ const elifListeningGame = (() => {
   const kinds = {
     harf: {
       rising: false, label: 'Harf Yağmuru', title: 'Harf <em>Yağmuru</em>',
-      text: i => glyphs[i], name: i => names[i], speak: (i, note, end) => voice.letter(i, note, end),
+      text: i => glyphs[i], name: i => names[i], sound: i => names[i], speak: (i, note, end) => voice.letter(i, note, end),
       // look-alike letters (the same shape, other dots) join in once a few letters are done
       alike: i => twins(i), alikeFrom: 3, alikeChance: 0.3,
       t: { listen: 'Harfi tekrar dinle', slots: 'Bölümün harfleri', first: '👆 Duyduğun harften 3 tane patlat', fresh: '🔊 Yeni harf',
@@ -48,7 +51,9 @@ const elifListeningGame = (() => {
     },
     hece: {
       rising: true, label: 'Hece Balonları', title: 'Hece <em>Balonları</em>',
-      text: k => syllable(Math.floor(k / 3), k % 3), name: k => readings[Math.floor(k / 3)][k % 3],
+      // shown by its letter and hareke ("Be üstün"); the reading only tells syllables that sound alike apart
+      text: k => syllable(Math.floor(k / 3), k % 3), sound: k => readings[Math.floor(k / 3)][k % 3],
+      name: k => names[Math.floor(k / 3)] + ' ' + harekeler[k % 3].name.toLocaleLowerCase('tr'),
       speak: (k, note, end) => voice.syllable(Math.floor(k / 3), k % 3, note, end),
       // the same letter with its other harekes is what is to be told apart
       alike: k => [0, 1, 2].map(h => k - k % 3 + h).filter(j => j !== k), alikeFrom: 1, alikeChance: 0.4,
@@ -67,55 +72,7 @@ const elifListeningGame = (() => {
   // the letter's name instead, so the game can still be played by reading.
   const unheard = {};
 
-  /* ---------- Artwork ---------- */
-  const heartSvg = '<svg viewBox="0 0 32 30" aria-hidden="true">' +
-    '<path class="ghost" d="M16 7C14.4 3.2 11.6 1.5 8.6 1.5 4.4 1.5 1.5 4.6 1.5 8.8 1.5 15.6 8.6 21.8 16 28.2 23.4 21.8 30.5 15.6 30.5 8.8 30.5 4.6 27.6 1.5 23.4 1.5 20.4 1.5 17.6 3.2 16 7Z"/>' +
-    '<path class="half l" d="M16 7C14.4 3.2 11.6 1.5 8.6 1.5 4.4 1.5 1.5 4.6 1.5 8.8 1.5 15.6 8.6 21.8 16 28.2L14 21 17.4 15 14.2 10Z"/>' +
-    '<path class="half r" d="M16 7C17.6 3.2 20.4 1.5 23.4 1.5 27.6 1.5 30.5 4.6 30.5 8.8 30.5 15.6 23.4 21.8 16 28.2L14 21 17.4 15 14.2 10Z"/>' +
-    '<ellipse class="shine" cx="8.6" cy="8" rx="3.3" ry="2" transform="rotate(-35 8.6 8)"/></svg>';
-  const speakerSvg = '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 19h8l11-9v28l-11-9H7z" fill="currentColor" ' +
-    'stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><g fill="none" stroke="currentColor" stroke-width="3.6" ' +
-    'stroke-linecap="round"><path class="arc" d="M32 18.5c2.6 3 2.6 8 0 11"/><path class="arc" d="M36.5 13.5c5.2 5.8 5.2 15.2 0 21"/>' +
-    '<path class="arc" d="M41 8.5c7.8 8.5 7.8 22.5 0 31"/></g></svg>';
-  const starPath = 'M12 2.6l2.8 5.9 6.5.8-4.8 4.5 1.2 6.4L12 17.1l-5.7 3.1 1.2-6.4-4.8-4.5 6.5-.8z';
-  // The island's turtle, in the yellow scarf it wears on the cove's picture.
-  function turtleSvg() {
-    const hex = (cx, cy, r) => 'M' + Array.from({ length: 6 }, (_, k) => {
-      const a = Math.PI / 3 * k - Math.PI / 2;
-      return (cx + r * Math.cos(a)).toFixed(1) + ' ' + (cy + r * Math.sin(a)).toFixed(1);
-    }).join('L') + 'Z';
-    let scutes = '';
-    for (let row = 0; row < 5; row++) {
-      for (let col = 0; col < 6; col++) scutes += hex(48 + col * 27 + (row % 2) * 13.5, 50 + row * 23.4, 13.4);
-    }
-    const dome = 'M62 128C62 66 96 46 122 46 150 46 176 74 176 128Z';
-    return '<svg viewBox="0 0 180 150" aria-hidden="true"><defs>' +
-      '<linearGradient id="rain-shell" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a9d5a"/><stop offset="1" stop-color="#22764a"/></linearGradient>' +
-      '<radialGradient id="rain-scute" cx=".35" cy=".25" r=".9"><stop offset="0" stop-color="#86d895"/><stop offset="1" stop-color="#4aac66"/></radialGradient>' +
-      '<radialGradient id="rain-skin" cx=".38" cy=".3" r=".8"><stop offset="0" stop-color="#d9f7c4"/><stop offset=".65" stop-color="#a9e090"/><stop offset="1" stop-color="#8dcf77"/></radialGradient>' +
-      '<clipPath id="rain-dome"><path d="' + dome + '"/></clipPath></defs>' +
-      '<path d="' + dome + '" fill="url(#rain-shell)"/>' +
-      '<path d="' + scutes + '" fill="url(#rain-scute)" clip-path="url(#rain-dome)"/>' +
-      '<ellipse cx="114" cy="61" rx="24" ry="8" fill="#fff" opacity=".25" transform="rotate(-16 114 61)"/>' +
-      '<path d="M62 128C62 66 96 46 122 46 150 46 176 74 176 128" fill="none" stroke="#1b6a3e" stroke-width="3"/>' +
-      '<ellipse cx="74" cy="117" rx="27" ry="18" fill="url(#rain-skin)"/>' +
-      '<g class="flipper"><path d="M42 104C26 102 11 90 6 74 5 67 11 64 16 68 24 79 35 88 50 94Z" fill="url(#rain-skin)" stroke="#6db558" stroke-width="2"/>' +
-      '<ellipse cx="20" cy="80" rx="3" ry="2" fill="#86c96e"/><ellipse cx="31" cy="90" rx="2.5" ry="1.8" fill="#86c96e"/></g>' +
-      '<path d="M40 100C54 116 88 118 102 102L104 112C90 128 52 126 38 110Z" fill="#f7c948" stroke="#e0a630" stroke-width="2" stroke-linejoin="round"/>' +
-      '<path d="M62 114 82 115 72 133Z" fill="#f2b636" stroke="#e0a630" stroke-width="2" stroke-linejoin="round"/>' +
-      '<ellipse cx="56" cy="78" rx="34" ry="29" fill="url(#rain-skin)" stroke="#6db558" stroke-width="2"/>' +
-      '<g fill="#86c96e" opacity=".8"><ellipse cx="52" cy="56" rx="6" ry="4"/><ellipse cx="66" cy="54" rx="4" ry="3"/>' +
-      '<ellipse cx="40" cy="60" rx="3.5" ry="2.5"/><ellipse cx="75" cy="62" rx="3" ry="2.2"/></g>' +
-      '<g class="eyes"><ellipse cx="44" cy="76" rx="9.5" ry="11" fill="#fff"/><ellipse cx="68" cy="75" rx="9" ry="10.5" fill="#fff"/>' +
-      '<ellipse cx="43" cy="77.5" rx="7.4" ry="8.6" fill="#5b3418"/><ellipse cx="67" cy="76.5" rx="7" ry="8.2" fill="#5b3418"/>' +
-      '<ellipse cx="43" cy="78" rx="4.2" ry="5" fill="#1d120a"/><ellipse cx="67" cy="77" rx="4" ry="4.8" fill="#1d120a"/>' +
-      '<circle cx="40" cy="74" r="2.8" fill="#fff"/><circle cx="64" cy="73" r="2.6" fill="#fff"/>' +
-      '<circle cx="45.5" cy="81.5" r="1.3" fill="#fff"/><circle cx="69.5" cy="80.5" r="1.2" fill="#fff"/></g>' +
-      '<g class="glad" fill="none" stroke="#3a2414" stroke-width="3.5" stroke-linecap="round"><path d="M37 79Q44 70 51 79"/><path d="M61 78Q68 69 75 78"/></g>' +
-      '<g fill="#ff9a8b" opacity=".6"><ellipse cx="33" cy="90" rx="6.5" ry="4"/><ellipse cx="80" cy="89" rx="6" ry="3.8"/></g>' +
-      '<g class="mouth"><path d="M48 89Q56 101 64 89 56 92 48 89Z" fill="#7c2d2a"/><ellipse cx="56" cy="95.4" rx="4" ry="2.1" fill="#f07b7b"/></g>' +
-      '<path class="frown" d="M49 97Q56 91 63 97" fill="none" stroke="#7c2d2a" stroke-width="3" stroke-linecap="round"/></svg>';
-  }
+  const { heart: heartSvg, speaker: speakerSvg, star: starPath } = elifArt;
 
   /* ---------- Scene ---------- */
   dialog.innerHTML = '<div class="rain-scene">' +
@@ -124,7 +81,7 @@ const elifListeningGame = (() => {
     '<p class="rain-prompt" aria-hidden="true"></p>' +
     '<div class="rain-field" data-cue></div>' +
     '<div class="rain-sea" aria-hidden="true"><i class="rain-wave back"></i><i class="rain-wave mid"></i>' +
-      '<div class="rain-turtle"><div class="rain-turtle-body">' + turtleSvg() + '</div>' +
+      '<div class="rain-turtle"><div class="rain-turtle-body">' + elifArt.turtle('rain') + '</div>' +
       '<div class="rain-bubble">' + speakerSvg + '<span></span></div></div><i class="rain-wave front"></i></div>' +
     '<div class="rain-ceiling" aria-hidden="true"><i></i></div>' +
     '<div class="rain-hud">' +
@@ -133,6 +90,8 @@ const elifListeningGame = (() => {
       '<button type="button" class="rain-listen" data-cue>' + speakerSvg + '</button>' +
       '<div class="rain-score"><small>Puan</small><b>0</b></div>' +
       '<ol class="rain-slots"></ol>' +
+      '<label class="rain-pace"><span aria-hidden="true">🐌</span><input type="range" min="0" max="' + (PACES.length - 1) +
+        '" step="1" aria-label="Oyun hızı"><span aria-hidden="true">🐇</span><output aria-hidden="true"></output></label>' +
     '</div>' +
     '<div class="rain-toast" aria-hidden="true"></div>' +
     '<div class="rain-count" aria-hidden="true"></div>' +
@@ -154,10 +113,14 @@ const elifListeningGame = (() => {
   const counter = find('.rain-count');
   const overlay = find('.rain-overlay');
   const live = find('.rain-live');
+  const paceBox = find('.rain-pace');
+  const paceInput = paceBox.querySelector('input');
+  const paceName = paceBox.querySelector('output');
 
   let options = null, game = null, state = 'idle', drops = [], rounds = 0, followUp = null;
   let width = 0, size = 80, laneX = [], spawnY = 0, surface = 0, topY = 0;
   let talkToken = 0, pendingDone = null, talking = false, lastTalk = -9, lastSplash = -9, moodTimer = 0, promptToken = 0;
+  let pace = 1, paceTimer = 0;
 
   /* ---------- Game clock ---------- */
   // Everything that moves or waits runs on this clock, so a paused game stands still.
@@ -262,6 +225,34 @@ const elifListeningGame = (() => {
     toast.classList.add('show');
   }
 
+  /* ---------- Speed ---------- */
+  const paceKey = () => 'elif-ba-hiz-' + activeProfile?.id;
+  function keptPace() {
+    let kept = null;
+    try { kept = localStorage.getItem(paceKey()); } catch {}
+    const step = Number(kept);
+    return kept !== null && Number.isInteger(step) && step >= 0 && step < PACES.length ? step : NORMAL;
+  }
+  function setPace(step) {
+    const was = pace;
+    pace = PACES[step];
+    paceInput.value = step;
+    paceInput.setAttribute('aria-valuetext', paceNames[step]);
+    paceBox.style.setProperty('--at', step / (PACES.length - 1));
+    paceName.textContent = paceNames[step];
+    // The drop waiting to come follows the new speed too.
+    if (game && state === 'raining') game.nextSpawn = clock + Math.max(0, game.nextSpawn - clock) * was / pace;
+  }
+  paceInput.oninput = () => {
+    const step = Number(paceInput.value);
+    setPace(step);
+    try { localStorage.setItem(paceKey(), step); } catch {}
+    // The speed's name shows under the bar for a moment.
+    paceBox.classList.add('named');
+    clearTimeout(paceTimer);
+    paceTimer = setTimeout(() => paceBox.classList.remove('named'), 1100);
+  };
+
   /* ---------- The turtle's voice ---------- */
   function talk(on, name = '') {
     talking = on;
@@ -335,7 +326,7 @@ const elifListeningGame = (() => {
     game = {
       plan: plan(options.letters, options.recent, -1), step: 0, target: null, pops: 0,
       done: 0, popped: 0, completed: [], hearts: HEARTS, score: 0, streak: 0, listening: true, first: ++rounds === 1,
-      nextSpawn: 0, sinceTarget: 2, lastLane: -1, lastLetter: -1, lastTone: -1, retalk: false, saved: false
+      nextSpawn: 0, sinceTarget: 2, lastLane: -1, targetLane: -1, lastLetter: -1, lastTone: -1, retalk: false, saved: false
     };
     drawHearts();
     drawSlots();
@@ -388,22 +379,31 @@ const elifListeningGame = (() => {
   }
 
   /* ---------- Rain ---------- */
-  function freeLane() {
+  const flying = () => drops.filter(d => d.letter === game.target && d.state === 'fall');
+  // A lane whose start is clear, other than the last one used. The letter being played also keeps
+  // away from its own lanes, so its drops (balloons) never line up one above the other.
+  function freeLane(target) {
     const blocked = new Set(drops.filter(d => kind.rising ? d.y > spawnY - size * 1.35 : d.y < spawnY + size * 1.35).map(d => d.lane));
     const all = laneX.map((_, k) => k).filter(k => !blocked.has(k));
-    const spread = all.filter(k => k !== game.lastLane);
+    let spread = all.filter(k => k !== game.lastLane);
+    if (target) {
+      const own = new Set([game.targetLane, ...flying().map(d => d.lane)]);
+      const apart = spread.filter(k => !own.has(k));
+      if (apart.length) spread = apart;
+    }
     return spread.length ? pick(spread) : all.length ? all[0] : -1;
   }
-  // The letter being played is never more than two drops away, and up to three of it fall at once.
+  // The letter being played never comes twice in a row: one or two other drops come between,
+  // and no more than three of it are in the air at once.
   function wantTarget() {
-    const falling = drops.filter(d => d.letter === game.target && d.state === 'fall').length;
+    if (game.sinceTarget === 0) return false;
+    const falling = flying().length;
     if (falling >= POPS) return false;
-    if (game.sinceTarget >= 2) return true;
-    return Math.random() < (falling ? 0.38 : 0.6);
+    return game.sinceTarget >= 2 || Math.random() < (falling ? 0.35 : 0.55);
   }
   function distractor() {
     // Never one that sounds the same as the one being played (sin üstün and se üstün are both "se").
-    const others = options.letters.filter(i => kind.name(i) !== kind.name(game.target));
+    const others = options.letters.filter(i => kind.sound(i) !== kind.sound(game.target));
     const fresh = others.filter(i => i !== game.lastLetter);
     const choices = fresh.length ? fresh : others;
     const alike = kind.alike(game.target).filter(i => choices.includes(i));
@@ -411,9 +411,9 @@ const elifListeningGame = (() => {
     return pick(choices);
   }
   function spawn() {
-    const lane = freeLane();
-    if (lane < 0) { game.nextSpawn = clock + 0.12; return; }
     const target = wantTarget();
+    const lane = freeLane(target);
+    if (lane < 0) { game.nextSpawn = clock + 0.12; return; }
     const letter = target ? game.target : distractor();
     let tone;
     do tone = Math.floor(Math.random() * 5); while (tone === game.lastTone);
@@ -438,8 +438,8 @@ const elifListeningGame = (() => {
     game.lastLane = lane;
     game.lastLetter = letter;
     game.lastTone = tone;
-    if (target) game.sinceTarget = 0; else game.sinceTarget++;
-    game.nextSpawn = clock + spawnGap(game.done) * (0.85 + Math.random() * 0.3);
+    if (target) { game.sinceTarget = 0; game.targetLane = lane; } else game.sinceTarget++;
+    game.nextSpawn = clock + spawnGap(game.done) * (0.85 + Math.random() * 0.3) / pace;
   }
   function place(drop) {
     const still = calm.matches;
@@ -451,7 +451,7 @@ const elifListeningGame = (() => {
   function fall(drop, dt) {
     if (drop.state === 'caught') return; // waits in the air for its turn to pop
     // A wrongly tapped letter hurries into the sea (a balloon into the clouds).
-    const hurry = drop.state === 'wrong' ? 2.6 : 1;
+    const hurry = (drop.state === 'wrong' ? 2.6 : 1) * pace;
     if (kind.rising) drop.y -= (spawnY - topY) / drop.fall * dt * hurry;
     else drop.y += (surface - spawnY) / drop.fall * dt * hurry;
     drop.phase += dt;
@@ -831,6 +831,7 @@ const elifListeningGame = (() => {
     dialog.setAttribute('aria-label', kind.label);
     listen.setAttribute('aria-label', kind.t.listen);
     slotBox.setAttribute('aria-label', kind.t.slots);
+    setPace(keptPace());
     if (kind.rising) voice.preload([...new Set(settings.letters.map(k => Math.floor(k / 3)))]);
     else voice.preload(settings.letters, true);
     if (!dialog.open) dialog.showModal();

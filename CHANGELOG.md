@@ -7,7 +7,7 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
-## 0.14.0 · 24.11.2026
+## 0.17.0 · 25.11.2026
 
 Yeni ada: **Sosyal Bilgiler Adası** (4. sınıf). Din Bilgisi ve Fen Bilimleri adalarıyla aynı düzende çalışıyor: ders kitabının ünitelerini izleyen duraklar, her turda 10 soru, 3 kalp ve “yarı yarıya” jokeri, Tekrar Kutusu, öğrenilen soru sayacı ve 20 soruluk Deneme Sınavı.
 
@@ -17,6 +17,56 @@ Yeni ada: **Sosyal Bilgiler Adası** (4. sınıf). Din Bilgisi ve Fen Bilimleri 
 - 📚 Kâşif Kütüphanesi: kitapta olmayan ama sınavlarda sorulan konular (hobi, duygular, Trakya, denizlerimiz, Ankara, fay hatları, tsunami, RTÜK, TEMA…). Yedi ünite bitince Deneme Sınavı ile birlikte açılıyor.
 - Toplam 427 soru. Ayarlar → İlerleme bölümünde Sosyal Bilgiler Adası için ünite ünite yıldızlar ve öğrenilen soru sayısı görünüyor; ilerleme buradan sıfırlanabiliyor.
 - Yeni kural: Ders kitabını izleyen her soru adası, 1., 2., 3. ve 4. sınıflar dahil, kitabın tamamını sormak zorunda. Her ada kitaptan çıkarılan kontrol listesini `kapsam.md` dosyasında tutuyor; `node tools/kapsam.js` sorusu olmayan madde ya da hatalı soru kalırsa uyarıyor. Kural README’de ve CLAUDE.md’de yazıyor.
+
+## 0.16.0 · 24.11.2026
+
+Elif Ba Adası'na bir **🐠 Akvaryum** geldi.
+
+- **Her harf için bir balık:** Harekeler adımında öğrenilen her harf (🦪) için akvaryuma bir balık geliyor. Adanın ana sayfasında, yolculuk haritasının üstünde Akvaryum kartı var; kaç balık olduğunu ve yeni gelen balıkları (✨ yeni) gösteriyor.
+- **Harekeli harfler:** Her balığın üstünde harekeli bir harf yazıyor. Balığa dokununca o hece okunuyor ve "Be üstün" gibi adı bir an görünüyor; sonraki dokunuşta balık öteki harekeye geçiyor (üstün, esre, ötre). Türkçe okunuş hiçbir yerde yazmıyor.
+- **Gerçek bir akvaryum gibi:** Balıklar dört türden, yavaşça ve kendi başlarına yüzüyor, yön değiştirirken usulca dönüyor. Su yukarıdan ışık alıyor; yosunlar sallanıyor, sandıktan kabarcıklar çıkıyor. Suya dokununca yem düşüyor ve yakındaki balıklar yemeğe yüzüyor.
+- **Yeni balıklar:** Akvaryum açılınca yeni balıklar yandan yüzerek giriyor ve bir süre parlıyor.
+- **Harf rafı:** Altta 28 harfin rafı var. Balığı olan harfe dokununca balığı ortaya gelip hecesini okuyor; olmayanlar için hangi adımın bitirilmesi gerektiği yazıyor.
+- Daha önce harekeleri öğrenmiş oyuncuların balıkları akvaryum ilk açıldığında yeni balık olarak geliyor.
+
+## 0.15.1 · 24.11.2026
+
+0.15.0'daki hız çubuğu ve hızlanan, karışık akış, tarayıcının eski oyun dosyalarını önbellekten açması yüzünden görünmüyordu. Değişen dosyaların sürüm işaretleri yenilendi; sayfa açılınca Harf Yağmuru ile Hece Balonları'nın yeni hali yükleniyor.
+
+## 0.15.0 · 24.11.2026
+
+Harf Yağmuru ve Hece Balonları biraz daha hızlı akıyor. Kaplumbağanın söylediği harf (hece) artık peş peşe gelmiyor ve oyunun hızı üstteki bir çubukla ayarlanabiliyor.
+
+- **Daha hızlı akış:** Damlalar ve balonlar başta 7,6 yerine 6,6 saniyede iniyor (çıkıyor) ve oyun ilerledikçe biraz daha hızlanıyor. Yeni damla (balon) da daha sık geliyor, ekranda aynı anda daha çok harf oluyor.
+- **Karışık gelen harf:** Sorulan harf ya da hece hiç arka arkaya gelmiyor; iki tanesinin arasında her zaman bir ya da iki başka damla (balon) var. Aynı sütunda üst üste de çıkmıyor: havada ondan hangi sütunlarda varsa yenisi başka bir sütundan geliyor. Böylece balonları sırayla patlatıp geçmek yerine her seferinde doğrusunu aramak gerekiyor.
+- **🐌 Hız çubuğu 🐇:** Harf sırasının altında, salyangozdan tavşana uzanan bir çubuk var. Beş hız var: Çok yavaş, Yavaş, Normal, Hızlı, Çok hızlı. Çubuk oyun sırasında da kaydırılabiliyor; havadaki damlalar hemen yeni hıza geçiyor ve seçilen hızın adı bir an çubuğun altında görünüyor. Her oyuncunun hızı kendine saklanıyor ve iki oyunda da geçerli; oyuncu silinince onun hız ayarı da siliniyor.
+
+## 0.14.1 · 24.11.2026
+
+Elif Ba Adası'nda hecelerin Türkçe okunuşu (be, bi, bu…) artık hiçbir yerde yazmıyor; heceler yalnızca dinleniyor. Bir hece, harfinin adı ve harekesiyle anılıyor, örneğin "Be üstün".
+
+- **Harekeler kartları:** Her hecenin altında okunuş yerine harekenin adı (üstün, esre, ötre) yazıyor. Heceye ya da ♪ düğmesine dokununca alttaki yazıda "Be üstün · Be esre · Be ötre" çıkıyor.
+- **Harekelerle tanış:** Anlatım sayfalarında "Harfe e ya da a sesi verir: Be üstün be" yerine "Harfe dokun ve dinle: Be üstün" yazıyor. Örnek hecelerin altında harfin adı var. Bitiş yazısındaki "e/a, i/ı, u okutur" kısmı da kaldırıldı.
+- **Hece Balonları:** Yanlış patlatılan balonun etiketi, sonuç ekranındaki heceler ve ses çalınamayan cihazlarda kaplumbağanın balonu artık "Be esre" gibi yazıyor.
+- Ayarlar'daki ses seçeneğinin açıklamasından "be-bi-bu" kaldırıldı.
+
+## 0.14.0 · 24.11.2026
+
+Elif Ba Adası'na karma bir oyun, **Cam Köprü**, ve koyların haritası geldi.
+
+**🌉 Cam Köprü**
+- Her koy, bir sonraki koya uzanan bir cam köprüyle bitiyor. Yol artık Harfler → 🌧️ Harf Yağmuru → Harekeler → 🎈 Hece Balonları → 🌉 Cam Köprü sırasıyla ilerliyor. Köprü adımı yolda "Karma" olarak görünüyor.
+- Köprü 15 sıra; her sırada üç cam var. Camlarda harfler ve harekeli heceler karışık duruyor. Kaplumbağa bir harfin adını ya da bir heceyi söylüyor. Çocuk o camı bulunca kaplumbağa üstüne zıplıyor, cam çınlayıp altın rengine dönüyor.
+- Yanlış cam çatlayıp kırılıyor ve kaplumbağa denize düşüyor. Bir yunus onu son sağlam cama geri atıyor. Kırılan camın adı (örneğin "Te esre") kısa bir süre görünüyor ve sıra kalan camlarla yeniden soruluyor. Türkçe okunuş hiçbir yerde yazılmıyor.
+- Köprüde koyun dört harfi hem adıyla hem harekesiyle mutlaka çıkıyor; kalan sıralar önceki koyların harflerinden geliyor. İlk koyda kendi harfleri tekrar ediliyor. Dördüncü sıradan sonra bazı sıralarda yalnızca noktasıyla ayrılan harfler (ب ت ث) ya da aynı harfin üç harekesi yan yana geliyor. Aynı okunan iki hece aynı sırada hiç çıkmıyor.
+- Kurallar diğer oyunlarla aynı. 3 can var ve karşı kıyıya varınca adım geçiliyor. Hiç cam kırılmadan geçilirse üç yıldız alınıyor. Canlar biterse köprü baştan başlıyor. Karşı kıyıda hazine sandığı açılıyor.
+- Sonraki koya daha önce geçmiş oyuncuların köprüleri geçilmiş sayılıyor. Ayarlar → İlerleme'de geçilen köprü sayısı ve rekor görünüyor.
+- Yeni sesler: cam çınlaması, çatlama ve kırılma.
+
+**🗺️ Koylar haritası**
+- Ada sayfasındaki "Yolculuk" artık bir harita. Yedi koy, cam köprülerle bağlı adacıklar olarak duruyor: en altta Kaplumbağa Koyu, en tepede Deniz Feneri. Geçilen köprüler altın rengi. Biten koylarda ✓, sıradaki koyda numarası, kilitli koylarda 🔒 var ve her adacıkta koyun dört harfi yazıyor.
+- Haritanın altında, kaplumbağa hangi koydaysa o koyun adımları görünüyor. Başka bir koya dokununca kaplumbağa köprülerin üstünden adacık adacık o koya yürüyor; ileri de gidiyor, geri de dönüyor. Kilitli bir koya dokununca sıradaki adım hatırlatılıyor.
+- "Sıradaki" düğmesi ya da oyun sonundaki "▶ Devam" başka bir koydaki adımı açıyorsa kaplumbağa önce oraya yürüyor, adım sonra açılıyor. Köprü geçilince kaplumbağa yeni koya yürüyerek varıyor.
 
 ## 0.13.1 · 24.11.2026
 

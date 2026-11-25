@@ -276,6 +276,42 @@ cues['star'] = finish(reverb(mix(1.4,
     *sparkle(5, 0.04, 0.04, 2400, 5200, 0.08),
 ), 0.28, 1.0, 0.8), 0.7)
 
+# Cam Köprü. These come last so the cues above keep their randomness.
+
+
+def highpass(signal, cutoff):
+    return signal - lowpass(signal, cutoff)
+
+
+# The right glass: the turtle lands with a soft knock and the pane rings like a tapped glass.
+cues['glass'] = finish(reverb(mix(1.3,
+    (0.00, wood(note('G4'), 0.1, 0.25, 0.02), 0.35),
+    (0.01, bell(note('E6'), 1.1, 0.42), 0.8),
+    (0.01, bell(note('B6'), 0.9, 0.3), 0.32),
+    (0.07, bell(note('E7'), 0.6, 0.18), 0.16),
+    *sparkle(4, 0.1, 0.04, 3200, 6000, 0.07),
+), 0.26, 1.0, 0.8), 0.7)
+
+# The wrong glass, first: a few dry ticks as cracks run through the pane.
+crack_parts = []
+at = 0.0
+for k in range(6):
+    n = int(RATE * 0.006)
+    tick = highpass(rng.uniform(-1, 1, n), 2600) * np.exp(-np.arange(n) / (RATE * 0.0012))
+    crack_parts.append((at, tick, 0.9 - 0.08 * k))
+    crack_parts.append((at, bell(rng.uniform(3600, 6200), 0.12, 0.05), 0.12))
+    at += rng.uniform(0.025, 0.06)
+cues['crack'] = finish(reverb(mix(0.5, *crack_parts), 0.12, 0.6, 0.2), 0.5)
+
+# Then it breaks: a crash, and shards tinkling down into the sea. Bright but not harsh.
+crash_n = int(RATE * 0.35)
+crash = highpass(rng.uniform(-1, 1, crash_n), 1800) * envelope(timeline(0.35), 0.001, 0.06)
+shatter_parts = [(0.0, crash, 0.7), (0.0, wood(note('C4'), 0.18, 0.2, 0.05), 0.4)]
+for k in range(26):
+    offset = 0.02 + 0.75 * (k / 26) ** 1.6 + rng.uniform(0, 0.03)
+    shatter_parts.append((offset, bell(rng.uniform(2400, 7200), 0.35, rng.uniform(0.05, 0.12)), 0.32 * (1 - k / 34)))
+cues['shatter'] = finish(reverb(mix(1.4, *shatter_parts), 0.22, 0.9, 0.6), 0.58)
+
 OUT.mkdir(parents=True, exist_ok=True)
 for name, signal in cues.items():
     save(name, signal)

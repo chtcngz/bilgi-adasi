@@ -38,18 +38,24 @@ app/                         Published site (GitHub Pages root)
 │           ├── kayitlar.js          Which clips exist (window.elifRecordings)
 │           ├── kaynak.json          Clip ↔ source mapping
 │           └── KAYNAKLAR.md         Sources and licenses
-└── islands/                 One folder per island
-    ├── carpim/              Çarpım Adası (game.js)
-    ├── elif-ba/             Elif Ba Adası
-    │   ├── data.js          Letters, readings, harekes, coves, section list
-    │   ├── voice.js         Recording / Turkish speech playback (elifVoice)
-    │   ├── game.js          Hub, Harfler and Harekeler sections, rounds
-    │   ├── style.css, koy.jpg
-    │   └── games/           Section games
-    │       └── listening.*  Harf Yağmuru (letters) + Hece Balonları (syllables)
-    ├── din-bilgisi/         Question island: sorular.js + game.js + style.css + ada.svg + kapsam.md
-    ├── fen-bilimleri/       Question island: same pattern
-    └── sosyal-bilgiler/     Question island: same pattern
+├── islands/                 One folder per island
+│   ├── carpim/              Çarpım Adası (game.js)
+│   ├── elif-ba/             Elif Ba Adası
+│   │   ├── data.js          Letters, readings, harekes, coves, look-alike letters, section list
+│   │   ├── voice.js         Recording / Turkish speech playback (elifVoice)
+│   │   ├── map.js           Map of the coves; the turtle walks between them (elifMap)
+│   │   ├── game.js          Hub, Harfler and Harekeler sections, rounds
+│   │   ├── style.css, koy.jpg
+│   │   └── games/           Section games
+│   │       ├── art.js       Turtle, hearts, speaker and stars shared by the games
+│   │       ├── listening.*  Harf Yağmuru (letters) + Hece Balonları (syllables); its .rain-* kit is shared
+│   │       ├── bridge.*     Cam Köprü, the mixed game at the end of every cove
+│   │       └── aquarium.*   Akvaryum: a fish for every letter whose harekes are learned
+│   ├── din-bilgisi/         Question island: sorular.js + game.js + style.css + ada.svg + kapsam.md
+│   ├── fen-bilimleri/       Question island: same pattern
+│   └── sosyal-bilgiler/     Question island: same pattern
+└── deneme/                  Deneme Odası: playable drafts of proposed Elif Ba games (OYUN-ONERILERI.md).
+                             Nothing in the game links to it; open …/deneme/. Hece Treni's word clips are in deneme/ses/.
 tools/                       Helper scripts (not published)
 ├── kapsam.js                Checks every question island against its textbook checklist
 ├── make_sounds.py           → app/assets/audio/ui/*.wav
@@ -70,11 +76,11 @@ sources/                     Raw material (not published)
 ## Adding something new
 
 **A new Elif Ba section** (Cezm, Tenvin, Şedde …):
-Elif Ba is a single path (the `steps` list in `game.js`). Each cove's steps run Harfler → Harf Yağmuru → Harekeler → Hece Balonları; the first cove also has Harekelerle tanış before Harekeler. Only the next step can be opened, and from the second cove on every round mixes in letters from the earlier coves. To add a section:
+Elif Ba is a single path (the `steps` list in `game.js`). Each cove's steps run Harfler → Harf Yağmuru → Harekeler → Hece Balonları → Cam Köprü; the first cove also has Harekelerle tanış before Harekeler. Cam Köprü is the cove's mixed (Karma) game and crosses over to the next cove. Only the next step can be opened, and from the second cove on every round mixes in letters from the earlier coves. The hub shows the coves as a map (`map.js`): the turtle stands on one cove, the steps below are that cove's, and it walks over the bridges before a step in another cove opens. To add a section:
 1. Remove the `soon` flag from the section's entry in `islands/elif-ba/data.js`, and add its steps to the `steps` list in `game.js`.
 2. Add the section's screen and rounds to `islands/elif-ba/game.js`.
 3. Put its recordings under `app/assets/audio/elif-ba/<bölüm>/` and register them in `kayitlar.js`.
-4. If it gets a game, add it under `islands/elif-ba/games/`. Listening games can reuse `listening.js` with a new `kind`.
+4. If it gets a game, add it under `islands/elif-ba/games/`. Listening games can reuse `listening.js` with a new `kind`; a new game can take its top bar, hearts and cards from the `.rain-*` classes of `listening.css` and its turtle from `art.js`, as `bridge.js` does.
 
 **A new question island** (for example Türkçe, or Hayat Bilgisi for the 1st-3rd grades):
 1. Get the textbook the schools use this year and write `islands/<ada>/kapsam.md`: every point of the book, unit by unit, with its page.

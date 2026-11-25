@@ -1,11 +1,12 @@
-/* Elif Ba listening games (games/listening.js): Harf Yağmuru rains letters from a cloud ceiling into the sea, Hece Balonları (.balloons) floats syllables up into the clouds. */
-#elif-rain {
+/* Elif Ba listening games (games/listening.js): Harf Yağmuru rains letters from a cloud ceiling into the sea, Hece Balonları (.balloons) floats syllables up into the clouds.
+   The dialog, top bar, hearts and cards (.rain-*) are shared with Cam Köprü (bridge.css). */
+#elif-rain, #elif-bridge {
   width: min(780px, 100vw); height: 100vh; height: min(940px, 100dvh); max-width: 100vw; max-height: 100vh; max-height: 100dvh;
   margin: auto; padding: 0; border-radius: 28px; overflow: hidden; background: #8bd2f1; color: #173f40;
 }
-#elif-rain::backdrop { background: #0f3a48d9; }
+#elif-rain::backdrop, #elif-bridge::backdrop { background: #0f3a48d9; }
 @media (max-width: 650px), (max-height: 600px) {
-  #elif-rain { width: 100vw; height: 100vh; height: 100dvh; margin: 0; border-radius: 0; }
+  #elif-rain, #elif-bridge { width: 100vw; height: 100vh; height: 100dvh; margin: 0; border-radius: 0; }
 }
 .rain-scene {
   position: relative; width: 100%; height: 100%; overflow: hidden; isolation: isolate;
@@ -135,6 +136,38 @@
 @keyframes rain-now { to { transform: scale(1.1); } }
 @keyframes rain-tick { 40% { transform: scale(1.3); } }
 @keyframes rain-slot { from { transform: scale(.3); } }
+/* The speed bar under the letters (only in these two games, not on Cam Köprü's top bar) */
+#elif-rain .rain-hud { grid-template-areas: "left listen score" "slots slots slots" "pace pace pace"; }
+.rain-pace { grid-area: pace; justify-self: center; position: relative; display: flex; align-items: center; gap: 6px; width: min(250px, 100%); font-size: 19px; line-height: 1; }
+.rain-pace input {
+  flex: 1; min-width: 0; height: 26px; margin: 0; padding: 0; background: none; cursor: pointer; touch-action: none;
+  -webkit-appearance: none; appearance: none;
+}
+.rain-pace input::-webkit-slider-runnable-track {
+  height: 10px; border-radius: 6px; background: linear-gradient(90deg, #ffb12b calc(var(--at, .5) * 100%), #d3e7f0 0);
+  box-shadow: 0 0 0 2px #fff, 0 2px 5px #1b5a7033;
+}
+.rain-pace input::-moz-range-track {
+  height: 10px; border-radius: 6px; background: linear-gradient(90deg, #ffb12b calc(var(--at, .5) * 100%), #d3e7f0 0);
+  box-shadow: 0 0 0 2px #fff, 0 2px 5px #1b5a7033;
+}
+.rain-pace input::-webkit-slider-thumb {
+  -webkit-appearance: none; box-sizing: border-box; width: 24px; height: 24px; margin-top: -7px; border-radius: 50%;
+  border: 3px solid #fff; background: #16716e; box-shadow: 0 2px 4px #0d525066;
+}
+.rain-pace input::-moz-range-thumb {
+  box-sizing: border-box; width: 24px; height: 24px; border-radius: 50%; border: 3px solid #fff; background: #16716e; box-shadow: 0 2px 4px #0d525066;
+}
+.rain-pace input:focus-visible { outline: none; }
+.rain-pace input:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px #ffb12b; }
+.rain-pace input:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px #ffb12b; }
+/* The speed's name, for a moment under the thumb */
+.rain-pace output {
+  position: absolute; top: calc(100% + 2px); left: calc(37px + (100% - 74px) * var(--at, .5)); transform: translateX(-50%);
+  padding: 3px 9px; border-radius: 12px; background: #fff; box-shadow: 0 3px 10px #1b5a7033;
+  color: #1d5b63; font-size: 13px; font-weight: 900; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity .25s;
+}
+.rain-pace.named output { opacity: 1; }
 .rain-prompt {
   position: absolute; z-index: 3; left: 50%; top: calc(var(--ceil, 100px) + 46px); transform: translateX(-50%); margin: 0;
   padding: 7px 16px; border-radius: 30px; background: #ffffffd9; box-shadow: 0 4px 14px #1b5a7022;
