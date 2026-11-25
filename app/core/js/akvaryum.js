@@ -5,7 +5,8 @@
 //
 // Saved per player in localStorage as akvaryum-<player id> (README: saved-data keys never change):
 //   { son: last item number, esya: [{ n, t: 'b' fish | 's' ornament, k: kind, a: tank, s: slot (ornaments),
-//     ad: name (fish), g: what earned it, z: when, yeni: 1 until seen }], gorev: { key: 1 } }
+//     ad: name (fish), g: what earned it, z: when, yeni: 1 until seen }], gorev: { key: 1 },
+//     gecmis: 1 once the tasks done before the aquarium came were rewarded, gecmisSayi: how many came then (until shown) }
 // gorev remembers tasks that give a reward only once (an island of Çarpım Adası, a stop learned in full).
 //
 // Islands call akvaryum.odul({ anahtar, neden }) when a task is done and put akvaryum.kart(rewards) on their
@@ -35,6 +36,8 @@ const akvaryum = (() => {
       }
       record.son = Math.max(Number(saved.son) || 0, ...record.esya.map(e => e.n));
       if (saved.gorev && typeof saved.gorev === 'object') Object.assign(record.gorev, saved.gorev);
+      if (saved.gecmis) record.gecmis = 1;
+      if (Number.isInteger(saved.gecmisSayi) && saved.gecmisSayi > 0) record.gecmisSayi = saved.gecmisSayi;
     }
     records.set(id, record);
     return record;
@@ -76,7 +79,13 @@ const akvaryum = (() => {
   // One reward for the active player. anahtar: a task that rewards only once. Returns what came, or null.
   function odul({ anahtar, neden = '' } = {}) {
     if (!activeProfile) return null;
-    const record = load(activeProfile.id);
+    const got = grant(load(activeProfile.id), anahtar, neden);
+    if (!got) return null;
+    save();
+    refresh();
+    return got;
+  }
+  function grant(record, anahtar, neden) {
     if (anahtar && record.gorev[anahtar]) return null;
     let a = tankCount(record) - 1;
     let here = inTank(record, a);
@@ -90,9 +99,40 @@ const akvaryum = (() => {
     else { item.k = chooseFish(record, here); item.ad = ''; }
     record.esya.push(item);
     if (anahtar) record.gorev[anahtar] = 1;
-    save();
-    refresh();
     return { item, yeniTank: n === 0 && a > 0 };
+  }
+
+  /* ---------- Tasks done before the aquarium came (0.38.0) ---------- */
+  // Once per player, the tasks already done bring their rewards, so no child who had played before loses out:
+  // every island of Çarpım Adası finished; on a question island the rounds finished on each stop (counted from
+  // the right answers given there, nine to a round, at least one for a stop with a star), every stop learned
+  // in full and the mock exam if taken. What the aquarium already gave for a task is not given again.
+  function gecmis() {
+    const record = load(activeProfile.id);
+    if (record.gecmis) return;
+    record.gecmis = 1;
+    let given = 0;
+    const give = (anahtar, neden) => { if (grant(record, anahtar, neden)) given++; };
+    let carpim = null;
+    try { carpim = JSON.parse(localStorage.getItem('carpim-adasi-oyuncu-' + activeProfile.id)); } catch {}
+    const islandsDone = Math.max(0, Math.min(36, Math.floor(Number(carpim?.completed) || 0)));
+    for (let i = 0; i < islandsDone; i++) give('carpim:' + i, (i % 9 + 2) + ' Çarpım Adası');
+    for (const [kod, island] of Object.entries(window.soruAdalari || {})) {
+      const sum = island.summary(activeProfile.id);
+      if (!sum.any) continue;
+      const had = neden => record.esya.filter(e => e.g === neden).length;
+      for (const stop of sum.duraklar) {
+        const neden = sum.ad + ' · ' + stop.ad;
+        if (stop.yildiz) {
+          const rounds = Math.max(1, Math.floor(stop.dogru / 9)) - had(neden);
+          for (let r = 0; r < rounds; r++) give(null, neden);
+        }
+        if (stop.soru && stop.ogrenilen === stop.soru) give(kod + ':' + stop.id + ':tamam', neden + ' bitti');
+      }
+      if (sum.denemeSayi > 0 && !had(sum.ad + ' · Deneme Sınavı')) give(null, sum.ad + ' · Deneme Sınavı');
+    }
+    if (given) record.gecmisSayi = given;
+    save();
   }
 
   /* ---------- The reward card on an island's result screen ---------- */
@@ -128,11 +168,13 @@ const akvaryum = (() => {
     return [...document.querySelectorAll('[data-akvaryum]')].some(card => availableForPlayer(card));
   }
   function refresh() {
+    if (activeProfile) gecmis();
     const button = $('aquarium-button'), card = $('aquarium-card');
     const show = available();
     if (button) button.hidden = !show;
     if (card) card.hidden = !show;
     if (!show) return;
+    prewarm();
     const record = mine();
     const fish = record.esya.filter(e => e.t === 'b');
     const fresh = record.esya.filter(e => e.yeni).length;
@@ -174,7 +216,7 @@ const akvaryum = (() => {
       '<div class="ak-bg" aria-hidden="true"></div><div class="ak-far" aria-hidden="true"></div><div class="ak-rays" aria-hidden="true"><i></i><i></i></div>' +
       '<div class="ak-plants back" aria-hidden="true"></div><canvas class="ak-floor" aria-hidden="true"></canvas>' +
       '<div class="ak-caustics" aria-hidden="true"><i></i><i></i></div>' +
-      '<div class="ak-decor"></div><div class="ak-bubbles" aria-hidden="true"></div><div class="ak-swim"></div>' +
+      '<div class="ak-decor"></div><div class="ak-bubbles" aria-hidden="true"></div><div class="ak-swim"><canvas class="ak-school" aria-hidden="true"></canvas></div>' +
       '<div class="ak-plants front" aria-hidden="true"></div><div class="ak-surface" aria-hidden="true"><i></i></div><div class="ak-glass" aria-hidden="true"></div>' +
       '<p class="ak-say" role="status"></p>' +
     '</div></div>' +
@@ -194,9 +236,52 @@ const akvaryum = (() => {
   let shown = 0, fish = [], decor = [], crawlers = [], food = [], W = 0, H = 0, FH = 0, k = 1, sandTop = () => 0;
   let frameId = 0, last = 0, sayTimer = 0, naming = null, onClose = null;
 
-  // The caustic light is drawn once and shared by every tank.
-  const causticUrl = A.caustics();
-  for (const layer of dialog.querySelectorAll('.ak-caustics i')) layer.style.backgroundImage = causticUrl ? 'url(' + causticUrl + ')' : 'none';
+  // The caustic light is drawn once, the first time a tank opens, and shared by every tank.
+  let causticsDrawn = false;
+  function drawCaustics() {
+    if (causticsDrawn) return;
+    causticsDrawn = true;
+    const url = A.caustics();
+    for (const layer of dialog.querySelectorAll('.ak-caustics i')) layer.style.backgroundImage = url ? 'url(' + url + ')' : 'none';
+  }
+  // The fish are drawn on one canvas from pictures made once per kind and size (sprites): an SVG per fish,
+  // its tail beating by CSS, made every frame a repaint of every fish, too slow on a tablet.
+  const school = find('.ak-school');
+  const pen = school.getContext('2d');
+  const sprites = new Map();
+  let dpr = 1;
+  // Pictures are made at the size the fish are drawn (copying pixels one to one is cheapest), guessed from the
+  // window before the tank is open: the tank is the window less the top bar and the stand.
+  function sizeGuess() {
+    if (W && H) return k;
+    const w = Math.min(innerWidth - (innerWidth > 650 ? 2 * Math.min(44, innerWidth * .03) + 8 : 0), 1280), h = innerHeight - 190;
+    return clamp(Math.sqrt(Math.max(1, w * h)) / 520, .66, 1.65);
+  }
+  const spriteWidth = kind => Math.ceil(V.tur(kind).w * sizeGuess() * 1.1 * Math.min(2, window.devicePixelRatio || 1) / 16) * 16;
+  const spriteKey = (kind, part) => kind + ':' + part + ':' + spriteWidth(kind);
+  function sprite(kind, part) {
+    const width = spriteWidth(kind);
+    const key = spriteKey(kind, part);
+    let entry = sprites.get(key);
+    if (entry) return entry;
+    entry = { ready: false, canvas: null };
+    sprites.set(key, entry);
+    const img = new Image();
+    const url = URL.createObjectURL(new Blob([A.fishSprite(kind, part, width)], { type: 'image/svg+xml' }));
+    img.onload = () => {
+      // drawn once into a bitmap, so every frame only copies pixels
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = Math.max(1, Math.round(width * A.ratio(kind)));
+      canvas.getContext('2d')?.drawImage(img, 0, 0, canvas.width, canvas.height);
+      entry.canvas = canvas;
+      entry.ready = true;
+      URL.revokeObjectURL(url);
+    };
+    img.onerror = () => URL.revokeObjectURL(url);
+    img.src = url;
+    return entry;
+  }
 
   function build(a) {
     shown = a;
@@ -228,16 +313,17 @@ const akvaryum = (() => {
     find('.ak-plants.front').innerHTML = [.02, .985].map((x, i) => '<span class="ak-plant" data-x="' + x + '" data-h="' + (.46 + i * .08) + '" data-front="1" style="--d:' + (6 + i) + 's">' +
       A.plant(val, a * 100 + 50 + i) + '</span>').join('');
     // Ornaments and fish of this tank.
-    for (const f of fish) { f.node.remove(); f.tag.remove(); }
+    for (const f of fish) f.node.remove();
     for (const bit of food) bit.node.remove();
     fish = []; food = []; crawlers = []; decor = [];
     decorLayer.innerHTML = '';
     const items = inTank(record, a);
     for (const item of items.filter(e => e.t === 's')) addOrnament(item);
+    drawInfo();
     measure();
     layout();
     for (const item of items.filter(e => e.t === 'b')) addFish(item);
-    drawInfo();
+    fish.sort((a, b) => a.z - b.z);
   }
 
   // Sizes follow the tank: k scales the fish, the ornaments follow its width.
@@ -248,11 +334,17 @@ const akvaryum = (() => {
     k = clamp(Math.sqrt(W * H) / 520, .66, 1.65);
   }
   const sandY = x => H - FH + sandTop(clamp(x / Math.max(1, W), 0, 1));
+  const floors = new Map();
   function layout() {
     if (!W || !H) return;
     const th = A.themes[theme(shown).id];
-    const made = A.floor(th, shown + 1, W, FH);
+    const floorKey = shown + ':' + Math.round(W) + 'x' + Math.round(FH);
+    const made = floors.get(floorKey) || A.floor(th, shown + 1, W, FH);
+    floors.set(floorKey, made);
     sandTop = made.top;
+    dpr = Math.min(2, window.devicePixelRatio || 1);
+    school.width = Math.round(W * dpr);
+    school.height = Math.round(H * dpr);
     floorCanvas.width = made.canvas.width;
     floorCanvas.height = made.canvas.height;
     floorCanvas.getContext('2d')?.drawImage(made.canvas, 0, 0);
@@ -382,26 +474,26 @@ const akvaryum = (() => {
     const node = document.createElement('button');
     node.type = 'button';
     node.className = 'ak-fish ak-fish-' + item.k + (item.yeni ? ' new' : '');
-    node.innerHTML = A.fish(item.k);
-    const tag = document.createElement('span');
-    tag.className = 'ak-tag';
-    swim.append(node, tag);
+    swim.append(node);
     const size = rand(.88, 1.08);
     const z = Math.random();
     const w = sp.w * k * size * (.86 + z * .22);
     const h = w * A.ratio(item.k);
     node.style.width = w + 'px';
-    node.style.setProperty('--beat', sp.beat + 's');
-    node.style.setProperty('--delay', -rand(0, 2) + 's');
-    node.style.zIndex = 10 + Math.round(z * 10);
-    tag.style.zIndex = 30;
+    node.style.height = h * (sp.upright ? .9 : .7) + 'px';
+    // the pictures it is drawn from: one size per kind and tank size, shared by fish of the same kind
+    const geo = A.fishGeometry(item.k);
+    const look = { geo, body: sprite(item.k, 'body'), tail: geo.hasTail ? sprite(item.k, 'tail') : null,
+      spikes: geo.hasSpikes ? sprite(item.k, 'spikes') : null };
     const arriving = item.yeni && !calm.matches;
     const zone = zoneOf(sp);
-    const f = { item, sp, node, tag, w, h, z,
+    const f = { item, sp, node, label: '', pop: 0, w, h, z,
       x: arriving ? (Math.random() < .5 ? -w : W + w) : rand(zone.x0, zone.x1), y: rand(zone.y0, zone.y1),
+      look, beatT: rand(0, 6.3), turn: 1, joy: 0, puff: 0, puffing: 0,
       entering: arriving, vx: 0, vy: 0, dir: 1, speed: sp.speed * rand(.85, 1.15) * Math.max(.7, k), phase: rand(0, 6.3), rest: 0, boost: 0, meal: null, hold: false,
       off: { x: rand(-50, 50) * k, y: rand(-26, 26) * k } };
     f.dir = f.x > W / 2 ? 1 : -1;
+    f.turn = f.dir;
     // a new fish darts in from the side
     if (arriving) { f.tx = rand(W * .3, W * .7); f.ty = rand(zone.y0, zone.y1); f.boost = 2.4; } else pickTarget(f);
     node.onclick = event => { event.stopPropagation(); touchFish(f); };
@@ -412,8 +504,7 @@ const akvaryum = (() => {
   }
   function labelFish(f) {
     const name = f.item.ad || '';
-    f.tag.textContent = naming === f && input.value.trim() ? input.value.trim() : name;
-    f.tag.hidden = !f.tag.textContent;
+    f.label = naming === f && input.value.trim() ? input.value.trim() : name;
     f.node.setAttribute('aria-label', (name ? name + ', ' : '') + V.tur(f.item.k).ad + (name ? '' : ', isim vermek için dokun'));
   }
   // The water a fish likes: its species' band between the surface and the sand.
@@ -433,9 +524,9 @@ const akvaryum = (() => {
   function place(f) {
     const bob = Math.sin(f.phase) * (f.sp.upright ? 3 : 1.6);
     const pitch = f.sp.upright ? Math.sin(f.phase * .5) * 4 : clamp(-f.dir * f.vy * .7, -16, 16);
+    f.bob = bob;
+    f.pitch = pitch;
     f.node.style.transform = 'translate3d(' + f.x.toFixed(1) + 'px,' + (f.y + bob).toFixed(1) + 'px,0) translate(-50%,-50%) rotate(' + pitch.toFixed(1) + 'deg)';
-    f.node.classList.toggle('right', f.dir < 0);
-    if (!f.tag.hidden) f.tag.style.transform = 'translate3d(' + f.x.toFixed(1) + 'px,' + (f.y + bob - f.h * .5 - 4).toFixed(1) + 'px,0) translate(-50%,-100%)';
   }
   function step(dt) {
     const leaders = new Map();
@@ -443,7 +534,13 @@ const akvaryum = (() => {
     for (const f of fish) {
       f.phase += dt * (f.sp.upright ? 1.4 : 2.2);
       f.boost = Math.max(0, f.boost - dt);
-      f.node.classList.toggle('dart', f.boost > 0);
+      // the tail beats faster while darting; the fish turns round by narrowing to its edge and widening again
+      f.beatT += dt * Math.PI / (f.sp.beat * (f.boost > 0 ? .45 : 1));
+      f.turn += clamp(f.dir - f.turn, -dt * 3.6, dt * 3.6);
+      f.joy = Math.max(0, f.joy - dt);
+      f.pop = Math.max(0, f.pop - dt);
+      f.puffing = Math.max(0, f.puffing - dt);
+      f.puff += clamp((f.puffing > 0 ? 1 : 0) - f.puff, -dt * 3, dt * 5);
       let tx = f.tx, ty = f.ty;
       const leader = leaders.get(f.item.k);
       if (f.hold) { tx = W / 2; ty = H * .36; }
@@ -508,20 +605,104 @@ const akvaryum = (() => {
     const dt = Math.min(.05, (now - last) / 1000);
     last = now;
     if (!W) { measure(); layout(); }
-    if (calm.matches) return;
-    step(dt);
+    if (!calm.matches) step(dt);
+    paint();
+  }
+  // Every fish of the tank on the canvas, the farthest first.
+  function paint() {
+    if (!pen) return;
+    pen.setTransform(1, 0, 0, 1, 0, 0);
+    pen.clearRect(0, 0, school.width, school.height);
+    const still = calm.matches;
+    for (const f of fish) {
+      const { geo, body, tail, spikes } = f.look;
+      if (!body.ready) continue;
+      const u = f.w / geo.vb[2];
+      const at = (x, y) => [(x - geo.vb[0]) * u, (y - geo.vb[1]) * u];
+      // a touch makes it jump with joy: a quick swell and settle
+      const t = .7 - f.joy;
+      const joy = f.joy > 0 ? (t < .3 ? 1 + .16 * Math.sin(t / .3 * Math.PI) : 1 - .04 * Math.sin((t - .3) / .4 * Math.PI)) : 1;
+      pen.setTransform(dpr, 0, 0, dpr, 0, 0);
+      pen.translate(f.x, f.y + (f.bob || 0));
+      pen.rotate((f.pitch || 0) * Math.PI / 180);
+      pen.scale(f.turn * joy, joy);
+      pen.translate(-f.w / 2, -f.h / 2);
+      if (tail?.ready) {
+        const [jx, jy] = at(geo.joint[0], geo.joint[1]);
+        const beat = still ? 1 : (1 - Math.cos(f.beatT)) / 2;
+        pen.save();
+        pen.translate(jx, jy);
+        pen.transform(.76 + .24 * beat, Math.tan((-7 + 14 * beat) * Math.PI / 180), 0, 1, 0, 0);
+        pen.translate(-jx, -jy);
+        pen.drawImage(tail.canvas, 0, 0, f.w, f.h);
+        pen.restore();
+      }
+      // the body sways a little with the tail
+      if (!still && !f.sp.upright) {
+        const sway = Math.tan(Math.sin(f.beatT * .5) * 1.4 * Math.PI / 180), px = f.w * .3;
+        pen.translate(px, 0);
+        pen.transform(1, sway, 0, 1, 0, 0);
+        pen.translate(-px, 0);
+      }
+      if (f.puff > 0 && geo.inflate) {
+        const [ix, iy] = at(geo.inflate[0], geo.inflate[1]);
+        pen.translate(ix, iy);
+        pen.scale(1 + .2 * f.puff, 1 + .45 * f.puff);
+        pen.translate(-ix, -iy);
+      }
+      pen.drawImage(body.canvas, 0, 0, f.w, f.h);
+      if (f.puff > 0 && spikes?.ready) {
+        pen.globalAlpha = f.puff;
+        pen.drawImage(spikes.canvas, 0, 0, f.w, f.h);
+        pen.globalAlpha = 1;
+      }
+    }
+    // the names, on top of every fish
+    for (const f of fish) if (f.label) nameTag(f);
+  }
+  // A white label with a little point under it, above the fish; a new name pops in.
+  function nameTag(f) {
+    pen.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const size = Math.round(clamp(W / 70, 13, 16));
+    pen.font = '900 ' + size + 'px Nunito, sans-serif';
+    const tw = pen.measureText(f.label).width, pw = tw + 20, ph = size + 9;
+    const x = f.x, y = f.y + (f.bob || 0) - f.h * .5 - 6;
+    const pop = f.pop > 0 ? 1 - .7 * Math.sin(f.pop / .6 * Math.PI / 2) ** 2 : 1;
+    pen.translate(x, y);
+    pen.scale(pop, pop);
+    pen.fillStyle = 'rgba(255,255,255,.94)';
+    pen.shadowColor = 'rgba(0,18,34,.3)';
+    pen.shadowBlur = 6;
+    pen.shadowOffsetY = 2;
+    const r = ph / 2, left = -pw / 2, top = -ph - 5;
+    pen.beginPath();
+    pen.moveTo(left + r, top);
+    pen.arcTo(left + pw, top, left + pw, top + ph, r);
+    pen.arcTo(left + pw, top + ph, left, top + ph, r);
+    pen.lineTo(5, top + ph);
+    pen.lineTo(0, 0);
+    pen.lineTo(-5, top + ph);
+    pen.arcTo(left, top + ph, left, top, r);
+    pen.arcTo(left, top, left + pw, top, r);
+    pen.closePath();
+    pen.fill();
+    pen.shadowColor = 'transparent';
+    pen.fillStyle = '#12313d';
+    pen.textAlign = 'center';
+    pen.textBaseline = 'middle';
+    pen.fillText(f.label, 0, top + ph / 2 + 1);
   }
 
   /* ---------- Touches ---------- */
-  function sayLine(text, keep) {
+  function sayLine(text, keep, ms = 3400) {
     say.innerHTML = text;
     say.classList.add('on');
     clearTimeout(sayTimer);
-    if (!keep) sayTimer = setTimeout(() => say.classList.remove('on'), 3400);
+    if (!keep) sayTimer = setTimeout(() => say.classList.remove('on'), ms);
   }
   function touchFish(f) {
-    f.node.classList.remove('joy'); void f.node.offsetWidth; f.node.classList.add('joy');
-    if (f.item.k === 'balon') { f.node.classList.add('puff'); clearTimeout(f.deflate); f.deflate = setTimeout(() => f.node.classList.remove('puff'), 2600); }
+    f.joy = .7;
+    if (f.item.k === 'balon') f.puffing = 2.6;
     playCue('pop', { ambient: true });
     burst(f.x - f.dir * f.w * .4, f.y - 4, 4);
     openNaming(f);
@@ -566,7 +747,7 @@ const akvaryum = (() => {
     place(f);
     playCue('star');
     burst(f.x, f.y - f.h * .5, 6);
-    f.tag.classList.remove('fresh'); void f.tag.offsetWidth; f.tag.classList.add('fresh');
+    f.pop = calm.matches ? 0 : .6;
     sayLine(was && was !== name ? 'Artık adı ' + escape(name) + '! ✨' : 'Merhaba ' + escape(name) + '! 🎉');
     if (storeFailed) sayLine('İsim yalnızca bu oturumda saklanabildi.');
   });
@@ -663,16 +844,46 @@ const akvaryum = (() => {
     onClose = kapaninca;
     if (!dialog.open) dialog.showModal();
     closeNaming();
-    W = 0;
-    measure();
-    build(a);
-    if (!welcome(a)) {
-      if (!record.esya.length) sayLine('Henüz balığın yok. Adalarda bir görevi bitir, ilk balığın gelsin! 🐠', true);
-      else sayLine('Bir balığa dokun, ona isim ver. 🐠');
-    }
-    last = performance.now();
+    // The room shows at once and the tank is filled in the next frame, so the tap answers straight away.
     cancelAnimationFrame(frameId);
-    frameId = requestAnimationFrame(frame);
+    frameId = requestAnimationFrame(() => frameId = requestAnimationFrame(() => {
+      frameId = 0;
+      if (!dialog.open) return;
+      drawCaustics();
+      W = 0;
+      measure();
+      build(a);
+      const before = record.gecmisSayi;
+      if (before) {
+        delete record.gecmisSayi;
+        save();
+      }
+      if (!welcome(a)) {
+        if (!record.esya.length) sayLine('Henüz balığın yok. Adalarda bir görevi bitir, ilk balığın gelsin! 🐠', true);
+        else sayLine('Bir balığa dokun, ona isim ver. 🐠');
+      }
+      if (before) sayLine('🎁 Daha önce bitirdiğin görevler için akvaryumuna ' + before + ' ödül geldi! Balıklarına dokun, isim ver.', false, 7000);
+      last = performance.now();
+      frameId = requestAnimationFrame(frame);
+    }));
+  }
+  // The caustic light and the pictures of the player's fish are made while the page is idle, before the tank opens.
+  const idle = window.requestIdleCallback || (fn => setTimeout(fn, 300));
+  idle(drawCaustics, { timeout: 5000 });
+  let warming = false;
+  function prewarm() {
+    if (warming || !activeProfile) return;
+    warming = true;
+    // one picture per idle moment, for the kinds the player has now
+    const next = () => {
+      const kinds = activeProfile ? [...new Set(mine().esya.filter(e => e.t === 'b').map(e => e.k))] : [];
+      const job = kinds.flatMap(kind => { const g = A.fishGeometry(kind); return ['body', ...(g.hasTail ? ['tail'] : []), ...(g.hasSpikes ? ['spikes'] : [])].map(part => [kind, part]); })
+        .find(([kind, part]) => !sprites.has(spriteKey(kind, part)));
+      if (!job) { warming = false; return; }
+      sprite(job[0], job[1]);
+      idle(next, { timeout: 3000 });
+    };
+    idle(next, { timeout: 3000 });
   }
   find('.ak-close').onclick = () => dialog.close();
   dialog.addEventListener('close', () => {

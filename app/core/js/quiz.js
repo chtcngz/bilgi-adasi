@@ -74,10 +74,11 @@ function soruAdasi({ kod, ad, kayit, duraklar: stops, ovgu: praise, simgeler }) 
 
   const summary = id => {
     const record = load(id);
-    return { yildiz: starTotal(record), toplam: maxStars, deneme: record.deneme.en,
+    return { ad, yildiz: starTotal(record), toplam: maxStars, deneme: record.deneme.en, denemeSayi: record.deneme.sayi,
       ogrenilen: learnedAll(record), soru: byId.size,
-      duraklar: stops.map(stop => ({ simge: stop.simge, ad: stop.ad, unite: stop.unite, yildiz: record.yildiz[stop.id] || 0,
-        ogrenilen: learnedIn(stop, record), soru: stop.sorular.length })),
+      duraklar: stops.map(stop => ({ id: stop.id, simge: stop.simge, ad: stop.ad, unite: stop.unite, yildiz: record.yildiz[stop.id] || 0,
+        ogrenilen: learnedIn(stop, record), soru: stop.sorular.length,
+        dogru: stop.sorular.reduce((sum, q) => sum + (Number(record.soru[q.id]?.d) || 0), 0) })),
       any: Object.keys(record.yildiz).length > 0 || Object.keys(record.soru).length > 0 || record.deneme.sayi > 0 };
   };
   const reset = id => {

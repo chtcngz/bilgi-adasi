@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.38.0 · 25.11.2026
+
+- **Akvaryum artık donmuyor:** Bazı tablet ve telefonlarda akvaryuma dokununca ekran donuyordu. Balıklar artık her türden bir kez hazırlanan resimlerle tek bir tuvalde çiziliyor; ışık huzmeleri, kumdaki ışık desenleri ve arka duvar da çok daha hafif. Akvaryum dokunur dokunmaz açılıyor, içi hemen ardından doluyor. Balık resimleri ve ışık deseni, sayfa boştayken önceden hazırlanıyor. Balıkların isimleri de balıkla birlikte çiziliyor.
+- **Daha önce bitirilen görevlerin ödülleri:** Akvaryum gelmeden önce oynamış oyuncular da ödüllerini alıyor. Çarpım Adası’nda bitirilen her ada, soru adalarında duraklarda bitirilen turlar (o durakta verilen doğru cevaplardan sayılıyor), bütün soruları öğrenilmiş her durak ve girilmiş deneme sınavı için akvaryuma balık ya da süs geliyor. Bu her oyuncuya bir kez yapılıyor; akvaryumun daha önce verdiği bir ödül yeniden verilmiyor. Akvaryum ilk açıldığında kaç ödülün geldiğini söylüyor.
+
 ## 0.37.0 · 25.11.2026
 
 1., 2., 3. ve 4. sınıf oyuncularının artık **kendi akvaryumu** var. Her oyuncunun akvaryumu ayrı; balıklar, süsler ve verilen isimler o oyuncuya kaydediliyor.

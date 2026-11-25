@@ -25,7 +25,7 @@
   margin: 0; padding: 0; border: 0; border-radius: 0; overflow: hidden; background: #0e1c23; color: #fff;
 }
 #akvaryum[open] { animation: fade .35s; }
-#akvaryum::backdrop { background: #08141a; }
+#akvaryum::backdrop { background: #08141a; backdrop-filter: none; -webkit-backdrop-filter: none; animation: none; }
 .ak-room {
   position: relative; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; height: 100%;
   padding: 8px clamp(0px, 3vw, 44px) 0; overflow: hidden; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
@@ -49,23 +49,25 @@
   box-shadow: 0 4px 26px 10px color-mix(in srgb, var(--ak-light, #fff) 55%, transparent);
 }
 .ak-water {
-  position: relative; flex: 1; min-height: 0; overflow: hidden; overflow: clip; isolation: isolate; cursor: pointer;
+  position: relative; flex: 1; min-height: 0; overflow: hidden; overflow: clip; cursor: pointer;
   border: solid #0d1418; border-width: 0 4px 7px; box-shadow: 0 24px 50px #000a;
 }
 
 /* Water, its light and the far wall */
 .ak-bg { position: absolute; inset: 0; z-index: 0; background: linear-gradient(var(--ak-w0) 0%, var(--ak-w1) 24%, var(--ak-w2) 64%, var(--ak-w3) 100%); }
 .ak-bg::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 45% at 50% -8%, var(--ak-light), transparent 72%); opacity: .5; }
-.ak-far { position: absolute; z-index: 1; left: -3%; right: -3%; bottom: 12%; height: 52%; filter: blur(3px); opacity: .75; }
+.ak-far { position: absolute; z-index: 1; left: -3%; right: -3%; bottom: 12%; height: 52%; opacity: .55; }
 .ak-far svg { display: block; width: 100%; height: 100%; }
-.ak-rays { position: absolute; z-index: 2; inset: 0; pointer-events: none; mix-blend-mode: soft-light; -webkit-mask: linear-gradient(#000, transparent 82%); mask: linear-gradient(#000, transparent 82%); }
+/* Light from the lamp: still stripes that brighten and fade (only their opacity moves, which costs nothing to draw).
+   No blend modes and no blur filters in the tank: on tablets they made the whole water repaint every frame. */
+.ak-rays { position: absolute; z-index: 2; inset: 0; pointer-events: none; -webkit-mask: linear-gradient(#000, transparent 80%); mask: linear-gradient(#000, transparent 80%); }
 .ak-rays i {
-  position: absolute; inset: -10% -25% 0; transform-origin: 50% 0; animation: ak-rays 13s ease-in-out infinite alternate;
-  background: repeating-linear-gradient(98deg, transparent 0 5%, #ffffff55 6.5% 8%, transparent 10% 17%, #ffffff33 18% 19.5%, transparent 21% 27%);
+  position: absolute; inset: 0; animation: ak-rays 8s ease-in-out infinite alternate;
+  background: repeating-linear-gradient(100deg, transparent 0 5%, #ffffff26 6.5% 8%, transparent 10% 17%, #ffffff1a 18% 19.5%, transparent 21% 27%),
+    repeating-linear-gradient(104deg, transparent 0 9%, #ffffff1a 10% 11.5%, transparent 13% 23%);
 }
-.ak-rays i + i { animation-duration: 19s; animation-direction: alternate-reverse; opacity: .7;
-  background: repeating-linear-gradient(103deg, transparent 0 9%, #ffffff40 10% 11.5%, transparent 13% 23%); }
-@keyframes ak-rays { from { transform: skewX(-7deg) translateX(-2%); } to { transform: skewX(7deg) translateX(2%); } }
+.ak-rays i + i { display: none; }
+@keyframes ak-rays { from { opacity: .45; } to { opacity: 1; } }
 
 /* Plants sway from their roots; the front ones stand before the fish */
 .ak-plants { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
@@ -77,19 +79,18 @@
 /* The floor and the light dancing on it */
 .ak-floor { position: absolute; z-index: 4; left: 0; bottom: 0; width: 100%; display: block; }
 .ak-caustics {
-  position: absolute; z-index: 5; left: 0; right: 0; bottom: 0; overflow: hidden; pointer-events: none; opacity: .55; mix-blend-mode: soft-light;
+  position: absolute; z-index: 5; left: 0; right: 0; bottom: 0; overflow: hidden; pointer-events: none; opacity: .3;
   -webkit-mask: linear-gradient(transparent, #000 45%); mask: linear-gradient(transparent, #000 45%);
 }
-.ak-caustics i { position: absolute; inset: -256px; background-size: 256px 256px; animation: ak-caustic 26s linear infinite; }
-.ak-caustics i + i { inset: -340px; background-size: 340px 340px; opacity: .8; animation: ak-caustic-2 34s linear infinite; }
-@keyframes ak-caustic { to { transform: translate(256px, 256px); } }
-@keyframes ak-caustic-2 { to { transform: translate(-340px, 340px); } }
+.ak-caustics i { position: absolute; left: -128px; top: -128px; right: 0; bottom: 0; background-size: 128px 128px; animation: ak-caustic 22s linear infinite; will-change: transform; }
+.ak-caustics i + i { display: none; }
+@keyframes ak-caustic { to { transform: translate(128px, 128px); } }
 
 /* Ornaments */
 .ak-decor { position: absolute; inset: 0; z-index: 6; pointer-events: none; }
-.ak-orn { position: absolute; padding: 0; border: 0; background: none; box-shadow: none; pointer-events: auto; cursor: pointer; }
+/* each on its own layer, so a moving tentacle or claw repaints only its ornament */
+.ak-orn { position: absolute; padding: 0; border: 0; background: none; box-shadow: none; pointer-events: auto; cursor: pointer; will-change: transform; }
 .ak-orn svg { display: block; width: 100%; height: 100%; overflow: visible; }
-.ak-orn.big { filter: drop-shadow(0 6px 6px #00142233); }
 .ak-orn.arriving { animation: ak-drop 1.5s cubic-bezier(.25, 1.25, .5, 1) both; }
 .ak-orn.arriving::after {
   content: '✨'; position: absolute; right: 0; top: -10px; font-size: 24px; animation: ak-sparkle 1.4s ease-in-out 1.2s 5 both;
@@ -107,7 +108,6 @@
 @keyframes ak-clam { 0%, 70%, 100% { transform: none; } 78%, 92% { transform: rotate(-16deg); } }
 .ak-tent { animation: ak-tent var(--d, 3s) ease-in-out infinite alternate; }
 @keyframes ak-tent { from { transform: rotate(-7deg); } to { transform: rotate(7deg); } }
-.ak-sway { animation: ak-tent var(--d, 7s) ease-in-out infinite alternate; }
 .ak-orn[class*="ak-orn-yengec"], .ak-orn[class*="ak-orn-salyangoz"] { left: 0; top: 0; will-change: transform; }
 .ak-orn.flip svg { transform: scaleX(-1); }
 .ak-leg { animation: ak-leg .28s ease-in-out infinite alternate; animation-play-state: paused; }
@@ -143,27 +143,14 @@
 
 /* Fish and their names */
 .ak-swim { position: absolute; inset: 0; z-index: 8; pointer-events: none; }
+/* The fish are drawn on .ak-school (a canvas); each has an invisible button over it to be tapped. */
+.ak-school { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .ak-fish {
-  position: absolute; left: 0; top: 0; padding: 0; border: 0; background: none; box-shadow: none; pointer-events: auto;
-  will-change: transform; cursor: pointer; filter: drop-shadow(0 5px 5px #00203040);
+  position: absolute; left: 0; top: 0; padding: 0; border: 0; border-radius: 50%; background: none; box-shadow: none;
+  pointer-events: auto; cursor: pointer;
 }
-.ak-fish.right .akf-s { transform: scaleX(-1); }
-.ak-fish.dart .akf-tail { animation-duration: calc(var(--beat, .5s) * .45); }
-.ak-fish.joy svg { animation: ak-joy .7s cubic-bezier(.3, 1.6, .5, 1); }
-@keyframes ak-joy { 30% { scale: 1.16; } 60% { scale: .96; } }
-.ak-fish.puff .akf-inflate { transform: scale(1.2, 1.45); }
-.ak-fish.puff .akf-spikes { opacity: 1; }
 .ak-fish.new::after { content: '✨'; position: absolute; right: -8px; top: -16px; font-size: 22px; animation: ak-sparkle 1.4s ease-in-out 6 both; }
-.ak-tag {
-  position: absolute; left: 0; top: 0; z-index: 30; padding: 3px 10px 4px; border-radius: 12px; pointer-events: none;
-  background: #fffffff0; color: #12313d; font-weight: 900; font-size: clamp(13px, 1.6vw, 16px); line-height: 1.1; white-space: nowrap;
-  box-shadow: 0 3px 8px #00122255; will-change: transform;
-}
-.ak-tag::after { content: ''; position: absolute; left: 50%; bottom: -5px; margin-left: -5px; border: 5px solid transparent; border-bottom: 0; border-top-color: #fffffff0; }
-.ak-tag[hidden] { display: none; }
-.ak-tag.fresh { animation: ak-tag-pop .7s cubic-bezier(.3, 1.6, .5, 1); }
-@keyframes ak-tag-pop { from { scale: .3; } }
-.ak-food { position: absolute; left: 0; top: 0; width: 7px; height: 5px; margin: -2.5px -3.5px; border-radius: 2px; pointer-events: none; box-shadow: 0 0 0 .5px #0003; }
+.ak-food { position: absolute; left: 0; top: 0; width: 7px; height: 5px; margin: -2.5px -3.5px; border-radius: 2px; pointer-events: none; box-shadow: 0 0 0 .5px #0003; will-change: transform; }
 
 /* Surface and glass */
 .ak-surface {
@@ -178,7 +165,7 @@
 .ak-glass {
   position: absolute; z-index: 11; inset: 0; pointer-events: none;
   background: linear-gradient(110deg, transparent 0 16%, #ffffff0f 17% 23%, transparent 24.5% 72%, #ffffff0a 73% 75%, transparent 76%);
-  box-shadow: inset 0 0 90px #00102055, inset 2px 0 0 #ffffff1a, inset -2px 0 0 #ffffff12;
+  box-shadow: inset 0 0 50px #00102040, inset 2px 0 0 #ffffff1a, inset -2px 0 0 #ffffff12;
 }
 .ak-say {
   position: absolute; z-index: 12; left: 50%; top: 40px; translate: -50% 0; max-width: calc(100% - 24px); margin: 0; padding: 9px 18px;

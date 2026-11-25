@@ -113,6 +113,14 @@ Tekrar Kutusu round without a mistake. Every third reward is an ornament. A tank
 next reward opens a new tank in the next theme (Mercan Koyu, Yeşil Vadi, Gece Mavisi, Gün Batımı Lagünü, then again).
 A tap on a fish lets the child give it a name, written above it from then on; a tap on the water drops food.
 
+Players who had played before the aquarium came get, once (`gecmis` in their record), the rewards of the tasks
+already done: every island of Çarpım Adası finished, the rounds finished on each stop of a question island (counted
+from the right answers given there, nine to a round), every stop learned in full, and the mock exam if taken.
+
+The fish are drawn on one canvas (`.ak-school`) from pictures made once per kind (each fish's SVG turned into a
+bitmap while the page is idle); an empty button over each fish is what a tap or the keyboard reaches. The water has
+no blend modes or blur filters: on tablets they made the whole tank repaint every frame and the page froze.
+
 It is saved as `akvaryum-<player id>`: the items in the order they came, each with its kind, its tank, its name and
 what earned it. Item kinds are ids in `core/js/akvaryum-veri.js`; never rename one. The tank opens from the 🐠 button
 in the header, from its card in Keşif Limanı and from the reward card on a result screen. Players whose grade has no

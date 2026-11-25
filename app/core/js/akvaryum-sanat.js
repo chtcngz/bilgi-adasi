@@ -238,9 +238,9 @@ const akvaryumSanat = (() => {
     }
     return '<path clip-path="' + url(clipName) + '" d="' + d + '" fill="none" stroke="' + color + '" stroke-opacity=".35" stroke-width="' + width + '"/>';
   }
-  function fish(k, { extraClass = '' } = {}) {
+  // A fish in parts: the tail (it beats), the rest of the body, and a puffer's spikes (shown when it puffs up).
+  function fishParts(k) {
     const s = kinds[k];
-    if (!s) return '';
     const fin = s.fin || s.edge;
     const stroke = ' stroke="' + fin + '" stroke-opacity="' + (s.edgeW > 2 ? .9 : .4) + '" stroke-width="' + s.edgeW + '" stroke-linejoin="round"';
     const finFill = ' fill="' + url(k + '-f') + '"';
@@ -248,16 +248,15 @@ const akvaryumSanat = (() => {
     const [ex, ey, er] = s.eye;
     const [jx, jy] = s.joint || [0, 0];
     const clipAll = url(k + (s.all ? '-cx' : '-cb'));
-    const parts = [];
-    parts.push(s.under || '');
-    if (s.tail) parts.push('<g class="akf-tail" style="transform-origin:' + jx + 'px ' + jy + 'px">' +
+    const tail = s.tail ? '<g class="akf-tail" style="transform-origin:' + jx + 'px ' + jy + 'px">' +
       (s.tailBack ? '<path d="' + s.tailBack + '" fill="' + url(k + '-t') + '" opacity=".6"/>' : '') +
-      '<path d="' + s.tail + '" fill="' + url(k + '-t') + '"' + stroke + '/>' + rays(s.joint, k + '-ct', fin, 11, rayW) + (s.tailOver || '') + '</g>');
-    if (s.dorsal) parts.push('<g class="akf-fin"><path d="' + s.dorsal + '"' + finFill + stroke + '/>' +
+      '<path d="' + s.tail + '" fill="' + url(k + '-t') + '"' + stroke + '/>' + rays(s.joint, k + '-ct', fin, 11, rayW) + (s.tailOver || '') + '</g>' : '';
+    const fins = [];
+    if (s.dorsal) fins.push('<g class="akf-fin"><path d="' + s.dorsal + '"' + finFill + stroke + '/>' +
       (s.dorsalRay ? rays(s.dorsalRay, k + '-cd', fin, 12, rayW) : '') + '</g>');
-    if (s.anal) parts.push('<g class="akf-fin low"><path d="' + s.anal + '"' + finFill + stroke + '/>' +
+    if (s.anal) fins.push('<g class="akf-fin low"><path d="' + s.anal + '"' + finFill + stroke + '/>' +
       (s.analRay ? rays(s.analRay, k + '-ca', fin, 9, rayW) : '') + '</g>');
-    if (s.pelvic) parts.push('<path class="akf-pelvic" d="' + s.pelvic + '" fill="' + (s.pelvicFill || url(k + '-f')) + '"' + stroke + '/>');
+    if (s.pelvic) fins.push('<path class="akf-pelvic" d="' + s.pelvic + '" fill="' + (s.pelvicFill || url(k + '-f')) + '"' + stroke + '/>');
     const inner = [];
     inner.push('<path d="' + s.body + '" fill="' + (s.bodyFill || url(k + '-b')) + '"/>');
     if (s.over) inner.push(s.over(clipAll));
@@ -275,10 +274,38 @@ const akvaryumSanat = (() => {
       '<circle cx="' + f1(ex - er * .34) + '" cy="' + f1(ey - er * .34) + '" r="' + f1(er * .22) + '" fill="#fff"/>' +
       '<circle cx="' + f1(ex + er * .25) + '" cy="' + f1(ey + er * .3) + '" r="' + f1(er * .1) + '" fill="#fff" opacity=".7"/>');
     if (s.mouth) inner.push('<path d="' + s.mouth + '" fill="none" stroke="#1a1410" stroke-opacity=".6" stroke-width="1.6" stroke-linecap="round"/>');
-    if (s.top) inner.push(s.top);
-    const body = s.inflate ? '<g class="akf-inflate">' + inner.join('') + '</g>' : inner.join('');
+    if (s.top && !s.inflate) inner.push(s.top);
+    return { under: s.under || '', tail, fins: fins.join(''), inner: inner.join(''), spikes: s.inflate ? s.top : '' };
+  }
+  // The fish as an inline SVG, its fins beating by CSS (the reward card, the harbour card, the naming form).
+  function fish(k, { extraClass = '' } = {}) {
+    const s = kinds[k];
+    if (!s) return '';
+    const p = fishParts(k);
+    const inner = p.inner + p.spikes;
+    const body = s.inflate ? '<g class="akf-inflate">' + inner + '</g>' : inner;
     return '<svg class="akf akf-' + k + (s.upright ? ' upright' : '') + (extraClass ? ' ' + extraClass : '') + '" viewBox="' + s.vb + '" aria-hidden="true">' +
-      '<g class="akf-s"><g class="akf-w">' + parts.join('') + body + '</g></g></svg>';
+      '<g class="akf-s"><g class="akf-w">' + p.under + p.tail + p.fins + body + '</g></g></svg>';
+  }
+  let defById = null;
+  // One part of a fish as a standalone SVG file of the given width in px, turned into a picture once and drawn
+  // on the tank's canvas (part: 'tail', 'body' or 'spikes'). It carries its own copy of the defs.
+  function fishSprite(k, part, width) {
+    const s = kinds[k];
+    const p = fishParts(k);
+    const [, , w, h] = s.vb.split(' ').map(Number);
+    const content = part === 'tail' ? p.tail : part === 'spikes' ? p.spikes : p.under + p.fins + p.inner;
+    // only the gradients, patterns and clip paths this part uses
+    if (!defById) defById = new Map(defs.map(d => [d.match(/id="([^"]+)"/)?.[1], d]));
+    const used = new Set([...content.matchAll(/url\(#([^)]+)\)/g)].map(m => m[1]));
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + s.vb + '" width="' + width + '" height="' + Math.round(width * h / w) + '"><defs>' +
+      [...used].map(u => defById.get(u) || '').join('') + '</defs>' + content + '</svg>';
+  }
+  // Where a fish's drawing lies: its viewBox, where the tail joins and where a puffer swells from.
+  function fishGeometry(k) {
+    const s = kinds[k];
+    const vb = s.vb.split(' ').map(Number);
+    return { vb, joint: s.joint ? [s.joint[0], s.joint[1]] : null, inflate: s.inflate ? [78, 62] : null, hasTail: !!s.tail, hasSpikes: !!s.inflate };
   }
   const ratio = k => { const [, , w, h] = kinds[k].vb.split(' ').map(Number); return h / w; };
 
@@ -385,7 +412,7 @@ const akvaryumSanat = (() => {
         moss('M40 140c6-6 14-6 18-2 6-4 14-2 16 4-12 4-24 4-34-2Z', .7);
     } },
     mercan: { ground: 14, vb: [250, 180], svg: () =>
-      '<g class="ak-sway" style="--d:7s;transform-origin:170px 150px">' +
+      '<g>' +
       '<path d="M170 150C166 110 150 80 130 56M170 150C172 108 176 74 192 44M170 150C182 118 204 96 226 84M150 100C140 90 128 88 116 90M178 96C190 84 204 80 214 66M200 108C214 104 226 108 236 112"' +
       ' stroke="#a64ad8" stroke-width="3.4" fill="none" stroke-linecap="round" opacity=".9"/>' +
       '<path d="M136 64C150 70 176 60 196 50M128 80C150 86 186 78 214 70M132 100C158 104 196 100 230 96M142 118C164 120 198 118 230 110" stroke="#c27ae8" stroke-width="1.4" fill="none" opacity=".7"/></g>' +
@@ -431,12 +458,14 @@ const akvaryumSanat = (() => {
       '<path d="M10 64C12 30 98 30 100 64" fill="none" stroke="#e8dccf" stroke-opacity=".5" stroke-width="2"/></g>' },
     sakayik: { vb: [120, 120], svg: () => {
       const r = seeded(7);
-      let tent = '';
+      // the tentacles sway in three groups (three animations are cheaper to paint than eighteen)
+      const groups = ['', '', ''];
       for (let i = 0; i < 18; i++) {
         const x = 37 + i * 2.7, lean = (x - 60) * 1.1 + (r() - .5) * 12, h = 34 + r() * 20;
-        tent += '<path class="ak-tent" style="--d:' + (2.4 + r() * 1.6).toFixed(1) + 's;animation-delay:-' + (r() * 3).toFixed(1) + 's;transform-origin:' + f1(x) + 'px 84px" d="M' + f1(x) + ' 84C' +
-          f1(x + lean * .2) + ' ' + f1(84 - h * .4) + ' ' + f1(x + lean * .8 - 6) + ' ' + f1(84 - h * .7) + ' ' + f1(x + lean) + ' ' + f1(84 - h) + '" stroke="' + url('anemone') + '" stroke-width="6.5" stroke-linecap="round" fill="none"/>';
+        groups[i % 3] += 'M' + f1(x) + ' 84C' + f1(x + lean * .2) + ' ' + f1(84 - h * .4) + ' ' + f1(x + lean * .8 - 6) + ' ' + f1(84 - h * .7) + ' ' + f1(x + lean) + ' ' + f1(84 - h);
       }
+      const tent = groups.map((d, g) => '<path class="ak-tent" style="--d:' + (2.6 + g * .7) + 's;animation-delay:-' + g + 's;transform-origin:60px 84px" d="' + d +
+        '" stroke="' + url('anemone') + '" stroke-width="6.5" stroke-linecap="round" fill="none"/>').join('');
       return '<ellipse cx="60" cy="116" rx="30" ry="5" fill="#000" opacity=".15"/>' + tent +
         '<path d="M40 118C40 100 44 90 46 84L74 84C76 90 80 100 80 118Z" fill="' + url('anem-foot') + '"/>' +
         '<ellipse cx="60" cy="84" rx="16" ry="4" fill="#ff8fbf"/><path d="M44 96C54 100 66 100 76 96M42 106C54 110 66 110 78 106" stroke="#fff" stroke-opacity=".2" stroke-width="2" fill="none"/>';
@@ -594,12 +623,12 @@ const akvaryumSanat = (() => {
   let causticUrl = '';
   function caustics() {
     if (causticUrl) return causticUrl;
-    const size = 256, canvas = document.createElement('canvas');
+    const size = 128, canvas = document.createElement('canvas');
     canvas.width = canvas.height = size;
     const ctx = canvas.getContext('2d');
     if (!ctx) return '';
     const r = seeded(11), pts = [];
-    for (let i = 0; i < 22; i++) pts.push([r() * size, r() * size]);
+    for (let i = 0; i < 11; i++) pts.push([r() * size, r() * size]);
     const all = [];
     for (const [x, y] of pts) for (let ox = -1; ox <= 1; ox++) for (let oy = -1; oy <= 1; oy++) all.push([x + ox * size, y + oy * size]);
     const img = ctx.createImageData(size, size);
@@ -610,7 +639,7 @@ const akvaryumSanat = (() => {
         if (d < d1) { d2 = d1; d1 = d; } else if (d < d2) d2 = d;
       }
       const edge = Math.sqrt(d2) - Math.sqrt(d1);
-      const v = Math.max(0, 1 - edge / 7);
+      const v = Math.max(0, 1 - edge / 3.5);
       const k = (y * size + x) * 4;
       img.data[k] = img.data[k + 1] = img.data[k + 2] = 255;
       img.data[k + 3] = Math.round(Math.pow(v, 2.2) * 255);
@@ -646,7 +675,7 @@ const akvaryumSanat = (() => {
     ctx.save();
     ctx.clip();
     // grains of sand, then pebbles that grow towards the glass
-    for (let i = 0; i < width * height / 7; i++) {
+    for (let i = 0; i < width * height / 18; i++) {
       ctx.fillStyle = r() < .5 ? '#ffffff' : '#000000';
       ctx.globalAlpha = .05 + r() * .07;
       ctx.fillRect(r() * width, r() * height, 1.2, 1.2);
@@ -697,5 +726,5 @@ const akvaryumSanat = (() => {
   holder.innerHTML = '<defs>' + defs.join('') + '</defs>';
   document.body.append(holder);
 
-  return { fish, ratio, kinds: Object.keys(kinds), ornament, ornamentRatio, bubbleAt, themes, plant, backdrop, caustics, floor, seeded };
+  return { fish, fishSprite, fishGeometry, ratio, kinds: Object.keys(kinds), ornament, ornamentRatio, bubbleAt, themes, plant, backdrop, caustics, floor, seeded };
 })();
