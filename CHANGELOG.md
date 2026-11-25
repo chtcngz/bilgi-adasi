@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.29.1 · 25.11.2026
+
+- **Yönetici sayfası:** Google ile giriş düğmesi artık projenin Google kimliğini doğrudan biliyor; Firebase’de Google girişi açılınca düğme kesin görünüyor.
+
 ## 0.29.0 · 25.11.2026
 
 - **Yönetici sayfası: Google ile giriş.** Giriş kutusunda “Google ile oturum aç” düğmesi var. Tarayıcıda Google hesabı zaten açıksa ve bu hesapla bir kez girildiyse sayfa kendiliğinden açılıyor, hiçbir şeye basmak gerekmiyor. Çıkış’a basınca kendiliğinden girme, bir sonraki Google girişine kadar duruyor. E-posta ve şifreyle giriş de yerinde.

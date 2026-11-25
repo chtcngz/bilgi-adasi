@@ -6,5 +6,5 @@ const bulutAyar = {
   projectId: 'bilgi-adasi-15c4e',
   // The Web client ID of the project's Google sign-in (Firebase → Authentication → Sign-in method →
   // Google → Web SDK configuration). Empty: the Yönetici sayfası asks Firebase for it.
-  googleClientId: ''
+  googleClientId: '210565937802-jdv0g8bc7n537c21vviavhsjcftqs9uk.apps.googleusercontent.com'
 };
