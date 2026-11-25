@@ -7,10 +7,20 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
-## 0.38.0 · 25.11.2026
+## 0.39.0 · 25.11.2026
 
 - **Akvaryum artık donmuyor:** Bazı tablet ve telefonlarda akvaryuma dokununca ekran donuyordu. Balıklar artık her türden bir kez hazırlanan resimlerle tek bir tuvalde çiziliyor; ışık huzmeleri, kumdaki ışık desenleri ve arka duvar da çok daha hafif. Akvaryum dokunur dokunmaz açılıyor, içi hemen ardından doluyor. Balık resimleri ve ışık deseni, sayfa boştayken önceden hazırlanıyor. Balıkların isimleri de balıkla birlikte çiziliyor.
-- **Daha önce bitirilen görevlerin ödülleri:** Akvaryum gelmeden önce oynamış oyuncular da ödüllerini alıyor. Çarpım Adası’nda bitirilen her ada, soru adalarında duraklarda bitirilen turlar (o durakta verilen doğru cevaplardan sayılıyor), bütün soruları öğrenilmiş her durak ve girilmiş deneme sınavı için akvaryuma balık ya da süs geliyor. Bu her oyuncuya bir kez yapılıyor; akvaryumun daha önce verdiği bir ödül yeniden verilmiyor. Akvaryum ilk açıldığında kaç ödülün geldiğini söylüyor.
+- **Daha önce bitirilen görevlerin ödülleri:** Akvaryum gelmeden önce oynamış oyuncular da ödüllerini alıyor. Çarpım Adası’nda bitirilen her ada ve karma bölüm, soru adalarında duraklarda bitirilen turlar (o durakta verilen doğru cevaplardan sayılıyor), bütün soruları öğrenilmiş her durak ve girilmiş deneme sınavı için akvaryuma balık ya da süs geliyor. Bu her oyuncuya bir kez yapılıyor; akvaryumun daha önce verdiği bir ödül yeniden verilmiyor. Akvaryum ilk açıldığında kaç ödülün geldiğini söylüyor.
+
+## 0.38.0 · 25.11.2026
+
+Çarpım Adası’na iki **karma bölüm** geldi. Dört tur bitince haritada balinanın üstündeki × düğmesi (**Balina Denizi**) açılıyor.
+
+- **Karma bölüm 1 (5 sn) ve Karma bölüm 2 (3 sn):** 2’den 9’a bütün çarpımlar karışık sırayla soruluyor. 1’ler ve 10’lar yok; her çarpım bir kez geliyor (3 × 4 varsa 4 × 3 yok). Böylece bir bölüm 36 soru.
+- Yanlış cevapta ya da süre dolunca bölüm baştan başlıyor ve sorular **her seferinde yeni bir sırayla** geliyor.
+- Her bölüm bir yıldız ve akvaryuma bir balık ya da süs getiriyor; Çarpım Adası artık 38 yıldız. Dört turu bitirmiş oyuncular karma bölümlerle hemen devam edebiliyor.
+- Dört tur bitmeden balinaya dokununca “Karma bölüm dört tur bitince açılır” yazıyor.
+- İstatistikler, Ayarlar → İlerleme (sıfırlama haritasında yeni *Karma* satırı) ve yönetici sayfası karma bölümleri de gösteriyor.
 
 ## 0.37.0 · 25.11.2026
 

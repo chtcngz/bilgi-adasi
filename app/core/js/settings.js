@@ -148,25 +148,31 @@
   /* ---------- Progress ---------- */
   function lastResettable() { return Math.min(progress.completed, total - 1); }
   function describe(index) {
+    if (index >= tableStages) return 'Karma bölüm · ' + mixedSeconds[index - tableStages] + ' sn';
     return 'Tur ' + (Math.floor(index / islands.length) + 1) + ' · ' + islands[index % islands.length] +
       ' (' + (index % islands.length + 2) + ' tablosu)';
   }
   function drawResetMap() {
     const done = progress.completed;
-    $('carpim-summary').textContent = '⭐ ' + done + ' / ' + total + ' yıldız · Tur ' + (round() + 1) + ' / ' + secondsPerRound.length;
-    $('reset-map').replaceChildren(...secondsPerRound.map((seconds, r) => {
+    $('carpim-summary').textContent = '⭐ ' + done + ' / ' + total + ' yıldız · ' + (done >= total ? 'Hepsi tamamlandı' :
+      done >= tableStages ? 'Karma bölüm ' + (mixedRound() + 1) + ' / ' + mixedSeconds.length :
+      'Tur ' + (round() + 1) + ' / ' + secondsPerRound.length);
+    // One row per round of the nine tables, then a row for the mixed stages ([stage index, button text]).
+    const rows = secondsPerRound.map((seconds, r) =>
+      ['Tur ' + (r + 1), seconds + ' sn', islands.map((_, i) => [r * islands.length + i, i + 2])]);
+    rows.push(['Karma', '2-9', mixedSeconds.map((seconds, k) => [tableStages + k, seconds + ' sn'])]);
+    $('reset-map').replaceChildren(...rows.map(([name, small, stages]) => {
       const row = document.createElement('div');
       row.className = 'reset-row';
       const label = document.createElement('span');
-      label.innerHTML = '<b>Tur ' + (r + 1) + '</b><small>' + seconds + ' sn</small>';
+      label.innerHTML = '<b>' + name + '</b><small>' + small + '</small>';
       const dots = document.createElement('div');
       dots.className = 'reset-dots';
-      islands.forEach((island, i) => {
-        const index = r * islands.length + i;
+      stages.forEach(([index, text]) => {
         const button = document.createElement('button');
         button.type = 'button';
-        button.textContent = i + 2;
-        button.className = index < done ? 'done' : index === done ? 'next' : 'locked';
+        button.textContent = text;
+        button.className = (index < done ? 'done' : index === done ? 'next' : 'locked') + (index >= tableStages ? ' wide' : '');
         if (resetAt !== null && index >= resetAt && index <= Math.max(done - 1, resetAt)) button.classList.add('drop');
         if (index === resetAt) button.classList.add('chosen');
         button.disabled = index > lastResettable();
@@ -192,7 +198,7 @@
     }
     progress.completed = index;
     delete progress.attempt;
-    selected = index % islands.length;
+    selected = stageIsland(index);
     save();
     render();
     resetAt = null;

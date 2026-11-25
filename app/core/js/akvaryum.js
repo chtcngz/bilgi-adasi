@@ -104,7 +104,7 @@ const akvaryum = (() => {
 
   /* ---------- Tasks done before the aquarium came (0.38.0) ---------- */
   // Once per player, the tasks already done bring their rewards, so no child who had played before loses out:
-  // every island of Çarpım Adası finished; on a question island the rounds finished on each stop (counted from
+  // every island and mixed stage of Çarpım Adası finished; on a question island the rounds finished on each stop (counted from
   // the right answers given there, nine to a round, at least one for a stop with a star), every stop learned
   // in full and the mock exam if taken. What the aquarium already gave for a task is not given again.
   function gecmis() {
@@ -115,8 +115,10 @@ const akvaryum = (() => {
     const give = (anahtar, neden) => { if (grant(record, anahtar, neden)) given++; };
     let carpim = null;
     try { carpim = JSON.parse(localStorage.getItem('carpim-adasi-oyuncu-' + activeProfile.id)); } catch {}
-    const islandsDone = Math.max(0, Math.min(36, Math.floor(Number(carpim?.completed) || 0)));
-    for (let i = 0; i < islandsDone; i++) give('carpim:' + i, (i % 9 + 2) + ' Çarpım Adası');
+    // the 36 islands of the four rounds, then the mixed stages of Balina Denizi (islands/carpim/game.js)
+    const stages = typeof total === 'number' ? total : 36, tables = typeof tableStages === 'number' ? tableStages : 36;
+    const stagesDone = Math.max(0, Math.min(stages, Math.floor(Number(carpim?.completed) || 0)));
+    for (let i = 0; i < stagesDone; i++) give('carpim:' + i, i >= tables && typeof mixedSeconds !== 'undefined' ? 'Karma Çarpım · ' + mixedSeconds[i - tables] + ' sn' : (i % 9 + 2) + ' Çarpım Adası');
     for (const [kod, island] of Object.entries(window.soruAdalari || {})) {
       const sum = island.summary(activeProfile.id);
       if (!sum.any) continue;

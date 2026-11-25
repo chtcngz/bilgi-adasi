@@ -156,7 +156,15 @@ function startAdmin() {
   const carpimIslands = ['Palmiye Koyu', 'Çam Kumsalı', 'Kaya Geçidi', 'Fener Burnu',
     'Mercan Koyu', 'Çam Limanı', 'Dağ Geçidi', 'Değirmen Adası', 'Hazine Zirvesi'];
   const carpimSeconds = [15, 10, 5, 3];
-  const carpimTotal = carpimIslands.length * carpimSeconds.length;
+  const carpimMixed = [5, 3];
+  const carpimTables = carpimIslands.length * carpimSeconds.length;
+  const carpimTotal = carpimTables + carpimMixed.length;
+  // A stage's round and name: the four rounds of the nine tables, then the mixed stages.
+  const carpimStage = index => index >= carpimTables
+    ? { tur: 'Karma (' + carpimMixed[index - carpimTables] + ' sn)', ada: 'Karma · 2-9', kisa: 'Karma ' + carpimMixed[index - carpimTables] + ' sn' }
+    : { tur: 'Tur ' + (Math.floor(index / carpimIslands.length) + 1) + ' (' + carpimSeconds[Math.floor(index / carpimIslands.length)] + ' sn)',
+        ada: (index % carpimIslands.length + 2) + ' · ' + carpimIslands[index % carpimIslands.length],
+        kisa: 'Tur ' + (Math.floor(index / carpimIslands.length) + 1) + ' · ' + (index % carpimIslands.length + 2) };
   // Question islands, as in their game.js files. The banks are top-level consts, not window properties.
   const quizzes = [
     { kod: 'din', ad: 'Din Bilgisi Adası', simge: '🌙', kayit: 'din-bilgisi-', duraklar: typeof dinSorular !== 'undefined' && dinSorular },
@@ -278,7 +286,6 @@ function startAdmin() {
     box.ozet = '✖️ –';
     if (!record) { box.append(el('p', 'adm-empty', 'Henüz oynamadı.')); return box; }
     const done = Math.max(0, Math.min(carpimTotal, num(record.completed)));
-    const round = Math.min(carpimSeconds.length - 1, Math.floor(done / carpimIslands.length));
     const stats = record.stats || {};
     const all = Object.values(stats).reduce((sum, s) => {
       for (const k of ['attempts', 'correct', 'wrong', 'timeout', 'seconds']) sum[k] += num(s?.[k]);
@@ -288,7 +295,8 @@ function startAdmin() {
     const stats1 = el('div', 'adm-stats');
     stats1.append(
       stat(done + ' / ' + carpimTotal, 'yıldız'),
-      stat(done >= carpimTotal ? 'Bitti 🎉' : 'Tur ' + (round + 1) + ' · ' + (done % carpimIslands.length + 2) + ' tablosu', 'şu an'),
+      stat(done >= carpimTotal ? 'Bitti 🎉' : done >= carpimTables ? carpimStage(done).kisa :
+        'Tur ' + (Math.floor(done / carpimIslands.length) + 1) + ' · ' + (done % carpimIslands.length + 2) + ' tablosu', 'şu an'),
       stat(String(all.attempts), 'deneme'),
       stat(pct(all.correct, answered) + '%', 'doğru (' + all.correct + ' / ' + answered + ')'),
       stat(String(all.wrong), 'yanlış'),
@@ -302,10 +310,10 @@ function startAdmin() {
     for (let index = 0; index < carpimTotal; index++) {
       const s = stats[index];
       if (!s && index > done) continue;
-      const r = Math.floor(index / carpimIslands.length), i = index % carpimIslands.length;
+      const stage = carpimStage(index);
       const resp = num(s?.correct) + num(s?.wrong) + num(s?.timeout);
       rows.push({ className: index < done ? 'ok' : '', cells: [
-        'Tur ' + (r + 1) + ' (' + carpimSeconds[r] + ' sn)', (i + 2) + ' · ' + carpimIslands[i],
+        stage.tur, stage.ada,
         index < done ? '✅' : index === done ? '▶ sıradaki' : '',
         String(num(s?.attempts)), resp ? pct(num(s?.correct), resp) + '%' : '–',
         String(num(s?.wrong)), String(num(s?.timeout)), s ? seconds(s.seconds) : '–'
@@ -317,11 +325,11 @@ function startAdmin() {
     for (const [index, s] of Object.entries(stats)) {
       const list = Array.isArray(s?.latest) ? s.latest : [];
       if (!list.length) continue;
-      const i = index % carpimIslands.length, r = Math.floor(index / carpimIslands.length);
+      const stage = carpimStage(Number(index));
       for (const row of list) {
         const right = row.answer === row.a * row.b;
         last.push({ className: right ? 'ok' : 'bad', cells: [
-          'Tur ' + (r + 1) + ' · ' + (i + 2), row.a + ' × ' + row.b, row.answer === null ? '⏱ süre doldu' : String(row.answer),
+          stage.kisa, row.a + ' × ' + row.b, row.answer === null ? '⏱ süre doldu' : String(row.answer),
           right ? '✓' : String(row.a * row.b), num(row.seconds).toFixed(1) + ' sn'] });
       }
     }

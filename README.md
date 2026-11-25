@@ -52,7 +52,8 @@ app/                         Published site (GitHub Pages root)
 │           ├── kaynak.json          Clip ↔ source mapping
 │           └── KAYNAKLAR.md         Sources and licenses
 ├── islands/                 One folder per island
-│   ├── carpim/              Çarpım Adası (game.js)
+│   ├── carpim/              Çarpım Adası (game.js): tables 2-10 in four rounds (15, 10, 5, 3 s), then two mixed
+│   │                        stages (5 and 3 s) on the whale: every product of 2-9 once, shuffled on every start
 │   ├── elif-ba/             Elif Ba Adası
 │   │   ├── data.js          Letters, readings, harekes, joined shapes and example words, coves (islets), bays, look-alike letters, section list
 │   │   ├── voice.js         Recording / Turkish speech playback (elifVoice)
@@ -107,14 +108,14 @@ sources/                     Raw material (not published)
 
 Every player from the 1st grade up has an aquarium of their own (Elif Ba Adası, for the preschool players, has its
 own letter fish in `islands/elif-ba/games/aquarium.js`). Each task the child gets done brings a reward, a fish or an
-ornament: an island of Çarpım Adası (once per island and round), a round finished on a question island's stop that
+ornament: an island of Çarpım Adası (once per island and round) or one of its mixed stages, a round finished on a question island's stop that
 still has questions to learn, all the questions of a stop learned (once), a first mock exam or a new record, a
 Tekrar Kutusu round without a mistake. Every third reward is an ornament. A tank holds 12 fish and 6 ornaments; the
 next reward opens a new tank in the next theme (Mercan Koyu, Yeşil Vadi, Gece Mavisi, Gün Batımı Lagünü, then again).
 A tap on a fish lets the child give it a name, written above it from then on; a tap on the water drops food.
 
 Players who had played before the aquarium came get, once (`gecmis` in their record), the rewards of the tasks
-already done: every island of Çarpım Adası finished, the rounds finished on each stop of a question island (counted
+already done: every island and mixed stage of Çarpım Adası finished, the rounds finished on each stop of a question island (counted
 from the right answers given there, nine to a round), every stop learned in full, and the mock exam if taken.
 
 The fish are drawn on one canvas (`.ak-school`) from pictures made once per kind (each fish's SVG turned into a
