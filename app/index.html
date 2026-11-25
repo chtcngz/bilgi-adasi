@@ -56,8 +56,8 @@
   </div>
   <div id="elif-section" hidden>
     <div class="elif-section-head"><button id="elif-up">‹ Yol</button><h2 id="elif-section-title" tabindex="-1"></h2><span id="elif-section-count"></span></div>
-    <p id="elif-guide" class="elif-guide"></p>
-    <div id="elif-cards" class="elif-cards"></div>
+    <p id="elif-guide" class="elif-guide" data-cue></p>
+    <div id="elif-cards" class="elif-cards" data-cue></div>
     <p id="elif-note" role="status"></p>
     <div class="elif-toolbar"><button id="elif-play" class="elif-action">▶ Oyna</button></div>
   </div>
@@ -98,7 +98,7 @@
   <p class="soru-source">Her turda 10 soru, 3 kalp ve bir “yarı yarıya” jokerin var. Yanlış cevapladığın sorular Tekrar Kutusu’na girer. İlk yedi durak, bu yıl okullarda okutulan MEB 4. sınıf Sosyal Bilgiler ders kitabının ünitelerini sırasıyla izler; okulda hangi ünitedeysen oradan başlayabilirsin. Kitaptaki her bilgi en az bir soruyla soruluyor: bütün soruları öğrendiğinde kitapta öğrenmediğin bir şey kalmaz. Soruların tarzı ve 📚 Kâşif Kütüphanesi’ndeki ek konular, Ankara Tevfik İleri Anadolu İmam Hatip Lisesi’nin 2016-2025 yıllarındaki 5. sınıf giriş sınavlarının Sosyal Bilgiler testlerinden derlendi.</p>
 </section>
 <dialog id="sosyal-game" class="soru-game" aria-labelledby="sosyal-prompt"><button id="sosyal-close" class="soru-close" aria-label="Adaya dön">×</button><div id="sosyal-stage" class="soru-stage"></div></dialog>
-<dialog id="elif-game" aria-labelledby="elif-prompt"><button id="elif-close" aria-label="Koya dön">×</button><div id="elif-stage"></div></dialog>
+<dialog id="elif-game" aria-labelledby="elif-prompt"><button id="elif-close" aria-label="Koya dön">×</button><div id="elif-stage" data-cue></div></dialog>
 <dialog id="elif-rain" aria-label="Harf Yağmuru"></dialog>
 <dialog id="elif-aquarium" aria-label="Akvaryum"></dialog>
 <dialog id="elif-bridge" aria-label="Cam Köprü"></dialog>

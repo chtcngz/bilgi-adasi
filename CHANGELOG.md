@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.34.1 · 25.11.2026
+
+- Elif Ba Adası’nda harfi, heceyi ya da talimatı seslendiren düğmelere (harf ve hece kartları, 🔊 ses kutucukları, 🐢💬, tur ekranındaki harfler) dokununca artık “blup” tıklama sesi çıkmıyor; yalnızca seslendirme duyuluyor.
+
 ## 0.34.0 · 25.11.2026
 
 Elif Ba Adası’na **kız çocuk sesi** geldi ve artık ses Ayarlar’dan seçilebiliyor.
