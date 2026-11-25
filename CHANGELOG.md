@@ -7,6 +7,16 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.30.0 · 25.11.2026
+
+Elif Ba Adası’nda **bitişik yazılış tamamlandı**: Martı Koyu’ndan sonra altı yeni koy geldi ve 28 harfin hepsinin kelimenin başında, ortasında ve sonundaki şekli öğreniliyor. Yolda artık 14 koy var.
+
+- **Yeni koylar:** Yengeç Koyu (ج ح خ د), Ahtapot Koyu (ذ ر ز س), Denizatı Koyu (ش ص ض ط), Balina Koyu (ظ ع غ ف), Pelikan Koyu (ق ك ل م) ve Gökkuşağı Koyu (ن و ه ي). Her koyda Martı Koyu’ndaki gibi üç adım var: Bitişik yazılış, ☔ Şekil Yağmuru ve 🌉 Cam Köprü. Turlarda önceki bitişik koyların harfleri de tekrar için karışıyor.
+- **Örnek kelimeler:** Her harfin Diyanet Elifba’daki üç örnek kelimesi (جعل، يجحد، فتح، خلق، كذلك …) kelimede harfi renkli olarak gösteriliyor ve dokununca harfleri sağdan sola okunuyor. Dal, zel, ra, ze ve vav’ın kendinden sonraki harfe bağlanmadığı ayrıca söyleniyor.
+- **72 yeni ses kaydı** Diyanet Elifba’nın “Harfler ve Şekilleri” dersinden bayt bayt aynen alındı; her biri arşivdeki kaydın özetiyle karşılaştırıldı.
+- **Harita büyüdü:** Deniz artık haritanın penceresinden uzun ve kaydırılabiliyor. Kaplumbağa yürürken deniz onu izliyor; açılışta kaplumbağanın koyu görünüyor. Yukarıda ya da aşağıda başka koy varsa kenarda ▲ / ▼ düğmesi çıkıyor. İskele denizin altında sabit duruyor, hangi koyda olursan ol adımlar hep aynı yerde. Son koyun üstünde bir gökkuşağı var.
+- Çocukların kayıtlı ilerlemesi olduğu gibi duruyor; Martı Koyu’nu bitirenler Yengeç Koyu’ndan devam ediyor.
+
 ## 0.29.1 · 25.11.2026
 
 - **Yönetici sayfası:** Google ile giriş düğmesi artık projenin Google kimliğini doğrudan biliyor; Firebase’de Google girişi açılınca düğme kesin görünüyor.

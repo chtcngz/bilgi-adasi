@@ -1,18 +1,23 @@
 // The coves of Elif Ba Adası as a map: islets joined by glass bridges (the Cam Köprü of each cove),
 // from Kaplumbağa Koyu at the bottom up to the lighthouse of the seventh cove, where the letters and
-// their harekes are done, and on to the coves of bitişik yazılış above it. The turtle stands on the
-// cove being looked at and walks over the bridges, islet by islet, to wherever the child goes:
-// forward to a new cove or back to an earlier one. Below the coves, a wooden pier holds the steps
-// of the cove the turtle stands on (letters, harekes, games), as round buttons with pictures only.
+// their harekes are done, and on to the seven coves of bitişik yazılış above it. The sea is taller
+// than the map's window and scrolls: it follows the turtle, which stands on the cove being looked at
+// and walks over the bridges, islet by islet, to wherever the child goes: forward to a new cove or
+// back to an earlier one. Below the sea, a wooden pier holds the steps of the cove the turtle stands
+// on (letters, harekes, games), as round buttons with pictures only.
 const elifMap = (() => {
   const { coves, coveGlyphs, coveTopic } = elifData;
-  const W = 400, H = 672, SEA = 580, PIER = 68; // the coves are in the top 580; the pier is below them
-  const spots = [[84, 490], [248, 498], [334, 400], [180, 382], [72, 286], [214, 248], [326, 174], [128, 84]];
-  const short = ['Kaplumbağa', 'İnci', 'Mercan', 'Yıldız', 'Yunus', 'Sedef', 'Deniz Feneri', 'Martı'];
+  // The frame is W × H: the window on the sea is the top SEA, the pier (PIER high) is below it. The sea
+  // itself is W × WORLD; its bottom is shown first.
+  const W = 400, H = 672, SEA = 580, PIER = 68, WORLD = 1124;
+  const spots = [[84, 1034], [248, 1042], [334, 944], [180, 926], [72, 830], [214, 792], [326, 718], [128, 628],
+    [296, 560], [174, 476], [80, 390], [214, 330], [334, 236], [176, 118]];
+  const short = ['Kaplumbağa', 'İnci', 'Mercan', 'Yıldız', 'Yunus', 'Sedef', 'Deniz Feneri', 'Martı',
+    'Yengeç', 'Ahtapot', 'Denizatı', 'Balina', 'Pelikan', 'Gökkuşağı'];
   const LIGHTHOUSE = 6;
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
   const left = x => (x / W * 100).toFixed(2) + '%';
-  const top = y => (y / H * 100).toFixed(2) + '%';
+  const top = y => (y / WORLD * 100).toFixed(2) + '%';
   // The turtle stands a little above the middle of an islet, on the grass.
   const feet = k => ({ left: left(spots[k][0] - 4), top: top(spots[k][1] - 4) });
 
@@ -25,6 +30,11 @@ const elifMap = (() => {
     const lighthouse = '<g class="map-lighthouse" transform="translate(26 -6)"><circle cx="0" cy="-40" r="16" fill="#fff6b8" opacity=".55"/>' +
       '<path d="M-8 2-5.5-34H5.5L8 2Z" fill="#fff" stroke="#b94040" stroke-width="2"/><path d="M-7.2-8H7.2L6.6-17H-6.6ZM-6-25H6L5.6-31H-5.6Z" fill="#e05a5a"/>' +
       '<rect x="-6.5" y="-43" width="13" height="9" rx="2" fill="#ffe38a" stroke="#c98a1f" stroke-width="1.6"/><path d="M-9-43 0-50 9-43Z" fill="#b94040"/></g>';
+    // The last cove, where bitişik yazılış is done, has a rainbow over it.
+    const rainbow = '<g class="map-rainbow" fill="none" stroke-width="4.5" stroke-linecap="round">' +
+      ['#e05a5a', '#f2a93b', '#ffd863', '#41a35c', '#3c8fd8', '#8a5ad8'].map((color, n) => '<path d="M' + (-40 + n * 4.5) + ' -8a' + (40 - n * 4.5) + ' ' + (34 - n * 4.5) +
+      ' 0 0 1 ' + (80 - n * 9) + ' 0" stroke="' + color + '"/>').join('') + '</g>';
+    const LAST = coves.length - 1;
     // The coves of bitişik yazılış have seagulls over them.
     const gulls = '<g class="map-gulls" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">' +
       '<path d="M-30-36q5-6 10 0q5-6 10 0"/><path d="M-12-50q4-5 8 0q4-5 8 0"/></g>';
@@ -32,39 +42,60 @@ const elifMap = (() => {
       '<ellipse class="map-halo" rx="64" ry="40" fill="none" stroke="#ffe38a" stroke-width="5"/>' +
       '<ellipse rx="60" ry="37" fill="#a8ecf2" opacity=".75"/><ellipse class="map-sand" rx="49" ry="29" fill="#f3d892"/>' +
       '<g transform="' + flip.trim() + '"><path class="map-grass" d="M-34-4C-30-20 0-26 20-18c14 6 10 18-6 20C-8 5-36 8-34-4Z" fill="#9fd88a"/>' +
-      (k === LIGHTHOUSE ? '' : palm) + '</g>' + (k === LIGHTHOUSE ? lighthouse : '') + (coveTopic(k) === 'bitisik' ? gulls : '') + '</g>';
+      (k === LIGHTHOUSE || k === LAST ? '' : palm) + '</g>' + (k === LIGHTHOUSE ? lighthouse : '') + (k === LAST ? rainbow : '') +
+      (coveTopic(k) === 'bitisik' ? gulls : '') + '</g>';
   }
   function bridge(k) {
     const [x1, y1] = spots[k], [x2, y2] = spots[k + 1];
     const line = 'x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"';
     return '<g class="map-bridge" data-k="' + k + '"><line ' + line + ' class="map-rails"/><line ' + line + ' class="map-panes"/></g>';
   }
-  // The pier: planks on posts, with a rope along its front.
+  // The pier: planks on posts, with a rope along its front. It is drawn in the frame, below the sea.
   const pier = '<g class="map-pier"><g fill="#8a5a2b">' + [44, 132, 268, 356].map(x => '<rect x="' + (x - 5) + '" y="' + (SEA + PIER - 10) + '" width="10" height="26" rx="3"/>').join('') + '</g>' +
     '<rect x="14" y="' + (SEA + 6) + '" width="372" height="' + PIER + '" rx="16" fill="#d9a86a" stroke="#9a6a3c" stroke-width="3"/>' +
     '<g stroke="#b9854c" stroke-width="2">' + [1, 2, 3, 4, 5, 6, 7, 8].map(n => '<line x1="' + (14 + n * 41.3) + '" y1="' + (SEA + 8) + '" x2="' + (14 + n * 41.3) + '" y2="' + (SEA + PIER + 4) + '"/>').join('') + '</g>' +
     '<path d="M18 ' + (SEA + PIER + 4) + 'q46 12 91 0t91 0t91 0t91 0" fill="none" stroke="#f3e2c0" stroke-width="3" stroke-linecap="round"/></g>';
-  const waves = [[250, 40], [330, 90], [40, 170], [270, 240], [350, 310], [30, 400], [120, 450], [330, 520], [250, 320], [140, 530], [40, 30], [372, 566], [24, 560], [200, 666], [110, 568]]
-    .map(([x, y]) => '<path d="M' + x + ' ' + y + 'q7-6 14 0t14 0"/>').join('');
+  const wave = ([x, y]) => '<path d="M' + x + ' ' + y + 'q7-6 14 0t14 0"/>';
+  const waves = [[250, 40], [40, 60], [330, 150], [60, 220], [290, 330], [124, 300], [340, 420], [40, 500], [150, 560], [30, 640],
+    [250, 650], [330, 600], [372, 840], [250, 860], [40, 930], [120, 990], [330, 1060], [250, 900], [140, 1094], [24, 1110], [372, 1114]].map(wave).join('');
+  const waveRow = '<g class="map-waves" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity=".55">';
 
-  let host = null, turtle = null, dockList = null, buttons = [], at = 0, walking = false;
+  let host = null, sea = null, turtle = null, dockList = null, buttons = [], at = 0, walking = false;
   // onPick(k): a cove was tapped.
   function build(element, onPick) {
     host = element;
-    host.innerHTML = '<svg class="elif-map-art" viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true"><defs>' +
-      '<linearGradient id="map-sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6fcde0"/><stop offset="1" stop-color="#3cb0c8"/></linearGradient></defs>' +
-      '<rect width="' + W + '" height="' + H + '" rx="26" fill="url(#map-sea)"/>' +
-      '<g class="map-waves" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" opacity=".55">' + waves + '</g>' +
-      pier + coves.slice(1).map((_, k) => bridge(k)).join('') + coves.map((_, k) => islet(k)).join('') + '</svg>' +
-      coves.map((name, k) => '<button type="button" class="elif-isle" data-k="' + k + '" style="left:' + left(spots[k][0]) + ';top:' + top(spots[k][1]) + '">' +
-        '<span class="elif-isle-badge" aria-hidden="true"></span><span class="elif-isle-glyphs" lang="ar" dir="rtl" aria-hidden="true">' +
+    // An islet's button is as tall in the sea as it was when the whole map was the frame.
+    const isleHeight = (0.14 * H / WORLD * 100).toFixed(2) + '%';
+    host.innerHTML = '<svg class="elif-map-art" viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true">' +
+      '<rect width="' + W + '" height="' + H + '" rx="26" fill="#3cb0c8"/>' + waveRow + [[200, 666], [110, 668]].map(wave).join('') + '</g>' + pier + '</svg>' +
+      '<div class="elif-map-sea" style="height:' + (SEA / H * 100).toFixed(2) + '%"><div class="elif-map-world" style="aspect-ratio:' + W + ' / ' + WORLD + '">' +
+      '<svg class="elif-map-art" viewBox="0 0 ' + W + ' ' + WORLD + '" aria-hidden="true"><defs>' +
+      '<linearGradient id="map-sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fd6e6"/><stop offset=".5" stop-color="#6fcde0"/><stop offset="1" stop-color="#3cb0c8"/></linearGradient></defs>' +
+      '<rect width="' + W + '" height="' + WORLD + '" fill="url(#map-sea)"/>' + waveRow + waves + '</g>' +
+      coves.slice(1).map((_, k) => bridge(k)).join('') + coves.map((_, k) => islet(k)).join('') + '</svg>' +
+      coves.map((name, k) => '<button type="button" class="elif-isle" data-k="' + k + '" style="left:' + left(spots[k][0]) + ';top:' + top(spots[k][1]) +
+        ';height:' + isleHeight + '"><span class="elif-isle-badge" aria-hidden="true"></span><span class="elif-isle-glyphs" lang="ar" dir="rtl" aria-hidden="true">' +
         coveGlyphs(k).join(' ') + '</span><span class="elif-isle-name">' + short[k] + '</span></button>').join('') +
       '<div class="elif-map-turtle" aria-hidden="true"><div class="elif-map-turtle-turn"><div class="elif-map-turtle-body">' +
-      elifArt.turtle('map') + '</div></div></div><ol class="elif-map-dock" style="top:' + top(SEA + 6) + ';height:' + top(PIER) + '"></ol>';
+      elifArt.turtle('map') + '</div></div></div></div></div>' +
+      // Arrows at the top and bottom of the window show that more of the sea is there, and scroll to it.
+      '<button type="button" class="elif-map-more up" aria-label="Yukarıdaki koylar" hidden>▲</button>' +
+      '<button type="button" class="elif-map-more down" aria-label="Aşağıdaki koylar" hidden>▼</button>' +
+      '<ol class="elif-map-dock" style="top:' + ((SEA + 6) / H * 100).toFixed(2) + '%;height:' + (PIER / H * 100).toFixed(2) + '%"></ol>';
+    sea = host.querySelector('.elif-map-sea');
     buttons = Array.from(host.querySelectorAll('.elif-isle'));
     turtle = host.querySelector('.elif-map-turtle');
     dockList = host.querySelector('.elif-map-dock');
     buttons.forEach((button, k) => { button.onclick = () => onPick(k); });
+    const [up, down] = host.querySelectorAll('.elif-map-more');
+    up.onclick = () => sea.scrollBy({ top: -sea.clientHeight * 0.7, behavior: calm.matches ? 'auto' : 'smooth' });
+    down.onclick = () => sea.scrollBy({ top: sea.clientHeight * 0.7, behavior: calm.matches ? 'auto' : 'smooth' });
+    const arrows = () => {
+      up.hidden = sea.scrollTop < 8;
+      down.hidden = sea.scrollTop > sea.scrollHeight - sea.clientHeight - 8;
+    };
+    sea.addEventListener('scroll', arrows, { passive: true });
+    new ResizeObserver(() => { follow(at, false); arrows(); }).observe(sea);
   }
   // state(k): 'done', 'current' or 'locked'; crossed(k): the bridge from cove k to k + 1 was crossed.
   function update({ state, crossed, selected }) {
@@ -82,9 +113,19 @@ const elifMap = (() => {
       if (way) way.setAttribute('class', 'map-bridge ' + (crossed(k) ? 'crossed' : now === 'locked' ? 'locked' : 'next'));
     });
   }
+  // Scrolls the sea so that cove k is in the window: always to its middle, or (`always` false) only
+  // when the islet is not already in view.
+  function follow(k, always = true, smooth = false) {
+    if (!sea || !sea.clientHeight) return;
+    const y = spots[k][1] / WORLD * sea.scrollHeight;
+    const margin = 70 / WORLD * sea.scrollHeight;
+    if (!always && y - margin >= sea.scrollTop && y + margin <= sea.scrollTop + sea.clientHeight) return;
+    sea.scrollTo({ top: y - sea.clientHeight / 2, behavior: smooth && !calm.matches ? 'smooth' : 'auto' });
+  }
   function place(k) {
     at = k;
     Object.assign(turtle.style, feet(k));
+    follow(k, false);
   }
   // The steps of the cove the turtle stands on, on the pier: `nodes` are their buttons.
   function dock(nodes, label) {
@@ -109,6 +150,7 @@ const elifMap = (() => {
       // the turtle's head is on the left of its picture: turn it round to walk to the right
       turn.classList.toggle('right', spots[next][0] > spots[from][0]);
       Object.assign(turtle.style, feet(next));
+      follow(next, false, true);
       if (!calm.matches) await turtle.animate([feet(from), feet(next)], { duration: each, easing: 'ease-in-out' }).finished.catch(() => {});
       at = next;
       playCue('tap', { gain: 0.6 });

@@ -41,7 +41,7 @@ Kaynak sayfada tüm hakların saklı olduğu belirtilmektedir.
 
 ## Bitişik yazılış
 
-Örnek kelimelerin kayıtları kelimenin harflerini sağdan sola adlarıyla okur. `kelime/NN-P.mp3`: NN harf sırası (00 = Elif), P harfin kelimedeki yeri (1 başta, 2 ortada, 3 sonda). Şimdilik Martı Koyu’nun harfleri (ا ب ت ث) eklendi.
+Örnek kelimelerin kayıtları kelimenin harflerini sağdan sola adlarıyla okur. `kelime/NN-P.mp3`: NN harf sırası (00 = Elif), P harfin kelimedeki yeri (1 başta, 2 ortada, 3 sonda). 28 harfin hepsinin üç örnek kelimesi eklendi.
 
 | Dosya | Metin | Kaynak |
 |---|---|---|
@@ -57,6 +57,78 @@ Kaynak sayfada tüm hakların saklı olduğu belirtilmektedir.
 | `kelime/03-1.mp3` | {ث}بت | [btn_20.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_20.mp3) |
 | `kelime/03-2.mp3` | م{ث}ل | [btn_21.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_21.mp3) |
 | `kelime/03-3.mp3` | رف{ث} | [btn_22.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_22.mp3) |
+| `kelime/04-1.mp3` | {ج}عل | [btn_24.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_24.mp3) |
+| `kelime/04-2.mp3` | تع{ج}ب | [btn_25.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_25.mp3) |
+| `kelime/04-3.mp3` | الح{ج} | [btn_26.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_26.mp3) |
+| `kelime/05-1.mp3` | {ح}ذر | [btn_28.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_28.mp3) |
+| `kelime/05-2.mp3` | يج{ح}د | [btn_29.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_29.mp3) |
+| `kelime/05-3.mp3` | فت{ح} | [btn_30.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_30.mp3) |
+| `kelime/06-1.mp3` | {خ}لق | [btn_92.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_92.mp3) |
+| `kelime/06-2.mp3` | في{خ}رج | [btn_93.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_93.mp3) |
+| `kelime/06-3.mp3` | ونف{خ} | [btn_94.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_94.mp3) |
+| `kelime/07-1.mp3` | {د}خل | [btn_32.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_32.mp3) |
+| `kelime/07-2.mp3` | ع{د}د | [btn_33.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_33.mp3) |
+| `kelime/07-3.mp3` | وع{د} | [btn_34.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_34.mp3) |
+| `kelime/08-1.mp3` | {ذ}را | [btn_36.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_36.mp3) |
+| `kelime/08-2.mp3` | ك{ذ}لك | [btn_37.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_37.mp3) |
+| `kelime/08-3.mp3` | نب{ذ} | [btn_38.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_38.mp3) |
+| `kelime/09-1.mp3` | {ر}جع | [btn_40.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_40.mp3) |
+| `kelime/09-2.mp3` | ف{ر}ض | [btn_41.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_41.mp3) |
+| `kelime/09-3.mp3` | ام{ر} | [btn_42.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_42.mp3) |
+| `kelime/10-1.mp3` | {ز}عم | [btn_44.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_44.mp3) |
+| `kelime/10-2.mp3` | ن{ز}ل | [btn_45.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_45.mp3) |
+| `kelime/10-3.mp3` | بر{ز} | [btn_46.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_46.mp3) |
+| `kelime/11-1.mp3` | {س}ال | [btn_48.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_48.mp3) |
+| `kelime/11-2.mp3` | ف{س}جد | [btn_49.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_49.mp3) |
+| `kelime/11-3.mp3` | عب{س} | [btn_50.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_50.mp3) |
+| `kelime/12-1.mp3` | {ش}كر | [btn_52.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_52.mp3) |
+| `kelime/12-2.mp3` | ي{ش}عر | [btn_53.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_53.mp3) |
+| `kelime/12-3.mp3` | بط{ش} | [btn_54.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_54.mp3) |
+| `kelime/13-1.mp3` | {ص}دق | [btn_96.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_96.mp3) |
+| `kelime/13-2.mp3` | ن{ص}ف | [btn_97.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_97.mp3) |
+| `kelime/13-3.mp3` | نك{ص} | [btn_98.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_98.mp3) |
+| `kelime/14-1.mp3` | {ض}ل | [btn_100.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_100.mp3) |
+| `kelime/14-2.mp3` | ت{ض}ع | [btn_101.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_101.mp3) |
+| `kelime/14-3.mp3` | ببع{ض} | [btn_102.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_102.mp3) |
+| `kelime/15-1.mp3` | {ط}بع | [btn_104.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_104.mp3) |
+| `kelime/15-2.mp3` | ف{ط}ر | [btn_105.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_105.mp3) |
+| `kelime/15-3.mp3` | خل{ط} | [btn_106.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_106.mp3) |
+| `kelime/16-1.mp3` | {ظ}هر | [btn_108.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_108.mp3) |
+| `kelime/16-2.mp3` | ن{ظ}ر | [btn_109.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_109.mp3) |
+| `kelime/16-3.mp3` | غل{ظ} | [btn_110.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_110.mp3) |
+| `kelime/17-1.mp3` | {ع}بد | [btn_56.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_56.mp3) |
+| `kelime/17-2.mp3` | ل{ع}ن | [btn_57.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_57.mp3) |
+| `kelime/17-3.mp3` | من{ع} | [btn_58.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_58.mp3) |
+| `kelime/18-1.mp3` | {غ}ضب | [btn_112.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_112.mp3) |
+| `kelime/18-2.mp3` | ف{غ}فر | [btn_113.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_113.mp3) |
+| `kelime/18-3.mp3` | بل{غ} | [btn_114.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_114.mp3) |
+| `kelime/19-1.mp3` | {ف}وقع | [btn_60.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_60.mp3) |
+| `kelime/19-2.mp3` | ك{ف}ر | [btn_61.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_61.mp3) |
+| `kelime/19-3.mp3` | خل{ف} | [btn_62.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_62.mp3) |
+| `kelime/20-1.mp3` | {ق}دم | [btn_116.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_116.mp3) |
+| `kelime/20-2.mp3` | س{ق}ر | [btn_117.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_117.mp3) |
+| `kelime/20-3.mp3` | فس{ق} | [btn_118.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_118.mp3) |
+| `kelime/21-1.mp3` | {ك}سب | [btn_64.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_64.mp3) |
+| `kelime/21-2.mp3` | م{ك}ر | [btn_65.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_65.mp3) |
+| `kelime/21-3.mp3` | من{ك} | [btn_66.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_66.mp3) |
+| `kelime/22-1.mp3` | {ل}برز | [btn_68.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_68.mp3) |
+| `kelime/22-2.mp3` | خ{ل}ع | [btn_69.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_69.mp3) |
+| `kelime/22-3.mp3` | جع{ل} | [btn_70.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_70.mp3) |
+| `kelime/23-1.mp3` | {م}ثل | [btn_72.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_72.mp3) |
+| `kelime/23-2.mp3` | يط{م}ع | [btn_73.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_73.mp3) |
+| `kelime/23-3.mp3` | لم{م} | [btn_74.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_74.mp3) |
+| `kelime/24-1.mp3` | {ن}ظر | [btn_76.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_76.mp3) |
+| `kelime/24-2.mp3` | م{ن}ع | [btn_77.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_77.mp3) |
+| `kelime/24-3.mp3` | بط{ن} | [btn_78.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_78.mp3) |
+| `kelime/25-1.mp3` | {و}عد | [btn_84.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_84.mp3) |
+| `kelime/25-2.mp3` | ع{و}د | [btn_85.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_85.mp3) |
+| `kelime/25-3.mp3` | دل{و} | [btn_86.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_86.mp3) |
+| `kelime/26-1.mp3` | {ه}لك | [btn_80.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_80.mp3) |
+| `kelime/26-2.mp3` | ف{ه}م | [btn_81.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_81.mp3) |
+| `kelime/26-3.mp3` | وج{ه} | [btn_82.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_82.mp3) |
+| `kelime/27-1.mp3` | {ي}تيم | [btn_88.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_88.mp3) |
+| `kelime/27-2.mp3` | خ{ي}ر | [btn_89.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_89.mp3) |
+| `kelime/27-3.mp3` | لق{ى} | [btn_90.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_90.mp3) |
 | `yer/1.mp3` | Kelimenin Başında | [basinda.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/basinda.mp3) |
 | `yer/2.mp3` | Kelimenin Ortasında | [ortasinda.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/ortasinda.mp3) |
 | `yer/3.mp3` | Kelimenin Sonunda | [sonunda.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/sonunda.mp3) |

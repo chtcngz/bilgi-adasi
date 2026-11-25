@@ -22,7 +22,7 @@ const elifData = (() => {
   // The first seven coves teach the letters and their harekes, four letters each; from the eighth on,
   // the same groups of four come again to learn how they are written joined (bitişik yazılış).
   const coves = ['Kaplumbağa Koyu', 'İnci Koyu', 'Mercan Koyu', 'Yıldız Koyu', 'Yunus Koyu', 'Sedef Koyu', 'Deniz Feneri Koyu',
-    'Martı Koyu'];
+    'Martı Koyu', 'Yengeç Koyu', 'Ahtapot Koyu', 'Denizatı Koyu', 'Balina Koyu', 'Pelikan Koyu', 'Gökkuşağı Koyu'];
   const LETTER_COVES = 7;
   const coveTopic = k => k < LETTER_COVES ? 'harf' : 'bitisik';
   const sections = [

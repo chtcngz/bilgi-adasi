@@ -25,8 +25,22 @@
 .elif-hub-note { min-height: 24px; margin: 10px 0 0; font-weight: 750; }
 @keyframes elif-bounce { 50% { transform: translateY(-4px) scale(1.06); } }
 /* ---------- The map of the coves (map.js): islets joined by glass bridges, and the turtle walking between them ---------- */
-.elif-map { position: relative; width: min(100%, 460px); margin: 0 auto 30px; aspect-ratio: 400 / 672; }
-.elif-map-art { display: block; width: 100%; height: 100%; filter: drop-shadow(0 5px 0 #b9d8c9); }
+/* The frame holds a window on the sea, which is taller and scrolls, and the pier below it. */
+.elif-map { position: relative; width: min(100%, 460px); margin: 0 auto 30px; aspect-ratio: 400 / 672; filter: drop-shadow(0 5px 0 #b9d8c9); }
+.elif-map > .elif-map-art { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.elif-map-sea { position: absolute; left: 0; right: 0; top: 0; overflow-x: hidden; overflow-y: auto; border-radius: 24px 24px 0 0; scrollbar-width: none; }
+.elif-map-sea::-webkit-scrollbar { display: none; }
+.elif-map-world { position: relative; width: 100%; }
+.elif-map-world > .elif-map-art { display: block; width: 100%; height: 100%; }
+.elif-map-more {
+  position: absolute; right: 8px; z-index: 3; display: grid; place-items: center; width: 36px; height: 36px; margin: 0; padding: 0;
+  border: 3px solid #fff; border-radius: 50%; background: #fffdf6; color: #176d60; font-size: 15px; line-height: 1; cursor: pointer;
+  box-shadow: 0 3px 0 #0b4a5a40; opacity: .92;
+}
+.elif-map-more.up { top: 8px; }
+.elif-map-more.down { top: calc(580 / 672 * 100% - 46px); }
+.elif-map-more[hidden] { display: none; }
+.elif-map-more:focus-visible { outline: 3px solid #176d60; outline-offset: 2px; }
 .map-rails { stroke: #7a4a22; stroke-width: 12; stroke-linecap: round; }
 .map-panes { stroke: #e9fbff; stroke-width: 7; stroke-dasharray: 9 4; }
 .map-bridge.crossed .map-panes { stroke: #ffd863; }
@@ -65,7 +79,7 @@
 .map-lighthouse circle { animation: map-light 1.8s ease-in-out infinite alternate; }
 @keyframes map-light { to { opacity: .15; } }
 .elif-isle {
-  position: absolute; width: 27%; height: 14%; translate: -50% -50%; margin: 0; padding: 0; border: 0; border-radius: 40%;
+  position: absolute; width: 27%; translate: -50% -50%; margin: 0; padding: 0; border: 0; border-radius: 40%;
   background: none; color: inherit; font: inherit; cursor: pointer;
 }
 .elif-isle:focus-visible { outline: 3px solid #176d60; outline-offset: 2px; }

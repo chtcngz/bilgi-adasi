@@ -796,6 +796,366 @@
    "text": "Kelimenin Sonunda",
    "archiveFile": "elifba/harfler/sekilleri/okuma/Kelimenin-Sonunda__sonunda.mp3",
    "sha256": "ab1fa68c9b3872d9669d31245752a0be1c05901fc962942100a1ae99b09d9407"
+  },
+  "kelime/04-1.mp3": {
+   "text": "{ج}عل",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/جعل__btn_24.mp3",
+   "sha256": "f1d41ee9bda85983f0f2f62e483e92c528890ec8ed8222f8527cdff4786a1aac"
+  },
+  "kelime/04-2.mp3": {
+   "text": "تع{ج}ب",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/تعجب__btn_25.mp3",
+   "sha256": "c6d00dab3553dca0825deb0a6ac8198321b230e45dc070fc857beafe9482b09c"
+  },
+  "kelime/04-3.mp3": {
+   "text": "الح{ج}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/الحج__btn_26.mp3",
+   "sha256": "88fd49af67c2e8f8526c8ab152f20e7c1197e9d567a29b6cc22bafd6c970abee"
+  },
+  "kelime/05-1.mp3": {
+   "text": "{ح}ذر",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/حذر__btn_28.mp3",
+   "sha256": "efd37ce3d4c06a5dd95ca2b489bf729e434330c2420cd22cca2aea93db4b5fe9"
+  },
+  "kelime/05-2.mp3": {
+   "text": "يج{ح}د",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/يجحد__btn_29.mp3",
+   "sha256": "15efc72e269f6552bb01fe6e54cf64b75974c6e72739ca2f64deb59c865fe8e8"
+  },
+  "kelime/05-3.mp3": {
+   "text": "فت{ح}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/فتح__btn_30.mp3",
+   "sha256": "b4fc81ded62922834bca44e4aeb3b39a501fc5d46adee5d45c2d21bfbc8ed32e"
+  },
+  "kelime/06-1.mp3": {
+   "text": "{خ}لق",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/خلق__btn_92.mp3",
+   "sha256": "5a6659d3ee2ecb3648ac160f92b627c63ccaf321bd4370041497b44353f4493a"
+  },
+  "kelime/06-2.mp3": {
+   "text": "في{خ}رج",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/فيخرج__btn_93.mp3",
+   "sha256": "4861858ed0b821d4275777cda0d451db6a07a6992d3642ba37b9cfbea53979b2"
+  },
+  "kelime/06-3.mp3": {
+   "text": "ونف{خ}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/ونفخ__btn_94.mp3",
+   "sha256": "c3902c6987629c7950d448bbe446a049dbfc32fc4c74a2043c0e6c572d868453"
+  },
+  "kelime/07-1.mp3": {
+   "text": "{د}خل",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/دخل__btn_32.mp3",
+   "sha256": "14c538414c220ec3aa9f915975c7e6b75290f29fd1fce224c2acf6168bbbe9a1"
+  },
+  "kelime/07-2.mp3": {
+   "text": "ع{د}د",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/عدد__btn_33.mp3",
+   "sha256": "a33ee6b5ed51bf7f6dab44efe715d35cc79b620131499b9e8be7c8f7e68e9c8b"
+  },
+  "kelime/07-3.mp3": {
+   "text": "وع{د}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/وعد__btn_34.mp3",
+   "sha256": "d90a381585c9b4581ca7af6b6edb846289eb7540b9a73445c3729122860ead7d"
+  },
+  "kelime/08-1.mp3": {
+   "text": "{ذ}را",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/ذرا__btn_36.mp3",
+   "sha256": "ce75fc5dffd476179da3173c1acdf0ba5e5cf689e86f3a2bc7f3761ecaf77e20"
+  },
+  "kelime/08-2.mp3": {
+   "text": "ك{ذ}لك",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/كذلك__btn_37.mp3",
+   "sha256": "825d3c42c7673e3c2cba062ae84042744ac546a9dac4f56474b1a3363be2cd72"
+  },
+  "kelime/08-3.mp3": {
+   "text": "نب{ذ}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/نبذ__btn_38.mp3",
+   "sha256": "1bcb79935423006cfd6d8e11e9eb14281a59568985762ba926709210a1d6c175"
+  },
+  "kelime/09-1.mp3": {
+   "text": "{ر}جع",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/رجع__btn_40.mp3",
+   "sha256": "6f737f33882b0939a2b30597a061d3707ccc6c5b79035277d3704844981e7f06"
+  },
+  "kelime/09-2.mp3": {
+   "text": "ف{ر}ض",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/فرض__btn_41.mp3",
+   "sha256": "0bcbf6f7af9b4faba7122f7f947057198a2b2bed3f96a06349807fd1fff0c5fe"
+  },
+  "kelime/09-3.mp3": {
+   "text": "ام{ر}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/امر__btn_42.mp3",
+   "sha256": "060e60dcb10b612c7115e65bbfa27d433fd4cab58904da56ea6bb9d0adfac3c0"
+  },
+  "kelime/10-1.mp3": {
+   "text": "{ز}عم",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/زعم__btn_44.mp3",
+   "sha256": "55747d4d77c5e6f24b01699744b89162eaf1e03a43154ff6a46c9b07615cd377"
+  },
+  "kelime/10-2.mp3": {
+   "text": "ن{ز}ل",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/نزل__btn_45.mp3",
+   "sha256": "c94c7c0201b7f7ccd9f84dc72bcdb0339109665da11ec24ecb729721837930d0"
+  },
+  "kelime/10-3.mp3": {
+   "text": "بر{ز}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/برز__btn_46.mp3",
+   "sha256": "b2bb0436ebc968eb0c0ff1055b76a107a8c1ea8122c96dbfeb5ed8ac5d960841"
+  },
+  "kelime/11-1.mp3": {
+   "text": "{س}ال",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/سال__btn_48.mp3",
+   "sha256": "9f3b2e9222d98c9b1bbaa9382ca9a70b720ed43d73f4592f6e0eed062eaf3e85"
+  },
+  "kelime/11-2.mp3": {
+   "text": "ف{س}جد",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/فسجد__btn_49.mp3",
+   "sha256": "378d26d3c9d0a819fb36547a0c1abf0f0b6cdb6bb2535637dbef22d071324cdc"
+  },
+  "kelime/11-3.mp3": {
+   "text": "عب{س}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/عبس__btn_50.mp3",
+   "sha256": "8cae13862c57412a9695e534a894123017e120e13e550ec0aebd0de9ca55dff8"
+  },
+  "kelime/12-1.mp3": {
+   "text": "{ش}كر",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/شكر__btn_52.mp3",
+   "sha256": "d1a40a936a64b8e7dd94d67c5fcc8c9bfe6c0a4e911802f62ec664fcfd5052d3"
+  },
+  "kelime/12-2.mp3": {
+   "text": "ي{ش}عر",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/يشعر__btn_53.mp3",
+   "sha256": "636e97b7bf52fec041d0d575c56a162015c4d5d0e9694f4cb74ced25a5853cf6"
+  },
+  "kelime/12-3.mp3": {
+   "text": "بط{ش}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/بطش__btn_54.mp3",
+   "sha256": "4b454421a17309e0778b8e7f0b98bb7ced82d28a045e70fb9fdc367577de8d32"
+  },
+  "kelime/13-1.mp3": {
+   "text": "{ص}دق",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/صدق__btn_96.mp3",
+   "sha256": "9678105b9a7f3bfac5b1620ebd7ebfc5b2ceb1502abed5587dba34cbd88b6cb3"
+  },
+  "kelime/13-2.mp3": {
+   "text": "ن{ص}ف",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/نصف__btn_97.mp3",
+   "sha256": "dbf31ac8ae9e5a4e747a43deba9f3bc55df13ae8045c05329334c134d4b65fd4"
+  },
+  "kelime/13-3.mp3": {
+   "text": "نك{ص}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/نكص__btn_98.mp3",
+   "sha256": "ecaf9f13daf2fc8144cc68f7241c8d5809b038830d2fd8a04160ab86a62b8cea"
+  },
+  "kelime/14-1.mp3": {
+   "text": "{ض}ل",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/ضل__btn_100.mp3",
+   "sha256": "ab1ceeec96baf3651a26c0ed64cac90f1dfe11a14b1da947a31b0a6975b7c761"
+  },
+  "kelime/14-2.mp3": {
+   "text": "ت{ض}ع",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/تضع__btn_101.mp3",
+   "sha256": "a9108fc4663dab9f5466b174e7421fcef1f8a4af740678a25d402f13da0a710a"
+  },
+  "kelime/14-3.mp3": {
+   "text": "ببع{ض}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/ببعض__btn_102.mp3",
+   "sha256": "5685ef0ad232628791d6a6c55497a4a8a98515f79b606d82419e6ad9a5f83637"
+  },
+  "kelime/15-1.mp3": {
+   "text": "{ط}بع",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/طبع__btn_104.mp3",
+   "sha256": "ccf88e78d321fa42a36bcb1d08d90f4ff73c5d142b4f15430ef959c7b83fdf66"
+  },
+  "kelime/15-2.mp3": {
+   "text": "ف{ط}ر",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/فطر__btn_105.mp3",
+   "sha256": "c8cfb5e143283fae7069ea4deb2c38c32e4ff858025785fd088f020a0498860c"
+  },
+  "kelime/15-3.mp3": {
+   "text": "خل{ط}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/خلط__btn_106.mp3",
+   "sha256": "6ac4f6a3b3881c9aaaab6a3ea43532f4486374f04576f506c5bbfc37ae45d70e"
+  },
+  "kelime/16-1.mp3": {
+   "text": "{ظ}هر",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/ظهر__btn_108.mp3",
+   "sha256": "2fe6a4a60cbea3385f83df3b4c11d67b873e40891ce58aad6fffbc1921e1ba5e"
+  },
+  "kelime/16-2.mp3": {
+   "text": "ن{ظ}ر",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/نظر__btn_109.mp3",
+   "sha256": "c5c18b2759809ded10a02a270834870138c94e90bd7b3617c3fbab89d4229863"
+  },
+  "kelime/16-3.mp3": {
+   "text": "غل{ظ}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/غلظ__btn_110.mp3",
+   "sha256": "59e9c4cba4119581f17b8a3ca7e06d99fc5f736893c44751d04b2c0bb8631c35"
+  },
+  "kelime/17-1.mp3": {
+   "text": "{ع}بد",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/عبد__btn_56.mp3",
+   "sha256": "38957ec0c679ba962ed7c9d28e930fad1644b7b7022fdf650c01d49fae142b16"
+  },
+  "kelime/17-2.mp3": {
+   "text": "ل{ع}ن",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/لعن__btn_57.mp3",
+   "sha256": "4f7395f3b850a721c8b58a5567a4bfff993f2ed4cc72c2d0ab137a18c776a6a0"
+  },
+  "kelime/17-3.mp3": {
+   "text": "من{ع}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/منع__btn_58.mp3",
+   "sha256": "d0de49584d7733d7ab27090d6e1b6cfa7af64c1225c44432c67cdc3a661d6386"
+  },
+  "kelime/18-1.mp3": {
+   "text": "{غ}ضب",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/غضب__btn_112.mp3",
+   "sha256": "880a4042832cad7cfa7c3b816e749f59acf9682c36b95e2aa06e361a424c0e89"
+  },
+  "kelime/18-2.mp3": {
+   "text": "ف{غ}فر",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/فغفر__btn_113.mp3",
+   "sha256": "493c9d7d37eac5873f723a050deee0367c178aadd80ca593083a347595a7103e"
+  },
+  "kelime/18-3.mp3": {
+   "text": "بل{غ}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/بلغ__btn_114.mp3",
+   "sha256": "7d0a25510474e595ade3d83f3eeee920b325803171d3cd7d06dcbe3802a3143a"
+  },
+  "kelime/19-1.mp3": {
+   "text": "{ف}وقع",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/فوقع__btn_60.mp3",
+   "sha256": "8c4b39db65a131880ef8407f56324f6a91a37510de90064bcfc76c339481ed32"
+  },
+  "kelime/19-2.mp3": {
+   "text": "ك{ف}ر",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/كفر__btn_61.mp3",
+   "sha256": "c615e40c3358a09786202f629636fbe8f42ed60f05d796d15242bd490fe1e41e"
+  },
+  "kelime/19-3.mp3": {
+   "text": "خل{ف}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/خلف__btn_62.mp3",
+   "sha256": "15d1963b79c72980603661df0370b6d36ebffb35abd62ad55ac525437f790821"
+  },
+  "kelime/20-1.mp3": {
+   "text": "{ق}دم",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/قدم__btn_116.mp3",
+   "sha256": "c5654439c44e765b6383145f49d1e248633055737e34dc5bdfd37a10266d7359"
+  },
+  "kelime/20-2.mp3": {
+   "text": "س{ق}ر",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/سقر__btn_117.mp3",
+   "sha256": "c8d333edb9aea442f52f8b9779339b45287aec86c6de0c9c9d3ee8e1376be9fa"
+  },
+  "kelime/20-3.mp3": {
+   "text": "فس{ق}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/فسق__btn_118.mp3",
+   "sha256": "b0daeb455412225e8695ffd2de513dfbf92e1bd2f316e0093bed76a5088e153f"
+  },
+  "kelime/21-1.mp3": {
+   "text": "{ك}سب",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/كسب__btn_64.mp3",
+   "sha256": "df0166f671752468e6ff01074e54cef8a7e4a42361ef69802472c446c84b0eb8"
+  },
+  "kelime/21-2.mp3": {
+   "text": "م{ك}ر",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/مكر__btn_65.mp3",
+   "sha256": "b12a5b3f820b41d36487bb8b832a3c805ee7cfff4aeba652d0a7498e6999ccb6"
+  },
+  "kelime/21-3.mp3": {
+   "text": "من{ك}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/منك__btn_66.mp3",
+   "sha256": "c53d3e7c4ff3d3dcf757e0f7568288b9518888f8e2f24595d36e349ee48f00e8"
+  },
+  "kelime/22-1.mp3": {
+   "text": "{ل}برز",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/لبرز__btn_68.mp3",
+   "sha256": "142e007e6962028f1c8c59a55c191cf8319c02473ac2b87d8767c019f322d001"
+  },
+  "kelime/22-2.mp3": {
+   "text": "خ{ل}ع",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/خلع__btn_69.mp3",
+   "sha256": "cc01e7a042a9f9fe13f4fecf6fbcfd493d06f95cb27fa22b35c8e1da1826fb65"
+  },
+  "kelime/22-3.mp3": {
+   "text": "جع{ل}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/جعل__btn_70.mp3",
+   "sha256": "a04c7ccecc6c63d1dabf80fbdf5ef316cb75793a7d5c4307621d35bd8f058c65"
+  },
+  "kelime/23-1.mp3": {
+   "text": "{م}ثل",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/مثل__btn_72.mp3",
+   "sha256": "59057b1105cb99031846f9049b43b4afeaf0a87923c7b00d531277d9cf136e64"
+  },
+  "kelime/23-2.mp3": {
+   "text": "يط{م}ع",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/يطمع__btn_73.mp3",
+   "sha256": "2e776aab7b75f6faabca0c950a7360da6e91b32d0fce9cde547da765b6409e05"
+  },
+  "kelime/23-3.mp3": {
+   "text": "لم{م}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/لمم__btn_74.mp3",
+   "sha256": "73730fc9c4de90721bcae3c02970053ca384623112fe401ea6b8f1a02ee6ed29"
+  },
+  "kelime/24-1.mp3": {
+   "text": "{ن}ظر",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/نظر__btn_76.mp3",
+   "sha256": "ea2eaee6cb769ec9b9d86ea3f7eb9914b5b0b0a8e2d72d7dbe1cdd0d6daeead4"
+  },
+  "kelime/24-2.mp3": {
+   "text": "م{ن}ع",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/منع__btn_77.mp3",
+   "sha256": "e862c15ff7d514b7f42f0534836f9aa3c8e28c6e3732723661904aa94a7dc667"
+  },
+  "kelime/24-3.mp3": {
+   "text": "بط{ن}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/بطن__btn_78.mp3",
+   "sha256": "fe6200b4944817903e4d55f3c1b81677ace1453589eb872fc9f643844943360f"
+  },
+  "kelime/25-1.mp3": {
+   "text": "{و}عد",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/وعد__btn_84.mp3",
+   "sha256": "78cfbe13650da0c9d68cc348666f055cd945e458a75f2eadbc6389f58934fff0"
+  },
+  "kelime/25-2.mp3": {
+   "text": "ع{و}د",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/عود__btn_85.mp3",
+   "sha256": "bd31dab33e1e9663059c444652e811faa85ab5a01abcfe0592dae87563312a2c"
+  },
+  "kelime/25-3.mp3": {
+   "text": "دل{و}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/دلو__btn_86.mp3",
+   "sha256": "27fc0244178540427e2a14f1e80e8a450e1593bf2f807f9d6b10312622fd0d76"
+  },
+  "kelime/26-1.mp3": {
+   "text": "{ه}لك",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/هلك__btn_80.mp3",
+   "sha256": "c6bcc51b71cb5b39352aec719e4c1aff1210d41ab8e13c3d6a445ae3c7a19006"
+  },
+  "kelime/26-2.mp3": {
+   "text": "ف{ه}م",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/فهم__btn_81.mp3",
+   "sha256": "e0f0d5fc8453f4eeafd53fe563694a496a21db7d99f4de21fdf959cdf9194f5c"
+  },
+  "kelime/26-3.mp3": {
+   "text": "وج{ه}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/وجه__btn_82.mp3",
+   "sha256": "9cc5b943a66b0036279ef0f6728b9fcd1c541ef5fa0d70db7d3db00a4deb33fa"
+  },
+  "kelime/27-1.mp3": {
+   "text": "{ي}تيم",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/يتيم__btn_88.mp3",
+   "sha256": "fbe8ad42b58ab7457e01ee227832c97e5de012402378d817692224c5e6a02313"
+  },
+  "kelime/27-2.mp3": {
+   "text": "خ{ي}ر",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/خير__btn_89.mp3",
+   "sha256": "3262bcb5668fd3b0f6fdc3d5d1b6729c5db5ea70085aa398499ba3b2eae3b469"
+  },
+  "kelime/27-3.mp3": {
+   "text": "لق{ى}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/لقى__btn_90.mp3",
+   "sha256": "6eba60cd18821a7dfffcd8aa41975b56bdda85777f11b0b6bc2b645415bab659"
   }
  },
  "kelime": {
@@ -810,7 +1170,79 @@
   "02-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_18.mp3",
   "03-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_20.mp3",
   "03-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_21.mp3",
-  "03-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_22.mp3"
+  "03-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_22.mp3",
+  "04-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_24.mp3",
+  "04-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_25.mp3",
+  "04-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_26.mp3",
+  "05-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_28.mp3",
+  "05-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_29.mp3",
+  "05-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_30.mp3",
+  "06-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_92.mp3",
+  "06-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_93.mp3",
+  "06-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_94.mp3",
+  "07-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_32.mp3",
+  "07-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_33.mp3",
+  "07-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_34.mp3",
+  "08-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_36.mp3",
+  "08-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_37.mp3",
+  "08-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_38.mp3",
+  "09-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_40.mp3",
+  "09-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_41.mp3",
+  "09-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_42.mp3",
+  "10-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_44.mp3",
+  "10-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_45.mp3",
+  "10-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_46.mp3",
+  "11-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_48.mp3",
+  "11-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_49.mp3",
+  "11-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_50.mp3",
+  "12-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_52.mp3",
+  "12-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_53.mp3",
+  "12-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_54.mp3",
+  "13-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_96.mp3",
+  "13-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_97.mp3",
+  "13-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_98.mp3",
+  "14-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_100.mp3",
+  "14-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_101.mp3",
+  "14-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_102.mp3",
+  "15-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_104.mp3",
+  "15-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_105.mp3",
+  "15-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_106.mp3",
+  "16-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_108.mp3",
+  "16-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_109.mp3",
+  "16-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_110.mp3",
+  "17-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_56.mp3",
+  "17-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_57.mp3",
+  "17-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_58.mp3",
+  "18-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_112.mp3",
+  "18-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_113.mp3",
+  "18-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_114.mp3",
+  "19-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_60.mp3",
+  "19-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_61.mp3",
+  "19-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_62.mp3",
+  "20-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_116.mp3",
+  "20-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_117.mp3",
+  "20-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_118.mp3",
+  "21-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_64.mp3",
+  "21-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_65.mp3",
+  "21-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_66.mp3",
+  "22-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_68.mp3",
+  "22-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_69.mp3",
+  "22-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_70.mp3",
+  "23-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_72.mp3",
+  "23-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_73.mp3",
+  "23-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_74.mp3",
+  "24-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_76.mp3",
+  "24-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_77.mp3",
+  "24-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_78.mp3",
+  "25-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_84.mp3",
+  "25-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_85.mp3",
+  "25-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_86.mp3",
+  "26-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_80.mp3",
+  "26-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_81.mp3",
+  "26-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_82.mp3",
+  "27-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_88.mp3",
+  "27-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_89.mp3",
+  "27-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_90.mp3"
  },
  "yer": {
   "1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/basinda.mp3",
