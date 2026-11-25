@@ -1,0 +1,44 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Yönetici sayfası: bütün oyuncuların ilerlemesi. Oyunun hiçbir ekranından bağlantı verilmez; yalnızca …/admin/ adresiyle açılır.
+     <base> sayesinde soru bankaları ve Elif Ba verisi oyundaki adresleriyle yüklenir. -->
+<base href="../">
+<meta name="robots" content="noindex,nofollow">
+<title>Yönetici · Bilgi Adası</title>
+<link rel="stylesheet" href="core/css/base.css?v=2">
+<link rel="stylesheet" href="admin/admin.css?v=1">
+</head><body>
+<header><div class="brand"><span class="brand-icon">🗝️</span> Yönetici</div><div class="head-right"><a class="adm-back" href="./">Oyuna dön</a></div></header>
+<div id="adm-lock" hidden><form id="adm-lock-form" class="adm-lock">
+  <span class="adm-lock-icon" aria-hidden="true">🔒</span>
+  <h1>Yönetici <span>girişi</span></h1>
+  <label for="adm-password">Şifre</label>
+  <input id="adm-password" type="password" autocomplete="current-password" required>
+  <button type="submit" class="adm-button primary-btn">Gir ▶</button>
+  <p id="adm-lock-note" class="adm-note" role="alert"></p>
+</form></div>
+<main id="admin" hidden>
+  <section class="adm-intro">
+    <p class="eyebrow">BİLGİ ADASI</p>
+    <h1>Oyuncuların <span>ilerlemesi</span></h1>
+    <p>Oyun ilerlemeyi her cihazın kendi tarayıcısında saklar. Bu sayfa, bu cihazdaki oyuncuları ve buraya eklediğiniz yedeklerdeki oyuncuları gösterir.</p>
+    <div class="adm-tools">
+      <button type="button" id="adm-export" class="adm-button">⬇ Bu cihazın yedeğini indir</button>
+      <label class="adm-button"><input type="file" id="adm-import" accept=".json,application/json" multiple hidden>⬆ Başka cihazın yedeğini ekle</label>
+    </div>
+    <p id="adm-note" class="adm-note" role="status"></p>
+    <details class="adm-help"><summary>Başka cihazdaki çocukları nasıl görürüm?</summary>
+      <ol>
+        <li>Çocuğun oynadığı cihazda, oyunun adresinin sonuna <code>admin/</code> ekleyip bu sayfayı açın.</li>
+        <li>“Bu cihazın yedeğini indir” düğmesine basın ve inen dosyayı kendinize gönderin (e-posta, WhatsApp …).</li>
+        <li>Kendi cihazınızda bu sayfada “Başka cihazın yedeğini ekle” ile dosyayı seçin. Yedek bu sayfada saklanır; oyundaki oyuncular değişmez.</li>
+      </ol>
+    </details>
+  </section>
+  <div id="adm-sources"></div>
+</main>
+<script src="islands/elif-ba/data.js?v=6"></script>
+<script src="islands/din-bilgisi/sorular.js?v=8"></script>
+<script src="islands/fen-bilimleri/sorular.js?v=4"></script>
+<script src="islands/sosyal-bilgiler/sorular.js?v=4"></script>
+<script src="admin/admin.js?v=1"></script>
+</body></html>

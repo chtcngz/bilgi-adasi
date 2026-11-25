@@ -56,6 +56,8 @@ app/                         Published site (GitHub Pages root)
 │   ├── din-bilgisi/         Question island: sorular.js + game.js + style.css + ada.svg + kapsam.md
 │   ├── fen-bilimleri/       Question island: same pattern
 │   └── sosyal-bilgiler/     Question island: same pattern
+├── admin/                   Yönetici sayfası: every player's progress on this device and in added backups,
+│                            behind a password (only its PBKDF2 hash is in admin.js). Nothing links to it; open …/admin/.
 └── deneme/                  Deneme Odası: playable drafts of proposed Elif Ba games (OYUN-ONERILERI.md).
                              Nothing in the game links to it; open …/deneme/.
 tools/                       Helper scripts (not published)

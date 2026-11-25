@@ -7,6 +7,16 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.27.0 · 25.11.2026
+
+Büyükler için **Yönetici sayfası** geldi: oyunun adresinin sonuna `admin/` eklenerek açılıyor (oyunun içinden bağlantısı yok) ve girişte şifre soruyor.
+
+- Bu cihazda kayıtlı bütün oyuncular tek sayfada: adı, sınıfı, simgesi ve her adadaki ilerlemesi.
+- **Çarpım Adası:** yıldızlar, bulunduğu tur ve tablo, ada ada deneme, doğru, yanlış ve süresi dolan cevaplar, son denemelerdeki her cevap ve en çok zorlandığı işlemler.
+- **Elif Ba Adası:** yoldaki adımı, harf harf harf, hareke ve bitişik yazılış durumu, oyunların rekorları ve geçilen koylar, akvaryumdaki balıklar.
+- **Din Bilgisi, Fen Bilimleri ve Sosyal Bilgiler:** öğrenilen ve görülen sorular, durak durak yıldızlar, Tekrar Kutusu, deneme sınavı puanları ve görülen her sorunun kaç kez doğru ya da yanlış cevaplandığı (önce yanlışlar).
+- Oyun ilerlemeyi her cihazın kendi tarayıcısında sakladığı için başka cihazlardaki çocuklar yedekle görülüyor: o cihazda sayfadan “yedeğini indir”, kendi cihazında “yedeğini ekle”. Eklenen yedekler yalnızca bu sayfada durur, oyundaki oyuncular değişmez.
+
 ## 0.26.0 · 25.11.2026
 
 Elif Ba Adası’nı öğrenen çocuklar henüz okuma yazma bilmiyor. Adanın bütün bölümleri ve oyunları buna göre düzenlendi: hiçbir şey için okumak gerekmiyor.

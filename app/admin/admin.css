@@ -1,0 +1,82 @@
+/* Yönetici sayfası (admin/index.html). Builds on core/css/base.css. */
+body { background: linear-gradient(#e9f7fb, #f7faf6 420px); min-height: 100vh; }
+[hidden] { display: none !important; }
+main#admin { width: min(94%, 1240px); margin: 22px auto 60px; }
+.adm-back { font-weight: 800; color: #237958; text-decoration: none; border: 1px solid #cdded4; background: #fff; border-radius: 30px; padding: 8px 15px; font-size: 14px; }
+
+/* ---------- Password ---------- */
+.adm-lock { width: min(92%, 380px); margin: 9vh auto; background: #fff; border: 1px solid #cadbd0; border-radius: 22px; padding: 28px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 3px 0 #d8e6dd; }
+.adm-lock h1 { font-size: 38px; letter-spacing: -2px; }
+.adm-lock-icon { font-size: 40px; }
+.adm-lock label { font-weight: 800; font-size: 14px; color: #357463; }
+.adm-lock input { font: inherit; font-size: 18px; padding: 12px 14px; border: 1px solid #a0c8b0; border-radius: 12px; }
+.adm-lock input:focus { outline: 3px solid #ef9739; outline-offset: 1px; }
+
+/* ---------- Buttons and notes ---------- */
+.adm-tools { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 6px; }
+.adm-button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 10px 16px; border-radius: 12px;
+  border: 1px solid #a0c8b0; background: #edf6ee; font-weight: 850; color: #183e41; cursor: pointer; font-size: 15px; }
+.adm-button:hover { background: #e0f0e3; }
+.adm-button.small { min-height: 36px; padding: 6px 12px; font-size: 13px; }
+.adm-button.primary-btn { background: #237958; border-color: #1a674b; color: #fff; box-shadow: 0 3px 0 #155a42; }
+.adm-button.primary-btn:hover { background: #196746; }
+.adm-button:disabled { opacity: .6; cursor: wait; }
+.adm-note { min-height: 20px; font-weight: 800; color: #31674d; margin: 6px 0; }
+.adm-small { color: #526d66; font-size: 13px; margin: 4px 0; }
+.adm-empty { color: #7a8f8a; font-style: italic; margin: 6px 0; }
+.adm-intro > p { color: #506c66; font-size: 16px; line-height: 1.5; max-width: 720px; }
+.adm-help { background: #fff; border: 1px solid #cadbd0; border-radius: 16px; padding: 10px 16px; max-width: 720px; }
+.adm-help ol { margin: 8px 0 4px; padding-left: 20px; color: #3e5d57; }
+.adm-help code { background: #eef4ef; padding: 1px 5px; border-radius: 5px; }
+
+/* ---------- Sources and players ---------- */
+.adm-source { margin-top: 30px; }
+.adm-source-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 2px solid #d6e5db; padding-bottom: 8px; }
+.adm-source-head h2 { margin: 0; }
+.adm-players { display: grid; gap: 16px; margin-top: 12px; }
+.adm-player { background: #fff; border: 1px solid #cadbd0; border-radius: 22px; padding: 18px 20px; box-shadow: 0 3px 0 #d8e6dd; min-width: 0; }
+.adm-player-head { display: flex; align-items: center; gap: 14px; }
+.adm-player-head h2 { margin: 0; font-size: 26px; }
+.adm-face { display: grid; place-items: center; width: 58px; height: 58px; flex: none; border-radius: 18px; background: #e3f4f4; font-size: 32px; }
+.adm-island { border-top: 1px solid #e1ebe4; margin-top: 14px; padding-top: 10px; }
+.adm-island h3 { font-size: 20px; margin: 4px 0 8px; }
+.adm-island h4 { font-size: 14px; margin: 12px 0 4px; color: #357463; }
+.adm-stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin: 10px 0; }
+.adm-stat { background: #f3f8f4; border-radius: 12px; padding: 8px 11px; display: flex; flex-direction: column; min-width: 0; }
+.adm-stat b { font-size: 17px; overflow-wrap: anywhere; }
+.adm-stat small { font-size: 12px; color: #526d66; }
+.adm-meter { display: block; height: 9px; border-radius: 8px; background: #eaf0e9; overflow: hidden; }
+.adm-meter i { display: block; height: 100%; background: #53a981; }
+.adm-cellbar { display: flex; align-items: center; gap: 8px; min-width: 120px; }
+.adm-cellbar .adm-meter { flex: 1; }
+.adm-fold { margin: 8px 0; padding: 0; }
+.adm-fold > summary { padding: 8px 0; color: #237958; }
+.adm-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0; }
+.adm-chip { display: inline-block; min-width: 26px; text-align: center; border-radius: 8px; padding: 2px 7px; background: #eef2ef; color: #6d817c; font-weight: 800; font-size: 13px; }
+.adm-chip.ok { background: #d7f0df; color: #1f6c48; }
+.adm-chip.half { background: #fff1ca; color: #7a5a17; }
+.adm-chip.bad { background: #fde0dc; color: #9b3326; }
+.adm-ar { font: normal 26px/1.2 "Traditional Arabic", "Times New Roman", serif; }
+
+/* ---------- Tables ---------- */
+.adm-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid #e1ebe4; border-radius: 12px; }
+.adm-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.adm-table th { text-align: left; background: #f3f8f4; font-size: 12px; color: #357463; padding: 7px 10px; white-space: nowrap; position: sticky; top: 0; }
+.adm-table td { padding: 6px 10px; border-top: 1px solid #edf2ee; vertical-align: top; line-height: 1.35; }
+.adm-table tr.ok td:first-child { box-shadow: inset 3px 0 #53a981; }
+.adm-table tr.bad td:first-child { box-shadow: inset 3px 0 #d9634f; }
+.adm-compact td { padding: 4px 8px; }
+.adm-q { display: flex; flex-direction: column; gap: 2px; min-width: 220px; }
+.adm-q b { font-weight: 700; }
+.adm-q small { color: #526d66; }
+.adm-raw { background: #f6f8f7; border: 1px solid #e1ebe4; border-radius: 10px; padding: 10px; font-size: 12px; max-height: 320px; overflow: auto; white-space: pre-wrap; word-break: break-all; }
+
+@media (max-width: 650px) {
+  main#admin { width: auto; margin: 12px 16px 40px; }
+  .adm-player { padding: 14px; border-radius: 18px; }
+  .adm-player-head h2 { font-size: 22px; }
+  .adm-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .adm-tools .adm-button { flex: 1 1 100%; }
+  .adm-table td { white-space: nowrap; }
+  .adm-table td:has(.adm-q) { white-space: normal; }
+}
