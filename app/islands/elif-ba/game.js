@@ -205,7 +205,9 @@
   // The map: coves done, the cove being learned, coves still locked, and the bridges crossed.
   const coveState = (k, next, nextCove) => k < nextCove || !next ? 'done' : k === nextCove ? 'current' : 'locked';
   function drawMap(next, nextCove) {
-    elifMap.update({ state: k => coveState(k, next, nextCove), crossed: k => progress.kopru.koylar[k], selected: mapCove });
+    // devAll (the "admin" player): no cove is drawn locked, as none is.
+    const state = k => { const now = coveState(k, next, nextCove); return now === 'locked' && devAll() ? 'current' : now; };
+    elifMap.update({ state, crossed: k => progress.kopru.koylar[k], selected: mapCove });
   }
   elifMap.build($('elif-map'), k => {
     const next = nextStep();

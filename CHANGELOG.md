@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.28.2 · 25.11.2026
+
+- **Geçici geliştirme anahtarı:** Adı `admin` olan oyuncuda Elif Ba haritasındaki koylar kilitli (🔒) görünüyordu; dokununca açılsalar da kilitli çiziliyorlardı. Artık bütün koylar açık ve numaralı görünüyor. Diğer oyuncularda bir şey değişmedi.
+
 ## 0.28.1 · 25.11.2026
 
 - **Yönetici sayfası:** Oyuncular kapalı satırlar olarak geliyor: adı, sınıfı, son oynaması ve her adadan kısa bir özet (✖️ 11 / 36 ⭐, 🌙 120 / 561 soru, 🐢 12 / 39 adım). Ayrıntılar oyuncuya tıklayınca açılıyor. “Bütün oyuncular” tablosunda bir isme tıklamak o oyuncuyu açıp oraya götürüyor. Yenile’ye basınca açık oyuncular açık kalıyor.
