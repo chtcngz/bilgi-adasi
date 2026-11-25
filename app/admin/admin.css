@@ -35,7 +35,15 @@ main#admin { width: min(94%, 1240px); margin: 22px auto 60px; }
 .adm-source-head h2 { margin: 0; }
 .adm-players { display: grid; gap: 16px; margin-top: 12px; }
 .adm-player { background: #fff; border: 1px solid #cadbd0; border-radius: 22px; padding: 18px 20px; box-shadow: 0 3px 0 #d8e6dd; min-width: 0; }
-.adm-player-head { display: flex; align-items: center; gap: 14px; }
+.adm-player-head { display: flex; align-items: center; gap: 14px; cursor: pointer; list-style: none; }
+.adm-player-head::-webkit-details-marker { display: none; }
+.adm-player-text { flex: 1; min-width: 0; }
+.adm-player-text .adm-chips { margin-top: 6px; }
+.adm-open { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: #edf6ee; color: #237958; font-size: 18px; transition: transform .15s; }
+.adm-player[open] .adm-open { transform: rotate(180deg); }
+.adm-player:not([open]):hover { border-color: #90c6ac; }
+.adm-player { scroll-margin-top: 12px; }
+.adm-link { border: 0; background: none; padding: 0; font-weight: 800; color: #237958; text-decoration: underline; text-underline-offset: 3px; text-align: left; }
 .adm-player-head h2 { margin: 0; font-size: 26px; }
 .adm-face { display: grid; place-items: center; width: 58px; height: 58px; flex: none; border-radius: 18px; background: #e3f4f4; font-size: 32px; }
 .adm-island { border-top: 1px solid #e1ebe4; margin-top: 14px; padding-top: 10px; }

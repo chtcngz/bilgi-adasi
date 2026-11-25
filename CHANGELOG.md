@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.28.1 · 25.11.2026
+
+- **Yönetici sayfası:** Oyuncular kapalı satırlar olarak geliyor: adı, sınıfı, son oynaması ve her adadan kısa bir özet (✖️ 11 / 36 ⭐, 🌙 120 / 561 soru, 🐢 12 / 39 adım). Ayrıntılar oyuncuya tıklayınca açılıyor. “Bütün oyuncular” tablosunda bir isme tıklamak o oyuncuyu açıp oraya götürüyor. Yenile’ye basınca açık oyuncular açık kalıyor.
+
 ## 0.28.0 · 25.11.2026
 
 Elif Ba Adası’nın ana ekranında artık yalnızca harita var: haritanın altındaki yazılı adım listesi ve “Yakında” bölümü kalktı. Sayfa haritayla bitiyor.

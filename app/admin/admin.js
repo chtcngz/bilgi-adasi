@@ -226,6 +226,7 @@ function startAdmin() {
   function carpim(record) {
     const box = el('section', 'adm-island');
     box.append(el('h3', '', '✖️ Çarpım Adası'));
+    box.ozet = '✖️ –';
     if (!record) { box.append(el('p', 'adm-empty', 'Henüz oynamadı.')); return box; }
     const done = Math.max(0, Math.min(carpimTotal, num(record.completed)));
     const round = Math.min(carpimSeconds.length - 1, Math.floor(done / carpimIslands.length));
@@ -245,6 +246,7 @@ function startAdmin() {
       stat(String(all.timeout), 'süre doldu'),
       stat(seconds(all.seconds), 'toplam süre'));
     box.append(meter(done, carpimTotal), stats1);
+    box.ozet = '✖️ ' + done + ' / ' + carpimTotal + ' ⭐';
     if (record.attempt) box.append(el('p', 'adm-note', '⏸ Yarıda bırakılmış bir deneme var.'));
     // One row per stage the child reached.
     const rows = [];
@@ -295,6 +297,7 @@ function startAdmin() {
   function elif(record) {
     const box = el('section', 'adm-island');
     box.append(el('h3', '', '🐢 Elif Ba Adası'));
+    box.ozet = '🐢 –';
     if (!record) { box.append(el('p', 'adm-empty', 'Henüz oynamadı.')); return box; }
     const arr = part => Array.from({ length: 28 }, (_, i) => num(record[part]?.[i]));
     const parts = { harf: arr('harf'), hareke: arr('hareke'), bitisik: arr('bitisik') };
@@ -321,6 +324,7 @@ function startAdmin() {
       stat(count('bitisik') + ' / 28', '🪸 bitişik'),
       stat((record.balik || []).filter(Boolean).length + ' / 28', '🐟 akvaryum'));
     box.append(meter(doneSteps, steps.length), stats1);
+    box.ozet = '🐢 ' + doneSteps + ' / ' + steps.length + ' adım';
     // Every letter: how many times it was answered right in each section (learned at E.mastery).
     const letters = E.glyphs.map((g, i) => {
       const cell = n => { const c = el('span', n >= E.mastery ? 'adm-chip ok' : n ? 'adm-chip half' : 'adm-chip', String(n)); return c; };
@@ -345,6 +349,7 @@ function startAdmin() {
   function quiz(info, record) {
     const box = el('section', 'adm-island');
     box.append(el('h3', '', info.simge + ' ' + info.ad));
+    box.ozet = info.simge + ' –';
     if (!record) { box.append(el('p', 'adm-empty', 'Henüz oynamadı.')); return box; }
     const rows = record.soru || {};
     const learned = row => !!row && num(row.d) >= 2 && !row.h;
@@ -364,6 +369,7 @@ function startAdmin() {
       stat(String(missed.length), '🔁 tekrar kutusunda'),
       stat(exam.sayi ? num(exam.en) + ' / 20' : '–', '🏆 deneme en iyi' + (exam.sayi ? ' (son ' + num(exam.son) + ', ' + exam.sayi + ' kez)' : '')));
     box.append(meter(learnedN, all.length), stats1);
+    box.ozet = info.simge + ' ' + learnedN + ' / ' + all.length + ' soru';
     const stopRows = info.duraklar.map(stop => {
       const list = all.filter(x => x.stop === stop);
       const l = list.filter(x => learned(rows[x.id])).length;
@@ -390,16 +396,24 @@ function startAdmin() {
   }
 
   /* ---------- Players ---------- */
-  function player(profile, records, last) {
+  // A player is one closed row (name, grade, last played and a line per island); a click opens the details.
+  const opened = new Set();
+  const playerId = (sourceId, profile) => 'oyuncu-' + sourceId + '-' + profile.id;
+  function player(profile, records, last, sourceId) {
     const read = key => records[key] === undefined ? null : parse(records[key]);
-    const card = el('article', 'adm-player');
-    const head = el('div', 'adm-player-head');
+    const card = el('details', 'adm-player');
+    card.id = playerId(sourceId, profile);
+    card.open = opened.has(card.id);
+    card.ontoggle = () => { if (card.open) opened.add(card.id); else opened.delete(card.id); };
+    const head = el('summary', 'adm-player-head');
     const face = el('span', 'adm-face', profile.icon || '🙂');
-    const text = el('div');
-    text.append(el('h2', '', profile.name || '(adsız)'), el('p', 'adm-small', (profile.grade || '?') + ' · kimlik ' + profile.id +
-      (last ? ' · son oynama ' + dateText(last) + ' (' + ago(last) + ')' : '')));
-    head.append(face, text);
+    const text = el('div', 'adm-player-text');
+    const chips = el('p', 'adm-chips');
+    text.append(el('h2', '', profile.name || '(adsız)'), el('p', 'adm-small', (profile.grade || '?') +
+      (last ? ' · son oynama ' + dateText(last) + ' (' + ago(last) + ')' : '')), chips);
+    head.append(face, text, el('span', 'adm-open', '▾'));
     card.append(head);
+    card.append(el('p', 'adm-small', 'Oyuncu kimliği ' + profile.id));
     const data = {
       carpim: read('carpim-adasi-oyuncu-' + profile.id),
       elif: read('elif-ba-v2-' + profile.id) || (read('elif-ba-' + profile.id) ? { harf: [] } : null)
@@ -411,6 +425,7 @@ function startAdmin() {
     if (shown.has('elif')) card.append(elif(data.elif));
     if (shown.has('carpim')) card.append(carpim(data.carpim));
     for (const info of quizzes) if (shown.has(info.kod)) card.append(quiz(info, data[info.kod]));
+    for (const box of card.querySelectorAll('.adm-island')) chips.append(el('span', 'adm-chip', box.ozet));
     // Raw saved data, for anything the summaries leave out.
     const raw = Object.keys(records).filter(k => k.endsWith(profile.id)).sort();
     if (raw.length) card.append(fold('Ham kayıt (' + raw.length + ' anahtar)', ...raw.map(key => {
@@ -453,7 +468,7 @@ function startAdmin() {
     // A quick overview, then every player in full.
     block.append(el('p', 'adm-small', list.length + ' oyuncu'));
     const grid = el('div', 'adm-players');
-    for (const profile of list) grid.append(player(profile, source.records, source.played?.[profile.id]));
+    for (const profile of list) grid.append(player(profile, source.records, source.played?.[profile.id], source.id));
     block.append(grid);
     return block;
   }
@@ -465,7 +480,15 @@ function startAdmin() {
       const list = (parse(source.records[PROFILES]) || []).filter(p => p && p.id);
       for (const p of list) {
         const last = source.played?.[p.id];
-        rows.push({ last: last || 0, cells: [(p.icon || '') + ' ' + (p.name || '?'), p.grade || '?',
+        const go = el('button', 'adm-link', (p.icon || '') + ' ' + (p.name || '?'));
+        go.type = 'button';
+        go.onclick = () => {
+          const card = document.getElementById(playerId(source.id, p));
+          if (!card) return;
+          card.open = true;
+          card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        };
+        rows.push({ last: last || 0, cells: [go, p.grade || '?',
           source.cloud ? source.label : source.local ? 'Bu cihaz' : 'Yedek', last ? dateText(last) + ' (' + ago(last) + ')' : '–'] });
       }
     }
