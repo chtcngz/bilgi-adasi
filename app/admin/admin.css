@@ -80,3 +80,9 @@ main#admin { width: min(94%, 1240px); margin: 22px auto 60px; }
   .adm-table td { white-space: nowrap; }
   .adm-table td:has(.adm-q) { white-space: normal; }
 }
+
+/* ---------- Cloud ---------- */
+.adm-user { display: flex; align-items: center; gap: 8px; background: none !important; padding: 0 !important; font-weight: 700; font-size: 13px; color: #526d66; }
+.adm-note.bad { color: #9b3326; }
+.head-right .adm-user .adm-button { width: auto; height: auto; border-radius: 12px; font-size: 13px; }
+@media (max-width: 650px) { #adm-user { display: none; } }

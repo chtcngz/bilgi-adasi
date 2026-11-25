@@ -9,13 +9,14 @@ Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında 
 
 ## 0.27.0 · 25.11.2026
 
-Büyükler için **Yönetici sayfası** geldi: oyunun adresinin sonuna `admin/` eklenerek açılıyor (oyunun içinden bağlantısı yok) ve girişte şifre soruyor.
+**Bulut kaydı ve Yönetici sayfası.** Oyun, her cihazdaki ilerlemeyi değiştikçe buluta (Firebase) da kaydediyor. Büyükler bütün cihazlardaki çocukları tek sayfada görüyor: oyunun adresinin sonuna `admin/` eklenerek açılıyor (oyunun içinden bağlantısı yok), e-posta ve şifreyle giriliyor.
 
-- Bu cihazda kayıtlı bütün oyuncular tek sayfada: adı, sınıfı, simgesi ve her adadaki ilerlemesi.
+- **Bulut kaydı:** Bir şey kaydedildikten birkaç saniye sonra cihazın bütün oyuncuları buluta gönderiliyor. İnternet yoksa bekliyor, bağlantı gelince gönderiyor. Oyun her zamanki gibi cihazda kaydediyor ve buluta hiç beklemiyor; internetsiz de aynı oynanıyor. Çocuklardan hiçbir şey istenmiyor.
+- **Bütün oyuncular:** Her cihazın her oyuncusu tek tabloda: adı, sınıfı, cihazı ve son oynama zamanı.
 - **Çarpım Adası:** yıldızlar, bulunduğu tur ve tablo, ada ada deneme, doğru, yanlış ve süresi dolan cevaplar, son denemelerdeki her cevap ve en çok zorlandığı işlemler.
 - **Elif Ba Adası:** yoldaki adımı, harf harf harf, hareke ve bitişik yazılış durumu, oyunların rekorları ve geçilen koylar, akvaryumdaki balıklar.
 - **Din Bilgisi, Fen Bilimleri ve Sosyal Bilgiler:** öğrenilen ve görülen sorular, durak durak yıldızlar, Tekrar Kutusu, deneme sınavı puanları ve görülen her sorunun kaç kez doğru ya da yanlış cevaplandığı (önce yanlışlar).
-- Oyun ilerlemeyi her cihazın kendi tarayıcısında sakladığı için başka cihazlardaki çocuklar yedekle görülüyor: o cihazda sayfadan “yedeğini indir”, kendi cihazında “yedeğini ekle”. Eklenen yedekler yalnızca bu sayfada durur, oyundaki oyuncular değişmez.
+- İnternete hiç bağlanmayan bir cihazın oyuncuları yedek dosyasıyla da eklenebiliyor.
 
 ## 0.26.1 · 25.11.2026
 

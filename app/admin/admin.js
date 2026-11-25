@@ -1,50 +1,100 @@
-// Yönetici sayfası (admin/index.html): every player saved in this browser, and in backups added from
-// other devices, with everything the game keeps about them. It only reads the game's keys; the one key
-// it writes is its own list of added backups (bilgi-adasi-yonetici-yedekler).
+// Yönetici sayfası (admin/index.html): every player of every device, read from the cloud copy the game
+// keeps (core/js/sync.js), plus this browser's own players and backups added by hand, with everything
+// the game keeps about them. It only reads the game's keys; the one key it writes is its own list of
+// added backups (bilgi-adasi-yonetici-yedekler).
 //
-// The page opens with a password. Only a salted PBKDF2-SHA256 hash of it is kept here, never the
-// password itself. This is a static site, so the check runs in the browser: it keeps the page from
-// casual eyes, while the progress it shows is the browser's own saved data.
-const adminLock = { salt: 'd8415092a5683fac23e22cea471bcc09', rounds: 200000,
-  hash: '1af132ce5600b0a45680b5ae0b8c5c9931890a26b269a4bd26b992b5eb1a55c9' };
-(() => {
+// The page opens with the admin's Firebase e-mail and password. Firebase checks them, and the Firestore
+// rules let only that account read the devices' documents (cihazlar/*), so the password is not kept here.
+const adminCloud = (() => {
   const $ = id => document.getElementById(id);
-  const UNLOCKED = 'bilgi-adasi-yonetici-acik';
-  const hex = bytes => Array.from(new Uint8Array(bytes), b => b.toString(16).padStart(2, '0')).join('');
-  async function check(password) {
-    const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
-    const salt = new Uint8Array(adminLock.salt.match(/../g).map(h => parseInt(h, 16)));
-    const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt, iterations: adminLock.rounds }, key, 256);
-    return hex(bits) === adminLock.hash;
+  const SESSION = 'bilgi-adasi-yonetici-oturum';
+  const key = bulutAyar.apiKey;
+  const docs = 'https://firestore.googleapis.com/v1/projects/' + bulutAyar.projectId + '/databases/(default)/documents/';
+  let session = null;
+  try { session = JSON.parse(sessionStorage.getItem(SESSION)); } catch {}
+  const keep = () => { try { sessionStorage.setItem(SESSION, JSON.stringify(session)); } catch {} };
+  const errors = {
+    INVALID_LOGIN_CREDENTIALS: 'E-posta ya da şifre yanlış.', INVALID_PASSWORD: 'E-posta ya da şifre yanlış.',
+    EMAIL_NOT_FOUND: 'E-posta ya da şifre yanlış.', INVALID_EMAIL: 'E-posta adresi geçersiz.',
+    USER_DISABLED: 'Bu hesap kapatılmış.', OPERATION_NOT_ALLOWED: 'Firebase’de e-posta ile giriş açık değil (Authentication → Sign-in method).',
+    TOO_MANY_ATTEMPTS_TRY_LATER: 'Çok fazla deneme yapıldı, biraz sonra yeniden deneyin.'
+  };
+  async function signIn(email, password) {
+    const reply = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + key, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password, returnSecureToken: true }) });
+    const data = await reply.json().catch(() => ({}));
+    if (!reply.ok) {
+      const code = String(data.error?.message || reply.status).split(' ')[0];
+      throw new Error(errors[code] || 'Giriş yapılamadı (' + code + ').');
+    }
+    session = { email: data.email, idToken: data.idToken, refreshToken: data.refreshToken, bitis: Date.now() + Number(data.expiresIn) * 1000 };
+    keep();
+  }
+  async function token() {
+    if (session.bitis > Date.now() + 60000) return session.idToken;
+    const reply = await fetch('https://securetoken.googleapis.com/v1/token?key=' + key, {
+      method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: 'grant_type=refresh_token&refresh_token=' + encodeURIComponent(session.refreshToken) });
+    if (!reply.ok) { signOut(); throw new Error('Oturumun süresi doldu, yeniden giriş yapın.'); }
+    const data = await reply.json();
+    Object.assign(session, { idToken: data.id_token, refreshToken: data.refresh_token, bitis: Date.now() + Number(data.expires_in) * 1000 });
+    keep();
+    return session.idToken;
+  }
+  function signOut() {
+    session = null;
+    try { sessionStorage.removeItem(SESSION); } catch {}
+    location.reload();
+  }
+  // Every device document, decoded: { uid, cihaz, surum, son, oyuncular: { id: ms }, kayitlar: { key: text } }.
+  async function devices() {
+    const list = [];
+    let page = '';
+    do {
+      const reply = await fetch(docs + 'cihazlar?pageSize=300' + (page ? '&pageToken=' + encodeURIComponent(page) : ''),
+        { headers: { Authorization: 'Bearer ' + await token() } });
+      if (reply.status === 403) throw new Error('Bu hesabın cihazları okuma izni yok. Firestore kurallarındaki ADMIN_UID bu hesabın UID’si mi?');
+      if (reply.status === 404) throw new Error('Firestore veritabanı bulunamadı. Firebase’de Firestore Database oluşturuldu mu?');
+      if (!reply.ok) throw new Error('Buluttan okunamadı (' + reply.status + ').');
+      const data = await reply.json();
+      for (const doc of data.documents || []) {
+        const f = doc.fields || {};
+        const map = (name, pick) => Object.fromEntries(Object.entries(f[name]?.mapValue?.fields || {}).map(([k, v]) => [k, pick(v)]));
+        list.push({ uid: doc.name.split('/').pop(), cihaz: f.cihaz?.stringValue || '', surum: f.surum?.stringValue || '',
+          son: Date.parse(f.son?.timestampValue || doc.updateTime) || null,
+          oyuncular: map('oyuncular', v => Date.parse(v.timestampValue) || null),
+          kayitlar: map('kayitlar', v => v.stringValue ?? null) });
+      }
+      page = data.nextPageToken || '';
+    } while (page);
+    return list;
   }
   function open() {
     $('adm-lock').hidden = true;
     $('admin').hidden = false;
+    $('adm-user').textContent = session.email;
+    $('adm-user-box').hidden = false;
+    $('adm-signout').onclick = signOut;
     startAdmin();
   }
-  // Stays open until the tab is closed.
-  let unlocked = false;
-  try { unlocked = sessionStorage.getItem(UNLOCKED) === adminLock.hash; } catch {}
-  if (unlocked) { open(); return; }
-  $('adm-lock').hidden = false;
-  $('adm-password').focus();
-  $('adm-lock-form').onsubmit = async e => {
-    e.preventDefault();
-    const button = $('adm-lock-form').querySelector('button');
-    button.disabled = true;
-    $('adm-lock-note').textContent = '';
-    let ok = false;
-    try { ok = await check($('adm-password').value); }
-    catch { $('adm-lock-note').textContent = 'Bu tarayıcı şifreyi denetleyemiyor (https gerekir).'; button.disabled = false; return; }
-    button.disabled = false;
-    if (!ok) {
-      $('adm-lock-note').textContent = '✗ Şifre yanlış.';
-      $('adm-password').select();
-      return;
-    }
-    try { sessionStorage.setItem(UNLOCKED, adminLock.hash); } catch {}
-    open();
-  };
+  if (session?.refreshToken) queueMicrotask(open);
+  else {
+    $('adm-lock').hidden = false;
+    $('adm-email').focus();
+    $('adm-lock-form').onsubmit = async e => {
+      e.preventDefault();
+      const button = $('adm-lock-form').querySelector('button');
+      button.disabled = true;
+      $('adm-lock-note').textContent = '';
+      try { await signIn($('adm-email').value.trim(), $('adm-password').value); open(); }
+      catch (error) {
+        $('adm-lock-note').textContent = '✗ ' + (navigator.onLine === false ? 'İnternet bağlantısı yok.' : error.message);
+        $('adm-password').select();
+      }
+      button.disabled = false;
+    };
+  }
+  return { devices };
 })();
 
 function startAdmin() {
@@ -80,6 +130,10 @@ function startAdmin() {
   const parse = text => { try { return JSON.parse(text); } catch { return null; } };
   const num = n => Number.isFinite(n) ? n : 0;
   const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+  function ago(ms) {
+    const m = Math.round((Date.now() - ms) / 60000);
+    return m < 1 ? 'az önce' : m < 60 ? m + ' dk önce' : m < 1440 ? Math.round(m / 60) + ' saat önce' : Math.round(m / 1440) + ' gün önce';
+  }
   const dateText = ms => new Date(ms).toLocaleString('tr-TR', { dateStyle: 'medium', timeStyle: 'short' });
   function seconds(s) {
     s = Math.round(num(s));
@@ -145,10 +199,28 @@ function startAdmin() {
   function writeBackups(list) {
     try { localStorage.setItem(BACKUPS, JSON.stringify(list)); return true; } catch { return false; }
   }
+  // Cloud devices first, most recently played first; this browser only if it is not in the cloud yet.
+  let cloud = [], cloudError = '', loading = true;
+  const thisUid = (() => { try { return JSON.parse(localStorage.getItem('bilgi-adasi-bulut'))?.uid || null; } catch { return null; } })();
   const sources = () => [
-    { id: 'local', label: 'Bu cihaz', local: true, records: localRecords() },
+    ...cloud.slice().sort((a, b) => (b.son || 0) - (a.son || 0)).map(d => ({ id: d.uid, cloud: true, mine: d.uid === thisUid,
+      label: d.cihaz || 'Cihaz', last: d.son, version: d.surum, played: d.oyuncular, records: d.kayitlar })),
+    // This browser, unless it is already in the cloud or has no players.
+    ...(cloud.some(d => d.uid === thisUid) || !(parse(localRecords()[PROFILES]) || []).length ? [] :
+      [{ id: 'local', label: 'Bu cihaz', local: true, records: localRecords() }]),
     ...readBackups().map(b => ({ id: b.id, label: b.ad || 'Yedek', when: b.tarih, added: b.eklendi, device: b.cihaz, records: b.kayitlar || {} }))
   ];
+  async function loadCloud() {
+    loading = true;
+    cloudError = '';
+    $('adm-refresh').disabled = true;
+    draw();
+    try { cloud = await adminCloud.devices(); }
+    catch (error) { cloudError = navigator.onLine === false ? 'İnternet bağlantısı yok.' : error.message; }
+    loading = false;
+    $('adm-refresh').disabled = false;
+    draw();
+  }
 
   /* ---------- Çarpım Adası ---------- */
   function carpim(record) {
@@ -318,13 +390,14 @@ function startAdmin() {
   }
 
   /* ---------- Players ---------- */
-  function player(profile, records) {
+  function player(profile, records, last) {
     const read = key => records[key] === undefined ? null : parse(records[key]);
     const card = el('article', 'adm-player');
     const head = el('div', 'adm-player-head');
     const face = el('span', 'adm-face', profile.icon || '🙂');
     const text = el('div');
-    text.append(el('h2', '', profile.name || '(adsız)'), el('p', 'adm-small', (profile.grade || '?') + ' · kimlik ' + profile.id));
+    text.append(el('h2', '', profile.name || '(adsız)'), el('p', 'adm-small', (profile.grade || '?') + ' · kimlik ' + profile.id +
+      (last ? ' · son oynama ' + dateText(last) + ' (' + ago(last) + ')' : '')));
     head.append(face, text);
     card.append(head);
     const data = {
@@ -352,14 +425,18 @@ function startAdmin() {
     const block = el('section', 'adm-source');
     const head = el('div', 'adm-source-head');
     const title = el('div');
-    title.append(el('h2', '', source.local ? '📱 Bu cihaz' : '📦 ' + source.label));
+    title.append(el('h2', '', source.cloud ? '☁️ ' + source.label + (source.mine ? ' (bu cihaz)' : '') :
+      source.local ? '📱 Bu cihaz (henüz buluta gönderilmedi)' : '📦 Elle eklenen yedek: ' + source.label));
     const meta = [];
+    if (source.last) meta.push('son kayıt ' + dateText(source.last) + ' (' + ago(source.last) + ')');
+    if (source.version) meta.push('sürüm ' + source.version);
+    if (source.cloud) meta.push('cihaz kimliği ' + source.id.slice(0, 8));
     if (source.when) meta.push('yedek alındı ' + dateText(source.when));
     if (source.added) meta.push('eklendi ' + dateText(source.added));
     if (source.device) meta.push(source.device);
     if (meta.length) title.append(el('p', 'adm-small', meta.join(' · ')));
     head.append(title);
-    if (!source.local) {
+    if (!source.local && !source.cloud) {
       const remove = el('button', 'adm-button small', '✕ Kaldır');
       remove.type = 'button';
       remove.onclick = () => {
@@ -376,13 +453,34 @@ function startAdmin() {
     // A quick overview, then every player in full.
     block.append(el('p', 'adm-small', list.length + ' oyuncu'));
     const grid = el('div', 'adm-players');
-    for (const profile of list) grid.append(player(profile, source.records));
+    for (const profile of list) grid.append(player(profile, source.records, source.played?.[profile.id]));
     block.append(grid);
     return block;
   }
 
+  // One table of every player on every device, then each device in full.
+  function overview(all) {
+    const rows = [];
+    for (const source of all) {
+      const list = (parse(source.records[PROFILES]) || []).filter(p => p && p.id);
+      for (const p of list) {
+        const last = source.played?.[p.id];
+        rows.push({ last: last || 0, cells: [(p.icon || '') + ' ' + (p.name || '?'), p.grade || '?',
+          source.cloud ? source.label : source.local ? 'Bu cihaz' : 'Yedek', last ? dateText(last) + ' (' + ago(last) + ')' : '–'] });
+      }
+    }
+    rows.sort((a, b) => b.last - a.last);
+    const box = el('section', 'adm-source');
+    box.append(el('h2', '', '👧🧒 Bütün oyuncular (' + rows.length + ')'));
+    if (rows.length) box.append(table(['Oyuncu', 'Sınıf', 'Cihaz', 'Son oynama'], rows));
+    return box;
+  }
   function draw() {
-    $('adm-sources').replaceChildren(...sources().map(sourceBlock));
+    const all = sources();
+    const status = el('p', cloudError ? 'adm-note bad' : 'adm-small');
+    status.textContent = loading ? '☁️ Buluttan okunuyor…' : cloudError ? '✗ ' + cloudError :
+      '☁️ Bulutta ' + cloud.length + ' cihaz · ' + dateText(Date.now()) + ' itibarıyla';
+    $('adm-sources').replaceChildren(status, overview(all), ...all.map(sourceBlock));
   }
 
   /* ---------- Backups ---------- */
@@ -436,5 +534,6 @@ function startAdmin() {
     draw();
   };
 
-  draw();
+  $('adm-refresh').onclick = loadCloud;
+  loadCloud();
 }
