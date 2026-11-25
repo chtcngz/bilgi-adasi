@@ -41,6 +41,9 @@ app/                         Published site (GitHub Pages root)
 │           ├── cezm/NN.mp3          The syllable in which letter NN has the cezm (00: a hemze)
 │           ├── cezm-ornek/P-S.mp3   Diyanet's five cezm examples (S: 0 without the cezm, 1 with it, 2 the word)
 │           ├── yer/P.mp3            "Kelimenin başında / ortasında / sonunda"
+│           ├── cocuk/               The girl's voice (Settings → Elif Ba sesleri, the default): harf/NN.mp3 (+ hemze),
+│           │                        hece/NN-H.mp3, yer/P.mp3 and hareke/ (üstün, esre, ötre, cezm names); what she
+│           │                        has not recorded is played from the man's clips above
 │           ├── kayitlar.js          Which clips exist (window.elifRecordings)
 │           ├── kaynak.json          Clip ↔ source mapping
 │           └── KAYNAKLAR.md         Sources and licenses
@@ -69,6 +72,7 @@ tools/                       Helper scripts (not published)
 ├── kapsam.js                Checks every question island against its textbook checklist
 ├── make_sounds.py           → app/assets/audio/ui/*.wav
 └── elif_sesleri.py          → app/assets/audio/elif-ba/ (harf, hece, kayitlar.js)
+elifba-ses-onizleme/          The girl's voice as recorded (also tenvin, şedde, uzatma …, not used yet) with a page to listen to them
 sources/                     Raw material (not published)
 └── elifba-sesleri/          Diyanet Elifba audio library, organized by lesson, plus katalog.json
 ```

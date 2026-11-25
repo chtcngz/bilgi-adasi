@@ -1,5 +1,7 @@
-// Voice for Elif Ba: recorded clips listed in ses/kayitlar.js when there are any,
+// Voice for Elif Ba: recorded clips listed in assets/audio/elif-ba/kayitlar.js when there are any,
 // otherwise the device's Turkish speech voice reading the Turkish names and syllables.
+// Three choices in Settings: 'cocuk' (the girl's voice, the default; a clip she has not recorded
+// is played in the man's voice), 'kayit' (every clip in the man's voice) and 'turkce' (the device's voice).
 //
 // Clips play through the same Web Audio context as the game's sound cues (sounds.js
 // unlocks it on every touch and sets the phone's audio session), decoded once into
@@ -7,12 +9,16 @@
 // element and Android caps how many may exist, so an element is only the fallback.
 const elifVoice = (() => {
   const recorded = { harf: {}, hece: {}, kelime: {}, yer: {}, cezm: {}, cezmOrnek: {}, ...window.elifRecordings };
+  const child = { harf: {}, hece: {}, yer: {}, hareke: {}, ...recorded.cocuk };
+  const MODES = ['cocuk', 'kayit', 'turkce'];
   const buffers = new Map();
   const elements = new Map();
   let source = null, element = null;
   let run = 0; // every new request cancels the sequence that was playing
-  let mode = 'kayit';
-  try { if (localStorage.getItem('elif-ses') === 'turkce') mode = 'turkce'; } catch {}
+  let mode = 'cocuk';
+  try { const saved = localStorage.getItem('elif-ses'); if (MODES.includes(saved)) mode = saved; } catch {}
+  // A recorded clip in the chosen voice: the girl's when she has it, else the man's; none for 'turkce'.
+  const clip = (kind, key) => mode === 'turkce' ? null : (mode === 'cocuk' && child[kind]?.[key]) || recorded[kind]?.[key] || null;
   const context = () => (typeof playCue === 'function' && playCue.context?.()) || null;
 
   function stop() {
@@ -103,18 +109,29 @@ const elifVoice = (() => {
     };
     next(0);
   }
-  const letterClip = i => mode === 'kayit' ? recorded.harf[i] : null;
-  const syllableClip = (i, h) => mode === 'kayit' ? recorded.hece[i + '-' + h] : null;
+  const letterClip = i => clip('harf', i);
+  const syllableClip = (i, h) => clip('hece', i + '-' + h);
   const hareke = h => elifData.harekeler[h].name.toLocaleLowerCase('tr');
+  // "Be üstün", "Sin cezm" (h: 0-2 or 'cezm'; i 0 with a cezm is the hemze): the girl says the letter and
+  // the mark as two clips; the man's recordings have no mark names, so the device's voice says them.
+  const markText = h => h === 'cezm' ? 'cezm' : hareke(h);
+  function named(i, h) {
+    const hemze = h === 'cezm' && i === 0;
+    const name = hemze ? 'Hemze' : elifData.names[i];
+    const nameClip = mode === 'cocuk' && child.harf[hemze ? 'hemze' : i];
+    const markClip = mode === 'cocuk' && child.hareke[h];
+    if (nameClip && markClip) return [{ src: nameClip, text: name }, { src: markClip, text: markText(h) }];
+    return [{ text: name + ' ' + markText(h) }];
+  }
   // Bitişik yazılış: an example word spelled letter by letter (the Turkish voice spells it by the
   // letters' names too) and "Kelimenin başında / ortasında / sonunda".
   const pad = i => String(i).padStart(2, '0');
-  const wordClip = (i, f) => mode === 'kayit' ? recorded.kelime[pad(i) + '-' + f] : null;
-  const placeClip = f => mode === 'kayit' ? recorded.yer[f] : null;
+  const wordClip = (i, f) => clip('kelime', pad(i) + '-' + f);
+  const placeClip = f => clip('yer', f);
   const placeText = ['', 'Kelimenin başında', 'Kelimenin ortasında', 'Kelimenin sonunda'];
   // Cezm: the syllable in which letter i has the cezm, and Diyanet's five examples (p) in three steps (s).
-  const cezmClip = i => mode === 'kayit' ? recorded.cezm[i] : null;
-  const exampleClip = (p, s) => mode === 'kayit' ? recorded.cezmOrnek[p + '-' + s] : null;
+  const cezmClip = i => clip('cezm', i);
+  const exampleClip = (p, s) => clip('cezmOrnek', p + '-' + s);
   const spelled = text => Array.from(text.replace(/\s/g, '')).map(c => elifData.names[elifData.glyphs.indexOf({ 'ة': 'ت', 'ى': 'ي' }[c] || c)])
     .filter(Boolean).join(', ');
 
@@ -133,15 +150,15 @@ const elifVoice = (() => {
     // "Be esre bi, sin cezm bis": a cezm syllable the way it is chanted in class.
     cezmChant(i, note, after) {
       const { before } = elifData.cezm(i);
-      sequence([{ text: elifData.names[before.i] + ' ' + hareke(before.h) }, { src: syllableClip(before.i, before.h), text: elifData.readings[before.i][before.h] },
-        { text: (i === 0 ? 'Hemze' : elifData.names[i]) + ' cezm' }, { src: cezmClip(i), text: elifData.cezmReadings[i] }], note, after);
+      sequence([...named(before.i, before.h), { src: syllableClip(before.i, before.h), text: elifData.readings[before.i][before.h] },
+        ...named(i, 'cezm'), { src: cezmClip(i), text: elifData.cezmReadings[i] }], note, after);
     },
     cezmExample: (p, s, note, after) => sequence([{ src: exampleClip(p, s), text: elifData.cezmExampleReadings[p][s] }], note, after),
     // "Be üstün be, be esre bi, be ötre bu": the way the harekes are chanted in class.
     chant(i, h, note) {
       const steps = [];
       for (const k of h === undefined ? [0, 1, 2] : [h]) {
-        steps.push({ text: elifData.names[i] + ' ' + hareke(k) }, { src: syllableClip(i, k), text: elifData.readings[i][k] });
+        steps.push(...named(i, k), { src: syllableClip(i, k), text: elifData.readings[i][k] });
       }
       sequence(steps, note);
     },
@@ -152,6 +169,7 @@ const elifVoice = (() => {
     // syllables they start with.
     preload(letters, namesOnly = false, joined = false, cezm = false) {
       if (joined) for (const f of [1, 2, 3]) if (placeClip(f)) decode(placeClip(f));
+      if (mode === 'cocuk' && !namesOnly) for (const src of Object.values(child.hareke)) decode(src);
       if (cezm) for (const i of letters) {
         const { before } = elifData.cezm(i);
         for (const src of [cezmClip(i), syllableClip(before.i, before.h)]) if (src) decode(src);
@@ -163,10 +181,10 @@ const elifVoice = (() => {
       }
     },
     hasRecordings: () => Object.keys(recorded.harf).length + Object.keys(recorded.hece).length > 0,
-    credit: () => recorded.credit || '',
+    credit: () => [mode === 'cocuk' ? recorded.cocukCredit : '', recorded.credit].filter(Boolean).join(' '),
     mode: () => mode,
     setMode(next) {
-      mode = next === 'turkce' ? 'turkce' : 'kayit';
+      mode = MODES.includes(next) ? next : 'cocuk';
       try { localStorage.setItem('elif-ses', mode); } catch {}
     }
   };

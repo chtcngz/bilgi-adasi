@@ -7,6 +7,15 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.34.0 · 25.11.2026
+
+Elif Ba Adası’na **kız çocuk sesi** geldi ve artık ses Ayarlar’dan seçilebiliyor.
+
+- **Kız çocuk sesi (varsayılan):** Harf adları, üstün, esre, ötre ile okunuşlar (be, bi, bu …) ve bitişik yazılıştaki “kelimenin başında / ortasında / sonunda” artık çocuk sesiyle. “Be üstün be” ve “Sin cezm bis” gibi okuyuşlarda harekenin ve cezmin adını da çocuk söylüyor.
+- Çocuk sesinin kaydı olmayanlar (bitişik yazılış örnek kelimeleri, cezimli heceler) eskisi gibi erkek sesiyle çalınıyor.
+- **Ayarlar → Ses → Elif Ba sesleri:** *Kız çocuk sesi*, *Erkek sesi* (bütün kayıtlar önceki erkek sesiyle) ya da *Türkçe okunuş* (cihazın sesi) seçilebiliyor. Önceki erkek sesi kayıtlarının hepsi duruyor.
+- Daha önce Ayarlar’dan erkek sesini seçmiş olanlarda seçim değişmiyor.
+
 ## 0.33.0 · 25.11.2026
 
 Elif Ba Adası’nın **Harf Yağmuru, Hece Balonları, Şekil Yağmuru ve Cezm Balonları** oyunları değişti: artık bir harf üst üste üç kez söylenmiyor.

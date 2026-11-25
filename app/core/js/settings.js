@@ -133,7 +133,7 @@
     $('elif-voice-credit').textContent = elifVoice.credit();
   }
   for (const input of $('elif-voice').querySelectorAll('input')) {
-    input.onchange = () => { elifVoice.setMode(input.value); elifVoice.chant(1, 0); };
+    input.onchange = () => { elifVoice.setMode(input.value); $('elif-voice-credit').textContent = elifVoice.credit(); elifVoice.chant(1, 0); };
   }
   $('sound-switch').onchange = () => playCue.setEnabled($('sound-switch').checked);
   document.addEventListener('soundchange', syncSound);
