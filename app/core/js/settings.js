@@ -78,6 +78,7 @@
     const stored = saveProfiles();
     showPlayerButton();
     refreshView();
+    akvaryum.refresh();
     fillPlayer();
     playCue('correct');
     $('edit-note').textContent = stored ? '✓ Kaydedildi' : 'Değişiklik yalnızca bu oturumda saklanabildi.';
@@ -115,7 +116,7 @@
     bulut.oyuncuSilindi(profile.id);
     window.speechSynthesis?.cancel();
     activeProfile = null;
-    for (const view of ['catalog', 'island-view', 'elif-view', 'game-tools', 'settings-button']) $(view).hidden = true;
+    for (const view of ['catalog', 'island-view', 'elif-view', 'game-tools', 'settings-button', 'aquarium-button']) $(view).hidden = true;
     for (const kod of Object.keys(window.soruAdalari)) $(kod + '-view').hidden = true;
     $('player').textContent = 'Oyuncu seç';
     $('player').title = '';

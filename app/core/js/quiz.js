@@ -423,10 +423,13 @@ function soruAdasi({ kod, ad, kayit, duraklar: stops, ovgu: praise, simgeler }) 
     const storage = learnedNote() + (storageNote ? '<p class="soru-small">' + storageNote + '</p>' : '');
     if (run.kind === 'tekrar') {
       const left = missed().length;
+      // a Tekrar Kutusu round answered without a mistake earns a reward for the tank
+      const prize = run.right === total ? akvaryum.odul({ neden: ad + ' · Tekrar Kutusu' }) : null;
       result('<div class="soru-prize" aria-hidden="true">' + (run.right === total ? '🌟' : '🔁') + '</div>' +
         '<h2 id="' + kod + '-result-title" tabindex="-1">' + (run.right === total ? 'Hepsini düzelttin!' : 'Güzel tekrar!') + '</h2>' +
         '<p class="soru-score-big"><b>' + run.right + '</b> / ' + total + ' doğru</p><p>' +
-        (left ? 'Tekrar Kutusu’nda ' + left + ' soru kaldı.' : 'Tekrar Kutusu boşaldı. 🎉') + '</p>' + storage, 'win');
+        (left ? 'Tekrar Kutusu’nda ' + left + ' soru kaldı.' : 'Tekrar Kutusu boşaldı. 🎉') + '</p>' +
+        (prize ? akvaryum.kart([prize]) : akvaryum.ipucu('Bir turu hatasız bitirince akvaryumuna yeni bir balık ya da süs gelir.')) + storage, 'win');
       playCue(run.right === total ? 'island' : 'correct');
       if (run.right === total) fx.confetti(dialog, { count: 120 });
       buttons(...(left ? [['🔁 Bir tur daha', startReview]] : []), ['Adaya dön', closeGame, left > 0]);
@@ -437,7 +440,7 @@ function soruAdasi({ kod, ad, kayit, duraklar: stops, ovgu: praise, simgeler }) 
     if (run.hearts === 0) {
       result(topBar() + '<div class="soru-prize" aria-hidden="true">💔</div><h2 id="' + kod + '-result-title" tabindex="-1">Kalplerin bitti!</h2>' +
         '<p>' + (run.turn + 1) + ' sorudan ' + run.right + ' tanesini bildin. Yanlış yaptığın sorular Tekrar Kutusu’na eklendi; ' +
-        '“Biliyor muydun?” notlarını hatırlayarak yeniden dene.</p>' + storage, 'bad');
+        '“Biliyor muydun?” notlarını hatırlayarak yeniden dene.</p>' + akvaryum.ipucu('Turu bitirince akvaryumuna yeni bir balık ya da süs gelecek.') + storage, 'bad');
       playCue('oops');
       buttons(['↻ Tekrar dene', () => startStop(k)], ['Adaya dön', closeGame, true]);
       return;
@@ -448,6 +451,11 @@ function soruAdasi({ kod, ad, kayit, duraklar: stops, ovgu: praise, simgeler }) 
     if (stars > before) progress.yildiz[stop.id] = stars;
     save();
     const all = learnedAll() === byId.size;
+    // A finished round brings a reward to the tank while the stop still has questions to learn; learning
+    // every question of the stop brings one more, once.
+    const prizes = [];
+    if (run.stopLearnedBefore < stop.sorular.length) prizes.push(akvaryum.odul({ neden: ad + ' · ' + stop.ad }));
+    if (stopMastered(stop) && run.stopLearnedBefore < stop.sorular.length) prizes.push(akvaryum.odul({ anahtar: kod + ':' + stop.id + ':tamam', neden: ad + ' · ' + stop.ad + ' bitti' }));
     const examNow = firstTime && !stop.ekstra && unitsLeft() === 0;
     const left = unitsLeft();
     let text = run.right + ' / ' + total + ' doğru';
@@ -459,7 +467,7 @@ function soruAdasi({ kod, ad, kayit, duraklar: stops, ovgu: praise, simgeler }) 
       ' açıldı! Gerçek sınav gibi ' + EXAM + ' soru seni bekliyor.</p>';
     result('<div class="soru-prize" aria-hidden="true">' + stop.simge + '</div>' +
       '<h2 id="' + kod + '-result-title" tabindex="-1">' + (stars > before && !firstTime ? 'Yeni rekor!' : stars === 3 ? 'Mükemmel!' : 'Durak tamamlandı!') + '</h2>' +
-      '<div class="soru-won">' + starRow(stars) + '</div><p class="soru-score-big">' + text + '</p>' + extra + storage, 'win');
+      '<div class="soru-won">' + starRow(stars) + '</div><p class="soru-score-big">' + text + '</p>' + extra + akvaryum.kart(prizes) + storage, 'win');
     playCue(all ? 'victory' : 'island');
     fx.confetti(dialog, { count: stars === 3 ? 180 : 110 });
     fx.burst(byKey('stage').querySelector('.soru-won'), { count: 12, spread: 100 });
@@ -477,6 +485,8 @@ function soruAdasi({ kod, ad, kayit, duraklar: stops, ovgu: praise, simgeler }) 
     progress.deneme.sayi++;
     if (before === null || score > before) progress.deneme.en = score;
     save();
+    // the first exam and every new record bring a reward to the tank
+    const prize = before === null || score > before ? akvaryum.odul({ neden: ad + ' · Deneme Sınavı' }) : null;
     const emoji = score >= 18 ? '🏆' : score >= 15 ? '🥈' : score >= 10 ? '📚' : '🌱';
     const title = score >= 18 ? 'Sınava hazırsın!' : score >= 15 ? 'Çok iyi gidiyorsun!' : score >= 10 ? 'Güzel bir başlangıç!' : 'Biraz daha çalışalım!';
     const byStop = stops.map(stop => {
@@ -498,6 +508,7 @@ function soruAdasi({ kod, ad, kayit, duraklar: stops, ovgu: praise, simgeler }) 
       '<ul class="facts soru-facts"><li><b>' + Math.round(score / total * 100) + '</b><span>puan</span></li><li><b>' + minutes(elapsed) +
       '</b><span>süre</span></li><li><b>' + progress.deneme.en + '</b><span>en iyi</span></li></ul>' +
       (before !== null && score > before ? '<p class="soru-unlock">🎉 Yeni rekor! Önceki en iyin ' + before + ' idi.</p>' : '') +
+      (prize ? akvaryum.kart([prize]) : akvaryum.ipucu('Rekorunu geliştirince akvaryumuna yeni bir balık ya da süs gelir.')) +
       '<h3 class="soru-h3">Konulara göre</h3><ul class="soru-by-stop">' + byStop + '</ul>' +
       (wrongs ? '<h3 class="soru-h3">Yanlışlarını incele</h3><p class="soru-small">Bu sorular Tekrar Kutusu’na eklendi.</p>' + wrongs : '') +
       learnedNote() + (storageNote ? '<p class="soru-small">' + storageNote + '</p>' : ''), score >= 15 ? 'win' : '');

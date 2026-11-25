@@ -7,6 +7,20 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.36.0 · 25.11.2026
+
+1., 2., 3. ve 4. sınıf oyuncularının artık **kendi akvaryumu** var. Her oyuncunun akvaryumu ayrı; balıklar, süsler ve verilen isimler o oyuncuya kaydediliyor.
+
+- **Her görev bir ödül getiriyor:** Çarpım Adası’nda bir ada bitince, soru adalarında öğrenilecek sorusu kalan bir durağın turu bitince, bir durağın bütün soruları öğrenilince, ilk deneme sınavında ve her yeni rekorda, Tekrar Kutusu’ndaki bir tur hatasız bitince akvaryuma yeni bir balık ya da süs geliyor. Her üç ödülden biri süs.
+- **Ödül ekranda görünüyor:** Bölümün sonuç ekranında kazanılan balık ya da süs, yüzerken çiziliyor. Altındaki **🐠 Akvaryuma git** düğmesi akvaryumu açıyor, yeni ödül yan taraftan yüzerek geliyor (süsler yukarıdan kuma iniyor). Akvaryum kapanınca sonuç ekranına dönülüyor. Kalpler biterse ekran turu bitirince bir balık geleceğini hatırlatıyor.
+- **13 balık türü:** Palyaço balığı, mavi ve sarı cerrah balığı, melek balığı, neon tetra, Japon balığı, beta balığı, disk balığı, balon balığı (dokununca şişiyor), kelebek balığı, lepistes, kraliyet graması ve denizatı. Neon tetralar ve lepistesler sürü hâlinde yüzüyor.
+- **15 süs:** Batık gemi, su altı kalesi, hazine sandığı (dokununca kapağı açılıyor), dalgıç kaskı, antik testiler, mercan kayalığı, kaya kemeri, deniz yıldızı, incili istiridye (ara sıra açılıp incisini gösteriyor), deniz şakayığı, kumda yürüyen yengeç ve salyangoz, deniz kestanesi, sarmal deniz kabuğu ve hava taşı. Batık gemiden, dalgıç kaskından ve hava taşından kabarcıklar yükseliyor.
+- **Balıklara isim:** Bir balığa dokununca balık ortaya yüzüp bekliyor, alttan isim kutusu açılıyor. Verilen isim balığın üstünde yazıyor ve balıkla birlikte yüzüyor. İsim sonradan değiştirilebiliyor.
+- **Gerçekçi akvaryum:** Işıklı kapağı ve camıyla bir akvaryum; yukarıdan süzülen ışık huzmeleri, kumda oynaşan ışık desenleri, çakıllı zemin, suda salınan bitkiler, öndeki bitkilerin arkasından geçen balıklar, yükselen kabarcıklar ve dalgalanan su yüzeyi. Suya dokununca yem atılıyor, balıklar yemi yemeye geliyor.
+- **Akvaryum dolunca yenisi:** Bir akvaryuma 12 balık ve 6 süs sığıyor; sonraki ödülle yeni bir akvaryum açılıyor: Mercan Koyu, Yeşil Vadi, Gece Mavisi ve Gün Batımı Lagünü. Akvaryumlar arasında ‹ › düğmeleriyle geçiliyor; alttaki dolaptaki çubuk akvaryumun dolmasına kaç ödül kaldığını gösteriyor.
+- **Akvaryuma giriş:** Keşif Limanı’nın en üstündeki akvaryum kartından ve her ekranda üst çubuktaki 🐠 düğmesinden açılıyor. Görülmemiş yeni ödül varsa düğmede turuncu bir nokta yanıyor.
+- Yönetici sayfası her oyuncunun akvaryumunu da gösteriyor: balık ve süs sayısı, isimli balıklar ve hangi ödülün nereden geldiği.
+
 ## 0.35.2 · 25.11.2026
 
 - **Donma düzeltildi:** Elif Ba Adası’nda harfleri henüz öğrenilmemiş bir oyun açılınca sayfa donuyordu: adı `admin` olan oyuncuda Martı Adacığı’nın Şekil Yağmuru’na dokununca böyle oluyordu; Harf Yağmuru, Hece Balonları ve Cezm Balonları’nda da aynısı vardı. Artık bu oyunlarda adacığın kendi harfleri her zaman oynanıyor ve oyun açılıyor.

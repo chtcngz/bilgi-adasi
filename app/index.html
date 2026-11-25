@@ -1,5 +1,5 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Keşif Limanı · Bilgi Adası</title><meta name="surum" content="__SURUM__"><link rel="stylesheet" href="core/css/base.css?v=3"><link rel="stylesheet" href="islands/elif-ba/style.css?v=15"><link rel="stylesheet" href="islands/elif-ba/games/listening.css?v=5"><link rel="stylesheet" href="islands/elif-ba/games/bridge.css?v=1"><link rel="stylesheet" href="islands/elif-ba/games/aquarium.css?v=4"><link rel="stylesheet" href="core/css/quiz.css?v=2"><link rel="stylesheet" href="islands/din-bilgisi/style.css?v=5"><link rel="stylesheet" href="islands/fen-bilimleri/style.css?v=2"><link rel="stylesheet" href="islands/sosyal-bilgiler/style.css?v=1"></head><body>
-<header><div class="brand"><span class="brand-icon">⛵</span> Bilgi Adası</div><div class="head-right"><button id="player" aria-haspopup="dialog">Oyuncu seç</button><button id="settings-button" aria-label="Ayarlar" title="Ayarlar" aria-haspopup="dialog" hidden>⚙</button><div id="game-tools" hidden><button id="open-stats" aria-haspopup="dialog">İstatistikler</button><span id="stars">⭐ 0 yıldız</span><button id="sound" aria-label="Sesi aç" aria-pressed="false">♫</button></div></div></header>
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Keşif Limanı · Bilgi Adası</title><meta name="surum" content="__SURUM__"><link rel="stylesheet" href="core/css/base.css?v=3"><link rel="stylesheet" href="islands/elif-ba/style.css?v=15"><link rel="stylesheet" href="islands/elif-ba/games/listening.css?v=5"><link rel="stylesheet" href="islands/elif-ba/games/bridge.css?v=1"><link rel="stylesheet" href="islands/elif-ba/games/aquarium.css?v=4"><link rel="stylesheet" href="core/css/quiz.css?v=2"><link rel="stylesheet" href="core/css/akvaryum.css?v=1"><link rel="stylesheet" href="islands/din-bilgisi/style.css?v=5"><link rel="stylesheet" href="islands/fen-bilimleri/style.css?v=2"><link rel="stylesheet" href="islands/sosyal-bilgiler/style.css?v=1"></head><body>
+<header><div class="brand"><span class="brand-icon">⛵</span> Bilgi Adası</div><div class="head-right"><button id="player" aria-haspopup="dialog">Oyuncu seç</button><button id="aquarium-button" aria-haspopup="dialog" hidden></button><button id="settings-button" aria-label="Ayarlar" title="Ayarlar" aria-haspopup="dialog" hidden>⚙</button><div id="game-tools" hidden><button id="open-stats" aria-haspopup="dialog">İstatistikler</button><span id="stars">⭐ 0 yıldız</span><button id="sound" aria-label="Sesi aç" aria-pressed="false">♫</button></div></div></header>
 <main>
 <section id="catalog" hidden aria-labelledby="catalog-title">
   <div class="harbor-heading">
@@ -7,33 +7,34 @@
     <h1 id="catalog-title" tabindex="-1">Keşif <em>Limanı</em></h1>
     <p id="catalog-greeting" class="greeting"></p>
   </div>
+  <button id="aquarium-card" class="ak-card" aria-haspopup="dialog" hidden></button>
   <div class="game-grid" id="game-grid">
     <button id="elif-card" class="catalog-card" data-grades="Okul öncesi" hidden>
       <img src="islands/elif-ba/koy.jpg" width="1536" height="1024" alt="">
       <span class="catalog-caption"><span><small>Kur’an harfleri</small><strong>Elif Ba Adası</strong></span><span class="card-arrow" aria-hidden="true">▶</span></span>
     </button>
-    <button id="multiplication-card" class="catalog-card" data-grades="2. sınıf|3. sınıf|4. sınıf" hidden>
+    <button id="multiplication-card" class="catalog-card" data-akvaryum data-grades="2. sınıf|3. sınıf|4. sınıf" hidden>
       <img src="assets/images/ada-atlasi.jpg" alt="" width="1536" height="1024">
       <span class="catalog-caption">
         <span><small>Matematik</small><strong>Çarpım Adası</strong></span>
         <span class="card-arrow" aria-hidden="true">→</span>
       </span>
     </button>
-    <button id="din-card" class="catalog-card" data-grades="4. sınıf" hidden>
+    <button id="din-card" class="catalog-card" data-akvaryum data-grades="4. sınıf" hidden>
       <img src="islands/din-bilgisi/ada.svg" width="1440" height="800" alt="">
       <span class="catalog-caption">
         <span><small>Din Kültürü ve Ahlak Bilgisi</small><strong>Din Bilgisi Adası</strong></span>
         <span class="card-arrow" aria-hidden="true">→</span>
       </span>
     </button>
-    <button id="fen-card" class="catalog-card" data-grades="4. sınıf" hidden>
+    <button id="fen-card" class="catalog-card" data-akvaryum data-grades="4. sınıf" hidden>
       <img src="islands/fen-bilimleri/ada.svg" width="1440" height="800" alt="">
       <span class="catalog-caption">
         <span><small>Fen Bilimleri</small><strong>Fen Bilimleri Adası</strong></span>
         <span class="card-arrow" aria-hidden="true">→</span>
       </span>
     </button>
-    <button id="sosyal-card" class="catalog-card" data-grades="4. sınıf" hidden>
+    <button id="sosyal-card" class="catalog-card" data-akvaryum data-grades="4. sınıf" hidden>
       <img src="islands/sosyal-bilgiler/ada.svg" width="1440" height="800" alt="">
       <span class="catalog-caption">
         <span><small>Sosyal Bilgiler</small><strong>Sosyal Bilgiler Adası</strong></span>
@@ -102,6 +103,7 @@
 <dialog id="elif-rain" aria-label="Harf Yağmuru"></dialog>
 <dialog id="elif-aquarium" aria-label="Akvaryum"></dialog>
 <dialog id="elif-bridge" aria-label="Cam Köprü"></dialog>
+<dialog id="akvaryum" aria-label="Akvaryum"></dialog>
 <section id="island-view" hidden>
 <button class="secondary" id="back-to-catalog">← Keşif Limanı’na dön</button><div class="heading"><div><div class="eyebrow">MATEMATİK MACERASI</div><h1>Çarpım <em>Adası</em></h1><p>Dokuz adayı keşfet, çarpımları çöz ve yıldızları topla!</p></div><div class="grade" id="grade"></div></div>
 <div class="layout"><section class="map" aria-label="Keşif haritası"><img class="atlas" src="assets/images/ada-atlasi.jpg" width="1536" height="1024" fetchpriority="high" alt="Palmiyeli koydan hazine adasına uzanan dokuz adalık keşif haritası"><div class="map-title"><span>✥</span> Keşif haritası</div><div id="pins"></div><p id="map-hint" class="map-hint" role="status" hidden></p></section><aside><div class="eyebrow">SEÇİLİ BÖLÜM</div><div id="mission"></div><button class="primary" id="play">▶ &nbsp; Maceraya başla</button></aside></div>
@@ -187,5 +189,5 @@
     <p id="no-progress" class="set-note" hidden>Bu oyuncunun sınıfı için sıfırlanacak ilerleme yok.</p>
   </div>
   <p class="app-version"></p>
-</dialog><script src="core/js/app.js?v=2"></script><script src="core/js/bulut-ayar.js?v=3"></script><script src="core/js/sync.js?v=2"></script><script src="core/js/sounds.js?v=13"></script><script src="core/js/fx.js?v=2"></script><script src="islands/carpim/game.js?v=2"></script><script src="core/js/stats.js?v=2"></script><script src="core/js/profiles.js?v=3"></script><script src="islands/elif-ba/data.js?v=9"></script><script src="assets/audio/elif-ba/kayitlar.js?v=9"></script><script src="islands/elif-ba/voice.js?v=9"></script><script src="islands/elif-ba/games/art.js?v=1"></script><script src="islands/elif-ba/games/listening.js?v=10"></script><script src="islands/elif-ba/games/bridge.js?v=5"></script>
-<script src="islands/elif-ba/games/aquarium.js?v=5"></script><script src="islands/elif-ba/map.js?v=6"></script><script src="islands/elif-ba/game.js?v=18"></script><script src="core/js/quiz.js?v=3"></script><script src="islands/din-bilgisi/sorular.js?v=8"></script><script src="islands/din-bilgisi/game.js?v=5"></script><script src="islands/fen-bilimleri/sorular.js?v=4"></script><script src="islands/fen-bilimleri/game.js?v=2"></script><script src="islands/sosyal-bilgiler/sorular.js?v=4"></script><script src="islands/sosyal-bilgiler/game.js?v=1"></script><script src="core/js/settings.js?v=18"></script></body></html>
+</dialog><script src="core/js/app.js?v=2"></script><script src="core/js/bulut-ayar.js?v=3"></script><script src="core/js/sync.js?v=3"></script><script src="core/js/sounds.js?v=13"></script><script src="core/js/fx.js?v=2"></script><script src="core/js/akvaryum-veri.js?v=1"></script><script src="core/js/akvaryum-sanat.js?v=1"></script><script src="core/js/akvaryum.js?v=1"></script><script src="islands/carpim/game.js?v=3"></script><script src="core/js/stats.js?v=2"></script><script src="core/js/profiles.js?v=4"></script><script src="islands/elif-ba/data.js?v=9"></script><script src="assets/audio/elif-ba/kayitlar.js?v=9"></script><script src="islands/elif-ba/voice.js?v=9"></script><script src="islands/elif-ba/games/art.js?v=1"></script><script src="islands/elif-ba/games/listening.js?v=10"></script><script src="islands/elif-ba/games/bridge.js?v=5"></script>
+<script src="islands/elif-ba/games/aquarium.js?v=5"></script><script src="islands/elif-ba/map.js?v=6"></script><script src="islands/elif-ba/game.js?v=18"></script><script src="core/js/quiz.js?v=4"></script><script src="islands/din-bilgisi/sorular.js?v=8"></script><script src="islands/din-bilgisi/game.js?v=5"></script><script src="islands/fen-bilimleri/sorular.js?v=4"></script><script src="islands/fen-bilimleri/game.js?v=2"></script><script src="islands/sosyal-bilgiler/sorular.js?v=4"></script><script src="islands/sosyal-bilgiler/game.js?v=1"></script><script src="core/js/settings.js?v=19"></script></body></html>

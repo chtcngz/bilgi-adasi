@@ -151,7 +151,7 @@ function startAdmin() {
   const BACKUPS = 'bilgi-adasi-yonetici-yedekler';
   // The game's saved-data keys (README: they never change).
   const PROFILES = 'carpim-adasi-profiller';
-  const prefixes = ['carpim-adasi-', 'elif-ba-', 'din-bilgisi-', 'fen-bilimleri-', 'sosyal-bilgiler-', 'carpim-ses', 'elif-ses'];
+  const prefixes = ['carpim-adasi-', 'elif-ba-', 'din-bilgisi-', 'fen-bilimleri-', 'sosyal-bilgiler-', 'akvaryum-', 'carpim-ses', 'elif-ses'];
   // Çarpım Adası's islands and rounds, as in islands/carpim/game.js.
   const carpimIslands = ['Palmiye Koyu', 'Çam Kumsalı', 'Kaya Geçidi', 'Fener Burnu',
     'Mercan Koyu', 'Çam Limanı', 'Dağ Geçidi', 'Değirmen Adası', 'Hazine Zirvesi'];
@@ -399,6 +399,26 @@ function startAdmin() {
   }
 
   /* ---------- Question islands ---------- */
+  // Akvaryum (core/js/akvaryum.js): the fish and ornaments the player earned, tank by tank, and their names.
+  function aquarium(record) {
+    const box = el('section', 'adm-island');
+    box.append(el('h3', '', '🐠 Akvaryum'));
+    const items = Array.isArray(record?.esya) ? record.esya.filter(e => e && typeof e.k === 'string') : [];
+    box.ozet = '🐠 ' + items.filter(e => e.t === 'b').length;
+    if (!items.length) { box.append(el('p', 'adm-empty', 'Henüz ödül kazanmadı.')); return box; }
+    const name = k => (typeof akvaryumVeri !== 'undefined' && akvaryumVeri.tur(k)?.ad) || k;
+    const fish = items.filter(e => e.t === 'b');
+    const tanks = Math.max(...items.map(e => num(e.a))) + 1;
+    const stats = el('div', 'adm-stats');
+    stats.append(stat(String(fish.length), 'balık'), stat(String(items.length - fish.length), 'süs'),
+      stat(String(tanks), 'akvaryum'), stat(String(fish.filter(e => e.ad).length), 'isimli balık'));
+    box.append(stats);
+    box.append(fold('Ödüller (' + items.length + ')', table(['Akvaryum', 'Ödül', 'İsim', 'Nereden', 'Ne zaman'],
+      items.slice().reverse().map(e => [String(num(e.a) + 1), (e.t === 'b' ? '🐟 ' : '🪸 ') + name(e.k), e.ad || '–', e.g || '–',
+        Number.isFinite(e.z) ? dateText(e.z) : '–']))));
+    return box;
+  }
+
   function quiz(info, record) {
     const box = el('section', 'adm-island');
     box.append(el('h3', '', info.simge + ' ' + info.ad));
@@ -478,6 +498,8 @@ function startAdmin() {
     if (shown.has('elif')) card.append(elif(data.elif));
     if (shown.has('carpim')) card.append(carpim(data.carpim));
     for (const info of quizzes) if (shown.has(info.kod)) card.append(quiz(info, data[info.kod]));
+    const tank = read('akvaryum-' + profile.id);
+    if (tank || [...shown].some(k => k !== 'elif')) card.append(aquarium(tank));
     for (const box of card.querySelectorAll('.adm-island')) chips.append(el('span', 'adm-chip', box.ozet));
     // Raw saved data, for anything the summaries leave out.
     const raw = Object.keys(records).filter(k => k.endsWith(profile.id)).sort();

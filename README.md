@@ -25,10 +25,14 @@ app/                         Published site (GitHub Pages root)
 │   │   ├── profiles.js      Players, grade levels, Keşif Limanı (island catalog)
 │   │   ├── stats.js         Çarpım statistics
 │   │   ├── quiz.js          Question-island engine: soruAdasi({...})
+│   │   ├── akvaryum-veri.js Akvaryum: the fish, ornaments and tank themes (names, sizes; the admin page loads it too)
+│   │   ├── akvaryum-sanat.js Akvaryum's drawings: fish, ornaments, plants (SVG), sand and caustics (canvas)
+│   │   ├── akvaryum.js      Akvaryum: every player's own tank, rewards (akvaryum.odul / akvaryum.kart), naming the fish
 │   │   └── settings.js      Settings window, progress and reset (loaded last)
 │   └── css/
 │       ├── base.css         Font, colors, catalog, shared components
-│       └── quiz.css         Shared .soru-* look of the question islands
+│       ├── quiz.css         Shared .soru-* look of the question islands
+│       └── akvaryum.css     The tank, the reward card, the header button and the card in Keşif Limanı
 ├── assets/                  All media in one place
 │   ├── fonts/               Nunito + license
 │   ├── images/              Shared images (ada-atlasi.jpg)
@@ -96,7 +100,22 @@ sources/                     Raw material (not published)
   Cloud Console (APIs & Services → Credentials). The client ID is read from Firebase, or from `googleClientId` in
   `core/js/bulut-ayar.js` when set. If the Google account gets a different UID from the old e-mail account,
   `isAdmin()` must name it too.
-- **Saved-data keys never change.** Progress is kept in localStorage (`carpim-adasi-profiller`, `carpim-adasi-oyuncu-*`, `elif-ba-v2-*`, `din-bilgisi-*` …). Renaming a key wipes the children's progress.
+- **Saved-data keys never change.** Progress is kept in localStorage (`carpim-adasi-profiller`, `carpim-adasi-oyuncu-*`, `elif-ba-v2-*`, `din-bilgisi-*`, `akvaryum-*` …). Renaming a key wipes the children's progress. Every key of a player ends in the player's id, so deleting the player removes them all.
+
+## Akvaryum
+
+Every player from the 1st grade up has an aquarium of their own (Elif Ba Adası, for the preschool players, has its
+own letter fish in `islands/elif-ba/games/aquarium.js`). Each task the child gets done brings a reward, a fish or an
+ornament: an island of Çarpım Adası (once per island and round), a round finished on a question island's stop that
+still has questions to learn, all the questions of a stop learned (once), a first mock exam or a new record, a
+Tekrar Kutusu round without a mistake. Every third reward is an ornament. A tank holds 12 fish and 6 ornaments; the
+next reward opens a new tank in the next theme (Mercan Koyu, Yeşil Vadi, Gece Mavisi, Gün Batımı Lagünü, then again).
+A tap on a fish lets the child give it a name, written above it from then on; a tap on the water drops food.
+
+It is saved as `akvaryum-<player id>`: the items in the order they came, each with its kind, its tank, its name and
+what earned it. Item kinds are ids in `core/js/akvaryum-veri.js`; never rename one. The tank opens from the 🐠 button
+in the header, from its card in Keşif Limanı and from the reward card on a result screen. Players whose grade has no
+island that gives rewards (catalog cards marked `data-akvaryum`) do not see it.
 
 ## Adding something new
 
@@ -116,9 +135,9 @@ To add a section:
 **A new question island** (for example Türkçe, or Hayat Bilgisi for the 1st-3rd grades):
 1. Get the textbook the schools use this year and write `islands/<ada>/kapsam.md`: every point of the book, unit by unit, with its page.
 2. Create `islands/<ada>/sorular.js` (the question bank), `game.js` (a single `soruAdasi({...})` call), `style.css` and `ada.svg`. Write questions until every checklist line ends with the ids of the questions that ask it, and run `node tools/kapsam.js <ada>` until it passes.
-3. Add its view, dialog, catalog card (`data-grades` says which grades see it) and its Settings → Progress section to `index.html` using the `#<kod>-…` id pattern, and load its scripts after `core/js/quiz.js`.
+3. Add its view, dialog, catalog card (`data-grades` says which grades see it, `data-akvaryum` that it fills the aquarium) and its Settings → Progress section to `index.html` using the `#<kod>-…` id pattern, and load its scripts after `core/js/quiz.js`. `soruAdasi` already gives the aquarium its rewards.
 
-**A new island with its own engine:** use `islands/<ada>/` and add its catalog card to `index.html`. If more than one island needs some code, move that code into `core/`.
+**A new island with its own engine:** use `islands/<ada>/` and add its catalog card to `index.html`. If more than one island needs some code, move that code into `core/`. To fill the aquarium, mark the card `data-akvaryum`, call `akvaryum.odul({ anahtar, neden })` when the child gets a task done (`anahtar` for a task that rewards only once) and put `akvaryum.kart([reward])` on the result screen.
 
 ## Versions
 

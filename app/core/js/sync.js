@@ -12,7 +12,7 @@
 const bulut = (() => {
   const config = bulutAyar;
   // The game's saved-data keys (README: they never change). Sound settings stay on the device.
-  const prefixes = ['carpim-adasi-', 'elif-ba-', 'din-bilgisi-', 'fen-bilimleri-', 'sosyal-bilgiler-'];
+  const prefixes = ['carpim-adasi-', 'elif-ba-', 'din-bilgisi-', 'fen-bilimleri-', 'sosyal-bilgiler-', 'akvaryum-'];
   const isGameKey = key => typeof key === 'string' && prefixes.some(p => key.startsWith(p));
   // This device's cloud state: its anonymous account, whether a change still has to be sent,
   // and when each player last changed something (shown as "son oynama" on the admin page).

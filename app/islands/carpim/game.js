@@ -250,7 +250,8 @@ function finish(timeout) {
     const yours = timeout ? '' : '<p class="yours">Senin cevabın <s>' + entry + '</s></p>';
     screen(timeout?'Ah, süre doldu!':'Ah, bu kez olmadı!', dots(answers.length - 1, true) + yours +
       '<p class="answer-label">Doğru cevap</p>' + equation + groups +
-      '<p>Her grupta '+a+' tane var. '+b+' grup toplam '+product+' eder. Hazır olduğunda aynı adayı yeniden dene.</p>',
+      '<p>Her grupta '+a+' tane var. '+b+' grup toplam '+product+' eder. Hazır olduğunda aynı adayı yeniden dene.</p>' +
+      akvaryum.ipucu('Adayı bitirince akvaryumuna yeni bir balık ya da süs gelecek.'),
       'Tekrar dene', begin, { mood: 'bad', cue: 'start' });
     return;
   }
@@ -277,10 +278,12 @@ function finish(timeout) {
     previousRound !== round() ? 'Dokuz adayı tamamladın. Şimdi 2 tablosuna dönüyorsun. Bu turda her soru için '+limit()+' saniyen var.' :
     'On işlemi tek denemede doğru çözdün. Sırada '+title()+' var.';
   const finished = (progress.completed - 1) % islands.length;
+  // Every island finished brings a fish or an ornament to the player's tank (once per island and round).
+  const prize = akvaryum.odul({ anahtar: 'carpim:' + (progress.completed - 1), neden: (finished + 2) + ' Çarpım Adası' });
   playCue(victory ? 'victory' : 'island');
   screen(victory?'Çarpım ustası!':'Ada tamamlandı!', '<div class="trophy" aria-hidden="true"><span>' +
     (victory ? '🏆' : '⭐') + '</span></div>' + dots(10) + '<p class="trophy-stars">' + islands[finished] + ' ' +
-    starRow(finished) + '</p><p>'+message+'</p>' +
+    starRow(finished) + '</p><p>'+message+'</p>' + akvaryum.kart([prize]) +
     (storageFailed?'<p>İlerlemen yalnızca bu oturumda saklanabildi.</p>':''),
     victory?'Haritaya dön':'Devam et', victory ? ()=>$('game').close() : brief,
     { mood: 'win', eyebrow: '+1 YILDIZ · ' + progress.completed + ' / ' + total });

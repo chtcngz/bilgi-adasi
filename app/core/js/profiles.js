@@ -79,6 +79,7 @@ function showCatalog() {
   $('game-tools').hidden = true;
   $('catalog').hidden = false;
   document.title = 'Keşif Limanı · Bilgi Adası';
+  akvaryum.refresh();
   $('catalog-title').focus();
 }
 $('back-to-catalog').onclick = showCatalog;
