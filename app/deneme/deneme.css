@@ -173,3 +173,16 @@ main#lab { width: min(94%, 920px); margin: 18px auto 60px; }
   .dress-mark { width: 84px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01s !important; transition-duration: .01s !important; } }
+
+.work-sheet { width: min(100%, 38rem); margin: auto; text-align: center; color: #174a43; }
+.work-prompt { font-size: clamp(1.2rem, 4vw, 1.65rem); }
+.work-sample { display: flex; align-items: center; justify-content: center; gap: .2em; min-height: 1.9em; border-radius: 20px; background: #f7efdc; color: #453420; font-size: clamp(3.5rem, 12vw, 5rem); }
+.work-sample .tile { min-width: 1.15em; border-radius: 12px; background: #fffaf1; }
+.work-sample mark { color: #08644c; background: #d1efb7; }
+.work-caption, .work-feedback { margin: .8rem 0; }
+.work-choices { display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem; }
+.work-choice { min-width: 3.6rem; min-height: 3rem; padding: .35rem .85rem; border: 2px solid #a4c9bc; border-radius: 14px; background: white; color: #174a43; font: inherit; font-weight: 800; cursor: pointer; }
+.work-choice .ar { font-size: 2.2rem; }
+.work-choice:disabled { opacity: .5; }
+.work-choice.solved { opacity: 1; background: #dbefcf; border-color: #448352; }
+.work-sheet [hidden] { display: none; }

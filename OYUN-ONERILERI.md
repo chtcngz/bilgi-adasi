@@ -1,9 +1,11 @@
 # Elif Ba Adası · Oyun önerileri
 
-Oynanabilir taslaklar **Deneme Odası**'nda duruyor: `app/deneme/` (yayında `…/deneme/` adresi). Oyunun hiçbir ekranı bu sayfaya bağlantı vermez. Deneme Odası profil, yıldız ya da ilerleme kullanmaz, hiçbir şey saklamaz. Bir oyun doğrudan da açılabilir: `deneme/#kabuk`, `#tren`, `#giydir`, `#kolye`.
+Oynanabilir taslaklar **Deneme Odası**'nda duruyor: `app/deneme/` (yayında `…/deneme/` adresi). Oyunun hiçbir ekranı bu sayfaya bağlantı vermez. Deneme Odası profil, yıldız ya da ilerleme kullanmaz, hiçbir şey saklamaz. Bir oyun doğrudan da açılabilir: `deneme/#kabuk`, `#tren`, `#giydir`, `#kolye`, `#dedektif`, `#bag`.
 
 | Öneri | Durum |
 |---|---|
+| 🔎 Harf Dedektifi | Deneme Odası’nda · kelime içinde harf bulma |
+| 🧵 Bağ Atölyesi | Deneme Odası’nda · iki harfin bağlantısını tahmin etme |
 | 🐠 Akvaryum | **Oyunda** (0.16.0) |
 | 🐚 Kabuk Hafızası | Deneme Odası'nda |
 | 🚂 Hece Treni | Deneme Odası'nda |

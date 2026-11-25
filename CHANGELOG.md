@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.21.0 · 25.11.2026
+
+- Deneme Odası’na Harf Dedektifi ve Bağ Atölyesi eklendi. Çocuklar kelimenin başındaki, ortasındaki ve sonundaki harfleri bulabilir, iki harfin sırası değişince aralarındaki bağın nasıl değiştiğini deneyebilir.
+
 ## 0.20.2 · 25.11.2026
 
 Doğru şıkkın öteki şıklardan belirgin biçimde kısa olduğu sorular da düzeltildi. Artık üç adada da doğru cevap şıkların uzunluğundan tahmin edilemiyor: doğru şık ne en uzun ne de en kısa olarak göze batıyor.

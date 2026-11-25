@@ -142,6 +142,20 @@
         'Aralarına başka koylardan iki "şaşırtmaca" inci karışıyor. Her inciye dokununca adı okunur; kolye tamamlanınca dört harf sırayla okunur.',
         'Yeni kayıt gerekmiyor. Her koyun Harfler adımının sonuna ya da Cam Köprü\'den önceye küçük bir bulmaca olarak eklenebilir.'],
       start: startNecklace
+    },
+    {
+      id: 'dedektif', icon: '🔎', title: 'Harf Dedektifi', tag: 'Kelime içinde harf', where: 'Bitişik yazılış',
+      lead: 'İpucunu oku, kelimeyi sağdan sola izle ve aranan harfi bul.',
+      idea: ['Aynı harf kelimenin içinde farklı görünebilir. Çocuk bir kelimeyi bütün olarak görür ve verilen konumdaki harfi tek başına yazılan üç harf arasından seçer.',
+        'Çözümde kelime yerinde kalır. Aranan harf renklenir ve harfin adı dinlenebilir.'],
+      start: screen => startWorkshop(screen, false)
+    },
+    {
+      id: 'bag', icon: '🧵', title: 'Bağ Atölyesi', tag: 'Harfleri birleştir', where: 'Bitişik yazılış',
+      lead: 'İki harfi incele. Yan yana geldiklerinde aralarında çizgi oluşacak mı?',
+      idea: ['İki harf önce ayrı kartlarda görülür. Çocuk aralarında bağ oluşup oluşmayacağını tahmin eder.',
+        'Çözümde iki harf birlikte yazılır. Aynı iki harfin yer değiştirdiği tur çiftleri, okuma yönünün bağı nasıl değiştirdiğini gösterir.'],
+      start: screen => startWorkshop(screen, true)
     }
   ];
 
@@ -489,6 +503,94 @@
         });
       }));
     }
+    draw();
+  }
+
+  // Each word contains three letters. The index follows Arabic reading order.
+  const clues = [
+    ['قلم', 'kalem', 0, 'فغ'], ['جبل', 'dağ', 1, 'تن'], ['قمر', 'ay', 2, 'زد'],
+    ['نهر', 'ırmak', 0, 'بت'], ['سمك', 'balık', 1, 'هع'], ['شمس', 'güneş', 2, 'شص'],
+    ['عسل', 'bal', 0, 'غح'], ['تمر', 'hurma', 1, 'فه'], ['بيت', 'ev', 2, 'ثب']
+  ];
+  const joins = ['با', 'لد', 'سر', 'نذ', 'مز', 'كو'];
+  const breaks = 'ادذرزو';
+  const letterName = ch => names[glyphs.indexOf(ch)];
+
+  function startWorkshop(screen, joining) {
+    const game = games.find(item => item.id === (joining ? 'bag' : 'dedektif'));
+    const rounds = joining
+      ? shuffled(joins).slice(0, 3).flatMap(pair => shuffled([pair, [...pair].reverse().join('')]))
+      : [0, 1, 2].flatMap(pos => shuffled(clues.filter(row => row[2] === pos)).slice(0, 2));
+    const steps = dotsRow(rounds.length);
+    const sheet = el('section', 'work-sheet');
+    const prompt = el('h2', 'work-prompt');
+    prompt.tabIndex = -1;
+    const sample = el('div', 'work-sample');
+    sample.dir = 'rtl';
+    const caption = el('p', 'work-caption');
+    const choices = el('div', 'work-choices');
+    const feedback = el('p', 'work-feedback');
+    feedback.setAttribute('role', 'status');
+    const next = el('button', 'lab-primary');
+    sheet.append(prompt, sample, caption, choices, feedback, next);
+    screen.append(steps.row, sheet);
+    let round = 0;
+
+    function draw() {
+      steps.mark(round);
+      const item = rounds[round];
+      const [word, meaning, pos, distractors] = joining ? [] : item;
+      const place = ['ilk', 'ortadaki', 'son'][pos];
+      const connected = joining && !breaks.includes(item[0]);
+      const target = joining ? (connected ? 'Bağlanır' : 'Ayrı kalır') : word[pos];
+      const options = joining ? ['Bağlanır', 'Ayrı kalır'] : shuffled([target, ...distractors]);
+      prompt.textContent = joining ? 'Bu iki harf birbirine bağlanır mı?' : 'Kelimedeki ' + place + ' harf hangisi?';
+      sample.innerHTML = joining ? [...item].map(ch => ar(ch, 'tile')).join('') : ar(word);
+      caption.textContent = joining ? 'Sağdan sola oku. Önce ' + letterName(item[0]) + ', sonra ' + letterName(item[1]) + '.' : 'Kelimenin anlamı · ' + meaning;
+      choices.replaceChildren();
+      feedback.textContent = '';
+      next.hidden = true;
+      options.forEach(option => {
+        const button = el('button', 'work-choice', joining ? option : ar(option));
+        if (!joining) button.setAttribute('aria-label', letterName(option));
+        button.onclick = () => {
+          if (option !== target) {
+            if (joining) {
+              feedback.textContent = 'İlk harfe bak. Elif, Dal, Zel, Ra, Ze ve Vav kendilerinden sonraki harfe bağlanmaz. Tekrar dene.';
+            } else {
+              const location = ['sağ ucuna', 'ortasına', 'sol ucuna'][pos];
+              feedback.textContent = 'Seçtiğin harf ' + letterName(option) + '. Kelimenin ' + location + ' bir daha bak.';
+            }
+            button.disabled = true;
+            playCue('retry');
+            return;
+          }
+          for (const choice of choices.children) choice.disabled = true;
+          button.classList.add('solved');
+          if (joining) {
+            sample.innerHTML = ar(item);
+            feedback.textContent = letterName(item[0]) + (connected ? ' sonraki harfe bağlanır. İki harfin arasındaki çizgiyi izle.' : ' sonraki harfe bağlanmaz. İki harfin arasında boşluk kalır.');
+          } else {
+            sample.innerHTML = ar([...word].map((ch, index) => index === pos ? '<mark>' + ch + '</mark>' : ch).join(''));
+            feedback.textContent = 'Buldun! ' + letterName(target) + ' bu kelimenin ' + place + ' harfi.';
+            sayLetter(glyphs.indexOf(target));
+          }
+          if (joining) playCue('correct');
+          next.hidden = false;
+          next.focus();
+        };
+        choices.append(button);
+      });
+      next.textContent = round === rounds.length - 1 ? 'Turu tamamla' : 'Sıradaki bulmaca →';
+      if (round > 0) prompt.focus();
+    }
+    next.onclick = () => {
+      stopAll();
+      if (++round < rounds.length) return draw();
+      steps.mark(round);
+      sheet.remove();
+      finale(screen, joining ? 'Altı harf çiftinin bağını çözdün!' : 'Altı gizli harfi de buldun!', () => openGame(game));
+    };
     draw();
   }
 
