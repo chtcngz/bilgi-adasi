@@ -23,43 +23,13 @@
 .elif-done { margin: 16px 0 0; padding: 14px 18px; border-radius: 20px; background: #fff3cc; font-weight: 850; font-size: 18px; }
 .elif-done[hidden] { display: none; }
 .elif-hub-note { min-height: 24px; margin: 10px 0 0; font-weight: 750; }
-.elif-path { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
-.elif-stop { padding: 12px 14px 14px; border: 2px solid #b9d8c9; border-radius: 22px; background: #fbfff8; box-shadow: 0 4px #b9d8c9; }
-.elif-stop.current { border-color: #176d60; box-shadow: 0 4px #176d60; }
-.elif-stop.locked { padding-bottom: 12px; background: #f6f4ee; border-color: #ddd5c4; box-shadow: 0 4px #ddd5c4; color: #8a8576; }
-.elif-stop-head { display: flex; align-items: center; gap: 12px; }
-.elif-stop-head strong { flex: 1; font-size: 19px; color: #173f40; }
-.elif-stop.locked .elif-stop-head strong { color: #8a8576; }
-.elif-stop-glyphs { font: normal 26px/1.3 "Traditional Arabic", "Times New Roman", serif; color: #176d60; }
-.elif-stop.locked .elif-stop-glyphs { color: #b9b2a3; }
-.elif-steps { list-style: none; margin: 10px 0 0; padding: 0 0 0 10px; display: grid; gap: 8px; border-left: 3px dotted #b9d8c9; }
-.elif-step-node {
-  position: relative; width: 100%; display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 8px 14px; text-align: left;
-  border: 2px solid #cfe1d6; border-radius: 18px; background: #fff; color: #173f40; font-weight: 850; font-size: 18px;
-}
-.elif-step-node::before { content: ''; position: absolute; left: -20px; top: 50%; width: 14px; height: 14px; margin-top: -7px; border-radius: 50%; background: #cfe1d6; border: 3px solid #fbfff8; }
-.elif-step-icon { flex: none; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: #eef6f1; font-size: 22px; }
-.elif-step-name { flex: 1; display: grid; }
-.elif-step-name small { font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; color: #3d84a3; }
-.elif-step-state { flex: none; font-size: 18px; }
-.elif-step-node.done { background: #f3fbf5; border-color: #b9e0c6; }
-.elif-step-node.done::before { background: #2f9b7f; }
-.elif-step-node.done .elif-step-state { color: #2f9b7f; font-weight: 950; }
-.elif-step-node.now { border-color: #176d60; background: #e1f6e5; box-shadow: 0 4px #176d60; font-size: 20px; }
-.elif-step-node.now::before { background: #f2a93b; box-shadow: 0 0 0 4px #f2a93b55; }
-.elif-step-node.now .elif-step-icon { background: #fff; animation: elif-bounce 1.6s ease-in-out infinite; }
-.elif-step-node.now .elif-step-state { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #176d60; color: #fff; }
-.elif-step-node.game:not(.locked) { background: linear-gradient(120deg, #def2fc, #fff 70%); }
-.elif-step-node.now.game { background: linear-gradient(120deg, #c9e9fa, #e1f6e5 70%); }
-.elif-step-node.locked { opacity: .5; background: #f6f4ee; border-color: #ddd5c4; }
-.elif-step-node.denied { animation: shake .4s; }
 @keyframes elif-bounce { 50% { transform: translateY(-4px) scale(1.06); } }
 .elif-soon { list-style: none; margin: 0 0 30px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
 .elif-soon li { display: grid; gap: 2px; padding: 10px 14px; border-radius: 16px; background: #f6f4ee; border: 2px dashed #ddd5c4; color: #7b7566; }
 .elif-soon strong { color: #5f5a4d; }
 .elif-soon span { font-size: 14px; font-weight: 650; }
 /* ---------- The map of the coves (map.js): islets joined by glass bridges, and the turtle walking between them ---------- */
-.elif-map { position: relative; width: min(100%, 460px); margin: 0 auto 30px; aspect-ratio: 400 / 560; }
+.elif-map { position: relative; width: min(100%, 460px); margin: 0 auto 30px; aspect-ratio: 400 / 672; }
 .elif-map-art { display: block; width: 100%; height: 100%; filter: drop-shadow(0 5px 0 #b9d8c9); }
 .map-rails { stroke: #7a4a22; stroke-width: 12; stroke-linecap: round; }
 .map-panes { stroke: #e9fbff; stroke-width: 7; stroke-dasharray: 9 4; }
@@ -69,6 +39,33 @@
 @keyframes map-shimmer { to { stroke-dashoffset: -26; } }
 .map-isle { transition: filter .4s, opacity .4s; }
 .map-isle.locked { filter: grayscale(.85); opacity: .65; }
+.map-halo { opacity: 0; }
+.map-isle.current .map-halo { opacity: .9; transform-box: fill-box; transform-origin: center; animation: map-halo 1.8s ease-in-out infinite; }
+@keyframes map-halo { 50% { opacity: .35; transform: scale(1.08); } }
+/* The pier under the coves: the steps of the cove the turtle stands on. */
+.elif-map-dock {
+  position: absolute; left: 6%; right: 6%; z-index: 2; margin: 0; padding: 0; list-style: none;
+  display: flex; align-items: center; justify-content: space-evenly; transition: opacity .3s, translate .3s;
+}
+.elif-map-dock.away { opacity: 0; translate: 0 10px; pointer-events: none; }
+.elif-map-dock li { flex: 0 1 48px; display: grid; }
+.elif-dock-step {
+  position: relative; display: grid; place-items: center; width: 100%; aspect-ratio: 1; margin: 0; padding: 0; border: 3px solid #fff;
+  border-radius: 50%; background: #fffdf6; font: inherit; cursor: pointer; box-shadow: 0 3px 0 #7a4a22;
+}
+.elif-dock-icon { font-size: clamp(20px, 6vw, 26px); line-height: 1; }
+.elif-dock-state {
+  position: absolute; right: -6px; top: -6px; display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%;
+  border: 2px solid #fff; font-size: 11px; font-weight: 950; line-height: 1; color: #fff;
+}
+.elif-dock-step.done { background: #e3f6e8; }
+.elif-dock-step.done .elif-dock-state { background: #2f9b7f; }
+.elif-dock-step.now { border-color: #f2a93b; background: #fff6d8; box-shadow: 0 3px 0 #7a4a22, 0 0 0 5px #ffe38a99; animation: elif-bounce 1.6s ease-in-out infinite; }
+.elif-dock-step.now .elif-dock-state { width: 24px; height: 24px; background: #176d60; font-size: 12px; }
+.elif-dock-step.locked { background: #efe8d8; filter: grayscale(.9); opacity: .7; }
+.elif-dock-step.locked .elif-dock-state { background: #b9b2a3; font-size: 9px; }
+.elif-dock-step:focus-visible { outline: 3px solid #176d60; outline-offset: 3px; }
+.elif-dock-step.denied, .elif-dock-step.nudge { animation: shake .4s; }
 .map-lighthouse circle { animation: map-light 1.8s ease-in-out infinite alternate; }
 @keyframes map-light { to { opacity: .15; } }
 .elif-isle {
@@ -101,7 +98,6 @@
 .elif-map-turtle .mouth { transform-origin: 56px 89px; transform: scaleY(.6); }
 @keyframes map-idle { 50% { transform: translateY(-4%); } }
 @keyframes map-waddle { from { transform: rotate(-8deg); } to { transform: rotate(8deg) translateY(-10%); } }
-.elif-stop-done { font-size: 14px; font-weight: 900; color: #2f9b7f; }
 @media (max-width: 380px) {
   .elif-isle-name { font-size: 12px; padding: 1px 8px; }
   .elif-isle-badge { width: 24px; height: 24px; font-size: 13px; }
@@ -240,7 +236,7 @@
   #elif-game { padding: 20px 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .elif-next-step, .elif-step-node.now .elif-step-icon, .elif-prize, .elif-won, .elif-choice.matched, .elif-isle.current .elif-isle-badge,
+  .elif-next-step, .elif-dock-step.now, .map-isle.current .map-halo, .elif-prize, .elif-won, .elif-choice.matched, .elif-isle.current .elif-isle-badge,
   .map-bridge.next .map-panes, .map-lighthouse circle, .elif-map-turtle-body { animation: none; }
 }
 

@@ -217,7 +217,11 @@
       $('elif-hub-note').textContent = '🔒 ' + coves[k] + ' kilitli. Önce sıradaki adımı bitir: ' + stepLabel(next) + '.';
       return;
     }
-    visit(k, () => $('elif-path').scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
+    // Tapping the cove the turtle already stands on points at its next step on the pier.
+    visit(k, () => {
+      const first = $('elif-map').querySelector('.elif-dock-step.now');
+      if (first) fx.bump(first, 'nudge');
+    });
   });
   // The turtle walks over the bridges to cove k, then `then` goes on (opens a step, shows the cove).
   function visit(k, then) {
@@ -235,21 +239,13 @@
       setTimeout(() => { if (!$('elif-view').hidden && !section) then?.(); }, 250);
     });
   }
-  // The steps of the cove the turtle stands on.
+  // The steps of the cove the turtle stands on, as round picture buttons on the pier below the map.
   function drawCove(k, next) {
-    const nextCove = next ? next.cove : coves.length - 1;
-    const state = coveState(k, next, nextCove);
-    const item = el('li', 'elif-stop ' + (state === 'current' ? 'current' : 'done'));
-    item.append(el('div', 'elif-stop-head', '<span class="elif-stop-glyphs" lang="ar" dir="rtl" aria-hidden="true">' +
-      coveGlyphs(k).join(' ') + '</span><strong>' + (k + 1) + '. ' + coves[k] + '</strong>' +
-      (state === 'done' ? '<span class="elif-stop-done">✓ Tamam</span>' : '')));
-    const list = el('ol', 'elif-steps');
-    for (const step of steps.filter(s => s.cove === k)) {
+    elifMap.dock(steps.filter(s => s.cove === k).map(step => {
       const done = stepDone(step);
       const now = step === next || (!done && devAll());
-      const button = el('button', 'elif-step-node' + (done ? ' done' : now ? ' now' : ' locked') + (step.game ? ' game' : ''),
-        '<span class="elif-step-icon" aria-hidden="true">' + stepIcon(step) + '</span><span class="elif-step-name">' + stepName(step) +
-        (step.game ? '<small>' + games[step.game].tag + '</small>' : '') + '</span><span class="elif-step-state" aria-hidden="true">' +
+      const button = el('button', 'elif-dock-step' + (done ? ' done' : now ? ' now' : ' locked') + (step.game ? ' game' : ''),
+        '<span class="elif-dock-icon" aria-hidden="true">' + stepIcon(step) + '</span><span class="elif-dock-state" aria-hidden="true">' +
         (done ? '✓' : now ? '▶' : '🔒') + '</span>');
       button.setAttribute('aria-label', stepLabel(step) + (done ? ', tamamlandı' : now ? ', sıradaki' : ', kilitli'));
       if (done || now) button.onclick = () => goTo(step);
@@ -259,15 +255,14 @@
         button.onclick = () => {
           playCue('oops');
           fx.bump(button, 'denied');
+          // the step to do first bounces on the pier
+          const first = $('elif-map').querySelector('.elif-dock-step.now');
+          if (first) fx.bump(first, 'nudge');
           $('elif-hub-note').textContent = '🔒 Önce sıradaki adımı bitir: ' + stepName(next) + '.';
         };
       }
-      const li = el('li');
-      li.append(button);
-      list.append(li);
-    }
-    item.append(list);
-    $('elif-path').replaceChildren(item);
+      return button;
+    }), (k + 1) + '. ' + coves[k] + ' adımları');
   }
 
   /* ---------- A section: coves and letter cards ---------- */

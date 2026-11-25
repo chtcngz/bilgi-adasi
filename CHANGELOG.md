@@ -7,6 +7,14 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.27.0 · 25.11.2026
+
+Elif Ba Adası’nın ana ekranında artık yalnızca harita var; haritanın altındaki yazılı adım listesi kalktı.
+
+- **Adımlar haritada:** Haritanın altına bir iskele geldi. Kaplumbağa hangi koydaysa o koyun adımları (Harfler, Harf Yağmuru, Harekeler, Hece Balonları, Cam Köprü…) iskelede yuvarlak resimli düğmeler olarak duruyor; okumak gerekmiyor. Bitenlerde ✓, sıradakinde ▶ var ve sıradaki adım zıplıyor; kilitli olanlar soluk.
+- Kaplumbağa başka bir koya yürürken iskele boşalıyor, varınca o koyun adımları geliyor. Kaplumbağanın durduğu koya dokununca sıradaki adım iskelede sallanıp yerini gösteriyor.
+- Öğrenilen koyun çevresinde parlayan sarı bir halka var.
+
 ## 0.26.1 · 25.11.2026
 
 - **Cam Köprü:** Kaplumbağa harfi ya da heceyi söylemeyi bitirmeden bir cama dokunulunca cam yalnızca titriyor, dokunuş boşa gidiyordu; çocuk aynı cama ikinci kez dokunmak zorunda kalıyordu. Artık o dokunuş saklanıyor: cam titriyor, söyleyiş biter bitmez kaplumbağa o cama zıplıyor ve doğru ya da yanlış hemen görünüyor.
