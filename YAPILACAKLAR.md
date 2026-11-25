@@ -4,7 +4,7 @@ Henüz yapılmamış işler. Bir iş bitip oyuna girince satırı buradan silini
 
 ## Elif Ba Adası: yeni bölümler
 
-Bunlar eskiden ana ekrandaki “Yakında” bölümünde görünüyordu. Her biri `app/islands/elif-ba/data.js` içinde `soon: true` ile duruyor.
+Haritada her birinin koyu bulutların altında, kilitli ve “Yakında” olarak duruyor (Tenvin, Şedde, Uzatma, Âyet Koyu). Her biri `app/islands/elif-ba/data.js` içinde `soon: true` ile duruyor.
 
 - [ ] **Tenvin:** İki üstün, iki esre, iki ötre
 - [ ] **Şedde:** Harfi iki kez oku

@@ -4,7 +4,7 @@
 // (Harf Yağmuru, Hece Balonları, Şekil Yağmuru) in games/listening.js, the mixed game at the end of
 // every cove (Cam Köprü) in games/bridge.js.
 (() => {
-  const { glyphs, names, readings, harekeler, coves, LETTER_COVES, coveTopic, sections, sameSound, syllable, coveLetters, coveGlyphs, twins, places,
+  const { glyphs, names, readings, harekeler, coves, LETTER_COVES, coveTopic, sections, bays, bayCoves, bayOf, sameSound, syllable, coveLetters, coveGlyphs, twins, places,
     joinsNext, shape, word, cezm, cezmAlike, cezmFaint, cezmExamples, mastery } = elifData;
   // A syllable is named by its letter and hareke ("Be üstün"); its Turkish reading is never written.
   const hareke = h => harekeler[h].name.toLocaleLowerCase('tr');
@@ -13,8 +13,8 @@
   const dialog = $('elif-game');
   const records = new Map();
   let progress, section = null, cove = 0;
-  // The cove the turtle stands on in the map (null: the cove being learned, set on arrival).
-  let mapCove = null;
+  // True on entering the island: the map then shows the bays, with the turtle at the islet being learned.
+  let arriving = true;
   let round, turn, earned;
 
   /* ---------- Progress ---------- */
@@ -111,14 +111,19 @@
   const stepIcon = step => step.intro ? '✨' : step.game ? games[step.game].icon : prizeOf(step.part);
   const stepName = step => step.intro ? 'Harekelerle tanış' : step.game ? games[step.game].name : sections.find(s => s.id === step.part).title;
   const stepLabel = step => coves[step.cove] + ' · ' + stepName(step);
-  // A step in another cove: the turtle first walks there on the map.
+  // Opens a step. When the map is not inside the step's islet, the turtle first goes there: out of the
+  // islet and the bay it is in, over the sea to the right bay, over the bridges to the islet, and into it.
   function goTo(step) {
-    if (elifMap.walking()) return;
-    if (mapCove !== null && step.cove !== mapCove) {
-      showHub();
-      visit(step.cove, () => goTo(step));
-      return;
-    }
+    if (journeying) return;
+    if (elifMap.level() === 'islet' && elifMap.shown() === step.cove) { open(step); return; }
+    showHub();
+    journey(() => bring(step.cove)).then(went => {
+      if (!went || $('elif-view').hidden || !$('elif-section').hidden) return; // the child left meanwhile
+      fx.bump(elifMap.station(steps.filter(s => s.cove === step.cove).indexOf(step)), 'nudge');
+      setTimeout(() => { if (!$('elif-view').hidden && !section && !dialog.open) open(step); }, 380);
+    });
+  }
+  function open(step) {
     if (step.intro) { showHub(); startIntro(); return; }
     if (step.game) { showHub(); openGame(step.game, step.cove); return; }
     openSection(step.part, step.cove);
@@ -135,7 +140,7 @@
   window.resetElifBa = id => {
     records.set(id, blank());
     try { localStorage.removeItem(storeKey(id)); localStorage.removeItem('elif-ba-' + id); } catch {}
-    if (activeProfile?.id === id && !$('elif-view').hidden) { progress = records.get(id); mapCove = null; showHub(); }
+    if (activeProfile?.id === id && !$('elif-view').hidden) { progress = records.get(id); arriving = true; showHub(); }
   };
 
   /* ---------- Helpers ---------- */
@@ -174,11 +179,8 @@
     $('elif-section').hidden = true;
     drawShells();
     const next = nextStep();
-    const nextCove = next ? next.cove : coves.length - 1;
-    if (mapCove === null) mapCove = nextCove;
-    drawMap(next, nextCove);
-    if (!elifMap.walking()) elifMap.place(mapCove);
-    drawCove(mapCove, next);
+    if (arriving) { arriving = false; elifMap.reset(next ? next.cove : coves.length - 1); }
+    elifMap.render(mapModel(next));
     $('elif-next-step').hidden = !next;
     if (next) {
       $('elif-next-step').innerHTML = '<span class="elif-next-icon" aria-hidden="true">' + stepIcon(next) + '</span><span><small>Sıradaki</small>' +
@@ -187,7 +189,7 @@
     }
     $('elif-done').hidden = !!next;
     drawAquariumCard();
-    if (!elifMap.walking()) $('elif-hub-note').textContent = '';
+    if (!journeying) $('elif-hub-note').textContent = '';
     setTitle('Elif Ba Adası');
   }
   // Akvaryum: a fish for every letter whose harekes are learned. Fish not seen yet arrive when it opens.
@@ -202,75 +204,137 @@
       '</small></span>' + (fresh.length ? '<span class="elif-aq-new">✨ ' + fresh.length + ' yeni</span>' : '') + '<span class="elif-aq-go" aria-hidden="true">▶</span>';
     card.setAttribute('aria-label', 'Akvaryum, ' + have.length + ' balık' + (fresh.length ? ', ' + fresh.length + ' yeni balık' : ''));
     card.onclick = () => {
-      if (elifMap.walking()) return;
+      if (journeying) return;
       voice.stop();
       elifAquarium.open({ have, fresh, onClose: () => { if (!$('elif-view').hidden && !section) showHub(); } });
       for (const i of fresh) progress.balik[i] = true;
       if (fresh.length) save();
     };
   }
-  // The map: coves done, the cove being learned, coves still locked, and the bridges crossed.
-  const coveState = (k, next, nextCove) => k < nextCove || !next ? 'done' : k === nextCove ? 'current' : 'locked';
-  function drawMap(next, nextCove) {
-    // devAll (the "admin" player): no cove is drawn locked, as none is.
-    const state = k => { const now = coveState(k, next, nextCove); return now === 'locked' && devAll() ? 'current' : now; };
-    elifMap.update({ state, crossed: k => progress.kopru.koylar[k], selected: mapCove });
-  }
-  elifMap.build($('elif-map'), k => {
-    const next = nextStep();
-    if (coveState(k, next, next ? next.cove : coves.length - 1) === 'locked' && !devAll()) {
-      playCue('oops');
-      fx.bump($('elif-map').querySelector('.elif-isle[data-k="' + k + '"]'), 'denied');
-      $('elif-hub-note').textContent = '🔒 ' + coves[k] + ' kilitli. Önce sıradaki adımı bitir: ' + stepLabel(next) + '.';
-      return;
-    }
-    // Tapping the cove the turtle already stands on points at its next step on the pier.
-    visit(k, () => {
-      const first = $('elif-map').querySelector('.elif-dock-step.now');
-      if (first) fx.bump(first, 'nudge');
+  /* ---------- The map: bays, their islets and the islets' steps (map.js) ---------- */
+  // What the map draws: bays and islets done, the one being learned, those still locked (or, for the bays
+  // of the sections still to come, soon), the bridges crossed and every islet's steps.
+  function mapModel(next) {
+    const nextCove = next ? next.cove : coves.length;
+    // devAll (the "admin" player): nothing is drawn locked, as nothing is.
+    const islet = k => k < nextCove ? 'done' : k === nextCove || devAll() ? 'current' : 'locked';
+    const bay = b => bays[b].soon ? 'soon' : bayCoves(b).every(k => islet(k) === 'done') ? 'done' :
+      bayCoves(b).some(k => islet(k) === 'current') ? 'current' : 'locked';
+    const stations = k => steps.filter(s => s.cove === k).map(step => {
+      const done = stepDone(step);
+      return { icon: stepIcon(step), name: stepName(step), label: stepLabel(step), game: !!step.game,
+        state: done ? 'done' : step === next || devAll() ? 'now' : 'locked' };
     });
-  });
-  // The turtle walks over the bridges to cove k, then `then` goes on (opens a step, shows the cove).
-  function visit(k, then) {
-    if (elifMap.walking()) return;
-    if (k === mapCove) { then?.(); return; }
+    return { bay, islet, stations, crossed: k => progress.kopru.koylar[k] };
+  }
+  // Only one journey at a time; taps meanwhile are let go.
+  let journeying = false;
+  async function journey(task) {
+    if (journeying) return false;
+    journeying = true;
     const map = $('elif-map');
     const box = map.getBoundingClientRect();
-    if (box.top < 0 || box.bottom > innerHeight) map.scrollIntoView({ block: 'center', behavior: 'smooth' });
-    $('elif-hub-note').textContent = '🐢 ' + coves[k] + "'na " + (k > mapCove ? 'yürüyor' : 'geri dönüyor') + '…';
-    elifMap.walk(k).then(() => {
-      mapCove = k;
-      if ($('elif-view').hidden || !$('elif-section').hidden) return; // the child left meanwhile
+    if (box.top < 0 || box.bottom > innerHeight) map.scrollIntoView({ block: box.height > innerHeight ? 'start' : 'center', behavior: 'smooth' });
+    try { await task(); } catch (error) { console.error(error); }
+    journeying = false;
+    if (!$('elif-hub').hidden) $('elif-hub-note').textContent = '';
+    return true;
+  }
+  const note = text => { $('elif-hub-note').textContent = text; };
+  const dative = name => name + "'na";
+  // Where the turtle lands in bay b: on the islet being learned if it is there, otherwise on the islet
+  // nearest to where it comes from.
+  function landing(b) {
+    const next = nextStep();
+    const list = bayCoves(b);
+    if (next && list.includes(next.cove)) return next.cove;
+    return b > bayOf(elifMap.at()) ? list[0] : list[list.length - 1];
+  }
+  // The first steps of a bay not started yet: arriving there opens the bay with a celebration.
+  const freshBay = b => nextStep() === steps.find(s => s.cove === bayCoves(b)[0]);
+  // From wherever the map is to bay b, sailing there when the turtle is in another bay.
+  async function reachBay(b, land = landing(b)) {
+    if (elifMap.level() === 'islet') await elifMap.leaveIslet();
+    if (elifMap.level() === 'bay' && elifMap.shown() !== b) {
+      const from = elifMap.shown();
+      // To the next bay through the mouth of this one, in the boat waiting there.
+      if (b === from + 1 && elifMap.at() === bayCoves(from).at(-1)) { note('⛵ ' + bays[from].name + "'ndan çıkıyor…"); await elifMap.board(); }
+      await elifMap.leaveBay();
+    }
+    if (elifMap.level() === 'bays') {
+      if (bayOf(elifMap.at()) !== b) {
+        note('⛵ Kaplumbağa ' + dative(bays[b].name) + ' gidiyor…');
+        await elifMap.sail(b, land);
+        if (freshBay(b)) { note('🎉 ' + bays[b].name + ' açıldı!'); voice.instruct(bays[b].say); await elifMap.celebrate(b); }
+      } else if (!told.has('bay-' + b)) voice.instruct(bays[b].say);
+      told.add('bay-' + b);
+      await elifMap.enterBay(b);
+    }
+  }
+  // From wherever the map is into islet k.
+  async function bring(k) {
+    if (elifMap.level() === 'islet' && elifMap.shown() === k) return;
+    await reachBay(bayOf(k), k);
+    if (elifMap.level() === 'islet') await elifMap.leaveIslet();
+    if (elifMap.at() !== k) {
+      note('🐢 ' + dative(coves[k]) + ' ' + (k > elifMap.at() ? 'yürüyor' : 'geri dönüyor') + '…');
+      await elifMap.walk(k);
       playCue('key');
-      showHub();
-      setTimeout(() => { if (!$('elif-view').hidden && !section) then?.(); }, 250);
-    });
+    }
+    await elifMap.enterIslet(k);
   }
-  // The steps of the cove the turtle stands on, as round picture buttons on the pier below the map.
-  function drawCove(k, next) {
-    elifMap.dock(steps.filter(s => s.cove === k).map(step => {
-      const done = stepDone(step);
-      const now = step === next || (!done && devAll());
-      const button = el('button', 'elif-dock-step' + (done ? ' done' : now ? ' now' : ' locked') + (step.game ? ' game' : ''),
-        '<span class="elif-dock-icon" aria-hidden="true">' + stepIcon(step) + '</span><span class="elif-dock-state" aria-hidden="true">' +
-        (done ? '✓' : now ? '▶' : '🔒') + '</span>');
-      button.setAttribute('aria-label', stepLabel(step) + (done ? ', tamamlandı' : now ? ', sıradaki' : ', kilitli'));
-      if (done || now) button.onclick = () => goTo(step);
-      else {
-        button.dataset.cue = '';
-        button.setAttribute('aria-disabled', 'true');
-        button.onclick = () => {
-          playCue('oops');
-          fx.bump(button, 'denied');
-          // the step to do first bounces on the pier
-          const first = $('elif-map').querySelector('.elif-dock-step.now');
-          if (first) fx.bump(first, 'nudge');
-          $('elif-hub-note').textContent = '🔒 Önce sıradaki adımı bitir: ' + stepName(next) + '.';
-        };
+  function refuse(kind, index, text, say) {
+    playCue('oops');
+    elifMap.nudge(kind, index);
+    note(text);
+    if (say) voice.instruct(say);
+  }
+  elifMap.build($('elif-map'), {
+    // A bay: zooms into it, sailing there first when the turtle is in another one.
+    bay(b) {
+      if (journeying) return;
+      const state = mapModel(nextStep()).bay(b);
+      if (state === 'soon') return refuse('bay', b, '🔒 ' + bays[b].name + ' yakında açılacak.', bays[b].say);
+      if (state === 'locked') return refuse('bay', b, '🔒 ' + bays[b].name + ' kilitli. Önce sıradaki adımı bitir: ' + stepLabel(nextStep()) + '.',
+        'Bu koy kilitli. Önce sıradaki adımı bitir.');
+      journey(() => reachBay(b));
+    },
+    // An islet: the turtle walks over the bridges to it and goes in.
+    islet(k) {
+      if (journeying) return;
+      if (mapModel(nextStep()).islet(k) === 'locked') {
+        refuse('islet', k, '🔒 ' + coves[k] + ' kilitli. Önce sıradaki adımı bitir: ' + stepLabel(nextStep()) + '.');
+        return;
       }
-      return button;
-    }), (k + 1) + '. ' + coves[k] + ' adımları');
-  }
+      journey(() => bring(k));
+    },
+    // A step inside the islet: done steps open to replay, the next one to do; the others are locked.
+    station(k, n) {
+      if (journeying) return;
+      const step = steps.filter(s => s.cove === k)[n];
+      if (stepOpen(step)) { open(step); return; }
+      refuse('station', n, '🔒 Önce sıradaki adımı bitir: ' + stepName(nextStep()) + '.');
+      elifMap.nudge('now', 0, 'nudge');
+    },
+    // The boat at a bay's mouth sails to the next bay once the bay's last islet is done.
+    exit(b) {
+      if (journeying) return;
+      const next = bays[b + 1];
+      const state = next ? mapModel(nextStep()).bay(b + 1) : 'soon';
+      if (state === 'soon') return refuse('exit', 0, '🔒 ' + (next ? next.name : 'Sıradaki koy') + ' yakında açılacak.', next ? next.say : 'Yeni koylar yakında.');
+      if (state === 'locked') return refuse('exit', 0, '🔒 ' + dative(next.name) + ' geçmek için önce bu koydaki bütün adacıkları bitir.',
+        'Önce bu koydaki bütün adacıkları bitir.');
+      journey(async () => {
+        if (elifMap.at() !== bayCoves(b).at(-1)) await elifMap.walk(bayCoves(b).at(-1));
+        await reachBay(b + 1);
+      });
+    },
+    // ‹ in a bay or an islet: one level out.
+    up() {
+      if (journeying) return;
+      journey(() => elifMap.level() === 'islet' ? elifMap.leaveIslet() : elifMap.leaveBay());
+    }
+  });
 
   /* ---------- A section: coves and letter cards ---------- */
   function openSection(id, at) {
@@ -506,9 +570,13 @@
     },
     kopru: { name: 'Cam Köprü', icon: '🌉', tag: 'Karma' }
   };
-  // The bridge of the last cove leads on to the cove that is coming next.
-  const destination = k => k < coves.length - 1 ? { to: coves[k + 1], toDative: coves[k + 1] + "'na" } :
-    { to: 'Sıradaki koy', toDative: 'sıradaki koya' };
+  // The bridge leads to the next islet; from the last islet of a bay to the next bay, and from the last
+  // islet of all to the bay that is coming next.
+  function destination(k) {
+    const next = bays[bayOf(k) + 1];
+    if (k < coves.length - 1 && bayCoves(bayOf(k)).at(-1) !== k) return { to: coves[k + 1], toDative: coves[k + 1] + "'na" };
+    return next && !next.soon ? { to: next.name, toDative: next.name + "'na" } : { to: 'Sıradaki koy', toDative: 'sıradaki koya' };
+  }
   // A cove's game plays with everything learned up to and including that cove.
   function openGame(id, k) {
     const info = games[id];
@@ -957,7 +1025,7 @@
       const step = nextStep();
       const prizes = earned.map(i => '<span class="elif-won" lang="ar">' + (part === 'bitisik' ? shape(i, 2) : part === 'cezm' ? cezm(i).text : glyphs[i]) + '</span>').join('');
       if (!done) {
-        stage.innerHTML = retry + '<p>' + misses + ' Koyu geçmek için bütün soruları ilk denemede bilmelisin. Harfleri bir kez daha dinle ve tekrar oyna.</p>' +
+        stage.innerHTML = retry + '<p>' + misses + ' Adacığı geçmek için bütün soruları ilk denemede bilmelisin. Harfleri bir kez daha dinle ve tekrar oyna.</p>' +
           '<button class="elif-action" id="elif-continue">↻ Tekrar oyna</button>';
         playCue('retry');
       } else {
@@ -1036,7 +1104,7 @@
   $('elif-card').onclick = () => {
     if (!availableForPlayer($('elif-card'))) return;
     progress = load(activeProfile.id);
-    mapCove = null;
+    arriving = true;
     told.clear();
     $('catalog').hidden = true;
     $('elif-view').hidden = false;

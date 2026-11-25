@@ -21,10 +21,11 @@ const elifData = (() => {
   ];
   // The first seven coves teach the letters and their harekes, four letters each; the next seven go
   // through the same groups of four again to learn how they are written joined (bitişik yazılış), and
-  // the seven after them to read each letter with a cezm.
-  const coves = ['Kaplumbağa Koyu', 'İnci Koyu', 'Mercan Koyu', 'Yıldız Koyu', 'Yunus Koyu', 'Sedef Koyu', 'Deniz Feneri Koyu',
-    'Martı Koyu', 'Yengeç Koyu', 'Ahtapot Koyu', 'Denizatı Koyu', 'Balina Koyu', 'Pelikan Koyu', 'Gökkuşağı Koyu',
-    'Dalga Koyu', 'Yelken Koyu', 'Köpük Koyu', 'Rüzgâr Koyu', 'Pusula Koyu', 'Kumsal Koyu', 'Ay Işığı Koyu'];
+  // the seven after them to read each letter with a cezm. On the map a cove is an islet (adacık), and the
+  // seven islets of a section lie together in a bay (koy, see `bays` below).
+  const coves = ['Kaplumbağa Adacığı', 'İnci Adacığı', 'Mercan Adacığı', 'Yıldız Adacığı', 'Yunus Adacığı', 'Sedef Adacığı', 'Deniz Feneri Adacığı',
+    'Martı Adacığı', 'Yengeç Adacığı', 'Ahtapot Adacığı', 'Denizatı Adacığı', 'Balina Adacığı', 'Pelikan Adacığı', 'Gökkuşağı Adacığı',
+    'Dalga Adacığı', 'Yelken Adacığı', 'Köpük Adacığı', 'Rüzgâr Adacığı', 'Pusula Adacığı', 'Kumsal Adacığı', 'Ay Işığı Adacığı'];
   const LETTER_COVES = 7;
   const TOPICS = ['harf', 'bitisik', 'cezm'];
   const coveTopic = k => TOPICS[Math.floor(k / LETTER_COVES)];
@@ -38,6 +39,21 @@ const elifData = (() => {
     { id: 'med', title: 'Uzatma', lead: 'Med harfleriyle uzun okuma', soon: true },
     { id: 'okuma', title: 'Kelime ve âyet', lead: 'Kısa surelerle cüze hazırlık', soon: true }
   ];
+  // The map shows the bays first: one for every section of seven coves (TOPICS), then the bays of the
+  // sections still to come, locked and marked "Yakında" while their section is `soon`. `sample` is a
+  // little sign of what is learned there, `say` is read aloud for the children who cannot read yet.
+  const bays = [
+    { id: 'harf', name: 'Harf Koyu', lead: '28 harf ve harekeleri', sample: 'ا ب ت', say: 'Harf Koyu. Harfleri ve harekeleri öğren.' },
+    { id: 'bitisik', name: 'Bitişik Koyu', lead: 'Harfler başta, ortada, sonda', sample: 'ـبـ', say: 'Bitişik Koyu. Harflerin bitişik yazılışını öğren.' },
+    { id: 'cezm', name: 'Cezm Koyu', lead: 'Cezimli harflerle hece', sample: 'بِسْ', say: 'Cezm Koyu. Cezimli harflerle hece oku.' },
+    { id: 'tenvin', name: 'Tenvin Koyu', lead: 'İki üstün, iki esre, iki ötre', sample: 'بً', say: 'Tenvin Koyu yakında açılacak.' },
+    { id: 'sedde', name: 'Şedde Koyu', lead: 'Harfi iki kez oku', sample: 'بَّ', say: 'Şedde Koyu yakında açılacak.' },
+    { id: 'med', name: 'Uzatma Koyu', lead: 'Med harfleriyle uzun okuma', sample: 'بَا', say: 'Uzatma Koyu yakında açılacak.' },
+    { id: 'okuma', name: 'Âyet Koyu', lead: 'Kelime ve kısa sureler', sample: 'بِسْمِ', say: 'Âyet Koyu yakında açılacak.' }
+  ].map(bay => ({ ...bay, soon: sections.find(s => s.id === bay.id).soon === true }));
+  // A bay's coves (none in a bay still to come) and the bay of cove k.
+  const bayCoves = b => b < TOPICS.length ? Array.from({ length: LETTER_COVES }, (_, n) => b * LETTER_COVES + n) : [];
+  const bayOf = k => Math.floor(k / LETTER_COVES);
   // Letters whose Turkish readings sound alike are never offered together in a listening question.
   const sameSound = (a, ha, b, hb) => readings[a][ha] === readings[b][hb];
   const syllable = (letter, hareke) => glyphs[letter] + harekeler[hareke].mark;
@@ -106,6 +122,6 @@ const elifData = (() => {
   // Letters on one skeleton, told apart only by their dots (ب ت ث, ج ح خ …): the games set them side by side.
   const families = [[1, 2, 3], [4, 5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16], [17, 18], [19, 20]];
   const twins = i => (families.find(f => f.includes(i)) || []).filter(j => j !== i);
-  return { glyphs, names, readings, harekeler, coves, LETTER_COVES, coveTopic, sections, sameSound, syllable, coveLetters, coveGlyphs, twins,
+  return { glyphs, names, readings, harekeler, coves, LETTER_COVES, coveTopic, sections, bays, bayCoves, bayOf, sameSound, syllable, coveLetters, coveGlyphs, twins,
     places, joinsNext, shape, word, SUKUN, cezm, cezmReadings, cezmAlike, cezmFaint, cezmExamples, cezmExampleReadings, mastery: 2 };
 })();
