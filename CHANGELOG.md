@@ -9,7 +9,7 @@ Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında 
 
 ## 0.27.0 · 25.11.2026
 
-Elif Ba Adası’nın ana ekranında artık yalnızca harita var; haritanın altındaki yazılı adım listesi kalktı.
+Elif Ba Adası’nın ana ekranında artık yalnızca harita var: haritanın altındaki yazılı adım listesi ve “Yakında” bölümü kalktı. Sayfa haritayla bitiyor.
 
 - **Adımlar haritada:** Haritanın altına bir iskele geldi. Kaplumbağa hangi koydaysa o koyun adımları (Harfler, Harf Yağmuru, Harekeler, Hece Balonları, Cam Köprü…) iskelede yuvarlak resimli düğmeler olarak duruyor; okumak gerekmiyor. Bitenlerde ✓, sıradakinde ▶ var ve sıradaki adım zıplıyor; kilitli olanlar soluk.
 - Kaplumbağa başka bir koya yürürken iskele boşalıyor, varınca o koyun adımları geliyor. Kaplumbağanın durduğu koya dokununca sıradaki adım iskelede sallanıp yerini gösteriyor.

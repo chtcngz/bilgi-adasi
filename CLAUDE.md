@@ -46,6 +46,11 @@ game of Elif Ba Adası for them:
 - `y` is the year of the Tevfik İleri entrance exam that asked a similar question. Never copy exam or
   textbook text word for word; rewrite it in the same style.
 
+## To-do list (set by the owner)
+
+`YAPILACAKLAR.md` lists the work not done yet. When an item is finished and in the game, delete its line (do not
+tick it); the changelog records what was done. New planned work the owner asks for goes on the list.
+
 ## Versions
 
 Every change the children can see bumps `VERSION` and gets a Turkish entry in `CHANGELOG.md`.

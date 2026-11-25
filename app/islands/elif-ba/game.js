@@ -172,8 +172,6 @@
     drawMap(next, nextCove);
     if (!elifMap.walking()) elifMap.place(mapCove);
     drawCove(mapCove, next);
-    $('elif-soon').replaceChildren(...sections.filter(info => info.soon).map(info =>
-      el('li', '', '<strong>' + info.title + '</strong><span>' + info.lead + '</span>')));
     $('elif-next-step').hidden = !next;
     if (next) {
       $('elif-next-step').innerHTML = '<span class="elif-next-icon" aria-hidden="true">' + stepIcon(next) + '</span><span><small>Sıradaki</small>' +
