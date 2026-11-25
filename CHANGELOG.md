@@ -7,6 +7,14 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.20.1 · 25.11.2026
+
+Doğru cevabı şıkkın uzunluğundan tahmin edilebilen sorular düzeltildi. Artık üç adada da doğru şık, öteki şıklardan belirgin biçimde uzun değil.
+
+- **Sosyal Bilgiler Adası:** 51 sorunun şıkları dengelendi. Yanlış şıklar doğru şık kadar ayrıntılı yazıldı, gereken yerde doğru şık kısaltıldı.
+- **Din Bilgisi Adası:** 1 sorunun şıkları dengelendi.
+- Soruların anlamı ve doğru cevapları değişmedi; çocukların ilerlemesi olduğu gibi duruyor.
+
 ## 0.20.0 · 25.11.2026
 
 Fen Bilimleri Adası, bu yıl okullarda okutulan MEB 4. sınıf Fen Bilimleri ders kitabıyla (2026 baskısı) sayfa sayfa karşılaştırıldı. Kitapta olup henüz sorulmayan her bilgi için yeni soru yazıldı; adada artık 289 yerine 523 soru var. Din Bilgisi ve Sosyal Bilgiler’den sonra Fen Bilimleri’nde de kitapta sorulmayan bilgi kalmadı.

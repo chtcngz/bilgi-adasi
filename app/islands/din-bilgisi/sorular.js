@@ -157,7 +157,7 @@ const dinSorular = [
         a: ['Haberci', 'Öğrenci', 'Yönetici', 'Yolcu'],
         b: 'Peygamberler, Allah’tan insanlara haber getiren elçilerdir. Allah insanları çok sevdiği için onlara peygamberler göndermiştir.' },
       { m: '“Size bir selam verildiği zaman ondan daha güzeliyle veya aynı selamla karşılık verin…” (Nisa suresi, 86. ayet)', s: 'Bu ayette selamla ilgili hangi davranış emredilmektedir?',
-        a: ['Selama aynısıyla ya da daha güzeliyle karşılık vermek', 'Yalnızca tanıdığımız kişilere selam vermek', 'Selamı sadece camide ve evde vermek', 'Selam verene hiç karşılık vermemek'],
+        a: ['Selama aynısıyla ya da daha güzeliyle karşılık vermek', 'Yalnızca tanıdığımız ve sevdiğimiz kişilere selam vermek', 'Selamı yalnızca camide ve kendi evimizde vermek', 'Selam veren kişiye hiç karşılık vermeden geçmek'],
         b: 'Selamlaşan Müslümanlar birbirleri için Allah’a dua etmiş olur; bu duanın karşılıklı olması istenir.' },
       { s: '“İyilik, güzellik, övme ve yüceltme” anlamlarına gelen ve her işte Allah’ı hatırlamayı ifade eden kavram hangisidir?',
         a: ['Hamt', 'Şirk', 'Tövbe', 'Kaza'],
