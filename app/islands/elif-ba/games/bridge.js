@@ -438,7 +438,15 @@ const elifBridgeGame = (() => {
       if (game.first && !game.step) setPrompt('👆 Duyduğun camı bul');
       say('Yeni sıra. Dinle.');
     }
-    narrate(() => { game.listening = false; });
+    game.queued = null;
+    narrate(heard);
+  }
+  // The saying of a row's letter has ended: a pane tapped while the turtle was still talking counts now.
+  function heard() {
+    game.listening = false;
+    const c = game.queued;
+    game.queued = null;
+    if (c !== null && c !== undefined) choose(game.step, c);
   }
 
   /* ---------- Taps ---------- */
@@ -446,9 +454,11 @@ const elifBridgeGame = (() => {
     if (paused || state !== 'ask' || n !== game.step) return;
     const row = game.rows[n];
     if (row.broken.has(c)) return;
-    // Before the turtle has finished saying it, a tap only wobbles the pane.
+    // Before the turtle has finished saying it, a tap wobbles the pane and is kept: the turtle
+    // hops onto it as soon as the saying ends, so the child never has to tap twice.
     if (game.listening) {
       if (!calm.matches) row.els[c].animate([{ rotate: '0deg' }, { rotate: '-4deg' }, { rotate: '3deg' }, { rotate: '0deg' }], { duration: 320 });
+      game.queued = c;
       return;
     }
     state = 'moving';
@@ -828,6 +838,7 @@ const elifBridgeGame = (() => {
     if (paused || !['ready', 'ask', 'moving'].includes(state)) return;
     paused = true;
     hush();
+    if (game) game.queued = null;
     showCard('<div class="rain-card pause"><div class="rain-pause" aria-hidden="true"><i></i><i></i></div><h2 id="rain-title" tabindex="-1">Mola</h2>' +
       '<p>Oyun duraklatıldı. Hazır olunca kaldığın yerden devam et.</p><div class="rain-actions">' +
       '<button type="button" class="rain-go" data-cue>▶ Devam et</button><button type="button" class="rain-back">Oyundan çık</button></div></div>');
@@ -838,7 +849,7 @@ const elifBridgeGame = (() => {
     hideCard();
     paused = false;
     last = performance.now();
-    if (state === 'ask') narrate(game.listening ? () => { game.listening = false; } : undefined);
+    if (state === 'ask') narrate(game.listening ? heard : undefined);
   }
   document.addEventListener('visibilitychange', () => { if (document.hidden && dialog.open) pause(); });
 

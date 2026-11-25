@@ -17,6 +17,11 @@ Büyükler için **Yönetici sayfası** geldi: oyunun adresinin sonuna `admin/` 
 - **Din Bilgisi, Fen Bilimleri ve Sosyal Bilgiler:** öğrenilen ve görülen sorular, durak durak yıldızlar, Tekrar Kutusu, deneme sınavı puanları ve görülen her sorunun kaç kez doğru ya da yanlış cevaplandığı (önce yanlışlar).
 - Oyun ilerlemeyi her cihazın kendi tarayıcısında sakladığı için başka cihazlardaki çocuklar yedekle görülüyor: o cihazda sayfadan “yedeğini indir”, kendi cihazında “yedeğini ekle”. Eklenen yedekler yalnızca bu sayfada durur, oyundaki oyuncular değişmez.
 
+## 0.26.1 · 25.11.2026
+
+- **Cam Köprü:** Kaplumbağa harfi ya da heceyi söylemeyi bitirmeden bir cama dokunulunca cam yalnızca titriyor, dokunuş boşa gidiyordu; çocuk aynı cama ikinci kez dokunmak zorunda kalıyordu. Artık o dokunuş saklanıyor: cam titriyor, söyleyiş biter bitmez kaplumbağa o cama zıplıyor ve doğru ya da yanlış hemen görünüyor.
+- **Geçici geliştirme anahtarı:** Adı `admin` olan oyuncuda bütün adalar (sınıfı ne olursa olsun) ve bütün oyunlar açık: Çarpım Adası’nın bütün adaları, Elif Ba’nın bütün koyları ve adımları, soru adalarının ekstra durağı ve Deneme Sınavı. Denemek içindir, yayından önce kaldırılacak.
+
 ## 0.26.0 · 25.11.2026
 
 Elif Ba Adası’nı öğrenen çocuklar henüz okuma yazma bilmiyor. Adanın bütün bölümleri ve oyunları buna göre düzenlendi: hiçbir şey için okumak gerekmiyor.

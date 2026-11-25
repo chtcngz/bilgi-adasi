@@ -55,7 +55,7 @@ function soruAdasi({ kod, ad, kayit, duraklar: stops, ovgu: praise, simgeler }) 
   // the class is on. The exam and the extras open once every unit has at least one star.
   const units = stops.filter(stop => !stop.ekstra);
   const unitsLeft = () => units.filter(stop => !starsOf(stop)).length;
-  const examOpen = () => unitsLeft() === 0;
+  const examOpen = () => devAll() || unitsLeft() === 0;
   const stopOpen = k => !stops[k].ekstra || examOpen();
   const sayilar = ['', 'Bir', 'İki', 'Üç', 'Dört', 'Beş', 'Altı', 'Yedi', 'Sekiz', 'Dokuz', 'On'];
   const lockText = (sayilar[units.length] || units.length) + ' ünite en az birer yıldızla bitince açılır';
@@ -448,7 +448,7 @@ function soruAdasi({ kod, ad, kayit, duraklar: stops, ovgu: praise, simgeler }) 
     if (stars > before) progress.yildiz[stop.id] = stars;
     save();
     const all = learnedAll() === byId.size;
-    const examNow = firstTime && !stop.ekstra && examOpen();
+    const examNow = firstTime && !stop.ekstra && unitsLeft() === 0;
     const left = unitsLeft();
     let text = run.right + ' / ' + total + ' doğru';
     if (run.bestStreak >= 3) text += ' · en uzun seri 🔥 ' + run.bestStreak;
