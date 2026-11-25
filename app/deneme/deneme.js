@@ -142,7 +142,9 @@
         'Aralarına başka koylardan iki "şaşırtmaca" inci karışıyor. Her inciye dokununca adı okunur; kolye tamamlanınca dört harf sırayla okunur.',
         'Yeni kayıt gerekmiyor. Her koyun Harfler adımının sonuna ya da Cam Köprü\'den önceye küçük bir bulmaca olarak eklenebilir.'],
       start: startNecklace
-    }
+    },
+    { id: 'album', icon: '🐣', title: 'İlk Harf Albümüm', start: startAlbum },
+    { id: 'buyutec', icon: '🐢', title: 'Harf Büyüteci', start: startMagnifier }
   ];
 
   /* ---------- Ana sayfa ---------- */
@@ -150,36 +152,38 @@
     stopAll(); clearLater();
     document.title = 'Deneme Odası · Bilgi Adası';
     lab.className = 'lab-hub';
-    lab.innerHTML = '<div class="lab-intro"><h1>Deneme <em>Odası</em></h1>' +
-      '<p>Elif Ba Adası için önerilen oyunların ilk taslakları. Bu sayfaya oyunun içinden bağlantı yok; ' +
-      'buradaki denemeler oyuncuların yıldızlarını ve ilerlemesini etkilemez.</p>' +
-      '<p class="lab-live">🐠 <b>Akvaryum</b> oyuna girdi: Elif Ba Adası\'nda, Harekeler adımında öğrenilen her harf için bir balık geliyor.</p></div>';
+    lab.innerHTML = '<div class="lab-intro"><h1>Deneme <em>Odası</em></h1></div>';
     const grid = el('div', 'lab-grid');
-    games.forEach((g, n) => {
+    for (const game of [...games.slice(4), ...games.slice(0, 4)]) {
       const card = el('button', 'lab-card');
-      card.innerHTML = '<span class="lab-card-icon">' + g.icon + '</span><span class="lab-card-text"><small>' + (n + 1) + ' · ' + g.tag +
-        '</small><strong>' + g.title + '</strong><span>' + g.lead + '</span><em>📍 ' + g.where + '</em></span><span class="lab-go">▶</span>';
-      card.onclick = () => openGame(g);
+      card.innerHTML = '<span class="lab-card-icon" aria-hidden="true">' + game.icon +
+        '</span><span class="lab-card-text"><strong>' + game.title + '</strong></span><span class="lab-go" aria-hidden="true">▶</span>';
+      card.onclick = () => openGame(game);
       grid.append(card);
-    });
+    }
     lab.append(grid);
     scrollTo(0, 0);
   }
-  function openGame(g) {
-    stopAll(); clearLater();
-    document.title = g.title + ' · Deneme Odası';
-    lab.className = 'lab-play lab-' + g.id;
-    lab.innerHTML = '';
-    const bar = el('div', 'lab-bar');
-    const back = el('button', 'lab-back', '← Odaya dön'); back.onclick = showHub;
-    bar.append(back, el('h1', '', g.icon + ' ' + g.title));
-    const idea = el('details', 'lab-idea', '<summary>💡 Öneri</summary><ul>' + g.idea.map(t => '<li>' + t + '</li>').join('') + '</ul>');
-    const screen = el('div', 'lab-screen');
-    lab.append(bar, idea, screen);
-    scrollTo(0, 0);
-    g.start(screen);
-  }
 
+  function openGame(game) {
+    stopAll(); clearLater();
+    document.title = game.title + ' · Deneme Odası';
+    lab.className = 'lab-play lab-' + game.id;
+    lab.replaceChildren();
+    const bar = el('div', 'lab-bar');
+    const back = pictureButton('Odaya dön', '🏠', 'lab-back');
+    back.onclick = showHub;
+    bar.append(back, el('h1', '', game.icon + ' ' + game.title));
+    const screen = el('div', 'lab-screen');
+    lab.append(bar);
+    if (game.idea) {
+      const idea = el('details', 'lab-idea', '<summary>💡 Öneri</summary><ul>' + game.idea.map(text => '<li>' + text + '</li>').join('') + '</ul>');
+      lab.append(idea);
+    }
+    lab.append(screen);
+    scrollTo(0, 0);
+    game.start(screen);
+  }
 
   /* =========================================================
      1. Kabuk Hafızası
@@ -492,7 +496,122 @@
     draw();
   }
 
-  // Adres #kabuk, #tren … ise o oyun doğrudan açılır.
+  function pictureButton(label, content, cls = '') {
+    const button = el('button', 'picture-button ' + cls, content);
+    button.type = 'button';
+    button.setAttribute('aria-label', label);
+    return button;
+  }
+
+  function startAlbum(screen) {
+    const steps = dotsRow(LETTER_COVES); // the coves of the letters, not those of bitişik yazılış
+    const nest = el('section', 'nest-board');
+    const face = pictureButton('Yuvayı keşfet', '🪺', 'nest-face');
+    const eggs = el('div', 'egg-row');
+    const nav = el('div', 'lab-actions');
+    const prev = pictureButton('Önceki koy', '◀');
+    const next = pictureButton('Sonraki koy', '▶');
+    const opened = new Set();
+    nav.append(prev, next);
+    nest.append(face, eggs, nav);
+    screen.append(steps.row, nest);
+    let cove = 0;
+    function draw() {
+      stopAll();
+      steps.mark(cove);
+      eggs.replaceChildren();
+      const letters = coveLetters(cove);
+      const birds = ['🐣', '🐥', '🐤', '🐣'];
+      const firstEgg = letters.find(i => !opened.has(i));
+      face.innerHTML = '🪺';
+      face.setAttribute('aria-label', 'Yuvadaki harfi aç');
+      face.onclick = () => eggs.children[Math.max(0, letters.indexOf(firstEgg))].click();
+      prev.disabled = cove === 0;
+      next.disabled = cove === LETTER_COVES - 1;
+      for (const [k, i] of letters.entries()) {
+        const hatched = '<span aria-hidden="true">' + birds[k] + '</span>' + ar(glyphs[i]);
+        const egg = pictureButton(names[i], opened.has(i) ? hatched : '🥚', 'nest-egg');
+        egg.classList.toggle('tap-hint', i === firstEgg);
+        egg.onclick = () => {
+          opened.add(i);
+          egg.innerHTML = hatched;
+          face.innerHTML = '<span aria-hidden="true">' + birds[k] + '</span>' + ar(glyphs[i]);
+          face.setAttribute('aria-label', names[i] + ' harfini tekrar dinle');
+          face.onclick = () => sayLetter(i);
+          sayLetter(i);
+          for (const [n, card] of Array.from(eggs.children).entries()) {
+            card.classList.toggle('tap-hint', letters[n] === letters.find(j => !opened.has(j)));
+            card.setAttribute('aria-pressed', n === k);
+          }
+          next.classList.toggle('tap-hint', !next.disabled && letters.every(j => opened.has(j)));
+          if (opened.size === glyphs.length && !nest.classList.contains('complete')) {
+            nest.classList.add('complete');
+            fx.confetti(screen, { count: 35 });
+          }
+        };
+        eggs.append(egg);
+      }
+      next.classList.toggle('tap-hint', !next.disabled && firstEgg === undefined);
+    }
+    prev.onclick = () => { cove--; draw(); };
+    next.onclick = () => { cove++; draw(); };
+    draw();
+  }
+
+  function startMagnifier(screen) {
+    const families = glyphs.map((_, i) => [i, ...elifData.twins(i)])
+      .filter(group => group.length > 1 && group[0] === Math.min(...group));
+    const rounds = [[0, 1], ...shuffled(families).slice(0, 5)];
+    const steps = dotsRow(rounds.length);
+    const board = el('section', 'match-board');
+    const turtle = el('div', 'lab-turtle', turtleSvg('match-guide'));
+    const model = pictureButton('Harfi dinle', '', 'match-model');
+    const guideRow = el('div', 'match-guide');
+    guideRow.append(turtle, model);
+    const tray = el('div', 'match-tray');
+    board.append(guideRow, tray);
+    screen.append(steps.row, board);
+    let round = 0;
+    function draw() {
+      const family = rounds[round];
+      const target = round === 0 ? 0 : pick(family);
+      model.innerHTML = ar(glyphs[target]) + '<small aria-hidden="true">🔊</small>';
+      model.onclick = () => sayLetter(target);
+      model.classList.remove('matched');
+      tray.replaceChildren();
+      steps.mark(round);
+      for (const i of shuffled(family)) {
+        const card = pictureButton(names[i], ar(glyphs[i]), 'match-card');
+        const correct = i === target;
+        card.classList.toggle('tap-hint', correct && !round);
+        card.onclick = () => {
+          sayLetter(i);
+          if (!correct) {
+            card.disabled = true;
+            tray.querySelector('[data-match]').classList.add('tap-hint');
+            return;
+          }
+          for (const other of tray.children) other.disabled = true;
+          card.classList.remove('tap-hint');
+          card.classList.add('matched');
+          model.classList.add('matched');
+          fx.burst(card, { count: 8 });
+          wait(1450, () => {
+            if (++round < rounds.length) return draw();
+            steps.mark(round);
+            board.remove();
+            finale(screen, '🌟', () => openGame(games.find(g => g.id === 'buyutec')));
+          });
+        };
+        if (correct) card.dataset.match = '';
+        tray.append(card);
+      }
+      sayLetter(target);
+    }
+    draw();
+  }
+
+  // Unknown or retired links open the room.
   const direct = games.find(g => '#' + g.id === location.hash);
   if (direct) openGame(direct); else showHub();
   addEventListener('hashchange', () => { const g = games.find(x => '#' + x.id === location.hash); if (g) openGame(g); else showHub(); });

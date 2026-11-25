@@ -7,7 +7,7 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
-## 0.22.0 · 25.11.2026
+## 0.26.0 · 25.11.2026
 
 Elif Ba Adası’nı öğrenen çocuklar henüz okuma yazma bilmiyor. Adanın bütün bölümleri ve oyunları buna göre düzenlendi: hiçbir şey için okumak gerekmiyor.
 
@@ -19,7 +19,7 @@ Elif Ba Adası’nı öğrenen çocuklar henüz okuma yazma bilmiyor. Adanın b�
 - Yalnızca yazısı olan düğmelere simge geldi (▶ sıradaki soru, 🏁 sonuç, ↻ tekrar). Ekranlardaki yazılar büyükler için duruyor.
 - Bir cihaz cümlenin bittiğini bildirmezse oyun beklemede kalmıyor, kısa bir süre sonra devam ediyor.
 
-## 0.21.0 · 25.11.2026
+## 0.25.0 · 25.11.2026
 
 Elif Ba Adası’na 8. koy geldi: **🪸 Martı Koyu**. Yedi koyda 28 harfi ve harekelerini bitiren çocuklar, Deniz Feneri’nden köprüyle yeni koya geçiyor ve harflerin **bitişik yazılışını** öğrenmeye başlıyor. İlk bitişik koyun harfleri ا ب ت ث.
 
@@ -29,6 +29,25 @@ Elif Ba Adası’na 8. koy geldi: **🪸 Martı Koyu**. Yedi koyda 28 harfi ve h
 - **🌉 Cam Köprü:** Martı Koyu’nun köprüsünde camlarda harflerin bitişik şekilleri, araya karışan birkaç harekeli heceyle duruyor.
 - Haritada sekizinci adacık (martılarıyla) Deniz Feneri’nin üstünde; “Yakında” listesinden Bitişik yazılış çıktı. Ayarlar’daki ilerleme özetinde mercanlar ve Şekil Yağmuru da görünüyor.
 - Yeni ses kayıtları Diyanet Elifba’dan bayt bayt aynen alındı (12 örnek kelime ve 3 yer kaydı). Çocukların kayıtlı ilerlemesi olduğu gibi duruyor.
+## 0.24.1 · 25.11.2026
+
+- Hece Treni, Harekeyi Giydir, İnci Kolye ve Kabuk Hafızası’nın üç özgün seviyesi geri getirildi. İlk Harf Albümüm ve Harf Büyüteci de odada oynanabilir.
+
+## 0.24.0 · 25.11.2026
+
+- Deneme Odası okul öncesi için üç oyuna indirildi. İlk Harf Albümüm ve Harf Büyüteci öne alındı. Kabuk Hafızası altı kabukla görsel eşleştirmeye sadeleştirildi.
+
+## 0.23.0 · 25.11.2026
+
+- Okul öncesi çocuklar İlk Harf Albümüm’de yumurtalara dokunarak harfleri açıp dinleyebilir. Harf Büyüteci’nde kaplumbağanın gösterdiği harfin eşini bulur. El işareti ilk dokunuşu gösterir.
+
+## 0.22.0 · 25.11.2026
+
+- İlk Harf Albümüm’de 28 harf için sesli kartlar ve şekil ipuçları var. Harf Büyüteci’nde çocuk önce benzer harfleri dinliyor, sonra verilen ipucundan harfi buluyor. İki oyun da Deneme Odası’nda.
+
+## 0.21.0 · 25.11.2026
+
+- Deneme Odası’na Harf Dedektifi ve Bağ Atölyesi eklendi. Çocuklar kelimenin başındaki, ortasındaki ve sonundaki harfleri bulabilir, iki harfin sırası değişince aralarındaki bağın nasıl değiştiğini deneyebilir.
 
 ## 0.20.2 · 25.11.2026
 
