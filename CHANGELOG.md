@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.26.1 · 25.11.2026
+
+- **Cam Köprü:** Kaplumbağa harfi ya da heceyi söylemeyi bitirmeden bir cama dokunulunca cam yalnızca titriyor, dokunuş boşa gidiyordu; çocuk aynı cama ikinci kez dokunmak zorunda kalıyordu. Artık o dokunuş saklanıyor: cam titriyor, söyleyiş biter bitmez kaplumbağa o cama zıplıyor ve doğru ya da yanlış hemen görünüyor.
+- **Geçici geliştirme anahtarı:** Adı `admin` olan oyuncuda bütün adalar (sınıfı ne olursa olsun) ve bütün oyunlar açık: Çarpım Adası’nın bütün adaları, Elif Ba’nın bütün koyları ve adımları, soru adalarının ekstra durağı ve Deneme Sınavı. Denemek içindir, yayından önce kaldırılacak.
+
 ## 0.26.0 · 25.11.2026
 
 Elif Ba Adası’nı öğrenen çocuklar henüz okuma yazma bilmiyor. Adanın bütün bölümleri ve oyunları buna göre düzenlendi: hiçbir şey için okumak gerekmiyor.

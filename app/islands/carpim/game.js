@@ -40,7 +40,7 @@ function render() {
     button.style.left = x * 100 + '%'; button.style.top = y * 100 + '%';
     button.style.setProperty('--i', i);
     button.textContent = i + 2;
-    const locked = index > done;
+    const locked = index > done && !devAll();
     if (index < done) button.insertAdjacentHTML('beforeend', '<span class="pin-star" aria-hidden="true">★</span>');
     if (locked) {
       button.classList.add('locked');

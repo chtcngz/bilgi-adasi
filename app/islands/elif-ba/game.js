@@ -102,7 +102,7 @@
   ]);
   const stepDone = step => step.intro ? progress.tanisma : step.game ? progress[step.game].koylar[step.cove] : coveDone(step.part, step.cove);
   const nextStep = () => steps.find(step => !stepDone(step)) || null;
-  const stepOpen = step => stepDone(step) || step === nextStep();
+  const stepOpen = step => devAll() || stepDone(step) || step === nextStep();
   const coveOpen = (part, k) => stepOpen(steps.find(step => step.part === part && step.cove === k));
   const stepIcon = step => step.intro ? '✨' : step.game ? games[step.game].icon : prizeOf(step.part);
   const stepName = step => step.intro ? 'Harekelerle tanış' : step.game ? games[step.game].name : sections.find(s => s.id === step.part).title;
@@ -211,7 +211,7 @@
   }
   elifMap.build($('elif-map'), k => {
     const next = nextStep();
-    if (coveState(k, next, next ? next.cove : coves.length - 1) === 'locked') {
+    if (coveState(k, next, next ? next.cove : coves.length - 1) === 'locked' && !devAll()) {
       playCue('oops');
       fx.bump($('elif-map').querySelector('.elif-isle[data-k="' + k + '"]'), 'denied');
       $('elif-hub-note').textContent = '🔒 ' + coves[k] + ' kilitli. Önce sıradaki adımı bitir: ' + stepLabel(next) + '.';
@@ -246,7 +246,7 @@
     const list = el('ol', 'elif-steps');
     for (const step of steps.filter(s => s.cove === k)) {
       const done = stepDone(step);
-      const now = step === next;
+      const now = step === next || (!done && devAll());
       const button = el('button', 'elif-step-node' + (done ? ' done' : now ? ' now' : ' locked') + (step.game ? ' game' : ''),
         '<span class="elif-step-icon" aria-hidden="true">' + stepIcon(step) + '</span><span class="elif-step-name">' + stepName(step) +
         (step.game ? '<small>' + games[step.game].tag + '</small>' : '') + '</span><span class="elif-step-state" aria-hidden="true">' +

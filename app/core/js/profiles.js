@@ -65,7 +65,7 @@ function choosePlayer(profile) {
 }
 
 function availableForPlayer(card) {
-  return card.dataset.grades.split('|').includes(activeProfile.grade);
+  return devAll() || card.dataset.grades.split('|').includes(activeProfile.grade);
 }
 function showCatalog() {
   const cards = Array.from($('game-grid').children);
