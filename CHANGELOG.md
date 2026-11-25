@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.24.1 · 25.11.2026
+
+- Hece Treni, Harekeyi Giydir, İnci Kolye ve Kabuk Hafızası’nın üç özgün seviyesi geri getirildi. İlk Harf Albümüm ve Harf Büyüteci de odada oynanabilir.
+
 ## 0.24.0 · 25.11.2026
 
 - Deneme Odası okul öncesi için üç oyuna indirildi. İlk Harf Albümüm ve Harf Büyüteci öne alındı. Kabuk Hafızası altı kabukla görsel eşleştirmeye sadeleştirildi.
