@@ -55,7 +55,7 @@ app/                         Published site (GitHub Pages root)
 │   ├── fen-bilimleri/       Question island: same pattern
 │   └── sosyal-bilgiler/     Question island: same pattern
 └── deneme/                  Deneme Odası: playable drafts of proposed Elif Ba games (OYUN-ONERILERI.md).
-                             Nothing in the game links to it; open …/deneme/. Hece Treni's word clips are in deneme/ses/.
+                             Nothing in the game links to it; open …/deneme/.
 tools/                       Helper scripts (not published)
 ├── kapsam.js                Checks every question island against its textbook checklist
 ├── make_sounds.py           → app/assets/audio/ui/*.wav
