@@ -1,6 +1,6 @@
 # Elif Ba ses kayıtları
 
-28 harf adı ve 84 harekeli okuma Diyanet İşleri Başkanlığının Elifba uygulamasından alınmıştır. Harf adları Harfler dersinden, heceler Fetha, Kesra ve Damme derslerinden eşleştirilmiştir.
+28 harf adı, 84 harekeli okuma ve bitişik yazılış kayıtları Diyanet İşleri Başkanlığının Elifba uygulamasından alınmıştır. Harf adları Harfler dersinden, heceler Fetha, Kesra ve Damme derslerinden, bitişik yazılış örnek kelimeleri ile “Kelimenin Başında / Ortasında / Sonunda” kayıtları Harfler ve Şekilleri dersinden eşleştirilmiştir.
 
 Oyun kopyaları `sources/elifba-sesleri/katalog.json` arşivindeki kayıtlarla bayt düzeyinde aynıdır. Harf sırası oyundaki sıradır. He ve vav konumları metne göre eşleştirilmiştir.
 
@@ -38,3 +38,25 @@ Kaynak sayfada tüm hakların saklı olduğu belirtilmektedir.
 | و | [و](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_27.mp3) | [وَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_19.mp3) | [وِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_20.mp3) | [وُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_19.mp3) |
 | ه | [هـ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_26.mp3) | [هَـ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_18.mp3) | [هِـ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_19.mp3) | [هُـ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_18.mp3) |
 | ي | [ى](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_28.mp3) | [ىَ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_20.mp3) | [ىِ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesra/kesra/btn_21.mp3) | [ىُ](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/damme/damme/btn_20.mp3) |
+
+## Bitişik yazılış
+
+Örnek kelimelerin kayıtları kelimenin harflerini sağdan sola adlarıyla okur. `kelime/NN-P.mp3`: NN harf sırası (00 = Elif), P harfin kelimedeki yeri (1 başta, 2 ortada, 3 sonda). Şimdilik Martı Koyu’nun harfleri (ا ب ت ث) eklendi.
+
+| Dosya | Metin | Kaynak |
+|---|---|---|
+| `kelime/00-1.mp3` | {ا}مر | [btn_2.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_2.mp3) |
+| `kelime/00-2.mp3` | س{ا}ل | [btn_3.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_3.mp3) |
+| `kelime/00-3.mp3` | نب{ا} | [btn_4.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_4.mp3) |
+| `kelime/01-1.mp3` | {ب}عث | [btn_12.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_12.mp3) |
+| `kelime/01-2.mp3` | ع{ب}د | [btn_13.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_13.mp3) |
+| `kelime/01-3.mp3` | وه{ب} | [btn_14.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_14.mp3) |
+| `kelime/02-1.mp3` | {ت}رك | [btn_16.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_16.mp3) |
+| `kelime/02-2.mp3` | اع{ت}دوا | [btn_17.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_17.mp3) |
+| `kelime/02-3.mp3` | سك{ت} جن{ة} | [btn_18.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_18.mp3) |
+| `kelime/03-1.mp3` | {ث}بت | [btn_20.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_20.mp3) |
+| `kelime/03-2.mp3` | م{ث}ل | [btn_21.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_21.mp3) |
+| `kelime/03-3.mp3` | رف{ث} | [btn_22.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_22.mp3) |
+| `yer/1.mp3` | Kelimenin Başında | [basinda.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/basinda.mp3) |
+| `yer/2.mp3` | Kelimenin Ortasında | [ortasinda.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/ortasinda.mp3) |
+| `yer/3.mp3` | Kelimenin Sonunda | [sonunda.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/sonunda.mp3) |

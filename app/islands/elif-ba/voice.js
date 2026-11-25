@@ -6,7 +6,7 @@
 // memory. Phones are strict with <audio> elements: iOS wants a touch for each new
 // element and Android caps how many may exist, so an element is only the fallback.
 const elifVoice = (() => {
-  const recorded = window.elifRecordings || { harf: {}, hece: {} };
+  const recorded = { harf: {}, hece: {}, kelime: {}, yer: {}, ...window.elifRecordings };
   const buffers = new Map();
   const elements = new Map();
   let source = null, element = null;
@@ -102,11 +102,23 @@ const elifVoice = (() => {
   const letterClip = i => mode === 'kayit' ? recorded.harf[i] : null;
   const syllableClip = (i, h) => mode === 'kayit' ? recorded.hece[i + '-' + h] : null;
   const hareke = h => elifData.harekeler[h].name.toLocaleLowerCase('tr');
+  // Bitişik yazılış: an example word spelled letter by letter (the Turkish voice spells it by the
+  // letters' names too) and "Kelimenin başında / ortasında / sonunda".
+  const pad = i => String(i).padStart(2, '0');
+  const wordClip = (i, f) => mode === 'kayit' ? recorded.kelime[pad(i) + '-' + f] : null;
+  const placeClip = f => mode === 'kayit' ? recorded.yer[f] : null;
+  const placeText = ['', 'Kelimenin başında', 'Kelimenin ortasında', 'Kelimenin sonunda'];
+  const spelled = text => Array.from(text.replace(/\s/g, '')).map(c => elifData.names[elifData.glyphs.indexOf({ 'ة': 'ت', 'ى': 'ي' }[c] || c)])
+    .filter(Boolean).join(', ');
 
   return {
     say: (text, note, after) => sequence([{ text }], note, after),
     letter: (i, note, after) => sequence([{ src: letterClip(i), text: elifData.names[i] }], note, after),
     syllable: (i, h, note, after) => sequence([{ src: syllableClip(i, h), text: elifData.readings[i][h] }], note, after),
+    word: (i, f, note, after) => sequence([{ src: wordClip(i, f), text: spelled(elifData.word(i, f).text) }], note, after),
+    // "Be. Kelimenin başında": a letter's shape at a place in the word (f 0: the letter alone).
+    shape: (i, f, note, after) => sequence([{ src: letterClip(i), text: elifData.names[i] },
+      ...(f ? [{ src: placeClip(f), text: placeText[f] }] : [])], note, after),
     // "Be üstün be, be esre bi, be ötre bu": the way the harekes are chanted in class.
     chant(i, h, note) {
       const steps = [];
@@ -117,10 +129,13 @@ const elifVoice = (() => {
     },
     stop,
     // Fetch and decode a cove's clips ahead of time, so the first tap plays at once.
-    // Harf Yağmuru only says letter names, so it leaves the syllables out.
-    preload(letters, namesOnly = false) {
+    // Harf Yağmuru only says letter names, so it leaves the syllables out; a bitişik cove (joined)
+    // also wants its example words and the three places.
+    preload(letters, namesOnly = false, joined = false) {
+      if (joined) for (const f of [1, 2, 3]) if (placeClip(f)) decode(placeClip(f));
       for (const i of letters) {
         if (letterClip(i)) decode(letterClip(i));
+        if (joined) for (const f of [1, 2, 3]) if (wordClip(i, f)) decode(wordClip(i, f));
         if (!namesOnly) for (const h of [0, 1, 2]) if (syllableClip(i, h)) decode(syllableClip(i, h));
       }
     },

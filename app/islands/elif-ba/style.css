@@ -59,7 +59,7 @@
 .elif-soon strong { color: #5f5a4d; }
 .elif-soon span { font-size: 14px; font-weight: 650; }
 /* ---------- The map of the coves (map.js): islets joined by glass bridges, and the turtle walking between them ---------- */
-.elif-map { position: relative; width: min(100%, 560px); margin: 0 auto 30px; aspect-ratio: 400 / 440; }
+.elif-map { position: relative; width: min(100%, 460px); margin: 0 auto 30px; aspect-ratio: 400 / 560; }
 .elif-map-art { display: block; width: 100%; height: 100%; filter: drop-shadow(0 5px 0 #b9d8c9); }
 .map-rails { stroke: #7a4a22; stroke-width: 12; stroke-linecap: round; }
 .map-panes { stroke: #e9fbff; stroke-width: 7; stroke-dasharray: 9 4; }
@@ -72,7 +72,7 @@
 .map-lighthouse circle { animation: map-light 1.8s ease-in-out infinite alternate; }
 @keyframes map-light { to { opacity: .15; } }
 .elif-isle {
-  position: absolute; width: 27%; height: 18%; translate: -50% -50%; margin: 0; padding: 0; border: 0; border-radius: 40%;
+  position: absolute; width: 27%; height: 14%; translate: -50% -50%; margin: 0; padding: 0; border: 0; border-radius: 40%;
   background: none; color: inherit; font: inherit; cursor: pointer;
 }
 .elif-isle:focus-visible { outline: 3px solid #176d60; outline-offset: 2px; }
@@ -147,6 +147,24 @@
 .elif-syllable span { font-weight: 850; font-size: 15px; opacity: .85; }
 #elif-note { min-height: 24px; font-weight: 750; text-align: center; }
 
+/* Bitişik yazılış cards: the letter, then its shape and an example word at each place, right to left */
+.elif-cards.shapes { grid-template-columns: repeat(2, 1fr); }
+.elif-shapes { position: relative; padding: 10px 12px 12px; border-radius: 20px; border: 2px solid var(--rim); background: var(--tint); color: var(--ink); box-shadow: 0 4px var(--rim); }
+.elif-shapes .elif-syllables-head b { display: block; font: normal 46px/1.3 "Traditional Arabic", "Times New Roman", serif; }
+.elif-shape-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 6px; }
+.elif-shape-col { display: grid; gap: 6px; }
+.elif-word { display: grid; place-items: center; min-height: 54px; padding: 0 4px; border-radius: 14px; border: 2px dashed var(--rim); background: #fffdf8; color: #3d3a33; }
+.elif-word b, .elif-word-big b { font: normal clamp(26px, 4vw, 36px)/1.5 "Traditional Arabic", "Times New Roman", serif; text-align: center; }
+.elif-word.selected { outline: 3px solid var(--ink); outline-offset: -4px; }
+.elif-mark { color: #d2452f; }
+.elif-apart { margin: 8px 0 0; font-weight: 800; font-size: 15px; }
+.elif-word-big { display: grid; justify-items: center; padding: 4px 26px 10px; }
+.elif-word-big b { font-size: clamp(64px, 16vw, 88px); color: #3d3a33; }
+.elif-word-big small { font-weight: 800; font-size: 13px; color: #3f5f58; }
+#elif-prompt em { font-style: normal; color: #d2452f; }
+.elif-choices.places .elif-choice { min-height: 72px; }
+.elif-choices.places .elif-choice span { font-size: 20px; font-weight: 900; }
+
 /* Game dialog */
 #elif-game { text-align: center; background: #fffcf4; width: min(520px, 94vw); }
 #elif-close { float: right; border: 1px solid #adc9bc; border-radius: 50%; width: 44px; height: 44px; background: white; font-size: 24px; }
@@ -202,7 +220,7 @@
   .elif-hero > div { width: 76%; }
   .elif-hero h1 { font-size: 38px; letter-spacing: -2px; }
   .elif-cards { grid-template-columns: repeat(2, 1fr); }
-  .elif-cards.syllables { grid-template-columns: 1fr; }
+  .elif-cards.syllables, .elif-cards.shapes { grid-template-columns: 1fr; }
   .elif-tile { min-height: 116px; }
   .elif-big b { font-size: 80px; }
   #elif-game { padding: 20px 16px; }

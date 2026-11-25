@@ -116,5 +116,24 @@ window.elifRecordings = {
     '27-1': 'assets/audio/elif-ba/hece/27-1.mp3?v=diyanet-1',
     '27-2': 'assets/audio/elif-ba/hece/27-2.mp3?v=diyanet-1'
   },
-  credit: "Harf adları ve harekeli okumalar: Diyanet İşleri Başkanlığı, Kur’an-ı Kerim Elifba."
+  kelime: {
+    '00-1': 'assets/audio/elif-ba/kelime/00-1.mp3?v=diyanet-1',
+    '00-2': 'assets/audio/elif-ba/kelime/00-2.mp3?v=diyanet-1',
+    '00-3': 'assets/audio/elif-ba/kelime/00-3.mp3?v=diyanet-1',
+    '01-1': 'assets/audio/elif-ba/kelime/01-1.mp3?v=diyanet-1',
+    '01-2': 'assets/audio/elif-ba/kelime/01-2.mp3?v=diyanet-1',
+    '01-3': 'assets/audio/elif-ba/kelime/01-3.mp3?v=diyanet-1',
+    '02-1': 'assets/audio/elif-ba/kelime/02-1.mp3?v=diyanet-1',
+    '02-2': 'assets/audio/elif-ba/kelime/02-2.mp3?v=diyanet-1',
+    '02-3': 'assets/audio/elif-ba/kelime/02-3.mp3?v=diyanet-1',
+    '03-1': 'assets/audio/elif-ba/kelime/03-1.mp3?v=diyanet-1',
+    '03-2': 'assets/audio/elif-ba/kelime/03-2.mp3?v=diyanet-1',
+    '03-3': 'assets/audio/elif-ba/kelime/03-3.mp3?v=diyanet-1'
+  },
+  yer: {
+    1: 'assets/audio/elif-ba/yer/1.mp3?v=diyanet-1',
+    2: 'assets/audio/elif-ba/yer/2.mp3?v=diyanet-1',
+    3: 'assets/audio/elif-ba/yer/3.mp3?v=diyanet-1'
+  },
+  credit: "Harf adları, harekeli okumalar ve bitişik yazılış örnekleri: Diyanet İşleri Başkanlığı, Kur’an-ı Kerim Elifba."
 };

@@ -118,7 +118,7 @@
  "sources": {
   "diyanet": {
    "title": "Diyanet Elifba",
-   "credit": "Harf adları ve harekeli okumalar: Diyanet İşleri Başkanlığı, Kur’an-ı Kerim Elifba.",
+   "credit": "Harf adları, harekeli okumalar ve bitişik yazılış örnekleri: Diyanet İşleri Başkanlığı, Kur’an-ı Kerim Elifba.",
    "notes": [
     "28 harf adı ve 84 harekeli okuma Diyanet İşleri Başkanlığının Elifba uygulamasından alınmıştır. Harf adları Harfler dersinden, heceler Fetha, Kesra ve Damme derslerinden eşleştirilmiştir.",
     "",
@@ -721,6 +721,100 @@
    "text": "ىُ",
    "archiveFile": "elifba/damme/damme/okuma/ىُ__btn_20.mp3",
    "sha256": "5b9ac5030096e16c4758fbe7432f1d67ffa0284ce3fca94fdc08aa7d890c2d50"
+  },
+  "kelime/00-1.mp3": {
+   "text": "{ا}مر",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/امر__btn_2.mp3",
+   "sha256": "90e90df7f3b44b0f7e068009410198f97e95a27a7f184056d3678256ebcf8e42"
+  },
+  "kelime/00-2.mp3": {
+   "text": "س{ا}ل",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/سال__btn_3.mp3",
+   "sha256": "f2febd4d78fac6570f03d46ff336d4133a59e0faa13d76e684771f8c3a7153e8"
+  },
+  "kelime/00-3.mp3": {
+   "text": "نب{ا}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/نبا__btn_4.mp3",
+   "sha256": "03dd32418b6a13e9076003965f01c67f3b67db631e1c1ffc3e5d856df476a3f9"
+  },
+  "kelime/01-1.mp3": {
+   "text": "{ب}عث",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/بعث__btn_12.mp3",
+   "sha256": "b87b790d13fd89394a3a7d114eb1afc283c1e50ea7a52cbaf4afec0bbb6efc9a"
+  },
+  "kelime/01-2.mp3": {
+   "text": "ع{ب}د",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/عبد__btn_13.mp3",
+   "sha256": "eb0aea877105dfbd8068693f3b25793d79c5c6409ce3308839b82372bb727e58"
+  },
+  "kelime/01-3.mp3": {
+   "text": "وه{ب}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/وهب__btn_14.mp3",
+   "sha256": "58f806250de7cfb01b79bca9a5cdcc9c3e8da0457ebf7d2e639d3d232456d8f7"
+  },
+  "kelime/02-1.mp3": {
+   "text": "{ت}رك",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/ترك__btn_16.mp3",
+   "sha256": "95f651a61e6e7f1d079143ec58494b082b1c448c52352bb7d1c6bf01c547ce0e"
+  },
+  "kelime/02-2.mp3": {
+   "text": "اع{ت}دوا",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/اعتدوا__btn_17.mp3",
+   "sha256": "a67a3d5d5c3e5091321f639425f6d867a8ff5250a21c25b2986da4c640a8f2ec"
+  },
+  "kelime/02-3.mp3": {
+   "text": "سك{ت} جن{ة}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/سكت-جنة__btn_18.mp3",
+   "sha256": "1f35bfd02014b560bf0e3f45e2455c6ef8c5935a51bf868dbf1a4836e56c77bb"
+  },
+  "kelime/03-1.mp3": {
+   "text": "{ث}بت",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/ثبت__btn_20.mp3",
+   "sha256": "357511f232d747c39f9dfe5f2106f58f754edc8b1e91eea9642d597f88486ff6"
+  },
+  "kelime/03-2.mp3": {
+   "text": "م{ث}ل",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/مثل__btn_21.mp3",
+   "sha256": "90c68ced0746699b88c20d359e840b1a346e963ff30dd2dd7abf66513b5bc615"
+  },
+  "kelime/03-3.mp3": {
+   "text": "رف{ث}",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/رفث__btn_22.mp3",
+   "sha256": "d8cb9a771769f6b2fedd2112cae669fed1d4220f9a53707363558cd0b7685c25"
+  },
+  "yer/1.mp3": {
+   "text": "Kelimenin Başında",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/Kelimenin-Başında__basinda.mp3",
+   "sha256": "18d64d83bcd6d8e2a57ef6fa7ffd27a3c3894c1b17042fc94d6eb40a297ee08f"
+  },
+  "yer/2.mp3": {
+   "text": "Kelimenin Ortasında",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/Kelimenin-Ortasında__ortasinda.mp3",
+   "sha256": "4d5af6c59b0b1c190078a645b6ee4b1f374f6d3f49a644e0666b8cbb6a6f6aff"
+  },
+  "yer/3.mp3": {
+   "text": "Kelimenin Sonunda",
+   "archiveFile": "elifba/harfler/sekilleri/okuma/Kelimenin-Sonunda__sonunda.mp3",
+   "sha256": "ab1fa68c9b3872d9669d31245752a0be1c05901fc962942100a1ae99b09d9407"
   }
+ },
+ "kelime": {
+  "00-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_2.mp3",
+  "00-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_3.mp3",
+  "00-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_4.mp3",
+  "01-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_12.mp3",
+  "01-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_13.mp3",
+  "01-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_14.mp3",
+  "02-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_16.mp3",
+  "02-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_17.mp3",
+  "02-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_18.mp3",
+  "03-1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_20.mp3",
+  "03-2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_21.mp3",
+  "03-3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/btn_22.mp3"
+ },
+ "yer": {
+  "1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/basinda.mp3",
+  "2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/ortasinda.mp3",
+  "3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/sekilleri/sonunda.mp3"
  }
 }

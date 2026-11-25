@@ -1,9 +1,11 @@
-// Elif Ba Adası: an island in sections. Section 1 teaches the letters, section 2 the harekes,
-// the later sections (cezm, tenvin, şedde, ...) are announced and open in coming releases. Letters and
-// sections are in data.js; the listening games (Harf Yağmuru, Hece Balonları) in games/listening.js,
-// the mixed game at the end of every cove (Cam Köprü) in games/bridge.js.
+// Elif Ba Adası: an island in sections. Section 1 teaches the letters, section 2 the harekes, section 3
+// how the letters are written joined (bitişik yazılış); the later sections (cezm, tenvin, şedde, ...) are
+// announced and open in coming releases. Letters and sections are in data.js; the listening games
+// (Harf Yağmuru, Hece Balonları, Şekil Yağmuru) in games/listening.js, the mixed game at the end of
+// every cove (Cam Köprü) in games/bridge.js.
 (() => {
-  const { glyphs, names, harekeler, coves, sections, sameSound, syllable, coveLetters, mastery } = elifData;
+  const { glyphs, names, harekeler, coves, LETTER_COVES, coveTopic, sections, sameSound, syllable, coveLetters, coveGlyphs, twins, places,
+    joinsNext, shape, word, mastery } = elifData;
   // A syllable is named by its letter and hareke ("Be üstün"); its Turkish reading is never written.
   const hareke = h => harekeler[h].name.toLocaleLowerCase('tr');
   const syllableName = (i, h) => names[i] + ' ' + hareke(h);
@@ -17,22 +19,23 @@
 
   /* ---------- Progress ---------- */
   const storeKey = id => 'elif-ba-v2-' + id;
-  // yagmur (Harf Yağmuru), balon (Hece Balonları) and kopru (Cam Köprü): the game's best score,
-  // the most hearts (stars) a section was finished with, whether it was ever finished with all
-  // three, and the coves whose game step was played to the end (koylar).
-  const gameNames = ['yagmur', 'balon', 'kopru'];
-  const blankGame = () => ({ rekor: 0, yildiz: 0, tamam: false, koylar: Array(7).fill(false) });
+  // yagmur (Harf Yağmuru), balon (Hece Balonları), sekil (Şekil Yağmuru) and kopru (Cam Köprü): the
+  // game's best score, the most hearts (stars) a section was finished with, whether it was ever finished
+  // with all three, and the coves whose game step was played to the end (koylar).
+  const parts = ['harf', 'hareke', 'bitisik'];
+  const gameNames = ['yagmur', 'balon', 'sekil', 'kopru'];
+  const blankGame = () => ({ rekor: 0, yildiz: 0, tamam: false, koylar: Array(coves.length).fill(false) });
   function blank() {
     // balik: the letters whose fish the player has already seen arrive in the Akvaryum.
-    return { harf: Array(28).fill(0), hareke: Array(28).fill(0), tanisma: false, yagmur: blankGame(), balon: blankGame(), kopru: blankGame(),
-      balik: Array(28).fill(false) };
+    return { harf: Array(28).fill(0), hareke: Array(28).fill(0), bitisik: Array(28).fill(0), tanisma: false,
+      yagmur: blankGame(), balon: blankGame(), sekil: blankGame(), kopru: blankGame(), balik: Array(28).fill(false) };
   }
   function load(id) {
     if (records.has(id)) return records.get(id);
     const saved = readRecord(storeKey(id));
     const record = blank();
     if (saved && typeof saved === 'object') {
-      for (const part of ['harf', 'hareke']) {
+      for (const part of parts) {
         if (Array.isArray(saved[part])) saved[part].slice(0, 28).forEach((n, i) => {
           if (Number.isInteger(n) && n > 0) record[part][i] = n;
         });
@@ -48,7 +51,7 @@
           if (Number.isInteger(game.yildiz) && game.yildiz > 0) record[name].yildiz = Math.min(3, game.yildiz);
           record[name].tamam = game.tamam === true;
         }
-        if (Array.isArray(game.koylar)) game.koylar.slice(0, 7).forEach((on, k) => { record[name].koylar[k] = on === true; });
+        if (Array.isArray(game.koylar)) game.koylar.slice(0, coves.length).forEach((on, k) => { record[name].koylar[k] = on === true; });
       }
       // Players from before the games were steps of the path: a game step counts as played
       // when a later step is already done, so nobody is sent back.
@@ -82,9 +85,14 @@
   const coveDone = (part, k) => coveLetters(k).every(i => mastered(part, i));
   // The island is one path, cove by cove: the cove's letters, Harf Yağmuru, (before the first
   // harekes: meeting the harekes), the same letters with harekes, Hece Balonları, and Cam Köprü,
-  // the mixed game that crosses over to the next cove. Only the first step not yet done can be
-  // started; every step done stays open to replay.
-  const steps = coves.flatMap((_, k) => [
+  // the mixed game that crosses over to the next cove. A bitişik yazılış cove has the shapes of its
+  // letters, Şekil Yağmuru and Cam Köprü. Only the first step not yet done can be started; every step
+  // done stays open to replay.
+  const steps = coves.flatMap((_, k) => coveTopic(k) === 'bitisik' ? [
+    { part: 'bitisik', cove: k },
+    { game: 'sekil', cove: k },
+    { game: 'kopru', cove: k }
+  ] : [
     { part: 'harf', cove: k },
     { game: 'yagmur', cove: k },
     ...(k === 0 ? [{ intro: true, cove: 0 }] : []),
@@ -97,7 +105,7 @@
   const stepOpen = step => stepDone(step) || step === nextStep();
   const coveOpen = (part, k) => stepOpen(steps.find(step => step.part === part && step.cove === k));
   const stepIcon = step => step.intro ? '✨' : step.game ? games[step.game].icon : prizeOf(step.part);
-  const stepName = step => step.intro ? 'Harekelerle tanış' : step.game ? games[step.game].name : step.part === 'harf' ? 'Harfler' : 'Harekeler';
+  const stepName = step => step.intro ? 'Harekelerle tanış' : step.game ? games[step.game].name : sections.find(s => s.id === step.part).title;
   const stepLabel = step => coves[step.cove] + ' · ' + stepName(step);
   // A step in another cove: the turtle first walks there on the map.
   function goTo(step) {
@@ -114,9 +122,10 @@
 
   window.elifBaSummary = id => {
     const record = load(id);
-    return { harf: masteredCount('harf', record), hareke: masteredCount('hareke', record), rekor: record.yagmur.rekor, tamam: record.yagmur.tamam,
-      balon: { ...record.balon }, kopru: { ...record.kopru, gecilen: record.kopru.koylar.filter(Boolean).length },
-      any: record.harf.some(Boolean) || record.hareke.some(Boolean) || record.tanisma || gameNames.some(name => record[name].rekor > 0) };
+    return { harf: masteredCount('harf', record), hareke: masteredCount('hareke', record), bitisik: masteredCount('bitisik', record),
+      rekor: record.yagmur.rekor, tamam: record.yagmur.tamam, balon: { ...record.balon }, sekil: { ...record.sekil },
+      kopru: { ...record.kopru, gecilen: record.kopru.koylar.filter(Boolean).length, koy: coves.length },
+      any: parts.some(part => record[part].some(Boolean)) || record.tanisma || gameNames.some(name => record[name].rekor > 0) };
   };
   window.resetElifBa = id => {
     records.set(id, blank());
@@ -146,7 +155,10 @@
 
   /* ---------- Hub: the island's sections ---------- */
   function drawShells() {
-    $('elif-shells').textContent = '🐚 ' + masteredCount('harf') + '/28 · 🦪 ' + masteredCount('hareke') + '/28';
+    // The corals of bitişik yazılış join in once the harekes of every letter are done.
+    const corals = masteredCount('hareke') === 28 || masteredCount('bitisik') > 0;
+    $('elif-shells').textContent = '🐚 ' + masteredCount('harf') + '/28 · 🦪 ' + masteredCount('hareke') + '/28' +
+      (corals ? ' · 🪸 ' + masteredCount('bitisik') + '/28' : '');
   }
   function showHub() {
     voice.stop();
@@ -229,7 +241,7 @@
     const state = coveState(k, next, nextCove);
     const item = el('li', 'elif-stop ' + (state === 'current' ? 'current' : 'done'));
     item.append(el('div', 'elif-stop-head', '<span class="elif-stop-glyphs" lang="ar" dir="rtl" aria-hidden="true">' +
-      coveLetters(k).map(i => glyphs[i]).join(' ') + '</span><strong>' + (k + 1) + '. ' + coves[k] + '</strong>' +
+      coveGlyphs(k).join(' ') + '</span><strong>' + (k + 1) + '. ' + coves[k] + '</strong>' +
       (state === 'done' ? '<span class="elif-stop-done">✓ Tamam</span>' : '')));
     const list = el('ol', 'elif-steps');
     for (const step of steps.filter(s => s.cove === k)) {
@@ -277,11 +289,13 @@
     $('elif-section-count').textContent = info.prize + ' ' + masteredCount(part) + ' / 28';
     drawShells();
     const letters = coveLetters(cove);
-    voice.preload(letters);
+    voice.preload(letters, false, part === 'bitisik');
     $('elif-guide').textContent = part === 'harf' ? '1. Harflere dokun, adlarını dinle.\n2. Hazır olunca “Oyna”ya bas.' :
-      '1. Hecelere dokun, okunuşlarını dinle. ♪ üç harekeyi sırayla okur.\n2. Hazır olunca “Oyna”ya bas.';
-    $('elif-cards').className = 'elif-cards ' + (part === 'harf' ? 'letters' : 'syllables');
-    $('elif-cards').replaceChildren(...letters.map(i => part === 'harf' ? letterCard(i) : syllableCard(i)));
+      part === 'hareke' ? '1. Hecelere dokun, okunuşlarını dinle. ♪ üç harekeyi sırayla okur.\n2. Hazır olunca “Oyna”ya bas.' :
+      'Kelimeler sağdan sola yazılır ve okunur. Harfler kelimede yan yana gelince birbirine bağlanır, bu yüzden başta, ' +
+      'ortada ve sonda biraz başka görünür.\n1. Şekillere ve kelimelere dokun, dinle. Renkli harf, öğrendiğin harf.\n2. Hazır olunca “Oyna”ya bas.';
+    $('elif-cards').className = 'elif-cards ' + (part === 'harf' ? 'letters' : part === 'hareke' ? 'syllables' : 'shapes');
+    $('elif-cards').replaceChildren(...letters.map(i => part === 'harf' ? letterCard(i) : part === 'hareke' ? syllableCard(i) : shapeCard(i)));
     $('elif-play').textContent = coveDone(part, cove) ? '↻ Yeniden oyna' : '▶ Oyna';
     $('elif-note').textContent = '';
   }
@@ -321,7 +335,57 @@
     card.append(head, row);
     return card;
   }
-  /* ---------- The games: Harf Yağmuru, Hece Balonları and Cam Köprü ---------- */
+  // Bitişik yazılış: the letter, then a column for each place in the word (right to left: start,
+  // middle, end) with the letter's shape there and Diyanet's example word, the letter coloured in it.
+  const placeLower = f => places[f].toLocaleLowerCase('tr');
+  const inWord = ['', 'kelimenin başında', 'kelimenin ortasında', 'kelimenin sonunda'];
+  function shapeCard(i) {
+    const card = el('div', 'elif-shapes tone-' + i % 4);
+    const head = el('div', 'elif-syllables-head', glyphHtml(glyphs[i]) + '<strong>' + names[i] + '</strong>' +
+      '<small aria-hidden="true">' + (mastered('bitisik', i) ? '🪸' : '') + '</small>');
+    const listen = el('button', 'elif-chant', '♪');
+    listen.setAttribute('aria-label', names[i] + ' harfini dinle');
+    listen.onclick = () => { $('elif-note').textContent = names[i]; voice.letter(i, $('elif-note')); };
+    head.append(listen);
+    const row = el('div', 'elif-shape-row');
+    row.dir = 'rtl';
+    const select = button => {
+      for (const other of $('elif-cards').querySelectorAll('.selected')) other.classList.remove('selected');
+      button.classList.add('selected');
+    };
+    for (const f of [1, 2, 3]) {
+      const column = el('div', 'elif-shape-col');
+      column.dir = 'ltr';
+      const form = el('button', 'elif-syllable', glyphHtml(shape(i, f)) + '<span>' + places[f] + '</span>');
+      form.setAttribute('aria-label', names[i] + ', ' + inWord[f] + ', dinle');
+      form.onclick = () => { select(form); $('elif-note').textContent = names[i] + ' ' + inWord[f]; voice.shape(i, f, $('elif-note')); };
+      const sample = el('button', 'elif-word', wordHtml(i, f));
+      sample.setAttribute('aria-label', names[i] + ' ' + inWord[f] + ': örnek kelimeyi dinle');
+      sample.onclick = () => { select(sample); $('elif-note').textContent = 'Kelimenin harfleri sağdan sola okunuyor.'; voice.word(i, f, $('elif-note')); };
+      column.append(form, sample);
+      row.append(column);
+    }
+    card.append(head, row);
+    if (!joinsNext(i)) card.append(el('p', 'elif-apart', '⚠️ ' + names[i] + ' kendinden sonraki harfe bağlanmaz.'));
+    return card;
+  }
+  // An example word with its letter coloured. The coloured letter keeps its joins to its neighbours
+  // through zero-width joiners, so it looks the same as in the plain word.
+  const ZWJ = '\u200d';
+  const joinsAfter = c => !'اأإآدذرزوؤةء '.includes(c);
+  function wordHtml(i, f) {
+    const { text, marks } = word(i, f);
+    let html = '';
+    Array.from(text).forEach((c, n) => {
+      if (!marks.includes(n)) { html += c; return; }
+      const before = n > 0 && text[n - 1] !== ' ' && joinsAfter(text[n - 1]) && c !== 'ء';
+      const after = n < text.length - 1 && text[n + 1] !== ' ' && joinsAfter(c);
+      html += (before ? ZWJ : '') + '<span class="elif-mark">' + (before ? ZWJ : '') + c + (after ? ZWJ : '') + '</span>' + (after ? ZWJ : '');
+    });
+    return '<b lang="ar" dir="rtl">' + html + '</b>';
+  }
+
+  /* ---------- The games: Harf Yağmuru, Hece Balonları, Şekil Yağmuru and Cam Köprü ---------- */
   // Each cove has all three as steps of the path: Harf Yağmuru after its letters rains every letter
   // learned so far, Hece Balonları after its harekes flies those letters' syllables (letter * 3 + hareke),
   // and Cam Köprü mixes both on the bridge to the next cove.
@@ -334,11 +398,15 @@
       kind: 'hece', name: 'Hece Balonları', icon: '🎈', tag: 'Oyun',
       items: () => glyphs.map((_, i) => i).filter(i => mastered('hareke', i)).flatMap(i => [i * 3, i * 3 + 1, i * 3 + 2])
     },
+    sekil: {
+      kind: 'sekil', name: 'Şekil Yağmuru', icon: '☔', tag: 'Oyun',
+      items: () => glyphs.map((_, i) => i).filter(i => mastered('bitisik', i))
+    },
     kopru: { name: 'Cam Köprü', icon: '🌉', tag: 'Karma' }
   };
-  // The bridge of the last cove leads to the lighthouse itself.
+  // The bridge of the last cove leads on to the cove that is coming next.
   const destination = k => k < coves.length - 1 ? { to: coves[k + 1], toDative: coves[k + 1] + "'na" } :
-    { to: 'Deniz Feneri', toDative: "Deniz Feneri'ne" };
+    { to: 'Sıradaki koy', toDative: 'sıradaki koya' };
   // A cove's game plays with everything learned up to and including that cove.
   function openGame(id, k) {
     const info = games[id];
@@ -364,15 +432,19 @@
       if ($('elif-view').hidden) return;
       if (section) drawSection(); else showHub();
     };
+    // The letter groups up to this cove's: the coves of a topic go through the same groups of four again.
+    const upTo = i => Math.floor((id === 'balon' ? Math.floor(i / 3) : i) / 4) <= k % LETTER_COVES;
     if (id === 'kopru') {
+      const joined = coveTopic(k) === 'bitisik';
       elifBridgeGame.open({
-        letters: glyphs.map((_, i) => i).filter(i => Math.floor(i / 4) <= k),
-        recent: coveLetters(k), from: coves[k], ...destination(k),
+        // In a bitişik cove the bridge has the joined shapes of the letters learned so far, and a few
+        // harekeli syllables of all the letters for review.
+        letters: glyphs.map((_, i) => i).filter(i => upTo(i) && (!joined || mastered('bitisik', i))),
+        recent: coveLetters(k), joined, known: glyphs.map((_, i) => i), from: coves[k], ...destination(k),
         best: () => progress.kopru, onResult: result, next, onClose
       });
       return;
     }
-    const upTo = i => Math.floor((id === 'balon' ? Math.floor(i / 3) : i) / 4) <= k;
     const recent = coveLetters(k);
     elifListeningGame.open({
       kind: info.kind,
@@ -442,6 +514,32 @@
     return spread([0, 1, 2, 0, 1, 2].map((h, n) => ({ type: n < 3 ? 'hece-ses' : 'ses-hece', target: letters[n % letters.length], h,
       choices: shuffled([0, 1, 2]).map(x => [letters[n % letters.length], x]) })));
   }
+  // Bitişik yazılış: every letter of the cove three times, each time at another place in the word. Its
+  // shape is shown and the letter found among letters alone (sekil-harf); the letter and its place are
+  // heard and its shape found among other letters' shapes at the same place (dinle-sekil); an example
+  // word shows the letter coloured and the child says where in the word it is (yer). From the second
+  // bitişik cove on, letters of the earlier ones come back for review.
+  function shapeChoices(target, k) {
+    const twinsOf = twins(target);
+    const order = [...shuffled(twinsOf), ...shuffled(coveLetters(k)), ...shuffled(glyphs.map((_, i) => i))];
+    const picked = [target];
+    for (const i of order) if (picked.length < 4 && !picked.includes(i)) picked.push(i);
+    return shuffled(picked);
+  }
+  const shapeQuestion = (type, target, f, k) => type === 'yer' ? { type, target, f, choices: shuffled([1, 2, 3]) } :
+    { type, target, f, choices: shapeChoices(target, k) };
+  function bitisikRound(k) {
+    const questions = [];
+    for (const target of coveLetters(k)) {
+      const at = shuffled([1, 2, 3]);
+      ['sekil-harf', 'dinle-sekil', 'yer'].forEach((type, n) => questions.push(shapeQuestion(type, target, at[n], k)));
+    }
+    const first = k - k % LETTER_COVES; // the first cove of the topic
+    const earlier = Array.from({ length: (k - first) * 4 }, (_, i) => i);
+    shuffled(earlier).slice(0, REVIEW).forEach((target, n) =>
+      questions.push(shapeQuestion(['sekil-harf', 'dinle-sekil', 'yer'][n % 3], target, pick([1, 2, 3]), k)));
+    return spread(questions);
+  }
   // Keep the same letter from coming up twice in a row.
   function spread(questions) {
     const result = shuffled(questions);
@@ -455,7 +553,8 @@
 
   function startRound(kind) {
     round = { kind, part: kind === 'intro' ? 'hareke' : section, cove, wasDone: kind === 'cove' && coveDone(section, cove), questions:
-      kind === 'intro' ? introRound() : section === 'harf' ? harfRound(cove) : harekeRound(cove), right: 0, missed: new Set() };
+      kind === 'intro' ? introRound() : section === 'harf' ? harfRound(cove) : section === 'hareke' ? harekeRound(cove) : bitisikRound(cove),
+      right: 0, missed: new Set() };
     turn = 0;
     earned = [];
     if (!dialog.open) dialog.showModal();
@@ -484,7 +583,10 @@
     next.id = 'elif-next';
     next.hidden = true;
     const letterQuestion = q.type === 'listen' || q.type === 'sound';
-    const play = () => letterQuestion ? voice.letter(q.target, response) : voice.syllable(q.target, q.h, response);
+    const joined = ['sekil-harf', 'dinle-sekil', 'yer'].includes(q.type);
+    // A bitişik question says the letter and its place ("Be. Kelimenin başında"); the example word can be heard on its own.
+    const play = () => joined ? voice.shape(q.target, q.f, response) : letterQuestion ? voice.letter(q.target, response) :
+      voice.syllable(q.target, q.h, response);
     const speaker = () => {
       const button = el('button', 'elif-speaker', '<span aria-hidden="true">🔊</span><small>Tekrar dinle</small>');
       button.setAttribute('aria-label', 'Sesi tekrar dinle');
@@ -494,7 +596,8 @@
     const grid = el('div', 'elif-choices');
     grid.id = 'elif-choices';
     let rightButton = null;
-    const answer = letterQuestion ? names[q.target] : syllableName(q.target, q.h);
+    const answer = q.type === 'yer' ? places[q.f] : q.type === 'dinle-sekil' ? names[q.target] + ', ' + placeLower(q.f) :
+      letterQuestion || joined ? names[q.target] : syllableName(q.target, q.h);
 
     if (q.type === 'listen') {
       prompt.textContent = 'Dinle ve harfi bul';
@@ -520,6 +623,31 @@
       stage.append(prompt, el('div', 'elif-big', glyphHtml(syllable(q.target, q.h))));
       soundChoices(q.choices.map(([i, h]) => [() => voice.syllable(i, h, response), i === q.target && h === q.h]), stage, response,
         'Bu ses başka bir hecenin.');
+    } else if (q.type === 'sekil-harf') {
+      // A shape is shown: which letter is it?
+      prompt.textContent = 'Bu hangi harf?';
+      stage.append(prompt, el('div', 'elif-big', glyphHtml(shape(q.target, q.f))));
+      grid.classList.add('four');
+      q.choices.forEach((i, n) => grid.append(choice(glyphHtml(glyphs[i]), n, i === q.target, () => 'Bu şekil ' + names[i] + ' değil.')));
+      stage.append(grid);
+    } else if (q.type === 'dinle-sekil') {
+      // The letter and its place are heard: which shape is it?
+      prompt.innerHTML = 'Dinle ve harfin <em>' + placeLower(q.f) + '</em> yazılışını bul';
+      grid.classList.add('four');
+      q.choices.forEach((i, n) => grid.append(choice(glyphHtml(shape(i, q.f)), n, i === q.target, () => 'Bu ' + names[i] + '.')));
+      stage.append(prompt, speaker(), grid);
+      play();
+    } else if (q.type === 'yer') {
+      // An example word with the letter coloured: where in the word is it? The places run right to left.
+      prompt.textContent = 'Renkli harf kelimenin neresinde?';
+      const sample = el('button', 'elif-big elif-word-big', wordHtml(q.target, q.f) + '<small>🔊 Harflerini dinle</small>');
+      sample.setAttribute('aria-label', 'Kelimenin harflerini dinle');
+      sample.onclick = () => voice.word(q.target, q.f, response);
+      grid.classList.add('three', 'places');
+      grid.dir = 'rtl';
+      q.choices.sort((a, b) => a - b).forEach((f, n) => grid.append(choice('<span>' + places[f] + '</span>', n, f === q.f,
+        () => names[q.target] + ' ' + placeLower(f) + ' değil.', places[f])));
+      stage.append(prompt, sample, el('p', 'elif-hint', '← Kelimeyi sağdan sola oku'), grid);
     }
     stage.append(response, next);
     prompt.focus();
@@ -568,10 +696,11 @@
       let message = '✓ Doğru!';
       if (round.kind === 'intro') message += ' Bu ' + syllableName(q.target, q.h) + '.';
       else if (round.part === 'harf') message += ' Bu ' + names[q.target] + '.';
+      else if (joined) message += ' ' + names[q.target] + ' ' + inWord[q.f] + '.';
       else message += ' Bu ' + syllableName(q.target, q.h) + '.';
       response.textContent = message;
       if (round.kind === 'intro') voice.chant(q.target, q.h);
-      else if (q.type === 'hece-ses' || q.type === 'sound') play();
+      else if (q.type === 'hece-ses' || q.type === 'sound' || joined) play();
       next.hidden = false;
       next.textContent = turn === total - 1 ? 'Sonucu gör' : 'Sıradaki';
       next.focus();
@@ -642,20 +771,22 @@
       }
       const done = coveDone(part, round.cove);
       const step = nextStep();
-      const prizes = earned.map(i => '<span class="elif-won" lang="ar">' + glyphs[i] + '</span>').join('');
+      const prizes = earned.map(i => '<span class="elif-won" lang="ar">' + (part === 'bitisik' ? shape(i, 2) : glyphs[i]) + '</span>').join('');
       if (!done) {
         stage.innerHTML = retry + '<p>' + misses + ' Koyu geçmek için bütün soruları ilk denemede bilmelisin. Harfleri bir kez daha dinle ve tekrar oyna.</p>' +
           '<button class="elif-action" id="elif-continue">Tekrar oyna</button>';
         playCue('retry');
       } else {
-        const heading = before ? (perfect ? 'Hepsi doğru!' : 'Güzel çalıştın!') : !step ? 'Bütün harfleri harekeleriyle okudun!' :
-          part === 'harf' ? coves[round.cove] + ' harflerini öğrendin!' : coves[round.cove] + ' harekeleri tamam!';
+        const heading = before ? (perfect ? 'Hepsi doğru!' : 'Güzel çalıştın!') : !step ? 'Yolun sonuna geldin!' :
+          part === 'harf' ? coves[round.cove] + ' harflerini öğrendin!' : part === 'hareke' ? coves[round.cove] + ' harekeleri tamam!' :
+          coves[round.cove] + ' şekilleri tamam!';
         let text = perfect ? 'Bütün soruları ilk denemede bildin.' : misses;
         if (before) { /* a replay: nothing to announce */ }
         else if (!step) text += ' Sıradaki bölümler yakında geliyor.';
         else if (step.game) text += ' Şimdi oyun zamanı: ' + games[step.game].name + '!';
         else if (step.intro) text += ' Şimdi harekelerle tanışalım.';
         else if (step.part === 'hareke') text += ' Şimdi bu harfleri harekeleriyle okuyalım.';
+        else if (step.part === 'bitisik') text += ' Sırada harflerin bitişik yazılışı var: ' + coves[step.cove] + '.';
         else text += ' Sırada yeni harfler var: ' + coves[step.cove] + '.';
         stage.innerHTML = '<div class="elif-prize" aria-hidden="true">' + prizeOf(part) + '</div><h2 id="elif-prompt" tabindex="-1">' +
           heading + '</h2>' + (prizes ? '<div class="elif-won-row">' + prizes + '</div>' : '') + '<p>' + text + '</p>' +

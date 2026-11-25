@@ -7,6 +7,17 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.21.0 · 25.11.2026
+
+Elif Ba Adası’na 8. koy geldi: **🪸 Martı Koyu**. Yedi koyda 28 harfi ve harekelerini bitiren çocuklar, Deniz Feneri’nden köprüyle yeni koya geçiyor ve harflerin **bitişik yazılışını** öğrenmeye başlıyor. İlk bitişik koyun harfleri ا ب ت ث.
+
+- **Bitişik yazılış adımı:** Her harfin kelimenin başında, ortasında ve sonundaki şekli, Diyanet Elifba’nın “Harfler ve Şekilleri” dersindeki örnek kelimelerle (بعث، عبد، وهب …) birlikte gösteriliyor. Kelimede öğrenilen harf renkli. Şekle dokununca harfin adı ve “Kelimenin başında / ortasında / sonunda” okunuyor, kelimeye dokununca harfleri sağdan sola tek tek okunuyor. Elif’in kendinden sonraki harfe bağlanmadığı ayrıca belirtiliyor.
+- **Bitişik yazılış turu (12 soru):** Şekli görüp harfi bulma, harfi ve yerini dinleyip şeklini bulma, örnek kelimede renkli harfin başta mı, ortada mı, sonda mı olduğunu söyleme. Bütün sorular ilk denemede bilinince koyun 🪸 mercanları kazanılıyor.
+- **☔ Şekil Yağmuru:** Harf Yağmuru gibi, ama harfler bitişik şekilleriyle yağıyor; aynı harfin damlaları başka başka şekillerde geliyor.
+- **🌉 Cam Köprü:** Martı Koyu’nun köprüsünde camlarda harflerin bitişik şekilleri, araya karışan birkaç harekeli heceyle duruyor.
+- Haritada sekizinci adacık (martılarıyla) Deniz Feneri’nin üstünde; “Yakında” listesinden Bitişik yazılış çıktı. Ayarlar’daki ilerleme özetinde mercanlar ve Şekil Yağmuru da görünüyor.
+- Yeni ses kayıtları Diyanet Elifba’dan bayt bayt aynen alındı (12 örnek kelime ve 3 yer kaydı). Çocukların kayıtlı ilerlemesi olduğu gibi duruyor.
+
 ## 0.20.2 · 25.11.2026
 
 Doğru şıkkın öteki şıklardan belirgin biçimde kısa olduğu sorular da düzeltildi. Artık üç adada da doğru cevap şıkların uzunluğundan tahmin edilemiyor: doğru şık ne en uzun ne de en kısa olarak göze batıyor.

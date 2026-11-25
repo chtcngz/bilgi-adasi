@@ -35,20 +35,22 @@ app/                         Published site (GitHub Pages root)
 │       └── elif-ba/         Elif Ba recordings, section by section
 │           ├── harf/NN.mp3          Letter names (00 = Elif)
 │           ├── hece/NN-H.mp3        Syllables (H: 0 üstün, 1 esre, 2 ötre)
+│           ├── kelime/NN-P.mp3      Bitişik yazılış example words, spelled (P: 1 start, 2 middle, 3 end)
+│           ├── yer/P.mp3            "Kelimenin başında / ortasında / sonunda"
 │           ├── kayitlar.js          Which clips exist (window.elifRecordings)
 │           ├── kaynak.json          Clip ↔ source mapping
 │           └── KAYNAKLAR.md         Sources and licenses
 ├── islands/                 One folder per island
 │   ├── carpim/              Çarpım Adası (game.js)
 │   ├── elif-ba/             Elif Ba Adası
-│   │   ├── data.js          Letters, readings, harekes, coves, look-alike letters, section list
+│   │   ├── data.js          Letters, readings, harekes, joined shapes and example words, coves, look-alike letters, section list
 │   │   ├── voice.js         Recording / Turkish speech playback (elifVoice)
 │   │   ├── map.js           Map of the coves; the turtle walks between them (elifMap)
-│   │   ├── game.js          Hub, Harfler and Harekeler sections, rounds
+│   │   ├── game.js          Hub, Harfler, Harekeler and Bitişik yazılış sections, rounds
 │   │   ├── style.css, koy.jpg
 │   │   └── games/           Section games
 │   │       ├── art.js       Turtle, hearts, speaker and stars shared by the games
-│   │       ├── listening.*  Harf Yağmuru (letters) + Hece Balonları (syllables); its .rain-* kit is shared
+│   │       ├── listening.*  Harf Yağmuru (letters), Hece Balonları (syllables), Şekil Yağmuru (joined shapes); its .rain-* kit is shared
 │   │       ├── bridge.*     Cam Köprü, the mixed game at the end of every cove
 │   │       └── aquarium.*   Akvaryum: a fish for every letter whose harekes are learned
 │   ├── din-bilgisi/         Question island: sorular.js + game.js + style.css + ada.svg + kapsam.md
@@ -76,7 +78,7 @@ sources/                     Raw material (not published)
 ## Adding something new
 
 **A new Elif Ba section** (Cezm, Tenvin, Şedde …):
-Elif Ba is a single path (the `steps` list in `game.js`). Each cove's steps run Harfler → Harf Yağmuru → Harekeler → Hece Balonları → Cam Köprü; the first cove also has Harekelerle tanış before Harekeler. Cam Köprü is the cove's mixed (Karma) game and crosses over to the next cove. Only the next step can be opened, and from the second cove on every round mixes in letters from the earlier coves. The hub shows the coves as a map (`map.js`): the turtle stands on one cove, the steps below are that cove's, and it walks over the bridges before a step in another cove opens. To add a section:
+Elif Ba is a single path (the `steps` list in `game.js`). The first seven coves (`LETTER_COVES` in `data.js`) teach the letters, four each: Harfler → Harf Yağmuru → Harekeler → Hece Balonları → Cam Köprü; the first cove also has Harekelerle tanış before Harekeler. From the eighth cove on (`coveTopic(k)` is `bitisik`), the same groups of four come again for bitişik yazılış: Bitişik yazılış → Şekil Yağmuru → Cam Köprü, with the panes in the letters' joined shapes. Martı Koyu (ا ب ت ث) is the first of them; the next bitişik cove needs only its name in `coves` and on the map (`spots`, `short` in `map.js`) and its example-word recordings in `kelime/` and `kayitlar.js` (the words of all 28 letters are already in `data.js`). Cam Köprü is the cove's mixed (Karma) game and crosses over to the next cove. Only the next step can be opened, and from the second cove on every round mixes in letters from the earlier coves. The hub shows the coves as a map (`map.js`): the turtle stands on one cove, the steps below are that cove's, and it walks over the bridges before a step in another cove opens. To add a section:
 1. Remove the `soon` flag from the section's entry in `islands/elif-ba/data.js`, and add its steps to the `steps` list in `game.js`.
 2. Add the section's screen and rounds to `islands/elif-ba/game.js`.
 3. Put its recordings under `app/assets/audio/elif-ba/<bölüm>/` and register them in `kayitlar.js`.

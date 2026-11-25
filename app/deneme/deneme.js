@@ -2,7 +2,7 @@
 // Oyuncu profili, yıldız ya da ilerleme kullanmaz, hiçbir şey saklamaz. Harf ve hece sesleri oyunun
 // kayıtlarından (elifVoice), Hece Treni'nin kelime kayıtları deneme/ses/ klasöründen gelir.
 (() => {
-  const { glyphs, names, harekeler, syllable, sameSound, coves, coveLetters } = elifData;
+  const { glyphs, names, harekeler, syllable, sameSound, coves, coveLetters, LETTER_COVES } = elifData;
   const V = elifVoice;
   const lab = $('lab');
   const turtleSvg = id => elifArt.turtle(id);
@@ -429,7 +429,7 @@
      ========================================================= */
   function startNecklace(screen) {
     const g = guide('kolye');
-    const steps = dotsRow(coves.length);
+    const steps = dotsRow(LETTER_COVES); // the coves of the letters, not those of bitişik yazılış
     const title = el('h2', 'neck-title');
     const string = el('div', 'neck-string');
     const tray = el('div', 'neck-tray');
@@ -484,8 +484,8 @@
         fx.burst(string, { count: 14, symbols: ['✦', '•', '○'] });
         wait(1200, () => {
           k++;
-          if (k < coves.length) draw();
-          else { steps.mark(coves.length); finale(screen, 'Yedi koyun kolyesi tamam: 28 harf sırayla!', () => openGame(games[3])); }
+          if (k < LETTER_COVES) draw();
+          else { steps.mark(LETTER_COVES); finale(screen, 'Yedi koyun kolyesi tamam: 28 harf sırayla!', () => openGame(games[3])); }
         });
       }));
     }

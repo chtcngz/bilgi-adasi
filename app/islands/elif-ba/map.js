@@ -1,12 +1,14 @@
-// The coves of Elif Ba Adası as a map: seven islets joined by glass bridges (the Cam Köprü of each
-// cove), from Kaplumbağa Koyu at the bottom to the lighthouse at the top. The turtle stands on the
+// The coves of Elif Ba Adası as a map: islets joined by glass bridges (the Cam Köprü of each cove),
+// from Kaplumbağa Koyu at the bottom up to the lighthouse of the seventh cove, where the letters and
+// their harekes are done, and on to the coves of bitişik yazılış above it. The turtle stands on the
 // cove being looked at and walks over the bridges, islet by islet, to wherever the child goes:
 // forward to a new cove or back to an earlier one.
 const elifMap = (() => {
-  const { coves, glyphs, coveLetters } = elifData;
-  const W = 400, H = 440;
-  const spots = [[84, 370], [248, 378], [334, 280], [180, 262], [72, 166], [214, 128], [326, 54]];
-  const short = ['Kaplumbağa', 'İnci', 'Mercan', 'Yıldız', 'Yunus', 'Sedef', 'Deniz Feneri'];
+  const { coves, coveGlyphs, coveTopic } = elifData;
+  const W = 400, H = 560;
+  const spots = [[84, 490], [248, 498], [334, 400], [180, 382], [72, 286], [214, 248], [326, 174], [128, 84]];
+  const short = ['Kaplumbağa', 'İnci', 'Mercan', 'Yıldız', 'Yunus', 'Sedef', 'Deniz Feneri', 'Martı'];
+  const LIGHTHOUSE = 6;
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
   const left = x => (x / W * 100).toFixed(2) + '%';
   const top = y => (y / H * 100).toFixed(2) + '%';
@@ -22,17 +24,20 @@ const elifMap = (() => {
     const lighthouse = '<g class="map-lighthouse" transform="translate(26 -6)"><circle cx="0" cy="-40" r="16" fill="#fff6b8" opacity=".55"/>' +
       '<path d="M-8 2-5.5-34H5.5L8 2Z" fill="#fff" stroke="#b94040" stroke-width="2"/><path d="M-7.2-8H7.2L6.6-17H-6.6ZM-6-25H6L5.6-31H-5.6Z" fill="#e05a5a"/>' +
       '<rect x="-6.5" y="-43" width="13" height="9" rx="2" fill="#ffe38a" stroke="#c98a1f" stroke-width="1.6"/><path d="M-9-43 0-50 9-43Z" fill="#b94040"/></g>';
+    // The coves of bitişik yazılış have seagulls over them.
+    const gulls = '<g class="map-gulls" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M-30-36q5-6 10 0q5-6 10 0"/><path d="M-12-50q4-5 8 0q4-5 8 0"/></g>';
     return '<g class="map-isle" data-k="' + k + '" transform="translate(' + x + ' ' + y + ')">' +
       '<ellipse rx="60" ry="37" fill="#a8ecf2" opacity=".75"/><ellipse class="map-sand" rx="49" ry="29" fill="#f3d892"/>' +
       '<g transform="' + flip.trim() + '"><path class="map-grass" d="M-34-4C-30-20 0-26 20-18c14 6 10 18-6 20C-8 5-36 8-34-4Z" fill="#9fd88a"/>' +
-      (k === 6 ? '' : palm) + '</g>' + (k === 6 ? lighthouse : '') + '</g>';
+      (k === LIGHTHOUSE ? '' : palm) + '</g>' + (k === LIGHTHOUSE ? lighthouse : '') + (coveTopic(k) === 'bitisik' ? gulls : '') + '</g>';
   }
   function bridge(k) {
     const [x1, y1] = spots[k], [x2, y2] = spots[k + 1];
     const line = 'x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"';
     return '<g class="map-bridge" data-k="' + k + '"><line ' + line + ' class="map-rails"/><line ' + line + ' class="map-panes"/></g>';
   }
-  const waves = [[40, 40], [150, 30], [270, 120], [350, 190], [30, 280], [120, 330], [330, 400], [250, 200], [140, 410]]
+  const waves = [[250, 40], [330, 90], [40, 170], [270, 240], [350, 310], [30, 400], [120, 450], [330, 520], [250, 320], [140, 530], [40, 30]]
     .map(([x, y]) => '<path d="M' + x + ' ' + y + 'q7-6 14 0t14 0"/>').join('');
 
   let host = null, turtle = null, buttons = [], at = 0, walking = false;
@@ -46,7 +51,7 @@ const elifMap = (() => {
       coves.slice(1).map((_, k) => bridge(k)).join('') + coves.map((_, k) => islet(k)).join('') + '</svg>' +
       coves.map((name, k) => '<button type="button" class="elif-isle" data-k="' + k + '" style="left:' + left(spots[k][0]) + ';top:' + top(spots[k][1]) + '">' +
         '<span class="elif-isle-badge" aria-hidden="true"></span><span class="elif-isle-glyphs" lang="ar" dir="rtl" aria-hidden="true">' +
-        coveLetters(k).map(i => glyphs[i]).join(' ') + '</span><span class="elif-isle-name">' + short[k] + '</span></button>').join('') +
+        coveGlyphs(k).join(' ') + '</span><span class="elif-isle-name">' + short[k] + '</span></button>').join('') +
       '<div class="elif-map-turtle" aria-hidden="true"><div class="elif-map-turtle-turn"><div class="elif-map-turtle-body">' +
       elifArt.turtle('map') + '</div></div></div>';
     buttons = Array.from(host.querySelectorAll('.elif-isle'));

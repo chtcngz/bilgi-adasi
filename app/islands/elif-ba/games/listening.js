@@ -3,9 +3,10 @@
 // once, and the game does not stop until all 45 are popped. A wrong tap breaks one of three hearts.
 // Finishing with all three hearts completes the section; losing all three starts it again.
 // In Harf Yağmuru letters rain from the clouds into the sea; in Hece Balonları syllables with
-// their harekes rise from the sea up into the clouds.
+// their harekes rise from the sea up into the clouds; in Şekil Yağmuru the letters rain in their
+// joined shapes, each drop of a letter in another one (at the start, in the middle, at the end).
 const elifListeningGame = (() => {
-  const { glyphs, names, readings, harekeler, syllable, twins } = elifData;
+  const { glyphs, names, readings, harekeler, syllable, twins, shape } = elifData;
   const voice = elifVoice;
   const dialog = $('elif-rain');
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
@@ -64,10 +65,25 @@ const elifListeningGame = (() => {
         intro: 'Kaplumbağa harekeli bir hece okuyacak: o heceden üç balon patlat, hemen yeni hece gelsin. 15 heceyi bitirince ' +
           'yoluna devam edersin; hiç can kaybetmezsen üç yıldız! Canların biterse oyun baştan başlar.',
         unit: 'hece', piece: 'balon patlat', pool: 'Oyundaki heceler' }
+    },
+    sekil: {
+      rising: false, label: 'Şekil Yağmuru', title: 'Şekil <em>Yağmuru</em>',
+      // a drop shows the letter at the start, in the middle or at the end of a word, picked when it is made
+      text: i => shape(i, 1 + Math.floor(Math.random() * 3)), name: i => names[i], sound: i => names[i],
+      speak: (i, note, end) => voice.letter(i, note, end),
+      alike: i => twins(i), alikeFrom: 2, alikeChance: 0.4,
+      t: { listen: 'Harfi tekrar dinle', slots: 'Bölümün harfleri', first: '👆 Duyduğun harften 3 tane patlat', fresh: '🔊 Yeni harf',
+        freshSay: 'Yeni harf. Dinle.', allDone: 'On beş harfin hepsini patlattın.', whole: 'Hiç can kaybetmeden 15 harfin hepsini, 45 damlayı patlattın!',
+        partly: '15 harfin hepsini patlattın ama ', recap: 'Patlattığın harfler · dokun, dinle', chip: ' harfini dinle',
+        some: ' harfi patlattın. ', none: 'Sesi dikkatle dinle, sonra o harften üç tane patlat. ',
+        intro: 'Harfler bitişik yazılışlarıyla yağıyor: kelimenin başındaki, ortasındaki ve sonundaki şekilleriyle. Kaplumbağa bir harf ' +
+          'söyleyecek: o harften üç tane patlat, şekli değişse de aynı harf! 15 harfi bitirince yoluna devam edersin; hiç can kaybetmezsen ' +
+          'üç yıldız! Canların biterse oyun baştan başlar.',
+        unit: 'harf', piece: 'damla patlat', pool: 'Oyundaki harfler' }
     }
   };
   let kind = kinds.harf;
-  const glyph = i => '<b lang="ar" dir="rtl">' + kind.text(i) + '</b>';
+  const glyph = (i, text = kind.text(i)) => '<b lang="ar" dir="rtl">' + text + '</b>';
   // The voice writes its "no Turkish voice here" note into this; the turtle's bubble shows
   // the letter's name instead, so the game can still be played by reading.
   const unheard = {};
@@ -422,8 +438,9 @@ const elifListeningGame = (() => {
     el.tabIndex = -1;
     el.className = 'rain-drop t' + tone;
     el.setAttribute('aria-label', kind.name(letter));
-    el.innerHTML = '<span class="rain-drop-in">' + (kind.rising ? '<i class="rain-string"></i>' : '') + '<i class="rain-drop-skin"></i>' + glyph(letter) + '</span>';
-    const drop = { el, inner: el.firstChild, letter, lane, tone, x: laneX[lane], y: spawnY, dx: 0, fall: fallTime(game.done),
+    const text = kind.text(letter);
+    el.innerHTML = '<span class="rain-drop-in">' + (kind.rising ? '<i class="rain-string"></i>' : '') + '<i class="rain-drop-skin"></i>' + glyph(letter, text) + '</span>';
+    const drop = { el, inner: el.firstChild, letter, text, lane, tone, x: laneX[lane], y: spawnY, dx: 0, fall: fallTime(game.done),
       phase: Math.random() * 6.3, wobble: 0.9 + Math.random() * 0.6, state: 'fall' };
     el.addEventListener('pointerdown', event => {
       if (event.button !== 0) return;
@@ -620,7 +637,7 @@ const elifListeningGame = (() => {
         fx.bump(slot, 'tick');
       } else {
         slot.className = 'got t' + drop.tone;
-        slot.innerHTML = glyph(drop.letter);
+        slot.innerHTML = glyph(drop.letter, drop.text);
       }
       playCue('key', { gain: 0.45 });
     };
@@ -631,7 +648,7 @@ const elifListeningGame = (() => {
     piece.className = 'rain-fly';
     piece.lang = 'ar';
     piece.dir = 'rtl';
-    piece.textContent = kind.text(drop.letter);
+    piece.textContent = drop.text;
     scene.append(piece);
     const end = Math.max(0.2, to.width / (size * 0.8));
     const move = (px, py, scale) => ({ transform: 'translate(' + px.toFixed(0) + 'px,' + py.toFixed(0) + 'px) translate(-50%,-50%) scale(' + scale.toFixed(2) + ')' });
@@ -819,7 +836,7 @@ const elifListeningGame = (() => {
     then?.();
   });
 
-  // kind: 'harf' (Harf Yağmuru, the default) or 'hece' (Hece Balonları);
+  // kind: 'harf' (Harf Yağmuru, the default), 'hece' (Hece Balonları) or 'sekil' (Şekil Yağmuru);
   // letters: learned letters (syllables) to play with; recent: the newest cove's, asked more often;
   // best(): the player's { rekor, yildiz, tamam }; onResult({ score, stars, finished }) keeps them;
   // next(): optional, { label, go } of the step after a game played to the end.
