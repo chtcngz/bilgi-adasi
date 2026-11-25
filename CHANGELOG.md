@@ -7,13 +7,24 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
-## 0.27.0 · 25.11.2026
+## 0.28.0 · 25.11.2026
 
 Elif Ba Adası’nın ana ekranında artık yalnızca harita var: haritanın altındaki yazılı adım listesi ve “Yakında” bölümü kalktı. Sayfa haritayla bitiyor.
 
 - **Adımlar haritada:** Haritanın altına bir iskele geldi. Kaplumbağa hangi koydaysa o koyun adımları (Harfler, Harf Yağmuru, Harekeler, Hece Balonları, Cam Köprü…) iskelede yuvarlak resimli düğmeler olarak duruyor; okumak gerekmiyor. Bitenlerde ✓, sıradakinde ▶ var ve sıradaki adım zıplıyor; kilitli olanlar soluk.
 - Kaplumbağa başka bir koya yürürken iskele boşalıyor, varınca o koyun adımları geliyor. Kaplumbağanın durduğu koya dokununca sıradaki adım iskelede sallanıp yerini gösteriyor.
 - Öğrenilen koyun çevresinde parlayan sarı bir halka var.
+
+## 0.27.0 · 25.11.2026
+
+**Bulut kaydı ve Yönetici sayfası.** Oyun, her cihazdaki ilerlemeyi değiştikçe buluta (Firebase) da kaydediyor. Büyükler bütün cihazlardaki çocukları tek sayfada görüyor: oyunun adresinin sonuna `admin/` eklenerek açılıyor (oyunun içinden bağlantısı yok), e-posta ve şifreyle giriliyor.
+
+- **Bulut kaydı:** Bir şey kaydedildikten birkaç saniye sonra cihazın bütün oyuncuları buluta gönderiliyor. İnternet yoksa bekliyor, bağlantı gelince gönderiyor. Oyun her zamanki gibi cihazda kaydediyor ve buluta hiç beklemiyor; internetsiz de aynı oynanıyor. Çocuklardan hiçbir şey istenmiyor.
+- **Bütün oyuncular:** Her cihazın her oyuncusu tek tabloda: adı, sınıfı, cihazı ve son oynama zamanı.
+- **Çarpım Adası:** yıldızlar, bulunduğu tur ve tablo, ada ada deneme, doğru, yanlış ve süresi dolan cevaplar, son denemelerdeki her cevap ve en çok zorlandığı işlemler.
+- **Elif Ba Adası:** yoldaki adımı, harf harf harf, hareke ve bitişik yazılış durumu, oyunların rekorları ve geçilen koylar, akvaryumdaki balıklar.
+- **Din Bilgisi, Fen Bilimleri ve Sosyal Bilgiler:** öğrenilen ve görülen sorular, durak durak yıldızlar, Tekrar Kutusu, deneme sınavı puanları ve görülen her sorunun kaç kez doğru ya da yanlış cevaplandığı (önce yanlışlar).
+- İnternete hiç bağlanmayan bir cihazın oyuncuları yedek dosyasıyla da eklenebiliyor.
 
 ## 0.26.1 · 25.11.2026
 

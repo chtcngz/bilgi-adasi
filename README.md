@@ -18,6 +18,8 @@ app/                         Published site (GitHub Pages root)
 ├── core/                    Shared infrastructure for every island
 │   ├── js/
 │   │   ├── app.js           $(), activeProfile, storageFailed: loaded first
+│   │   ├── bulut-ayar.js    The Firebase project (public values)
+│   │   ├── sync.js          Bulut kaydı: copies every saved change to Firestore (cihazlar/{device uid})
 │   │   ├── sounds.js        Web Audio cues (playCue), phone audio session
 │   │   ├── fx.js            Confetti, burst, bump effects
 │   │   ├── profiles.js      Players, grade levels, Keşif Limanı (island catalog)
@@ -56,6 +58,8 @@ app/                         Published site (GitHub Pages root)
 │   ├── din-bilgisi/         Question island: sorular.js + game.js + style.css + ada.svg + kapsam.md
 │   ├── fen-bilimleri/       Question island: same pattern
 │   └── sosyal-bilgiler/     Question island: same pattern
+├── admin/                   Yönetici sayfası: every player of every device, read from the cloud copy; signs in with
+│                            the admin's Firebase e-mail and password. Nothing links to it; open …/admin/.
 └── deneme/                  Deneme Odası: playable drafts of proposed Elif Ba games (OYUN-ONERILERI.md).
                              Nothing in the game links to it; open …/deneme/.
 tools/                       Helper scripts (not published)
@@ -73,6 +77,13 @@ sources/                     Raw material (not published)
 - **Every sound lives under `app/assets/audio/`**: effects in `ui/`, and each island's or section's recordings in their own subfolder. The raw, unprocessed library is kept in `sources/` and is not published.
 - **Load order matters** because the files are plain scripts: `core/js/app.js` → `sounds` → `fx` → islands and core helpers → `core/js/settings.js` (last).
 - **Cache busting:** every `<link>`/`<script>` address in `index.html` ends in `?v=…`. When you change a file, bump its number.
+- **The cloud is only a copy.** `core/js/sync.js` notices every change to the game's keys (it wraps `Storage.prototype.setItem/removeItem`) and, a few seconds later, writes a snapshot of them to Firestore as `cihazlar/{the device's anonymous uid}`; offline it waits. localStorage stays the game's save and the game never waits for the cloud. The Firestore rules (set in the Firebase console) let a device write only its own document and only the admin account read them:
+  ```
+  match /cihazlar/{uid}/{doc=**} {
+    allow read: if isAdmin() || (request.auth != null && request.auth.uid == uid);
+    allow write: if request.auth != null && request.auth.uid == uid;
+  }
+  ```
 - **Saved-data keys never change.** Progress is kept in localStorage (`carpim-adasi-profiller`, `carpim-adasi-oyuncu-*`, `elif-ba-v2-*`, `din-bilgisi-*` …). Renaming a key wipes the children's progress.
 
 ## Adding something new
