@@ -123,15 +123,21 @@ const bulut = (() => {
     if (!state.bekliyor) return;
     if (navigator.onLine === false) return; // the 'online' event sends it
     const body = snapshot();
-    // A device with nothing saved yet gets no account and no document.
-    if (!state.uid && !Object.keys(body.fields.kayitlar.mapValue.fields).length) { state.bekliyor = false; keep(); return; }
+    // Every player deleted: the device's document goes too, so the admin page no longer lists it.
+    let players = [];
+    try { players = JSON.parse(read('carpim-adasi-profiller')) || []; } catch {}
+    const empty = !players.length;
+    if (empty) state.oyuncular = {};
+    // A device with no players (and nothing in the cloud yet) gets no account and no document.
+    if (!state.uid && (empty || !Object.keys(body.fields.kayitlar.mapValue.fields).length)) { state.bekliyor = false; keep(); return; }
     busy = true;
     state.bekliyor = false;
     try {
       const bearer = await token();
-      const reply = await fetch(docs + 'cihazlar/' + state.uid, {
-        method: 'PATCH', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + bearer },
-        body: JSON.stringify(body) });
+      const reply = await fetch(docs + 'cihazlar/' + state.uid, empty
+        ? { method: 'DELETE', headers: { Authorization: 'Bearer ' + bearer } }
+        : { method: 'PATCH', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + bearer },
+          body: JSON.stringify(body) });
       if (reply.status === 401 || reply.status === 403) { state.bitis = 0; throw new Error('auth ' + reply.status); }
       if (!reply.ok) throw new Error('write ' + reply.status);
       state.gonderildi = Date.now();
@@ -156,6 +162,15 @@ const bulut = (() => {
   // The first time on a device (or after an update), everything already saved goes up once.
   if (!state.uid || state.bekliyor) { state.bekliyor = true; schedule(2000); }
 
+  // A deleted player: forget when they last played and send the change right away.
+  function oyuncuSilindi(id) {
+    delete state.oyuncular[id];
+    state.bekliyor = true;
+    keep();
+    clearTimeout(timer);
+    return send();
+  }
+
   return { durum: () => ({ uid: state.uid || null, bekliyor: !!state.bekliyor, gonderildi: state.gonderildi || null, hata: state.hata || null }),
-    simdi: () => { state.bekliyor = true; return send(); } };
+    simdi: () => { state.bekliyor = true; return send(); }, oyuncuSilindi };
 })();

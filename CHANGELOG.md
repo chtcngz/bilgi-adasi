@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.28.3 · 25.11.2026
+
+- **Oyuncuyu sil:** Ayarlar → Oyuncu’daki silme artık iki kez basarak değil, kutuya **SİL** yazarak onaylanıyor; yazı doğru olmadan Sil düğmesi açılmıyor. Böylece çocuklar yanlışlıkla oyuncu silemiyor.
+- Silinen oyuncunun bu cihazdaki bütün kayıtları siliniyor ve bulut kaydı hemen güncelleniyor: oyuncu yönetici sayfasından da kalkıyor. Cihazda hiç oyuncu kalmazsa cihaz da yönetici sayfasından kalkıyor. İnternet yoksa silme, bağlantı gelince buluta gidiyor.
+
 ## 0.28.2 · 25.11.2026
 
 - **Geçici geliştirme anahtarı:** Adı `admin` olan oyuncuda Elif Ba haritasındaki koylar kilitli (🔒) görünüyordu; dokununca açılsalar da kilitli çiziliyorlardı. Artık bütün koylar açık ve numaralı görünüyor. Diğer oyuncularda bir şey değişmedi.
