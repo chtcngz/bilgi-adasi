@@ -579,22 +579,24 @@
   // Each cove has all three as steps of the path: Harf Yağmuru after its letters rains every letter
   // learned so far, Hece Balonları after its harekes flies those letters' syllables (letter * 3 + hareke),
   // and Cam Köprü mixes both on the bridge to the next cove.
+  // The admin player (devAll) can open a game before learning its letters: it plays them as if learned.
+  const playable = (part, i) => devAll() || mastered(part, i);
   const games = {
     yagmur: {
       kind: 'harf', name: 'Harf Yağmuru', icon: '🌧️', tag: 'Oyun',
-      items: () => glyphs.map((_, i) => i).filter(i => mastered('harf', i))
+      items: () => glyphs.map((_, i) => i).filter(i => playable('harf', i))
     },
     balon: {
       kind: 'hece', name: 'Hece Balonları', icon: '🎈', tag: 'Oyun',
-      items: () => glyphs.map((_, i) => i).filter(i => mastered('hareke', i)).flatMap(i => [i * 3, i * 3 + 1, i * 3 + 2])
+      items: () => glyphs.map((_, i) => i).filter(i => playable('hareke', i)).flatMap(i => [i * 3, i * 3 + 1, i * 3 + 2])
     },
     sekil: {
       kind: 'sekil', name: 'Şekil Yağmuru', icon: '☔', tag: 'Oyun',
-      items: () => glyphs.map((_, i) => i).filter(i => mastered('bitisik', i))
+      items: () => glyphs.map((_, i) => i).filter(i => playable('bitisik', i))
     },
     cezmbalon: {
       kind: 'cezm', name: 'Cezm Balonları', icon: '🎐', tag: 'Oyun',
-      items: () => glyphs.map((_, i) => i).filter(i => mastered('cezm', i))
+      items: () => glyphs.map((_, i) => i).filter(i => playable('cezm', i))
     },
     kopru: { name: 'Cam Köprü', icon: '🌉', tag: 'Karma' }
   };
@@ -637,7 +639,7 @@
       elifBridgeGame.open({
         // In a bitişik cove the bridge has the joined shapes of the letters learned so far, in a cezm cove
         // their cezm syllables, and a few harekeli syllables of all the letters for review.
-        letters: glyphs.map((_, i) => i).filter(i => upTo(i) && (!joined || mastered('bitisik', i)) && (!withCezm || mastered('cezm', i))),
+        letters: glyphs.map((_, i) => i).filter(i => upTo(i) && (!joined || playable('bitisik', i)) && (!withCezm || playable('cezm', i))),
         recent: coveLetters(k), joined, cezm: withCezm, known: glyphs.map((_, i) => i), from: coves[k], ...destination(k),
         best: () => progress.kopru, onResult: result, next, onClose
       });

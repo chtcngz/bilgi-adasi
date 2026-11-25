@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.35.2 · 25.11.2026
+
+- **Donma düzeltildi:** Elif Ba Adası’nda harfleri henüz öğrenilmemiş bir oyun açılınca sayfa donuyordu: adı `admin` olan oyuncuda Martı Adacığı’nın Şekil Yağmuru’na dokununca böyle oluyordu; Harf Yağmuru, Hece Balonları ve Cezm Balonları’nda da aynısı vardı. Artık bu oyunlarda adacığın kendi harfleri her zaman oynanıyor ve oyun açılıyor.
+- **Geçici geliştirme anahtarı:** `admin` oyuncusunda oyunlar, harfleri öğrenilmemiş olsa da o adacığa kadarki harflerle oynanıyor. Cam Köprü de bitişik ve cezm adacıklarında harflerin bitişik şekilleri ve cezimli heceleriyle geliyor; eskiden yalnızca harekeli heceler çıkıyordu. Diğer oyuncularda bir şey değişmedi.
+
 ## 0.35.1 · 25.11.2026
 
 - Elif Ba Adası’nda harfi, heceyi ya da talimatı seslendiren düğmelere (harf ve hece kartları, 🔊 ses kutucukları, 🐢💬, tur ekranındaki harfler) dokununca artık “blup” tıklama sesi çıkmıyor; yalnızca seslendirme duyuluyor.

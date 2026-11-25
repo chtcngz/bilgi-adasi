@@ -872,7 +872,9 @@ const elifListeningGame = (() => {
   // best(): the player's { rekor, yildiz, tamam }; onResult({ score, stars, finished }) keeps them;
   // next(): optional, { label, go } of the step after a game played to the end.
   function open(settings) {
-    options = settings;
+    // The cove's own letters always play, learned or not: with no letters at all, plan() never ended
+    // (24 turns shared among none) and the page froze.
+    options = { ...settings, letters: [...new Set([...settings.letters, ...settings.recent])] };
     kind = kinds[settings.kind] || kinds.harf;
     rounds = 0;
     scene.classList.toggle('balloons', kind.rising);
@@ -880,9 +882,9 @@ const elifListeningGame = (() => {
     listen.setAttribute('aria-label', kind.t.listen);
     slotBox.setAttribute('aria-label', kind.t.slots);
     setPace(keptPace());
-    if (kind.preload) kind.preload(settings.letters);
-    else if (kind.rising) voice.preload([...new Set(settings.letters.map(k => Math.floor(k / 3)))]);
-    else voice.preload(settings.letters, true);
+    if (kind.preload) kind.preload(options.letters);
+    else if (kind.rising) voice.preload([...new Set(options.letters.map(k => Math.floor(k / 3)))]);
+    else voice.preload(options.letters, true);
     if (!dialog.open) dialog.showModal();
     newGame(true);
   }
