@@ -47,27 +47,14 @@ const kelimeResimleri = (() => {
   const R = {
     /* school */
     // a box of chalk sticks, one lying in front with its dust
-    chalk: '<path d="M10 22h34v26H10z" fill="#4dabf7"' + o() + '/><path d="M10 22l6-8h34l-6 8z" fill="#74c0fc"' + o() + '/><path d="M44 22l6-8v26l-6 8z" fill="#339af0"' + o() + '/>' +
-      '<rect x="15" y="8" width="6" height="16" rx="3" fill="#fff"' + o(1.5) + '/><rect x="24" y="6" width="6" height="18" rx="3" fill="#ffe3e3"' + o(1.5) + '/><rect x="33" y="9" width="6" height="15" rx="3" fill="#fff9db"' + o(1.5) + '/>' +
-      '<g transform="rotate(-12 40 54)"><rect x="22" y="50" width="34" height="9" rx="4.5" fill="#fff"' + o() + '/></g><circle cx="58" cy="56" r="1.6" fill="#dee2e6"/><circle cx="61" cy="52" r="1.2" fill="#dee2e6"/><circle cx="55" cy="60" r="1.2" fill="#dee2e6"/>',
     // the boards: green (board), black (blackboard), white with a marker (whiteboard)
     board: '<rect x="4" y="8" width="56" height="38" rx="3" fill="#2f9e44"' + o() + '/><rect x="2" y="44" width="60" height="5" rx="2" fill="#c98a4a"' + o(1.5) + '/>' +
       '<path d="M12 20h16M12 28h24M12 36h12" stroke="#d3f9d8" stroke-width="2.4" stroke-linecap="round"/><path d="M16 49l-4 12M48 49l4 12"' + o(3) + '/>',
-    blackboard: '<rect x="4" y="8" width="56" height="38" rx="3" fill="#343a40"' + o() + '/><rect x="2" y="44" width="60" height="5" rx="2" fill="#c98a4a"' + o(1.5) + '/>' +
-      '<path d="M12 22q4-8 8 0t8 0M34 20h14M34 30h10M12 34h14" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M16 49l-4 12M48 49l4 12"' + o(3) + '/>',
-    bookcase: '<rect x="8" y="4" width="48" height="56" rx="2" fill="#a9744f"' + o() + '/><rect x="12" y="8" width="40" height="14" fill="#5c3d2e"/><rect x="12" y="26" width="40" height="14" fill="#5c3d2e"/><rect x="12" y="44" width="40" height="12" fill="#5c3d2e"/>' +
-      '<rect x="14" y="10" width="5" height="12" fill="#e5484d"/><rect x="20" y="9" width="4" height="13" fill="#4dabf7"/><rect x="25" y="11" width="6" height="11" fill="#ffd43b"/><rect x="33" y="10" width="4" height="12" fill="#51cf66"/><path d="M39 22l5-12 4 1.5-5 10.5z" fill="#9775fa"/>' +
-      '<rect x="14" y="28" width="6" height="12" fill="#ff922b"/><rect x="21" y="29" width="4" height="11" fill="#e599f7"/><rect x="27" y="28" width="5" height="12" fill="#22b8cf"/><rect x="34" y="30" width="6" height="10" fill="#e5484d"/><rect x="42" y="28" width="5" height="12" fill="#fab005"/>' +
-      '<rect x="14" y="46" width="9" height="10" fill="#4dabf7"/><rect x="25" y="47" width="5" height="9" fill="#51cf66"/><rect x="40" y="48" width="9" height="8" rx="1" fill="#ffd8a8"/>' +
-      '<path d="M12 22h40M12 40h40"' + o(2) + '/>',
     'coloured-pencil': [['#e5484d', -24], ['#ffd43b', -8], ['#4dabf7', 8], ['#51cf66', 24]].map(([c, r]) =>
       '<g transform="rotate(' + r + ' 32 58)"><rect x="28" y="16" width="8" height="38" fill="' + c + '"' + o(1.5) + '/><path d="M28 16l4-10 4 10z" fill="#f4d9b0"' + o(1.5) + '/><path d="M30.6 9.5l1.4-3.5 1.4 3.5z" fill="' + c + '"/></g>').join(''),
     tablet: '<rect x="6" y="10" width="52" height="40" rx="6" fill="#343a40"' + o() + '/><rect x="11" y="15" width="42" height="30" rx="2" fill="#a5d8ff"/>' +
       '<rect x="15" y="19" width="9" height="9" rx="2" fill="#ff8787"/><rect x="27" y="19" width="9" height="9" rx="2" fill="#69db7c"/><rect x="39" y="19" width="9" height="9" rx="2" fill="#ffd43b"/>' +
       '<rect x="15" y="32" width="9" height="9" rx="2" fill="#b197fc"/><rect x="27" y="32" width="9" height="9" rx="2" fill="#ffa94d"/><circle cx="55" cy="30" r="1.5" fill="#868e96"/>',
-    clock: '<path d="M32 2v6" stroke="#868e96" stroke-width="2"/><circle cx="32" cy="2.5" r="2" fill="#868e96"/><circle cx="32" cy="34" r="26" fill="#ff922b"' + o() + '/><circle cx="32" cy="34" r="21" fill="#fff"' + o(1.5) + '/>' +
-      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(h => { const a = h * Math.PI / 6; return '<circle cx="' + (32 + Math.sin(a) * 17).toFixed(1) + '" cy="' + (34 - Math.cos(a) * 17).toFixed(1) + '" r="' + (h % 3 ? 1 : 1.8) + '" fill="' + INK + '"/>'; }).join('') +
-      '<path d="M32 34V20M32 34l9 5"' + o(2.8) + '/><circle cx="32" cy="34" r="2.2" fill="#e5484d"/>',
     hall: '<rect x="4" y="6" width="56" height="30" fill="#ffe8cc"' + o() + '/><path d="M4 6h56v6H4z" fill="#c92a2a"' + o(1.5) + '/>' +
       '<path d="M4 12q6 10 0 24M60 12q-6 10 0 24" fill="#e03131"' + o(1.5) + '/><rect x="16" y="28" width="32" height="8" fill="#a9744f"' + o(1.5) + '/>' +
       '<circle cx="32" cy="20" r="4" fill="' + SKIN + '"' + o(1) + '/><rect x="29" y="24" width="6" height="4" fill="#4dabf7"/>' +

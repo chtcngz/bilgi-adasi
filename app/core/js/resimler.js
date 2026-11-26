@@ -2,7 +2,7 @@
 // clear background; the house and animal cards keep their own coloured card). They join kelimeResimleri as [[y-<name>]],
 // drawn in the same 64×64 box. A picture no word uses yet (meal-bowl, girl-smiling, hug, snowman, thumbs-up, the -2s) can still be chosen on kontrol.html.
 (() => {
-  const V = 3;   // bump when the pictures change
+  const V = 4;   // bump when the pictures change
   const names = [
     // food, first sheet
     'apples', 'bananas', 'beans', 'bread', 'breakfast', 'broccoli', 'carrots', 'cauliflower', 'cherries', 'chicken', 'coffee',
@@ -34,7 +34,10 @@
     // the classroom (show was drawn again; the others after quiet-2 wait for a word)
     'quiet', 'raise', 'ready', 'red', 'repeat', 'rubber', 'say', 'scissors', 'sharpener', 'sit-down', 'smart-board', 'table', 'time',
     'quiet-2', 'raise-2', 'apple-red', 'girl-ball', 'girl-talking', 'sit-at-desk', 'smart-board-2', 'clock', 'write', 'rubber-sharpener',
-    'scissors-2', 'sharpener-2', 'time-2'
+    'scissors-2', 'sharpener-2', 'time-2',
+    // the classroom, colours (cat was drawn again; board-wood is a plank, not the class board)
+    'bag', 'bag-2', 'blackboard', 'blackboard-2', 'blue', 'blue-ball', 'board-wood', 'board-wood-2', 'board-wood-3', 'book', 'book-2', 'book-3',
+    'bookcase', 'bookcase-2', 'box', 'box-2', 'break', 'break-2', 'brown', 'cap', 'cap-chalk', 'cat-2', 'chair', 'chair-clock', 'chalk', 'clock-2', 'teddy'
   ];
   const more = {};
   for (const name of names) {

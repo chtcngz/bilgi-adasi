@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.67.0 · 26.11.2026
+
+- **İngilizce Koyu'nda yeni resimler:** Çanta, kara tahta, mavi, kitap, kitaplık, kutu, teneffüs, kahverengi, şapka (kasket), kedi, sandalye, tebeşir ve duvar saati artık sevimli, renkli resimlerle gösteriliyor. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.
+
 ## 0.66.0 · 26.11.2026
 
 - **İngilizce Koyu'nda yeni resimler:** Sessiz, el kaldırmak, hazır, kırmızı, tekrar etmek, silgi, söylemek, makas, kalemtıraş, göstermek, oturmak, akıllı tahta, masa ve zaman artık sevimli, renkli resimlerle gösteriliyor. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.
