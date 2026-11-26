@@ -26,6 +26,13 @@
 // Ayarlar penceresi ilerlemeyi window.soruAdalari[kod] üzerinden okur ve sıfırlar.
 // Soru bankası henüz boş olan bir ada (İngilizce Koyu gibi) haritada "Yakında" durur: tek, kilitli bir adası olur.
 window.soruAdalari = {};
+// islands/<ada>/sira.js (written by tools/kapsam.js from kapsam.md) gives every question its page in the book; a unit is
+// cut into stations in that order, so the first station is the unit's first pages. The questions and their ids stay as
+// they are (progress is saved against the ids).
+function kitapSirasi(bank, pages) {
+  for (const stop of bank) (pages[stop.id] || []).forEach((page, n) => { if (stop.sorular[n]) stop.sorular[n].sayfa = page; });
+}
+
 function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: stops, ovgu: praise, simgeler, ses, yanlisAvi, ikinciSans, oyunlar }) {
   const ROUND = 10, HEARTS = 3, EXAM = 20;
   const letters = ['A', 'B', 'C', 'D'];
@@ -116,6 +123,13 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
   // *word* is underlined and bold, like the negatives in the printed exam.
   // [[name]] in a text is a drawn picture (core/js/kelime-resimleri.js), for a word no emoji shows
   const rich = text => kelimeResimleri.resimliMetin(escape(text).replace(/\*(.+?)\*/g, '<u><b>$1</b></u>'));
+  // A question that quotes a sentence and then asks about it ("“A big brown bear bakes some bread.” Ayı ne yapıyor?"):
+  // the sentence on its own line, the question under it, smaller and in another colour.
+  const stem = text => {
+    const m = String(text).match(/^(.*?“([^”]+)”)\s+([A-ZÇĞİÖŞÜ].*)$/);
+    if (!m || m[2].trim().split(/\s+/).length < 3 || /[çğıöşüÇĞİÖŞÜ]/.test(m[2])) return rich(text);   // an English sentence of three words or more
+    return '<span class="soru-quote">' + rich(m[1]) + '</span><span class="soru-ask">' + rich(m[3]) + '</span>';
+  };
   const el = (tag, className, html) => {
     const node = document.createElement(tag);
     if (className) node.className = className;
@@ -171,10 +185,15 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
   };
 
   /* ---------- The bay on Keşif Haritası ---------- */
-  // A unit's questions in the book's order, cut into three to six stations of about twenty.
+  // A unit's questions in the book's order (their pages, kitapSirasi), cut into three to six stations of about twenty.
+  const inOrder = new Map();
+  const bookOrder = stop => {
+    if (!inOrder.has(stop)) inOrder.set(stop, stop.sorular.map((q, n) => [q, n]).sort((a, b) => (a[0].sayfa ?? 0) - (b[0].sayfa ?? 0) || a[1] - b[1]).map(x => x[0]));
+    return inOrder.get(stop);
+  };
   const partsOf = stop => {
-    const n = stop.sorular.length, count = Math.max(3, Math.min(6, Math.round(n / 20)));
-    return Array.from({ length: count }, (_, p) => stop.sorular.slice(Math.floor(p * n / count), Math.floor((p + 1) * n / count)));
+    const list = bookOrder(stop), n = list.length, count = Math.max(3, Math.min(6, Math.round(n / 20)));
+    return Array.from({ length: count }, (_, p) => list.slice(Math.floor(p * n / count), Math.floor((p + 1) * n / count)));
   };
   const partLearned = part => part.filter(q => learned(q)).length;
   const firstPart = stop => Math.max(0, partsOf(stop).findIndex(part => partLearned(part) < part.length));
@@ -327,7 +346,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
     playCue('start');
     const mine = run;
     run.cancel = ingilizceOyunlari.tur({
-      stage: byKey('stage'), items: questions.map(asItem), havuz: pictureWords(), ayar: oyunlar, maskot: activeProfile?.icon, rich,
+      stage: byKey('stage'), items: questions.map(asItem), havuz: pictureWords(), ayar: oyunlar, maskot: activeProfile?.icon, rich, stem,
       sonuc: (item, ok) => {
         if (run !== mine) return;
         note(item.q, ok);
@@ -367,7 +386,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
       (run.kind === 'deneme' ? '' : ' · <span>' + (run.kind === 'tekrar' ? q.stop.simge + ' ' + q.stop.ad : q.stop.konu) + '</span>') +
       (run.streak >= 3 ? '<span class="soru-streak" title="Üst üste doğru">🔥 ' + run.streak + '</span>' : '') + '</p>' +
       (q.m ? '<div class="soru-passage">' + rich(q.m) + '</div>' : '') +
-      '<h2 id="' + kod + '-prompt" class="soru-prompt" tabindex="-1">' + rich(q.s) + (sayFirst(q) && !q.d ? ' ' + sayButton(q) : '') + '</h2>' +
+      '<h2 id="' + kod + '-prompt" class="soru-prompt" tabindex="-1">' + stem(q.s) + (sayFirst(q) && !q.d ? ' ' + sayButton(q) : '') + '</h2>' +
       // a listening question: the word is only heard, and written only when the device has no English voice
       (sayFirst(q) && q.d ? '<div class="soru-listen">' + sayButton(q, true) + (canSpeak(q.k[0]) ? '' : '<span class="soru-heard">“' + escape(q.k[0]) + '”</span>') + '</div>' : '');
     if (q.k) bindSay(stage, q.k[0]);
@@ -619,9 +638,25 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
     playCue(all ? 'victory' : 'island');
     fx.confetti(dialog, { count: stars === 3 ? 180 : 110 });
     fx.burst(byKey('stage').querySelector('.soru-won'), { count: 12, spread: 100 });
-    const step = nextStep();
-    buttons(...(step.kind !== 'durak' || step.k !== k || step.p !== part ? [['Sıradaki: ' + step.label + ' ›', () => go(step)]] : []),
-      ['↻ Tekrar oyna', () => startStop(k, part), true], ['Haritaya dön', closeGame, true]);
+    // after a round: the next station of the book, the one before it, or this one again (never straight to the exam)
+    const later = nearPart(k, part, 1), earlier = nearPart(k, part, -1);
+    buttons(...(later ? [['Sonraki: ' + later.label + ' ›', () => startStop(later.k, later.p)]] : []),
+      ['↻ Tekrar oyna', () => startStop(k, part), !!later],
+      ...(earlier ? [['‹ Önceki: ' + earlier.label, () => startStop(earlier.k, earlier.p), true]] : []),
+      ['Haritaya dön', closeGame, true]);
+  }
+  // The station `step` away from station p of stop k, through the units in the book's order (an extra stop only
+  // when it is open); null at either end.
+  function nearPart(k, p, step) {
+    const count = j => partsOf(stops[j]).length;
+    let j = k, q = Number.isInteger(p) ? p + step : (step > 0 ? count(k) : -1);
+    while (q < 0 || q >= count(j)) {
+      j += step;
+      if (j < 0 || j >= stops.length) return null;
+      if (!stopOpen(j)) continue;
+      q = step > 0 ? 0 : count(j) - 1;
+    }
+    return { k: j, p: q, label: stops[j].simge + ' ' + stops[j].ad + ' · ' + (q + 1) + '. durak' };
   }
 
   function finishExam() {

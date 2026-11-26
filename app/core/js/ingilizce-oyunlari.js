@@ -129,7 +129,7 @@ const ingilizceOyunlari = (() => {
     '🌞', '🎨', '✅', '🔁', '🗣️', '👄', '🫴', '🤲', '👉', '👆', '👀', '🚶', '🚦', '🏁', '🧍', '🤫', '💖', '🌟', '🥰', '😊', '🙂', '😀', '😄', '😋',
     '🤤', '😔', '🤪', '💦', '🥶', '🥵', '🧓', '🐭', '🐘', '📏', '🤏', '🎉', '📌', '🧩', '👫', '📺', '✍️', '📖', '🎧', '🤗', '🌑', '🎤', '🦘',
     '👏', '🔍', '💃', '📥', '🥄', '🖼️', '👨‍👩‍👧‍👦', '🧑‍🤝‍🧑', '🤵', '🌸', '👱‍♂️', '👱‍♀️', '🖍️', '🧑‍🏫', '🧑‍🎓', '📅',
-    '✨', '🥳', '💬', '🔤', '🙇', '👥', '👥📝']);
+    '✨', '🥳', '💬', '🔤', '🙇', '👥', '👥📝', '💯', '😩💧']);
   // A picture of two things (👩‍🏫☕ teacher’s room, 🛏️🌙 bedroom) is drawn smaller so it fits a card or a balloon.
   const seg = typeof Intl !== 'undefined' && Intl.Segmenter ? new Intl.Segmenter() : null;
   // A word's picture: an emoji, two emoji, or a drawing ([[desk]], core/js/kelime-resimleri.js).
@@ -898,7 +898,7 @@ const ingilizceOyunlari = (() => {
       const q = item.q;
       x.game.innerHTML = '';
       const card = el('div', 'og-card');
-      card.innerHTML = (q.m ? '<div class="soru-passage">' + x.c.rich(q.m) + '</div>' : '') + '<h3 class="og-q">' + x.c.rich(q.s) + '</h3>';
+      card.innerHTML = (q.m ? '<div class="soru-passage">' + x.c.rich(q.m) + '</div>' : '') + '<h3 class="og-q">' + (x.c.stem || x.c.rich)(q.s) + '</h3>';
       // a dialogue asks only its question: the answer is what the child chooses, said afterwards in the answer voice
       const d = ingilizceSes.diyalog(item.en), bare = t => t.replace(/[^a-z]/gi, '').toLowerCase();
       const asked = d ? d[0] : item.en;

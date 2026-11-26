@@ -61,9 +61,77 @@ const kelimeResimleri = (() => {
     rubber: '<g transform="rotate(-20 32 34)"><rect x="8" y="22" width="48" height="22" rx="5" fill="#ff8fab"' + o() + '/><rect x="32" y="22" width="24" height="22" rx="0" fill="#4dabf7"/>' +
       '<rect x="8" y="22" width="48" height="22" rx="5" fill="none"' + o() + '/><path d="M32 22v22"' + o(1.5) + '/></g>' +
       '<circle cx="12" cy="56" r="2" fill="#ffc9d5"' + o(1) + '/><circle cx="20" cy="58" r="1.6" fill="#ffc9d5"' + o(1) + '/><circle cx="6" cy="51" r="1.4" fill="#ffc9d5"' + o(1) + '/>',
-    chalk: '<rect x="4" y="6" width="56" height="36" rx="4" fill="#2f9e44"' + o() + '/><path d="M12 20q6-8 12 0t12 0" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>' +
-      '<path d="M12 31h20" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><g transform="rotate(-30 40 50)"><rect x="22" y="44" width="34" height="10" rx="5" fill="#fff"' + o() + '/>' +
-      '<ellipse cx="51" cy="49" rx="2.5" ry="5" fill="#f1f3f5"' + o(1.2) + '/></g>',
+    // a box of chalk sticks, one lying in front with its dust
+    chalk: '<path d="M10 22h34v26H10z" fill="#4dabf7"' + o() + '/><path d="M10 22l6-8h34l-6 8z" fill="#74c0fc"' + o() + '/><path d="M44 22l6-8v26l-6 8z" fill="#339af0"' + o() + '/>' +
+      '<rect x="15" y="8" width="6" height="16" rx="3" fill="#fff"' + o(1.5) + '/><rect x="24" y="6" width="6" height="18" rx="3" fill="#ffe3e3"' + o(1.5) + '/><rect x="33" y="9" width="6" height="15" rx="3" fill="#fff9db"' + o(1.5) + '/>' +
+      '<g transform="rotate(-12 40 54)"><rect x="22" y="50" width="34" height="9" rx="4.5" fill="#fff"' + o() + '/></g><circle cx="58" cy="56" r="1.6" fill="#dee2e6"/><circle cx="61" cy="52" r="1.2" fill="#dee2e6"/><circle cx="55" cy="60" r="1.2" fill="#dee2e6"/>',
+    // the boards: green (board), black (blackboard), white with a marker (whiteboard)
+    board: '<rect x="4" y="8" width="56" height="38" rx="3" fill="#2f9e44"' + o() + '/><rect x="2" y="44" width="60" height="5" rx="2" fill="#c98a4a"' + o(1.5) + '/>' +
+      '<path d="M12 20h16M12 28h24M12 36h12" stroke="#d3f9d8" stroke-width="2.4" stroke-linecap="round"/><path d="M16 49l-4 12M48 49l4 12"' + o(3) + '/>',
+    blackboard: '<rect x="4" y="8" width="56" height="38" rx="3" fill="#343a40"' + o() + '/><rect x="2" y="44" width="60" height="5" rx="2" fill="#c98a4a"' + o(1.5) + '/>' +
+      '<path d="M12 22q4-8 8 0t8 0M34 20h14M34 30h10M12 34h14" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M16 49l-4 12M48 49l4 12"' + o(3) + '/>',
+    whiteboard: '<rect x="4" y="8" width="56" height="38" rx="3" fill="#fff"' + o() + '/><rect x="8" y="12" width="48" height="30" fill="#f8f9fa"/>' +
+      '<path d="M12 22h18M12 30h26" stroke="#4dabf7" stroke-width="2.6" stroke-linecap="round"/><path d="M40 20l8 8M48 20l-8 8" stroke="#fa5252" stroke-width="2.6" stroke-linecap="round"/>' +
+      '<rect x="40" y="45" width="16" height="5" rx="2" fill="#1c7ed6"' + o(1.4) + '/><path d="M16 46l-4 14M48 50l4 10"' + o(3) + '/>',
+    'smart-board': '<rect x="4" y="6" width="56" height="38" rx="3" fill="#212529"' + o() + '/><rect x="8" y="10" width="48" height="30" rx="1" fill="#74c0fc"/>' +
+      '<path d="M8 32l12-10 10 8 8-6 18 12v4H8z" fill="#51cf66"/><circle cx="46" cy="18" r="4" fill="#ffd43b"/><path d="M30 44v8M22 58h20"' + o(3) + '/>' +
+      '<path d="M40 30l14 14" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/><path d="M40 30l14 14" stroke="#e5484d" stroke-width="2.5" stroke-linecap="round"/>' +
+      '<circle cx="12" cy="40" r="1.4" fill="#fff"/>',
+    bookcase: '<rect x="8" y="4" width="48" height="56" rx="2" fill="#a9744f"' + o() + '/><rect x="12" y="8" width="40" height="14" fill="#5c3d2e"/><rect x="12" y="26" width="40" height="14" fill="#5c3d2e"/><rect x="12" y="44" width="40" height="12" fill="#5c3d2e"/>' +
+      '<rect x="14" y="10" width="5" height="12" fill="#e5484d"/><rect x="20" y="9" width="4" height="13" fill="#4dabf7"/><rect x="25" y="11" width="6" height="11" fill="#ffd43b"/><rect x="33" y="10" width="4" height="12" fill="#51cf66"/><path d="M39 22l5-12 4 1.5-5 10.5z" fill="#9775fa"/>' +
+      '<rect x="14" y="28" width="6" height="12" fill="#ff922b"/><rect x="21" y="29" width="4" height="11" fill="#e599f7"/><rect x="27" y="28" width="5" height="12" fill="#22b8cf"/><rect x="34" y="30" width="6" height="10" fill="#e5484d"/><rect x="42" y="28" width="5" height="12" fill="#fab005"/>' +
+      '<rect x="14" y="46" width="9" height="10" fill="#4dabf7"/><rect x="25" y="47" width="5" height="9" fill="#51cf66"/><rect x="40" y="48" width="9" height="8" rx="1" fill="#ffd8a8"/>' +
+      '<path d="M12 22h40M12 40h40"' + o(2) + '/>',
+    'coloured-pencil': [['#e5484d', -24], ['#ffd43b', -8], ['#4dabf7', 8], ['#51cf66', 24]].map(([c, r]) =>
+      '<g transform="rotate(' + r + ' 32 58)"><rect x="28" y="16" width="8" height="38" fill="' + c + '"' + o(1.5) + '/><path d="M28 16l4-10 4 10z" fill="#f4d9b0"' + o(1.5) + '/><path d="M30.6 9.5l1.4-3.5 1.4 3.5z" fill="' + c + '"/></g>').join(''),
+    glue: '<path d="M22 22h20v34a4 4 0 0 1-4 4H26a4 4 0 0 1-4-4z" fill="#fff"' + o() + '/><rect x="22" y="32" width="20" height="16" fill="#ff922b"' + o(1.5) + '/>' +
+      '<path d="M26 22l3-10h6l3 10z" fill="#ffd43b"' + o(1.5) + '/><path d="M31 12v-4h2v4z" fill="#ffd43b"' + o(1.2) + '/><path d="M34 6q8 2 6 12q-1 4 2 8" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>' +
+      '<path d="M34 6q8 2 6 12q-1 4 2 8" fill="none" stroke="' + INK + '" stroke-width="1.2"/><path d="M28 40h8" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>',
+    tablet: '<rect x="6" y="10" width="52" height="40" rx="6" fill="#343a40"' + o() + '/><rect x="11" y="15" width="42" height="30" rx="2" fill="#a5d8ff"/>' +
+      '<rect x="15" y="19" width="9" height="9" rx="2" fill="#ff8787"/><rect x="27" y="19" width="9" height="9" rx="2" fill="#69db7c"/><rect x="39" y="19" width="9" height="9" rx="2" fill="#ffd43b"/>' +
+      '<rect x="15" y="32" width="9" height="9" rx="2" fill="#b197fc"/><rect x="27" y="32" width="9" height="9" rx="2" fill="#ffa94d"/><circle cx="55" cy="30" r="1.5" fill="#868e96"/>',
+    clock: '<path d="M32 2v6" stroke="#868e96" stroke-width="2"/><circle cx="32" cy="2.5" r="2" fill="#868e96"/><circle cx="32" cy="34" r="26" fill="#ff922b"' + o() + '/><circle cx="32" cy="34" r="21" fill="#fff"' + o(1.5) + '/>' +
+      [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(h => { const a = h * Math.PI / 6; return '<circle cx="' + (32 + Math.sin(a) * 17).toFixed(1) + '" cy="' + (34 - Math.cos(a) * 17).toFixed(1) + '" r="' + (h % 3 ? 1 : 1.8) + '" fill="' + INK + '"/>'; }).join('') +
+      '<path d="M32 34V20M32 34l9 5"' + o(2.8) + '/><circle cx="32" cy="34" r="2.2" fill="#e5484d"/>',
+    // a Turkish tea glass on its saucer
+    tea: '<ellipse cx="32" cy="56" rx="20" ry="5" fill="#e03131"' + o() + '/><path d="M22 14h20q-2 8-6 14 6 6 6 16 0 8-4 10H26q-4-2-4-10 0-10 6-16-4-6-6-14z" fill="#fff" opacity=".9"' + o() + '/>' +
+      '<path d="M24.5 20h15q-1.5 5-5 8.5 5.5 6 5.5 15 0 6.5-3 8.5H27q-3-2-3-8.5 0-9 5.5-15-3.5-3.5-5-8.5z" fill="#c2410c"/><path d="M28 24q-2 4 1 6" stroke="#fff" stroke-width="1.5" fill="none" opacity=".7"/>' +
+      '<path d="M44 12l-8 36" stroke="#adb5bd" stroke-width="2.5" stroke-linecap="round"/><path d="M26 8q2-3 0-5M32 8q2-3 0-5M38 8q2-3 0-5" fill="none" stroke="#adb5bd" stroke-width="1.6" stroke-linecap="round"/>',
+    goldfish: '<path d="M10 22q-4 18 6 32h32q10-14 6-32" fill="#d0ebff" opacity=".85"' + o() + '/><ellipse cx="32" cy="22" rx="22" ry="4" fill="#e7f5ff"' + o(1.5) + '/>' +
+      '<path d="M12 40q20 6 40 0v8q-4 6-8 6H20q-4 0-8-6z" fill="#74c0fc" opacity=".6"/><path d="M22 36q8-10 18-2-10 8-18 2z" fill="#ff922b"' + o(1.5) + '/><path d="M40 34l8-6v14z" fill="#ffa94d"' + o(1.5) + '/>' +
+      '<circle cx="26" cy="34" r="1.4" fill="' + INK + '"/><circle cx="18" cy="28" r="1.6" fill="#fff"' + o(.8) + '/><circle cx="15" cy="23" r="1.1" fill="#fff"' + o(.8) + '/><path d="M20 52q2-6 0-10M44 52q-2-5 0-9" stroke="#2f9e44" stroke-width="2" fill="none"/>',
+    photo: '<g transform="rotate(-6 32 32)"><rect x="8" y="8" width="48" height="50" rx="2" fill="#fff"' + o() + '/><rect x="13" y="13" width="38" height="32" fill="#a5d8ff"/>' +
+      '<path d="M13 45V36q8-6 19 0t19-2v11z" fill="#69db7c"/><circle cx="24" cy="27" r="4" fill="' + SKIN + '"' + o(1) + '/><rect x="20" y="31" width="8" height="9" rx="3" fill="#e5484d"' + o(1) + '/>' +
+      '<circle cx="38" cy="29" r="3.4" fill="' + SKIN + '"' + o(1) + '/><rect x="34.5" y="32.5" width="7" height="7.5" rx="3" fill="#4dabf7"' + o(1) + '/><circle cx="45" cy="18" r="3" fill="#ffd43b"/></g>',
+    dollhouse: '<path d="M6 26L32 6l26 20z" fill="#f06595"' + o() + '/><rect x="10" y="26" width="44" height="32" fill="#fff0f6"' + o() + '/><path d="M32 26v32M10 42h44"' + o(2) + '/>' +
+      '<rect x="14" y="31" width="7" height="7" fill="#a5d8ff"' + o(1) + '/><rect x="40" y="33" width="10" height="5" rx="1" fill="#e599f7"' + o(1) + '/>' +
+      '<circle cx="24" cy="50" r="3" fill="' + SKIN + '"' + o(1) + '/><path d="M21 58l1-5h4l1 5z" fill="#f783ac"' + o(1) + '/><path d="M20 48q4-5 8 0" fill="#8b5a2b"/>' +
+      '<rect x="38" y="49" width="12" height="5" rx="1" fill="#ffd43b"' + o(1) + '/><path d="M39 54v4M49 54v4"' + o(1.4) + '/>',
+    hall: '<rect x="4" y="6" width="56" height="30" fill="#ffe8cc"' + o() + '/><path d="M4 6h56v6H4z" fill="#c92a2a"' + o(1.5) + '/>' +
+      '<path d="M4 12q6 10 0 24M60 12q-6 10 0 24" fill="#e03131"' + o(1.5) + '/><rect x="16" y="28" width="32" height="8" fill="#a9744f"' + o(1.5) + '/>' +
+      '<circle cx="32" cy="20" r="4" fill="' + SKIN + '"' + o(1) + '/><rect x="29" y="24" width="6" height="4" fill="#4dabf7"/>' +
+      [14, 26, 38, 50].map(x => '<rect x="' + (x - 4) + '" y="42" width="8" height="6" rx="1" fill="#4dabf7"' + o(1.2) + '/><rect x="' + (x - 4) + '" y="52" width="8" height="6" rx="1" fill="#4dabf7"' + o(1.2) + '/>').join(''),
+    // sizes: the one meant is in colour, the other grey
+    big: '<circle cx="24" cy="36" r="20" fill="#fab005"' + o(2.5) + '/><circle cx="52" cy="48" r="8" fill="' + GREY + '"' + o(1.5) + '/>' + arrow('M8 8h32M34 3l6 5-6 5', '#e8590c'),
+    small: '<circle cx="24" cy="36" r="20" fill="' + GREY + '"' + o(1.5) + '/><circle cx="52" cy="48" r="8" fill="#fab005"' + o(2.5) + '/>' + arrow('M52 12v22M47 28l5 6 5-6', '#e8590c'),
+    long: '<rect x="4" y="18" width="56" height="10" rx="5" fill="#40c057"' + o(2.5) + '/><rect x="4" y="40" width="20" height="10" rx="5" fill="' + GREY + '"' + o(1.5) + '/>' + arrow('M6 9h52M10 5l-5 4 5 4M54 5l5 4-5 4', '#e8590c'),
+    short: '<rect x="4" y="18" width="56" height="10" rx="5" fill="' + GREY + '"' + o(1.5) + '/><rect x="4" y="40" width="20" height="10" rx="5" fill="#40c057"' + o(2.5) + '/>' + arrow('M6 58h16M10 54l-5 4 5 4M18 54l5 4-5 4', '#e8590c'),
+    // light and dark blue: the dark one is meant
+    dark: '<rect x="4" y="12" width="26" height="40" rx="5" fill="#a5d8ff"' + o(1.5) + '/><rect x="34" y="8" width="26" height="48" rx="5" fill="#1c3d73"' + o(3) + '/>' +
+      '<path d="M40 50l6-6 6 6" stroke="#ffd43b" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+    jump: '<path d="M14 58h36" stroke="#adb5bd" stroke-width="3" stroke-linecap="round"/><ellipse cx="32" cy="57" rx="8" ry="2" fill="#dee2e6"/>' +
+      '<circle cx="32" cy="12" r="6" fill="' + SKIN + '"' + o(1.5) + '/><path d="M26 11q6-9 12 0q-6-4-12 0z" fill="#4a3426"' + o(1.2) + '/>' +
+      '<rect x="27" y="18" width="10" height="14" rx="4" fill="#fab005"' + o(1.5) + '/><path d="M27 21l-9-9M37 21l9-9"' + o(5) + '/><path d="M27 21l-9-9M37 21l9-9" stroke="' + SKIN + '" stroke-width="2.6" stroke-linecap="round"/>' +
+      '<path d="M29 32l-6 8 4 6M35 32l6 8-4 6"' + o(5) + ' fill="none"/><path d="M29 32l-6 8 4 6M35 32l6 8-4 6" stroke="#3b5bdb" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<path d="M14 40v8M50 40v8M20 48v4M44 48v4" stroke="#e8590c" stroke-width="2.5" stroke-linecap="round"/>',
+    // a person with the part meant in colour
+    head: '<rect x="20" y="34" width="24" height="18" rx="8" fill="' + GREY + '"' + o(1.5) + '/><rect x="24" y="50" width="6" height="10" fill="' + GREY2 + '"' + o(1.2) + '/><rect x="34" y="50" width="6" height="10" fill="' + GREY2 + '"' + o(1.2) + '/>' +
+      '<circle cx="32" cy="20" r="14" fill="' + SKIN + '"' + o(2.5) + '/><path d="M18 18q14-18 28 0q-14-8-28 0z" fill="#8b5a2b"' + o(1.4) + '/>' +
+      '<circle cx="27" cy="21" r="1.6" fill="' + INK + '"/><circle cx="37" cy="21" r="1.6" fill="' + INK + '"/><path d="M28 27q4 3 8 0" fill="none"' + o(1.4) + '/>' +
+      '<circle cx="32" cy="20" r="17" fill="none" stroke="#e8590c" stroke-width="2.5" stroke-dasharray="4 3"/>',
+    hair: '<circle cx="32" cy="34" r="14" fill="' + GREY + '"' + o(1.5) + '/><path d="M14 40q-4-30 18-30t18 30q-2-14-8-18-6 6-20 4-6 6-8 14z" fill="#e8590c"' + o(2) + '/>' +
+      '<path d="M14 40q-2 12 4 18M50 40q2 12-4 18" fill="none" stroke="#e8590c" stroke-width="6" stroke-linecap="round"/><path d="M14 40q-2 12 4 18M50 40q2 12-4 18" fill="none"' + o(1.2) + '/>' +
+      '<circle cx="27" cy="36" r="1.6" fill="' + GREY2 + '"/><circle cx="37" cy="36" r="1.6" fill="' + GREY2 + '"/>',
     puppet: '<path d="M18 56V28a14 14 0 0 1 28 0v28z" fill="#9775fa"' + o() + '/><circle cx="26" cy="27" r="4.5" fill="#fff"' + o(1.4) + '/><circle cx="38" cy="27" r="4.5" fill="#fff"' + o(1.4) + '/>' +
       '<circle cx="27" cy="28" r="2" fill="' + INK + '"/><circle cx="37" cy="28" r="2" fill="' + INK + '"/><path d="M25 37q7 6 14 0" fill="#e5484d"' + o(1.5) + '/>' +
       '<circle cx="32" cy="33" r="2.5" fill="#ff922b"' + o(1.2) + '/><path d="M18 40q-8-2-10-10M46 40q8-2 10-10" fill="none"' + o(3) + '/><path d="M18 40q-8-2-10-10M46 40q8-2 10-10" fill="none" stroke="#9775fa" stroke-width="1.6" stroke-linecap="round"/>' +

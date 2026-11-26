@@ -73,7 +73,7 @@ app/                         Published site (GitHub Pages root)
 │   │       ├── art.js       Turtle, hearts, speaker and stars shared by the games
 │   │       ├── listening.*  Harf Yağmuru (letters), Hece Balonları (syllables), Şekil Yağmuru (joined shapes), Cezm Balonları; its .rain-* kit is shared
 │   │       ├── bridge.*     Cam Köprü, the mixed game at the end of every cove
-│   ├── din-bilgisi/         Question island: sorular.js + game.js + kapsam.md
+│   ├── din-bilgisi/         Question island: sorular.js + game.js + kapsam.md (+ sira.js, written by tools/kapsam.js)
 │   ├── fen-bilimleri/       Question island: same pattern
 │   ├── ingilizce-2/ -3/ -4/ İngilizce Koyu, one question island per grade (each grade sees only its own); 2nd grade done, 3rd and 4th still empty
 │   └── sosyal-bilgiler/     Question island: same pattern
@@ -101,6 +101,12 @@ sources/                     Raw material (not published)
 - **Load order matters** because the files are plain scripts: `core/js/app.js` → `sounds` → `fx` → islands and core helpers → `core/js/settings.js` (last).
 - **One look for back and close buttons** (`core/css/base.css`): a button that goes back to a place with a name is `.btn-back` (a pill with a chevron badge: *Keşif Limanı*, *Yol*); a button that leaves a game, a round or a map level is `.btn-round` (a round icon button, × by default, ‹ with `.is-back`; it has no text, so it needs an `aria-label`). Islands only place them (float, position); they do not restyle them.
 - **Cache busting:** every `<link>`/`<script>` address in `index.html` ends in `?v=…`. When you change a file, bump its number.
+  `islands/<ada>/sira.js` is rewritten by `node tools/kapsam.js` whenever kapsam.md changes: bump its number too.
+- **Stations in the book's order:** `sira.js` gives every question the first book page that asks it (kapsam.md; the table of
+  contents does not count, and an English word asked from the glossary goes to the page of its unit that first uses it).
+  `kitapSirasi()` (core/js/quiz.js) puts it on the questions, and a unit is cut into stations in that order, so station 1 is
+  the unit's first pages. The bank's own order and the ids do not change. After a round the game offers the next station,
+  the one before it and the same one again, never the exam.
 - **The cloud is only a copy.** `core/js/sync.js` notices every change to the game's keys (it wraps `Storage.prototype.setItem/removeItem`) and, a few seconds later, writes a snapshot of them to Firestore as `cihazlar/{the device's anonymous uid}`; offline it waits. localStorage stays the game's save and the game never waits for the cloud. A development copy (its version not stamped by the publish workflow) and a browser driven by a program (Playwright, headless Chrome) send nothing: every test run starts with an empty browser and would show on the admin page as one more device. The admin page hides the documents such copies sent before 0.44.1 (version *geliştirme*) behind a *göster* link. Deleting a player (Settings → Oyuncu, confirmed by typing SİL) sends the change at once, so the player leaves the admin page; when a device has no players left, its document is deleted. The Firestore rules (set in the Firebase console) let a device write only its own document and only the admin account read them:
   ```
   match /cihazlar/{uid}/{doc=**} {
