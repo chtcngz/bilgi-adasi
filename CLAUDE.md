@@ -62,7 +62,9 @@ GitHub Pages. Work on the session's branch, then bring `main` up to date with it
 A branch whose work is in `main` is deleted (set by the owner): once `main` is pushed, delete the merged branch on GitHub
 (`git push origin --delete <branch>`), and any other branch whose work you have brought into `main` another way. Check
 first that everything on it is in `main`. If the session is not allowed to delete branches (the push is refused), say
-so and give the owner the branch names to delete.
+so and give the owner the branch names to delete. The `Dal temizliği` workflow (`.github/workflows/dal-temizle.yml`)
+deletes, after every push to `main`, each `claude/*` branch whose last commit is in `main`'s history; only a branch
+brought in another way (cherry-picked, rewritten) is left for the owner.
 
 ## Versions
 
