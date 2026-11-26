@@ -93,10 +93,6 @@ const kelimeResimleri = (() => {
     clock: '<path d="M32 2v6" stroke="#868e96" stroke-width="2"/><circle cx="32" cy="2.5" r="2" fill="#868e96"/><circle cx="32" cy="34" r="26" fill="#ff922b"' + o() + '/><circle cx="32" cy="34" r="21" fill="#fff"' + o(1.5) + '/>' +
       [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(h => { const a = h * Math.PI / 6; return '<circle cx="' + (32 + Math.sin(a) * 17).toFixed(1) + '" cy="' + (34 - Math.cos(a) * 17).toFixed(1) + '" r="' + (h % 3 ? 1 : 1.8) + '" fill="' + INK + '"/>'; }).join('') +
       '<path d="M32 34V20M32 34l9 5"' + o(2.8) + '/><circle cx="32" cy="34" r="2.2" fill="#e5484d"/>',
-    // a Turkish tea glass on its saucer
-    tea: '<ellipse cx="32" cy="56" rx="20" ry="5" fill="#e03131"' + o() + '/><path d="M22 14h20q-2 8-6 14 6 6 6 16 0 8-4 10H26q-4-2-4-10 0-10 6-16-4-6-6-14z" fill="#fff" opacity=".9"' + o() + '/>' +
-      '<path d="M24.5 20h15q-1.5 5-5 8.5 5.5 6 5.5 15 0 6.5-3 8.5H27q-3-2-3-8.5 0-9 5.5-15-3.5-3.5-5-8.5z" fill="#c2410c"/><path d="M28 24q-2 4 1 6" stroke="#fff" stroke-width="1.5" fill="none" opacity=".7"/>' +
-      '<path d="M44 12l-8 36" stroke="#adb5bd" stroke-width="2.5" stroke-linecap="round"/><path d="M26 8q2-3 0-5M32 8q2-3 0-5M38 8q2-3 0-5" fill="none" stroke="#adb5bd" stroke-width="1.6" stroke-linecap="round"/>',
     goldfish: '<path d="M10 22q-4 18 6 32h32q10-14 6-32" fill="#d0ebff" opacity=".85"' + o() + '/><ellipse cx="32" cy="22" rx="22" ry="4" fill="#e7f5ff"' + o(1.5) + '/>' +
       '<path d="M12 40q20 6 40 0v8q-4 6-8 6H20q-4 0-8-6z" fill="#74c0fc" opacity=".6"/><path d="M22 36q8-10 18-2-10 8-18 2z" fill="#ff922b"' + o(1.5) + '/><path d="M40 34l8-6v14z" fill="#ffa94d"' + o(1.5) + '/>' +
       '<circle cx="26" cy="34" r="1.4" fill="' + INK + '"/><circle cx="18" cy="28" r="1.6" fill="#fff"' + o(.8) + '/><circle cx="15" cy="23" r="1.1" fill="#fff"' + o(.8) + '/><path d="M20 52q2-6 0-10M44 52q-2-5 0-9" stroke="#2f9e44" stroke-width="2" fill="none"/>',
@@ -181,10 +177,6 @@ const kelimeResimleri = (() => {
     ayran: '<path d="M16 14h32l-4 44H20z" fill="#fff"' + o() + '/><path d="M18 26h28l-3 32H21z" fill="#f8f9fa"/><path d="M16 14h32l-4 44H20z" fill="none"' + o() + '/>' +
       '<path d="M14 16q4-8 9-4 3-6 9-2 5-5 10 0 6-2 8 6z" fill="#fff"' + o(1.6) + '/><circle cx="24" cy="20" r="2" fill="#e9ecef"' + o(.8) + '/><circle cx="38" cy="19" r="2.4" fill="#e9ecef"' + o(.8) + '/>' +
       '<circle cx="31" cy="22" r="1.6" fill="#e9ecef"' + o(.8) + '/><path d="M44 4l-6 14" stroke="#e5484d" stroke-width="3" stroke-linecap="round"/>',
-    spinach: '<path d="M30 60l2-20M32 60l6-22M28 60l-6-22" stroke="#5c940d" stroke-width="3" stroke-linecap="round"/>' +
-      '<path d="M22 40q-18-6-14-26 14-2 18 12 4 8-4 14z" fill="#2b8a3e"' + o() + '/><path d="M40 38q18-8 12-28-14 0-16 14-2 8 4 14z" fill="#2b8a3e"' + o() + '/>' +
-      '<path d="M32 40q-10-14 0-34 10 20 0 34z" fill="#37b24d"' + o() + '/><path d="M32 38V12M22 38L13 18M40 36l9-20" stroke="#8ce99a" stroke-width="1.4"/>' +
-      '<rect x="24" y="48" width="16" height="5" rx="2" fill="#e5484d"' + o(1.4) + '/>',
     /* Kitap Köşesi */
     ataturk: '<ellipse cx="32" cy="34" rx="28" ry="29" fill="#ffd43b"' + o() + '/><ellipse cx="32" cy="34" rx="23" ry="24" fill="#e7f5ff"/>' +
       '<path d="M14 58q2-14 18-14t18 14z" fill="#343a40"' + o(1.6) + '/><path d="M28 44l4 8 4-8z" fill="#fff"' + o(1) + '/><path d="M31 47h2l1 6-2 2-2-2z" fill="#e5484d"/>' +

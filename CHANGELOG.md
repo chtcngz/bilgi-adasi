@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.59.0 · 26.11.2026
+
+- **İngilizce Koyu'nda yeni resimler:** Et, süt, portakal, armut, biber, patates, ıspanak, çilek, çay, domates, sebze, su, öğle yemeği ve susamış (bardaktan içen çocuk) için yeni yiyecek resimleri; ev, mutfak, yatak odası, oturma odası, köpek, kedi, tavşan ve pati için renkli resim kartları. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.
+
 ## 0.58.0 · 26.11.2026
 
 - **İngilizce Koyu'nda yeni yiyecek resimleri:** Elma, muz, fasulye, ekmek, kahvaltı, brokoli, havuç, karnabahar, kiraz, tavuk, kahve, kabak, salatalık, akşam yemeği, içecek, yumurta, balık, meyve, sarımsak, üzüm ve marul artık sevimli, renkli çizim resimlerle gösteriliyor; “yummy” ve “delicious” için dilini çıkaran gülen yüz. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.

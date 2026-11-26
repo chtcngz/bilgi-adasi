@@ -29,7 +29,7 @@ app/                         Published site (GitHub Pages root)
 │   │   ├── quiz.js          Question-island engine: soruAdasi({...})
 │   │   ├── ingilizce-oyunlari.js  İngilizce Koyu's games (a station's round is played as games) and its recorded English voice
 │   │   ├── kelime-resimleri.js    Drawn pictures for the words no emoji shows, written [[name]] in a question (kelimeResimleri)
-│   │   ├── yiyecekler.js          İngilizce Koyu's food pictures ([[y-apples]] … → assets/images/ingilizce/*.webp)
+│   │   ├── resimler.js            İngilizce Koyu's pictures from the owner's sheets: food, home, pets ([[y-apples]] … → assets/images/ingilizce/*.webp)
 │   │   ├── cizimler.js            İngilizce Koyu's cartoon pictures (places, school things, a child in action poses, parts of the body), added with kelimeResimleri.ekle
 │   │   ├── akvaryum-veri.js Akvaryum: the fish, ornaments and tank themes (names, sizes; the admin page loads it too)
 │   │   ├── akvaryum-sanat.js Akvaryum's drawings: fish, ornaments, plants (SVG), sand and caustics (canvas)
