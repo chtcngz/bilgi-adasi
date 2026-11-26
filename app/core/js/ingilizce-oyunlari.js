@@ -135,7 +135,6 @@ const ingilizceOyunlari = (() => {
   const renk = w => RENKLER.find(r => r[0] === w.en.toLowerCase());
 
   /* ---------- helpers ---------- */
-  const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
   const esc = text => String(text).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[ch]);
   const el = (tag, className, html) => {
     const node = document.createElement(tag);
@@ -194,7 +193,7 @@ const ingilizceOyunlari = (() => {
   /* ---------- the round: a frame, the mascot, stars, and the games one after another ---------- */
   function tur(c) {
     const live = { on: true };
-    const wait = ms => new Promise(resolve => setTimeout(resolve, calm() ? Math.min(ms, 300) : ms));
+    const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
     const say = async (text, slow) => { if (live.on) await ingilizceSes.say(text, slow); };
     const total = c.items.length;
     let done = 0, right = 0;
@@ -295,7 +294,7 @@ const ingilizceOyunlari = (() => {
             if (w === item) {
               for (const other of grid.children) other.disabled = true;
               card.classList.add('right');
-              fx.burst(card, { count: 14, spread: 80 });
+              sparkle(card, { count: 14, spread: 80 });
               x.sonuc(item, first);
               await x.praise(item.en);
               await x.wait(700);
@@ -325,46 +324,158 @@ const ingilizceOyunlari = (() => {
     return row;
   }
 
-  /* ---------- 🎈 Balon Patlat (also Yanlış Avı's, with the meaning written under the picture) ---------- */
+  /* ---------- moving pictures ----------
+     The games' movement (balloons, the train, the brush) is drawn frame by frame here, not with CSS animations: the
+     app shortens every CSS animation to nothing when the device asks for less motion (base.css), and these movements
+     are the game itself. */
+  const frames = (draw, alive) => {
+    let last = performance.now(), id = 0, on = true;
+    const step = now => {
+      if (!on || !alive()) return;
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      draw(dt, now / 1000);
+      id = requestAnimationFrame(step);
+    };
+    id = requestAnimationFrame(step);
+    return () => { on = false; cancelAnimationFrame(id); };
+  };
+  // A timed movement: draw(k) with k going 0 → 1 over ms, eased.
+  const tween = (ms, draw, ease = k => k, alive = () => true) => new Promise(resolve => {
+    const t0 = performance.now();
+    const step = now => {
+      const k = Math.min(1, (now - t0) / ms);
+      draw(ease(k));
+      if (k < 1 && alive()) requestAnimationFrame(step); else resolve();
+    };
+    requestAnimationFrame(step);
+  });
+  const easeIn = k => k * k * k, easeOut = k => 1 - Math.pow(1 - k, 3), easeInOut = k => k * k * (3 - 2 * k);
+  // Pieces flying out of a point of host (a popped balloon, a splash of paint).
+  function pieces(host, px, py, { colours, count = 12, spread = 70, size = 12, fall = 40, symbols = null }) {
+    for (let i = 0; i < count; i++) {
+      const piece = el('i', 'og-piece' + (symbols ? ' sym' : ''));
+      if (symbols) piece.textContent = symbols[i % symbols.length];
+      else { piece.style.background = colours[i % colours.length]; piece.style.width = piece.style.height = size * (0.6 + Math.random() * 0.7) + 'px'; }
+      if (symbols) piece.style.color = colours[i % colours.length];
+      piece.style.left = px + 'px';
+      piece.style.top = py + 'px';
+      host.append(piece);
+      const angle = (i / count) * Math.PI * 2 + Math.random() * 0.6, d = spread * (0.5 + Math.random() * 0.7);
+      const dx = Math.cos(angle) * d, dy = Math.sin(angle) * d;
+      piece.animate([
+        { transform: 'translate(-50%, -50%) rotate(0deg) scale(1)', opacity: 1 },
+        { transform: 'translate(calc(-50% + ' + dx * 0.8 + 'px), calc(-50% + ' + dy * 0.8 + 'px)) rotate(' + (Math.random() * 360 - 180) + 'deg) scale(1)', opacity: 1, offset: 0.55 },
+        { transform: 'translate(calc(-50% + ' + dx + 'px), calc(-50% + ' + (dy + fall) + 'px)) rotate(' + (Math.random() * 720 - 360) + 'deg) scale(.5)', opacity: 0 }
+      ], { duration: 700 + Math.random() * 400, easing: 'cubic-bezier(.15,.7,.4,1)' }).finished.then(() => piece.remove(), () => piece.remove());
+    }
+  }
+  // Stars flying out of a node (fx.burst stays still when the device asks for less motion; the games do not).
+  const sparkle = (node, { count = 12, symbols = ['★', '✦', '•'], spread = 80 } = {}) => {
+    const host = node?.closest('.og-game');
+    if (!host) return;
+    const at = relTo(node, host);
+    pieces(host, at.x, at.y, { colours: ['#ffcf62', '#f39a3d', '#53a981', '#ef6f6c', '#7cc6e8', '#b197fc'], symbols, count, spread, fall: 12 });
+  };
+  const relTo = (node, host) => {
+    const r = node.getBoundingClientRect(), h = host.getBoundingClientRect();
+    return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2, w: r.width, h: r.height };
+  };
+
+  /* ---------- 🎈 Balon Patlat (also Yanlış Avı's, with the meaning written under the picture) ----------
+     Balloons rise through the sky swaying on their strings, and come up again from below until the right one is popped. */
   async function balonlar(x, items, { yazili = false } = {}) {
-    const colours = ['#ff7a7a', '#ffb648', '#7cc4ff', '#9b8cff', '#64d39b', '#ff8fd0'];
+    const colours = ['#ff6b6b', '#ffa94d', '#4dabf7', '#9775fa', '#51cf66', '#f783ac', '#ffd43b'];
     for (const [n, item] of items.entries()) {
       if (!x.live.on) return;
       x.game.innerHTML = '';
       const talk = voiceRow(x, item.en);
-      const sky = el('div', 'og-sky');
+      const sky = el('div', 'og-sky', '<i class="og-sun"></i><i class="og-hill back"></i><i class="og-hill"></i>');
       x.game.append(talk, sky);
+      const clouds = [0.08, 0.3, 0.55].map((top, i) => {
+        const node = el('i', 'og-cloud');
+        node.style.top = top * 100 + '%';
+        node.style.scale = String(0.7 + i * 0.25);
+        sky.append(node);
+        return { node, x: Math.random() * 300 - 60, v: 6 + i * 5 };
+      });
       let first = true;
       await new Promise(resolve => {
         let over = false;
         const set = yazili ? balloonSet(x, item) : choices(x.c, item, 4);
-        const make = (w, i) => {
-          const b = button('og-balloon', (w.emo ? '<span aria-hidden="true">' + w.emo + '</span>' : '') + (yazili ? '<small>' + esc(w.tr) + '</small>' : ''), yazili ? w.tr : 'Balon');
-          b.style.setProperty('--c', colours[(i + n) % colours.length]);
-          b.style.setProperty('--x', (5 + i * 24) + '%');
-          b.style.setProperty('--d', (i % 2 ? -4.5 : 0) - i * 1.1 + 's');   // they start at different heights and keep rising round
-          b.onclick = async () => {
-            if (over) return;
-            if (w === item) {
+        const W = sky.clientWidth, H = sky.clientHeight;
+        const lanes = shuffled(set.map((_, i) => i));
+        const starts = shuffled([0.12, 0.62, 0.36, 0.84].slice(0, set.length));
+        const balloons = set.map((w, i) => {
+          const colour = colours[(i + n * 2) % colours.length];
+          const node = button('og-balloon', '<span class="og-bbody"><i class="og-shine"></i>' + (w.emo ? '<span class="og-bpic" aria-hidden="true">' + w.emo + '</span>' : '') +
+            (yazili ? '<small>' + esc(w.tr) + '</small>' : '') + '</span><i class="og-knot"></i><svg class="og-string" viewBox="0 0 24 70" aria-hidden="true"><path d="M12 0Q12 35 12 70"/></svg>',
+            yazili ? w.tr : 'Balon');
+          node.style.setProperty('--c', colour);
+          sky.append(node);
+          const bw = node.offsetWidth, bh = node.offsetHeight;
+          const lane = W / set.length;
+          return { w, node, colour, bw, bh, path: node.querySelector('path'), body: node.querySelector('.og-bbody'),
+            x0: lane * (lanes[i] + 0.5) - bw / 2, y: starts[i] * (H - bh * 0.55), speed: H / (9 + Math.random() * 3),
+            f: 1.1 + Math.random() * 0.6, phase: Math.random() * 6, state: 'fly' };
+        });
+        const stop = frames((dt, t) => {
+          const h = sky.clientHeight;
+          for (const b of balloons) {
+            if (b.state === 'gone' || b.state === 'popped') continue;
+            b.y -= b.speed * dt * (b.state === 'away' ? 5 : 1);
+            if (b.y < -b.bh - 10) {
+              if (b.state === 'away') { b.state = 'gone'; b.node.remove(); continue; }
+              b.y = h + 6;
+            }
+            const sway = Math.sin(t * b.f + b.phase);
+            const bx = Math.max(4, Math.min(sky.clientWidth - b.bw - 4, b.x0 + sway * 9));
+            b.node.style.transform = 'translate(' + bx.toFixed(1) + 'px,' + b.y.toFixed(1) + 'px) rotate(' + (sway * 6).toFixed(1) + 'deg)';
+            b.path.setAttribute('d', 'M12 0Q' + (12 - sway * 10).toFixed(1) + ' 35 ' + (12 + sway * 4).toFixed(1) + ' 70');
+          }
+          for (const c of clouds) {
+            c.x += c.v * dt;
+            if (c.x > sky.clientWidth + 20) c.x = -140;
+            c.node.style.transform = 'translateX(' + c.x.toFixed(1) + 'px)';
+          }
+        }, () => sky.isConnected && x.live.on);
+        // The balloon bursts into pieces and its string falls.
+        const pop = (b, big) => {
+          b.state = 'popped';
+          b.node.disabled = true;
+          const at = relTo(b.body, sky);
+          playCue('pop');
+          pieces(sky, at.x, at.y, { colours: [b.colour, b.colour, '#ffffff'], count: big ? 16 : 10, spread: big ? 90 : 60, size: 13 });
+          const word = el('b', 'og-popword', big ? 'POP!' : 'pop');
+          word.style.left = at.x + 'px';
+          word.style.top = at.y + 'px';
+          sky.append(word);
+          word.animate([{ transform: 'translate(-50%,-50%) scale(.3)', opacity: 0 }, { transform: 'translate(-50%,-50%) scale(1.2)', opacity: 1, offset: 0.3 },
+            { transform: 'translate(-50%,-90%) scale(1)', opacity: 0 }], { duration: 800, easing: 'ease-out' }).finished.then(() => word.remove(), () => word.remove());
+          b.body.animate([{ transform: 'scale(1)', opacity: 1 }, { transform: 'scale(1.35)', opacity: 0 }], { duration: 140, fill: 'forwards' });
+          b.node.querySelector('.og-knot').style.visibility = 'hidden';
+          b.node.querySelector('.og-string').animate([{ transform: 'translateY(0) rotate(0)', opacity: 1 }, { transform: 'translateY(160px) rotate(40deg)', opacity: 0 }],
+            { duration: 900, easing: 'ease-in', fill: 'forwards' });
+        };
+        for (const b of balloons) {
+          b.node.onclick = async () => {
+            if (over || b.state !== 'fly') return;
+            if (b.w === item) {
               over = true;
-              b.classList.add('pop');
-              playCue('pop');
-              fx.burst(b, { count: 16, spread: 90 });
+              pop(b, true);
               x.sonuc(item, first);
-              for (const other of sky.children) other.classList.add('away');
+              for (const other of balloons) if (other.state === 'fly') { other.state = 'away'; other.node.disabled = true; }
               await x.praise(item.en);
-              await x.wait(600);
+              await x.wait(700);
+              stop();
               resolve();
             } else {
               first = false;
-              b.classList.add('pop', 'wrong');
-              playCue('oops');
+              pop(b, false);
               await x.oops(item.en);
             }
           };
-          return b;
-        };
-        sky.append(...set.map(make));
+        }
         x.wait(300).then(() => x.say(item.en));
       });
     }
@@ -401,7 +512,7 @@ const ingilizceOyunlari = (() => {
           busy = true;
           if (a.card.item === b.card.item) {
             for (const n of [a.node, b.node]) { n.classList.add('matched'); n.disabled = true; }
-            fx.burst(b.node, { count: 10, spread: 60 });
+            sparkle(b.node, { count: 10, spread: 60 });
             // matching a word to its picture is knowing it; a miss in a memory game is only memory
             x.sonuc(a.card.item, true);
             await x.wait(500);
@@ -421,59 +532,110 @@ const ingilizceOyunlari = (() => {
     });
   }
 
-  /* ---------- 🎨 Sihirli Boyama ---------- */
+  /* ---------- 🎨 Sihirli Boyama ----------
+     A brush sweeps over the picture row by row, and only where it has passed is the picture painted. */
+  let maskNo = 0;
+  // A brush whose tip is at 0,0: wooden handle, metal band, bristles wet with the paint.
+  const FIRCA = '<path class="og-handle" d="M-4.5 -25 L-3 -66 Q0 -71 3 -66 L4.5 -25Z"/><rect class="og-ferrule" x="-6" y="-27" width="12" height="9" rx="2"/>' +
+    '<path class="og-bristle" d="M-6 -18 L6 -18 L5 -6 Q1 3 0 3 Q-1 3 -5 -6Z"/><path class="og-wet" d="M-5.4 -11 L5.4 -11 L5 -6 Q1 3 0 3 Q-1 3 -5 -6Z"/>';
+  // Rows back and forth over the box, gently wavy like a hand's strokes.
+  function strokes(box, gap) {
+    const x0 = box.x - 2, x1 = box.x + box.width + 2;
+    const rows = Math.max(2, Math.ceil((box.height + 4) / gap));
+    const step = (box.height + 4) / rows;
+    let y = box.y - 2 + step / 2, d = 'M' + x0.toFixed(1) + ' ' + y.toFixed(1);
+    for (let r = 0; r < rows; r++) {
+      const right = r % 2 === 0, from = right ? x0 : x1, to = right ? x1 : x0, q = (to - from) / 4;
+      for (let s = 0; s < 4; s++) d += 'Q' + (from + q * (s + 0.5)).toFixed(1) + ' ' + (y + (s % 2 ? 3 : -3)).toFixed(1) + ' ' + (from + q * (s + 1)).toFixed(1) + ' ' + y.toFixed(1);
+      if (r < rows - 1) { const ny = y + step; d += 'Q' + (to + (right ? 9 : -9)).toFixed(1) + ' ' + ((y + ny) / 2).toFixed(1) + ' ' + to.toFixed(1) + ' ' + ny.toFixed(1); y = ny; }
+    }
+    return d;
+  }
   async function boya(x, items) {
     for (const item of items) {
       if (!x.live.on) return;
       const colour = renk(item);
       const thing = any(Object.keys(RESIMLER));
       const line = boyaCumle(thing, colour[0]);
+      const id = 'og-mask-' + (++maskNo);
       x.game.innerHTML = '';
       const talk = voiceRow(x, line);
-      const art = el('div', 'og-art', '<svg viewBox="0 0 160 130" role="img" aria-label="' + RESIMLER[thing][0] + '"><defs><clipPath id="og-wipe"><circle cx="80" cy="65" r="0"/></clipPath></defs>' +
-        // white underneath, the colour spreading over it, the outlines on top
-        '<g class="og-white">' + RESIMLER[thing][1] + '</g><g class="og-paint" clip-path="url(#og-wipe)">' + RESIMLER[thing][1] + '</g>' +
-        '<g class="og-ink">' + RESIMLER[thing][1] + '</g></svg><span class="og-brush" aria-hidden="true">🖌️</span>');
+      const art = el('div', 'og-art', '<svg viewBox="-12 -12 184 154" role="img" aria-label="' + RESIMLER[thing][0] + '"><defs><mask id="' + id + '" maskUnits="userSpaceOnUse" x="-20" y="-20" width="200" height="170">' +
+        '<path class="og-stroke" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"/></mask></defs>' +
+        // white underneath, the paint where the brush has been, the outlines on top, then the brush
+        '<g class="og-white">' + RESIMLER[thing][1] + '</g><g class="og-paint" mask="url(#' + id + ')">' + RESIMLER[thing][1] + '</g>' +
+        '<g class="og-ink">' + RESIMLER[thing][1] + '</g><g class="og-brush" opacity="0"><g class="og-brush-tilt">' + FIRCA + '</g></g></svg>');
       const pots = el('div', 'og-pots');
       x.game.append(talk, art, pots);
       let first = true;
-      const wipe = art.querySelector('#og-wipe circle');
-      const paint = fill => art.querySelectorAll('.og-paint .p').forEach(part => { part.style.fill = fill; });
-      // the colour spreads from the middle with the brush moving over it, so the child sees the picture being painted
-      const spread = ms => new Promise(resolve => {
-        art.classList.add('painting');
-        const t0 = performance.now();
-        const step = now => {
-          const k = Math.max(0, Math.min(1, (now - t0) / ms));
-          wipe.setAttribute('r', String(110 * (1 - Math.pow(1 - k, 2))));
-          if (k < 1 && x.live.on) requestAnimationFrame(step); else { art.classList.remove('painting'); resolve(); }
-        };
-        requestAnimationFrame(step);
-      });
+      const svg = art.querySelector('svg'), stroke = art.querySelector('.og-stroke'), paintG = art.querySelector('.og-paint');
+      const brush = art.querySelector('.og-brush'), tilt = art.querySelector('.og-brush-tilt');
+      const box = art.querySelector('.og-white').getBBox();
+      const gap = 17;
+      // the brush's way, as points; the paint is the part of it the brush has gone along (drawn anew every frame)
+      const guide = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      guide.setAttribute('d', strokes(box, gap));
+      art.querySelector('defs').append(guide);
+      const L = guide.getTotalLength();
+      const way = Array.from({ length: Math.ceil(L / 2) + 1 }, (_, i) => guide.getPointAtLength(Math.min(L, i * 2)));
+      stroke.setAttribute('stroke-width', String(gap + 9));
+      const reveal = k => {
+        const n = Math.round(k * (way.length - 1));
+        let d = 'M' + way[0].x.toFixed(1) + ' ' + way[0].y.toFixed(1);
+        for (let i = 1; i <= n; i++) d += 'L' + way[i].x.toFixed(1) + ' ' + way[i].y.toFixed(1);
+        stroke.setAttribute('d', n ? d : 'M0 0');
+        return way[n];
+      };
+      reveal(0);
+      const setColour = fill => {
+        art.querySelectorAll('.og-paint .p').forEach(part => { part.style.fill = fill; });
+        art.querySelectorAll('.og-bristle, .og-wet').forEach(part => { part.style.fill = fill; });
+      };
+      const alive = () => svg.isConnected && x.live.on;
+      // The brush comes down onto the picture, sweeps the rows and lifts off.
+      async function paintAll(ms) {
+        const start = way[0];
+        brush.setAttribute('opacity', '1');
+        await tween(260, k => brush.setAttribute('transform', 'translate(' + (start.x + 30 * (1 - k)).toFixed(1) + ' ' + (start.y - 40 * (1 - k)).toFixed(1) + ')'), easeOut, alive);
+        playCue('tap', { gain: 0.4 });
+        await tween(ms, k => {
+          const p = reveal(k);
+          brush.setAttribute('transform', 'translate(' + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ')');
+          tilt.setAttribute('transform', 'rotate(' + (28 + Math.sin(k * 70) * 9).toFixed(1) + ') scale(.95)');
+        }, k => k, alive);
+        const end = way[way.length - 1];
+        await tween(240, k => { brush.setAttribute('transform', 'translate(' + (end.x + 30 * k).toFixed(1) + ' ' + (end.y - 40 * k).toFixed(1) + ')'); brush.setAttribute('opacity', String(1 - k)); }, easeIn, alive);
+      }
       await new Promise(resolve => {
         const options = shuffled([colour, ...shuffled(RENKLER.filter(r => r !== colour)).slice(0, 5)]);
         pots.append(...options.map(r => {
-          const pot = button('og-pot', '', r[1]);
+          const pot = button('og-pot', '<i class="og-blob"></i>', r[1]);
           pot.style.setProperty('--c', r[2]);
           pot.onclick = async () => {
             for (const p of pots.children) p.disabled = true;
             pot.classList.add('chosen');
-            paint(r[2]);
-            wipe.setAttribute('r', '0');
+            setColour(r[2]);
+            paintG.style.opacity = '1';
+            reveal(0);
             x.say(r[0]);
-            await spread(r === colour ? 1600 : 900);
+            await paintAll(r === colour ? 2600 : 1500);
+            if (!alive()) return resolve();
             if (r === colour) {
               x.sonuc(item, first);
               art.classList.add('done');
-              fx.burst(art, { symbols: ['✦', '★', '🖌️', '🎨'], count: 22, spread: 120 });
+              const at = relTo(svg, art);
+              pieces(art, at.x, at.y, { colours: [r[2], '#ffd43b', '#ff8fd0', '#74c0fc'], symbols: ['✦', '★', '✦', '•'], count: 18, spread: 130, fall: 10 });
               fx.confetti?.(x.game.closest('dialog'), { count: 60 });
               await x.praise('The ' + thing + ' is ' + colour[0] + '!');
-              await x.wait(1600);
+              await x.wait(1400);
               resolve();
             } else {
               first = false;
               await x.oops(line);
-              wipe.setAttribute('r', '0');
+              // the wrong paint is washed away
+              await tween(450, k => { paintG.style.opacity = String(1 - k); }, k => k, alive);
+              reveal(0);
+              paintG.style.opacity = '1';
               pot.classList.add('wrong');
               for (const p of pots.children) if (!p.classList.contains('wrong')) p.disabled = false;
               pot.classList.remove('chosen');
@@ -520,10 +682,10 @@ const ingilizceOyunlari = (() => {
         // the food flies into the basket
         const from = node.getBoundingClientRect(), to = basket.getBoundingClientRect();
         node.animate([{ transform: 'none' }, { transform: 'translate(' + (to.left + to.width / 2 - from.left - from.width / 2) + 'px,' +
-          (to.top + 20 - from.top) + 'px) scale(.4)', opacity: 0.2 }], { duration: calm() ? 1 : 700, easing: 'ease-in' }).finished.then(() => node.classList.add('in'));
+          (to.top + 20 - from.top) + 'px) scale(.4)', opacity: 0.2 }], { duration: 700, easing: 'ease-in' }).finished.then(() => node.classList.add('in'));
         await x.wait(650);
         basket.classList.add('got');
-        fx.burst(basket, { symbols: [target.emo, '✦', '❤️'], count: 12, spread: 80 });
+        sparkle(basket, { symbols: [target.emo, '✦', '❤️'], count: 12, spread: 80 });
         x.sonuc(target, first);
         x.react(true, '😋');
         playCue('correct');
@@ -549,42 +711,109 @@ const ingilizceOyunlari = (() => {
     }
   }
 
-  /* ---------- 🚂 Kelime Treni ---------- */
+  /* ---------- 🚂 Kelime Treni ----------
+     The train rolls in with empty wagons, puffing; every word flies into its wagon; when the sentence is right the
+     whistle blows and the train drives off, its wheels turning. It faces left so the wagons read in order behind it. */
+  const wheel = (cx, cy, r) => '<g class="og-wheel" data-c="' + cx + ' ' + cy + '"><circle class="og-tyre" cx="' + cx + '" cy="' + cy + '" r="' + r + '"/>' +
+    '<path class="og-spoke" d="M' + (cx - r * 0.78) + ' ' + cy + 'H' + (cx + r * 0.78) + 'M' + cx + ' ' + (cy - r * 0.78) + 'V' + (cy + r * 0.78) +
+    'M' + (cx - r * 0.55) + ' ' + (cy - r * 0.55) + 'L' + (cx + r * 0.55) + ' ' + (cy + r * 0.55) + 'M' + (cx - r * 0.55) + ' ' + (cy + r * 0.55) + 'L' + (cx + r * 0.55) + ' ' + (cy - r * 0.55) + '"/>' +
+    '<circle class="og-hub" cx="' + cx + '" cy="' + cy + '" r="' + r * 0.25 + '"/></g>';
+  const LOKOMOTIF = '<svg class="og-loco" viewBox="0 0 124 96" aria-hidden="true">' +
+    '<path class="og-catcher" d="M16 70 L2 86 H20Z"/>' +
+    '<rect class="og-boiler" x="14" y="38" width="62" height="34" rx="10"/><rect class="og-band" x="34" y="38" width="5" height="34"/><rect class="og-band" x="56" y="38" width="5" height="34"/>' +
+    '<circle class="og-lamp" cx="14" cy="50" r="6"/>' +
+    '<path class="og-chimney" d="M24 38 V18 H20 V10 H42 V18 H38 V38Z"/>' +
+    '<circle class="og-dome" cx="48" cy="38" r="7"/>' +
+    '<rect class="og-cab" x="74" y="18" width="44" height="54" rx="4"/><rect class="og-roof" x="70" y="10" width="52" height="10" rx="4"/>' +
+    '<rect class="og-window" x="84" y="26" width="24" height="18" rx="4"/>' +
+    '<rect class="og-base" x="8" y="70" width="114" height="8" rx="3"/>' +
+    wheel(32, 82, 10) + wheel(56, 82, 10) + wheel(96, 78, 15) +
+    '<path class="og-rod" d="M32 82 L96 78"/></svg>';
   async function tren(x, items) {
+    const wagonColours = ['#ff8787', '#ffc078', '#8ce99a', '#74c0fc', '#b197fc', '#faa2c1', '#ffe066'];
     for (const item of items) {
       if (!x.live.on) return;
       const words = item.en.split(' ');
       x.game.innerHTML = '';
       const talk = voiceRow(x, item.en);
       const meaning = el('p', 'og-meaning', '“' + esc(item.tr) + '”');
-      const track = el('div', 'og-track');
+      const track = el('div', 'og-track', '<i class="og-rails"></i>');
       const train = el('div', 'og-train');
-      train.append(el('span', 'og-engine', '<span aria-hidden="true">🚂</span>'), ...words.map(() => el('span', 'og-wagon', '')));
+      train.innerHTML = LOKOMOTIF + words.map((w, i) => '<span class="og-wagon" style="--c:' + wagonColours[i % wagonColours.length] + '"><i class="og-coupler"></i>' +
+        '<b class="og-word" aria-hidden="true" lang="en">' + esc(w) + '</b>' +
+        '<svg class="og-ww l" viewBox="0 0 20 20" aria-hidden="true">' + wheel(10, 10, 8.5) + '</svg><svg class="og-ww r" viewBox="0 0 20 20" aria-hidden="true">' + wheel(10, 10, 8.5) + '</svg></span>').join('');
       track.append(train);
       const chips = el('div', 'og-chips');
       x.game.append(talk, meaning, track, chips);
+      const alive = () => track.isConnected && x.live.on;
+      // The whole train fits the track: a long sentence makes it smaller.
+      const scale = Math.min(1, (track.clientWidth - 12) / train.offsetWidth);
+      const trainH = train.offsetHeight;
+      track.style.height = Math.ceil(trainH * scale + 22) + 'px';
+      const wheels = [...train.querySelectorAll('.og-loco .og-wheel')], small = [...train.querySelectorAll('.og-ww')];
+      const chimney = train.querySelector('.og-chimney');
+      let pos = track.clientWidth + 20, bob = 0;
+      const place = (px, t = 0) => {
+        pos = px;
+        bob = Math.sin(t * 22) * 1.2;
+        train.style.transform = 'translate(' + px.toFixed(1) + 'px,' + bob.toFixed(1) + 'px) scale(' + scale + ')';
+        const turn = px * 2.2;   // the wheels turn as far as the train rolls
+        for (const w of wheels) w.setAttribute('transform', 'rotate(' + turn.toFixed(1) + ' ' + w.dataset.c + ')');
+        for (const w of small) w.style.transform = 'rotate(' + (turn * 1.6).toFixed(1) + 'deg)';
+      };
+      const puff = (big = false) => {
+        if (!alive()) return;
+        const at = relTo(chimney, track);
+        const p = el('i', 'og-puff');
+        p.style.left = at.x + 'px';
+        p.style.top = (at.y - at.h / 2) + 'px';
+        track.append(p);
+        const drift = 20 + Math.random() * 25;
+        p.animate([{ transform: 'translate(-50%,-50%) scale(.35)', opacity: 0.95 },
+          { transform: 'translate(calc(-50% + ' + drift + 'px), calc(-50% - ' + (big ? 46 : 34) + 'px)) scale(' + (big ? 2.1 : 1.6) + ')', opacity: 0 }],
+          { duration: big ? 1300 : 1600, easing: 'ease-out' }).finished.then(() => p.remove(), () => p.remove());
+      };
+      place(pos);
+      // it rolls in
+      let lastPuff = 0;
+      const roll = (from, to, ms, ease, puffEvery) => tween(ms, k => {
+        const now = performance.now();
+        place(from + (to - from) * k, now / 1000);
+        if (now - lastPuff > puffEvery) { lastPuff = now; puff(puffEvery < 300); }
+      }, ease, alive);
+      await roll(pos, 6, 1700, easeOut, 260);
+      place(6);
+      const idle = setInterval(() => puff(), 1200);
       let placed = 0, first = true;
       await new Promise(resolve => {
-        const place = async chip => {
+        const fill = async chip => {
           if (chip.disabled) return;
           if (chip.textContent === words[placed]) {
             const wagon = train.querySelectorAll('.og-wagon')[placed++];
-            wagon.textContent = chip.textContent;
-            wagon.classList.add('full');
             chip.disabled = true;
-            chip.classList.add('used');
             playCue('tap');
-            if (placed === words.length) {
-              for (const c of chips.children) c.disabled = true;
+            // the word flies into its wagon
+            const from = chip.getBoundingClientRect(), to = wagon.getBoundingClientRect();
+            const fly = chip.animate([{ transform: 'none' }, { transform: 'translate(' + (to.left + to.width / 2 - from.left - from.width / 2) + 'px,' +
+              (to.top + to.height / 2 - from.top - from.height / 2) + 'px) scale(' + Math.max(0.5, scale * 0.85) + ')', opacity: 0.4 }], { duration: 380, easing: 'ease-in' });
+            const last = placed === words.length;
+            if (last) for (const c of chips.children) c.disabled = true;
+            await fly.finished.catch(() => {});
+            chip.classList.add('used');
+            wagon.classList.add('full');
+            wagon.querySelector('.og-word').removeAttribute('aria-hidden');
+            wagon.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-8px)' }, { transform: 'translateY(0)' }], { duration: 300, easing: 'ease-out' });
+            if (last) {
+              clearInterval(idle);
               x.sonuc(item, first);
-              playCue('island');
               x.react(true, '🎉');
-              // the whole train drives away, puffing
-              train.classList.add('go');
-              fx.burst(train.querySelector('.og-engine'), { symbols: ['💨', '☁️', '✦'], count: 12, spread: 70 });
+              playCue('island');
               await x.say(item.en);
+              // a little jolt back, then away to the left, faster and faster
+              await roll(6, 16, 260, easeOut, 1000);
+              await roll(16, -(train.offsetWidth * scale + 40), 2600, easeIn, 150);
               await x.praise();
-              await x.wait(1200);
+              await x.wait(500);
               resolve();
             }
           } else {
@@ -596,11 +825,12 @@ const ingilizceOyunlari = (() => {
         chips.append(...shuffled(words).map(w => {
           const chip = button('og-chip', esc(w));
           chip.lang = 'en';
-          draggable(chip, { drop: under => { if (under?.closest('.og-track')) place(chip); }, tap: () => place(chip) });
+          draggable(chip, { drop: under => { if (under?.closest('.og-track')) fill(chip); }, tap: () => fill(chip) });
           return chip;
         }));
         x.wait(300).then(() => x.say(item.en));
       });
+      clearInterval(idle);
     }
   }
 
@@ -627,7 +857,7 @@ const ingilizceOyunlari = (() => {
             if (n === 0) {
               for (const o of options.children) o.disabled = true;
               b.classList.add('right');
-              fx.burst(b, { count: 12, spread: 70 });
+              sparkle(b, { count: 12, spread: 70 });
               x.sonuc(item, first);
               x.react(true, any(OVGU));
               playCue('correct');
@@ -676,7 +906,7 @@ const ingilizceOyunlari = (() => {
   // Balon Patlat for Yanlış Avı: one game of balloons over the given words (with written meanings).
   function turBalon(c) {
     const live = { on: true };
-    const wait = ms => new Promise(resolve => setTimeout(resolve, calm() ? Math.min(ms, 300) : ms));
+    const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
     const say = async (text, slow) => { if (live.on) await ingilizceSes.say(text, slow); };
     c.stage.innerHTML = '<div class="og-head"><span class="og-mascot" aria-hidden="true"><b>' + esc(c.maskot || '🦊') + '</b><i class="og-bubble"></i></span>' +
       '<span class="og-where"><span aria-hidden="true">🎈</span> Balon Patlat</span><span class="og-stars"></span></div><div class="og-game"></div>';

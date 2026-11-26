@@ -160,7 +160,7 @@ when one is done. A panel beside the map (under it on phones) has the Sıradaki 
   Patlat or Sesli Hafıza; a colour to Sihirli Boyama; a food listed in `sepet` to Meyve Sepeti; a sentence of 3-7 words
   that the question asks in English to Kelime Treni; anything else is a Bilgi Kartı (the question itself, with a second
   try). A miss in Sesli Hafıza is only memory, so a found pair counts as right. Each game opens with a title card, the
-  player's icon cheers as a mascot, and every line is awaited before the next. `ikinciSans: true` gives the classic
+  player's icon cheers as a mascot, and every line is awaited before the next. The balloons, the train and the brush are moved frame by frame in JS (`frames`, `tween`), and base.css leaves `.og-head`/`.og-game` out of its reduced-motion rule: these movements are the game, and a device asking for less motion used to see no balloons at all. Sihirli Boyama paints only where the brush has gone (a mask path that grows along the brush's way). `ikinciSans: true` gives the classic
   question rounds a second try too. **The voice:** every English line (`tools/ingilizce_metinler.js`) is recorded with
   Kokoro (`tools/ingilizce_sesler.py`, voice af_heart, a normal and a slow 🐢 file) and played through the game's Web
   Audio context (`ingilizceSes`); a line without a recording falls back to the device's best English voice. When

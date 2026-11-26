@@ -7,6 +7,15 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.50.0 · 26.11.2026
+
+İngilizce Koyu'nun oyunları her cihazda hareket ediyor ve daha canlı:
+
+- **Balon Patlat düzeldi:** Cihazda “hareketi azalt” ayarı açıksa balonlar görünmüyordu. Artık balonlar her cihazda gökyüzünde ipleri sallanarak yükseliyor, aşağıdan yeniden geliyor; bulutlar kayıyor. Patlayan balon parçalara ayrılıyor, “POP!” yazıyor ve ipi düşüyor.
+- **Kelime Treni gerçekten gidiyor:** Yeni çizilmiş bir lokomotif boş vagonlarla, bacasından duman çıkararak raylara geliyor. Her kelime vagonuna uçuyor; cümle tamamlanınca tren önce hafifçe geri sarsılıyor, sonra tekerlekleri dönerek, duman çıkararak hızlanıp uzaklaşıyor.
+- **Sihirli Boyama’da fırça boyuyor:** Fırça resmin üstünde sıra sıra gidip geliyor ve yalnızca geçtiği yerler boyanıyor; fırçanın ucu seçilen renkte. Yanlış renk silinip gidiyor. Boya kutuları da yenilendi.
+- **Diğer oyunlar da canlandı:** “Hareketi azalt” ayarı İngilizce oyunlarının zıplama, kart çevirme, maskot ve yıldız efektlerini de durduruyordu; artık bu oyunlarda hepsi çalışıyor.
+
 ## 0.49.0 · 26.11.2026
 
 İngilizce Koyu artık soru soru değil, **oyun oyun** oynanıyor:

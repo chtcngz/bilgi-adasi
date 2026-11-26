@@ -362,7 +362,10 @@ dialog[open]::backdrop { animation: fade .25s; backdrop-filter: blur(3px); }
   .dots { margin: 2px 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  /* İngilizce Koyu's games keep their movement: moving balloons, trains and brushes are how they are played */
+  :not(:is(.og-head, .og-game) *), :not(:is(.og-head, .og-game) *)::before, :not(:is(.og-head, .og-game) *)::after {
+    animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important;
+  }
 }
 
 /* ---------- Welcome: player picker ---------- */
