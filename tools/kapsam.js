@@ -8,7 +8,8 @@
 // For each island it
 //   1. loads sorular.js the way the game does and checks every stop and question: the fields,
 //      four different non-empty options, a balanced *underline*, an exam year that exists,
-//      question ids that are unique, and a mock exam of at most 20 questions;
+//      question ids that are unique, and a mock exam of at most 20 questions; an English question may carry
+//      k: [English, Turkish, emoji?] (said by 🔊, matched in Yanlış Avı) and d: 1 (asked by ear only);
 //   2. reads islands/<ada>/kapsam.md, the checklist drawn from the textbook. Every line that
 //      starts with "- " is one point of the book and must end with "→" and the ids of the
 //      questions that ask it:  "- s. 13 · T.C. kimlik numarası 11 hanelidir. → birey:0, birey:4"
@@ -77,7 +78,10 @@ for (const name of islands) {
         const id = stop.id + ':' + n;
         ids.set(id, q);
         const at = id + ' (' + String(q.s || '').slice(0, 40) + '…)';
-        for (const key of Object.keys(q)) if (!['s', 'm', 'a', 'b', 'y'].includes(key)) problem(at + ': bilinmeyen alan "' + key + '".');
+        for (const key of Object.keys(q)) if (!['s', 'm', 'a', 'b', 'y', 'k', 'd'].includes(key)) problem(at + ': bilinmeyen alan "' + key + '".');
+        // English islands: k = [English, Turkish, emoji?] is what 🔊 says and Yanlış Avı matches; d: 1 asks it by ear only
+        if (q.k !== undefined && !(Array.isArray(q.k) && q.k.length >= 2 && q.k.length <= 3 && q.k.every(isText))) problem(at + ': k, [İngilizce, Türkçe, emoji?] olmalı.');
+        if (q.d !== undefined && !(q.d === 1 && q.k)) problem(at + ': d yalnızca 1 olabilir ve k ister.');
         if (!isText(q.s)) problem(at + ': soru kökü (s) eksik.');
         if (!isText(q.b)) problem(at + ': açıklama (b) eksik.');
         if (q.m !== undefined && !isText(q.m)) problem(at + ': metin (m) boş.');

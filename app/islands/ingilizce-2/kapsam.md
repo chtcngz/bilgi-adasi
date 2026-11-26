@@ -1,0 +1,804 @@
+# İngilizce Adası (2. sınıf) · Ders kitabı kontrol listesi
+
+Kaynak: MEB *English Year 2 Pupil’s Book* (Millî Eğitim Bakanlığı Yayınları 10314, Ders Kitapları Dizisi 2292; yazarlar Ayşe Gül Ünlü,
+Emine Çatlı, Gülden Cengiz, Remziye Güler Aslan, Sezin Sevim Kula; Talim ve Terbiye Kurulunun 14.08.2025 tarihli yazısıyla kabul edildi).
+Türkiye Yüzyılı Maarif Modeli’nin 2. sınıf İngilizce kitabı; 2026-2027 öğretim yılında okutulan kitap budur. Sayfa numaraları kitabın basılı sayfa numaralarıdır.
+
+**Kural:** Kitaptaki her bilgi en az bir soruyla sorulur. Aşağıdaki her madde kitaptaki bir kelimeyi, kalıbı, okuma metnindeki bir bilgiyi ya da
+bir sayfayı anlatır; okun sağındaki kimlikler onu soran sorulardır (`okul:0` = 1. tema durağının ilk sorusu). Sözlükteki (Glossary) her kelime,
+kendi temasında onu soran soruyu gösterir. `node tools/kapsam.js ingilizce-2` sorusu olmayan madde kalmadığını denetler.
+
+Kitaba yeni bir bilgi eklenirse ya da bir bilgi atlanmışsa önce buraya madde olarak yazılır, sonra o bilgiyi soran soru `sorular.js`’te
+ilgili durağın sonuna eklenir. Ünitelere ait olmayan baş sayfaların ve sondaki haritaların soruları 📘 Kitap Köşesi’nde.
+
+## Kitabın baş sayfaları, içindekiler ve sondaki sayfalar
+
+- s. 3 · Türk bayrağı. → kitap:0
+- s. 3 · İstiklal Marşı (ilk iki kıta), şairi Mehmet Âkif Ersoy. → kitap:1
+- s. 5 · Andımız: Türküm, doğruyum, çalışkanım … Ne mutlu Türküm diyene! → kitap:2
+- s. 6 · Mustafa Kemal Atatürk’ün portresi. → kitap:3
+- s. 7 · İçindekiler: Introduction, Theme 1-6, Cut-outs (s. 107), Glossary (s. 129), Answer key ve references (s. 134), haritalar (s. 135-136). → kitap:4
+- s. 8 · Tema tablosu: her temanın alt konuları, öykü, kalıplar (chunks), kelimeler, oyunlar. → kitap:4
+- s. 9 · Reflection: What about you? Read and colour. Kendine uygun emojiyi seç (🙂 😐 🙁). → kitap:15
+- s. 10 · watching = izleme → kitap:5
+- s. 10 · listening = dinleme → kitap:6
+- s. 10 · speaking = konuşma → kitap:7
+- s. 10 · reading = okuma → kitap:8
+- s. 10 · writing = yazma → kitap:9
+- s. 10 · project = proje → kitap:10
+- s. 10 · pronunciation = telaffuz (söyleniş) → kitap:11
+- s. 10 · pairwork = ikili çalışma → kitap:12
+- s. 10 · groupwork = grup çalışması → kitap:13
+- s. 10 · teacher’s reminder = öğretmene hatırlatma → kitap:14
+- s. 107 · Cut-outs: s. 107-128, her temanın projesi için. → kitap:17
+- s. 129 · Glossary: her temanın kelimeleri ve Türkçe anlamları (s. 129-133). → kitap:16
+- s. 135 · Türkiye’nin Mülki İdare Bölümleri ile Kara ve Deniz Komşuları Haritası: başkent Ankara, il merkezleri. → kitap:18
+- s. 135 · Kara komşuları: Yunanistan, Bulgaristan, Gürcistan, Ermenistan, Azerbaycan (Nahçıvan), İran, Irak, Suriye; denizler: Karadeniz, Ege, Akdeniz, Marmara. → kitap:19
+- s. 135 · Haritada denizler: Karadeniz, Ege Denizi, Akdeniz, Marmara Denizi. → kitap:20
+- s. 136 · Türk Dünyası Haritası: bağımsız Türk devletleri, Türk cumhuriyetleri ve bölgeleri, Türk toplulukları. → kitap:21
+- s. 136 · Bağımsız Türk devletleri: Türkiye, Azerbaycan, Kazakistan, Kırgızistan, Özbekistan, Türkmenistan, KKTC. → kitap:22
+
+## 1. Tema · School Life (s. 11-26)
+
+- s. 1 · Kitabın adı: English Year 2 Pupil’s Book (2. sınıf öğrenci kitabı). → okul:0
+- s. 8 · İçindekiler: Who’s she/he? She’s Mr Aras … This is Mr/Mrs/Miss Hopkins. (Mr: Bay; Mrs, Miss: Bayan) → okul:83
+- s. 8 · İçindekiler: Come here, please. (Buraya gel lütfen.) → okul:84
+- s. 14 · teacher’s room = öğretmenler odası → okul:1
+- s. 14 · library = kütüphane → okul:2
+- s. 14 · school = okul → okul:3
+- s. 14 · canteen = kantin → okul:4
+- s. 14 · classroom = sınıf → okul:5
+- s. 14 · garden = bahçe → okul:6
+- s. 14 · sports hall = spor salonu → okul:7
+- s. 14 · playground = oyun alanı → okul:8
+- s. 14 · lunch hall = yemekhane → okul:9
+- s. 14 · Çınar is in the garden: Çınar bahçede. → okul:10
+- s. 15 · Is it a classroom? No, it isn’t. (Oyun: Burası sınıf mı? Hayır, değil.) → okul:11
+- s. 15 · Is it a library? Yes, it is. (Evet, öyle.) → okul:12
+- s. 15 · boy = erkek çocuk → okul:13
+- s. 15 · hall = salon → okul:14
+- s. 15 · Tekerleme: An army of ants ate all the apples. (karıncalar, elmalar) → okul:15
+- s. 15 · Tekerleme: A big brown bear bakes some bread. (ayı, ekmek) → okul:16
+- s. 16 · pupil = öğrenci → okul:17
+- s. 16 · teacher = öğretmen → okul:18
+- s. 16 · headmaster = erkek okul müdürü → okul:19
+- s. 18 · Monday = Pazartesi → okul:20
+- s. 18 · Tuesday = Salı → okul:21
+- s. 18 · Wednesday = Çarşamba → okul:22
+- s. 18 · Thursday = Perşembe → okul:23
+- s. 18 · Friday = Cuma → okul:24
+- s. 18 · Saturday = Cumartesi → okul:25
+- s. 18 · Sunday = Pazar → okul:26
+- s. 18 · What day is it today? (Bugün günlerden ne?) → okul:27
+- s. 18 · It’s Saturday today. (Bugün Cumartesi.) → okul:28
+- s. 18 · Haftanın günleri sırasıyla: Monday … Sunday. → okul:29
+- s. 19 · Şarkı: Monday, Tuesday, clap your hands! (ellerini çırp) → okul:30
+- s. 19 · Şarkı: Wednesday, Thursday, shake your arms! (kollarını salla) → okul:31
+- s. 19 · Şarkı: Friday, Saturday, jump around! (zıpla) → okul:32
+- s. 19 · Şarkı: It is Sunday, say HELLO! → okul:33
+- s. 20 · What is this? It is a playground. (Bu ne? Burası oyun alanı.) → okul:34
+- s. 20 · Excuse me! Who is this boy? He is Jack. → okul:35
+- s. 20 · Where is Mrs Yalçın? She is in the teacher’s room. → okul:36
+- s. 21 · student = öğrenci → okul:37
+- s. 21 · Is this a library? Yes, it is. / He is in the sports hall. → okul:38
+- s. 22 · Jungle School: Mr Elfy öğretmen, sınıfta. → okul:39
+- s. 22 · Jungle School: Ruby bir öğrenci (pupil). → okul:40
+- s. 22 · Jungle School: Bobby, Ruby’nin arkadaşı, bahçede. → okul:41
+- s. 22 · Jungle School: Mrs Tosby kadın okul müdürü (headmistress), kütüphanede. → okul:42
+- s. 22 · headmistress = kadın okul müdürü → okul:43
+- s. 23 · Group and write: yerler (playground …) ve kişiler (pupil …) ayrılır. → okul:44
+- s. 24 · Hello! What’s your name? My name is Daisy. My name is Henry. → okul:45
+- s. 24 · Nice to meet you. Nice to meet you, too. → okul:46
+- s. 24 · This is my friend, Linda. (arkadaşım) → okul:47
+- s. 24 · How are you? I’m fine, and you? I’m fine, thank you. → okul:48
+- s. 25 · Who’s this? This is Mrs Rose. She is a teacher. → okul:49
+- s. 25 · Where is the headmaster? He is in the teacher’s room. → okul:50
+- s. 25 · What is this, Daisy? It’s a library. Is this a sports hall? Yes, it is. → okul:51
+- s. 26 · Proje: Draw your school (okulunu çiz); s. 107’deki kişi ve yer resimlerini kesip yapıştır, anlat. → okul:52
+- s. 26 · Oyun: Keep going (devam et), Well done (aferin), Great job (harika iş). → okul:53
+- s. 26 · Oyun kutuları: Keep going. → okul:54
+- s. 26 · Oyun kutuları: Great job. → okul:55
+- s. 107 · Kesilecek sayfa (cut-outs): okul, kişiler ve yerler, günler. → okul:52
+- s. 129 · big = büyük → okul:56
+- s. 129 · clap = alkışlamak → okul:57
+- s. 129 · day = gün → okul:58
+- s. 129 · excuse me = affedersiniz → okul:59
+- s. 129 · fine = iyi → okul:60
+- s. 129 · finish = bitirmek → okul:61
+- s. 129 · friend = arkadaş → okul:62
+- s. 129 · girl = kız çocuk → okul:63
+- s. 129 · hello = merhaba → okul:64
+- s. 129 · hi = selam → okul:65
+- s. 129 · how = nasıl → okul:66
+- s. 129 · jump = zıplamak → okul:67
+- s. 129 · kid = çocuk → okul:68
+- s. 129 · meet = tanışmak → okul:69
+- s. 129 · name = isim → okul:70
+- s. 129 · people = insanlar → okul:71
+- s. 129 · place = yer → okul:72
+- s. 129 · sing = şarkı söylemek → okul:73
+- s. 129 · start = başlamak → okul:74
+- s. 129 · thank you = teşekkür ederim → okul:75
+- s. 129 · today = bugün → okul:76
+- s. 129 · together = birlikte → okul:77
+- s. 129 · wait = beklemek → okul:78
+- s. 129 · week = hafta → okul:79
+- s. 129 · what = ne → okul:80
+- s. 129 · where = nerede → okul:81
+- s. 129 · who = kim → okul:82
+
+Sözlük (Glossary, s. 129):
+
+- s. 129 · Sözlük: big → okul:56
+- s. 129 · Sözlük: boy → okul:13
+- s. 129 · Sözlük: canteen → okul:4
+- s. 129 · Sözlük: clap → okul:57
+- s. 129 · Sözlük: classroom → okul:5
+- s. 129 · Sözlük: day → okul:58
+- s. 129 · Sözlük: excuse me → okul:59
+- s. 129 · Sözlük: fine → okul:60
+- s. 129 · Sözlük: finish → okul:61
+- s. 129 · Sözlük: Friday → okul:24
+- s. 129 · Sözlük: friend → okul:62
+- s. 129 · Sözlük: garden → okul:6
+- s. 129 · Sözlük: girl → okul:63
+- s. 129 · Sözlük: headmaster → okul:19
+- s. 129 · Sözlük: headmistress → okul:43
+- s. 129 · Sözlük: hello → okul:64
+- s. 129 · Sözlük: hi → okul:65
+- s. 129 · Sözlük: how → okul:66
+- s. 129 · Sözlük: jump → okul:67
+- s. 129 · Sözlük: kid → okul:68
+- s. 129 · Sözlük: library → okul:2
+- s. 129 · Sözlük: lunch hall → okul:9
+- s. 129 · Sözlük: meet → okul:69
+- s. 129 · Sözlük: Monday → okul:20
+- s. 129 · Sözlük: name → okul:70
+- s. 129 · Sözlük: people → okul:71
+- s. 129 · Sözlük: place → okul:72
+- s. 129 · Sözlük: playground → okul:8
+- s. 129 · Sözlük: pupil → okul:17
+- s. 129 · Sözlük: Saturday → okul:25
+- s. 129 · Sözlük: school → okul:3
+- s. 129 · Sözlük: sing → okul:73
+- s. 129 · Sözlük: sports hall → okul:7
+- s. 129 · Sözlük: start → okul:74
+- s. 129 · Sözlük: Sunday → okul:26
+- s. 129 · Sözlük: teacher → okul:18
+- s. 129 · Sözlük: teacher’s room → okul:1
+- s. 129 · Sözlük: thank you → okul:75
+- s. 129 · Sözlük: Thursday → okul:23
+- s. 129 · Sözlük: today → okul:76
+- s. 129 · Sözlük: together → okul:77
+- s. 129 · Sözlük: Tuesday → okul:21
+- s. 129 · Sözlük: wait → okul:78
+- s. 129 · Sözlük: Wednesday → okul:22
+- s. 129 · Sözlük: week → okul:79
+- s. 129 · Sözlük: what → okul:80
+- s. 129 · Sözlük: where → okul:81
+- s. 129 · Sözlük: who → okul:82
+
+## 2. Tema · Classroom Life (s. 27-42)
+
+- s. 8 · İçindekiler (2. tema): How’s the weather? It’s cold. → sinif:98
+- s. 8 · İçindekiler (2. tema): Can I go outside? → sinif:99
+- s. 27 · yellow = sarı → sinif:0
+- s. 27 · blue = mavi → sinif:1
+- s. 27 · red = kırmızı → sinif:2
+- s. 27 · green = yeşil → sinif:3
+- s. 27 · purple = mor → sinif:4
+- s. 27 · pink = pembe → sinif:5
+- s. 27 · brown = kahverengi → sinif:6
+- s. 27 · orange = turuncu → sinif:7
+- s. 27 · black = siyah → sinif:8
+- s. 27 · white = beyaz → sinif:9
+- s. 31 · bookcase = kitaplık → sinif:10
+- s. 31 · sharpener = kalemtıraş → sinif:11
+- s. 31 · crayon = pastel boya → sinif:12
+- s. 31 · Smart Board = akıllı tahta → sinif:13
+- s. 31 · window = pencere → sinif:14
+- s. 31 · pencil case = kalem kutusu → sinif:15
+- s. 31 · scissors = makas → sinif:16
+- s. 31 · table = masa → sinif:17
+- s. 31 · chalk = tebeşir → sinif:18
+- s. 31 · desk = sıra → sinif:19
+- s. 31 · coloured pencil = boya kalemi → sinif:20
+- s. 31 · book = kitap → sinif:21
+- s. 31 · door = kapı → sinif:22
+- s. 31 · chair = sandalye → sinif:23
+- s. 31 · Chinese Whispers (kulaktan kulağa) oyunu: a brown bookcase; Mr Brown is in a pencil case. → sinif:24
+- s. 31 · exercise = alıştırma → sinif:25
+- s. 31 · Tekerleme: The cute cat has got a colourful cap. → sinif:26
+- s. 31 · Tekerleme: Doctor Duck drives in the dark. → sinif:27
+- s. 32 · The Colours Song: orange, blue, white, red, purple, green, pink, brown, yellow, black. → sinif:28
+- s. 32 · Listen, colour, and say: duyduğun rengi boya ve söyle. → sinif:28
+- s. 33 · one = bir (1) → sinif:29
+- s. 33 · two = iki (2) → sinif:30
+- s. 33 · three = üç (3) → sinif:31
+- s. 33 · four = dört (4) → sinif:32
+- s. 33 · five = beş (5) → sinif:33
+- s. 33 · six = altı (6) → sinif:34
+- s. 33 · seven = yedi (7) → sinif:35
+- s. 33 · eight = sekiz (8) → sinif:36
+- s. 33 · nine = dokuz (9) → sinif:37
+- s. 33 · ten = on (10) → sinif:38
+- s. 33 · eleven = on bir (11) → sinif:39
+- s. 33 · twelve = on iki (12) → sinif:40
+- s. 33 · thirteen = on üç (13) → sinif:41
+- s. 33 · fourteen = on dört (14) → sinif:42
+- s. 33 · fifteen = on beş (15) → sinif:43
+- s. 33 · sixteen = on altı (16) → sinif:44
+- s. 33 · seventeen = on yedi (17) → sinif:45
+- s. 33 · eighteen = on sekiz (18) → sinif:46
+- s. 33 · nineteen = on dokuz (19) → sinif:47
+- s. 33 · twenty = yirmi (20) → sinif:48
+- s. 34 · Is this an object? Yes, it is. What colour is it? It is red. Is it a clock? Yes, it is. → sinif:49
+- s. 34 · clock = duvar saati → sinif:50
+- s. 35 · glue = yapıştırıcı → sinif:51
+- s. 35 · whiteboard = beyaz tahta → sinif:52
+- s. 35 · rubber = silgi → sinif:53
+- s. 35 · notebook = defter → sinif:54
+- s. 35 · computer = bilgisayar → sinif:55
+- s. 35 · pencil = kalem → sinif:56
+- s. 35 · tablet = tablet → sinif:57
+- s. 36 · Draw pencils, please! How many pencils? Sixteen pencils. → sinif:58
+- s. 36 · What colour is the pencil? It’s red. → sinif:59
+- s. 36 · Mrs Yalçın, can I go to the bathroom, please? Yes, you can. → sinif:60
+- s. 36 · OK, kids! Put your books in the bags, please! → sinif:61
+- s. 36 · It’s break time now! (teneffüs) → sinif:62
+- s. 37 · Close the door! = Kapıyı kapat! → sinif:63
+- s. 37 · Come to the board! = Tahtaya gel! → sinif:64
+- s. 37 · Point to the window! = Pencereyi göster! → sinif:65
+- s. 37 · Look at me! = Bana bak! → sinif:66
+- s. 37 · Look at the board! = Tahtaya bak! → sinif:67
+- s. 37 · Open your books! = Kitaplarını aç! → sinif:68
+- s. 37 · Raise your hand! = Elini kaldır! → sinif:69
+- s. 37 · Listen, please! = Dinle lütfen! → sinif:70
+- s. 37 · Stand up! = Ayağa kalk! → sinif:71
+- s. 37 · Sit down! = Otur! → sinif:72
+- s. 37 · Pass the pencil! = Kalemi uzat! → sinif:73
+- s. 37 · Repeat, please! = Tekrar et lütfen! → sinif:74
+- s. 37 · Draw a cat! = Bir kedi çiz! → sinif:75
+- s. 37 · Be quiet! = Sessiz ol! → sinif:76
+- s. 37 · Look here! = Buraya bak! → sinif:77
+- s. 37 · Colour it, please! = Onu boya lütfen! → sinif:78
+- s. 37 · Hurry up! = Acele et! → sinif:79
+- s. 38 · Robin: Look at my notebook. This is my pencil. It’s green. Pass the crayons to Lin. → sinif:80
+- s. 38 · Lin: Point to the door. A sharpener is red. Open the window, Brad. → sinif:81
+- s. 38 · Brad: Good morning. Come here and draw a book. The board is white. Sit down and be quiet. → sinif:82
+- s. 39 · Order and write: Come to the board, please! / Raise your hand, please! / Colour it, please! → sinif:83
+- s. 40 · Good morning! Sit down, please. Close the window, please. → sinif:84
+- s. 40 · Look at the board, please. Then, say the objects you see. → sinif:85
+- s. 41 · Raise your hand, please! Sorry, Mrs Rose. → sinif:86
+- s. 41 · Henry! Come here, please! How many pencils? Twelve pencils. Of course! Well done, Henry! → sinif:87
+- s. 41 · Of course! (elbette) → sinif:88
+- s. 42 · Proje: Draw your classroom; s. 109 ve 111’deki sınıf eşyalarını kesip yapıştır, anlat. → sinif:89
+- s. 42 · Find and match: 5+5 = ten, 9+2 = eleven, 8+4 = twelve … → sinif:90
+- s. 42 · 9+2 = eleven → sinif:91
+- s. 42 · 7+9 = sixteen → sinif:92
+- s. 42 · 6+9 = fifteen → sinif:93
+- s. 42 · 11+6 = seventeen → sinif:94
+- s. 42 · 8+4 = twelve → sinif:95
+- s. 42 · 10+10 = twenty → sinif:96
+- s. 42 · 7+6 = thirteen → sinif:97
+- s. 109 · Kesilecek sayfalar (s. 109, 111): sınıf eşyaları, mobilyalar, cihazlar. → sinif:89
+- s. 130 · bag = çanta → sinif:100
+- s. 130 · blackboard = kara tahta → sinif:101
+- s. 130 · board = tahta → sinif:102
+- s. 130 · box = kutu → sinif:103
+- s. 130 · break = teneffüs → sinif:104
+- s. 130 · cap = şapka (kasket) → sinif:105
+- s. 130 · cat = kedi → sinif:106
+- s. 130 · close = kapatmak → sinif:107
+- s. 130 · colour = boyamak → sinif:108
+- s. 130 · come = gelmek → sinif:109
+- s. 130 · dark = koyu renk → sinif:110
+- s. 130 · draw = resim çizmek → sinif:111
+- s. 130 · help = yardım → sinif:112
+- s. 130 · listen = dinlemek → sinif:113
+- s. 130 · look = bakmak → sinif:114
+- s. 130 · need = ihtiyaç duymak → sinif:115
+- s. 130 · object = nesne → sinif:116
+- s. 130 · open = açmak → sinif:117
+- s. 130 · pass = uzatmak → sinif:118
+- s. 130 · picture = resim → sinif:119
+- s. 130 · please = lütfen → sinif:120
+- s. 130 · point = işaret etmek → sinif:121
+- s. 130 · put = koymak → sinif:122
+- s. 130 · quiet = sessiz → sinif:123
+- s. 130 · raise = el kaldırmak → sinif:124
+- s. 130 · ready = hazır → sinif:125
+- s. 130 · repeat = tekrar etmek → sinif:126
+- s. 130 · say = söylemek → sinif:127
+- s. 130 · show = göstermek → sinif:128
+- s. 130 · sit down = oturmak → sinif:129
+- s. 130 · time = zaman → sinif:130
+- s. 131 · wall = duvar → sinif:131
+- s. 131 · well done = aferin → sinif:132
+
+Sözlük (Glossary, s. 130):
+
+- s. 130 · Sözlük: bag → sinif:100
+- s. 130 · Sözlük: black → sinif:8
+- s. 130 · Sözlük: blackboard → sinif:101
+- s. 130 · Sözlük: blue → sinif:1
+- s. 130 · Sözlük: board → sinif:102
+- s. 130 · Sözlük: book → sinif:21
+- s. 130 · Sözlük: bookcase → sinif:10
+- s. 130 · Sözlük: box → sinif:103
+- s. 130 · Sözlük: break → sinif:104
+- s. 130 · Sözlük: brown → sinif:6
+- s. 130 · Sözlük: cap → sinif:105
+- s. 130 · Sözlük: cat → sinif:106
+- s. 130 · Sözlük: chair → sinif:23
+- s. 130 · Sözlük: chalk → sinif:18
+- s. 130 · Sözlük: clock → sinif:50
+- s. 130 · Sözlük: close → sinif:107
+- s. 130 · Sözlük: colour → sinif:108
+- s. 130 · Sözlük: come → sinif:109
+- s. 130 · Sözlük: computer → sinif:55
+- s. 130 · Sözlük: crayon → sinif:12
+- s. 130 · Sözlük: dark → sinif:110
+- s. 130 · Sözlük: desk → sinif:19
+- s. 130 · Sözlük: door → sinif:22
+- s. 130 · Sözlük: draw → sinif:111
+- s. 130 · Sözlük: glue → sinif:51
+- s. 130 · Sözlük: green → sinif:3
+- s. 130 · Sözlük: help → sinif:112
+- s. 130 · Sözlük: listen → sinif:113
+- s. 130 · Sözlük: look → sinif:114
+- s. 130 · Sözlük: need → sinif:115
+- s. 130 · Sözlük: notebook → sinif:54
+- s. 130 · Sözlük: object → sinif:116
+- s. 130 · Sözlük: open → sinif:117
+- s. 130 · Sözlük: orange → sinif:7
+- s. 130 · Sözlük: pass → sinif:118
+- s. 130 · Sözlük: pencil → sinif:56
+- s. 130 · Sözlük: pencil case → sinif:15
+- s. 130 · Sözlük: picture → sinif:119
+- s. 130 · Sözlük: pink → sinif:5
+- s. 130 · Sözlük: please → sinif:120
+- s. 130 · Sözlük: point → sinif:121
+- s. 130 · Sözlük: purple → sinif:4
+- s. 130 · Sözlük: put → sinif:122
+- s. 130 · Sözlük: quiet → sinif:123
+- s. 130 · Sözlük: raise → sinif:124
+- s. 130 · Sözlük: ready → sinif:125
+- s. 130 · Sözlük: red → sinif:2
+- s. 130 · Sözlük: repeat → sinif:126
+- s. 130 · Sözlük: rubber → sinif:53
+- s. 130 · Sözlük: say → sinif:127
+- s. 130 · Sözlük: scissors → sinif:16
+- s. 130 · Sözlük: sharpener → sinif:11
+- s. 130 · Sözlük: show → sinif:128
+- s. 130 · Sözlük: sit down → sinif:72
+- s. 130 · Sözlük: Smart Board → sinif:13
+- s. 130 · Sözlük: table → sinif:17
+- s. 130 · Sözlük: time → sinif:130
+- s. 130 · Sözlük: wall → sinif:131
+- s. 130 · Sözlük: well done → sinif:132
+- s. 130 · Sözlük: white → sinif:9
+- s. 130 · Sözlük: whiteboard → sinif:52
+- s. 130 · Sözlük: window → sinif:14
+- s. 130 · Sözlük: yellow → sinif:0
+
+## 3. Tema · Personal Life (s. 43-58)
+
+- s. 8 · İçindekiler (3. tema): Is she tall? Yes, she is. No, she isn’t. → kisisel:37
+- s. 8 · İçindekiler (3. tema): Is it your birthday today? Yes, it is. → kisisel:56
+- s. 8 · İçindekiler (3. tema): I’ve got blue trousers. I’ve got a purple shirt. → kisisel:58
+- s. 46 · Robix ve Yiğit: a big mouth, glasses, brown hair, purple hair, a small nose, small hands, long arms, short legs. → kisisel:0
+- s. 46 · glasses = gözlük → kisisel:1
+- s. 46 · I’ve got brown hair. I’ve got a yellow T-shirt. I’ve got black glasses. → kisisel:2
+- s. 46 · T-shirt = tişört → kisisel:3
+- s. 47 · What have you got? I’ve got two ears. I’ve got a nose. I’ve got a mouth. → kisisel:4
+- s. 47 · How many eyes have you got? I’ve got two eyes. → kisisel:5
+- s. 47 · giraffe = zürafa → kisisel:6
+- s. 47 · Tekerleme: Eight elephants eat eleven eggs. (Telaffuz: a week, glue, a head, four, a giraffe, a rubber, five, hair, big, a jacket, a pencil) → kisisel:7
+- s. 48 · nose = burun → kisisel:8
+- s. 48 · leg = bacak → kisisel:9
+- s. 48 · head = kafa → kisisel:10
+- s. 48 · face = yüz → kisisel:11
+- s. 48 · hand = el → kisisel:12
+- s. 48 · mouth = ağız → kisisel:13
+- s. 48 · body = vücut → kisisel:14
+- s. 48 · ear = kulak → kisisel:15
+- s. 48 · hair = saç → kisisel:16
+- s. 48 · eye = göz → kisisel:17
+- s. 48 · arm = kol → kisisel:18
+- s. 48 · Hi, I am Robix! e.g. Robix has got a head. → kisisel:19
+- s. 49 · Who am I? oyunu: I’m seven. I’m a girl. I’ve got brown hair. I’m tall. You are Selin. (Selin, Ozan, Aslı) → kisisel:20
+- s. 50 · It is cold. = Hava soğuk. → kisisel:21
+- s. 50 · It is hot. = Hava sıcak. → kisisel:22
+- s. 50 · It is raining. = Yağmur yağıyor. → kisisel:23
+- s. 50 · It is snowing. = Kar yağıyor. → kisisel:24
+- s. 50 · Jack ve Akın: How is the weather? It’s cold here. It’s snowing. It isn’t cold here. It’s hot. That sounds great! → kisisel:25
+- s. 51 · It’s very cold and it’s snowing. I’ve got a blue scarf and red gloves. → kisisel:26
+- s. 51 · It’s raining. I’ve got an orange coat. I’ve got a green umbrella. → kisisel:27
+- s. 51 · It’s hot. I’ve got purple glasses. I’ve got a red T-shirt. I’ve got black shoes. → kisisel:28
+- s. 51 · scarf = atkı → kisisel:29
+- s. 51 · gloves = eldiven → kisisel:30
+- s. 51 · coat = mont → kisisel:31
+- s. 51 · umbrella = şemsiye → kisisel:32
+- s. 51 · shoes = ayakkabı → kisisel:33
+- s. 52 · How old are you? I’m seven. → kisisel:34
+- s. 52 · Is it my birthday cake? Yes, dear. → kisisel:35
+- s. 52 · It’s raining, but it’s OK. I’ve got an umbrella. → kisisel:36
+- s. 52 · Is your friend tall? Yes, she is. → kisisel:37
+- s. 52 · Has she got a pink dress? No, she hasn’t. → kisisel:38
+- s. 52 · dress = elbise → kisisel:39
+- s. 53 · hat = şapka → kisisel:40
+- s. 53 · shirt = gömlek → kisisel:41
+- s. 53 · How old are you? I am eight. I am nine. / What is it? It is a hat. It is a dress. → kisisel:42
+- s. 54 · Maxy: blond hair, two eyes and four legs, black hat. → kisisel:43
+- s. 54 · Lixy: long arms and short legs, blue eyes, small ears. → kisisel:44
+- s. 54 · Fiby: a big body and a big mouth, blue hat, pink glasses. → kisisel:45
+- s. 55 · Zeynep has got blue eyes. Zeynep has got an orange coat. → kisisel:46
+- s. 55 · Defne has got blonde hair. Defne has got a purple dress. → kisisel:47
+- s. 55 · Ceylin has got brown hair. Ceylin has got blue trousers. → kisisel:48
+- s. 55 · trousers = pantolon → kisisel:49
+- s. 56 · What day is it today? It’s Monday today. It’s our puppet day. Let’s see your puppets. → kisisel:50
+- s. 56 · Daisy’nin kuklası Minky: She’s 7. She’s got big green eyes. → kisisel:51
+- s. 56 · His name is Bob. He’s got short brown hair. → kisisel:52
+- s. 57 · Dolly has got long blonde hair. She’s got a purple T-shirt. → kisisel:53
+- s. 57 · Tim has got a yellow coat and a red scarf. It’s very cold. → kisisel:54
+- s. 57 · Well done, kids! Great job! Now, it is break time. See you next week. → kisisel:55
+- s. 58 · Oyun: Is it your birthday today? / How many eyes have you got? / Is this a leg? → kisisel:56
+- s. 58 · Proje: Cut out the two puppets (s. 113, 115). Use the puppets and talk. → kisisel:57
+- s. 113 · Kesilecek sayfalar (s. 113, 115): iki kukla. → kisisel:57
+- s. 131 · birthday = doğum günü → kisisel:59
+- s. 131 · blond = sarı saçlı (erkek) → kisisel:60
+- s. 131 · blonde = sarı saçlı (kadın) → kisisel:61
+- s. 131 · break time = teneffüs zamanı → kisisel:62
+- s. 131 · cake = pasta → kisisel:63
+- s. 131 · cheer up = neşelenmek → kisisel:64
+- s. 131 · cloth = giysi → kisisel:65
+- s. 131 · cold = soğuk → kisisel:66
+- s. 131 · dark = karanlık → kisisel:67
+- s. 131 · dear = sevgili → kisisel:68
+- s. 131 · gift = hediye → kisisel:69
+- s. 131 · great = harika → kisisel:70
+- s. 131 · hot = sıcak → kisisel:71
+- s. 131 · jacket = ceket → kisisel:72
+- s. 131 · long = uzun → kisisel:73
+- s. 131 · puppet = kukla → kisisel:74
+- s. 131 · rain = yağmur → kisisel:75
+- s. 131 · short = kısa → kisisel:76
+- s. 131 · small = küçük → kisisel:77
+- s. 131 · snow = kar → kisisel:78
+- s. 131 · tall = uzun boylu → kisisel:79
+
+Sözlük (Glossary, s. 131):
+
+- s. 131 · Sözlük: arm → kisisel:18
+- s. 131 · Sözlük: birthday → kisisel:59
+- s. 131 · Sözlük: blond → kisisel:60
+- s. 131 · Sözlük: blonde → kisisel:61
+- s. 131 · Sözlük: body → kisisel:14
+- s. 131 · Sözlük: break time → kisisel:62
+- s. 131 · Sözlük: cake → kisisel:63
+- s. 131 · Sözlük: cheer up → kisisel:64
+- s. 131 · Sözlük: cloth → kisisel:65
+- s. 131 · Sözlük: coat → kisisel:31
+- s. 131 · Sözlük: cold → kisisel:66
+- s. 131 · Sözlük: dark → kisisel:67
+- s. 131 · Sözlük: dear → kisisel:68
+- s. 131 · Sözlük: dress → kisisel:39
+- s. 131 · Sözlük: ear → kisisel:15
+- s. 131 · Sözlük: eye → kisisel:17
+- s. 131 · Sözlük: face → kisisel:11
+- s. 131 · Sözlük: gift → kisisel:69
+- s. 131 · Sözlük: glasses → kisisel:1
+- s. 131 · Sözlük: gloves → kisisel:30
+- s. 131 · Sözlük: great → kisisel:70
+- s. 131 · Sözlük: hair → kisisel:16
+- s. 131 · Sözlük: hand → kisisel:12
+- s. 131 · Sözlük: hat → kisisel:40
+- s. 131 · Sözlük: head → kisisel:10
+- s. 131 · Sözlük: hot → kisisel:71
+- s. 131 · Sözlük: jacket → kisisel:72
+- s. 131 · Sözlük: leg → kisisel:9
+- s. 131 · Sözlük: long → kisisel:73
+- s. 131 · Sözlük: mouth → kisisel:13
+- s. 131 · Sözlük: nose → kisisel:8
+- s. 131 · Sözlük: puppet → kisisel:74
+- s. 131 · Sözlük: rain → kisisel:75
+- s. 131 · Sözlük: scarf → kisisel:29
+- s. 131 · Sözlük: shirt → kisisel:41
+- s. 131 · Sözlük: shoes → kisisel:33
+- s. 131 · Sözlük: short → kisisel:76
+- s. 131 · Sözlük: show → sinif:128
+- s. 131 · Sözlük: small → kisisel:77
+- s. 131 · Sözlük: snow → kisisel:78
+- s. 131 · Sözlük: tall → kisisel:79
+- s. 131 · Sözlük: trousers → kisisel:49
+- s. 131 · Sözlük: T-shirt → kisisel:3
+- s. 131 · Sözlük: umbrella → kisisel:32
+
+## 4. Tema · Family Life (s. 59-74)
+
+- s. 8 · İçindekiler (4. tema): What colour eyes has your mother got? My mother has got blue eyes. → aile:19
+- s. 62 · father = baba → aile:0
+- s. 62 · mother = anne → aile:1
+- s. 62 · son = erkek evlat → aile:2
+- s. 62 · grandfather = büyükbaba (dede) → aile:3
+- s. 62 · daughter = kız evlat → aile:4
+- s. 62 · grandmother = büyükanne (nine) → aile:5
+- s. 62 · brother = erkek kardeş → aile:6
+- s. 62 · sister = kız kardeş → aile:7
+- s. 62 · Watch and complete: This is my …, Nisa. Beyza is my … . He is my … . His name is Ahmet. → aile:8
+- s. 63 · Oyun: Grandfather… Yes, I’ve got a grandfather. → aile:9
+- s. 63 · mum = anne → aile:10
+- s. 63 · orange = portakal → aile:11
+- s. 63 · lemon = limon → aile:12
+- s. 63 · old = yaşlı, eski → aile:13
+- s. 63 · Tekerleme: One orange owl opens the old oven. (Telaffuz: a kid, listen, a mum, nine, a mother, one, an orange, two, a pencil, a lemon, four, old) → aile:14
+- s. 64 · The Kılıç Family: mother, father, grandmother, daughter, grandfather. → aile:15
+- s. 66 · Zeynep is Can’s mother. Can is Zeynep’s son. → aile:16
+- s. 66 · Kenan is Sarp’s father. Ceylin is Defne’s …; Elif is Sarp’s …; Sarp is Ceylin’s … . → aile:17
+- s. 66 · I LOVE MY FAMILY (ailemi seviyorum); wordsearch: mother, grandfather, sister, son, brother. → aile:18
+- s. 67 · Follow the way: My mum has got green eyes and long hair. She’s got brown hair. → aile:19
+- s. 68 · Hi, Elif! Who is he? He’s my brother. → aile:20
+- s. 68 · Who are they, grandma? They’re my friends, honey. Hi! I’m Jack. Hello! I’m Ahmet. It’s nice to see you here. → aile:21
+- s. 69 · Who is Ela? She’s Çınar’s sister. She’s Emel’s daughter. (Okan, Emel, Sevim, Rıza, Çınar, Deren, Ela) → aile:22
+- s. 70 · Elif: dad tall and handsome; a brother; mum long brown hair; grandpa black glasses. → aile:23
+- s. 70 · Hakan: a lovely family; a baby brother and a sister; grandma big green eyes; mother very beautiful. → aile:24
+- s. 70 · Read again (✔/✘): Elif’s mother has got short brown hair. ✘ → aile:25
+- s. 71 · Mehmet: family, two sisters, grandma glasses, father tall and handsome, mum brown hair. → aile:26
+- s. 72 · What is this, Grandpa? It is our photo album. Come and sit, honey. → aile:27
+- s. 72 · Who is she, Grandpa? She is your grandmother. She’s beautiful. Look at this photo. What about me? You’re very handsome. → aile:28
+- s. 73 · Is this my father? No, he isn’t. He is my brother, Tim. → aile:29
+- s. 73 · Who is this baby? She is my daughter. Oh, that’s my mum. Hey, Grandma! Look at my mother! Yes, my dear. She is very nice. We have got a lovely family. → aile:30
+- s. 73 · We have got a lovely family. → aile:31
+- s. 74 · Proje: Cut the family tree (s. 117), draw your family in the tree and talk about them. → aile:32
+- s. 74 · Find and match: He is my father. She is my mother. He is my brother. She is my sister. She is my grandmother. He is my grandfather. → aile:33
+- s. 117 · Kesilecek sayfa (s. 117): aile ağacı. → aile:32
+- s. 132 · album = albüm → aile:34
+- s. 132 · all right = tamam → aile:35
+- s. 132 · baby = bebek → aile:36
+- s. 132 · beautiful = güzel → aile:37
+- s. 132 · dad = baba → aile:38
+- s. 132 · family = aile → aile:39
+- s. 132 · handsome = yakışıklı → aile:40
+- s. 132 · hungry = aç → aile:41
+- s. 132 · lovely = sevimli → aile:42
+- s. 132 · lunch = öğle yemeği → aile:43
+- s. 132 · lunchtime = öğle yemeği zamanı → aile:44
+- s. 132 · nice = hoş → aile:45
+- s. 132 · photo = fotoğraf → aile:46
+- s. 132 · sorry = üzgün → aile:47
+- s. 132 · very = çok → aile:48
+
+Sözlük (Glossary, s. 132):
+
+- s. 132 · Sözlük: album → aile:34
+- s. 132 · Sözlük: all right → aile:35
+- s. 132 · Sözlük: baby → aile:36
+- s. 132 · Sözlük: beautiful → aile:37
+- s. 132 · Sözlük: brother → aile:6
+- s. 132 · Sözlük: dad → aile:38
+- s. 132 · Sözlük: daughter → aile:4
+- s. 132 · Sözlük: family → aile:39
+- s. 132 · Sözlük: father → aile:0
+- s. 132 · Sözlük: friend → okul:62
+- s. 132 · Sözlük: grandfather → aile:3
+- s. 132 · Sözlük: grandmother → aile:5
+- s. 132 · Sözlük: handsome → aile:40
+- s. 132 · Sözlük: hungry → aile:41
+- s. 132 · Sözlük: lovely → aile:42
+- s. 132 · Sözlük: lunch → aile:43
+- s. 132 · Sözlük: lunchtime → aile:44
+- s. 132 · Sözlük: mother → aile:1
+- s. 132 · Sözlük: mum → aile:10
+- s. 132 · Sözlük: nice → aile:45
+- s. 132 · Sözlük: photo → aile:46
+- s. 132 · Sözlük: short → kisisel:76
+- s. 132 · Sözlük: sister → aile:7
+- s. 132 · Sözlük: son → aile:2
+- s. 132 · Sözlük: sorry → aile:47
+- s. 132 · Sözlük: tall → kisisel:79
+- s. 132 · Sözlük: very → aile:48
+
+## 5. Tema · Homes & Houses & Neighbourhoods (s. 75-90)
+
+- s. 8 · İçindekiler (5. tema): We’ve got a house. Where’s the bed? The bed is in the bedroom. There are five cats in the sitting room. → ev:35
+- s. 78 · sitting room = oturma odası → ev:0
+- s. 78 · dining room = yemek odası → ev:1
+- s. 78 · kitchen = mutfak → ev:2
+- s. 78 · bathroom = banyo → ev:3
+- s. 78 · bedroom = yatak odası → ev:4
+- s. 78 · balcony = balkon → ev:5
+- s. 78 · Where is the cat? It’s in the sitting room. (Where are they? kitchen, dining room, sitting room, garden) → ev:6
+- s. 79 · Where is the sofa? It’s in the sitting room. → ev:7
+- s. 79 · sofa = kanepe → ev:8
+- s. 79 · dog = köpek → ev:9
+- s. 79 · bed = yatak → ev:10
+- s. 79 · goldfish = japon balığı → ev:11
+- s. 79 · coffee table = sehpa → ev:12
+- s. 79 · bird = kuş → ev:13
+- s. 79 · question = soru → ev:14
+- s. 79 · rabbit = tavşan → ev:15
+- s. 79 · uniform = okul forması → ev:16
+- s. 79 · cucumber = salatalık → ev:17
+- s. 79 · Tekerleme: There are seven quiet rabbits. (Telaffuz: a question, a teacher, a rabbit, a uniform, a library, a pupil, a cucumber, an umbrella, scissors, seven) → ev:18
+- s. 81 · Meltem: We’ve got a big house. My mother is in the kitchen; grandpa, goldfish, sister, brother; grandma and our dog are on the balcony. → ev:19
+- s. 82 · A dog has got paws. → ev:20
+- s. 82 · A cat has got claws. → ev:21
+- s. 82 · A fish has got a tail. → ev:22
+- s. 82 · A bird has got a beak. → ev:23
+- s. 82 · A rabbit has got whiskers. → ev:24
+- s. 82 · paw = pati → ev:25
+- s. 82 · claw = pençe → ev:26
+- s. 82 · tail = kuyruk → ev:27
+- s. 82 · beak = gaga → ev:28
+- s. 82 · whiskers = kedi bıyığı → ev:29
+- s. 82 · fish = balık → ev:30
+- s. 83 · Look, count, and say: There are eleven cats. → ev:31
+- s. 84 · This is my dog. It’s got a tail, paws and beautiful eyes. → ev:32
+- s. 84 · We’ve got a small house and a nice garden. → ev:33
+- s. 84 · Hey, look! There are three rabbits in the garden. Come and see, mum! Where is the cat? It’s on the sofa. → ev:34
+- s. 85 · Match the halves: There is a cat in the sitting room. → ev:35
+- s. 86 · Milo and his friends: Hello, friends! My name’s Milo. I’m a dog. (başlık: Milo and his friends) → ev:36
+- s. 86 · Milo: a nice house, four rooms; Milo is in the garden; three friends. → ev:37
+- s. 86 · Silvy is a cat. She’s got long whiskers. She’s on the sofa in the sitting room. → ev:38
+- s. 86 · Alfie is a rabbit. He’s got a funny tail and a small pink nose. He’s on the bed in his bedroom. → ev:39
+- s. 86 · Bella is a bird. She’s got an orange beak. She’s on the table in the kitchen. I love all my friends. We’re happy in our house. → ev:40
+- s. 87 · Look, read, and complete / Look and say: There is a bed in the bedroom. → ev:41
+- s. 88 · I’ve got pets. Let’s find them. There’s a dog in the kitchen. The fish is in the sitting room. → ev:42
+- s. 89 · Hold on! Where is the cat? There’s a bird in the dining room. → ev:43
+- s. 89 · Let’s look at the balcony. We’ve got four rabbits there. Shh! The cat is here. It’s on the bed. → ev:44
+- s. 90 · Proje: Cut out the house, the rooms and the furniture (s. 119, 121); stick them and talk. → ev:45
+- s. 90 · Find, circle, and say: There are four fish in picture A. There are three fish in picture B. → ev:46
+- s. 119 · Kesilecek sayfalar (s. 119, 121): ev, odalar, eşyalar. → ev:45
+- s. 132 · dance = dans etmek → ev:47
+- s. 132 · doorbell = kapı zili → ev:48
+- s. 132 · dollhouse = oyuncak bebek evi → ev:49
+- s. 132 · find = bulmak → ev:50
+- s. 132 · funny = komik → ev:51
+- s. 132 · happy = mutlu → ev:52
+- s. 133 · house = ev → ev:53
+- s. 133 · pet = evcil hayvan → ev:54
+- s. 133 · room = oda → ev:55
+
+Sözlük (Glossary, s. 132):
+
+- s. 132 · Sözlük: balcony → ev:5
+- s. 132 · Sözlük: bathroom → ev:3
+- s. 132 · Sözlük: beak → ev:28
+- s. 132 · Sözlük: bed → ev:10
+- s. 132 · Sözlük: bedroom → ev:4
+- s. 132 · Sözlük: bird → ev:13
+- s. 132 · Sözlük: cat → sinif:106
+- s. 132 · Sözlük: claw → ev:26
+- s. 132 · Sözlük: coffee table → ev:12
+- s. 132 · Sözlük: cucumber → ev:17
+- s. 132 · Sözlük: dance → ev:47
+- s. 132 · Sözlük: dining room → ev:1
+- s. 132 · Sözlük: dog → ev:9
+- s. 132 · Sözlük: doorbell → ev:48
+- s. 132 · Sözlük: dollhouse → ev:49
+- s. 132 · Sözlük: find → ev:50
+- s. 132 · Sözlük: funny → ev:51
+- s. 132 · Sözlük: garden → okul:6
+- s. 132 · Sözlük: goldfish → ev:11
+- s. 132 · Sözlük: happy → ev:52
+- s. 132 · Sözlük: house → ev:53
+- s. 132 · Sözlük: kitchen → ev:2
+- s. 132 · Sözlük: paw → ev:25
+- s. 132 · Sözlük: pet → ev:54
+- s. 132 · Sözlük: rabbit → ev:15
+- s. 132 · Sözlük: room → ev:55
+- s. 132 · Sözlük: sitting room → ev:0
+- s. 132 · Sözlük: sofa → ev:8
+- s. 132 · Sözlük: tail → ev:27
+- s. 132 · Sözlük: whiskers → ev:29
+
+## 6. Tema · Life in the City & the World (s. 91-106)
+
+- s. 8 · İçindekiler (6. tema): Do you like bread? Yes, I do. Do you like beans? No, I don’t. → sehir:35
+- s. 8 · İçindekiler (6. tema): Is there a banana in the kitchen? Yes, there is. No, there isn’t. → sehir:37
+- s. 8 · İçindekiler (6. tema): Are there any bananas in the kitchen? Yes, there are. No, there aren’t. → sehir:47
+- s. 8 · İçindekiler (6. tema): Can I have bread? Yes, you can. No, you can’t. → sehir:50
+- s. 92 · The Healthy Food Festival: FRUITS, VEGETABLES, TURKISH KITCHEN (s. 92-93). → sehir:0
+- s. 93 · fruit = meyve → sehir:1
+- s. 93 · vegetable = sebze → sehir:2
+- s. 95 · What have you got in your basket? I’ve got some apples, carrots, and bananas. → sehir:3
+- s. 95 · yoghurt = yoğurt → sehir:4
+- s. 95 · zebra = zebra → sehir:5
+- s. 95 · mix = karıştırmak → sehir:6
+- s. 95 · Tekerleme: Mix the yoghurt with zucchini. (Telaffuz: a window, mix, yoghurt, a zebra) → sehir:7
+- s. 96 · water = su → sehir:8
+- s. 96 · tomatoes = domates → sehir:9
+- s. 96 · garlic = sarımsak → sehir:10
+- s. 96 · eggs = yumurta → sehir:11
+- s. 96 · milk = süt → sehir:12
+- s. 96 · peppers = biber → sehir:13
+- s. 96 · oranges = portakal → sehir:14
+- s. 96 · broccoli = brokoli → sehir:15
+- s. 96 · courgette = kabak → sehir:16
+- s. 96 · beans = fasulye → sehir:17
+- s. 96 · coffee = kahve → sehir:18
+- s. 96 · meat = et → sehir:19
+- s. 96 · ayran = ayran → sehir:20
+- s. 96 · apples = elma → sehir:21
+- s. 97 · bananas = muz → sehir:22
+- s. 97 · cherries = kiraz → sehir:23
+- s. 97 · chicken = tavuk → sehir:24
+- s. 97 · bread = ekmek → sehir:25
+- s. 97 · cauliflower = karnabahar → sehir:26
+- s. 97 · grapes = üzüm → sehir:27
+- s. 97 · pears = armut → sehir:28
+- s. 97 · strawberries = çilek → sehir:29
+- s. 97 · tea = çay → sehir:30
+- s. 97 · carrots = havuç → sehir:31
+- s. 97 · lettuce = marul → sehir:32
+- s. 97 · potatoes = patates → sehir:33
+- s. 97 · spinach = ıspanak → sehir:34
+- s. 98 · Do you like chicken? No, I don’t. Do you like broccoli? Yes, I do. → sehir:35
+- s. 98 · Do you like broccoli? Yes, I do. → sehir:36
+- s. 98 · Is there an apple in your lunch box? Yes, there is. → sehir:37
+- s. 98 · What is there in your lunch box? There are some bananas. → sehir:38
+- s. 99 · Ask and answer: Do you like pears? Yes, I do. Do you like coffee? No, I don’t. (oranges, eggs, carrots, bananas, grapes, fish, bread, chicken, milk, coffee, pears, broccoli, beans, spinach, tea, meat) → sehir:39
+- s. 100 · Who am I? There are two pears, an apple, and some water on my table. Are you Arzu? Yes! Now, it’s your turn. → sehir:40
+- s. 101 · I’m thirsty. I’m hungry. Time for lunch! Yummy! → sehir:41
+- s. 101 · Time for lunch! → sehir:42
+- s. 101 · Here you are, dear. Here is your ice cream. → sehir:43
+- s. 101 · Hurray! Let’s go to the canteen. → sehir:44
+- s. 101 · ice cream = dondurma → sehir:54
+- s. 102 · Emre: Mum, I’m hungry. Do you like fish and salad? Yummy! I like fish and salad. → sehir:45
+- s. 102 · There is fish and there are cucumbers and lettuce for the salad. → sehir:46
+- s. 102 · Are there any carrots and tomatoes? Yes, there are two carrots and four tomatoes. → sehir:47
+- s. 102 · Do you need help? Yes! Can you wash the vegetables, please? Sure! → sehir:48
+- s. 102 · salad = salata → sehir:55
+- s. 104 · Do you like beans? Yes, I do. Time’s up! It is lunch time. Enjoy your meal! I’m hungry, Daisy! Let’s go to the lunch hall. → sehir:49
+- s. 105 · Yummy! I like chicken! Can I have some chicken, please? Yes, of course. → sehir:50
+- s. 105 · I’m thirsty! Pass the water, please! Here you are! → sehir:51
+- s. 105 · Thanks for lunch! You are welcome. → sehir:52
+- s. 106 · Proje: Cut out the food pictures (s. 123, 125, 127). Say what you like and don’t like. → sehir:53
+- s. 123 · Kesilecek sayfalar (s. 123, 125, 127): yiyecekler. → sehir:53
+- s. 133 · breakfast = kahvaltı → sehir:56
+- s. 133 · delicious = lezzetli → sehir:57
+- s. 133 · dinner = akşam yemeği → sehir:58
+- s. 133 · drink = içecek → sehir:59
+- s. 133 · thirsty = susamış → sehir:60
+- s. 133 · yummy = nefis → sehir:61
+
+Sözlük (Glossary, s. 133):
+
+- s. 133 · Sözlük: apple → sehir:21
+- s. 133 · Sözlük: banana → sehir:22
+- s. 133 · Sözlük: bean → sehir:17
+- s. 133 · Sözlük: bread → sehir:25
+- s. 133 · Sözlük: breakfast → sehir:56
+- s. 133 · Sözlük: broccoli → sehir:15
+- s. 133 · Sözlük: carrot → sehir:31
+- s. 133 · Sözlük: cauliflower → sehir:26
+- s. 133 · Sözlük: cherry → sehir:23
+- s. 133 · Sözlük: chicken → sehir:24
+- s. 133 · Sözlük: coffee → sehir:18
+- s. 133 · Sözlük: courgette → sehir:16
+- s. 133 · Sözlük: cucumber → ev:17
+- s. 133 · Sözlük: delicious → sehir:57
+- s. 133 · Sözlük: dinner → sehir:58
+- s. 133 · Sözlük: drink → sehir:59
+- s. 133 · Sözlük: egg → sehir:11
+- s. 133 · Sözlük: fish → ev:30
+- s. 133 · Sözlük: fruit → sehir:1
+- s. 133 · Sözlük: garlic → sehir:10
+- s. 133 · Sözlük: grape → sehir:27
+- s. 133 · Sözlük: lettuce → sehir:32
+- s. 133 · Sözlük: lunch → aile:43
+- s. 133 · Sözlük: meat → sehir:19
+- s. 133 · Sözlük: milk → sehir:12
+- s. 133 · Sözlük: orange → sehir:14
+- s. 133 · Sözlük: pear → sehir:28
+- s. 133 · Sözlük: pepper → sehir:13
+- s. 133 · Sözlük: potato → sehir:33
+- s. 133 · Sözlük: spinach → sehir:34
+- s. 133 · Sözlük: strawberry → sehir:29
+- s. 133 · Sözlük: tea → sehir:30
+- s. 133 · Sözlük: thirsty → sehir:60
+- s. 133 · Sözlük: tomato → sehir:9
+- s. 133 · Sözlük: vegetable → sehir:2
+- s. 133 · Sözlük: water → sehir:8
+- s. 133 · Sözlük: yummy → sehir:61

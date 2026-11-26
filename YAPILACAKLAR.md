@@ -11,12 +11,10 @@ Haritada her birinin koyu bulutların altında, kilitli ve “Yakında” olarak
 - [ ] **Uzatma (med):** Med harfleriyle uzun okuma
 - [ ] **Kelime ve âyet:** Kısa surelerle cüze hazırlık
 
-## İngilizce Koyu (2., 3. ve 4. sınıf)
+## İngilizce Koyu (3. ve 4. sınıf)
 
-Koy haritada “Yakında” olarak duruyor; soru bankaları boş (`app/islands/ingilizce-2`, `-3`, `-4`). Her sınıf kendi İngilizce ders kitabının ünitelerini görür; her adanın kendi `kapsam.md`’si olur. İngilizce kelime ve cümleler cihazın İngilizce sesiyle okunur (🔊), seçenekler yerine göre resim ya da emoji olur; yönergeler Türkçe.
+2. sınıf koyu hazır. 3. ve 4. sınıf koyları haritada “Yakında” olarak duruyor; soru bankaları boş (`app/islands/ingilizce-3`, `-4`). Her sınıf kendi İngilizce ders kitabının ünitelerini görür; her adanın kendi `kapsam.md`’si olur. 2. sınıftaki gibi sorular `k` (İngilizce kelime) taşır: 🔊 ses ve 🎯 Yanlış Avı onunla çalışır.
 
-- [ ] **Ders kitapları:** 2026-2027’de okutulan 2., 3. ve 4. sınıf İngilizce kitaplarının PDF’leri
-- [ ] **🔊 İngilizce ses:** Sorulardaki İngilizce kelime ve cümleleri cihazın İngilizce sesiyle okutmak
-- [ ] **2. sınıf İngilizce adası:** sorular ve `kapsam.md`
+- [ ] **Ders kitapları:** 2026-2027’de okutulan 3. ve 4. sınıf İngilizce kitaplarının PDF’leri
 - [ ] **3. sınıf İngilizce adası:** sorular ve `kapsam.md`
 - [ ] **4. sınıf İngilizce adası:** sorular ve `kapsam.md`

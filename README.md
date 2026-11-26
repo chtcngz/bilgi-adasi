@@ -70,7 +70,7 @@ app/                         Published site (GitHub Pages root)
 │   │       ├── bridge.*     Cam Köprü, the mixed game at the end of every cove
 │   ├── din-bilgisi/         Question island: sorular.js + game.js + kapsam.md
 │   ├── fen-bilimleri/       Question island: same pattern
-│   ├── ingilizce-2/ -3/ -4/ İngilizce Koyu, one question island per grade (each grade sees only its own); banks still empty
+│   ├── ingilizce-2/ -3/ -4/ İngilizce Koyu, one question island per grade (each grade sees only its own); 2nd grade done, 3rd and 4th still empty
 │   └── sosyal-bilgiler/     Question island: same pattern
 ├── admin/                   Yönetici sayfası: every player of every device, read from the cloud copy; signs in with
 │                            the admin's Google account (automatically when the browser is already signed in to it)
@@ -126,7 +126,16 @@ when one is done. A panel beside the map (under it on phones) has the Sıradaki 
   parts of about twenty; a round on a station asks ten of them. A station is done when its questions are learned, an
   island when the whole unit is.
 
-- **A question island whose bank is still empty** (İngilizce Koyu's three, until their questions are written) shows its
+- **İngilizce Koyu** uses the same engine with two options of `soruAdasi`. `ses: 'en-GB'`: a question's `k`
+  (`[English, Turkish, emoji?]`) is said in the device's English voice: before the answer when it is not one of the options
+  (it would give the answer away), and always after it. A question with `d: 1` is asked by ear only (the word is not written
+  unless the device has no English voice). `yanlisAvi: true`: the bay gets a 🎯 Yanlış Avı island after the mock exam. It
+  opens once Tekrar Kutusu holds 6 wrong answers; a round lays up to 6 of them out as English and Turkish cards to match
+  (one card per word and per meaning). A pair matched on the first try counts as a right answer, so it leaves Tekrar Kutusu;
+  a round without a wrong match brings a reward. The 2nd grade bank was generated from the book in the order of its pages
+  (every word gets a "what does it mean", "which is it in English" or "listen" question in turn, with wrong options from the
+  same group of words and never two that mean nearly the same); from now on questions are only appended by hand.
+- **A question island whose bank is still empty** (İngilizce Koyu's 3rd and 4th grade, until their questions are written) shows its
   bay with *Yakında* and a single locked island; its Settings → Progress section stays hidden, the admin page leaves it
   out, and `node tools/kapsam.js` skips it until its first question (then its `kapsam.md` is required like any other).
 

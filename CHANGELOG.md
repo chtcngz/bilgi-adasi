@@ -7,6 +7,12 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.46.0 · 26.11.2026
+
+- **2. sınıf İngilizce Koyu açıldı:** MEB’in 2. sınıf İngilizce kitabının (English Year 2) altı teması birer ada: 🏫 Okul Hayatı, ✏️ Sınıf Hayatı, 🧒 Kişisel Hayat, 👨‍👩‍👧 Aile Hayatı, 🏠 Evler ve Mahalleler, 🍎 Şehir ve Dünya. Kitabın baş ve son sayfaları (bayrak, İstiklal Marşı, Andımız, haritalar) 📘 Kitap Köşesi’nde; Deneme Sınavı da var. Toplam 488 soru: kitaptaki her kelime, kalıp, şarkı, tekerleme, okuma metni ve sözlükteki her kelime en az bir soruyla soruluyor.
+- **🔊 İngilizce ses:** Sorulardaki İngilizce kelimeler ve cümleler cihazın İngilizce sesiyle okunuyor; 🔊 düğmesine dokununca yeniden duyuluyor. “Dinle!” sorularında kelime yazılmıyor, yalnızca duyuluyor (cihazda İngilizce ses yoksa yazılı çıkıyor). Cevaptan sonra doğru kelime hem okunuyor hem yazılıyor. Seçenekler emojili.
+- **🎯 Yanlış Avı:** Tekrar Kutusu’nda 6 yanlış birikince koyda yeni bir mini oyun açılıyor: yalnızca çocuğun yanlış yaptığı kelimeler ve kalıplar, İngilizce ve Türkçe kartlar olarak geliyor; çocuk her İngilizce kartı anlamıyla eşleştiriyor. İngilizce kartlar dokununca okunuyor. İlk denemede doğru eşleştirilen kelime Tekrar Kutusu’ndan çıkıyor; hiç yanlış yapmadan biten tur akvaryuma balık ya da süs getiriyor.
+
 ## 0.45.0 · 26.11.2026
 
 - **İngilizce Koyu geldi (2, 3 ve 4. sınıf):** Keşif Haritası'nda her sınıf kendi İngilizce koyunu görüyor; koyun adaları o sınıfın İngilizce ders kitabının ünitelerini izleyecek. Sorular hazırlanana kadar koy haritada “Yakında” yazıyor, içindeki tek ada kilitli duruyor.

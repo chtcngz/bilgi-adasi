@@ -105,3 +105,25 @@
 .soru-units small { display: block; color: #5a6f6a; font-weight: 650; overflow-wrap: anywhere; }
 .soru-units .soru-meter { margin: 0; }
 .soru-units em { font-style: normal; font-weight: 800; color: #2b5e52; white-space: nowrap; }
+
+/* English islands: the 🔊 button, a listening question, and Yanlış Avı's cards */
+.soru-say { display: inline-grid; place-items: center; width: 40px; height: 40px; margin: 0 0 0 4px; padding: 0; vertical-align: middle; border: 2px solid #b9d6ea; border-radius: 50%; background: #eef7fd; box-shadow: 0 3px #b9d6ea; font-size: 20px; line-height: 1; }
+.soru-say:active { transform: translateY(2px); box-shadow: 0 1px #b9d6ea; }
+.soru-say.big { width: 96px; height: 96px; font-size: 46px; border-width: 3px; box-shadow: 0 5px #9ec6e2; }
+.soru-listen { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 0 0 16px; }
+.soru-heard { font-size: 22px; font-weight: 900; color: #1d5f8a; }
+.soru-feedback p.soru-said { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.soru-said span[lang] { font-size: 18px; font-weight: 900; color: #1d5f8a; }
+.soru-hunt-left { font-weight: 850; color: #1d6f6c; }
+.soru-hunt { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0 6px; }
+.soru-hunt-col { display: grid; gap: 10px; align-content: start; }
+.soru-card { display: flex; align-items: center; gap: 8px; min-height: 58px; padding: 8px 12px; text-align: left; border: 2px solid #cfe1d6; border-radius: 16px; background: #fff; box-shadow: 0 3px #cfe1d6; color: #173f40; font-weight: 800; font-size: 16px; line-height: 1.25; transition: transform .1s, background .15s, opacity .3s; }
+.soru-card.en { border-color: #b9d6ea; box-shadow: 0 3px #b9d6ea; background: #f6fbff; color: #1d4f72; }
+.soru-card > i { flex: none; font-style: normal; font-size: 20px; }
+.soru-card > span { min-width: 0; overflow-wrap: anywhere; }
+.soru-card:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px #cfe1d6; }
+.soru-card.picked { border-color: #3a5fb0; background: #eaf0ff; box-shadow: 0 3px #3a5fb0; }
+.soru-card.wrong { border-color: #d9534f; background: #fde4e1; box-shadow: 0 3px #d9534f; animation: shake .4s; }
+.soru-card.matched { border-color: #2f9b7f; background: #e1f6e5; box-shadow: 0 3px #2f9b7f; opacity: .55; cursor: default; }
+@media (max-width: 520px) { .soru-card { font-size: 15px; min-height: 54px; padding: 8px 9px; } .soru-say.big { width: 84px; height: 84px; font-size: 40px; } }
+@media (prefers-reduced-motion: reduce) { .soru-card.wrong { animation: none; } }
