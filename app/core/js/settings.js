@@ -55,7 +55,24 @@
     form.elements.grade.value = activeProfile.grade;
     form.elements.avatar.value = activeProfile.icon;
     $('edit-note').textContent = '';
+    $('edit-code').textContent = codeText(activeProfile.kod);
+    $('copy-code').innerHTML = '<span aria-hidden="true">📋</span> Kopyala';
   }
+  $('copy-code').onclick = async () => {
+    const text = codeText(activeProfile.kod);
+    let done = false;
+    try { await navigator.clipboard.writeText(text); done = true; } catch {}
+    if (!done) {
+      // Older browsers: select the code so it can be copied by hand.
+      const range = document.createRange();
+      range.selectNodeContents($('edit-code'));
+      getSelection().removeAllRanges();
+      getSelection().addRange(range);
+      try { done = document.execCommand('copy'); } catch {}
+    }
+    playCue(done ? 'correct' : 'retry');
+    $('copy-code').textContent = done ? '✓ Kopyalandı' : 'Seçildi, kopyala';
+  };
   function refreshView() {
     if (!$('catalog').hidden || (!$('elif-view').hidden && !availableForPlayer($('elif-card')))) {
       window.speechSynthesis?.cancel();
@@ -111,7 +128,7 @@
     } catch {}
     saveProfiles();
     // The cloud copy changes now, not a few seconds later, so the admin page drops the player too.
-    bulut.oyuncuSilindi(profile.id);
+    bulut.oyuncuSilindi(profile.id, profile.kod);
     window.speechSynthesis?.cancel();
     activeProfile = null;
     for (const view of ['catalog', 'elif-view', 'game-tools', 'settings-button', 'aquarium-button']) $(view).hidden = true;

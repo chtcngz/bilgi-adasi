@@ -414,6 +414,24 @@ dialog[open]::backdrop { animation: fade .25s; backdrop-filter: blur(3px); }
 #add-player:hover { background: #f0f8f2; border-color: #16716e; }
 #add-player span { display: inline-grid; place-items: center; width: 26px; height: 26px; margin-right: 6px; border-radius: 50%; background: #e1f0e6; }
 #register { text-align: left; animation: rise .25s ease-out both; }
+.join-link { width: 100%; min-height: 44px; margin: 6px 0 0; border: 0; background: transparent; color: #2d6655; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+.join-link:hover { color: #16716e; }
+#join { text-align: left; animation: rise .25s ease-out both; }
+#join > label { display: grid; gap: 4px; margin: 10px 0 0; font-weight: 800; font-size: 15px; }
+.join-hint { margin: 14px 0 0; color: #47635f; font-weight: 650; }
+#join-code { min-height: 50px; padding: 10px; font: inherit; font-size: 22px; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; border: 2px solid #d9ccb0; border-radius: 14px; background: #fff; }
+#join-code:focus { outline: none; border-color: #16716e; box-shadow: 0 0 0 4px #16716e26; }
+#join .primary { width: 100%; min-height: 54px; font-size: 18px; }
+#cancel-join { width: 100%; margin: 8px 0 0; }
+#profiles.joining :is(.welcome, .welcome-eyebrow, #players) { display: none; }
+#profiles.joining #profiles-title { margin-top: 18px; }
+#profiles.joining #profiles-title::after { content: ' Oyuncu kodu'; display: block; font-size: 17px; color: #16716e; letter-spacing: 0; }
+#profiles.joining .app-version { display: none; }
+.set-code { display: grid; gap: 8px; margin-top: 16px; padding: 12px 14px; border: 2px solid #d6e8dd; border-radius: 16px; background: #f5fbf7; }
+.set-code small { display: block; color: #5a6f6a; font-weight: 650; }
+.set-code-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.set-code code { flex: 1 1 auto; padding: 8px 12px; border-radius: 12px; background: #fff; border: 2px dashed #9fd3be; font-size: 22px; font-weight: 850; letter-spacing: .12em; text-align: center; user-select: all; }
+#copy-code { flex: none; min-height: 44px; }
 #register > label { font-size: 15px; }
 :is(#player-name, #edit-name) { min-height: 50px; font-size: 19px; font-weight: 800; border: 2px solid #d9ccb0; border-radius: 14px; transition: border-color .15s, box-shadow .15s; }
 :is(#player-name, #edit-name):focus { outline: none; border-color: #16716e; box-shadow: 0 0 0 4px #16716e26; }

@@ -7,6 +7,13 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.47.0 · 26.11.2026
+
+- **🔑 Oyuncu kodu:** Her oyuncunun artık 8 harf ve rakamdan oluşan bir kodu var (örneğin ABCD-EFGH). Kod, **Ayarlar → Oyuncu** bölümünde yazıyor; **📋 Kopyala** düğmesiyle kopyalanabiliyor. Eski oyunculara da kod verildi.
+- **Başka cihazda devam:** Yeni bir cihazda “Kim keşfe çıkıyor?” ekranındaki **🔑 Oyuncu kodum var** düğmesine dokunup kodu yazınca oyuncu bütün ilerlemesiyle (yıldızlar, sorular, akvaryum) o cihaza geliyor. Kodu olmayan, eskisi gibi yeni oyuncu oluşturuyor.
+- Aynı oyuncu iki cihazda oynanınca, oyun açıldığında en son oynanan cihazdaki ilerleme öbür cihaza da geliyor.
+- **Yönetici sayfası:** Oyuncuların kodu görünüyor; birden çok cihazda oynayan oyuncu “Bütün oyuncular” listesinde tek satırda, oynadığı bütün cihazlarla birlikte yazıyor.
+
 ## 0.46.0 · 26.11.2026
 
 - **2. sınıf İngilizce Koyu açıldı:** MEB’in 2. sınıf İngilizce kitabının (English Year 2) altı teması birer ada: 🏫 Okul Hayatı, ✏️ Sınıf Hayatı, 🧒 Kişisel Hayat, 👨‍👩‍👧 Aile Hayatı, 🏠 Evler ve Mahalleler, 🍎 Şehir ve Dünya. Kitabın baş ve son sayfaları (bayrak, İstiklal Marşı, Andımız, haritalar) 📘 Kitap Köşesi’nde; Deneme Sınavı da var. Toplam 488 soru: kitaptaki her kelime, kalıp, şarkı, tekerleme, okuma metni ve sözlükteki her kelime en az bir soruyla soruluyor.

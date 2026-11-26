@@ -500,7 +500,8 @@ function startAdmin() {
       (last ? ' · son oynama ' + dateText(last) + ' (' + ago(last) + ')' : '')), chips);
     head.append(face, text, el('span', 'adm-open', '▾'));
     card.append(head);
-    card.append(el('p', 'adm-small', 'Oyuncu kimliği ' + profile.id));
+    const code = /^[A-Z0-9]{8}$/.test(profile.kod || '') ? profile.kod.slice(0, 4) + '-' + profile.kod.slice(4) : '';
+    card.append(el('p', 'adm-small', (code ? '🔑 Oyuncu kodu ' + code + ' · ' : '') + 'Oyuncu kimliği ' + profile.id));
     const data = {
       carpim: read('carpim-adasi-oyuncu-' + profile.id),
       elif: read('elif-ba-v2-' + profile.id) || (read('elif-ba-' + profile.id) ? { harf: [] } : null)
@@ -562,29 +563,40 @@ function startAdmin() {
     return block;
   }
 
-  // One table of every player on every device, then each device in full.
+  // One table of every player, then each device in full. A player brought to other devices with their code
+  // (Oyuncu kodum var) keeps the same id there, so they are one row naming every device; the name goes to the
+  // device where they played last, whose copy is the newest.
   function overview(all) {
-    const rows = [];
+    const byPlayer = new Map();
     for (const source of all) {
       const list = (parse(source.records[PROFILES]) || []).filter(p => p && p.id);
       for (const p of list) {
-        const last = source.played?.[p.id];
-        const go = el('button', 'adm-link', (p.icon || '') + ' ' + (p.name || '?'));
-        go.type = 'button';
-        go.onclick = () => {
-          const card = document.getElementById(playerId(source.id, p));
-          if (!card) return;
-          card.open = true;
-          card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        };
-        rows.push({ last: last || 0, cells: [go, p.grade || '?',
-          source.cloud ? source.label + (source.test ? ' (test)' : '') : source.local ? 'Bu cihaz' : 'Yedek', last ? dateText(last) + ' (' + ago(last) + ')' : '–'] });
+        const last = source.played?.[p.id] || 0;
+        const where = source.cloud ? source.label + (source.test ? ' (test)' : '') : source.local ? 'Bu cihaz' : 'Yedek';
+        const row = byPlayer.get(p.id);
+        if (!row) byPlayer.set(p.id, { p, source, last, where: [where] });
+        else {
+          row.where.push(where);
+          if (last > row.last) Object.assign(row, { p, source, last });
+        }
       }
     }
-    rows.sort((a, b) => b.last - a.last);
+    const rows = [...byPlayer.values()].sort((a, b) => b.last - a.last).map(({ p, source, last, where }) => {
+      const go = el('button', 'adm-link', (p.icon || '') + ' ' + (p.name || '?'));
+      go.type = 'button';
+      go.onclick = () => {
+        const card = document.getElementById(playerId(source.id, p));
+        if (!card) return;
+        card.open = true;
+        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
+      const code = /^[A-Z0-9]{8}$/.test(p.kod || '') ? p.kod.slice(0, 4) + '-' + p.kod.slice(4) : '–';
+      return { cells: [go, p.grade || '?', code, (where.length > 1 ? where.length + ' cihaz: ' : '') + where.join(', '),
+        last ? dateText(last) + ' (' + ago(last) + ')' : '–'] };
+    });
     const box = el('section', 'adm-source');
     box.append(el('h2', '', '👧🧒 Bütün oyuncular (' + rows.length + ')'));
-    if (rows.length) box.append(table(['Oyuncu', 'Sınıf', 'Cihaz', 'Son oynama'], rows));
+    if (rows.length) box.append(table(['Oyuncu', 'Sınıf', 'Kod', 'Cihaz', 'Son oynama'], rows));
     return box;
   }
   function draw() {

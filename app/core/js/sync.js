@@ -7,6 +7,11 @@
 // writes one document, cihazlar/{its uid}, holding a snapshot of the game's keys (the Firestore rules let
 // a device write only its own document, and only the admin read them).
 //
+// Oyuncu kodu: every player also has a document of their own, oyuncular/{the player's code}, holding the
+// player and their keys. Typing the code on another device (Kim keşfe çıkıyor? → Oyuncu kodum var) loads it
+// there (yukle), and when the page opens, a player whose document was changed later on another device is
+// brought up to date before anyone plays (tazele): the device where the player last played wins.
+//
 // Loaded right after core/js/app.js and core/js/bulut-ayar.js. Changes are noticed by wrapping Storage.prototype.setItem/removeItem,
 // so no island needs to know about the cloud.
 const bulut = (() => {
@@ -17,7 +22,9 @@ const bulut = (() => {
   const surum = document.querySelector('meta[name=surum]')?.content || '';
   if (surum.startsWith('__') || navigator.webdriver === true || /HeadlessChrome/.test(navigator.userAgent)) {
     return { durum: () => ({ uid: null, bekliyor: false, gonderildi: null, hata: null, kapali: true }),
-      simdi: () => Promise.resolve(), oyuncuSilindi: () => Promise.resolve() };
+      simdi: () => Promise.resolve(), oyuncuSilindi: () => Promise.resolve(),
+      yukle: () => Promise.reject(new Error('kapali')), tazele: () => Promise.resolve([]),
+      normalize: text => String(text || '').toLocaleUpperCase('tr-TR').replace(/İ/g, 'I').replace(/[^A-Z0-9]/g, '') };
   }
   const config = bulutAyar;
   // The game's saved-data keys (README: they never change). Sound settings stay on the device.
@@ -38,17 +45,33 @@ const bulut = (() => {
   const read = key => { try { return getItem.call(storage, key); } catch { return null; } };
   let state = (() => { try { return JSON.parse(read(STATE)) || {}; } catch { return {}; } })();
   state.oyuncular ||= {};
+  // Players whose own document (oyuncular/{code}) still has to be sent.
+  state.kirli ||= {};
   const keep = () => { try { setItem.call(storage, STATE, JSON.stringify(state)); } catch {} };
 
   let timer = null, busy = false, again = false;
 
-  // A change to a player's key ("din-bilgisi-<id>") marks the player as having played now.
+  const players = () => { try { return (JSON.parse(read('carpim-adasi-profiller')) || []).filter(p => p && p.id); } catch { return []; } };
+  // A change to a player's key ("din-bilgisi-<id>") marks the player as having played now. A change to the
+  // list of players (a name, a grade, a new code) sends every player's own document again.
   function touched(key) {
-    if (key === 'carpim-adasi-profiller') return;
-    let list = [];
-    try { list = JSON.parse(read('carpim-adasi-profiller')) || []; } catch {}
-    const player = list.find(p => p && p.id && key.endsWith('-' + p.id));
-    if (player) state.oyuncular[player.id] = Date.now();
+    if (key === 'carpim-adasi-profiller') {
+      for (const p of players()) state.kirli[p.id] = true;
+      return;
+    }
+    const player = players().find(p => key.endsWith('-' + p.id));
+    if (player) { state.oyuncular[player.id] = Date.now(); state.kirli[player.id] = true; }
+  }
+  // Every key of a player ends in the player's id (README).
+  function playerKeys(id) {
+    const keys = [];
+    try {
+      for (let i = 0; i < storage.length; i++) {
+        const key = storage.key(i);
+        if (isGameKey(key) && key !== 'carpim-adasi-profiller' && key.endsWith('-' + id)) keys.push(key);
+      }
+    } catch {}
+    return keys;
   }
   function changed(key) {
     if (!isGameKey(key)) return;
@@ -126,6 +149,37 @@ const bulut = (() => {
       son: { timestampValue: new Date().toISOString() }
     } };
   }
+  // A player's own document: the player (as the list keeps it), their keys, and when they last changed.
+  function playerDoc(p) {
+    const kayitlar = {};
+    for (const key of playerKeys(p.id)) kayitlar[key] = { stringValue: read(key) };
+    return { fields: {
+      profil: { stringValue: JSON.stringify(p) },
+      ad: { stringValue: String(p.name || '') },
+      kayitlar: { mapValue: { fields: kayitlar } },
+      degisti: { timestampValue: new Date(state.oyuncular[p.id] || Date.now()).toISOString() },
+      cihaz: { stringValue: state.uid || '' },
+      son: { timestampValue: new Date().toISOString() }
+    } };
+  }
+  const validCode = kod => typeof kod === 'string' && /^[A-Z0-9]{8}$/.test(kod);
+  // The players' own documents. A failure here (the Firestore rules not allowing oyuncular/ yet, say) keeps them
+  // waiting for the next change but does not hold back the device's document.
+  async function sendPlayers(bearer) {
+    const list = players();
+    for (const id of Object.keys(state.kirli)) if (!list.some(p => p.id === id)) delete state.kirli[id];
+    for (const p of list) {
+      if (!state.kirli[p.id] || !validCode(p.kod)) continue;
+      try {
+        const reply = await fetch(docs + 'oyuncular/' + p.kod, { method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + bearer }, body: JSON.stringify(playerDoc(p)) });
+        if (!reply.ok) throw new Error('oyuncu ' + reply.status);
+        delete state.kirli[p.id];
+        state.oyuncuHata = null;
+      } catch (error) { state.oyuncuHata = String(error.message || error); }
+    }
+  }
+
   async function send() {
     if (busy) { again = true; return; }
     if (!state.bekliyor) return;
@@ -148,6 +202,7 @@ const bulut = (() => {
           body: JSON.stringify(body) });
       if (reply.status === 401 || reply.status === 403) { state.bitis = 0; throw new Error('auth ' + reply.status); }
       if (!reply.ok) throw new Error('write ' + reply.status);
+      if (!empty) await sendPlayers(bearer);
       state.gonderildi = Date.now();
       state.hata = null;
     } catch (error) {
@@ -167,18 +222,82 @@ const bulut = (() => {
   // Send what is waiting when the page opens, comes back online, or is put away.
   window.addEventListener('online', () => schedule(1000));
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && state.bekliyor) send(); });
+  // Players saved before codes existed send their own document once.
+  if (!state.kodlar) { for (const p of players()) state.kirli[p.id] = true; state.kodlar = 1; state.bekliyor = true; keep(); }
   // The first time on a device (or after an update), everything already saved goes up once.
   if (!state.uid || state.bekliyor) { state.bekliyor = true; schedule(2000); }
 
-  // A deleted player: forget when they last played and send the change right away.
-  function oyuncuSilindi(id) {
+  // A deleted player: forget when they last played, remove their own document and send the change right away.
+  async function oyuncuSilindi(id, kod) {
     delete state.oyuncular[id];
+    delete state.kirli[id];
     state.bekliyor = true;
     keep();
     clearTimeout(timer);
+    if (validCode(kod) && state.uid && navigator.onLine !== false) {
+      try { await fetch(docs + 'oyuncular/' + kod, { method: 'DELETE', headers: { Authorization: 'Bearer ' + await token() } }); } catch {}
+    }
     return send();
   }
 
-  return { durum: () => ({ uid: state.uid || null, bekliyor: !!state.bekliyor, gonderildi: state.gonderildi || null, hata: state.hata || null }),
-    simdi: () => { state.bekliyor = true; return send(); }, oyuncuSilindi };
+  /* ---------- Loading a player by code ---------- */
+  async function fetchPlayer(kod) {
+    const reply = await fetch(docs + 'oyuncular/' + kod, { headers: { Authorization: 'Bearer ' + await token() } });
+    if (reply.status === 404) throw new Error('yok');
+    if (reply.status === 403) throw new Error('izin');
+    if (!reply.ok) throw new Error('okuma ' + reply.status);
+    const f = (await reply.json()).fields || {};
+    let profil = null;
+    try { profil = JSON.parse(f.profil?.stringValue); } catch {}
+    if (!profil || !profil.id) throw new Error('yok');
+    const kayitlar = {};
+    for (const [key, v] of Object.entries(f.kayitlar?.mapValue?.fields || {})) {
+      if (isGameKey(key) && key.endsWith('-' + profil.id) && typeof v.stringValue === 'string') kayitlar[key] = v.stringValue;
+    }
+    return { profil: { ...profil, kod }, kayitlar, degisti: Date.parse(f.degisti?.timestampValue) || 0 };
+  }
+  // Writes a player's keys as the cloud has them (without counting it as playing here) and removes the ones it lacks.
+  function apply(doc) {
+    const id = doc.profil.id;
+    for (const key of playerKeys(id)) if (!(key in doc.kayitlar)) { try { removeItem.call(storage, key); } catch {} }
+    for (const [key, value] of Object.entries(doc.kayitlar)) setItem.call(storage, key, value);
+    state.oyuncular[id] = doc.degisti || Date.now();
+    delete state.kirli[id];
+    state.bekliyor = true;
+    keep();
+    schedule(DELAY);
+  }
+  // A code someone typed: "abcd-efgh" → "ABCDEFGH".
+  const normalize = text => String(text || '').toLocaleUpperCase('tr-TR').replace(/İ/g, 'I').replace(/[^A-Z0-9]/g, '');
+  // Loads the player with this code onto the device; resolves with the player (as the list keeps it).
+  async function yukle(text) {
+    const kod = normalize(text);
+    if (!validCode(kod)) throw new Error('kod');
+    if (navigator.onLine === false) throw new Error('internet');
+    const doc = await fetchPlayer(kod);
+    apply(doc);
+    return doc.profil;
+  }
+  // When the page opens: the players with a code whose cloud copy is newer (played on another device since) are
+  // updated, unless ok(id) says no (the player is already being played). Resolves with the updated players.
+  async function tazele(ok) {
+    if (navigator.onLine === false) return [];
+    const list = players().filter(p => validCode(p.kod));
+    if (!list.length) return [];
+    const updated = [];
+    for (const p of list) {
+      try {
+        const doc = await fetchPlayer(p.kod);
+        if (doc.profil.id !== p.id || doc.degisti <= (state.oyuncular[p.id] || 0)) continue;
+        if (ok && !ok(p.id)) continue;
+        apply(doc);
+        updated.push(doc.profil);
+      } catch {}
+    }
+    return updated;
+  }
+
+  return { durum: () => ({ uid: state.uid || null, bekliyor: !!state.bekliyor, gonderildi: state.gonderildi || null, hata: state.hata || null,
+    oyuncuHata: state.oyuncuHata || null }),
+    simdi: () => { state.bekliyor = true; return send(); }, oyuncuSilindi, yukle, tazele, normalize };
 })();

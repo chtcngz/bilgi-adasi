@@ -100,7 +100,21 @@ sources/                     Raw material (not published)
     allow read: if isAdmin() || (request.auth != null && request.auth.uid == uid);
     allow write: if request.auth != null && request.auth.uid == uid;
   }
+  match /oyuncular/{kod} {
+    allow get, create, update, delete: if request.auth != null;
+    allow list: if isAdmin();
+  }
   ```
+- **Oyuncu kodu.** Every player has a code of eight letters and digits (`kod` in `carpim-adasi-profiller`, shown in
+  Settings → Oyuncu with a copy button; players saved before 0.47.0 get one when the page opens). Besides the device's
+  document, `sync.js` keeps a document per player, `oyuncular/{kod}`: the player, every key ending in the player's
+  id, and when the player last changed something (`degisti`). On another device, *Kim keşfe çıkıyor? → Oyuncu kodum
+  var* loads that document: the player keeps the same id, so the keys and the admin page match. When the page opens,
+  a player whose document is newer than this device's copy (played elsewhere since) is updated before being chosen;
+  the device where the player last played wins. The code is the only key to the document (anyone signed in who knows
+  it may read and write it, nobody but the admin may list them), so it is shown only in Settings. Deleting a player
+  deletes their document too; another device that still has the player sends it again when they play there. The admin
+  page lists a player found on several devices once, naming every device.
   Google sign-in on the admin page needs Google turned on in Firebase (Authentication → Sign-in method), and the
   site's address (`https://chtcngz.github.io`) under *Authorized JavaScript origins* of that Web client in Google
   Cloud Console (APIs & Services → Credentials). The client ID is read from Firebase, or from `googleClientId` in

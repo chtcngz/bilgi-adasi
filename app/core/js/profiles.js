@@ -5,6 +5,16 @@ function readRecord(key) {
   try { return JSON.parse(localStorage.getItem(key)); } catch { return null; }
 }
 const profiles = readRecord(profileKey) || [];
+// Oyuncu kodu: eight letters and digits (without the look-alikes 0/O, 1/I/L) that bring the player, with all their
+// progress, to another device (core/js/sync.js). Players saved before codes existed get one when the page opens.
+const codeLetters = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+function newCode() {
+  let kod;
+  do kod = Array.from(crypto.getRandomValues(new Uint8Array(8)), n => codeLetters[n % codeLetters.length]).join('');
+  while (profiles.some(p => p.kod === kod));
+  return kod;
+}
+const codeText = kod => kod ? kod.slice(0, 4) + '-' + kod.slice(4) : '';
 const sessionProgress = new Map();
 const avatars = [['🐢','Kaplumbağa'], ['🐬','Yunus'], ['🦊','Tilki'], ['🐼','Panda'], ['🐙','Ahtapot'], ['🐧','Penguen']];
 function fillAvatars(host) {
@@ -83,7 +93,7 @@ function showCatalog() {
   $('catalog-title').focus();
 }
 
-function openProfiles() {
+function drawPlayers() {
   $('players').replaceChildren(...profiles.map((profile, i) => {
     const button = document.createElement('button');
     button.type = 'button';
@@ -109,23 +119,70 @@ function openProfiles() {
     button.onclick = () => { playCue('start'); choosePlayer(profile); };
     return button;
   }));
+}
+function openProfiles() {
+  drawPlayers();
   $('register').reset();
-  showRegister(!profiles.length);
+  $('join').reset();
+  showSheet(profiles.length ? 'list' : 'register');
   $('profiles').showModal();
 }
-// When adding a player, show only the form so the sheet stays short while the keyboard is open.
-function showRegister(open) {
-  $('register').hidden = !open;
-  $('add-player').hidden = open || !profiles.length;
+// The sheet shows the players ('list'), the new player form ('register') or the code form ('join'). With a form
+// open, only the form shows, so the sheet stays short while the keyboard is open.
+function showSheet(mode) {
+  $('register').hidden = mode !== 'register';
+  $('join').hidden = mode !== 'join';
+  $('add-player').hidden = mode !== 'list';
+  $('join-player').hidden = mode === 'join';
   $('cancel-register').hidden = !profiles.length;
-  $('profiles').classList.toggle('adding', open && profiles.length > 0);
+  $('join-note').textContent = '';
+  $('profiles').classList.toggle('adding', mode === 'register' && profiles.length > 0);
+  $('profiles').classList.toggle('joining', mode === 'join');
   $('profiles').scrollTop = 0;
 }
 $('add-player').onclick = () => {
-  showRegister(true);
+  showSheet('register');
   $('player-name').focus({ preventScroll: true });
 };
-$('cancel-register').onclick = () => { $('register').reset(); showRegister(false); };
+$('cancel-register').onclick = () => { $('register').reset(); showSheet('list'); };
+$('join-player').onclick = () => {
+  showSheet('join');
+  $('join-code').focus({ preventScroll: true });
+};
+$('cancel-join').onclick = () => { $('join').reset(); showSheet(profiles.length ? 'list' : 'register'); };
+$('join-code').oninput = () => { $('join-note').textContent = ''; };
+// A code typed on this device: the player comes from the cloud with everything they saved on the other one.
+$('join').onsubmit = async e => {
+  e.preventDefault();
+  const kod = bulut.normalize($('join-code').value);
+  const here = profiles.find(p => p.kod === kod);
+  if (here) { playCue('start'); choosePlayer(here); return; }
+  const button = $('join').querySelector('.primary');
+  button.disabled = true;
+  $('join-note').textContent = '☁️ Oyuncu getiriliyor…';
+  try {
+    const found = await bulut.yukle(kod);
+    const profile = { id: found.id, name: String(found.name || 'Oyuncu').slice(0, 32), grade: grades.includes(found.grade) ? found.grade : grades[0],
+      icon: avatars.some(a => a[0] === found.icon) ? found.icon : avatars[0][0], kod };
+    const same = profiles.findIndex(p => p.id === profile.id);
+    if (same >= 0) profiles.splice(same, 1, profile); else profiles.push(profile);
+    sessionProgress.delete(profile.id);
+    saveProfiles();
+    playCue('island');
+    choosePlayer(profile);
+  } catch (error) {
+    const reason = String(error.message);
+    $('join-note').textContent = '✗ ' + ({
+      kod: 'Kod 8 harf ve rakamdan oluşur, örneğin ABCD-EFGH.',
+      yok: 'Bu kodla bir oyuncu bulunamadı. Kodu kontrol et.',
+      internet: 'İnternet bağlantısı yok. Bağlanınca yeniden dene.',
+      izin: 'Bulut bu kodu okumaya izin vermedi. Yöneticiye haber ver.',
+      kapali: 'Bu kopyada bulut kapalı.'
+    }[reason] || 'Oyuncu getirilemedi. Biraz sonra yeniden dene.');
+    playCue('retry');
+  }
+  button.disabled = false;
+};
 // Keep open dialogs above the on-screen keyboard (iOS overlays it instead of resizing the page).
 if (window.visualViewport) {
   const vv = window.visualViewport;
@@ -152,7 +209,7 @@ $('register').onsubmit = e => {
     return;
   }
   const profile = { id: Array.from(crypto.getRandomValues(new Uint32Array(4))).join('-'),
-    name, grade: $('register').elements.grade.value, icon: $('register').elements.avatar.value };
+    name, grade: $('register').elements.grade.value, icon: $('register').elements.avatar.value, kod: newCode() };
   if (!profiles.length) {
     const old = readRecord('carpim-rotasi-v2');
     if (old && Number.isInteger(old.completed) && old.completed >= 0 && old.completed <= total && old.reports) {
@@ -169,4 +226,22 @@ $('register').onsubmit = e => {
 $('player-name').oninput = () => $('player-name').setCustomValidity('');
 $('player').onclick = openProfiles;
 $('switch-game').onclick = () => { leaveGame(); openProfiles(); };
+if (profiles.some(p => !p.kod)) {
+  for (const p of profiles) p.kod ||= newCode();
+  saveProfiles();
+}
 openProfiles();
+// A player played on another device since: their progress comes from the cloud before they are chosen here.
+bulut.tazele(id => !sessionProgress.has(id)).then(updated => {
+  if (!updated.length) return;
+  for (const found of updated) {
+    const p = profiles.find(q => q.id === found.id);
+    if (!p) continue;
+    if (found.name) p.name = String(found.name).slice(0, 32);
+    if (grades.includes(found.grade)) p.grade = found.grade;
+    if (avatars.some(a => a[0] === found.icon)) p.icon = found.icon;
+  }
+  saveProfiles();
+  if (activeProfile) showPlayerButton();
+  else if ($('profiles').open) drawPlayers();
+});
