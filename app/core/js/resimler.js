@@ -47,7 +47,10 @@
     // days, time, question words
     'thank-you', 'thursday', 'today', 'together', 'tuesday', 'wait', 'wednesday', 'week', 'what', 'find-2', 'where', 'who',
     'thank-you-2', 'today-2', 'point-up', 'together-2', 'heart-girl', 'wait-2', 'hi-2', 'today-3', 'what-2', 'look-2', 'look-3', 'who-2',
-    'thank-you-3', 'together-3', 'boy-ball', 'paint-2', 'time-3', 'wait-3', 'week-2', 'what-3', 'where-2', 'who-3'
+    'thank-you-3', 'together-3', 'boy-ball', 'paint-2', 'time-3', 'wait-3', 'week-2', 'what-3', 'where-2', 'who-3',
+    // people, school, days
+    'big', 'boy', 'canteen', 'clap', 'classroom', 'day', 'excuse-me', 'fine', 'fine-2', 'finish', 'calendar-heart', 'friday', 'friend', 'garden-2',
+    'girl', 'girl-2', 'girl-3'
   ];
   const more = {};
   for (const name of names) {

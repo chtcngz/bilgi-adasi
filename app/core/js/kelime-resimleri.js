@@ -60,7 +60,6 @@ const kelimeResimleri = (() => {
       '<circle cx="32" cy="20" r="4" fill="' + SKIN + '"' + o(1) + '/><rect x="29" y="24" width="6" height="4" fill="#4dabf7"/>' +
       [14, 26, 38, 50].map(x => '<rect x="' + (x - 4) + '" y="42" width="8" height="6" rx="1" fill="#4dabf7"' + o(1.2) + '/><rect x="' + (x - 4) + '" y="52" width="8" height="6" rx="1" fill="#4dabf7"' + o(1.2) + '/>').join(''),
     // sizes: the one meant is in colour, the other grey
-    big: '<circle cx="24" cy="36" r="20" fill="#fab005"' + o(2.5) + '/><circle cx="52" cy="48" r="8" fill="' + GREY + '"' + o(1.5) + '/>' + arrow('M8 8h32M34 3l6 5-6 5', '#e8590c'),
     long: '<rect x="4" y="18" width="56" height="10" rx="5" fill="#40c057"' + o(2.5) + '/><rect x="4" y="40" width="20" height="10" rx="5" fill="' + GREY + '"' + o(1.5) + '/>' + arrow('M6 9h52M10 5l-5 4 5 4M54 5l5 4-5 4', '#e8590c'),
     short: '<rect x="4" y="18" width="56" height="10" rx="5" fill="' + GREY + '"' + o(1.5) + '/><rect x="4" y="40" width="20" height="10" rx="5" fill="#40c057"' + o(2.5) + '/>' + arrow('M6 58h16M10 54l-5 4 5 4M18 54l5 4-5 4', '#e8590c'),
     // light and dark blue: the dark one is meant
@@ -96,7 +95,7 @@ const kelimeResimleri = (() => {
       '<path d="M24 22h16M23 26h18" stroke="#6c757d" stroke-width="1.2"/><circle cx="29" cy="35" r="1" fill="' + INK + '"/><circle cx="35" cy="35" r="1" fill="' + INK + '"/>' +
       '<path d="M29 40h6"' + o(1) + '/>',
     /* the days: Monday first */
-    friday: week([4]), saturday: week([5]), sunday: week([6]),
+    saturday: week([5]), sunday: week([6]),
     'monday-tuesday': week([0, 1])
   };
   const NUMS = ['#ff6b6b', '#ff922b', '#fcc419', '#51cf66', '#22b8cf', '#339af0', '#845ef7', '#f06595', '#20c997', '#e8590c'];

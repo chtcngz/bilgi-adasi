@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.71.0 · 26.11.2026
+
+- **İngilizce Koyu'nda yeni resimler:** Büyük, erkek çocuk, kantin, alkışlamak, sınıf, gün, affedersiniz, iyi, bitirmek, Cuma, arkadaş, bahçe ve kız çocuk artık sevimli, renkli resim kartlarıyla gösteriliyor. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.
+
 ## 0.70.0 · 26.11.2026
 
 - **İngilizce Koyu'nda yeni resimler:** Teşekkür ederim, Salı, Çarşamba, Perşembe, bugün, birlikte, beklemek, hafta, ne, nerede ve kim artık sevimli, renkli resim kartlarıyla gösteriliyor. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.
