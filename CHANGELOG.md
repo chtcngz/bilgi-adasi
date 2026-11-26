@@ -7,6 +7,21 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.48.0 · 26.11.2026
+
+İngilizce Koyu’na oyunlar ve öğrenme yardımcıları geldi (2. sınıf):
+
+- **🎡 Oyun Parkı:** Koyda yeni bir ada, kitabın kelimeleriyle beş oyun. Hiçbirinde okumak gerekmiyor, her şey sesle söyleniyor:
+  - 👂 **Dinle ve Bul:** Yazı yok; duyduğun kelimenin resmine dokun.
+  - 🧺 **Meyve Sepeti:** “Put the apples in the basket.” Söylenen yiyeceği parmağınla tutup sepete sürükle.
+  - 🎨 **Sihirli Boyama:** “Colour the fish blue.” Boyasız resmi söylenen renge boya. Renklere dokununca İngilizce adları okunuyor.
+  - 🚂 **Kelime Treni:** Cümleyi dinle, karışık kelimeleri sırayla vagonlara diz (sürükleyerek ya da dokunarak); tren cümleyle birlikte hareket ediyor.
+  - 🃏 **Sesli Hafıza:** Kartları aç, 🔊 ses kartını kendi resmiyle eşleştir.
+  Her oyunu ilk bitiriş akvaryuma bir ödül getiriyor.
+- **🎈 Balon Patlat (Yanlış Avı):** Yanlış Avı’nın ikinci oyunu: yalnızca yanlış yaptığın kelimeler söyleniyor, onların balonunu uçup gitmeden patlat. İlk denemede bulunan kelime Tekrar Kutusu’ndan çıkıyor.
+- **🐢 Yavaş ses:** Her 🔊 düğmesinin yanında kelimeyi yavaşça okuyan bir 🐢 düğmesi var.
+- **İkinci şans:** Yanlış cevapta seçenek soluklaşıyor ve bir kez daha deneyebiliyorsun (soru yine Tekrar Kutusu’na giriyor ve bir kalp gidiyor; son kalpte ikinci şans yok).
+
 ## 0.47.0 · 26.11.2026
 
 - **🔑 Oyuncu kodu:** Her oyuncunun artık 8 harf ve rakamdan oluşan bir kodu var (örneğin ABCD-EFGH). Kod, **Ayarlar → Oyuncu** bölümünde yazıyor; **📋 Kopyala** düğmesiyle kopyalanabiliyor. Eski oyunculara da kod verildi.
