@@ -37,7 +37,10 @@
     'scissors-2', 'sharpener-2', 'time-2',
     // the classroom, colours (cat was drawn again; board-wood is a plank, not the class board)
     'bag', 'bag-2', 'blackboard', 'blackboard-2', 'blue', 'blue-ball', 'board-wood', 'board-wood-2', 'board-wood-3', 'book', 'book-2', 'book-3',
-    'bookcase', 'bookcase-2', 'box', 'box-2', 'break', 'break-2', 'brown', 'cap', 'cap-chalk', 'cat-2', 'chair', 'chair-clock', 'chalk', 'clock-2', 'teddy'
+    'bookcase', 'bookcase-2', 'box', 'box-2', 'break', 'break-2', 'brown', 'cap', 'cap-chalk', 'cat-2', 'chair', 'chair-clock', 'chalk', 'clock-2', 'teddy',
+    // classroom actions and colours
+    'need', 'notebook', 'object', 'open', 'orange', 'pass', 'pass-2', 'pencil', 'pencil-case', 'picture-2', 'picture-3', 'pink', 'please', 'point',
+    'point-2', 'purple', 'put', 'put-2'
   ];
   const more = {};
   for (const name of names) {

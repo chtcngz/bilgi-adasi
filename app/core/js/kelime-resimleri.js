@@ -90,8 +90,6 @@ const kelimeResimleri = (() => {
     /* people: the one meant in colour */
     son: person(20, 50, 'man', false) + person(44, 32, 'boy', true, '#40c057'),
     /* verbs with a door */
-    open: '<rect x="14" y="6" width="34" height="52" fill="#343a40"' + o() + '/><path d="M48 6l12 6v40l-12 6z" fill="#c98a4a"' + o() + '/><circle cx="53" cy="33" r="1.6" fill="#ffd43b"/>' +
-      '<rect x="14" y="6" width="34" height="52" fill="none"' + o() + '/><path d="M22 58h20" stroke="#ffe066" stroke-width="3" stroke-linecap="round"/>' + arrow('M20 32h18M33 26l6 6-6 6', '#40c057'),
     /* food */
     ayran: '<path d="M16 14h32l-4 44H20z" fill="#fff"' + o() + '/><path d="M18 26h28l-3 32H21z" fill="#f8f9fa"/><path d="M16 14h32l-4 44H20z" fill="none"' + o() + '/>' +
       '<path d="M14 16q4-8 9-4 3-6 9-2 5-5 10 0 6-2 8 6z" fill="#fff"' + o(1.6) + '/><circle cx="24" cy="20" r="2" fill="#e9ecef"' + o(.8) + '/><circle cx="38" cy="19" r="2.4" fill="#e9ecef"' + o(.8) + '/>' +
