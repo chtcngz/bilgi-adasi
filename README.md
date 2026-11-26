@@ -28,6 +28,7 @@ app/                         Published site (GitHub Pages root)
 │   │   ├── stats.js         Çarpım statistics
 │   │   ├── quiz.js          Question-island engine: soruAdasi({...})
 │   │   ├── ingilizce-oyunlari.js  İngilizce Koyu's games (a station's round is played as games) and its recorded English voice
+│   │   ├── kelime-resimleri.js    Drawn pictures for the words no emoji shows, written [[name]] in a question (kelimeResimleri)
 │   │   ├── akvaryum-veri.js Akvaryum: the fish, ornaments and tank themes (names, sizes; the admin page loads it too)
 │   │   ├── akvaryum-sanat.js Akvaryum's drawings: fish, ornaments, plants (SVG), sand and caustics (canvas)
 │   │   ├── akvaryum.js      Akvaryum: every player's own tank, rewards (akvaryum.odul / akvaryum.kart), naming the fish
@@ -159,7 +160,7 @@ when one is done. A panel beside the map (under it on phones) has the Sıradaki 
   Kutusu and rewards work as before. A word with a picture (`k[2]`, not an abstract one) goes to Dinle ve Bul, Balon
   Patlat or Sesli Hafıza; a colour to Sihirli Boyama; a food listed in `sepet` to Meyve Sepeti; a sentence of 3-7 words
   that the question asks in English to Kelime Treni; anything else is a Bilgi Kartı (the question itself, with a second
-  try). A miss in Sesli Hafıza is only memory, so a found pair counts as right. **Pictures (`k[2]`):** a picture shows the thing itself (library 🏛️, not 📚); two words with different meanings never share one (sentences may share their key word's); a thing no emoji shows gets two (teacher’s room 👩‍🏫☕, drawn smaller by `pic()`) or none, and a word without a picture is asked in a Bilgi Kartı. A question's options carry pictures all or none, so a lone bare option does not give the answer away. Each game opens with a title card, the
+  try). A miss in Sesli Hafıza is only memory, so a found pair counts as right. **Pictures (`k[2]`):** every word and every sentence has one, and it shows the thing itself (library 🏛️, not 📚); two words with different meanings never share one. A thing no emoji shows is drawn in `core/js/kelime-resimleri.js` and written `[[name]]` wherever an emoji would stand (k[2] and the texts: `[[desk]] sıra`); `rich()` and the games' `pic()` draw it. In a picture of a part or a person (tail, son) the one meant is in colour and the rest grey; a day is a week card with that day marked. A question's options carry pictures all or none, so a lone bare option does not give the answer away. Games start straight away (no title card); 
   player's icon cheers as a mascot, and every line is awaited before the next. The balloons, the train and the brush are moved frame by frame in JS (`frames`, `tween`), and base.css leaves `.og-head`/`.og-game` out of its reduced-motion rule: these movements are the game, and a device asking for less motion used to see no balloons at all. Sihirli Boyama paints only where the brush has gone (a mask path that grows along the brush's way). `ikinciSans: true` gives the classic
   question rounds a second try too. **The voice:** every English line (`tools/ingilizce_metinler.js`) is recorded with
   Kokoro (`tools/ingilizce_sesler.py`, voice af_heart, a normal and a slow 🐢 file) and played through the game's Web

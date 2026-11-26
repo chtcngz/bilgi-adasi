@@ -103,10 +103,6 @@ const ingilizceOyunlari = (() => {
   /* ---------- the lines the games say (each one recorded) ---------- */
   const OVGU = ['Well done!', 'Great job!', 'Super!', 'Excellent!', 'Yes! That’s right!', 'Brilliant!', 'Fantastic!'];
   const TEKRAR = ['Try again!', 'Oops! Try again.', 'Listen again.'];
-  const GIRIS = {
-    dinle: 'Listen and find the picture.', balon: 'Listen and pop the balloon!', hafiza: 'Find the pairs!',
-    boya: 'Let’s colour!', sepet: 'Let’s fill the basket!', tren: 'All aboard the word train!', kart: 'Let’s play!'
-  };
   const YUMMY = 'Yummy!';
   const BITTI = 'Great work! You finished the round!';
   const RENKLER = [
@@ -134,7 +130,9 @@ const ingilizceOyunlari = (() => {
     '✨', '🥳', '💬', '🔤', '🙇', '👥', '👥📝']);
   // A picture of two things (👩‍🏫☕ teacher’s room, 🛏️🌙 bedroom) is drawn smaller so it fits a card or a balloon.
   const seg = typeof Intl !== 'undefined' && Intl.Segmenter ? new Intl.Segmenter() : null;
-  const pic = emo => '<span class="og-emo' + ((seg ? [...seg.segment(emo)].length : 1) > 1 ? ' iki' : '') + '" aria-hidden="true">' + emo + '</span>';
+  // A word's picture: an emoji, two emoji, or a drawing ([[desk]], core/js/kelime-resimleri.js).
+  const parts = emo => { const rest = emo.replace(/\[\[[a-z0-9-]+\]\]/g, ''); return (emo.length - rest.length ? emo.match(/\[\[/g).length : 0) + (rest ? (seg ? [...seg.segment(rest)].length : 1) : 0); };
+  const pic = emo => '<span class="og-emo' + (parts(emo) > 1 ? ' iki' : '') + '" aria-hidden="true">' + kelimeResimleri.kelimeResmi(emo) + '</span>';
   const resimli = w => !!w.emo && !SOYUT.has(w.emo) && !/[.!?]/.test(w.en) && w.en.split(' ').length <= 3;
   const renk = w => RENKLER.find(r => r[0] === w.en.toLowerCase());
 
@@ -257,19 +255,15 @@ const ingilizceOyunlari = (() => {
     if (trains.length) plan.push(['tren', trains]);
     for (let i = 0; i < cards.length; i += 3) plan.push(['kart', cards.slice(i, i + 3)]);
     const order = shuffled(plan);
-    ingilizceSes.hazirla([...Object.values(GIRIS), ...OVGU, ...TEKRAR, ...c.items.map(i => i.en)]);
+    ingilizceSes.hazirla([...OVGU, ...TEKRAR, ...c.items.map(i => i.en)]);
 
     (async () => {
       for (const [kind, items] of order) {
         if (!live.on) return;
         const info = OYUNLAR[kind];
         where.innerHTML = '<span aria-hidden="true">' + info.simge + '</span> ' + info.ad;
-        // a short title card, so every game starts clearly
-        game.innerHTML = '<div class="og-intro"><span aria-hidden="true">' + info.simge + '</span><strong>' + info.ad + '</strong><small>' + info.not + '</small></div>';
+        // straight into the game: its name stays in the corner, nothing is announced first
         playCue('pop', { gain: 0.6 });
-        await say(GIRIS[kind]);
-        await wait(500);
-        if (!live.on) return;
         await info.oyna(ctx, items);
         for (const item of items) sonuc(item, false);   // anything a game left unanswered counts as missed
         await wait(400);
@@ -387,7 +381,7 @@ const ingilizceOyunlari = (() => {
   };
 
   /* ---------- 🎈 Balon Patlat (also Yanlış Avı's, with the meaning written under the picture) ----------
-     Balloons rise through the sky swaying on their strings, and come up again from below until the right one is popped. */
+     Balloons float up and down the sky swaying on their strings, always in sight, until the right one is popped. */
   async function balonlar(x, items, { yazili = false } = {}) {
     const colours = ['#ff6b6b', '#ffa94d', '#4dabf7', '#9775fa', '#51cf66', '#f783ac', '#ffd43b'];
     for (const [n, item] of items.entries()) {
@@ -409,7 +403,7 @@ const ingilizceOyunlari = (() => {
         const set = yazili ? balloonSet(x, item) : choices(x.c, item, 4);
         const W = sky.clientWidth, H = sky.clientHeight;
         const lanes = shuffled(set.map((_, i) => i));
-        const starts = shuffled([0.12, 0.62, 0.36, 0.84].slice(0, set.length));
+        const starts = shuffled([0.1, 0.65, 0.35, 0.9].slice(0, set.length));
         const balloons = set.map((w, i) => {
           const colour = colours[(i + n * 2) % colours.length];
           const node = button('og-balloon', '<span class="og-bbody"><i class="og-shine"></i>' + (w.emo ? '<span class="og-bpic">' + pic(w.emo) + '</span>' : '') +
@@ -420,21 +414,26 @@ const ingilizceOyunlari = (() => {
           const bw = node.offsetWidth, bh = node.offsetHeight;
           const lane = W / set.length;
           return { w, node, colour, bw, bh, path: node.querySelector('path'), body: node.querySelector('.og-bbody'),
-            x0: lane * (lanes[i] + 0.5) - bw / 2, y: starts[i] * (H - bh * 0.55), speed: H / (9 + Math.random() * 3),
+            x0: lane * (lanes[i] + 0.5) - bw / 2, y: 4, lift: Math.asin(starts[i] * 2 - 1), w: (Math.PI * 2) / (8 + Math.random() * 4) * (i % 2 ? 1 : -1),
             f: 1.1 + Math.random() * 0.6, phase: Math.random() * 6, state: 'fly' };
         });
         const stop = frames((dt, t) => {
           const h = sky.clientHeight;
           for (const b of balloons) {
             if (b.state === 'gone' || b.state === 'popped') continue;
-            b.y -= b.speed * dt * (b.state === 'away' ? 5 : 1);
-            if (b.y < -b.bh - 10) {
-              if (b.state === 'away') { b.state = 'gone'; b.node.remove(); continue; }
-              b.y = h + 6;
+            if (b.state === 'away') {
+              // the round is won: the others fly off
+              b.y -= h * 1.2 * dt;
+              if (b.y < -b.bh - 10) { b.state = 'gone'; b.node.remove(); continue; }
+            } else {
+              // they float up and down inside the sky and never leave it, slowing down gently at the top and the bottom
+              const top = 4, bottom = Math.max(top, h - b.bh - 4);
+              b.lift += b.w * dt;
+              b.y = top + (bottom - top) * (0.5 + 0.5 * Math.sin(b.lift));
             }
             const sway = Math.sin(t * b.f + b.phase);
-            const bx = Math.max(4, Math.min(sky.clientWidth - b.bw - 4, b.x0 + sway * 9));
-            b.node.style.transform = 'translate(' + bx.toFixed(1) + 'px,' + b.y.toFixed(1) + 'px) rotate(' + (sway * 6).toFixed(1) + 'deg)';
+            const bx = Math.max(10, Math.min(sky.clientWidth - b.bw - 10, b.x0 + sway * 4));
+            b.node.style.transform = 'translate(' + bx.toFixed(1) + 'px,' + b.y.toFixed(1) + 'px) rotate(' + (sway * 4).toFixed(1) + 'deg)';
             b.path.setAttribute('d', 'M12 0Q' + (12 - sway * 10).toFixed(1) + ' 35 ' + (12 + sway * 4).toFixed(1) + ' 70');
           }
           for (const c of clouds) {
@@ -667,7 +666,7 @@ const ingilizceOyunlari = (() => {
     }
     let picked = null, target = null, first = true, resolveOne = null;
     const nodes = shuffled(foods).map(w => {
-      const node = button('og-food', '<span aria-hidden="true">' + w.emo + '</span>', w.tr);
+      const node = button('og-food', pic(w.emo), w.tr);
       node.word = w;
       draggable(node, {
         drop: under => { if (under?.closest('.og-basket')) put(node); },
@@ -689,7 +688,7 @@ const ingilizceOyunlari = (() => {
           (to.top + 20 - from.top) + 'px) scale(.4)', opacity: 0.2 }], { duration: 700, easing: 'ease-in' }).finished.then(() => node.classList.add('in'));
         await x.wait(650);
         basket.classList.add('got');
-        sparkle(basket, { symbols: [target.emo, '✦', '❤️'], count: 12, spread: 80 });
+        sparkle(basket, { symbols: [kelimeResimleri.cizim(target.emo) ? '★' : target.emo, '✦', '❤️'], count: 12, spread: 80 });
         x.sonuc(target, first);
         x.react(true, '😋');
         playCue('correct');
@@ -741,6 +740,7 @@ const ingilizceOyunlari = (() => {
       x.game.innerHTML = '';
       const talk = voiceRow(x, item.en);
       const meaning = el('p', 'og-meaning', '“' + esc(item.tr) + '”');
+      const scene = item.emo ? el('div', 'og-scene', pic(item.emo)) : null;   // what the sentence is about
       const track = el('div', 'og-track', '<i class="og-rails"></i>');
       const train = el('div', 'og-train');
       train.innerHTML = LOKOMOTIF + words.map((w, i) => '<span class="og-wagon" style="--c:' + wagonColours[i % wagonColours.length] + '"><i class="og-coupler"></i>' +
@@ -748,7 +748,7 @@ const ingilizceOyunlari = (() => {
         '<svg class="og-ww l" viewBox="0 0 20 20" aria-hidden="true">' + wheel(10, 10, 8.5) + '</svg><svg class="og-ww r" viewBox="0 0 20 20" aria-hidden="true">' + wheel(10, 10, 8.5) + '</svg></span>').join('');
       track.append(train);
       const chips = el('div', 'og-chips');
-      x.game.append(talk, meaning, track, chips);
+      x.game.append(...[talk, scene, meaning, track, chips].filter(Boolean));
       const alive = () => track.isConnected && x.live.on;
       // The whole train fits the track: a long sentence makes it smaller.
       const scale = Math.min(1, (track.clientWidth - 12) / train.offsetWidth);
@@ -888,18 +888,18 @@ const ingilizceOyunlari = (() => {
   }
 
   const OYUNLAR = {
-    dinle: { simge: '👂', ad: 'Dinle ve Bul', not: 'Duyduğun kelimenin resmine dokun.', oyna: dinle },
-    balon: { simge: '🎈', ad: 'Balon Patlat', not: 'Duyduğun kelimenin balonunu patlat!', oyna: (x, items) => balonlar(x, items) },
-    hafiza: { simge: '🃏', ad: 'Sesli Hafıza', not: 'Kartları aç: sesi resmiyle eşleştir.', oyna: hafiza },
-    boya: { simge: '🎨', ad: 'Sihirli Boyama', not: 'Resmi söylenen renge boya.', oyna: boya },
-    sepet: { simge: '🧺', ad: 'Meyve Sepeti', not: 'Söyleneni tutup sepete sürükle.', oyna: sepet },
-    tren: { simge: '🚂', ad: 'Kelime Treni', not: 'Kelimeleri sırayla vagonlara diz.', oyna: tren },
-    kart: { simge: '🎴', ad: 'Bilgi Kartı', not: 'Soruyu oku, doğru kartı seç.', oyna: kart }
+    dinle: { simge: '👂', ad: 'Dinle ve Bul', oyna: dinle },
+    balon: { simge: '🎈', ad: 'Balon Patlat', oyna: (x, items) => balonlar(x, items) },
+    hafiza: { simge: '🃏', ad: 'Sesli Hafıza', oyna: hafiza },
+    boya: { simge: '🎨', ad: 'Sihirli Boyama', oyna: boya },
+    sepet: { simge: '🧺', ad: 'Meyve Sepeti', oyna: sepet },
+    tren: { simge: '🚂', ad: 'Kelime Treni', oyna: tren },
+    kart: { simge: '🎴', ad: 'Bilgi Kartı', oyna: kart }
   };
 
   // Every English line the games can say, for tools/ingilizce_sesler.py.
   function metinler(ayar = {}) {
-    const out = new Set([...OVGU, ...TEKRAR, ...Object.values(GIRIS), YUMMY, BITTI]);
+    const out = new Set([...OVGU, ...TEKRAR, YUMMY, BITTI]);
     for (const food of ayar.sepet || []) out.add(sepetCumle(food));
     for (const thing of Object.keys(RESIMLER)) for (const [colour] of RENKLER) { out.add(boyaCumle(thing, colour)); out.add('The ' + thing + ' is ' + colour + '!'); }
     for (const [colour] of RENKLER) out.add(colour);
@@ -923,7 +923,6 @@ const ingilizceOyunlari = (() => {
       oops: async again => { const t = any(TEKRAR); react(false, '🤔'); playCue('retry'); await say(t); if (again) await say(again); } };
     ingilizceSes.hazirla([...OVGU, ...TEKRAR, ...c.items.map(i => i.en)]);
     (async () => {
-      await say(GIRIS.balon);
       await balonlar(x, c.items, { yazili: true });
       if (live.on) c.bitir(right, c.items.length);
     })();

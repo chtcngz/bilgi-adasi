@@ -19,12 +19,9 @@
 .og-game { position: relative; display: grid; gap: 14px; }
 .og-emo { display: inline-block; line-height: 1; white-space: nowrap; }
 .og-emo.iki { font-size: .62em; letter-spacing: -.04em; }
+.og-emo .kr { width: 1.4em; height: 1.4em; vertical-align: -.2em; }
+.og-emo.iki .kr { width: 1.15em; height: 1.15em; }
 
-/* the title card every game starts with */
-.og-intro { display: grid; justify-items: center; gap: 6px; padding: 30px 16px; text-align: center; border-radius: 24px; background: linear-gradient(#fff8e6, #ffeec4); animation: og-in .5s ease-out; }
-.og-intro span { font-size: 70px; line-height: 1; animation: og-hop 1s ease-out .2s; }
-.og-intro strong { font-size: 26px; font-weight: 950; color: #995122; }
-.og-intro small { font-size: 16px; font-weight: 750; color: #6b5a3d; }
 @keyframes og-in { from { transform: scale(.7); opacity: 0; } }
 
 .og-voice { display: flex; justify-content: center; align-items: center; gap: 14px; }
@@ -58,11 +55,11 @@
 .og-cloud::after { width: 60px; height: 60px; left: 44px; top: -32px; }
 .og-hill { position: absolute; left: -10%; right: -10%; bottom: -60px; height: 110px; border-radius: 50% 50% 0 0; background: #69db7c; box-shadow: inset 0 8px 0 #8ce99a; }
 .og-hill.back { left: 30%; right: -30%; bottom: -50px; background: #40c057; box-shadow: inset 0 8px 0 #69db7c; }
-.og-balloon { position: absolute; left: 0; top: 0; z-index: 2; width: clamp(64px, 20%, 96px); padding: 0; border: 0; background: none; box-shadow: none; display: grid; justify-items: center; transform-origin: 50% 100%; will-change: transform; -webkit-tap-highlight-color: transparent; }
+.og-balloon { position: absolute; left: 0; top: 0; z-index: 2; width: clamp(60px, 19%, 92px); padding: 0; border: 0; background: none; box-shadow: none; display: grid; justify-items: center; transform-origin: 50% 100%; will-change: transform; -webkit-tap-highlight-color: transparent; }
 .og-bbody { position: relative; display: grid; place-items: center; align-content: center; gap: 2px; width: 100%; aspect-ratio: .84; padding: 6px; border-radius: 50% 50% 48% 48% / 56% 56% 44% 44%;
   background: radial-gradient(circle at 34% 28%, #ffffffb0 0 9%, #ffffff00 30%), radial-gradient(circle at 60% 70%, #0000 40%, #0002 100%), var(--c); box-shadow: inset -7px -9px 0 #0000001c; color: #173f40; }
 .og-shine { position: absolute; left: 20%; top: 14%; width: 16%; height: 26%; border-radius: 50%; background: #ffffffc0; rotate: 25deg; }
-.og-bpic { font-size: clamp(30px, 9vw, 40px); line-height: 1; filter: drop-shadow(0 2px 0 #fff8); }
+.og-bpic { display: grid; place-items: center; width: 74%; aspect-ratio: 1; border-radius: 50%; background: #ffffffc4; font-size: clamp(26px, 8vw, 36px); line-height: 1; }
 .og-bbody small { font-size: 12px; font-weight: 850; line-height: 1.1; text-align: center; }
 .og-knot { width: 12px; height: 9px; margin-top: -2px; background: var(--c); clip-path: polygon(50% 0, 100% 100%, 0 100%); filter: brightness(.85); }
 .og-string { width: 24px; height: 62px; margin-top: -1px; overflow: visible; }
@@ -108,6 +105,7 @@
 .og-basket.got { animation: og-hop .6s; border-style: solid; background: #fff1d6; }
 
 /* 🚂 Kelime Treni: the train rolls in, the words fly into the wagons, the train drives off (moved frame by frame) */
+.og-scene { display: grid; place-items: center; font-size: clamp(48px, 15vw, 64px); line-height: 1; margin-bottom: -6px; }
 .og-meaning { margin: 0; text-align: center; font-weight: 850; font-size: 17px; color: #4d6763; }
 .og-track { position: relative; overflow: hidden; min-height: 120px; border-radius: 16px; background: linear-gradient(#a5d8ff, #e7f5ff 72%, #8ce99a 72%); }
 .og-track::before { content: ''; position: absolute; inset: 0 0 28% 0; background:

@@ -4,6 +4,8 @@ h3{font-size:36px;margin:14px 0}.pad{display:grid;grid-template-columns:repeat(3
 
 /* Keep the game keypad within reach and clear of the browser controls. */
 button { touch-action: manipulation; }
+/* a drawn word picture (kelime-resimleri.js) sits in a line of text like an emoji */
+.kr { display: inline-block; width: 1.45em; height: 1.45em; vertical-align: -.38em; }
 dialog { overscroll-behavior: contain; }
 body:has(dialog[open]) { overflow: hidden; }
 @media (max-width: 650px) {

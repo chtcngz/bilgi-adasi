@@ -114,7 +114,8 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
   }
   const escape = text => text.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
   // *word* is underlined and bold, like the negatives in the printed exam.
-  const rich = text => escape(text).replace(/\*(.+?)\*/g, '<u><b>$1</b></u>');
+  // [[name]] in a text is a drawn picture (core/js/kelime-resimleri.js), for a word no emoji shows
+  const rich = text => kelimeResimleri.resimliMetin(escape(text).replace(/\*(.+?)\*/g, '<u><b>$1</b></u>'));
   const el = (tag, className, html) => {
     const node = document.createElement(tag);
     if (className) node.className = className;
@@ -692,7 +693,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
       for (const n of order) {
         const q = run.items[n].q;
         const icon = side === 'en' ? '🔊' : q.k[2];
-        const card = el('button', 'soru-card ' + side, (icon ? '<i aria-hidden="true">' + icon + '</i>' : '') +
+        const card = el('button', 'soru-card ' + side, (icon ? '<i aria-hidden="true">' + kelimeResimleri.kelimeResmi(icon) + '</i>' : '') +
           '<span' + (side === 'en' ? ' lang="en"' : '') + '>' + escape(side === 'en' ? q.k[0] : q.k[1]) + '</span>');
         card.type = 'button';
         card.dataset.n = n;

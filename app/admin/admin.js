@@ -474,7 +474,8 @@ function startAdmin() {
         const state = r.h ? '🔁 yanlış' : learned(r) ? '✅ öğrendi' : '… sürüyor';
         const text = el('span', 'adm-q');
         // an English question names its word, so a listening question ("🔊 Dinle!") still says which word it asked
-        text.append(el('b', '', x.q.s.replace(/\*/g, '') + (x.q.k ? ' · ' + x.q.k[0] : '')), el('small', '', 'Doğrusu: ' + x.q.a[0]));
+        const bare = t => t.replace(/\*/g, '').replace(/\[\[[a-z0-9-]+\]\] ?/g, '');   // drawn pictures are left out here
+        text.append(el('b', '', bare(x.q.s) + (x.q.k ? ' · ' + x.q.k[0] : '')), el('small', '', 'Doğrusu: ' + bare(x.q.a[0])));
         return { className: r.h ? 'bad' : learned(r) ? 'ok' : '', cells: [x.stop.simge + ' ' + x.id, text, String(num(r.g)), String(num(r.d)), String(num(r.y)), state] };
       });
     if (qRows.length) box.append(fold('Soru soru (' + qRows.length + ' görülen soru, önce yanlışlar)',

@@ -7,6 +7,14 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.52.0 · 26.11.2026
+
+İngilizce Koyu (2. sınıf):
+
+- **Her şeyin resmi var:** Emojisi olmayan kelimeler için oyuna özel resimler çizildi: sıra, masa, sehpa, kalemtıraş, silgi, tebeşir, kukla, ceket, okul forması, oda, balkon, kabak, ayran, karnabahar, ıspanak, açmak, kapatmak, oturmak, uzun boylu, Atatürk. Kuyruk, pençe, bıyık ve gaga resimlerinde gri hayvanın yalnızca o bölümü renkli; erkek/kız kardeş ve evlat resimlerinde de kastedilen kişi renkli. Günler, o günü işaretli bir haftalık takvimle; 11-20 arası sayılar renkli rozetlerle gösteriliyor. 152 cümlenin her birinin de resmi var; Kelime Treni’nde cümlenin üstünde duruyor.
+- **Balonlar ekrandan çıkmıyor:** Balonlar gökyüzünde aşağı yukarı süzülüyor, ipleri sallanıyor ama hep görünür kalıyor; resimleri beyaz bir dairenin içinde daha net.
+- **Oyunlar hemen başlıyor:** Her oyunun başındaki büyük tanıtım kartı ve “Let’s play!” gibi sözlü giriş kaldırıldı; oyunun adı köşede duruyor.
+
 ## 0.51.0 · 26.11.2026
 
 İngilizce Koyu (2. sınıf): kelime resimleri baştan sona denetlendi.
