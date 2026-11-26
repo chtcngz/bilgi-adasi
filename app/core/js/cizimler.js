@@ -41,17 +41,8 @@
 
   kelimeResimleri.ekle({
     /* places */
-    school: p('M6 30L32 12l26 18', '#e5484d') + r(10, 28, 44, 30, '#ffd43b', 2) + r(26, 40, 12, 18, '#a9744f', 2) + c(32, 23, 5, '#fff') + lines('M32 20v3l2 1', INK, 1.6) +
-      r(14, 33, 8, 7, '#a5d8ff', 1.5, 2) + r(42, 33, 8, 7, '#a5d8ff', 1.5, 2) + lines('M32 12V3', INK, 2.4) + p('M32 3h10l-3 3 3 3H32z', '#40c057', 2) + lines('M4 58h56', '#51cf66', 4),
-    playground: lines('M4 58h56', '#51cf66', 5) + p('M8 58V20h10v38', 'none', 2.8) + lines('M8 26h10M8 34h10M8 42h10M8 50h10', INK, 2.2) + p('M18 20q20 6 26 38', 'none', 3) + p('M18 22q18 8 22 36', 'none', 0) +
-      '<path d="M18 20q20 6 26 38" fill="none" stroke="#ff922b" stroke-width="6" stroke-linecap="round"/>' + p('M46 8v50M60 8v50M46 8h14', 'none', 2.8) + lines('M50 8v26M56 8v26', '#868e96', 1.8) + r(48, 34, 10, 3, '#e5484d', 1, 2),
-    'sports-hall': room('#e7f5ff', '#e8a24a') + lines('M2 50h60', '#fff', 1.6) + r(36, 8, 22, 14, '#fff', 2) + r(42, 13, 10, 6, 'none', 0, 2) + p('M42 22h10l-2 10h-6z', 'none', 0) +
-      lines('M43 22l2 9M47 22v9M51 22l-2 9M43 26h8', '#adb5bd', 1.6) + lines('M44 22h10', '#e8590c', 3) + c(18, 36, 9, '#ff922b') + lines('M9 36h18M18 27v18M12 29q6 7 0 14M24 29q-6 7 0 14', INK, 1.8),
-    'teachers-room': room('#f3f0ff', '#c98a4a') + r(8, 8, 24, 16, '#fff', 2) + lines('M12 13h10M12 18h14', '#9775fa', 2) + r(4, 36, 56, 6, '#a9744f', 2) + lines('M10 42v12M54 42v12', INK, 2.6) +
-      p('M38 27h9v6a4 4 0 0 1-4 4h-1a4 4 0 0 1-4-4z', '#fff', 2) + p('M47 29a3 3 0 0 1 0 5', 'none', 1.8) + lines('M40 23q1-2 0-4M44 23q1-2 0-4', '#adb5bd', 1.6) + r(14, 28, 14, 8, '#4dabf7', 1.5) + r(16, 26, 10, 3, '#ffd43b', 1, 1.6),
     /* school things */
     /* actions: a child */
-    sing: kid({ l: [22, 46], r: [40, 27], mouth: 'open' }, '#9775fa', true) + r(39, 22, 4, 9, '#495057', 2, 1.8) + note(48, 6, '#e64980') + note(54, 18, '#4dabf7') + note(6, 10, '#40c057'),
     'stand-up': kid({}, '#40c057') + lines('M56 52V14M51 20l5-6 5 6', '#f76707', 4) + r(2, 40, 12, 4, '#ffa94d', 1.5) + lines('M4 44v12M12 44v12M12 40V24', INK, 2.4),
     read: kid({ l: [24, 40], r: [40, 40] }, '#f783ac', true) + p('M18 32l14 4 14-4v14l-14 4-14-4z', '#fff', 2.2) + p('M32 36v14', 'none', 2) + lines('M22 38l6 2M22 42l6 2M36 40l6-2M36 44l6-2', '#4dabf7', 1.4),
     write: kid({ l: [24, 48], r: [40, 48] }, '#4dabf7', true) + r(16, 46, 32, 14, '#fff', 2) + lines('M20 51h18M20 55h12', '#adb5bd', 1.6) + '<g transform="rotate(30 42 46)">' + r(40, 38, 4, 12, '#e5484d', 1, 1.8) + '</g>',

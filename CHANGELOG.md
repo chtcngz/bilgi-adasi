@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.72.0 · 26.11.2026
+
+- **İngilizce Koyu'nda yeni resimler:** Yer, oyun alanı, öğrenci, Cumartesi, okul, şarkı söylemek, spor salonu, başlamak, Pazar, öğretmen ve öğretmenler odası artık sevimli, renkli resim kartlarıyla gösteriliyor. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.
+
 ## 0.71.0 · 26.11.2026
 
 - **İngilizce Koyu'nda yeni resimler:** Büyük, erkek çocuk, kantin, alkışlamak, sınıf, gün, affedersiniz, iyi, bitirmek, Cuma, arkadaş, bahçe ve kız çocuk artık sevimli, renkli resim kartlarıyla gösteriliyor. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.

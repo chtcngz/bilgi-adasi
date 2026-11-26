@@ -50,7 +50,9 @@
     'thank-you-3', 'together-3', 'boy-ball', 'paint-2', 'time-3', 'wait-3', 'week-2', 'what-3', 'where-2', 'who-3',
     // people, school, days
     'big', 'boy', 'canteen', 'clap', 'classroom', 'day', 'excuse-me', 'fine', 'fine-2', 'finish', 'calendar-heart', 'friday', 'friend', 'garden-2',
-    'girl', 'girl-2', 'girl-3'
+    'girl', 'girl-2', 'girl-3',
+    // school places, the weekend
+    'place', 'playground', 'pupil', 'saturday', 'school', 'sing', 'sports-hall', 'start', 'sunday', 'teacher', 'teachers-room'
   ];
   const more = {};
   for (const name of names) {
