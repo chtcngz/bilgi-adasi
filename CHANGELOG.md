@@ -7,6 +7,18 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.49.0 · 26.11.2026
+
+İngilizce Koyu artık soru soru değil, **oyun oyun** oynanıyor:
+
+- **Her durak oyunlardan oluşuyor:** Bir durağın soruları kısa oyunlara bölünüyor ve her tur farklı oyunlarla geliyor: 👂 Dinle ve Bul, 🎈 Balon Patlat, 🃏 Sesli Hafıza, 🎨 Sihirli Boyama (renkler), 🧺 Meyve Sepeti (yiyecekler), 🚂 Kelime Treni (cümleler) ve okuma soruları için 🎴 Bilgi Kartı. Her oyunun başında adı ve ne yapılacağı büyükçe çıkıyor. Ayrı “Oyun Parkı” adası kaldırıldı; oyunlar ünitelerin içinde. Tekrar Kutusu da oyunlarla oynanıyor.
+- **Doğal ses:** İngilizce kelimeler ve cümleler artık cihazın yapay sesiyle değil, önceden doğal bir yapay zekâ sesiyle (Kokoro) kaydedilmiş seslerle okunuyor; her cihazda aynı ses. 🐢 düğmesi aynı sesin yavaş kaydını çalıyor.
+- **Daha sakin tempo:** Bir ses bitmeden sonraki başlamıyor (“Yummy!” artık kesilmiyor). Doğru cevaptan sonra kutlama, övgü (“Well done!”, “Great job!” …) ve kelime duyuluyor, sonra bir süre bekleniyor.
+- **Maskot ve yıldızlar:** Çocuğun kendi simgesi (🦊, 🐬 …) oyunun köşesinde: doğru cevapta zıplıyor ve “Super!” diyor, yanlışta sallanıyor. Üstte turun her sorusu için bir yıldız var; ilk denemede bilinen sorunun yıldızı sarıya dönüyor.
+- **Sihirli Boyama:** Renk seçilince boya fırçayla resmin ortasından yayılıyor; doğruysa resim parlıyor, yıldızlar ve konfeti saçılıyor ve “The fish is blue!” deniyor.
+- **Kelime Treni:** Cümle tamamlanınca tren gerçekten yola çıkıp raydan uzaklaşıyor.
+- **Meyve Sepeti:** Doğru yiyecek sepete uçarak giriyor, sepet zıplıyor, “Yummy!” deniyor.
+
 ## 0.48.0 · 26.11.2026
 
 İngilizce Koyu’na oyunlar ve öğrenme yardımcıları geldi (2. sınıf):

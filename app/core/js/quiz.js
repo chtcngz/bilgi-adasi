@@ -20,12 +20,13 @@
 //   yanlisAvi true: koyda 🎯 Yanlış Avı adası olur. Tekrar Kutusu'nda YETER (6) yanlış birikince açılır; çocuğun yalnızca
 //             yanlış yaptığı kelimeler (k) İngilizce ve Türkçe kartlar olarak eşleştirilir (🧩) ya da balon olarak patlatılır (🎈)
 //   ikinciSans true: alıştırma turunda ilk yanlış cevap yalnızca soluklaşır, çocuk bir kez daha dener (soru yine yanlış sayılır)
-//   oyunParki  { sepet: [yiyecek kelimeleri], tren: [[İngilizce cümle, Türkçesi]] }: koyda 🎡 Oyun Parkı adası olur
-//             (core/js/ingilizce-oyunlari.js: Dinle ve Bul, Meyve Sepeti, Sihirli Boyama, Kelime Treni, Sesli Hafıza)
+//   oyunlar   { sepet: [yiyecek kelimeleri] }: duraklar ve Tekrar Kutusu soru soru değil, oyun oyun oynanır
+//             (core/js/ingilizce-oyunlari.js: Dinle ve Bul, Balon Patlat, Sesli Hafıza, Sihirli Boyama, Meyve Sepeti,
+//             Kelime Treni, Bilgi Kartı); her oyun kendi sorularını sorar, cevaplar yine o sorulara yazılır
 // Ayarlar penceresi ilerlemeyi window.soruAdalari[kod] üzerinden okur ve sıfırlar.
 // Soru bankası henüz boş olan bir ada (İngilizce Koyu gibi) haritada "Yakında" durur: tek, kilitli bir adası olur.
 window.soruAdalari = {};
-function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: stops, ovgu: praise, simgeler, ses, yanlisAvi, ikinciSans, oyunParki }) {
+function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: stops, ovgu: praise, simgeler, ses, yanlisAvi, ikinciSans, oyunlar }) {
   const ROUND = 10, HEARTS = 3, EXAM = 20;
   const letters = ['A', 'B', 'C', 'D'];
   const byKey = name => $(kod + '-' + name);
@@ -143,9 +144,12 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
     return voices.find(v => lang(v) === ses.toLowerCase()) || voices.find(v => lang(v).startsWith('en')) || null;
   };
   // Voices load late on some browsers: while the list is still empty, the device is given the benefit of the doubt.
-  const canSpeak = () => !!speech && (!speech.getVoices().length || !!voiceFor());
+  const canSpeak = text => (text && typeof ingilizceSes !== 'undefined' && ingilizceSes.kayitli(text)) || (!!speech && (!speech.getVoices().length || !!voiceFor()));
+  // The natural recordings of core/js/ingilizce-oyunlari.js when there are any, the device's voice otherwise.
   function say(text, slow) {
-    if (!speech || !text) return;
+    if (!ses || !text) return Promise.resolve();
+    if (typeof ingilizceSes !== 'undefined') return ingilizceSes.say(text, slow);
+    if (!speech) return Promise.resolve();
     speech.cancel();
     const line = new SpeechSynthesisUtterance(text);
     line.lang = ses;
@@ -197,9 +201,6 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
   const EXAM_ISLE = stops.length; // the mock exam comes after the stops
   const HUNT_ISLE = yanlisAvi ? stops.length + 1 : -1; // Yanlış Avı, after the exam
   const YETER = 6, CIFT = 6;          // wrong answers that open Yanlış Avı; pairs in one of its rounds
-  const PARK_ISLE = oyunParki ? stops.length + (yanlisAvi ? 2 : 1) : -1; // Oyun Parkı, last
-  const parkGames = () => oyunParki ? ingilizceOyunlari.OYUNLAR : [];
-  const parkNext = () => parkGames().find(g => progress.oyun[g.id] === undefined) || parkGames()[0];
   const huntCount = () => missed().filter(q => q.k).length;
   const huntOpen = () => yanlisAvi && huntCount() >= YETER;
   const starText = n => '★'.repeat(n) + '☆'.repeat(3 - n);
@@ -215,15 +216,11 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
       { ad: 'Deneme Sınavı', simge: '🏆', not: progress.deneme.en === null ? EXAM + ' soru' : 'En iyi ' + progress.deneme.en + '/' + EXAM,
         durum: !examOpen() ? 'locked' : step.kind === 'deneme' ? 'now' : progress.deneme.sayi ? 'done' : 'open' },
       ...(yanlisAvi ? [{ ad: 'Yanlış Avı', simge: '🎯', not: huntCount() ? huntCount() + ' yanlış' : 'Yanlış yok',
-        durum: huntOpen() ? 'open' : learnedAll() === byId.size ? 'done' : 'locked' }] : []),
-      ...(oyunParki ? [{ ad: 'Oyun Parkı', simge: '🎡', not: parkGames().filter(g => progress.oyun[g.id] !== undefined).length + '/' + parkGames().length + ' oyun',
-        durum: parkGames().every(g => progress.oyun[g.id] !== undefined) ? 'done' : 'open' }] : [])];
+        durum: huntOpen() ? 'open' : learnedAll() === byId.size ? 'done' : 'locked' }] : [])];
     },
     duraklar(k) {
       if (k === HUNT_ISLE) return [{ simge: '🧩', ad: 'Eşleştir', etiket: 'Yanlış Avı: Eşleştir', not: huntCount() + ' yanlış', durum: 'now' },
         { simge: '🎈', ad: 'Balon Patlat', etiket: 'Yanlış Avı: Balon Patlat', not: huntCount() + ' yanlış', durum: 'open' }];
-      if (k === PARK_ISLE) return parkGames().map(g => ({ simge: g.simge, ad: g.ad, etiket: 'Oyun Parkı: ' + g.ad,
-        not: progress.oyun[g.id] === undefined ? g.not : 'En iyi ' + progress.oyun[g.id], durum: progress.oyun[g.id] !== undefined ? 'done' : g === parkNext() ? 'now' : 'open' }));
       if (k === EXAM_ISLE) return [{ simge: '🏆', ad: 'Deneme', etiket: 'Deneme Sınavı', not: progress.deneme.en === null ? EXAM + ' soru' : 'En iyi ' + progress.deneme.en + ' / ' + EXAM,
         durum: progress.deneme.sayi ? 'done' : 'now' }];
       const now = firstPart(stops[k]);
@@ -233,8 +230,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
           durum: n === part.length ? 'done' : p === now ? 'now' : 'open' };
       });
     },
-    ac: (k, p) => k === HUNT_ISLE ? (p === 1 ? startPark('balon') : startHunt()) : k === PARK_ISLE ? startPark(parkGames()[p].id) :
-      k === EXAM_ISLE ? startExam() : startStop(k, p),
+    ac: (k, p) => k === HUNT_ISLE ? (p === 1 ? startBalloons() : startHunt()) : k === EXAM_ISLE ? startExam() : startStop(k, p),
     kilit: k => !hazir ? 'Bu koyun soruları hazırlanıyor. Yakında!' : k === HUNT_ISLE ?
       'Yanlış Avı, Tekrar Kutusu’nda en az ' + YETER + ' yanlış birikince açılır (şimdi ' + huntCount() + ')' : lockText,
     panel(level, k) {
@@ -249,18 +245,11 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
         box.querySelector('.kh-row').append(dugme('Tekrar et', startReview));
         if (huntOpen()) {
           const row = el('div', 'kh-row', '<span aria-hidden="true">🎯</span><div><strong>Yanlış Avı</strong><small>Yanlış yaptığın kelimeleri anlamlarıyla eşleştir.</small></div>');
-          row.append(dugme('🧩 Eşleştir', startHunt), dugme('🎈 Balon', () => startPark('balon')));
+          row.append(dugme('🧩 Eşleştir', startHunt), dugme('🎈 Balon', startBalloons));
           box.append(row);
         }
         return box;
       };
-      if (level === 'ada' && k === PARK_ISLE) {
-        const g = parkNext();
-        parts.push(sonraki(g.simge, 'Oyun Parkı', g.ad, () => startPark(g.id)));
-        parts.push(kutu('<strong>🎡 Oyun Parkı</strong><small>Kitabın kelimeleriyle beş oyun: ' + parkGames().map(x => x.simge + ' ' + x.ad).join(', ') +
-          '. Hiçbirinde okumak gerekmez: her şey sesle söylenir, 🐢 ile yavaşça da dinleyebilirsin. Her oyunu ilk bitirişin akvaryuma bir ödül getirir.</small>'));
-        return parts;
-      }
       if (level === 'ada' && k === HUNT_ISLE) {
         parts.push(sonraki('🧩', 'Yanlış Avı', 'Yanlışlarını eşleştir', startHunt));
         parts.push(kutu('<strong>🎯 Yanlış Avı</strong><small>Yalnızca yanlış yaptığın kelimeler ve kalıplar gelir. 🧩 Eşleştir: İngilizce kartı Türkçesiyle eşleştir; ' +
@@ -313,12 +302,39 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
   function startStop(k, p) {
     if (!stopOpen(k)) return;
     const part = Number.isInteger(p) ? partsOf(stops[k])[p] : stops[k].sorular;
+    if (oyunlar) return startGame('durak', stops[k], pick(part, ROUND), p);
     begin('durak', stops[k], pick(part, ROUND));
     run.part = p;
   }
   function startReview() {
     const list = missed();
-    if (list.length) begin('tekrar', null, shuffled(list).slice(0, ROUND));
+    if (!list.length) return;
+    if (oyunlar) return startGame('tekrar', null, shuffled(list).slice(0, ROUND));
+    begin('tekrar', null, shuffled(list).slice(0, ROUND));
+  }
+  // İngilizce Koyu: the round's questions played as games (core/js/ingilizce-oyunlari.js). Every game answers its own
+  // questions, so learning, stars, Tekrar Kutusu and the rewards work as in a question round; finish() ends it.
+  const wordQuestion = q => !!q.k && (q.d === 1 || / İngilizcede hangisi\?$/.test(q.s) || (/ ne demek\?$/.test(q.s) && q.s.startsWith('“' + q.k[0] + '”')));
+  const asItem = q => ({ q, en: q.k[0], tr: q.k[1], emo: q.k[2] || '', word: wordQuestion(q) });
+  function startGame(kind, stop, questions, part) {
+    questions = questions.filter(q => q.k);
+    run = { kind, stop, part, items: questions.map(prepare), turn: 0, right: 0, hearts: HEARTS, streak: 0, bestStreak: 0,
+      started: performance.now(), learnedBefore: learnedAll(), stopLearnedBefore: stop ? learnedIn(stop) : 0 };
+    if (!dialog.open) dialog.showModal();
+    dialog.dataset.mode = 'oyun';
+    dialog.dataset.mood = '';
+    playCue('start');
+    const mine = run;
+    run.cancel = ingilizceOyunlari.tur({
+      stage: byKey('stage'), items: questions.map(asItem), havuz: pictureWords(), ayar: oyunlar, maskot: activeProfile?.icon, rich,
+      sonuc: (item, ok) => {
+        if (run !== mine) return;
+        note(item.q, ok);
+        save();
+        if (ok) { run.right++; run.streak++; run.bestStreak = Math.max(run.bestStreak, run.streak); } else run.streak = 0;
+      },
+      bitir: () => { if (run === mine) finish(); }
+    });
   }
   function startExam() {
     if (!examOpen()) return;
@@ -352,7 +368,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
       (q.m ? '<div class="soru-passage">' + rich(q.m) + '</div>' : '') +
       '<h2 id="' + kod + '-prompt" class="soru-prompt" tabindex="-1">' + rich(q.s) + (sayFirst(q) && !q.d ? ' ' + sayButton(q) : '') + '</h2>' +
       // a listening question: the word is only heard, and written only when the device has no English voice
-      (sayFirst(q) && q.d ? '<div class="soru-listen">' + sayButton(q, true) + (canSpeak() ? '' : '<span class="soru-heard">“' + escape(q.k[0]) + '”</span>') + '</div>' : '');
+      (sayFirst(q) && q.d ? '<div class="soru-listen">' + sayButton(q, true) + (canSpeak(q.k[0]) ? '' : '<span class="soru-heard">“' + escape(q.k[0]) + '”</span>') + '</div>' : '');
     if (q.k) bindSay(stage, q.k[0]);
     if (sayFirst(q)) setTimeout(() => { if (run && run.items[run.turn] === item && item.answer === null) say(q.k[0]); }, 350);
     const grid = el('div', 'soru-options');
@@ -591,7 +607,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
     const left = unitsLeft();
     let text = run.right + ' / ' + total + ' doğru';
     if (run.bestStreak >= 3) text += ' · en uzun seri 🔥 ' + run.bestStreak;
-    let extra = stars < 3 ? '<p>3 yıldız için turu hatasız bitir. Jokerini akıllıca kullan!</p>' :
+    let extra = stars < 3 ? (oyunlar ? '<p>3 yıldız için bütün oyunları ilk denemede bil!</p>' : '<p>3 yıldız için turu hatasız bitir. Jokerini akıllıca kullan!</p>') :
       !stopMastered(stop) ? '<p>Bu adanın bütün sorularını öğrenmek için tekrar oyna; her turda yeni sorular gelir.</p>' : '';
     if (firstTime && !stop.ekstra && left) extra += '<p class="soru-unlock">Deneme Sınavı’na ' + left + ' ünite kaldı.</p>';
     if (examNow) extra += '<p class="soru-unlock">🔓 <b>Deneme Sınavı</b>' + (ekstra ? ' ve <b>' + ekstra.simge + ' ' + ekstra.ad + '</b>' : '') +
@@ -749,7 +765,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
       ['Haritaya dön', closeGame, true]);
   }
 
-  /* ---------- Oyun Parkı and Balon Patlat (core/js/ingilizce-oyunlari.js) ---------- */
+  /* ---------- the words of İngilizce Koyu's games ---------- */
   // The island's words that have a picture, one word per picture (a picture shared by several words, like 📅, is left out).
   let pictured = null;
   function pictureWords() {
@@ -764,47 +780,36 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
     // words that share a picture and a meaning (orange, oranges) are one word; different meanings make the picture unclear
     return (pictured = [...byEmoji.values()].filter(list => list.every(w => w.tr === list[0].tr)).map(list => list[list.length - 1]));
   }
-  function startPark(id) {
-    const balloons = id === 'balon';
-    if (balloons && !huntOpen()) return;
-    const game = balloons ? ingilizceOyunlari.BALON : parkGames().find(g => g.id === id);
-    run = { kind: balloons ? 'avi' : 'park', stop: null, game, learnedBefore: learnedAll() };
+  // Yanlış Avı's 🎈 Balon Patlat: the wrong answers' words float up as balloons, each with its meaning written under it.
+  function startBalloons() {
+    if (!huntOpen()) return;
+    const seen = new Set();
+    const items = shuffled(missed().filter(q => q.k)).filter(q => !seen.has(bare(q.k[0])) && seen.add(bare(q.k[0]))).slice(0, CIFT).map(asItem);
+    run = { kind: 'avi', stop: null, learnedBefore: learnedAll() };
     if (!dialog.open) dialog.showModal();
-    dialog.dataset.mode = 'park';
+    dialog.dataset.mode = 'oyun';
     dialog.dataset.mood = '';
     playCue('start');
     const mine = run;
-    const seenEn = new Set();
-    const wrongWords = balloons ? shuffled(missed().filter(q => q.k)).filter(q => !seenEn.has(bare(q.k[0])) && seenEn.add(bare(q.k[0])))
-      .slice(0, CIFT).map(q => ({ q, en: q.k[0], tr: q.k[1], emo: q.k[2] || '' })) : [];
-    ingilizceOyunlari.baslat(id, {
-      stage: byKey('stage'), kelimeler: pictureWords(), ayar: oyunParki || {}, yanlislar: wrongWords,
-      say: (text, slow) => { if (run === mine) say(text, slow); },
-      sonuc: (word, right) => { if (run !== mine) return; note(word.q, right); save(); },
-      bitir: (right, total, extra) => { if (run === mine) finishPark(game, right, total, extra); }
+    run.cancel = ingilizceOyunlari.balonTuru({
+      stage: byKey('stage'), items, havuz: pictureWords(), maskot: activeProfile?.icon, rich,
+      sonuc: (item, ok) => { if (run === mine) { note(item.q, ok); save(); } },
+      bitir: (right, total) => { if (run === mine) finishBalloons(right, total); }
     });
   }
-  function finishPark(game, right, total, extra) {
-    const balloons = game.id === 'balon';
-    const firstTime = !balloons && progress.oyun[game.id] === undefined;
-    if (!balloons) progress.oyun[game.id] = Math.max(progress.oyun[game.id] || 0, right);
-    save();
-    // every park game rewards its first finish once; a balloon round without a miss rewards like a clean Tekrar Kutusu round
-    const prize = balloons ? (right === total ? akvaryum.odul({ neden: ad + ' · Balon Patlat' }) : null) :
-      firstTime ? akvaryum.odul({ anahtar: kod + ':oyun:' + game.id, neden: ad + ' · ' + game.ad }) : null;
+  function finishBalloons(right, total) {
+    const prize = right === total ? akvaryum.odul({ neden: ad + ' · Balon Patlat' }) : null;
     const stars = right === total ? 3 : right >= total - 2 ? 2 : 1;
-    result('<div class="soru-prize" aria-hidden="true">' + game.simge + '</div>' +
-      '<h2 id="' + kod + '-result-title" tabindex="-1">' + (stars === 3 ? 'Harika! Hepsini buldun!' : 'Oyun bitti, aferin!') + '</h2>' +
-      '<div class="soru-won">' + starRow(stars) + '</div>' +
-      '<p class="soru-score-big"><b>' + right + '</b> / ' + total + ' ilk denemede</p>' + (extra ? '<p>' + escape(extra) + '</p>' : '') +
-      (balloons ? '<p>' + (missed().length ? 'Tekrar Kutusu’nda ' + missed().length + ' soru kaldı.' : 'Tekrar Kutusu boşaldı. 🎉') + '</p>' + learnedNote() : '') +
-      (prize ? akvaryum.kart([prize]) : '') + (storageNote ? '<p class="soru-small">' + storageNote + '</p>' : ''), 'win');
+    result('<div class="soru-prize" aria-hidden="true">🎈</div>' +
+      '<h2 id="' + kod + '-result-title" tabindex="-1">' + (stars === 3 ? 'Hepsini ilk denemede patlattın!' : 'Balonlar bitti, aferin!') + '</h2>' +
+      '<div class="soru-won">' + starRow(stars) + '</div><p class="soru-score-big"><b>' + right + '</b> / ' + total + ' ilk denemede</p>' +
+      '<p>' + (missed().length ? 'Tekrar Kutusu’nda ' + missed().length + ' soru kaldı.' : 'Tekrar Kutusu boşaldı. 🎉') + '</p>' + learnedNote() +
+      (prize ? akvaryum.kart([prize]) : akvaryum.ipucu('Bütün balonları ilk denemede patlatınca akvaryumuna yeni bir balık ya da süs gelir.')) +
+      (storageNote ? '<p class="soru-small">' + storageNote + '</p>' : ''), 'win');
     playCue(stars === 3 ? 'victory' : 'island');
     fx.confetti(dialog, { count: stars === 3 ? 170 : 100 });
-    fx.burst(byKey('stage').querySelector('.soru-won'), { count: 12, spread: 100 });
-    const again = balloons ? (huntOpen() ? [['🎈 Bir tur daha', () => startPark('balon')]] : []) : [['↻ Bir daha oyna', () => startPark(game.id)]];
-    const other = balloons ? [] : parkGames().filter(g => g !== game && progress.oyun[g.id] === undefined).slice(0, 1).map(g => [g.simge + ' ' + g.ad + ' ›', () => startPark(g.id), true]);
-    buttons(...again, ...other, ['Haritaya dön', closeGame, true]);
+    buttons(...(huntOpen() ? [['🎈 Bir tur daha', startBalloons]] : []), ...(missed().length ? [['🔁 Tekrar Kutusu', startReview, huntOpen()]] : []),
+      ['Haritaya dön', closeGame, true]);
   }
 
   function closeGame() { dialog.close(); }
@@ -823,7 +828,9 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
   /* ---------- Leaving ---------- */
   byKey('close').onclick = closeGame;
   dialog.addEventListener('close', () => {
+    run?.cancel?.();
     run = null;
+    if (typeof ingilizceSes !== 'undefined') ingilizceSes.stop();
     speech?.cancel();
     dialog.dataset.mood = '';
     for (const canvas of dialog.querySelectorAll('.fx-confetti')) canvas.remove();

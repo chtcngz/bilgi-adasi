@@ -1,211 +1,114 @@
-// İngilizce oyunları: the mini games of İngilizce Koyu (every grade), opened from quiz.js.
-//   Oyun Parkı island:   dinle (Dinle ve Bul), sepet (Meyve Sepeti), boya (Sihirli Boyama), tren (Kelime Treni), hafiza (Sesli Hafıza)
-//   Yanlış Avı island:   balon (Balon Patlat), with only the words the child got wrong
-// quiz.js calls ingilizceOyunlari.baslat(id, c) with c = {
-//   stage      the island's game window to draw in
-//   kelimeler  [{ en, tr, emo }]: the island's English words that have a picture (one word per picture)
-//   ayar       the island's oyunParki settings: sepet (food words), tren ([English sentence, Turkish] pairs)
-//   say(text, yavas)   says English in the device's voice (yavas: the 🐢 slow voice)
-//   sonuc(item, dogru) Balon Patlat only: the child answered a wrong question's word (item from c.yanlislar)
-//   yanlislar  Balon Patlat only: [{ q, en, tr, emo }] the wrong answers' words
-//   bitir(dogru, toplam, not)  the round is over: dogru answers right at the first try out of toplam
-// }
-// Nothing here needs reading English: every word is heard first, and pictures stand for the words.
-const ingilizceOyunlari = (() => {
-  const OYUNLAR = [
-    { id: 'dinle', simge: '👂', ad: 'Dinle ve Bul', not: 'Duyduğun kelimenin resmine dokun.' },
-    { id: 'sepet', simge: '🧺', ad: 'Meyve Sepeti', not: 'Söyleneni tutup sepete sürükle.' },
-    { id: 'boya', simge: '🎨', ad: 'Sihirli Boyama', not: 'Resmi söylenen renge boya.' },
-    { id: 'tren', simge: '🚂', ad: 'Kelime Treni', not: 'Kelimeleri doğru sırayla vagonlara diz.' },
-    { id: 'hafiza', simge: '🃏', ad: 'Sesli Hafıza', not: 'Sesi resmiyle eşleştir.' }
-  ];
-  const BALON = { id: 'balon', simge: '🎈', ad: 'Balon Patlat', not: 'Duyduğun kelimenin balonunu patlat.' };
-
-  /* ---------- helpers ---------- */
-  const calm = matchMedia('(prefers-reduced-motion: reduce)');
-  const esc = text => String(text).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[ch]);
-  const el = (tag, className, html) => {
-    const node = document.createElement(tag);
-    if (className) node.className = className;
-    if (html !== undefined) node.innerHTML = html;
-    return node;
+// İngilizce oyunları: İngilizce Koyu (every grade) is played as games, not as a quiz.
+//
+// ingilizceSes: the English voice. Every English word and sentence of the island was recorded once with a natural
+//   voice (Kokoro, tools/ingilizce_sesler.py → app/assets/audio/ingilizce/, listed in window.ingilizceKayitlar);
+//   a text that has no recording is read by the device's own English voice. say() returns a promise that ends when
+//   the line has been heard, so nothing is cut off and the game waits for it.
+//
+// ingilizceOyunlari.tur(c): a station's round. The station's questions are cut into short games, each one asking
+//   its own questions in its own way, and every question is answered exactly once (c.sonuc):
+//     a word with a picture   👂 Dinle ve Bul (hear it, tap its picture), 🎈 Balon Patlat (pop its balloon),
+//                             🃏 Sesli Hafıza (a sound card and its picture card)
+//     a colour                🎨 Sihirli Boyama ("Colour the fish blue.")
+//     a food                  🧺 Meyve Sepeti ("Put the apples in the basket." – drag it into the basket)
+//     a sentence              🚂 Kelime Treni (its words, in order, into the wagons; the train then leaves)
+//     anything else           🃏 Bilgi Kartı (the question itself, with a second try)
+//   c = { stage, items: [{ q, en, tr, emo }], havuz: [{ en, tr, emo }] (other pictured words, for wrong choices),
+//         ayar: { sepet: [food words] }, maskot (the player's icon), sonuc(item, dogru), bitir(), rich(text) }
+// ingilizceOyunlari.balon(c): Yanlış Avı's Balon Patlat, with only the words the child got wrong.
+// ingilizceOyunlari.metinler(ayar, kelimeler): every English line the games say, for the recording tool.
+const ingilizceSes = (() => {
+  const BASE = 'assets/audio/ingilizce/';
+  const buffers = new Map();
+  let current = null, run = 0;
+  const context = () => (typeof playCue === 'function' && playCue.context?.()) || null;
+  const clip = (text, slow) => {
+    const id = window.ingilizceKayitlar?.[text];
+    return id ? BASE + id + (slow ? '-y' : '') + '.mp3?v=' + (window.ingilizceKayitlarSurum || 1) : null;
   };
-  const shuffled = items => {
-    const out = [...items];
-    for (let i = out.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [out[i], out[j]] = [out[j], out[i]]; }
-    return out;
-  };
-  const later = (ms, fn) => setTimeout(fn, calm.matches ? Math.min(ms, 250) : ms);
-  // A big 🔊 and a 🐢 (slow) button that say `text`.
-  function voice(c, getText) {
-    const row = el('div', 'og-voice');
-    const loud = el('button', 'soru-say big', '🔊');
-    loud.type = 'button';
-    loud.setAttribute('aria-label', 'Dinle');
-    loud.onclick = () => { c.say(getText()); fx.bump(loud, 'show'); };
-    const slow = el('button', 'soru-say slow', '🐢');
-    slow.type = 'button';
-    slow.setAttribute('aria-label', 'Yavaş dinle');
-    slow.onclick = () => { c.say(getText(), true); fx.bump(slow, 'show'); };
-    row.append(loud, slow);
-    return row;
-  }
-  // The frame every game shares: its name, a counter, what to do.
-  function frame(c, game, task) {
-    c.stage.innerHTML = '<div class="soru-top"><span class="soru-where">' + game.simge + ' ' + game.ad + '</span><span class="og-count"></span></div>' +
-      '<h2 class="soru-prompt og-task" tabindex="-1">' + esc(task) + '</h2>';
-    const body = el('div', 'og-body');
-    c.stage.append(body);
-    c.counter = c.stage.querySelector('.og-count');   // this round's own counter: a late timer of an old round cannot touch a new one
-    c.stage.querySelector('.og-task').focus();
-    return body;
-  }
-  const count = (c, text) => { c.counter.textContent = text; };
-  // Picks n words with different pictures, starting with `first`.
-  function pick(list, n, first) {
-    const out = first ? [first] : [];
-    for (const w of shuffled(list)) {
-      if (out.length >= n) break;
-      if (!out.some(o => o.en === w.en || o.emo === w.emo)) out.push(w);
+  function decode(src) {
+    const audio = context();
+    if (!audio) return Promise.resolve(null);
+    if (!buffers.has(src)) {
+      buffers.set(src, fetch(src).then(r => r.ok ? r.arrayBuffer() : Promise.reject(new Error(r.status)))
+        .then(data => new Promise((resolve, reject) => audio.decodeAudioData(data, resolve, reject)))
+        .catch(() => { buffers.delete(src); return null; }));
     }
-    return out;
+    return buffers.get(src);
   }
-  // Dragging with a finger or a mouse; a tap without moving counts as a tap.
-  function draggable(node, { drop, tap }) {
-    node.addEventListener('pointerdown', e => {
-      if (node.disabled) return;
-      e.preventDefault();
-      const x0 = e.clientX, y0 = e.clientY;
-      let moved = false;
-      node.setPointerCapture(e.pointerId);
-      const move = ev => {
-        const dx = ev.clientX - x0, dy = ev.clientY - y0;
-        if (!moved && Math.hypot(dx, dy) > 8) { moved = true; node.classList.add('og-dragging'); }
-        if (moved) node.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(1.08)';
-      };
-      const up = ev => {
-        node.removeEventListener('pointermove', move);
-        node.removeEventListener('pointerup', up);
-        node.removeEventListener('pointercancel', up);
-        node.classList.remove('og-dragging');
-        node.style.transform = '';
-        if (!moved) return tap?.();
-        node.style.visibility = 'hidden';
-        const under = document.elementFromPoint(ev.clientX, ev.clientY);
-        node.style.visibility = '';
-        drop(under);
-      };
-      node.addEventListener('pointermove', move);
-      node.addEventListener('pointerup', up);
-      node.addEventListener('pointercancel', up);
+  // Fetches the next lines ahead, so they play at once.
+  const hazirla = texts => { for (const t of texts) { const src = clip(t); if (src) decode(src); } };
+  function stop() {
+    run++;
+    if (current) { try { current.onended = null; current.stop(); } catch {} current = null; }
+    window.speechSynthesis?.cancel();
+  }
+  // The device's own voice, the best English one it has (the "natural", "neural" and "enhanced" voices first).
+  function deviceVoice() {
+    const voices = window.speechSynthesis?.getVoices() || [];
+    const en = voices.filter(v => /^en[-_]/i.test(v.lang));
+    const score = v => (/natural|neural|enhanced|premium|siri/i.test(v.name) ? 4 : 0) + (/google/i.test(v.name) ? 2 : 0) + (/en[-_](gb|us)/i.test(v.lang) ? 1 : 0);
+    return en.sort((a, b) => score(b) - score(a))[0] || null;
+  }
+  function speakDevice(text, slow, mine) {
+    return new Promise(resolve => {
+      if (!window.speechSynthesis) return resolve(false);
+      const line = new SpeechSynthesisUtterance(text);
+      line.lang = 'en-GB';
+      const voice = deviceVoice();
+      if (voice) line.voice = voice;
+      line.rate = slow ? 0.55 : 0.85;
+      let over = false;
+      const end = () => { if (!over) { over = true; clearTimeout(guard); resolve(mine === run); } };
+      const guard = setTimeout(end, 1500 + text.length * 110);   // some phones never report the end
+      line.onend = end;
+      line.onerror = end;
+      speechSynthesis.speak(line);
     });
   }
-
-  /* ---------- 👂 Dinle ve Bul: hear a word, tap its picture (no writing at all) ---------- */
-  function dinle(c, game) {
-    const ROUNDS = 8;
-    const body = frame(c, game, 'Dinle ve doğru resme dokun');
-    let round = 0, right = 0, target = null;
-    const talk = voice(c, () => target.en);
-    const grid = el('div', 'og-pictures');
-    body.append(talk, grid);
-    function next() {
-      if (round === ROUNDS) return c.bitir(right, ROUNDS);
-      round++;
-      count(c, round + ' / ' + ROUNDS);
-      target = shuffled(c.kelimeler)[0];
-      let first = true;
-      grid.replaceChildren(...shuffled(pick(c.kelimeler, 4, target)).map(w => {
-        const card = el('button', 'og-picture', '<span aria-hidden="true">' + w.emo + '</span>');
-        card.type = 'button';
-        card.setAttribute('aria-label', 'Resim');
-        card.onclick = () => {
-          if (w === target) {
-            if (first) right++;
-            card.classList.add('right');
-            for (const other of grid.children) other.disabled = true;
-            playCue('correct');
-            fx.burst(card, { count: 10, spread: 70 });
-            c.say(target.en);
-            later(1100, next);
-          } else {
-            first = false;
-            card.classList.add('wrong');
-            card.disabled = true;
-            playCue('retry');
-            fx.bump(card, 'missed');
-            later(400, () => c.say(target.en));
-          }
-        };
-        return card;
-      }));
-      later(300, () => c.say(target.en));
-    }
-    next();
+  async function say(text, slow = false) {
+    if (!text) return false;
+    stop();
+    const mine = run;
+    const src = clip(text, slow);
+    const buffer = src ? await decode(src) : null;
+    if (mine !== run) return false;
+    const audio = context();
+    if (!buffer || !audio) return speakDevice(text, slow, mine);
+    if (audio.state === 'suspended') { try { await audio.resume(); } catch {} }
+    return new Promise(resolve => {
+      const source = audio.createBufferSource();
+      source.buffer = buffer;
+      const gain = audio.createGain();
+      gain.gain.value = 1.0;
+      source.connect(gain).connect(audio.destination);
+      current = source;
+      let over = false;
+      // some devices never report the end: the game goes on when the clip's time is up all the same
+      const end = () => { if (over) return; over = true; clearTimeout(guard); if (current === source) current = null; resolve(mine === run); };
+      const guard = setTimeout(end, buffer.duration * 1000 / (source.playbackRate.value || 1) + 600);
+      source.onended = end;
+      source.start();
+    });
   }
-
-  /* ---------- 🧺 Meyve Sepeti: "Put the apples in the basket." ---------- */
-  function sepet(c, game) {
-    const ROUNDS = 5;
-    const foods = (c.ayar.sepet || []).map(en => c.kelimeler.find(w => w.en === en)).filter(Boolean);
-    const body = frame(c, game, 'Söyleneni tutup sepete sürükle');
-    const line = () => 'Put the ' + target.en + ' in the basket.';
-    let round = 0, right = 0, target = null, first = true, picked = null;
-    const talk = voice(c, line);
-    const table = el('div', 'og-table');
-    const basket = el('button', 'og-basket', '<span aria-hidden="true">🧺</span><small>Sepet</small>');
-    basket.type = 'button';
-    basket.onclick = () => { if (picked) put(picked); };
-    body.append(talk, table, basket);
-    const items = pick(foods, 7);
-    table.replaceChildren(...items.map(w => {
-      const item = el('button', 'og-food', '<span aria-hidden="true">' + w.emo + '</span>');
-      item.type = 'button';
-      item.setAttribute('aria-label', w.tr);
-      item.word = w;
-      draggable(item, {
-        drop: under => { if (under?.closest('.og-basket')) put(item); },
-        tap: () => {
-          picked?.classList.remove('picked');
-          picked = picked === item ? null : item;
-          picked?.classList.add('picked');
-          c.say(w.en);
-        }
-      });
-      return item;
-    }));
-    const order = shuffled(items).slice(0, ROUNDS);
-    function put(item) {
-      picked?.classList.remove('picked');
-      picked = null;
-      if (item.word === target) {
-        if (first) right++;
-        item.disabled = true;
-        item.classList.add('in');
-        basket.classList.add('got');
-        later(500, () => basket.classList.remove('got'));
-        playCue('correct');
-        fx.burst(basket, { symbols: [target.emo, '✦'], count: 10, spread: 70 });
-        c.say('Yummy! ' + target.en);
-        later(1300, next);
-      } else {
-        first = false;
-        playCue('retry');
-        fx.bump(item, 'missed');
-        later(350, () => c.say(line()));
-      }
-    }
-    function next() {
-      if (round === order.length) return c.bitir(right, order.length);
-      target = order[round++];
-      first = true;
-      count(c, round + ' / ' + order.length);
-      later(250, () => c.say(line()));
-    }
-    next();
+  // Several lines one after another ("Well done!" then the word).
+  async function says(...texts) {
+    for (const t of texts) { if (t && (await say(t)) === false && !window.ingilizceKayitlar) break; }
   }
+  const kayitli = text => !!window.ingilizceKayitlar?.[text];
+  return { say, says, stop, hazirla, kayitli };
+})();
 
-  /* ---------- 🎨 Sihirli Boyama: "Colour the fish blue." ---------- */
+const ingilizceOyunlari = (() => {
+  /* ---------- the lines the games say (each one recorded) ---------- */
+  const OVGU = ['Well done!', 'Great job!', 'Super!', 'Excellent!', 'Yes! That’s right!', 'Brilliant!', 'Fantastic!'];
+  const TEKRAR = ['Try again!', 'Oops! Try again.', 'Listen again.'];
+  const GIRIS = {
+    dinle: 'Listen and find the picture.', balon: 'Listen and pop the balloon!', hafiza: 'Find the pairs!',
+    boya: 'Let’s colour!', sepet: 'Let’s fill the basket!', tren: 'All aboard the word train!', kart: 'Let’s play!'
+  };
+  const YUMMY = 'Yummy!';
+  const BITTI = 'Great work! You finished the round!';
   const RENKLER = [
     ['red', 'kırmızı', '#e5484d'], ['blue', 'mavi', '#3b82f6'], ['yellow', 'sarı', '#facc15'], ['green', 'yeşil', '#22a35a'],
     ['purple', 'mor', '#8b5cf6'], ['pink', 'pembe', '#f472b6'], ['brown', 'kahverengi', '#8b5a2b'], ['orange', 'turuncu', '#f97316'],
@@ -221,224 +124,575 @@ const ingilizceOyunlari = (() => {
     house: ['ev', '<path class="p" d="M30 62L80 22l50 40z"/><path class="p" d="M40 62h80v58H40z"/><path class="door" d="M70 88h20v32H70z"/><path class="win" d="M48 74h14v14H48zM98 74h14v14H98z"/>'],
     hat: ['şapka', '<path class="p" d="M52 30h56v56H52z"/><path class="p" d="M26 86h108c0 10-10 14-20 14H46c-10 0-20-4-20-14z"/><path class="band" d="M52 72h56v10H52z"/>']
   };
-  function boya(c, game) {
-    const ROUNDS = 5;
-    const body = frame(c, game, 'Resmi söylenen renge boya');
-    const names = shuffled(Object.keys(RESIMLER));
-    let round = 0, right = 0, thing = null, colour = null, first = true;
-    const line = () => 'Colour the ' + thing + ' ' + colour[0] + '.';
-    const talk = voice(c, line);
-    const art = el('div', 'og-art');
-    const pots = el('div', 'og-pots');
-    body.append(talk, art, pots);
-    function paint(fill) { art.querySelectorAll('.p').forEach(part => part.style.fill = fill); }
-    function next() {
-      if (round === ROUNDS) return c.bitir(right, ROUNDS);
-      thing = names[round % names.length];
-      round++;
-      first = true;
-      count(c, round + ' / ' + ROUNDS);
-      colour = RENKLER[Math.floor(Math.random() * RENKLER.length)];
-      art.innerHTML = '<svg viewBox="0 0 160 130" role="img" aria-label="' + RESIMLER[thing][0] + '">' + RESIMLER[thing][1] + '</svg>';
-      const choices = shuffled([colour, ...shuffled(RENKLER.filter(r => r !== colour)).slice(0, 5)]);
-      pots.replaceChildren(...choices.map(r => {
-        const pot = el('button', 'og-pot');
-        pot.type = 'button';
-        pot.style.setProperty('--c', r[2]);
-        pot.setAttribute('aria-label', r[1]);
-        pot.onclick = () => {
-          paint(r[2]);
-          c.say(r[0]);
-          if (r === colour) {
-            if (first) right++;
-            for (const other of pots.children) other.disabled = true;
-            art.classList.add('done');
-            playCue('correct');
-            fx.burst(art, { symbols: ['✦', '★', '🖌️'], count: 14, spread: 90 });
-            later(400, () => c.say('Well done! The ' + thing + ' is ' + colour[0] + '.'));
-            later(2300, () => { art.classList.remove('done'); next(); });
-          } else {
-            first = false;
-            pot.disabled = true;
-            pot.classList.add('wrong');
-            playCue('retry');
-            later(700, () => { paint('#fff'); c.say(line()); });
-          }
-        };
-        return pot;
-      }));
-      later(300, () => c.say(line()));
-    }
-    next();
-  }
-
-  /* ---------- 🚂 Kelime Treni: the words of a sentence, in order, into the wagons ---------- */
-  function tren(c, game) {
-    const sentences = shuffled(c.ayar.tren || []).slice(0, 4);
-    const body = frame(c, game, 'Cümleyi dinle, kelimeleri sırayla vagonlara diz');
-    let round = 0, right = 0, sentence = null, words = [], placed = 0, first = true;
-    const talk = voice(c, () => sentence[0]);
-    const meaning = el('p', 'og-meaning');
-    const train = el('div', 'og-train');
-    const chips = el('div', 'og-chips');
-    body.append(talk, meaning, train, chips);
-    function place(chip) {
-      if (chip.disabled) return;
-      if (chip.textContent === words[placed]) {
-        const wagon = train.querySelectorAll('.og-wagon')[placed++];
-        wagon.textContent = chip.textContent;
-        wagon.classList.add('full');
-        chip.disabled = true;
-        chip.classList.add('used');
-        playCue('tap');
-        if (placed === words.length) {
-          if (first) right++;
-          train.classList.add('go');
-          playCue('island');
-          fx.burst(train, { symbols: ['💨', '✦'], count: 10, spread: 80 });
-          c.say(sentence[0]);
-          later(2600, next);
-        }
-      } else {
-        first = false;
-        playCue('retry');
-        fx.bump(chip, 'missed');
-      }
-    }
-    function next() {
-      if (round === sentences.length) return c.bitir(right, sentences.length);
-      sentence = sentences[round++];
-      count(c, round + ' / ' + sentences.length);
-      words = sentence[0].split(' ');
-      placed = 0;
-      first = true;
-      meaning.textContent = '“' + sentence[1] + '”';
-      train.className = 'og-train';
-      train.replaceChildren(el('span', 'og-engine', '🚂'), ...words.map(() => el('span', 'og-wagon', '')));
-      chips.replaceChildren(...shuffled(words.map((w, n) => ({ w, n }))).map(({ w }) => {
-        const chip = el('button', 'og-chip', esc(w));
-        chip.type = 'button';
-        chip.lang = 'en';
-        draggable(chip, { drop: under => { if (under?.closest('.og-train')) place(chip); }, tap: () => place(chip) });
-        return chip;
-      }));
-      later(300, () => c.say(sentence[0]));
-    }
-    next();
-  }
-
-  /* ---------- 🃏 Sesli Hafıza: a sound card and its picture card ---------- */
-  function hafiza(c, game) {
-    const PAIRS = 6;
-    const body = frame(c, game, 'Kartları aç: sesi resmiyle eşleştir');
-    const words = pick(c.kelimeler, PAIRS);
-    let open = [], found = 0, moves = 0, busy = false;
-    const grid = el('div', 'og-memory');
-    body.append(grid);
-    const cards = shuffled(words.flatMap(w => [{ w, sound: true }, { w, sound: false }]));
-    grid.replaceChildren(...cards.map(card => {
-      const node = el('button', 'og-mem', '<span class="og-back" aria-hidden="true">❓</span><span class="og-face" aria-hidden="true">' + (card.sound ? '🔊' : card.w.emo) + '</span>');
-      node.type = 'button';
-      node.setAttribute('aria-label', card.sound ? 'Ses kartı' : 'Resim kartı');
-      node.onclick = () => {
-        if (busy || node.classList.contains('open')) return;
-        node.classList.add('open');
-        if (card.sound) c.say(card.w.en); else playCue('tap', { gain: 0.6 });
-        open.push({ node, card });
-        if (open.length < 2) return;
-        moves++;
-        const [a, b] = open;
-        open = [];
-        if (a.card.w === b.card.w && a.card.sound !== b.card.sound) {
-          found++;
-          for (const x of [a, b]) { x.node.classList.add('matched'); x.node.disabled = true; }
-          playCue('correct');
-          fx.burst(b.node, { count: 8, spread: 60 });
-          later(450, () => c.say(a.card.w.en));
-          count(c, found + ' / ' + PAIRS);
-          if (found === PAIRS) later(1400, () => c.bitir(Math.max(0, PAIRS - Math.max(0, moves - PAIRS - 2)), PAIRS, moves + ' hamlede bitirdin.'));
-        } else {
-          busy = true;
-          later(1100, () => { a.node.classList.remove('open'); b.node.classList.remove('open'); busy = false; });
-        }
-      };
-      return node;
-    }));
-    count(c, '0 / ' + PAIRS);
-  }
-
-  /* ---------- 🎈 Balon Patlat (Yanlış Avı): pop the balloon of the word you hear ---------- */
-  function balon(c, game) {
-    const body = frame(c, game, 'Duyduğun kelimenin balonunu patlat');
-    const items = shuffled(c.yanlislar);
-    let round = 0, right = 0, target = null, first = true, over = false;
-    const talk = voice(c, () => target.en);
-    const sky = el('div', 'og-sky');
-    body.append(talk, sky);
-    const label = w => (w.emo ? '<span aria-hidden="true">' + w.emo + '</span>' : '') + '<small>' + esc(w.tr) + '</small>';
-    const colours = ['#ff7a7a', '#ffb648', '#7cc4ff', '#9b8cff', '#64d39b', '#ff8fd0'];
-    function next() {
-      if (round === items.length) return c.bitir(right, items.length);
-      target = items[round++];
-      first = true;
-      over = false;
-      count(c, round + ' / ' + items.length);
-      const others = shuffled([...c.yanlislar, ...c.kelimeler].filter(w => w.en !== target.en && w.tr !== target.tr));
-      const set = [target];
-      for (const w of others) { if (set.length === 4) break; if (!set.some(s => s.tr === w.tr)) set.push(w); }
-      let mine = null;
-      sky.replaceChildren(...shuffled(set).map((w, n) => {
-        const b = el('button', 'og-balloon', label(w));
-        if (w === target) mine = b;
-        b.type = 'button';
-        b.style.setProperty('--c', colours[(n + round) % colours.length]);
-        b.style.setProperty('--x', (6 + n * 24) + '%');
-        b.style.setProperty('--d', (n % 2 ? 0.6 : 0) + 's');
-        b.setAttribute('aria-label', w.tr);
-        b.onclick = () => {
-          if (over) return;
-          if (w === target) {
-            over = true;
-            b.classList.add('pop');
-            playCue('pop');
-            fx.burst(b, { count: 14, spread: 80 });
-            if (first) right++;
-            c.sonuc(target, first);
-            c.say(target.en);
-            later(1200, next);
-          } else {
-            first = false;
-            b.classList.add('pop', 'wrong');
-            playCue('oops');
-            later(300, () => c.say(target.en));
-          }
-        };
-        return b;
-      }));
-      // the right balloon flew away: it counts as a miss and the next word comes
-      mine.addEventListener('animationend', () => {
-        if (over) return;
-        over = true;
-        playCue('retry');
-        c.sonuc(target, false);
-        later(300, next);
-      }, { once: true });
-      later(300, () => c.say(target.en));
-    }
-    next();
-  }
-
-  // Pictures that do not show a thing (gestures, faces, symbols): a child cannot tell their word from the picture alone,
-  // so the picture games leave them out (Balon Patlat writes the meaning under every balloon and keeps them).
+  const boyaCumle = (thing, colour) => 'Colour the ' + thing + ' ' + colour + '.';
+  const sepetCumle = food => 'Put the ' + food + ' in the basket.';
+  // Pictures that do not show a thing (gestures, faces, symbols): a child cannot tell their word from the picture alone.
   const SOYUT = new Set(['🙏', '🙋', '🙌', '👋', '👍', '👌', '🤝', '❓', '📍', '➕', '❗', '🔶', '🏷️', '📝', '🆘', '⏳', '⏰', '🔔', '📆', '🗓️',
     '🌞', '🎨', '✅', '🔁', '🗣️', '👄', '🫴', '🤲', '👉', '👆', '👀', '🚶', '🚦', '🏁', '🧍', '🤫', '💖', '🌟', '🥰', '😊', '🙂', '😀', '😄', '😋',
     '🤤', '😔', '🤪', '💦', '🥶', '🥵', '🧓', '🐭', '🐘', '📏', '🤏', '🎉', '📌', '🧩', '👫', '📺', '✍️', '📖', '🎧', '🤗', '🌑', '🎤', '🦘',
-    '👏', '🔍', '💃', '📥', '🥄', '🖼️', '👨‍👩‍👧‍👦', '🧑‍🤝‍🧑', '🤵', '🌸', '👱‍♂️', '👱‍♀️', '🖍️', '🧑‍🏫', '🧑‍🎓', '🏛️']);
-  const games = { dinle, sepet, boya, tren, hafiza, balon };
-  function baslat(id, c) {
-    const game = id === 'balon' ? BALON : OYUNLAR.find(g => g.id === id);
-    if (id !== 'balon') c.kelimeler = c.kelimeler.filter(w => !SOYUT.has(w.emo));
-    games[id](c, game);
+    '👏', '🔍', '💃', '📥', '🥄', '🖼️', '👨‍👩‍👧‍👦', '🧑‍🤝‍🧑', '🤵', '🌸', '👱‍♂️', '👱‍♀️', '🖍️', '🧑‍🏫', '🧑‍🎓', '🏛️', '📅']);
+  const resimli = w => !!w.emo && !SOYUT.has(w.emo) && !/[.!?]/.test(w.en) && w.en.split(' ').length <= 3;
+  const renk = w => RENKLER.find(r => r[0] === w.en.toLowerCase());
+
+  /* ---------- helpers ---------- */
+  const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const esc = text => String(text).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[ch]);
+  const el = (tag, className, html) => {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (html !== undefined) node.innerHTML = html;
+    return node;
+  };
+  const shuffled = items => {
+    const out = [...items];
+    for (let i = out.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [out[i], out[j]] = [out[j], out[i]]; }
+    return out;
+  };
+  const any = list => list[Math.floor(Math.random() * list.length)];
+  const button = (className, html, label) => { const b = el('button', className, html); b.type = 'button'; if (label) b.setAttribute('aria-label', label); return b; };
+  // Words for the wrong choices: other pictures, never one with the same picture or meaning.
+  function choices(c, target, n, test = resimli) {
+    const out = [target];
+    for (const w of shuffled([...c.items.map(i => i), ...c.havuz])) {
+      if (out.length >= n) break;
+      if (!test(w) || out.some(o => o.en === w.en || o.emo === w.emo || o.tr === w.tr)) continue;
+      out.push(w);
+    }
+    return shuffled(out);
   }
-  return { OYUNLAR, BALON, baslat };
+  // Dragging with a finger or a mouse; a tap without moving counts as a tap.
+  function draggable(node, { drop, tap }) {
+    node.addEventListener('pointerdown', e => {
+      if (node.disabled) return;
+      e.preventDefault();
+      const x0 = e.clientX, y0 = e.clientY;
+      let moved = false;
+      try { node.setPointerCapture(e.pointerId); } catch {}
+      const move = ev => {
+        const dx = ev.clientX - x0, dy = ev.clientY - y0;
+        if (!moved && Math.hypot(dx, dy) > 8) { moved = true; node.classList.add('og-dragging'); }
+        if (moved) node.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(1.12)';
+      };
+      const up = ev => {
+        node.removeEventListener('pointermove', move);
+        node.removeEventListener('pointerup', up);
+        node.removeEventListener('pointercancel', up);
+        node.classList.remove('og-dragging');
+        if (!moved) { node.style.transform = ''; return tap?.(); }
+        node.style.visibility = 'hidden';
+        const under = document.elementFromPoint(ev.clientX, ev.clientY);
+        node.style.visibility = '';
+        node.style.transform = '';
+        drop(under);
+      };
+      node.addEventListener('pointermove', move);
+      node.addEventListener('pointerup', up);
+      node.addEventListener('pointercancel', up);
+    });
+  }
+
+  /* ---------- the round: a frame, the mascot, stars, and the games one after another ---------- */
+  function tur(c) {
+    const live = { on: true };
+    const wait = ms => new Promise(resolve => setTimeout(resolve, calm() ? Math.min(ms, 300) : ms));
+    const say = async (text, slow) => { if (live.on) await ingilizceSes.say(text, slow); };
+    const total = c.items.length;
+    let done = 0, right = 0;
+    c.stage.innerHTML = '<div class="og-head"><span class="og-mascot" aria-hidden="true"><b>' + esc(c.maskot || '🦊') + '</b><i class="og-bubble"></i></span>' +
+      '<span class="og-where"></span><span class="og-stars" aria-live="polite"></span></div><div class="og-game"></div>';
+    const where = c.stage.querySelector('.og-where'), game = c.stage.querySelector('.og-game'), stars = c.stage.querySelector('.og-stars');
+    const mascot = c.stage.querySelector('.og-mascot'), bubble = c.stage.querySelector('.og-bubble');
+    const paintStars = () => {
+      stars.innerHTML = Array.from({ length: total }, (_, i) => '<i class="' + (i < right ? 'won' : i < done ? 'miss' : '') + '">★</i>').join('');
+      stars.setAttribute('aria-label', done + ' / ' + total + ' soru, ' + right + ' ilk denemede');
+    };
+    paintStars();
+    // the player's own icon cheers or wobbles, with a word in its bubble
+    function react(good, word) {
+      mascot.classList.remove('happy', 'sad');
+      void mascot.offsetWidth;
+      mascot.classList.add(good ? 'happy' : 'sad');
+      bubble.textContent = word;
+    }
+    // A question is answered once: right at the first try, or not.
+    const answered = new Set();
+    function sonuc(item, ok) {
+      if (answered.has(item)) return;
+      answered.add(item);
+      done++;
+      if (ok) right++;
+      c.sonuc(item, ok);
+      paintStars();
+      if (ok) fx.bump(stars.children[right - 1], 'fresh');
+    }
+    const ctx = { c, say, wait, sonuc, react, live, game, where,
+      praise: async word => { const p = any(OVGU); react(true, p); playCue('correct'); await say(p); if (word) await say(word); },
+      oops: async again => { const t = any(TEKRAR); react(false, '🤔'); playCue('retry'); await say(t); if (again) await say(again); } };
+
+    // Cut the station's questions into games.
+    const pictured = c.items.filter(i => resimli(i));
+    const foods = pictured.filter(i => (c.ayar.sepet || []).includes(i.en));
+    const colours = pictured.filter(i => renk(i));
+    const words = pictured.filter(i => !foods.includes(i) && !colours.includes(i));
+    const sentence = i => !resimli(i) && i.en.split(' ').length >= 3 && i.en.split(' ').length <= 7 && /^[A-Za-z’',.!? -]+$/.test(i.en) &&
+      (i.word || i.q.a.some(a => a.replace(/[^a-z]/gi, '').toLowerCase() === i.en.replace(/[^a-z]/gi, '').toLowerCase()));
+    const trains = c.items.filter(i => !pictured.includes(i) && sentence(i));
+    const cards = c.items.filter(i => !pictured.includes(i) && !trains.includes(i));
+    const plan = [];
+    const kinds = shuffled(['dinle', 'balon', 'hafiza']);
+    let k = 0;
+    for (let i = 0; i < words.length;) {
+      const left = words.length - i;
+      let kind = kinds[k++ % kinds.length];
+      if (kind === 'hafiza' && left < 3) kind = 'dinle';
+      const size = kind === 'hafiza' ? Math.min(4, left) : Math.min(left, 3);
+      plan.push([kind, words.slice(i, i + size)]);
+      i += size;
+    }
+    if (foods.length) plan.push(['sepet', foods]);
+    if (colours.length) plan.push(['boya', colours]);
+    if (trains.length) plan.push(['tren', trains]);
+    for (let i = 0; i < cards.length; i += 3) plan.push(['kart', cards.slice(i, i + 3)]);
+    const order = shuffled(plan);
+    ingilizceSes.hazirla([...Object.values(GIRIS), ...OVGU, ...TEKRAR, ...c.items.map(i => i.en)]);
+
+    (async () => {
+      for (const [kind, items] of order) {
+        if (!live.on) return;
+        const info = OYUNLAR[kind];
+        where.innerHTML = '<span aria-hidden="true">' + info.simge + '</span> ' + info.ad;
+        // a short title card, so every game starts clearly
+        game.innerHTML = '<div class="og-intro"><span aria-hidden="true">' + info.simge + '</span><strong>' + info.ad + '</strong><small>' + info.not + '</small></div>';
+        playCue('pop', { gain: 0.6 });
+        await say(GIRIS[kind]);
+        await wait(500);
+        if (!live.on) return;
+        await info.oyna(ctx, items);
+        for (const item of items) sonuc(item, false);   // anything a game left unanswered counts as missed
+        await wait(400);
+      }
+      if (!live.on) return;
+      react(true, '🎉');
+      await say(BITTI);
+      if (live.on) c.bitir(right, total);
+    })();
+    return () => { live.on = false; ingilizceSes.stop(); };
+  }
+
+  /* ---------- 👂 Dinle ve Bul ---------- */
+  async function dinle(x, items) {
+    for (const item of items) {
+      if (!x.live.on) return;
+      x.game.innerHTML = '';
+      const talk = voiceRow(x, item.en);
+      const grid = el('div', 'og-pictures');
+      x.game.append(talk, grid);
+      let first = true;
+      await new Promise(resolve => {
+        grid.append(...choices(x.c, item, 4).map(w => {
+          const card = button('og-picture', '<span aria-hidden="true">' + w.emo + '</span>', 'Resim');
+          card.onclick = async () => {
+            if (w === item) {
+              for (const other of grid.children) other.disabled = true;
+              card.classList.add('right');
+              fx.burst(card, { count: 14, spread: 80 });
+              x.sonuc(item, first);
+              await x.praise(item.en);
+              await x.wait(700);
+              resolve();
+            } else {
+              first = false;
+              card.classList.add('wrong');
+              card.disabled = true;
+              fx.bump(card, 'missed');
+              await x.oops(item.en);
+            }
+          };
+          return card;
+        }));
+        x.wait(300).then(() => x.say(item.en));
+      });
+    }
+  }
+  // 🔊 and 🐢 (slow) for a word
+  function voiceRow(x, text, big = true) {
+    const row = el('div', 'og-voice');
+    const loud = button('soru-say' + (big ? ' big' : ''), '🔊', 'Dinle');
+    loud.onclick = () => { x.say(text); fx.bump(loud, 'show'); };
+    const slow = button('soru-say slow', '🐢', 'Yavaş dinle');
+    slow.onclick = () => { x.say(text, true); fx.bump(slow, 'show'); };
+    row.append(loud, slow);
+    return row;
+  }
+
+  /* ---------- 🎈 Balon Patlat (also Yanlış Avı's, with the meaning written under the picture) ---------- */
+  async function balonlar(x, items, { yazili = false } = {}) {
+    const colours = ['#ff7a7a', '#ffb648', '#7cc4ff', '#9b8cff', '#64d39b', '#ff8fd0'];
+    for (const [n, item] of items.entries()) {
+      if (!x.live.on) return;
+      x.game.innerHTML = '';
+      const talk = voiceRow(x, item.en);
+      const sky = el('div', 'og-sky');
+      x.game.append(talk, sky);
+      let first = true;
+      await new Promise(resolve => {
+        let over = false;
+        const set = yazili ? balloonSet(x, item) : choices(x.c, item, 4);
+        const make = (w, i) => {
+          const b = button('og-balloon', (w.emo ? '<span aria-hidden="true">' + w.emo + '</span>' : '') + (yazili ? '<small>' + esc(w.tr) + '</small>' : ''), yazili ? w.tr : 'Balon');
+          b.style.setProperty('--c', colours[(i + n) % colours.length]);
+          b.style.setProperty('--x', (5 + i * 24) + '%');
+          b.style.setProperty('--d', (i % 2 ? -4.5 : 0) - i * 1.1 + 's');   // they start at different heights and keep rising round
+          b.onclick = async () => {
+            if (over) return;
+            if (w === item) {
+              over = true;
+              b.classList.add('pop');
+              playCue('pop');
+              fx.burst(b, { count: 16, spread: 90 });
+              x.sonuc(item, first);
+              for (const other of sky.children) other.classList.add('away');
+              await x.praise(item.en);
+              await x.wait(600);
+              resolve();
+            } else {
+              first = false;
+              b.classList.add('pop', 'wrong');
+              playCue('oops');
+              await x.oops(item.en);
+            }
+          };
+          return b;
+        };
+        sky.append(...set.map(make));
+        x.wait(300).then(() => x.say(item.en));
+      });
+    }
+  }
+  function balloonSet(x, item) {
+    const out = [item];
+    for (const w of shuffled([...x.c.items, ...x.c.havuz])) {
+      if (out.length === 4) break;
+      if (out.some(o => o.en === w.en || o.tr === w.tr)) continue;
+      out.push(w);
+    }
+    return shuffled(out);
+  }
+
+  /* ---------- 🃏 Sesli Hafıza: a sound card and its picture card ---------- */
+  async function hafiza(x, items) {
+    x.game.innerHTML = '';
+    const grid = el('div', 'og-memory' + (items.length > 3 ? '' : ' small'));
+    x.game.append(grid);
+    let open = [], found = 0, busy = false;
+    await new Promise(resolve => {
+      grid.append(...shuffled(items.flatMap(item => [{ item, sound: true }, { item, sound: false }])).map(card => {
+        const node = button('og-mem', '<span class="og-back" aria-hidden="true">❓</span><span class="og-face" aria-hidden="true">' + (card.sound ? '🔊' : card.item.emo) + '</span>',
+          card.sound ? 'Ses kartı' : 'Resim kartı');
+        node.onclick = async () => {
+          if (busy || node.classList.contains('open')) return;
+          node.classList.add('open');
+          playCue('tap', { gain: 0.5 });
+          if (card.sound) x.say(card.item.en);
+          open.push({ node, card });
+          if (open.length < 2) return;
+          const [a, b] = open;
+          open = [];
+          busy = true;
+          if (a.card.item === b.card.item) {
+            for (const n of [a.node, b.node]) { n.classList.add('matched'); n.disabled = true; }
+            fx.burst(b.node, { count: 10, spread: 60 });
+            // matching a word to its picture is knowing it; a miss in a memory game is only memory
+            x.sonuc(a.card.item, true);
+            await x.wait(500);
+            await x.praise(a.card.item.en);
+            found++;
+            busy = false;
+            if (found === items.length) { await x.wait(700); resolve(); }
+          } else {
+            await x.wait(1300);
+            a.node.classList.remove('open');
+            b.node.classList.remove('open');
+            busy = false;
+          }
+        };
+        return node;
+      }));
+    });
+  }
+
+  /* ---------- 🎨 Sihirli Boyama ---------- */
+  async function boya(x, items) {
+    for (const item of items) {
+      if (!x.live.on) return;
+      const colour = renk(item);
+      const thing = any(Object.keys(RESIMLER));
+      const line = boyaCumle(thing, colour[0]);
+      x.game.innerHTML = '';
+      const talk = voiceRow(x, line);
+      const art = el('div', 'og-art', '<svg viewBox="0 0 160 130" role="img" aria-label="' + RESIMLER[thing][0] + '"><defs><clipPath id="og-wipe"><circle cx="80" cy="65" r="0"/></clipPath></defs>' +
+        // white underneath, the colour spreading over it, the outlines on top
+        '<g class="og-white">' + RESIMLER[thing][1] + '</g><g class="og-paint" clip-path="url(#og-wipe)">' + RESIMLER[thing][1] + '</g>' +
+        '<g class="og-ink">' + RESIMLER[thing][1] + '</g></svg><span class="og-brush" aria-hidden="true">🖌️</span>');
+      const pots = el('div', 'og-pots');
+      x.game.append(talk, art, pots);
+      let first = true;
+      const wipe = art.querySelector('#og-wipe circle');
+      const paint = fill => art.querySelectorAll('.og-paint .p').forEach(part => { part.style.fill = fill; });
+      // the colour spreads from the middle with the brush moving over it, so the child sees the picture being painted
+      const spread = ms => new Promise(resolve => {
+        art.classList.add('painting');
+        const t0 = performance.now();
+        const step = now => {
+          const k = Math.max(0, Math.min(1, (now - t0) / ms));
+          wipe.setAttribute('r', String(110 * (1 - Math.pow(1 - k, 2))));
+          if (k < 1 && x.live.on) requestAnimationFrame(step); else { art.classList.remove('painting'); resolve(); }
+        };
+        requestAnimationFrame(step);
+      });
+      await new Promise(resolve => {
+        const options = shuffled([colour, ...shuffled(RENKLER.filter(r => r !== colour)).slice(0, 5)]);
+        pots.append(...options.map(r => {
+          const pot = button('og-pot', '', r[1]);
+          pot.style.setProperty('--c', r[2]);
+          pot.onclick = async () => {
+            for (const p of pots.children) p.disabled = true;
+            pot.classList.add('chosen');
+            paint(r[2]);
+            wipe.setAttribute('r', '0');
+            x.say(r[0]);
+            await spread(r === colour ? 1600 : 900);
+            if (r === colour) {
+              x.sonuc(item, first);
+              art.classList.add('done');
+              fx.burst(art, { symbols: ['✦', '★', '🖌️', '🎨'], count: 22, spread: 120 });
+              fx.confetti?.(x.game.closest('dialog'), { count: 60 });
+              await x.praise('The ' + thing + ' is ' + colour[0] + '!');
+              await x.wait(1600);
+              resolve();
+            } else {
+              first = false;
+              await x.oops(line);
+              wipe.setAttribute('r', '0');
+              pot.classList.add('wrong');
+              for (const p of pots.children) if (!p.classList.contains('wrong')) p.disabled = false;
+              pot.classList.remove('chosen');
+            }
+          };
+          return pot;
+        }));
+        x.wait(300).then(() => x.say(line));
+      });
+    }
+  }
+
+  /* ---------- 🧺 Meyve Sepeti ---------- */
+  async function sepet(x, items) {
+    x.game.innerHTML = '';
+    const table = el('div', 'og-table');
+    const basket = button('og-basket', '<span aria-hidden="true">🧺</span><small>Sepet</small>', 'Sepet');
+    const talk = el('div', 'og-voice');
+    x.game.append(talk, table, basket);
+    // the asked foods and a few others on the table
+    const foods = [...items];
+    for (const w of shuffled(x.c.havuz)) {
+      if (foods.length >= Math.max(6, items.length + 3)) break;
+      if ((x.c.ayar.sepet || []).includes(w.en) && !foods.some(f => f.en === w.en || f.emo === w.emo)) foods.push(w);
+    }
+    let picked = null, target = null, first = true, resolveOne = null;
+    const nodes = shuffled(foods).map(w => {
+      const node = button('og-food', '<span aria-hidden="true">' + w.emo + '</span>', w.tr);
+      node.word = w;
+      draggable(node, {
+        drop: under => { if (under?.closest('.og-basket')) put(node); },
+        tap: () => { picked?.classList.remove('picked'); picked = picked === node ? null : node; picked?.classList.add('picked'); x.say(w.en); }
+      });
+      return node;
+    });
+    table.append(...nodes);
+    basket.onclick = () => { if (picked) put(picked); };
+    async function put(node) {
+      picked?.classList.remove('picked');
+      picked = null;
+      if (!target || node.disabled) return;
+      if (node.word === target) {
+        for (const n of nodes) n.disabled = true;
+        // the food flies into the basket
+        const from = node.getBoundingClientRect(), to = basket.getBoundingClientRect();
+        node.animate([{ transform: 'none' }, { transform: 'translate(' + (to.left + to.width / 2 - from.left - from.width / 2) + 'px,' +
+          (to.top + 20 - from.top) + 'px) scale(.4)', opacity: 0.2 }], { duration: calm() ? 1 : 700, easing: 'ease-in' }).finished.then(() => node.classList.add('in'));
+        await x.wait(650);
+        basket.classList.add('got');
+        fx.burst(basket, { symbols: [target.emo, '✦', '❤️'], count: 12, spread: 80 });
+        x.sonuc(target, first);
+        x.react(true, '😋');
+        playCue('correct');
+        await x.say(YUMMY);
+        await x.say(target.en);
+        await x.wait(800);
+        basket.classList.remove('got');
+        for (const n of nodes) if (!n.classList.contains('in')) n.disabled = false;
+        resolveOne();
+      } else {
+        first = false;
+        fx.bump(node, 'missed');
+        await x.oops(sepetCumle(target.en));
+      }
+    }
+    for (const item of shuffled(items)) {
+      if (!x.live.on) return;
+      target = item;
+      first = true;
+      const line = sepetCumle(item.en);
+      talk.replaceChildren(...voiceRow(x, line).children);
+      await new Promise(resolve => { resolveOne = resolve; x.wait(250).then(() => x.say(line)); });
+    }
+  }
+
+  /* ---------- 🚂 Kelime Treni ---------- */
+  async function tren(x, items) {
+    for (const item of items) {
+      if (!x.live.on) return;
+      const words = item.en.split(' ');
+      x.game.innerHTML = '';
+      const talk = voiceRow(x, item.en);
+      const meaning = el('p', 'og-meaning', '“' + esc(item.tr) + '”');
+      const track = el('div', 'og-track');
+      const train = el('div', 'og-train');
+      train.append(el('span', 'og-engine', '<span aria-hidden="true">🚂</span>'), ...words.map(() => el('span', 'og-wagon', '')));
+      track.append(train);
+      const chips = el('div', 'og-chips');
+      x.game.append(talk, meaning, track, chips);
+      let placed = 0, first = true;
+      await new Promise(resolve => {
+        const place = async chip => {
+          if (chip.disabled) return;
+          if (chip.textContent === words[placed]) {
+            const wagon = train.querySelectorAll('.og-wagon')[placed++];
+            wagon.textContent = chip.textContent;
+            wagon.classList.add('full');
+            chip.disabled = true;
+            chip.classList.add('used');
+            playCue('tap');
+            if (placed === words.length) {
+              for (const c of chips.children) c.disabled = true;
+              x.sonuc(item, first);
+              playCue('island');
+              x.react(true, '🎉');
+              // the whole train drives away, puffing
+              train.classList.add('go');
+              fx.burst(train.querySelector('.og-engine'), { symbols: ['💨', '☁️', '✦'], count: 12, spread: 70 });
+              await x.say(item.en);
+              await x.praise();
+              await x.wait(1200);
+              resolve();
+            }
+          } else {
+            first = false;
+            fx.bump(chip, 'missed');
+            await x.oops();
+          }
+        };
+        chips.append(...shuffled(words).map(w => {
+          const chip = button('og-chip', esc(w));
+          chip.lang = 'en';
+          draggable(chip, { drop: under => { if (under?.closest('.og-track')) place(chip); }, tap: () => place(chip) });
+          return chip;
+        }));
+        x.wait(300).then(() => x.say(item.en));
+      });
+    }
+  }
+
+  /* ---------- 🃏 Bilgi Kartı: the question itself, with a second try ---------- */
+  async function kart(x, items) {
+    for (const item of items) {
+      if (!x.live.on) return;
+      const q = item.q;
+      x.game.innerHTML = '';
+      const card = el('div', 'og-card');
+      card.innerHTML = (q.m ? '<div class="soru-passage">' + x.c.rich(q.m) + '</div>' : '') + '<h3 class="og-q">' + x.c.rich(q.s) + '</h3>';
+      const hear = !q.a.some(a => a.replace(/[^a-z]/gi, '').toLowerCase().includes(item.en.replace(/[^a-z]/gi, '').toLowerCase()));
+      if (hear) card.append(voiceRow(x, item.en, false));
+      const options = el('div', 'og-options');
+      card.append(options);
+      const note = el('div', 'og-note');
+      card.append(note);
+      x.game.append(card);
+      let first = true;
+      await new Promise(resolve => {
+        options.append(...shuffled([0, 1, 2, 3]).map(n => {
+          const b = button('og-option', x.c.rich(q.a[n]));
+          b.onclick = async () => {
+            if (n === 0) {
+              for (const o of options.children) o.disabled = true;
+              b.classList.add('right');
+              fx.burst(b, { count: 12, spread: 70 });
+              x.sonuc(item, first);
+              x.react(true, any(OVGU));
+              playCue('correct');
+              note.innerHTML = '<p><span aria-hidden="true">💡</span> ' + x.c.rich(q.b) + '</p>';
+              const go = button('primary og-next', 'Devam ▶');
+              go.onclick = () => resolve();
+              note.append(go);
+              go.focus({ preventScroll: true });
+              await x.say(any(OVGU));
+              await x.say(item.en);
+            } else {
+              first = false;
+              b.classList.add('wrong');
+              b.disabled = true;
+              fx.bump(b, 'missed');
+              await x.oops();
+            }
+          };
+          return b;
+        }));
+        if (hear) x.wait(300).then(() => x.say(item.en));
+      });
+    }
+  }
+
+  const OYUNLAR = {
+    dinle: { simge: '👂', ad: 'Dinle ve Bul', not: 'Duyduğun kelimenin resmine dokun.', oyna: dinle },
+    balon: { simge: '🎈', ad: 'Balon Patlat', not: 'Duyduğun kelimenin balonunu patlat!', oyna: (x, items) => balonlar(x, items) },
+    hafiza: { simge: '🃏', ad: 'Sesli Hafıza', not: 'Kartları aç: sesi resmiyle eşleştir.', oyna: hafiza },
+    boya: { simge: '🎨', ad: 'Sihirli Boyama', not: 'Resmi söylenen renge boya.', oyna: boya },
+    sepet: { simge: '🧺', ad: 'Meyve Sepeti', not: 'Söyleneni tutup sepete sürükle.', oyna: sepet },
+    tren: { simge: '🚂', ad: 'Kelime Treni', not: 'Kelimeleri sırayla vagonlara diz.', oyna: tren },
+    kart: { simge: '🎴', ad: 'Bilgi Kartı', not: 'Soruyu oku, doğru kartı seç.', oyna: kart }
+  };
+
+  // Every English line the games can say, for tools/ingilizce_sesler.py.
+  function metinler(ayar = {}) {
+    const out = new Set([...OVGU, ...TEKRAR, ...Object.values(GIRIS), YUMMY, BITTI]);
+    for (const food of ayar.sepet || []) out.add(sepetCumle(food));
+    for (const thing of Object.keys(RESIMLER)) for (const [colour] of RENKLER) { out.add(boyaCumle(thing, colour)); out.add('The ' + thing + ' is ' + colour + '!'); }
+    for (const [colour] of RENKLER) out.add(colour);
+    return [...out];
+  }
+  return { tur, balonTuru: (c) => turBalon(c), metinler, resimli, SOYUT };
+
+  // Balon Patlat for Yanlış Avı: one game of balloons over the given words (with written meanings).
+  function turBalon(c) {
+    const live = { on: true };
+    const wait = ms => new Promise(resolve => setTimeout(resolve, calm() ? Math.min(ms, 300) : ms));
+    const say = async (text, slow) => { if (live.on) await ingilizceSes.say(text, slow); };
+    c.stage.innerHTML = '<div class="og-head"><span class="og-mascot" aria-hidden="true"><b>' + esc(c.maskot || '🦊') + '</b><i class="og-bubble"></i></span>' +
+      '<span class="og-where"><span aria-hidden="true">🎈</span> Balon Patlat</span><span class="og-stars"></span></div><div class="og-game"></div>';
+    const game = c.stage.querySelector('.og-game'), mascot = c.stage.querySelector('.og-mascot'), bubble = c.stage.querySelector('.og-bubble');
+    let right = 0;
+    const react = (good, word) => { mascot.classList.remove('happy', 'sad'); void mascot.offsetWidth; mascot.classList.add(good ? 'happy' : 'sad'); bubble.textContent = word; };
+    const x = { c, say, wait, live, game, react,
+      sonuc: (item, ok) => { if (ok) right++; c.sonuc(item, ok); },
+      praise: async word => { const p = any(OVGU); react(true, p); playCue('correct'); await say(p); if (word) await say(word); },
+      oops: async again => { const t = any(TEKRAR); react(false, '🤔'); playCue('retry'); await say(t); if (again) await say(again); } };
+    ingilizceSes.hazirla([...OVGU, ...TEKRAR, ...c.items.map(i => i.en)]);
+    (async () => {
+      await say(GIRIS.balon);
+      await balonlar(x, c.items, { yazili: true });
+      if (live.on) c.bitir(right, c.items.length);
+    })();
+    return () => { live.on = false; ingilizceSes.stop(); };
+  }
 })();

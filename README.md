@@ -27,7 +27,7 @@ app/                         Published site (GitHub Pages root)
 │   │   ├── profiles.js      Players, grade levels, Keşif Limanı (the map, or for preschool the island cards)
 │   │   ├── stats.js         Çarpım statistics
 │   │   ├── quiz.js          Question-island engine: soruAdasi({...})
-│   │   ├── ingilizce-oyunlari.js  İngilizce Koyu's mini games: Oyun Parkı (five games) and Yanlış Avı's Balon Patlat
+│   │   ├── ingilizce-oyunlari.js  İngilizce Koyu's games (a station's round is played as games) and its recorded English voice
 │   │   ├── akvaryum-veri.js Akvaryum: the fish, ornaments and tank themes (names, sizes; the admin page loads it too)
 │   │   ├── akvaryum-sanat.js Akvaryum's drawings: fish, ornaments, plants (SVG), sand and caustics (canvas)
 │   │   ├── akvaryum.js      Akvaryum: every player's own tank, rewards (akvaryum.odul / akvaryum.kart), naming the fish
@@ -43,6 +43,8 @@ app/                         Published site (GitHub Pages root)
 │   ├── images/              Shared images (ada-atlasi.jpg)
 │   └── audio/
 │       ├── ui/              Effect sounds (tools/make_sounds.py generates them)
+│       ├── ingilizce/       İngilizce Koyu's English lines in a natural voice (tools/ingilizce_sesler.py): <id>.mp3, slow <id>-y.mp3,
+│       │                    kayitlar.js (line → id), KAYNAKLAR.md
 │       └── elif-ba/         Elif Ba recordings, section by section
 │           ├── harf/NN.mp3          Letter names (00 = Elif)
 │           ├── hece/NN-H.mp3        Syllables (H: 0 üstün, 1 esre, 2 ötre)
@@ -82,7 +84,9 @@ app/                         Published site (GitHub Pages root)
 tools/                       Helper scripts (not published)
 ├── kapsam.js                Checks every question island against its textbook checklist
 ├── make_sounds.py           → app/assets/audio/ui/*.wav
-└── elif_sesleri.py          → app/assets/audio/elif-ba/ (harf, hece, kayitlar.js)
+├── elif_sesleri.py          → app/assets/audio/elif-ba/ (harf, hece, kayitlar.js)
+├── ingilizce_metinler.js    Every English line İngilizce Koyu says (question words and sentences, the games' lines)
+└── ingilizce_sesler.py      → app/assets/audio/ingilizce/: records those lines with Kokoro (needs the model, see the file)
 elifba-ses-onizleme/          The girl's voice as recorded (also tenvin, şedde, uzatma …, not used yet) with a page to listen to them
 sources/                     Raw material (not published)
 └── elifba-sesleri/          Diyanet Elifba audio library, organized by lesson, plus katalog.json
@@ -149,13 +153,19 @@ when one is done. A panel beside the map (under it on phones) has the Sıradaki 
   opens once Tekrar Kutusu holds 6 wrong answers; a round lays up to 6 of them out as English and Turkish cards to match
   (one card per word and per meaning). A pair matched on the first try counts as a right answer, so it leaves Tekrar Kutusu;
   a round without a wrong match brings a reward. Yanlış Avı has a second station, 🎈 Balon Patlat (the wrong words float
-  up as balloons; pop the one you hear). Every 🔊 has a 🐢 next to it that says the word slowly. `ikinciSans: true`: in a
-  practice round the first wrong answer only fades and the child tries again (the question still counts as missed and costs
-  a heart; not on the last heart). `oyunParki: { sepet, tren }`: a 🎡 Oyun Parkı island after Yanlış Avı with five games
-  (`core/js/ingilizce-oyunlari.js`): Dinle ve Bul, Meyve Sepeti (drag the food you hear into the basket; `sepet` lists the
-  foods), Sihirli Boyama, Kelime Treni (`tren` lists the sentences) and Sesli Hafıza. They use the island's words that have
-  a picture (`k[2]`; a picture shared by words of different meanings is left out). The best round of each game is saved in
-  the island's record (`oyun`); its first finish brings a reward once. The 2nd grade bank was generated from the book in the order of its pages
+  up as balloons with their meaning; pop the one you hear). `oyunlar: { sepet }`: a station's round (and a Tekrar Kutusu
+  round) is not a quiz but a row of games (`core/js/ingilizce-oyunlari.js`, `ingilizceOyunlari.tur`): its ten questions
+  are cut into games and every game answers its own questions through the same `note()`, so learning, stars, Tekrar
+  Kutusu and rewards work as before. A word with a picture (`k[2]`, not an abstract one) goes to Dinle ve Bul, Balon
+  Patlat or Sesli Hafıza; a colour to Sihirli Boyama; a food listed in `sepet` to Meyve Sepeti; a sentence of 3-7 words
+  that the question asks in English to Kelime Treni; anything else is a Bilgi Kartı (the question itself, with a second
+  try). A miss in Sesli Hafıza is only memory, so a found pair counts as right. Each game opens with a title card, the
+  player's icon cheers as a mascot, and every line is awaited before the next. `ikinciSans: true` gives the classic
+  question rounds a second try too. **The voice:** every English line (`tools/ingilizce_metinler.js`) is recorded with
+  Kokoro (`tools/ingilizce_sesler.py`, voice af_heart, a normal and a slow 🐢 file) and played through the game's Web
+  Audio context (`ingilizceSes`); a line without a recording falls back to the device's best English voice. When
+  questions or game lines change, run the tool again: it records only the new lines and removes the files of lines that
+  are gone. The 2nd grade bank was generated from the book in the order of its pages
   (every word gets a "what does it mean", "which is it in English" or "listen" question in turn, with wrong options from the
   same group of words and never two that mean nearly the same); from now on questions are only appended by hand.
 - **A question island whose bank is still empty** (İngilizce Koyu's 3rd and 4th grade, until their questions are written) shows its
