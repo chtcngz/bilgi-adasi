@@ -65,7 +65,9 @@ const elifData = (() => {
   const apart = new Set([0, 7, 8, 9, 10, 25]);
   const joinsNext = i => !apart.has(i);
   const KASHIDA = 'ـ';
-  const shape = (i, f) => (f >= 2 ? KASHIDA : '') + glyphs[i] + ((f === 1 || f === 2) && joinsNext(i) ? KASHIDA : '');
+  // With a hareke h the mark sits on the letter, before the kashida that joins it on (ـبَـ).
+  const shape = (i, f, h) => (f >= 2 ? KASHIDA : '') + glyphs[i] + (h === undefined ? '' : harekeler[h].mark) +
+    ((f === 1 || f === 2) && joinsNext(i) ? KASHIDA : '');
   // Cezm: the letter with a cezm (sükûn, ْ) has no hareke of its own and is read together with the
   // harekeli letter before it (be esre bi, sin cezm: bis). Diyanet's Elifba ("Cezm", Kavrama) has one such
   // syllable for every letter, the letter being the one with the cezm; in Elif's place it is a hemze.
@@ -92,32 +94,38 @@ const elifData = (() => {
     ['اِذَ', 'اِذْ', 'اِذْ قَامُوا']];
   const cezmExampleReadings = [['ase', 'as', 'aslaha'], ['vira', 'vir', 'virden'], ['yeise', 'yeis', 'yeisne'], ['fehuke', 'fehuk', 'fehukmu'],
     ['ize', 'iz', 'iz kamu']];
-  // A cove's letters as the map and the path show them: alone, in their middle shape in a bitişik cove,
-  // with their cezm in a cezm cove.
-  const coveGlyphs = k => coveLetters(k).map(i => coveTopic(k) === 'bitisik' ? shape(i, 2) : coveTopic(k) === 'cezm' ? cezm(i).sakin : glyphs[i]);
-  // The example words of Diyanet's Elifba ("Harfler ve Şekilleri"): for every letter one word with it at
-  // the start, one in the middle and one at the end. The letter meant is in braces. Its recordings spell
-  // the word's letters by name, right to left.
+  // A cove's letters as the map and the path show them: alone, in their middle shape with an üstün in a
+  // bitişik cove, with their cezm in a cezm cove.
+  const coveGlyphs = k => coveLetters(k).map(i => coveTopic(k) === 'bitisik' ? shape(i, 2, 0) : coveTopic(k) === 'cezm' ? cezm(i).sakin : glyphs[i]);
+  // The example words of the bitişik yazılış: for every letter one word with it at the start, one in the
+  // middle and one at the end. The bitişik coves come after the harekes and before the cezm, so every
+  // letter of a word has a hareke and none has a cezm, a şedde or a tenvin: three-letter words of the
+  // Qur'an's Arabic (كَتَبَ, سَمِعَ, خُلِقَ). The letter meant is in braces. A word is read as its syllables,
+  // right to left (ke-te-be).
   const words = [
-    ['{ا}مر', 'س{ا}ل', 'نب{ا}'], ['{ب}عث', 'ع{ب}د', 'وه{ب}'], ['{ت}رك', 'اع{ت}دوا', 'سك{ت} جن{ة}'], ['{ث}بت', 'م{ث}ل', 'رف{ث}'],
-    ['{ج}عل', 'تع{ج}ب', 'الح{ج}'], ['{ح}ذر', 'يج{ح}د', 'فت{ح}'], ['{خ}لق', 'في{خ}رج', 'ونف{خ}'], ['{د}خل', 'ع{د}د', 'وع{د}'],
-    ['{ذ}را', 'ك{ذ}لك', 'نب{ذ}'], ['{ر}جع', 'ف{ر}ض', 'ام{ر}'], ['{ز}عم', 'ن{ز}ل', 'بر{ز}'], ['{س}ال', 'ف{س}جد', 'عب{س}'],
-    ['{ش}كر', 'ي{ش}عر', 'بط{ش}'], ['{ص}دق', 'ن{ص}ف', 'نك{ص}'], ['{ض}ل', 'ت{ض}ع', 'ببع{ض}'], ['{ط}بع', 'ف{ط}ر', 'خل{ط}'],
-    ['{ظ}هر', 'ن{ظ}ر', 'غل{ظ}'], ['{ع}بد', 'ل{ع}ن', 'من{ع}'], ['{غ}ضب', 'ف{غ}فر', 'بل{غ}'], ['{ف}وقع', 'ك{ف}ر', 'خل{ف}'],
-    ['{ق}دم', 'س{ق}ر', 'فس{ق}'], ['{ك}سب', 'م{ك}ر', 'من{ك}'], ['{ل}برز', 'خ{ل}ع', 'جع{ل}'], ['{م}ثل', 'يط{م}ع', 'لم{م}'],
-    ['{ن}ظر', 'م{ن}ع', 'بط{ن}'], ['{و}عد', 'ع{و}د', 'دل{و}'], ['{ه}لك', 'ف{ه}م', 'وج{ه}'], ['{ي}تيم', 'خ{ي}ر', 'لق{ى}']
+    ['{اِ}رَمَ', 'سَ{اَ}لَ', 'قَرَ{اَ}'], ['{بَ}عَثَ', 'صَ{بَ}رَ', 'كَتَ{بَ}'], ['{تُ}رِكَ', 'فَ{تَ}حَ', 'نَبَ{تَ}'], ['{ثَ}بَتَ', 'كَ{ثُ}رَ', 'لَبِ{ثَ}'],
+    ['{جُ}عِلَ', 'رَ{جَ}عَ', 'خَرَ{جَ}'], ['{حَ}مِدَ', 'بَ{حَ}ثَ', 'فَرِ{حَ}'], ['{خُ}لِقَ', 'دَ{خَ}لَ', 'نَفَ{خَ}'], ['{دَ}خَلَ', 'عَ{دَ}لَ', 'وَجَ{دَ}'],
+    ['{ذُ}كِرَ', 'كَ{ذَ}بَ', 'نَفَ{ذَ}'], ['{رَ}جَعَ', 'فَ{رِ}حَ', 'نَصَ{رَ}'], ['{زَ}عَمَ', 'نَ{زَ}لَ', 'بَرَ{زَ}'], ['{سَ}مِعَ', 'حَ{سُ}نَ', 'جَلَ{سَ}'],
+    ['{شَ}رِبَ', 'نَ{شَ}رَ', 'بَطَ{شَ}'], ['{صَ}بَرَ', 'نَ{صَ}رَ', 'نَقَ{صَ}'], ['{ضُ}رِبَ', 'حَ{ضَ}رَ', 'فَرَ{ضَ}'], ['{طَ}لَبَ', 'قَ{طَ}عَ', 'خَلَ{طَ}'],
+    ['{ظَ}لَمَ', 'نَ{ظَ}رَ', 'حَفِ{ظَ}'], ['{عَ}لِمَ', 'جَ{عَ}لَ', 'سَمِ{عَ}'], ['{غَ}فَرَ', 'رَ{غِ}بَ', 'بَلَ{غَ}'], ['{فَ}تَحَ', 'حَ{فِ}ظَ', 'عَرَ{فَ}'],
+    ['{قُ}تِلَ', 'سَ{قَ}طَ', 'خَلَ{قَ}'], ['{كُ}تِبَ', 'رَ{كِ}بَ', 'مَلَ{كَ}'], ['{لَ}عِبَ', 'حَ{لَ}فَ', 'عَمِ{لَ}'], ['{مَ}نَعَ', 'حَ{مِ}دَ', 'ظَلَ{مَ}'],
+    ['{نُ}صِرَ', 'مَ{نَ}عَ', 'حَسُ{نَ}'], ['{وَ}جَدَ', 'قَ{وِ}يَ', 'سَرُ{وَ}'], ['{هَ}لَكَ', 'ذَ{هَ}بَ', 'فَقِ{هَ}'], ['{يَ}بِسَ', 'غَ{يِ}رَ', 'رَضِ{يَ}']
   ];
-  // word(i, f): the example word of letter i at place f (1-3) as { text, marks }, the indexes of the
-  // characters of `text` that are the letter meant.
+  // word(i, f): the example word of letter i at place f (1-3) as { text, letters, at }: its letters one by
+  // one ({ c, i, h }: the letter with its hareke as written, the letter and the hareke) and the place in
+  // `letters` of the letter meant.
   function word(i, f) {
-    const marks = [];
-    let text = '', inside = false;
-    for (const part of words[i][f - 1].split(/([{}])/)) {
-      if (part === '{' || part === '}') { inside = part === '{'; continue; }
-      if (inside) marks.push(text.length);
-      text += part;
+    const source = words[i][f - 1];
+    const letters = [];
+    let at = -1;
+    for (const c of source) {
+      if (c === '{') { at = letters.length; continue; }
+      if (c === '}') continue;
+      const h = harekeler.findIndex(x => x.mark === c);
+      if (h >= 0) { const last = letters.at(-1); last.c += c; last.h = h; continue; }
+      letters.push({ c, i: glyphs.indexOf(c), h: -1 });
     }
-    return { text, marks };
+    return { text: letters.map(l => l.c).join(''), letters, at };
   }
   // Letters on one skeleton, told apart only by their dots (ب ت ث, ج ح خ …): the games set them side by side.
   const families = [[1, 2, 3], [4, 5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16], [17, 18], [19, 20]];

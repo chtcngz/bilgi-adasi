@@ -3,8 +3,8 @@
 // it brings the next one at once, and the game does not stop until all 24 are popped. A wrong tap breaks one of three hearts.
 // Finishing with all three hearts completes the section; losing all three starts it again.
 // In Harf Yağmuru letters rain from the clouds into the sea; in Hece Balonları syllables with
-// their harekes rise from the sea up into the clouds; in Şekil Yağmuru the letters rain in their
-// joined shapes, each drop of a letter in another one (at the start, in the middle, at the end); in Cezm
+// their harekes rise from the sea up into the clouds; in Şekil Yağmuru harekeli letters rain in their
+// joined shapes, each drop of a syllable in another one (at the start, in the middle, at the end); in Cezm
 // Balonları syllables with a cezm rise as balloons.
 const elifListeningGame = (() => {
   const { glyphs, names, readings, harekeler, syllable, twins, shape, cezm, cezmReadings, cezmAlike } = elifData;
@@ -72,20 +72,25 @@ const elifListeningGame = (() => {
     },
     sekil: {
       rising: false, label: 'Şekil Yağmuru', title: 'Şekil <em>Yağmuru</em>',
-      // a drop shows the letter at the start, in the middle or at the end of a word, picked when it is made
-      text: i => shape(i, 1 + Math.floor(Math.random() * 3)), name: i => names[i], sound: i => names[i],
-      speak: (i, note, end) => voice.letter(i, note, end), group: i => i,
-      alike: i => twins(i), alikeFrom: 2, alikeChance: 0.4,
-      t: { listen: 'Harfi tekrar dinle', slots: 'Bölümün harfleri', first: '👆 Duyduğun harfi patlat', fresh: '🔊 Yeni harf',
-        freshSay: 'Yeni harf. Dinle.', allDone: '24 harfin hepsini patlattın.', whole: 'Hiç can kaybetmeden 24 harfin hepsini patlattın!',
-        partly: '24 harfin hepsini patlattın ama ', recap: 'Patlattığın harfler · dokun, dinle', chip: ' harfini dinle',
-        some: ' harfi patlattın. ', none: 'Sesi dikkatle dinle, sonra o harfi patlat. ',
-        say: 'Şekil Yağmuru! Harfler bitişik şekilleriyle yağıyor. Kaplumbağa bir harf söyleyecek. Şekli değişse de o harfi patlat. ' +
+      // a harekeli syllable (letter * 3 + hareke); a drop shows it at the start, in the middle or at the end
+      // of a word, picked when it is made
+      text: k => shape(Math.floor(k / 3), 1 + Math.floor(Math.random() * 3), k % 3), sound: k => readings[Math.floor(k / 3)][k % 3],
+      name: k => names[Math.floor(k / 3)] + ' ' + harekeler[k % 3].name.toLocaleLowerCase('tr'),
+      speak: (k, note, end) => voice.syllable(Math.floor(k / 3), k % 3, note, end), group: k => Math.floor(k / 3),
+      // the same letter with its other harekes, and the look-alike letters with the same hareke
+      alike: k => [...[0, 1, 2].map(h => k - k % 3 + h).filter(j => j !== k), ...twins(Math.floor(k / 3)).map(i => i * 3 + k % 3)],
+      alikeFrom: 2, alikeChance: 0.4,
+      preload: letters => voice.preload([...new Set(letters.map(k => Math.floor(k / 3)))], false, true),
+      t: { listen: 'Heceyi tekrar dinle', slots: 'Bölümün heceleri', first: '👆 Duyduğun heceyi patlat', fresh: '🔊 Yeni hece',
+        freshSay: 'Yeni hece. Dinle.', allDone: '24 hecenin hepsini patlattın.', whole: 'Hiç can kaybetmeden 24 hecenin hepsini patlattın!',
+        partly: '24 hecenin hepsini patlattın ama ', recap: 'Patlattığın heceler · dokun, dinle', chip: ' hecesini dinle',
+        some: ' heceyi patlattın. ', none: 'Sesi dikkatle dinle, sonra o heceyi patlat. ',
+        say: 'Şekil Yağmuru! Harekeli harfler bitişik şekilleriyle yağıyor. Kaplumbağa bir hece okuyacak. Şekli değişse de o heceyi patlat. ' +
           'Başlamak için yeşil düğmeye bas.',
-        intro: 'Harfler bitişik yazılışlarıyla yağıyor: kelimenin başındaki, ortasındaki ve sonundaki şekilleriyle. Kaplumbağa bir harf ' +
-          'söyleyecek: o harfi patlat, şekli değişse de aynı harf! Her harf altı kez gelir. 24 harfi bitirince yoluna devam edersin; hiç can kaybetmezsen ' +
-          'üç yıldız! Canların biterse oyun baştan başlar.',
-        unit: 'harf', piece: 'damla patlat', pool: 'Oyundaki harfler' }
+        intro: 'Harekeli harfler bitişik yazılışlarıyla yağıyor: kelimenin başındaki, ortasındaki ve sonundaki şekilleriyle. Kaplumbağa bir hece ' +
+          'okuyacak: o heceyi patlat, şekli değişse de aynı hece! Her harf altı kez gelir, her hecesi iki kez. 24 heceyi bitirince yoluna devam edersin; ' +
+          'hiç can kaybetmezsen üç yıldız! Canların biterse oyun baştan başlar.',
+        unit: 'hece', piece: 'damla patlat', pool: 'Oyundaki heceler' }
     },
     cezm: {
       rising: true, label: 'Cezm Balonları', title: 'Cezm <em>Balonları</em>',

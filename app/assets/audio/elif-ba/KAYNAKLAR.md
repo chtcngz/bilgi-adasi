@@ -47,7 +47,7 @@ Kaynak sayfada tüm hakların saklı olduğu belirtilmektedir.
 
 ## Bitişik yazılış
 
-Örnek kelimelerin kayıtları kelimenin harflerini sağdan sola adlarıyla okur. `kelime/NN-P.mp3`: NN harf sırası (00 = Elif), P harfin kelimedeki yeri (1 başta, 2 ortada, 3 sonda). 28 harfin hepsinin üç örnek kelimesi eklendi.
+Örnek kelimelerin kayıtları kelimenin harflerini sağdan sola adlarıyla okur. `kelime/NN-P.mp3`: NN harf sırası (00 = Elif), P harfin kelimedeki yeri (1 başta, 2 ortada, 3 sonda). 28 harfin hepsinin üç örnek kelimesi eklendi. 0.40.0 sürümünden beri bitişik yazılış harekeli örnek kelimelerle öğretildiği için bu kayıtlar oyunda çalınmıyor; harekeli kelimeler hecelerin kendi kayıtlarıyla hece hece okunuyor.
 
 | Dosya | Metin | Kaynak |
 |---|---|---|

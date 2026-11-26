@@ -7,6 +7,17 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.40.0 · 26.11.2026
+
+Elif Ba Adası’nda harekeleri öğrenen çocuk artık **harekesiz harf görmüyor**.
+
+- **Cam Köprü (Harf Koyu):** Camlarda yalnızca harekeli harfler var; kaplumbağa harf adı söylemiyor, hep heceyi okuyor. Her sırada aynı harfin başka harekeli hâli de duruyor.
+- **Bitişik Koyu tamamen harekeli:** Kartlarda her harfin üstün, esre ve ötreli hâli kelimenin başında, ortasında ve sonunda yan yana duruyor; dokununca hece ve yeri okunuyor. Örnek kelimeler de artık harekeli (كَتَبَ, سَمِعَ, خُلِقَ gibi, cezimsiz, şeddesiz) ve hece hece okunuyor; okunan harf parlıyor.
+- **Bitişik soruları:** Harekeli şekil gösterilip tek başına yazılışı soruluyor, hece ve yeri dinletilip şekli soruluyor; harf avında kelimede harekeli harf aranıyor.
+- **Şekil Yağmuru:** Harekeli harfler bitişik şekilleriyle yağıyor; kaplumbağa heceyi okuyor.
+- **Bitişik Cam Köprü:** Camlarda harekeli bitişik şekiller var.
+- **Cezm Cam Köprü:** Bütün sıralar ve camlar cezimli hece; araya cezimsiz harf karışmıyor.
+
 ## 0.39.0 · 25.11.2026
 
 - **Akvaryum artık donmuyor:** Bazı tablet ve telefonlarda akvaryuma dokununca ekran donuyordu. Balıklar artık her türden bir kez hazırlanan resimlerle tek bir tuvalde çiziliyor; ışık huzmeleri, kumdaki ışık desenleri ve arka duvar da çok daha hafif. Akvaryum dokunur dokunmaz açılıyor, içi hemen ardından doluyor. Balık resimleri ve ışık deseni, sayfa boştayken önceden hazırlanıyor. Balıkların isimleri de balıkla birlikte çiziliyor.

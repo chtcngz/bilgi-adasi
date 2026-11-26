@@ -372,8 +372,8 @@
   const guides = {
     harf: 'Harflere dokun, adlarını dinle. Hazır olunca aşağıdaki yeşil oyna düğmesine bas.',
     hareke: 'Hecelere dokun, okunuşlarını dinle. Nota düğmesi üç harekeyi sırayla okur. Hazır olunca yeşil oyna düğmesine bas.',
-    bitisik: 'Harfler kelimede yan yana gelince birbirine bağlanır ve şekilleri biraz değişir. Kelimeler sağdan sola okunur. ' +
-      'Şekillere ve kelimelere dokun, dinle. Kırmızı harf, öğrendiğin harf. Hazır olunca yeşil oyna düğmesine bas.',
+    bitisik: 'Harfler kelimede yan yana gelince birbirine bağlanır ve şekilleri biraz değişir. Harekeleri değişmez. Kelimeler sağdan sola, ' +
+      'hece hece okunur. Şekillere ve kelimelere dokun, dinle. Kırmızı harf, öğrendiğin harf. Hazır olunca yeşil oyna düğmesine bas.',
     cezm: 'Harfin üstündeki küçük yuvarlağa cezm denir. Cezimli harfin harekesi yoktur; kendinden önceki harfle birlikte okunur. ' +
       'Be esre bi, sin cezm bis. Hecelere dokun, dinle. Hazır olunca yeşil oyna düğmesine bas.'
   };
@@ -426,20 +426,22 @@
     sound: 'Bu harfin sesi hangisi? Seslere dokun, dinle. Doğru sesi bulunca yeşil tike bas.',
     'ses-hece': 'Dinle. Duyduğun heceyi bul.',
     'hece-ses': 'Bu hecenin sesi hangisi? Seslere dokun, dinle. Doğru sesi bulunca yeşil tike bas.',
-    'sekil-harf': 'Bu şekil hangi harfin? Harfi bul.',
-    'dinle-sekil': 'Dinle. Harfin bu şeklini bul.',
-    bul: 'Bu harf kelimenin içine saklandı. Kelimede onu bul ve üstüne dokun. İstersen harfi tutup kelimedeki yerine götür.',
+    'sekil-harf': 'Bu şekil hangi hecenin? Tek başına yazılışını bul.',
+    'dinle-sekil': 'Dinle. Hecenin bu şeklini bul.',
+    bul: 'Bu hece kelimenin içine saklandı. Kelimede onu bul ve üstüne dokun. İstersen heceyi tutup kelimedeki yerine götür.',
     'ses-cezm': 'Dinle. Duyduğun heceyi bul.',
     'cezm-ses': 'Bu hecenin sesi hangisi? Seslere dokun, dinle. Doğru sesi bulunca yeşil tike bas.',
     'cezm-harf': 'Dinle. Hangi harf cezimli? Eksik harfi bul.'
   };
+  // The letter's three harekeli syllables over three columns, one for each place in the word (right to
+  // left: start, middle, end), each with its shapes there and an example word, the letter coloured in it.
   function shapeCard(i) {
     const card = el('div', 'elif-shapes tone-' + i % 4);
-    const head = el('div', 'elif-syllables-head', glyphHtml(glyphs[i]) + '<strong>' + names[i] + '</strong>' +
+    const head = el('div', 'elif-syllables-head', glyphHtml([0, 1, 2].map(h => syllable(i, h)).join(' ')) + '<strong>' + names[i] + '</strong>' +
       '<small aria-hidden="true">' + (mastered('bitisik', i) ? '🪸' : '') + '</small>');
     const listen = el('button', 'elif-chant', '♪');
-    listen.setAttribute('aria-label', names[i] + ' harfini dinle');
-    listen.onclick = () => { $('elif-note').textContent = names[i]; voice.letter(i, $('elif-note')); };
+    listen.setAttribute('aria-label', names[i] + ' üstün, esre, ötre okunuşunu dinle');
+    listen.onclick = () => { $('elif-note').textContent = [0, 1, 2].map(h => syllableName(i, h)).join(' · '); voice.chant(i, undefined, $('elif-note')); };
     head.append(listen);
     const row = el('div', 'elif-shape-row');
     row.dir = 'rtl';
@@ -450,20 +452,30 @@
     for (const f of [1, 2, 3]) {
       const column = el('div', 'elif-shape-col');
       column.dir = 'ltr';
-      const form = el('button', 'elif-syllable', glyphHtml(shape(i, f)) + placeIcon(f));
-      form.setAttribute('aria-label', names[i] + ', ' + inWord[f] + ', dinle');
-      form.onclick = () => { select(form); $('elif-note').textContent = names[i] + ' ' + inWord[f]; voice.shape(i, f, $('elif-note')); };
+      column.append(el('span', 'elif-shape-place', placeIcon(f)));
+      const forms = el('div', 'elif-shape-forms');
+      for (const h of [0, 1, 2]) {
+        const form = el('button', 'elif-syllable', glyphHtml(shape(i, f, h)));
+        form.setAttribute('aria-label', syllableName(i, h) + ', ' + inWord[f] + ', dinle');
+        form.onclick = () => { select(form); $('elif-note').textContent = syllableName(i, h) + ' ' + inWord[f]; voice.shape(i, h, f, $('elif-note')); };
+        forms.append(form);
+      }
       const sample = el('button', 'elif-word', wordHtml(i, f));
       sample.setAttribute('aria-label', names[i] + ' ' + inWord[f] + ': örnek kelimeyi dinle');
-      sample.onclick = () => { select(sample); $('elif-note').textContent = 'Kelimenin harfleri sağdan sola okunuyor.'; voice.word(i, f, $('elif-note')); };
-      column.append(form, sample);
+      sample.onclick = () => {
+        select(sample);
+        $('elif-note').textContent = 'Kelime sağdan sola, hece hece okunuyor.';
+        const parts = [...sample.querySelectorAll('.elif-word-letter')];
+        voice.word(i, f, $('elif-note'), null, n => parts.forEach((part, m) => part.classList.toggle('say', m === n)));
+      };
+      column.append(forms, sample);
       row.append(column);
     }
     card.append(head, row);
     if (!joinsNext(i)) {
       // Said aloud, too: the letter does not join the one after it.
       const sentence = names[i] + ' kendinden sonraki harfe bağlanmaz.';
-      const apart = el('button', 'elif-apart', '<span aria-hidden="true">🔊</span> ' + glyphHtml(glyphs[i] + glyphs[1]) + '<span>' + sentence + '</span>');
+      const apart = el('button', 'elif-apart', '<span aria-hidden="true">🔊</span> ' + glyphHtml(syllable(i, 0) + syllable(1, 0)) + '<span>' + sentence + '</span>');
       apart.onclick = () => { $('elif-note').textContent = sentence; voice.instruct(sentence); };
       card.append(apart);
     }
@@ -529,48 +541,41 @@
     card.append(head, row);
     return card;
   }
-  // An example word with its letter coloured. The coloured letter keeps its joins to its neighbours
-  // through zero-width joiners, so it looks the same as in the plain word.
+  // An example word with its letter coloured, every letter (with its hareke) in a span of its own so it can
+  // light up as its syllable is read. Zero-width joiners keep the joins across the spans.
   const ZWJ = '\u200d';
-  const joinsAfter = c => !'اأإآدذرزوؤةء '.includes(c);
-  function wordHtml(i, f) {
-    const { text, marks } = word(i, f);
-    let html = '';
-    Array.from(text).forEach((c, n) => {
-      if (!marks.includes(n)) { html += c; return; }
-      const before = n > 0 && text[n - 1] !== ' ' && joinsAfter(text[n - 1]) && c !== 'ء';
-      const after = n < text.length - 1 && text[n + 1] !== ' ' && joinsAfter(c);
-      html += (before ? ZWJ : '') + '<span class="elif-mark">' + (before ? ZWJ : '') + c + (after ? ZWJ : '') + '</span>' + (after ? ZWJ : '');
-    });
-    return '<b lang="ar" dir="rtl">' + html + '</b>';
+  function letterSpans(letters, attrs) {
+    return letters.map((l, n) => {
+      const before = n > 0 && joinsNext(letters[n - 1].i);
+      const after = n < letters.length - 1 && joinsNext(l.i);
+      return '<span ' + attrs(l, n, before, after) + '>' + (before ? ZWJ : '') + l.c + (after ? ZWJ : '') + '</span>';
+    }).join('');
   }
-  // Harf avı: the letter alone is found inside a word, in its joined shape. The letters of the example
-  // words as indexes (ة is a te, ى a ye) and their place by Diyanet's convention: the first letter of a
-  // word is at its start, the last at its end, whatever shape it takes.
-  const letterOf = c => glyphs.indexOf({ 'ة': 'ت', 'ى': 'ي' }[c] || c);
-  const placeAt = (text, n) => n === 0 || text[n - 1] === ' ' ? 1 : n === text.length - 1 || text[n + 1] === ' ' ? 3 : 2;
+  function wordHtml(i, f) {
+    const { letters, at } = word(i, f);
+    return '<b lang="ar" dir="rtl">' + letterSpans(letters, (l, n) => 'class="elif-word-letter' + (n === at ? ' elif-mark' : '') + '"') + '</b>';
+  }
+  // Harf avı: the harekeli letter alone is found inside a word, in its joined shape. A letter's place is
+  // by Diyanet's convention: the first letter of a word is at its start, the last at its end, whatever
+  // shape it takes.
+  const placeAt = (letters, n) => n === 0 ? 1 : n === letters.length - 1 ? 3 : 2;
   const exampleWords = glyphs.flatMap((_, i) => [1, 2, 3].map(f => ({ i, f })));
   // A word for letter `target` at place f: any of the 84 example words with the letter there once, those
-  // with one of its look-alikes (ب in ثبت) more often; the letter's own example word is always one of them.
+  // with one of its look-alikes (ب in ثَبَتَ) more often; the letter's own example word is always one of them.
+  // q.h is the hareke the letter has in it.
   function huntWord(target, f) {
     const fits = exampleWords.filter(w => {
-      const text = word(w.i, w.f).text;
-      const at = Array.from(text).flatMap((c, n) => letterOf(c) === target ? [n] : []);
-      return at.length === 1 && placeAt(text, at[0]) === f;
+      const { letters } = word(w.i, w.f);
+      const at = letters.flatMap((l, n) => l.i === target ? [n] : []);
+      return at.length === 1 && placeAt(letters, at[0]) === f;
     });
-    const tricky = fits.filter(w => Array.from(word(w.i, w.f).text).some(c => twins(target).includes(letterOf(c))));
-    return pick(tricky.length && Math.random() < 0.6 ? tricky : [{ i: target, f }, ...fits]);
+    const tricky = fits.filter(w => word(w.i, w.f).letters.some(l => twins(target).includes(l.i)));
+    const w = pick(tricky.length && Math.random() < 0.6 ? tricky : [{ i: target, f }, ...fits]);
+    return { ...w, h: word(w.i, w.f).letters.find(l => l.i === target).h };
   }
-  // The word with every letter in a span of its own; zero-width joiners keep the joins across the spans.
-  function huntHtml(text, target) {
-    return Array.from(text).map((c, n) => {
-      if (c === ' ') return ' ';
-      const before = n > 0 && text[n - 1] !== ' ' && joinsAfter(text[n - 1]);
-      const after = n < text.length - 1 && text[n + 1] !== ' ' && joinsAfter(c);
-      const form = before && after ? 2 : after ? 1 : before ? 3 : 0;
-      return '<span class="elif-hunt-letter" data-n="' + n + '" data-i="' + letterOf(c) + '" data-f="' + placeAt(text, n) + '" data-form="' + form + '"' +
-        (letterOf(c) === target ? ' data-right' : '') + '>' + (before ? ZWJ : '') + c + (after ? ZWJ : '') + '</span>';
-    }).join('');
+  function huntHtml(letters, target) {
+    return letterSpans(letters, (l, n, before, after) => 'class="elif-hunt-letter" data-n="' + n + '" data-i="' + l.i + '" data-h="' + l.h +
+      '" data-f="' + placeAt(letters, n) + '" data-form="' + (before && after ? 2 : after ? 1 : before ? 3 : 0) + '"' + (l.i === target ? ' data-right' : ''));
   }
 
   /* ---------- The games: Harf Yağmuru, Hece Balonları, Şekil Yağmuru and Cam Köprü ---------- */
@@ -590,7 +595,7 @@
     },
     sekil: {
       kind: 'sekil', name: 'Şekil Yağmuru', icon: '☔', tag: 'Oyun',
-      items: () => glyphs.map((_, i) => i).filter(i => playable('bitisik', i))
+      items: () => glyphs.map((_, i) => i).filter(i => playable('bitisik', i)).flatMap(i => [i * 3, i * 3 + 1, i * 3 + 2])
     },
     cezmbalon: {
       kind: 'cezm', name: 'Cezm Balonları', icon: '🎐', tag: 'Oyun',
@@ -631,7 +636,8 @@
       if (section) drawSection(); else showHub();
     };
     // The letter groups up to this cove's: the coves of a topic go through the same groups of four again.
-    const upTo = i => Math.floor((id === 'balon' ? Math.floor(i / 3) : i) / 4) <= k % LETTER_COVES;
+    const bySyllable = id === 'balon' || id === 'sekil';
+    const upTo = i => Math.floor((bySyllable ? Math.floor(i / 3) : i) / 4) <= k % LETTER_COVES;
     if (id === 'kopru') {
       const joined = coveTopic(k) === 'bitisik', withCezm = coveTopic(k) === 'cezm';
       elifBridgeGame.open({
@@ -647,7 +653,7 @@
     elifListeningGame.open({
       kind: info.kind,
       letters: info.items().filter(upTo),
-      recent: id === 'balon' ? recent.flatMap(i => [i * 3, i * 3 + 1, i * 3 + 2]) : recent,
+      recent: bySyllable ? recent.flatMap(i => [i * 3, i * 3 + 1, i * 3 + 2]) : recent,
       best: () => progress[id],
       onResult: result, next, onClose
     });
@@ -712,20 +718,31 @@
     return spread([0, 1, 2, 0, 1, 2].map((h, n) => ({ type: n < 3 ? 'hece-ses' : 'ses-hece', target: letters[n % letters.length], h,
       choices: shuffled([0, 1, 2]).map(x => [letters[n % letters.length], x]) })));
   }
-  // Bitişik yazılış: every letter of the cove three times, each time at another place in the word. Its
-  // shape is shown and the letter found among letters alone (sekil-harf); the letter and its place are
-  // heard and its shape found among other letters' shapes at the same place (dinle-sekil); the letter
-  // alone hides in an example word and is found there in its joined shape (bul). From the second
-  // bitişik cove on, letters of the earlier ones come back for review.
-  function shapeChoices(target, k) {
-    const twinsOf = twins(target);
-    const order = [...shuffled(twinsOf), ...shuffled(coveLetters(k)), ...shuffled(glyphs.map((_, i) => i))];
-    const picked = [target];
-    for (const i of order) if (picked.length < 4 && !picked.includes(i)) picked.push(i);
+  // Bitişik yazılış: every letter of the cove three times, each time at another place in the word and
+  // always with a hareke (the bitişik coves come after the harekes). Its harekeli shape is shown and found
+  // among harekeli letters alone (sekil-harf); the syllable and its place are heard and its shape found
+  // among other shapes at the same place (dinle-sekil); the harekeli letter alone hides in an example word
+  // and is found there in its joined shape (bul). From the second bitişik cove on, letters of the earlier
+  // ones come back for review. A choice is a syllable [i, h].
+  function shapeChoices(target, h, k, heard) {
+    // seen: the look-alikes with the same hareke, then other letters; heard: also the same letter with
+    // another hareke, and never two that sound alike (ha for both ح and خ)
+    const order = [...shuffled(twins(target)).map(i => [i, h]), ...(heard ? [[target, pick([0, 1, 2].filter(x => x !== h))]] : []),
+      ...shuffled(coveLetters(k)).map(i => [i, heard ? pick([0, 1, 2]) : h]), ...shuffled(glyphs.map((_, i) => i)).map(i => [i, h])];
+    const picked = [[target, h]];
+    for (const [i, x] of order) {
+      if (picked.length >= 4) break;
+      if (picked.some(([j, y]) => j === i && y === x || heard && sameSound(i, x, j, y))) continue;
+      if (!heard && picked.some(([j]) => j === i)) continue;
+      picked.push([i, x]);
+    }
     return shuffled(picked);
   }
-  const shapeQuestion = (type, target, f, k) => type === 'bul' ? { type, target, f, w: huntWord(target, f) } :
-    { type, target, f, choices: shapeChoices(target, k) };
+  function shapeQuestion(type, target, f, k) {
+    if (type === 'bul') { const w = huntWord(target, f); return { type, target, f, h: w.h, w }; }
+    const h = pick([0, 1, 2]);
+    return { type, target, f, h, choices: shapeChoices(target, h, k, type === 'dinle-sekil') };
+  }
   function bitisikRound(k) {
     const questions = [];
     for (const target of coveLetters(k)) {
@@ -821,7 +838,7 @@
     const joined = ['sekil-harf', 'dinle-sekil', 'bul'].includes(q.type);
     const withCezm = ['ses-cezm', 'cezm-ses', 'cezm-harf'].includes(q.type);
     // A bitişik question says the letter and its place ("Be. Kelimenin başında"); the example word can be heard on its own.
-    const play = () => q.type === 'bul' ? voice.letter(q.target, response) : joined ? voice.shape(q.target, q.f, response) : letterQuestion ? voice.letter(q.target, response) :
+    const play = () => q.type === 'bul' ? voice.syllable(q.target, q.h, response) : joined ? voice.shape(q.target, q.h, q.f, response) : letterQuestion ? voice.letter(q.target, response) :
       withCezm ? voice.cezm(q.target, response) : voice.syllable(q.target, q.h, response);
     // A choice of a cezm question: a cezm syllable ({ c }) or a harekeli syllable ({ i, h }).
     const cezmText = c => c.c !== undefined ? cezm(c.c).text : syllable(c.i, c.h);
@@ -837,8 +854,8 @@
     grid.id = 'elif-choices';
     let rightButton = null;
     let hunt = null;
-    const answer = q.type === 'bul' ? names[q.target] : q.type === 'dinle-sekil' ? names[q.target] + ', ' + placeLower(q.f) :
-      letterQuestion || joined ? names[q.target] : withCezm ? cezmName(q.target) : syllableName(q.target, q.h);
+    const answer = q.type === 'dinle-sekil' ? syllableName(q.target, q.h) + ', ' + placeLower(q.f) :
+      letterQuestion ? names[q.target] : withCezm ? cezmName(q.target) : syllableName(q.target, q.h);
     // The children cannot read yet: what to do is said aloud the first time a kind of question comes
     // in a round, and the turtle button says it again. Listening questions then play their sound.
     let autoplay = false;
@@ -876,23 +893,24 @@
       soundChoices(q.choices.map(([i, h]) => [() => voice.syllable(i, h, response), i === q.target && h === q.h]), stage, response,
         'Bu ses başka bir hecenin.');
     } else if (q.type === 'sekil-harf') {
-      // A shape is shown: which letter is it?
-      prompt.textContent = 'Bu hangi harf?';
-      stage.append(prompt, el('div', 'elif-big', glyphHtml(shape(q.target, q.f))));
+      // A harekeli shape is shown: which harekeli letter alone is it?
+      prompt.textContent = 'Bu hangi hece?';
+      stage.append(prompt, el('div', 'elif-big', glyphHtml(shape(q.target, q.f, q.h))));
       grid.classList.add('four');
-      q.choices.forEach((i, n) => grid.append(choice(glyphHtml(glyphs[i]), n, i === q.target, () => 'Bu şekil ' + names[i] + ' değil.')));
+      q.choices.forEach(([i, h], n) => grid.append(choice(glyphHtml(syllable(i, h)), n, i === q.target && h === q.h,
+        () => 'Bu şekil ' + syllableName(i, h) + ' değil.')));
       stage.append(grid);
     } else if (q.type === 'dinle-sekil') {
-      // The letter and its place are heard: which shape is it?
-      prompt.innerHTML = 'Dinle ve harfin şeklini bul ' + placeIcon(q.f);
+      // The syllable and its place are heard: which shape is it?
+      prompt.innerHTML = 'Dinle ve hecenin şeklini bul ' + placeIcon(q.f);
       grid.classList.add('four');
-      q.choices.forEach((i, n) => grid.append(choice(glyphHtml(shape(i, q.f)), n, i === q.target, () => 'Bu ' + names[i] + '.')));
+      q.choices.forEach(([i, h], n) => grid.append(choice(glyphHtml(shape(i, q.f, h)), n, i === q.target && h === q.h, () => 'Bu ' + syllableName(i, h) + '.')));
       stage.append(prompt, speaker(), grid);
       autoplay = true;
     } else if (q.type === 'bul') {
-      // Harf avı: the letter alone floats above a word it hides in. It is found in its joined shape by
-      // tapping it in the word, or by carrying the letter onto it; tapping the letter says its name.
-      prompt.textContent = 'Bu harfi kelimede bul';
+      // Harf avı: the harekeli letter alone floats above a word it hides in. It is found in its joined shape
+      // by tapping it in the word, or by carrying it onto it; tapping it says the syllable.
+      prompt.textContent = 'Bu heceyi kelimede bul';
       hunt = huntBoard();
       stage.append(prompt, hunt.board);
       autoplay = true;
@@ -970,7 +988,7 @@
       let message = '✓ Doğru!';
       if (round.kind === 'intro') message += ' Bu ' + syllableName(q.target, q.h) + '.';
       else if (round.part === 'harf') message += ' Bu ' + names[q.target] + '.';
-      else if (joined) message += ' ' + names[q.target] + ' ' + inWord[q.found || q.f] + '.';
+      else if (joined) message += ' ' + syllableName(q.target, q.h) + ' ' + inWord[q.found || q.f] + '.';
       else if (withCezm) message += ' ' + cezmName(q.target) + '.';
       else message += ' Bu ' + syllableName(q.target, q.h) + '.';
       response.textContent = message;
@@ -1020,11 +1038,11 @@
     // it (the letter nearest the finger, so thin letters are easy to hit). A hand shows the way, without
     // a word written: from the bubble into the word, when the question first comes and when nothing happens.
     function huntBoard() {
-      const { text } = word(q.w.i, q.w.f);
+      const { letters: parts } = word(q.w.i, q.w.f);
       const board = el('div', 'elif-hunt');
-      const bubble = el('button', 'elif-hunt-bubble tone-' + q.target % 4, glyphHtml(glyphs[q.target]));
-      bubble.setAttribute('aria-label', names[q.target] + ': dinle, sonra kelimede bul');
-      const wordButton = el('button', 'elif-hunt-word', '<b lang="ar" dir="rtl">' + huntHtml(text, q.target) + '</b>');
+      const bubble = el('button', 'elif-hunt-bubble tone-' + q.target % 4, glyphHtml(syllable(q.target, q.h)));
+      bubble.setAttribute('aria-label', syllableName(q.target, q.h) + ': dinle, sonra kelimede bul');
+      const wordButton = el('button', 'elif-hunt-word', '<b lang="ar" dir="rtl">' + huntHtml(parts, q.target) + '</b>');
       wordButton.setAttribute('aria-label', 'Kelime. Harfi bulunca kelimede üstüne dokun.');
       const hand = el('span', 'elif-hunt-hand', '👆');
       hand.setAttribute('aria-hidden', 'true');
@@ -1055,7 +1073,7 @@
         hand.classList.remove('go');
         if (!letter.hasAttribute('data-right')) {
           home(true);
-          wrong(letter, 'Bu ' + names[Number(letter.dataset.i)] + '.');
+          wrong(letter, 'Bu ' + syllableName(Number(letter.dataset.i), Number(letter.dataset.h)) + '.');
           return;
         }
         q.found = Number(letter.dataset.f);
@@ -1069,13 +1087,13 @@
         setTimeout(() => {
           for (const found of letters) if (found.hasAttribute('data-right')) found.classList.add('found');
           fx.burst(wordButton, { symbols: [prizeOf('bitisik'), '✦', '★'] });
-          // Back in its place, the bubble shows what the letter became: ب ⬅ ـبـ
+          // Back in its place, the bubble shows what the harekeli letter became: بَ ⬅ ـبَـ
           const form = Number(letter.dataset.form);
-          const joinedForm = (form >= 2 ? 'ـ' : '') + text[Number(letter.dataset.n)] + (form === 1 || form === 2 ? 'ـ' : '');
+          const joinedForm = (form >= 2 ? 'ـ' : '') + parts[Number(letter.dataset.n)].c + (form === 1 || form === 2 ? 'ـ' : '');
           bubble.classList.remove('flying');
           bubble.classList.add('became');
           bubble.style.transform = '';
-          bubble.innerHTML = '<span dir="rtl">' + glyphHtml(glyphs[q.target]) + '<i aria-hidden="true">⬅</i>' + glyphHtml(joinedForm) + '</span>';
+          bubble.innerHTML = '<span dir="rtl">' + glyphHtml(syllable(q.target, q.h)) + '<i aria-hidden="true">⬅</i>' + glyphHtml(joinedForm) + '</span>';
         }, 380);
         correct(null);
       }
@@ -1128,7 +1146,7 @@
       };
       bubble.onpointerup = drop;
       bubble.onpointercancel = drop;
-      bubble.onclick = () => { if (!dragged && !over) voice.letter(q.target, response); };
+      bubble.onclick = () => { if (!dragged && !over) voice.syllable(q.target, q.h, response); };
 
       // The hand: from the bubble down into the middle of the word, pressing there.
       function hint() {
@@ -1147,14 +1165,11 @@
       return {
         board,
         start(fresh) { idle = setTimeout(hint, fresh ? 900 : 7000); },
-        // After the right answer: the letter's name and place, then the word spelled right to left, each
-        // letter lighting up as its name is said.
+        // After the right answer: the syllable and its place, then the word read right to left, syllable by
+        // syllable, each letter lighting up as its syllable is said.
         spell() {
-          const say = n => {
-            for (const letter of letters) letter.classList.toggle('say', letter === letters[n]);
-            if (n < letters.length) voice.letter(Number(letters[n].dataset.i), response, () => setTimeout(() => say(n + 1), 120));
-          };
-          voice.shape(q.target, q.found, response, () => setTimeout(() => say(0), 250));
+          const light = n => { for (const letter of letters) letter.classList.toggle('say', letter === letters[n]); };
+          voice.shape(q.target, q.h, q.found, response, () => setTimeout(() => voice.word(q.w.i, q.w.f, response, null, light), 250));
         }
       };
     }
@@ -1192,7 +1207,7 @@
       }
       const done = coveDone(part, round.cove);
       const step = nextStep();
-      const prizes = earned.map(i => '<span class="elif-won" lang="ar">' + (part === 'bitisik' ? shape(i, 2) : part === 'cezm' ? cezm(i).text : glyphs[i]) + '</span>').join('');
+      const prizes = earned.map(i => '<span class="elif-won" lang="ar">' + (part === 'bitisik' ? shape(i, 2, 0) : part === 'cezm' ? cezm(i).text : glyphs[i]) + '</span>').join('');
       if (!done) {
         stage.innerHTML = retry + '<p>' + misses + ' Adacığı geçmek için bütün soruları ilk denemede bilmelisin. Harfleri bir kez daha dinle ve tekrar oyna.</p>' +
           '<button class="elif-action" id="elif-continue">↻ Tekrar oyna</button>';

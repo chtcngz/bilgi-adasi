@@ -59,6 +59,7 @@ const elifVoice = (() => {
       if (i >= steps.length) { after?.(heard); return; }
       const step = steps[i];
       const done = () => { if (mine === run) next(i + 1); };
+      if (step.run) { step.run(); return done(); }
       const say = () => {
         if (mine !== run) return;
         const tr = turkishVoice();
@@ -123,17 +124,14 @@ const elifVoice = (() => {
     if (nameClip && markClip) return [{ src: nameClip, text: name }, { src: markClip, text: markText(h) }];
     return [{ text: name + ' ' + markText(h) }];
   }
-  // Bitişik yazılış: an example word spelled letter by letter (the Turkish voice spells it by the
-  // letters' names too) and "Kelimenin başında / ortasında / sonunda".
-  const pad = i => String(i).padStart(2, '0');
-  const wordClip = (i, f) => clip('kelime', pad(i) + '-' + f);
+  // Bitişik yazılış: "Kelimenin başında / ortasında / sonunda". The example words are harekeli and read
+  // syllable by syllable, so they are played as the syllables' own clips.
   const placeClip = f => clip('yer', f);
+  const syllableStep = (i, h) => ({ src: syllableClip(i, h), text: elifData.readings[i][h] });
   const placeText = ['', 'Kelimenin başında', 'Kelimenin ortasında', 'Kelimenin sonunda'];
   // Cezm: the syllable in which letter i has the cezm, and Diyanet's five examples (p) in three steps (s).
   const cezmClip = i => clip('cezm', i);
   const exampleClip = (p, s) => clip('cezmOrnek', p + '-' + s);
-  const spelled = text => Array.from(text.replace(/\s/g, '')).map(c => elifData.names[elifData.glyphs.indexOf({ 'ة': 'ت', 'ى': 'ي' }[c] || c)])
-    .filter(Boolean).join(', ');
 
   return {
     say: (text, note, after) => sequence([{ text }], note, after),
@@ -142,10 +140,14 @@ const elifVoice = (() => {
     instruct: (text, after) => sequence([{ text }], null, after),
     letter: (i, note, after) => sequence([{ src: letterClip(i), text: elifData.names[i] }], note, after),
     syllable: (i, h, note, after) => sequence([{ src: syllableClip(i, h), text: elifData.readings[i][h] }], note, after),
-    word: (i, f, note, after) => sequence([{ src: wordClip(i, f), text: spelled(elifData.word(i, f).text) }], note, after),
-    // "Be. Kelimenin başında": a letter's shape at a place in the word (f 0: the letter alone).
-    shape: (i, f, note, after) => sequence([{ src: letterClip(i), text: elifData.names[i] },
-      ...(f ? [{ src: placeClip(f), text: placeText[f] }] : [])], note, after),
+    // An example word read syllable by syllable, right to left; `each` hears the place of the syllable
+    // about to be said (and the word's length once it is over).
+    word(i, f, note, after, each) {
+      const { letters } = elifData.word(i, f);
+      sequence(letters.flatMap((l, n) => [{ run: () => each?.(n) }, syllableStep(l.i, l.h)]), note, heard => { each?.(letters.length); after?.(heard); });
+    },
+    // "Be. Kelimenin başında": a harekeli letter's shape at a place in the word.
+    shape: (i, h, f, note, after) => sequence([syllableStep(i, h), ...(f ? [{ src: placeClip(f), text: placeText[f] }] : [])], note, after),
     cezm: (i, note, after) => sequence([{ src: cezmClip(i), text: elifData.cezmReadings[i] }], note, after),
     // "Be esre bi, sin cezm bis": a cezm syllable the way it is chanted in class.
     cezmChant(i, note, after) {
@@ -165,8 +167,8 @@ const elifVoice = (() => {
     stop,
     // Fetch and decode a cove's clips ahead of time, so the first tap plays at once.
     // Harf Yağmuru only says letter names, so it leaves the syllables out; a bitişik cove (joined)
-    // also wants its example words and the three places, a cezm cove (cezm) its cezm syllables and the
-    // syllables they start with.
+    // also wants the syllables of its example words and the three places, a cezm cove (cezm) its cezm
+    // syllables and the syllables they start with.
     preload(letters, namesOnly = false, joined = false, cezm = false) {
       if (joined) for (const f of [1, 2, 3]) if (placeClip(f)) decode(placeClip(f));
       if (mode === 'cocuk' && !namesOnly) for (const src of Object.values(child.hareke)) decode(src);
@@ -176,7 +178,7 @@ const elifVoice = (() => {
       }
       for (const i of letters) {
         if (letterClip(i)) decode(letterClip(i));
-        if (joined) for (const f of [1, 2, 3]) if (wordClip(i, f)) decode(wordClip(i, f));
+        if (joined) for (const f of [1, 2, 3]) for (const l of elifData.word(i, f).letters) if (syllableClip(l.i, l.h)) decode(syllableClip(l.i, l.h));
         if (!namesOnly) for (const h of [0, 1, 2]) if (syllableClip(i, h)) decode(syllableClip(i, h));
       }
     },
