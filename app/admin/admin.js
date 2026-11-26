@@ -151,7 +151,7 @@ function startAdmin() {
   const BACKUPS = 'bilgi-adasi-yonetici-yedekler';
   // The game's saved-data keys (README: they never change).
   const PROFILES = 'carpim-adasi-profiller';
-  const prefixes = ['carpim-adasi-', 'elif-ba-', 'din-bilgisi-', 'fen-bilimleri-', 'sosyal-bilgiler-', 'akvaryum-', 'carpim-ses', 'elif-ses'];
+  const prefixes = ['carpim-adasi-', 'elif-ba-', 'din-bilgisi-', 'fen-bilimleri-', 'sosyal-bilgiler-', 'ingilizce-', 'akvaryum-', 'carpim-ses', 'elif-ses'];
   // Çarpım Koyu's six islands, as in islands/carpim/game.js: four timed rounds of the nine tables, then two mixed ones.
   const carpimTablesPer = 9;
   const carpimSeconds = [15, 10, 5, 3];
@@ -169,11 +169,14 @@ function startAdmin() {
   const quizzes = [
     { kod: 'din', ad: 'Din Bilgisi Adası', simge: '🌙', kayit: 'din-bilgisi-', duraklar: typeof dinSorular !== 'undefined' && dinSorular },
     { kod: 'fen', ad: 'Fen Bilimleri Adası', simge: '🔬', kayit: 'fen-bilimleri-', duraklar: typeof fenSorular !== 'undefined' && fenSorular },
-    { kod: 'sosyal', ad: 'Sosyal Bilgiler Adası', simge: '🗺️', kayit: 'sosyal-bilgiler-', duraklar: typeof sosyalSorular !== 'undefined' && sosyalSorular }
-  ].filter(q => Array.isArray(q.duraklar));
+    { kod: 'sosyal', ad: 'Sosyal Bilgiler Adası', simge: '🗺️', kayit: 'sosyal-bilgiler-', duraklar: typeof sosyalSorular !== 'undefined' && sosyalSorular },
+    { kod: 'ing2', ad: 'İngilizce Adası (2. sınıf)', simge: '🇬🇧', kayit: 'ingilizce-2-', duraklar: typeof ingilizce2Sorular !== 'undefined' && ingilizce2Sorular },
+    { kod: 'ing3', ad: 'İngilizce Adası (3. sınıf)', simge: '🇬🇧', kayit: 'ingilizce-3-', duraklar: typeof ingilizce3Sorular !== 'undefined' && ingilizce3Sorular },
+    { kod: 'ing4', ad: 'İngilizce Adası (4. sınıf)', simge: '🇬🇧', kayit: 'ingilizce-4-', duraklar: typeof ingilizce4Sorular !== 'undefined' && ingilizce4Sorular }
+  ].filter(q => Array.isArray(q.duraklar) && q.duraklar.length); // a bank still empty (İngilizce) is left out
   const gradeIslands = {
-    'Okul öncesi': ['elif'], '1. sınıf': [], '2. sınıf': ['carpim'], '3. sınıf': ['carpim'],
-    '4. sınıf': ['carpim', 'din', 'fen', 'sosyal']
+    'Okul öncesi': ['elif'], '1. sınıf': [], '2. sınıf': ['carpim', 'ing2'], '3. sınıf': ['carpim', 'ing3'],
+    '4. sınıf': ['carpim', 'din', 'fen', 'sosyal', 'ing4']
   };
   const E = elifData;
 

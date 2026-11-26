@@ -248,7 +248,8 @@
   function fillProgress() {
     const carpim = availableForPlayer($('multiplication-card'));
     const elif = availableForPlayer($('elif-card'));
-    const open = quizzes.filter(kod => availableForPlayer($(kod + '-card')));
+    // a bay whose questions are not written yet has no progress to show
+    const open = quizzes.filter(kod => availableForPlayer($(kod + '-card')) && window.soruAdalari[kod].hazir);
     $('carpim-progress').hidden = !carpim;
     $('elif-progress').hidden = !elif;
     for (const kod of quizzes) $(kod + '-progress').hidden = !open.includes(kod);

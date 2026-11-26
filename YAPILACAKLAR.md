@@ -13,9 +13,10 @@ Haritada her birinin koyu bulutların altında, kilitli ve “Yakında” olarak
 
 ## İngilizce Koyu (2., 3. ve 4. sınıf)
 
-Her sınıf kendi İngilizce ders kitabının ünitelerini görür: üç ayrı soru adası, her birinin kendi `kapsam.md`’si. İngilizce kelime ve cümleler cihazın İngilizce sesiyle okunur (🔊), seçenekler yerine göre resim ya da emoji olur; yönergeler Türkçe.
+Koy haritada “Yakında” olarak duruyor; soru bankaları boş (`app/islands/ingilizce-2`, `-3`, `-4`). Her sınıf kendi İngilizce ders kitabının ünitelerini görür; her adanın kendi `kapsam.md`’si olur. İngilizce kelime ve cümleler cihazın İngilizce sesiyle okunur (🔊), seçenekler yerine göre resim ya da emoji olur; yönergeler Türkçe.
 
 - [ ] **Ders kitapları:** 2026-2027’de okutulan 2., 3. ve 4. sınıf İngilizce kitaplarının PDF’leri
-- [ ] **2. sınıf İngilizce adası**
-- [ ] **3. sınıf İngilizce adası**
-- [ ] **4. sınıf İngilizce adası**
+- [ ] **🔊 İngilizce ses:** Sorulardaki İngilizce kelime ve cümleleri cihazın İngilizce sesiyle okutmak
+- [ ] **2. sınıf İngilizce adası:** sorular ve `kapsam.md`
+- [ ] **3. sınıf İngilizce adası:** sorular ve `kapsam.md`
+- [ ] **4. sınıf İngilizce adası:** sorular ve `kapsam.md`

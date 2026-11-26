@@ -16,6 +16,7 @@
 //   ovgu      doğru cevaptan sonra rastgele seçilen sözler
 //   simgeler  doğru cevapta saçılan simgeler
 // Ayarlar penceresi ilerlemeyi window.soruAdalari[kod] üzerinden okur ve sıfırlar.
+// Soru bankası henüz boş olan bir ada (İngilizce Koyu gibi) haritada "Yakında" durur: tek, kilitli bir adası olur.
 window.soruAdalari = {};
 function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: stops, ovgu: praise, simgeler }) {
   const ROUND = 10, HEARTS = 3, EXAM = 20;
@@ -28,6 +29,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
   stops.forEach(stop => stop.sorular.forEach((q, n) => { q.id = stop.id + ':' + n; q.stop = stop; }));
   const byId = new Map(stops.flatMap(stop => stop.sorular.map(q => [q.id, q])));
   const maxStars = stops.length * 3;
+  const hazir = byId.size > 0;
 
   /* ---------- Progress ---------- */
   const storeKey = id => kayit + id;
@@ -89,7 +91,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
     try { localStorage.removeItem(storeKey(id)); } catch {}
     if (activeProfile?.id === id) { progress = records.get(id); kesifHaritasi.yenile(); }
   };
-  window.soruAdalari[kod] = { summary, reset, kayit };
+  window.soruAdalari[kod] = { summary, reset, kayit, hazir };
 
   /* ---------- Helpers ---------- */
   function shuffled(items) {
@@ -159,7 +161,9 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
   kesifHaritasi.koy({
     id: kod, kart: kod + '-card', ad: koy, lead, simge, tema,
     hazirla() { progress = load(activeProfile.id); },
+    yakinda: () => !hazir,
     adalar() {
+      if (!hazir) return [{ ad: 'Yakında', simge: '🚧', not: 'Sorular hazırlanıyor', durum: 'locked' }];
       const step = nextStep();
       return [...stops.map((stop, k) => ({ ad: stop.ad, simge: stop.simge, not: starText(starsOf(stop)) + ' ' + learnedIn(stop) + '/' + stop.sorular.length,
         durum: !stopOpen(k) ? 'locked' : stopMastered(stop) ? 'done' : step.kind === 'durak' && step.k === k ? 'now' : 'open' })),
@@ -177,10 +181,11 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
       });
     },
     ac: (k, p) => k === EXAM_ISLE ? startExam() : startStop(k, p),
-    kilit: () => lockText,
+    kilit: () => hazir ? lockText : 'Bu koyun soruları hazırlanıyor. Yakında!',
     panel(level, k) {
       const { sonraki, kutu, dugme, olcer } = kesifHaritasi.parca;
       const parts = [];
+      if (!hazir) return [kutu('<strong>🚧 Yakında</strong><small>' + koy + '’nun soruları hazırlanıyor. Hazır olunca adalar burada açılacak.</small>')];
       const wrong = missed().length;
       const review = () => {
         if (!wrong) return null;

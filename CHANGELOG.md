@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.45.0 · 26.11.2026
+
+- **İngilizce Koyu geldi (2, 3 ve 4. sınıf):** Keşif Haritası'nda her sınıf kendi İngilizce koyunu görüyor; koyun adaları o sınıfın İngilizce ders kitabının ünitelerini izleyecek. Sorular hazırlanana kadar koy haritada “Yakında” yazıyor, içindeki tek ada kilitli duruyor.
+
 ## 0.44.2 · 26.11.2026
 
 - **Cam Köprü'de daha az tekrar:** Harf koylarının köprüsünde bir sıra, önceki iki sıradan hiçbirinin harfiyle gelmiyor (önceden yalnızca bir öncekiyle gelmiyordu). Aynı hareke de üç sıra üst üste sorulmuyor.

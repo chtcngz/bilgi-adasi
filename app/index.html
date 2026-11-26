@@ -22,6 +22,9 @@
     <span id="din-card" data-koy data-akvaryum data-grades="4. sınıf"></span>
     <span id="fen-card" data-koy data-akvaryum data-grades="4. sınıf"></span>
     <span id="sosyal-card" data-koy data-akvaryum data-grades="4. sınıf"></span>
+    <span id="ing2-card" data-koy data-akvaryum data-grades="2. sınıf"></span>
+    <span id="ing3-card" data-koy data-akvaryum data-grades="3. sınıf"></span>
+    <span id="ing4-card" data-koy data-akvaryum data-grades="4. sınıf"></span>
   </div>
 </section>
 <section id="elif-view" hidden aria-labelledby="elif-title">
@@ -46,6 +49,9 @@
 <dialog id="din-game" class="soru-game" aria-labelledby="din-prompt"><button id="din-close" class="soru-close btn-round" aria-label="Haritaya dön"></button><div id="din-stage" class="soru-stage"></div></dialog>
 <dialog id="fen-game" class="soru-game" aria-labelledby="fen-prompt"><button id="fen-close" class="soru-close btn-round" aria-label="Haritaya dön"></button><div id="fen-stage" class="soru-stage"></div></dialog>
 <dialog id="sosyal-game" class="soru-game" aria-labelledby="sosyal-prompt"><button id="sosyal-close" class="soru-close btn-round" aria-label="Haritaya dön"></button><div id="sosyal-stage" class="soru-stage"></div></dialog>
+<dialog id="ing2-game" class="soru-game" aria-labelledby="ing2-prompt"><button id="ing2-close" class="soru-close btn-round" aria-label="Haritaya dön"></button><div id="ing2-stage" class="soru-stage"></div></dialog>
+<dialog id="ing3-game" class="soru-game" aria-labelledby="ing3-prompt"><button id="ing3-close" class="soru-close btn-round" aria-label="Haritaya dön"></button><div id="ing3-stage" class="soru-stage"></div></dialog>
+<dialog id="ing4-game" class="soru-game" aria-labelledby="ing4-prompt"><button id="ing4-close" class="soru-close btn-round" aria-label="Haritaya dön"></button><div id="ing4-stage" class="soru-stage"></div></dialog>
 <dialog id="elif-game" aria-labelledby="elif-prompt"><button id="elif-close" class="btn-round" aria-label="Adacığa dön"></button><div id="elif-stage" data-cue></div></dialog>
 <dialog id="elif-rain" aria-label="Harf Yağmuru"></dialog>
 
@@ -130,8 +136,23 @@
       <ul id="sosyal-units" class="soru-units"></ul>
       <button type="button" class="danger wide" id="sosyal-reset">Sosyal Bilgiler ilerlemesini sıfırla</button>
     </section>
+    <section id="ing2-progress">
+      <div class="set-who"><span class="player-face" aria-hidden="true">🇬🇧</span><div><strong>İngilizce Koyu</strong><small id="ing2-summary"></small></div></div>
+      <ul id="ing2-units" class="soru-units"></ul>
+      <button type="button" class="danger wide" id="ing2-reset">İngilizce ilerlemesini sıfırla</button>
+    </section>
+    <section id="ing3-progress">
+      <div class="set-who"><span class="player-face" aria-hidden="true">🇬🇧</span><div><strong>İngilizce Koyu</strong><small id="ing3-summary"></small></div></div>
+      <ul id="ing3-units" class="soru-units"></ul>
+      <button type="button" class="danger wide" id="ing3-reset">İngilizce ilerlemesini sıfırla</button>
+    </section>
+    <section id="ing4-progress">
+      <div class="set-who"><span class="player-face" aria-hidden="true">🇬🇧</span><div><strong>İngilizce Koyu</strong><small id="ing4-summary"></small></div></div>
+      <ul id="ing4-units" class="soru-units"></ul>
+      <button type="button" class="danger wide" id="ing4-reset">İngilizce ilerlemesini sıfırla</button>
+    </section>
     <p id="no-progress" class="set-note" hidden>Bu oyuncunun sınıfı için sıfırlanacak ilerleme yok.</p>
   </div>
   <p class="app-version"></p>
-</dialog><script src="core/js/app.js?v=2"></script><script src="core/js/bulut-ayar.js?v=3"></script><script src="core/js/sync.js?v=4"></script><script src="core/js/sounds.js?v=13"></script><script src="core/js/fx.js?v=2"></script><script src="core/js/harita-sanat.js?v=1"></script><script src="core/js/akvaryum-veri.js?v=1"></script><script src="core/js/akvaryum-sanat.js?v=2"></script><script src="core/js/akvaryum.js?v=6"></script><script src="core/js/harita.js?v=1"></script><script src="islands/carpim/game.js?v=6"></script><script src="core/js/stats.js?v=5"></script><script src="core/js/profiles.js?v=6"></script><script src="islands/elif-ba/data.js?v=10"></script><script src="assets/audio/elif-ba/kayitlar.js?v=9"></script><script src="islands/elif-ba/voice.js?v=10"></script><script src="islands/elif-ba/games/art.js?v=1"></script><script src="islands/elif-ba/games/listening.js?v=12"></script><script src="islands/elif-ba/games/bridge.js?v=9"></script>
-<script src="islands/elif-ba/map.js?v=8"></script><script src="islands/elif-ba/game.js?v=22"></script><script src="core/js/quiz.js?v=6"></script><script src="islands/din-bilgisi/sorular.js?v=8"></script><script src="islands/din-bilgisi/game.js?v=6"></script><script src="islands/fen-bilimleri/sorular.js?v=4"></script><script src="islands/fen-bilimleri/game.js?v=3"></script><script src="islands/sosyal-bilgiler/sorular.js?v=4"></script><script src="islands/sosyal-bilgiler/game.js?v=2"></script><script src="core/js/settings.js?v=22"></script></body></html>
+</dialog><script src="core/js/app.js?v=2"></script><script src="core/js/bulut-ayar.js?v=3"></script><script src="core/js/sync.js?v=5"></script><script src="core/js/sounds.js?v=13"></script><script src="core/js/fx.js?v=2"></script><script src="core/js/harita-sanat.js?v=1"></script><script src="core/js/akvaryum-veri.js?v=1"></script><script src="core/js/akvaryum-sanat.js?v=2"></script><script src="core/js/akvaryum.js?v=6"></script><script src="core/js/harita.js?v=2"></script><script src="islands/carpim/game.js?v=6"></script><script src="core/js/stats.js?v=5"></script><script src="core/js/profiles.js?v=6"></script><script src="islands/elif-ba/data.js?v=10"></script><script src="assets/audio/elif-ba/kayitlar.js?v=9"></script><script src="islands/elif-ba/voice.js?v=10"></script><script src="islands/elif-ba/games/art.js?v=1"></script><script src="islands/elif-ba/games/listening.js?v=12"></script><script src="islands/elif-ba/games/bridge.js?v=9"></script>
+<script src="islands/elif-ba/map.js?v=8"></script><script src="islands/elif-ba/game.js?v=22"></script><script src="core/js/quiz.js?v=7"></script><script src="islands/din-bilgisi/sorular.js?v=8"></script><script src="islands/din-bilgisi/game.js?v=6"></script><script src="islands/fen-bilimleri/sorular.js?v=4"></script><script src="islands/fen-bilimleri/game.js?v=3"></script><script src="islands/sosyal-bilgiler/sorular.js?v=4"></script><script src="islands/sosyal-bilgiler/game.js?v=2"></script><script src="islands/ingilizce-2/sorular.js?v=1"></script><script src="islands/ingilizce-2/game.js?v=1"></script><script src="islands/ingilizce-3/sorular.js?v=1"></script><script src="islands/ingilizce-3/game.js?v=1"></script><script src="islands/ingilizce-4/sorular.js?v=1"></script><script src="islands/ingilizce-4/game.js?v=1"></script><script src="core/js/settings.js?v=23"></script></body></html>

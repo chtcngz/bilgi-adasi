@@ -70,6 +70,7 @@ app/                         Published site (GitHub Pages root)
 │   │       ├── bridge.*     Cam Köprü, the mixed game at the end of every cove
 │   ├── din-bilgisi/         Question island: sorular.js + game.js + kapsam.md
 │   ├── fen-bilimleri/       Question island: same pattern
+│   ├── ingilizce-2/ -3/ -4/ İngilizce Koyu, one question island per grade (each grade sees only its own); banks still empty
 │   └── sosyal-bilgiler/     Question island: same pattern
 ├── admin/                   Yönetici sayfası: every player of every device, read from the cloud copy; signs in with
 │                            the admin's Google account (automatically when the browser is already signed in to it)
@@ -111,7 +112,8 @@ sources/                     Raw material (not published)
 
 For the 1st to 4th grades, Keşif Limanı is a map in three levels, like Elif Ba Adası's map is for preschool
 (`core/js/harita.js`): the bays (one for every subject of the player's grade: Çarpım Koyu for the 2nd-4th grades, Din
-Bilgisi, Fen Bilimleri and Sosyal Bilgiler Koyu for the 4th), a bay's islands joined by bridges, and an island's stations
+Bilgisi, Fen Bilimleri and Sosyal Bilgiler Koyu for the 4th, and an İngilizce Koyu for each of
+the 2nd-4th grades, each with its own grade's book), a bay's islands joined by bridges, and an island's stations
 on a path. A tap zooms in, ‹ zooms out; the player's own icon stands on the island and the station to do, and walks on
 when one is done. A panel beside the map (under it on phones) has the Sıradaki button, the progress and the notes.
 
@@ -123,6 +125,10 @@ when one is done. A panel beside the map (under it on phones) has the Sıradaki 
   last two open once every unit has a star). A unit's stations cut its questions in the book's order into three to six
   parts of about twenty; a round on a station asks ten of them. A station is done when its questions are learned, an
   island when the whole unit is.
+
+- **A question island whose bank is still empty** (İngilizce Koyu's three, until their questions are written) shows its
+  bay with *Yakında* and a single locked island; its Settings → Progress section stays hidden, the admin page leaves it
+  out, and `node tools/kapsam.js` skips it until its first question (then its `kapsam.md` is required like any other).
 
 Each bay is registered by its island (`kesifHaritasi.koy({...})`), which the map asks what is open every time it draws.
 

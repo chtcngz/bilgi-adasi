@@ -14,6 +14,7 @@
 //      questions that ask it:  "- s. 13 · T.C. kimlik numarası 11 hanelidir. → birey:0, birey:4"
 //      Every id must exist. A point without a question, or an island without a checklist,
 //      is an error.
+//   An island whose bank is still empty (its bay says "Yakında") is skipped until its first question.
 // It exits with 1 when something is wrong, so it can guard a commit or a deploy.
 'use strict';
 const fs = require('fs');
@@ -57,6 +58,8 @@ for (const name of islands) {
   try { bank = loadBank(path.join(islandsDir, name, 'sorular.js')); }
   catch (error) { problem('sorular.js yüklenemedi: ' + error.message); }
 
+  // An island whose bank is still empty (a bay that says "Yakında") is checked once its first question comes.
+  if (Array.isArray(bank) && !bank.length) { console.log('– ' + name + ': henüz soru yok (haritada “Yakında”); ilk soruyla birlikte kapsam.md de denetlenir.'); continue; }
   const ids = new Map();
   if (bank) {
     if (!Array.isArray(bank) || !bank.length) problem('Soru bankası boş.');

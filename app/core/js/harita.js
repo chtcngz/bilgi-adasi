@@ -10,16 +10,17 @@
 // Each subject registers its bay with kesifHaritasi.koy({...}) and the map asks it what is open every time it
 // draws (so it never keeps its own copy of the progress):
 //   id, kart     the bay's id and the catalog card whose data-grades say which grades see it
-//   ad, lead     the bay's name and what is learned there; simge: its sign; tema: carpim | din | fen | sosyal
+//   ad, lead     the bay's name and what is learned there; simge: its sign; tema: carpim | din | fen | sosyal | ingilizce
 //   hazirla()    load the active player's progress (called before anything else is asked)
 //   adalar()     [{ ad, kisa, simge, durum, not }]: durum is done | now | open | locked
 //   duraklar(k)  the stations of island k: [{ simge, ad, etiket, durum, not }]
 //   ac(k, n)     open the game of station n of island k
 //   kilit(k)     what to say when a locked island is tapped
 //   panel(level, k)  a node shown under the map: what to do next, progress, notes
+//   yakinda()    true while the bay has nothing to play yet: it says "Yakında" instead of its island count
 //   araclar      true: the header's Çarpım tools (statistics, stars) are shown inside the bay
 const kesifHaritasi = (() => {
-  const { r1, curve, pathOf, palm, lighthouse, boat, moon, gulls, cloud, twinkle, mosque, waves, sea, compass } = haritaSanat;
+  const { r1, curve, pathOf, palm, lighthouse, rainbow, boat, moon, gulls, cloud, twinkle, mosque, waves, sea, compass, whale } = haritaSanat;
   const W = 400, H = 680;
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
   const pct = (v, of) => (v / of * 100).toFixed(2) + '%';
@@ -53,7 +54,7 @@ const kesifHaritasi = (() => {
   const ISLAND = 'M200 150C292 148 356 204 360 298C364 378 372 468 336 550C302 626 236 654 176 650C110 646 52 608 40 530C28 448 46 378 42 308C38 218 108 152 200 150Z';
   const seas = {
     carpim: ['#8fe3ee', '#62c9dd', '#3cb0c8'], din: ['#a6ecdf', '#6fd2d0', '#35adbf'],
-    fen: ['#6c6fbf', '#5aa9d6', '#3cb0c8'], sosyal: ['#b5eccb', '#62c9c4', '#2f9fb8']
+    fen: ['#6c6fbf', '#5aa9d6', '#3cb0c8'], sosyal: ['#b5eccb', '#62c9c4', '#2f9fb8'], ingilizce: ['#c9e4ff', '#7cc0ec', '#3a96c8']
   };
   const sparkles = points => '<g class="map-sparkles" fill="#fff">' + points.map(twinkle).join('') + '</g>';
 
@@ -65,7 +66,8 @@ const kesifHaritasi = (() => {
       carpim: palm(side * 66, -8, 1.05, side > 0) + boat(-side * 46, -26, .9, side > 0) + gulls(side * 18, -52),
       din: mosque(side * 42, -14) + moon(-side * 52, -46, .8) + palm(-side * 70, -6, .85, side < 0),
       fen: lighthouse(side * 50, -18) + twinkle([-side * 40, -54], 0) + twinkle([side * 6, -62], 2) + palm(-side * 66, -8, .9, side < 0),
-      sosyal: palm(side * 66, -8, 1.05, side > 0) + palm(side * 46, -16, .8, side < 0) + boat(-side * 58, -22, .85, side < 0)
+      sosyal: palm(side * 66, -8, 1.05, side > 0) + palm(side * 46, -16, .8, side < 0) + boat(-side * 58, -22, .85, side < 0),
+      ingilizce: rainbow(side * 4, -30, .9) + boat(side * 60, -18, .85, side > 0) + palm(-side * 68, -8, .9, side < 0)
     }[def.tema] || palm(side * 60, -12, 1.05, side > 0);
     const dots = Array.from({ length: count }, (_, k) => [count > 1 ? r1(-50 + k * 100 / (count - 1)) : 0, r1(12 - 9 * Math.sin(Math.PI * (count > 1 ? k / (count - 1) : .5)))]);
     return '<g class="kh-bay-art" data-b="' + b + '" transform="translate(' + x + ' ' + y + ')"><g class="kh-bay-in" style="--n:' + b + '">' +
@@ -95,7 +97,7 @@ const kesifHaritasi = (() => {
   /* ---------- Level 2: a bay and its islands ---------- */
   function isleArt(def, [x, y], k) {
     const flip = k % 2 ? ' scale(-1 1)' : '';
-    const extra = { din: k % 3 === 1 ? moon(-34, -34, .55) : '', fen: k % 3 === 2 ? twinkle([-30, -36], k) : '', carpim: k % 3 === 2 ? gulls(-18, -40, .8) : '', sosyal: '' }[def.tema] || '';
+    const extra = { din: k % 3 === 1 ? moon(-34, -34, .55) : '', fen: k % 3 === 2 ? twinkle([-30, -36], k) : '', carpim: k % 3 === 2 ? gulls(-18, -40, .8) : '', sosyal: '', ingilizce: k % 3 === 1 ? gulls(-18, -40, .8) : '' }[def.tema] || '';
     return '<g class="kh-isle-art" data-k="' + k + '" transform="translate(' + x + ' ' + y + ')"><g class="kh-isle-in" style="--n:' + k + '">' +
       '<ellipse class="kh-halo" rx="58" ry="36" fill="none" stroke="#ffe38a" stroke-width="5"/>' +
       '<ellipse rx="55" ry="33" fill="#a8ecf2" opacity=".75"/><ellipse rx="45" ry="26" fill="#f3d892"/>' +
@@ -110,7 +112,8 @@ const kesifHaritasi = (() => {
       carpim: lighthouse(370, 620, 1) + gulls(110, 150) + gulls(300, 640, .9) + boat(40, 640, 1.4),
       din: moon(344, 150, 1.3) + sparkles([[60, 160], [250, 120], [370, 330], [30, 450]]) + mosque(360, 650),
       fen: moon(56, 150, 1.2) + sparkles([[120, 120], [290, 100], [60, 260], [240, 190], [370, 300], [30, 470], [350, 520]]) + lighthouse(370, 650, 1),
-      sosyal: compass(52, 630) + boat(350, 150, 1.5, true) + gulls(140, 140)
+      sosyal: compass(52, 630) + boat(350, 150, 1.5, true) + gulls(140, 140),
+      ingilizce: rainbow(300, 170, 1.2) + whale(70, 600) + boat(350, 640, 1.3, true) + gulls(130, 150)
     }[def.tema] || '';
     const bridges = spots.slice(0, -1).map((p, k) => '<g class="kh-bridge" data-k="' + k + '"><path class="kh-rails" d="M' + p.join(' ') + 'L' + spots[k + 1].join(' ') +
       '"/><path class="kh-panes" d="M' + p.join(' ') + 'L' + spots[k + 1].join(' ') + '"/></g>').join('');
@@ -128,7 +131,8 @@ const kesifHaritasi = (() => {
     const stations = def.duraklar(k), spots = stationPlaces(stations.length);
     const trail = pathOf(curve([[200, 668], ...spots]));
     const decor = { din: moon(334, 110, 1.4) + mosque(330, 640), fen: moon(70, 110, 1.3) + sparkles([[160, 90], [270, 70], [20, 260], [384, 330]]),
-      carpim: gulls(80, 118, 1.3) + gulls(320, 100) + boat(360, 640, 1.4, true), sosyal: compass(352, 110) + boat(46, 640, 1.4) }[def.tema] || '';
+      carpim: gulls(80, 118, 1.3) + gulls(320, 100) + boat(360, 640, 1.4, true), sosyal: compass(352, 110) + boat(46, 640, 1.4),
+      ingilizce: rainbow(320, 120, 1.1) + gulls(80, 118, 1.2) + boat(46, 640, 1.4) }[def.tema] || '';
     return '<svg class="kh-art" viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true">' + sea('kh-sea-isle', seas[def.tema] || seas.carpim, W, H) +
       waves([[60, 130], [300, 90], [20, 400], [370, 420], [40, 660], [330, 668], [240, 120]]) +
       '<path d="' + ISLAND + '" fill="#e9fbff" opacity=".45" stroke="#e9fbff" stroke-width="44" stroke-linejoin="round"/>' +
@@ -199,8 +203,9 @@ const kesifHaritasi = (() => {
       const button = root.querySelector('.kh-bay[data-b="' + b + '"]');
       button.className = 'kh-bay ' + state + (b === bay ? ' here' : '');
       button.querySelector('.kh-badge').textContent = state === 'done' ? '✓' : b + 1;
-      button.querySelector('em').textContent = done + ' / ' + islands.length + ' ada';
-      button.setAttribute('aria-label', def.ad + ', ' + def.lead + ', ' + done + ' / ' + islands.length + ' ada tamamlandı');
+      const soon = def.yakinda?.();
+      button.querySelector('em').textContent = soon ? 'Yakında' : done + ' / ' + islands.length + ' ada';
+      button.setAttribute('aria-label', def.ad + ', ' + def.lead + ', ' + (soon ? 'yakında' : done + ' / ' + islands.length + ' ada tamamlandı'));
       root.querySelector('.kh-bay-art[data-b="' + b + '"]').setAttribute('class', 'kh-bay-art ' + state);
       islands.forEach((island, k) => root.querySelector('.kh-bay-art[data-b="' + b + '"] .kh-dot[data-k="' + k + '"]').setAttribute('class', 'kh-dot ' + island.durum));
     });
@@ -223,7 +228,7 @@ const kesifHaritasi = (() => {
     });
     const title = root.querySelector('.kh-title');
     const done = islands.filter(i => i.durum === 'done').length;
-    title.innerHTML = '<strong>' + esc(def.ad) + '</strong><small>' + esc(def.lead) + ' · ' + done + ' / ' + islands.length + ' ada</small>';
+    title.innerHTML = '<strong>' + esc(def.ad) + '</strong><small>' + esc(def.lead) + ' · ' + (def.yakinda?.() ? 'Yakında' : done + ' / ' + islands.length + ' ada') + '</small>';
     cheer(root, '.kh-isle', 'b:' + def.id, islands.map(i => i.durum));
     stand('koy', [spots[isle][0] + 40, spots[isle][1] - 2], animate);
   }
