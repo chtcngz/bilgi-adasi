@@ -7,6 +7,12 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.42.1 · 26.11.2026
+
+- **Akvaryumda yem yeme düzeldi:** Yem atılınca bazı balıklar yemin yanında sağa sola dönüp titriyor, yemi yiyemiyordu. Artık her balık yeme doğru dönüyor, yaklaşıp son anda atılıyor ve yemi ağzına çekip yutuyor.
+- Yutarken balık belirgin biçimde şişip yerine oturuyor, ardından birkaç kez yanaklarını şişirerek çiğniyor; eskiden yutkunurken görünen küçük titreme kalktı.
+- Balığın burnu yukarı aşağı ani inip kalkmıyor, yumuşakça dönüyor.
+
 ## 0.42.0 · 26.11.2026
 
 - **Harf baloncukları (okul öncesi akvaryumu):** Balıklar ara ara saydam bir baloncuk üflüyor; baloncuğun içinde çocuğun o an öğrendiği seviyeden bir harf var. Önce harfler, harekeler öğrenilince harekeli heceler, bitişik yazılışta harekeli bitişik şekiller, cezmde cezimli heceler çıkıyor. Seviye atlayınca öncekiler artık çıkmıyor; yalnız o bölümde öğrenilmiş harfler geliyor.

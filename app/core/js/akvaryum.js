@@ -538,7 +538,9 @@ const akvaryum = (() => {
   }
   function place(f) {
     const bob = Math.sin(f.phase) * (f.sp.upright ? 3 : 1.6);
-    const pitch = f.sp.upright ? Math.sin(f.phase * .5) * 4 : clamp(-f.dir * f.vy * .7, -16, 16);
+    // the nose follows the way it swims smoothly, so a quick up-and-down does not make it nod
+    const aim = f.sp.upright ? Math.sin(f.phase * .5) * 4 : clamp(-f.dir * f.vy * .7, -16, 16);
+    const pitch = f.sp.upright || f.pitch === undefined ? aim : f.pitch + (aim - f.pitch) * .12;
     f.bob = bob;
     f.pitch = pitch;
     f.node.style.transform = 'translate3d(' + f.x.toFixed(1) + 'px,' + (f.y + bob).toFixed(1) + 'px,0) translate(-50%,-50%) rotate(' + pitch.toFixed(1) + 'deg)';
@@ -556,6 +558,8 @@ const akvaryum = (() => {
       f.pop = Math.max(0, f.pop - dt);
       f.puffing = Math.max(0, f.puffing - dt);
       f.chomp = Math.max(0, (f.chomp || 0) - dt);
+      // a dart ends in a snap: if the flake is within reach then, it is eaten
+      const snapped = f.lunge > 0 && f.lunge <= dt;
       f.lunge = Math.max(0, (f.lunge || 0) - dt);
       f.fed = Math.max(0, (f.fed || 0) - dt * .12);
       f.puff += clamp((f.puffing > 0 ? 1 : 0) - f.puff, -dt * 3, dt * 5);
@@ -583,12 +587,13 @@ const akvaryum = (() => {
         const ease = Math.min(1, dt * (f.boost || f.lunge ? 5 : f.meal ? 2.6 : school ? 1.8 : .8));
         f.vx += (ax - f.vx) * ease;
         f.vy += (ay - f.vy) * ease;
-        if (f.meal && near < 9 + f.w * .07) eat(f);
+        if (f.meal && (near < 9 + f.w * .07 || snapped && near < 30 * k + f.w * .2)) eat(f);
         else if (!f.meal && !f.hold && !school && dist < 16 * k + 4) pickTarget(f);
       }
       // Fish keep a little room between them.
+      // (a fish darting at a flake is not pushed aside)
       for (const o of fish) {
-        if (o === f) continue;
+        if (o === f || f.lunge) continue;
         const ox = f.x - o.x, oy = f.y - o.y, gap = (f.w + o.w) * .32, d = Math.hypot(ox, oy);
         if (d > 0 && d < gap) { f.vx += ox / d * 30 * dt * (gap - d); f.vy += oy / d * 20 * dt * (gap - d) * .5; }
       }
@@ -598,9 +603,15 @@ const akvaryum = (() => {
       if (f.entering && f.x > 0 && f.x < W) f.entering = false;
       if (!f.entering) f.x = clamp(f.x, 0, W);
       f.y = clamp(f.y, H * .07, H - FH * .55);
-      // it turns round only once it really swims the other way
-      if (f.vx < -4) f.dir = 1;
-      else if (f.vx > 4) f.dir = -1;
+      // A fish after a flake faces the flake: it turns by where the flake is, not by which way it drifts, or
+      // its mouth would jump to its other side at every small back-and-forth and it would shake on the spot.
+      // The others turn round only once they really swim the other way.
+      if (f.meal) {
+        const side = f.meal.x - f.x;
+        if (side < -f.w * .15) f.dir = 1;
+        else if (side > f.w * .15) f.dir = -1;
+      } else if (f.vx < -6) f.dir = 1;
+      else if (f.vx > 6) f.dir = -1;
       place(f);
     }
     for (const c of crawlers) {
@@ -647,14 +658,15 @@ const akvaryum = (() => {
       // a touch makes it jump with joy: a quick swell and settle
       const t = .7 - f.joy;
       const joy = f.joy > 0 ? (t < .3 ? 1 + .16 * Math.sin(t / .3 * Math.PI) : 1 - .04 * Math.sin((t - .3) / .4 * Math.PI)) : 1;
-      // a gulp: the head pushes forward and the body swells, then settles with a little shiver
-      const c = f.chomp > 0 ? 1 - f.chomp / .36 : 0;
-      const gulp = c ? Math.sin(c * Math.PI) * (1 - c * .4) : 0;
-      const shiver = c ? Math.sin(c * Math.PI * 5) * (1 - c) * .03 : 0;
+      // a gulp: the head pushes forward and the body swells, then settles; while it chews its cheeks puff
+      // softly two or three times
+      const c = f.chomp > 0 ? 1 - f.chomp / CHOMP : 0;
+      const gulp = c ? Math.sin(c * Math.PI) * (1 - c * .3) : 0;
+      const munch = !c && f.chew > 0 ? Math.abs(Math.sin(f.chew * 9)) * .045 : 0;
       pen.setTransform(dpr, 0, 0, dpr, 0, 0);
-      pen.translate(f.x - f.dir * f.w * .05 * gulp, f.y + (f.bob || 0));
-      pen.rotate(((f.pitch || 0) + (still ? 0 : shiver * 60)) * Math.PI / 180);
-      pen.scale(f.turn * joy * (1 + .1 * gulp), joy * (1 + .13 * gulp));
+      pen.translate(f.x - f.dir * f.w * .07 * gulp, f.y + (f.bob || 0));
+      pen.rotate((f.pitch || 0) * Math.PI / 180);
+      pen.scale(f.turn * joy * (1 + .12 * gulp), joy * (1 + .16 * gulp + munch));
       pen.translate(-f.w / 2, -f.h / 2);
       if (tail?.ready) {
         const [jx, jy] = at(geo.joint[0], geo.joint[1]);
@@ -792,6 +804,7 @@ const akvaryum = (() => {
   // last bit of the way and snaps it up: the flake is sucked into its mouth, the fish gulps (a quick swell),
   // a few tiny bubbles rise, and it goes on to the next flake. A fish that has had its fill does a happy wiggle.
   const foodColors = [['#f4a340', '#c4601e'], ['#e8743b', '#a63c1c'], ['#f2c75c', '#c48a1f'], ['#9cbf4a', '#5f8a2a'], ['#d65a4a', '#982e25']];
+  const CHOMP = .42;
   const mouthX = f => f.x - f.dir * f.w * .44;
   const mouthY = f => f.y + (f.bob || 0) + f.h * .04;
   water.addEventListener('click', event => {
@@ -879,8 +892,8 @@ const akvaryum = (() => {
     const bit = f.meal;
     f.meal = null;
     f.lunge = 0;
-    f.chomp = .36;
-    f.chew = rand(.35, .7);
+    f.chomp = CHOMP;
+    f.chew = rand(.6, 1);
     f.fed = (f.fed || 0) + 1;
     bit.gulp = f;
     bit.age = 0;
@@ -947,7 +960,7 @@ const akvaryum = (() => {
     node.style.transform = 'translate(' + (b.x - r).toFixed(1) + 'px,' + (b.y - r).toFixed(1) + 'px) scale(.25)';
     node.onclick = event => { event.stopPropagation(); popLetter(b); };
     letters.push(b);
-    f.chomp = .36; // it puffs the bubble out
+    f.chomp = CHOMP; // it puffs the bubble out
     playCue('pop', { ambient: true, rate: .8, gain: .3 });
   }
   function popLetter(b) {
