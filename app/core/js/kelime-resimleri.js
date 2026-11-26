@@ -48,13 +48,6 @@ const kelimeResimleri = (() => {
     /* school */
     // a box of chalk sticks, one lying in front with its dust
     // the boards: green (board), black (blackboard), white with a marker (whiteboard)
-    board: '<rect x="4" y="8" width="56" height="38" rx="3" fill="#2f9e44"' + o() + '/><rect x="2" y="44" width="60" height="5" rx="2" fill="#c98a4a"' + o(1.5) + '/>' +
-      '<path d="M12 20h16M12 28h24M12 36h12" stroke="#d3f9d8" stroke-width="2.4" stroke-linecap="round"/><path d="M16 49l-4 12M48 49l4 12"' + o(3) + '/>',
-    'coloured-pencil': [['#e5484d', -24], ['#ffd43b', -8], ['#4dabf7', 8], ['#51cf66', 24]].map(([c, r]) =>
-      '<g transform="rotate(' + r + ' 32 58)"><rect x="28" y="16" width="8" height="38" fill="' + c + '"' + o(1.5) + '/><path d="M28 16l4-10 4 10z" fill="#f4d9b0"' + o(1.5) + '/><path d="M30.6 9.5l1.4-3.5 1.4 3.5z" fill="' + c + '"/></g>').join(''),
-    tablet: '<rect x="6" y="10" width="52" height="40" rx="6" fill="#343a40"' + o() + '/><rect x="11" y="15" width="42" height="30" rx="2" fill="#a5d8ff"/>' +
-      '<rect x="15" y="19" width="9" height="9" rx="2" fill="#ff8787"/><rect x="27" y="19" width="9" height="9" rx="2" fill="#69db7c"/><rect x="39" y="19" width="9" height="9" rx="2" fill="#ffd43b"/>' +
-      '<rect x="15" y="32" width="9" height="9" rx="2" fill="#b197fc"/><rect x="27" y="32" width="9" height="9" rx="2" fill="#ffa94d"/><circle cx="55" cy="30" r="1.5" fill="#868e96"/>',
     hall: '<rect x="4" y="6" width="56" height="30" fill="#ffe8cc"' + o() + '/><path d="M4 6h56v6H4z" fill="#c92a2a"' + o(1.5) + '/>' +
       '<path d="M4 12q6 10 0 24M60 12q-6 10 0 24" fill="#e03131"' + o(1.5) + '/><rect x="16" y="28" width="32" height="8" fill="#a9744f"' + o(1.5) + '/>' +
       '<circle cx="32" cy="20" r="4" fill="' + SKIN + '"' + o(1) + '/><rect x="29" y="24" width="6" height="4" fill="#4dabf7"/>' +
@@ -82,7 +75,6 @@ const kelimeResimleri = (() => {
       '<path d="M26 42L2 38M26 45L3 48M26 48L6 57M38 42l24-4M38 45l23 3M38 48l20 9" stroke="' + INK + '" stroke-width="4.5" stroke-linecap="round"/>' +
       '<path d="M26 42L2 38M26 45L3 48M26 48L6 57M38 42l24-4M38 45l23 3M38 48l20 9" stroke="#ff922b" stroke-width="2.3" stroke-linecap="round"/>',
     /* people: the one meant in colour */
-    son: person(20, 50, 'man', false) + person(44, 32, 'boy', true, '#40c057'),
     /* verbs with a door */
     /* food */
     ayran: '<path d="M16 14h32l-4 44H20z" fill="#fff"' + o() + '/><path d="M18 26h28l-3 32H21z" fill="#f8f9fa"/><path d="M16 14h32l-4 44H20z" fill="none"' + o() + '/>' +

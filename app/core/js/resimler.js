@@ -52,7 +52,12 @@
     'big', 'boy', 'canteen', 'clap', 'classroom', 'day', 'excuse-me', 'fine', 'fine-2', 'finish', 'calendar-heart', 'friday', 'friend', 'garden-2',
     'girl', 'girl-2', 'girl-3',
     // school places, the weekend
-    'place', 'playground', 'pupil', 'saturday', 'school', 'sing', 'sports-hall', 'start', 'sunday', 'teacher', 'teachers-room'
+    'place', 'playground', 'pupil', 'saturday', 'school', 'sing', 'sports-hall', 'start', 'sunday', 'teacher', 'teachers-room',
+    // the last words: classroom, numbers 1-20, family (board-2-moon, dark-night and the tall/short pairs wait for a word)
+    'year-2', 'mr-aras', 'board-2-moon', 'black', 'white', 'coloured-pencil', 'exercise', 'colours', 'tablet', 'board', 'dark-night',
+    'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen',
+    'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty', 'giraffe', 'tall-short-2', 'short-tall-3', 'son', 'lemon', 'old', 'all-right',
+    'nice', 'very'
   ];
   const more = {};
   for (const name of names) {

@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.73.0 · 26.11.2026
+
+- **İngilizce Koyu'nda yeni resimler:** 1'den 20'ye bütün sayılar, siyah, beyaz, boya kalemi, alıştırma, renkler, tablet, tahta, 2. sınıf, Bay Aras, zürafa, erkek evlat, limon, yaşlı, tamam, hoş ve çok artık sevimli, renkli resimlerle gösteriliyor. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.
+
 ## 0.72.0 · 26.11.2026
 
 - **İngilizce Koyu'nda yeni resimler:** Yer, oyun alanı, öğrenci, Cumartesi, okul, şarkı söylemek, spor salonu, başlamak, Pazar, öğretmen ve öğretmenler odası artık sevimli, renkli resim kartlarıyla gösteriliyor. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.
