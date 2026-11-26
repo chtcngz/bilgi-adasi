@@ -1,6 +1,6 @@
-// Akvaryum: every player's own tank (grades 1-4; Elif Ba Adası has its own, games/aquarium.js). Each task the
-// child gets done on an island (an island of Çarpım Adası, a round of a question island's stop …) brings a
-// reward: a fish or an ornament. A tank holds 12 fish and 6 ornaments; the next reward opens a new tank, in the
+// Akvaryum: every player's own tank, from preschool (Elif Ba Adası) to the 4th grade. Each task the child gets
+// done on an island (an island of Çarpım Adası, a round of a question island's stop, an islet of Elif Ba …)
+// brings a reward: a fish or an ornament. A tank holds 12 fish and 6 ornaments; the next reward opens a new tank, in the
 // next theme. A tap on a fish lets the child give it a name, written above it from then on.
 //
 // Saved per player in localStorage as akvaryum-<player id> (README: saved-data keys never change):
@@ -76,24 +76,28 @@ const akvaryum = (() => {
     const fresh = pool.filter(s => !owned.has(s.id));
     return pickOne(fresh.length ? fresh : pool).id;
   }
-  // One reward for the active player. anahtar: a task that rewards only once. Returns what came, or null.
-  function odul({ anahtar, neden = '' } = {}) {
+  // One reward for the active player. anahtar: a task that rewards only once; karisik: the first three rewards
+  // of the player are fish, then ornaments and fish take turns (Elif Ba Adası). Returns what came, or null.
+  function odul({ anahtar, neden = '', karisik = false } = {}) {
     if (!activeProfile) return null;
-    const got = grant(load(activeProfile.id), anahtar, neden);
+    const got = grant(load(activeProfile.id), anahtar, neden, karisik);
     if (!got) return null;
     save();
     refresh();
     return got;
   }
-  function grant(record, anahtar, neden) {
+  function grant(record, anahtar, neden, karisik = false) {
     if (anahtar && record.gorev[anahtar]) return null;
     let a = tankCount(record) - 1;
     let here = inTank(record, a);
     let fish = here.filter(e => e.t === 'b').length, orn = here.length - fish;
     if (fish >= V.BALIK && orn >= V.SUS) { a++; here = []; fish = orn = 0; }
     const n = fish + orn;
-    // every third reward is an ornament, as long as the tank has room for its kind
-    const ornament = orn < V.SUS && (fish >= V.BALIK || n % 3 === 2);
+    // every third reward is an ornament (or, karisik, every other one after three fish), as long as the
+    // tank has room for its kind
+    const all = record.esya.length;
+    const turn = karisik ? all >= 3 && (all - 3) % 2 === 0 : n % 3 === 2;
+    const ornament = orn < V.SUS && (fish >= V.BALIK || turn);
     const item = { n: ++record.son, t: ornament ? 's' : 'b', a, g: String(neden).slice(0, 60), z: Date.now(), yeni: 1 };
     if (ornament) { item.s = orn; item.k = chooseOrnament(record, here, orn); }
     else { item.k = chooseFish(record, here); item.ad = ''; }
@@ -211,6 +215,7 @@ const akvaryum = (() => {
   const dialog = $('akvaryum');
   dialog.innerHTML = '<div class="ak-room">' +
     '<div class="ak-top"><button type="button" class="btn-round ak-close" aria-label="Akvaryumdan çık"></button>' +
+      '<button type="button" class="ak-tell" aria-label="Ne yapacağımı söyle" hidden><span aria-hidden="true">🐢💬</span></button>' +
       '<h2 class="ak-title" id="ak-title"></h2>' +
       '<div class="ak-nav"><button type="button" class="ak-prev" aria-label="Önceki akvaryum">‹</button><span class="ak-which"></span>' +
       '<button type="button" class="ak-next" aria-label="Sonraki akvaryum">›</button></div></div>' +
@@ -236,7 +241,10 @@ const akvaryum = (() => {
   water.addEventListener('scroll', () => { water.scrollLeft = 0; water.scrollTop = 0; });
 
   let shown = 0, fish = [], decor = [], crawlers = [], food = [], W = 0, H = 0, FH = 0, k = 1, sandTop = () => 0;
-  let frameId = 0, last = 0, sayTimer = 0, naming = null, onClose = null;
+  let frameId = 0, last = 0, sayTimer = 0, naming = null, onClose = null, speak = null, hunger = 0;
+  // The device voice reads the tank's lines aloud for a preschool player (sesVer), without the emoji.
+  const voiced = () => speak && activeProfile?.grade === 'Okul öncesi';
+  const spoken = html => html.replace(/<[^>]*>/g, '').replace(/[^\p{L}\p{N}\s.,!?’'-]/gu, '').replace(/\s+/g, ' ').trim();
 
   // The caustic light is drawn once, the first time a tank opens, and shared by every tank.
   let causticsDrawn = false;
@@ -542,26 +550,35 @@ const akvaryum = (() => {
       f.joy = Math.max(0, f.joy - dt);
       f.pop = Math.max(0, f.pop - dt);
       f.puffing = Math.max(0, f.puffing - dt);
+      f.chomp = Math.max(0, (f.chomp || 0) - dt);
+      f.lunge = Math.max(0, (f.lunge || 0) - dt);
+      f.fed = Math.max(0, (f.fed || 0) - dt * .12);
       f.puff += clamp((f.puffing > 0 ? 1 : 0) - f.puff, -dt * 3, dt * 5);
       let tx = f.tx, ty = f.ty;
       const leader = leaders.get(f.item.k);
       if (f.hold) { tx = W / 2; ty = H * .36; }
-      else if (f.meal) { tx = f.meal.x; ty = f.meal.y; }
+      // a hungry fish brings its mouth, not its middle, to the bit
+      else if (f.meal) { tx = f.meal.x + f.dir * f.w * .44; ty = f.meal.y - f.h * .04; }
       else if (leader && leader !== f && !f.boost) { tx = leader.x + f.off.x * (leader.dir > 0 ? 1 : -1) + leader.w * .6 * leader.dir; ty = leader.y + f.off.y; f.rest = 0; }
       const dx = tx - f.x, dy = ty - f.y, dist = Math.hypot(dx, dy);
-      if (f.rest > 0 && !f.meal && !f.boost && !f.hold) {
+      f.chew = Math.max(0, (f.chew || 0) - dt);
+      // after a bite it slows and chews a moment before going for the next flake
+      if (f.rest > 0 && !f.meal && !f.boost && !f.hold || f.chew > 0 && !f.hold) {
         f.rest -= dt;
         const drag = Math.exp(-2.4 * dt);
         f.vx *= drag; f.vy *= drag;
       } else {
         const school = leader && leader !== f && !f.meal && !f.hold;
-        const cruise = f.hold ? 1.2 : f.meal ? 2.7 : school ? clamp(dist / 60, .4, 1.8) : 1;
-        const want = (cruise + (2.8 - cruise) * Math.min(1, f.boost)) * f.speed * Math.min(1, dist / (60 * k) + .12);
+        // it hurries over, slows down to line up, then darts the last bit of the way and snaps
+        const near = f.meal ? Math.hypot(mouthX(f) - f.meal.x, mouthY(f) - f.meal.y) : Infinity;
+        if (f.meal && near < 34 * k + f.w * .1 && !f.lunge) f.lunge = .28;
+        const cruise = f.hold ? 1.2 : f.meal ? (f.lunge ? 3.4 : near < 90 * k ? 1.5 : 2.6) : school ? clamp(dist / 60, .4, 1.8) : 1;
+        const want = (cruise + (2.8 - cruise) * Math.min(1, f.boost)) * f.speed * Math.min(1, dist / (60 * k) + (f.meal ? .5 : .12));
         const ax = dist > 1 ? dx / dist * want : 0, ay = dist > 1 ? dy / dist * want * .85 : 0;
-        const ease = Math.min(1, dt * (f.boost ? 4 : f.meal ? 2.6 : school ? 1.8 : .8));
+        const ease = Math.min(1, dt * (f.boost || f.lunge ? 5 : f.meal ? 2.6 : school ? 1.8 : .8));
         f.vx += (ax - f.vx) * ease;
         f.vy += (ay - f.vy) * ease;
-        if (f.meal && dist < 10 + f.w * .15) eat(f);
+        if (f.meal && near < 9 + f.w * .07) eat(f);
         else if (!f.meal && !f.hold && !school && dist < 16 * k + 4) pickTarget(f);
       }
       // Fish keep a little room between them.
@@ -594,12 +611,12 @@ const akvaryum = (() => {
       }
       placeCrawler(c);
     }
-    for (const bit of food) {
-      bit.age += dt;
-      const floorY = sandY(bit.x) + FH * .25;
-      if (bit.y < floorY) { bit.y = Math.min(floorY, bit.y + dt * (bit.age < .6 ? 6 : 18)); bit.x += Math.sin((bit.y + bit.seed) / 12) * dt * 8; }
-      bit.node.style.transform = 'translate(' + bit.x.toFixed(1) + 'px,' + bit.y.toFixed(1) + 'px) rotate(' + (bit.seed * 7 + bit.y * 2).toFixed(0) + 'deg)';
-      if (bit.age > 16) dropFood(bit);
+    for (const bit of [...food]) moveFood(bit, dt);
+    // fish that see food drifting nearby join in, until they have had their fill
+    hunger -= dt;
+    if (hunger <= 0 && food.some(b => !b.gulp)) {
+      hunger = .45;
+      for (const f of fish) if (!f.meal && !f.hold && f.fed < 4 && Math.random() < .5) seek(f, W * .5);
     }
   }
   function frame(now) {
@@ -624,10 +641,14 @@ const akvaryum = (() => {
       // a touch makes it jump with joy: a quick swell and settle
       const t = .7 - f.joy;
       const joy = f.joy > 0 ? (t < .3 ? 1 + .16 * Math.sin(t / .3 * Math.PI) : 1 - .04 * Math.sin((t - .3) / .4 * Math.PI)) : 1;
+      // a gulp: the head pushes forward and the body swells, then settles with a little shiver
+      const c = f.chomp > 0 ? 1 - f.chomp / .36 : 0;
+      const gulp = c ? Math.sin(c * Math.PI) * (1 - c * .4) : 0;
+      const shiver = c ? Math.sin(c * Math.PI * 5) * (1 - c) * .03 : 0;
       pen.setTransform(dpr, 0, 0, dpr, 0, 0);
-      pen.translate(f.x, f.y + (f.bob || 0));
-      pen.rotate((f.pitch || 0) * Math.PI / 180);
-      pen.scale(f.turn * joy, joy);
+      pen.translate(f.x - f.dir * f.w * .05 * gulp, f.y + (f.bob || 0));
+      pen.rotate(((f.pitch || 0) + (still ? 0 : shiver * 60)) * Math.PI / 180);
+      pen.scale(f.turn * joy * (1 + .1 * gulp), joy * (1 + .13 * gulp));
       pen.translate(-f.w / 2, -f.h / 2);
       if (tail?.ready) {
         const [jx, jy] = at(geo.joint[0], geo.joint[1]);
@@ -696,12 +717,15 @@ const akvaryum = (() => {
   }
 
   /* ---------- Touches ---------- */
-  function sayLine(text, keep, ms = 3400) {
+  // quiet: a line that only helps (what to do here) is said only when the 🐢💬 button is tapped.
+  function sayLine(text, keep, ms = 3400, quiet = false) {
     say.innerHTML = text;
     say.classList.add('on');
     clearTimeout(sayTimer);
     if (!keep) sayTimer = setTimeout(() => say.classList.remove('on'), ms);
+    if (!quiet && voiced()) speak(spoken(text));
   }
+  find('.ak-tell').onclick = event => { event.stopPropagation(); if (voiced()) speak(spoken(find('.ak-help').textContent)); };
   function touchFish(f) {
     f.joy = .7;
     if (f.item.k === 'balon') f.puffing = 2.6;
@@ -757,39 +781,127 @@ const akvaryum = (() => {
   input.addEventListener('keydown', e => { if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); closeNaming(); } });
   dialog.addEventListener('cancel', e => { if (naming) { e.preventDefault(); closeNaming(); } });
 
-  // A tap on the water drops a pinch of food; the nearest fish swim over to eat it.
+  // A tap on the water sprinkles a pinch of food: rings spread on the water, the flakes scatter, then sink slowly,
+  // swaying, and settle on the sand. The nearest fish hurry over; each brings its mouth to a flake, darts the
+  // last bit of the way and snaps it up: the flake is sucked into its mouth, the fish gulps (a quick swell),
+  // a few tiny bubbles rise, and it goes on to the next flake. A fish that has had its fill does a happy wiggle.
+  const foodColors = [['#f4a340', '#c4601e'], ['#e8743b', '#a63c1c'], ['#f2c75c', '#c48a1f'], ['#9cbf4a', '#5f8a2a'], ['#d65a4a', '#982e25']];
+  const mouthX = f => f.x - f.dir * f.w * .44;
+  const mouthY = f => f.y + (f.bob || 0) + f.h * .04;
   water.addEventListener('click', event => {
     if (event.target.closest('button, form')) return;
     if (naming) { closeNaming(); return; }
     const box = water.getBoundingClientRect();
     const x = event.clientX - box.left, y = clamp(event.clientY - box.top, H * .06, H - FH);
     playCue('pop', { ambient: true });
+    if (!calm.matches) ripple(x, y);
     const bits = [];
-    for (let i = 0; i < 4; i++) {
+    const n = food.length > 40 ? 3 : 7;
+    for (let i = 0; i < n; i++) {
       const node = document.createElement('i');
-      node.className = 'ak-food';
-      node.style.background = pickOne(['#d9822b', '#c2562a', '#e8b04a', '#7a9a3a']);
+      const [light, deep] = pickOne(foodColors);
+      const size = rand(5, 9) * Math.max(.85, Math.min(1.25, k));
+      node.className = 'ak-food' + (Math.random() < .45 ? ' flake' : '');
+      node.style.setProperty('--s', size.toFixed(1) + 'px');
+      node.style.setProperty('--c1', light);
+      node.style.setProperty('--c2', deep);
       swim.append(node);
-      const bit = { x: x + rand(-14, 14), y: y + rand(-5, 5), node, seed: rand(0, 99), age: 0 };
+      const angle = rand(0, Math.PI * 2), speed = rand(25, 70) * Math.max(.8, k);
+      const bit = { x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed * .6 - 12, node, seed: rand(0, 99), age: 0,
+        sink: rand(12, 24) * Math.max(.8, k), spin: rand(-90, 90), turn: rand(0, 360), size, scale: .2, gulp: null };
       food.push(bit);
       bits.push(bit);
     }
     const hungry = fish.filter(f => !f.meal && !f.hold).sort((a, b) => Math.hypot(a.x - x, a.y - y) - Math.hypot(b.x - x, b.y - y)).slice(0, 6);
-    hungry.forEach((f, i) => { f.meal = bits[i % bits.length]; f.rest = 0; });
+    hungry.forEach((f, i) => { f.meal = bits[i % bits.length]; f.rest = 0; f.fed = Math.min(f.fed || 0, 2); });
     if (!fish.length) sayLine('Henüz yem yiyecek balık yok. Bir görev bitir, ilk balığın gelsin! 🐠');
   });
+  // Rings on the water where the food fell in.
+  function ripple(x, y) {
+    for (let i = 0; i < 2; i++) {
+      const ring = document.createElement('i');
+      ring.className = 'ak-ripple';
+      ring.style.left = x + 'px';
+      ring.style.top = y + 'px';
+      ring.style.animationDelay = (i * .22) + 's';
+      swim.append(ring);
+      setTimeout(() => ring.remove(), 1400);
+    }
+  }
+  function moveFood(bit, dt) {
+    bit.age += dt;
+    if (bit.gulp) {
+      // sucked into the mouth of the fish that snapped it
+      const f = bit.gulp, t = Math.min(1, bit.age / .16);
+      bit.x += (mouthX(f) - bit.x) * t;
+      bit.y += (mouthY(f) - bit.y) * t;
+      bit.scale = 1 - t;
+      if (t >= 1) { bit.node.remove(); food = food.filter(other => other !== bit); return; }
+    } else {
+      bit.scale = Math.min(1, bit.scale + dt * 5);
+      const floorY = sandY(bit.x) + FH * .25;
+      if (bit.y < floorY) {
+        // the sprinkle spreads, slows in the water and the flake sinks, swaying from side to side
+        const drag = Math.exp(-3.2 * dt);
+        bit.vx *= drag;
+        bit.vy = bit.vy * drag + (bit.sink - bit.vy * drag) * (1 - drag);
+        bit.x = clamp(bit.x + (bit.vx + Math.sin(bit.age * 2.2 + bit.seed) * 9) * dt, 6, W - 6);
+        bit.y = Math.min(floorY, bit.y + bit.vy * dt);
+        bit.turn += bit.spin * dt * Math.cos(bit.age * 1.7 + bit.seed);
+      } else bit.vx = bit.vy = 0;
+      // left on the sand, it melts away after a while
+      if (bit.age > 22) bit.node.classList.add('gone');
+      if (bit.age > 23) { dropFood(bit); return; }
+    }
+    bit.node.style.transform = 'translate(' + bit.x.toFixed(1) + 'px,' + bit.y.toFixed(1) + 'px) rotate(' + bit.turn.toFixed(0) + 'deg) scale(' + bit.scale.toFixed(2) + ')';
+  }
+  // The nearest flake within reach that fewer than two fish are after.
+  function seek(f, reach = Infinity) {
+    const free = food.filter(b => !b.gulp && fish.filter(o => o.meal === b).length < 2)
+      .map(b => ({ b, d: Math.hypot(mouthX(f) - b.x, mouthY(f) - b.y) })).filter(c => c.d < reach).sort((p, q) => p.d - q.d);
+    if (!free.length) return false;
+    f.meal = free[0].b;
+    f.rest = 0;
+    return true;
+  }
   function dropFood(bit) {
     food = food.filter(other => other !== bit);
     bit.node.remove();
-    for (const f of fish) if (f.meal === bit) { f.meal = null; pickTarget(f); }
+    for (const f of fish) if (f.meal === bit) { f.meal = null; if (!seek(f)) pickTarget(f); }
   }
   function eat(f) {
     const bit = f.meal;
-    dropFood(bit);
     f.meal = null;
-    const next = food.find(b => !fish.some(o => o.meal === b));
-    if (next && Math.random() < .85) f.meal = next;
-    else { f.rest = rand(.4, 1.2); pickTarget(f); }
+    f.lunge = 0;
+    f.chomp = .36;
+    f.chew = rand(.35, .7);
+    f.fed = (f.fed || 0) + 1;
+    bit.gulp = f;
+    bit.age = 0;
+    // the others after this flake look for another one
+    for (const o of fish) if (o.meal === bit) { o.meal = null; if (!seek(o)) pickTarget(o); }
+    playCue('pop', { ambient: true, rate: rand(1.5, 1.9), gain: .45 });
+    if (!calm.matches) nibble(mouthX(f), mouthY(f));
+    if (f.fed < 4 && Math.random() < .9 && seek(f)) return;
+    // full: a happy wiggle, then off it swims
+    f.joy = .7;
+    f.boost = .8;
+    f.rest = rand(.4, 1);
+    pickTarget(f);
+  }
+  // Tiny bubbles from the mouth of a fish that just ate.
+  function nibble(x, y) {
+    for (let i = 0; i < 3; i++) {
+      const b = document.createElement('i');
+      b.className = 'ak-puff small';
+      b.style.left = (x + rand(-3, 3)) + 'px';
+      b.style.top = (y + rand(-3, 2)) + 'px';
+      b.style.setProperty('--s', rand(3, 6).toFixed(1) + 'px');
+      b.style.setProperty('--up', -Math.min(y, rand(40, 80)) + 'px');
+      b.style.animationDelay = (.12 + i * .1).toFixed(2) + 's';
+      swim.append(b);
+      setTimeout(() => b.remove(), 1900);
+    }
   }
 
   /* ---------- The stand: which tank, how full ---------- */
@@ -805,7 +917,8 @@ const akvaryum = (() => {
     find('.ak-meter i').style.width = here.length / room * 100 + '%';
     find('.ak-help').textContent = here.length >= room
       ? (shown === count - 1 ? '✅ Bu akvaryum doldu! Bir sonraki ödülle yeni bir akvaryum açılacak.' : '✅ Bu akvaryum dolu.')
-      : !record.esya.length ? 'Adalarda bir görevi bitirince ilk balığın gelecek. Her görev bir balık ya da süs getirir.'
+      : !record.esya.length ? (activeProfile?.grade === 'Okul öncesi' ? 'Bir adacığı bitirince ilk balığın gelecek. Her adacık bir balık ya da süs getirir.'
+        : 'Adalarda bir görevi bitirince ilk balığın gelecek. Her görev bir balık ya da süs getirir.')
         : 'Bir balığa dokun, ona isim ver. Suya dokun, yem at. ' + (room - here.length) + ' ödül sonra bu akvaryum dolacak.';
     find('.ak-which').textContent = (shown + 1) + ' / ' + count;
     find('.ak-nav').hidden = count < 2;
@@ -830,7 +943,7 @@ const akvaryum = (() => {
     closeNaming();
     build(a);
     playCue('splash', { ambient: true });
-    if (!welcome(a)) sayLine(tankName(a));
+    if (!welcome(a)) sayLine(tankName(a), false, 3400, true);
   }
   find('.ak-prev').onclick = () => { if (shown > 0) go(shown - 1); };
   find('.ak-next').onclick = () => { if (shown < tankCount(mine()) - 1) go(shown + 1); };
@@ -844,6 +957,7 @@ const akvaryum = (() => {
     const fresh = record.esya.filter(e => e.yeni);
     const a = Number.isInteger(tank) && tank >= 0 && tank < count ? tank : fresh.length ? fresh[fresh.length - 1].a : count - 1;
     onClose = kapaninca;
+    find('.ak-tell').hidden = !voiced();
     if (!dialog.open) dialog.showModal();
     closeNaming();
     // The room shows at once and the tank is filled in the next frame, so the tap answers straight away.
@@ -861,8 +975,8 @@ const akvaryum = (() => {
         save();
       }
       if (!welcome(a)) {
-        if (!record.esya.length) sayLine('Henüz balığın yok. Adalarda bir görevi bitir, ilk balığın gelsin! 🐠', true);
-        else sayLine('Bir balığa dokun, ona isim ver. 🐠');
+        if (!record.esya.length) sayLine('Henüz balığın yok. Adalarda bir görevi bitir, ilk balığın gelsin! 🐠', true, 0, true);
+        else sayLine('Bir balığa dokun, ona isim ver. Suya dokun, yem at. 🐠', false, 3400, true);
       }
       if (before) sayLine('🎁 Daha önce bitirdiğin görevler için akvaryumuna ' + before + ' ödül geldi! Balıklarına dokun, isim ver.', false, 7000);
       last = performance.now();
@@ -924,7 +1038,10 @@ const akvaryum = (() => {
     const record = load(id);
     const fishList = record.esya.filter(e => e.t === 'b');
     return { balik: fishList.length, sus: record.esya.length - fishList.length, akvaryum: record.esya.length ? tankCount(record) : 0,
-      isimli: fishList.filter(e => e.ad).length };
+      isimli: fishList.filter(e => e.ad).length, yeni: record.esya.filter(e => e.yeni).length,
+      sonBaliklar: fishList.slice(-3).map(e => e.k) };
   };
-  return { odul, kart, ipucu, open, refresh, available, ozet };
+  // Elif Ba Adası's players cannot read yet: it gives the tank a voice (its device voice) for them.
+  const sesVer = fn => { speak = fn; };
+  return { odul, kart, ipucu, open, refresh, available, ozet, sesVer };
 })();

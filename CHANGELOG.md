@@ -7,6 +7,15 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.41.0 · 26.11.2026
+
+Okul öncesi oyuncular da artık büyüklerin **akvaryumunu** kullanıyor.
+
+- **Elif Ba Adası akvaryumu dolduruyor:** Her adacık bitince (Cam Köprü geçilince) akvaryuma bir ödül geliyor. İlk üç ödül balık, sonra süs ve balık sırayla geliyor. Ödül, köprünün sonuç kartında resmiyle görünüyor; **🐠 Akvaryuma git** düğmesi akvaryumu açıyor. Daha önce bitirilmiş adacıkların ödülleri de bir kez veriliyor.
+- Akvaryum Elif Ba haritasındaki karttan, üstteki 🐠 düğmesinden ve Keşif Limanı’ndaki karttan açılıyor. Harf balıklı eski Elif Ba akvaryumu kaldırıldı.
+- **Okuma bilmeyenler için ses:** Okul öncesi oyuncularda akvaryumdaki yazılar (gelen ödül, balığın adı, süsler) cihazın sesiyle okunuyor; 🐢💬 düğmesi akvaryumda ne yapılacağını söylüyor.
+- **Yem yeme animasyonu yenilendi (bütün sınıflar):** Suya dokununca suda halkalar açılıyor, yem taneleri dağılıp sallanarak batıyor. Balıklar yeme ağızlarıyla yaklaşıyor, son anda atılıp yemi kapıyor; yem ağzına çekiliyor, balık yutkunuyor ve ağzından küçük kabarcıklar çıkıyor. Her lokmadan sonra biraz çiğneyip sıradaki taneye gidiyor, doyunca sevinçle kıpırdıyor. Uzaktaki balıklar da yemi görünce geliyor; dibe düşen yem bir süre sonra eriyip kayboluyor.
+
 ## 0.40.0 · 26.11.2026
 
 Elif Ba Adası’nda harekeleri öğrenen çocuk artık **harekesiz harf görmüyor**.

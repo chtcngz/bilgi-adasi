@@ -64,7 +64,6 @@ app/                         Published site (GitHub Pages root)
 │   │       ├── art.js       Turtle, hearts, speaker and stars shared by the games
 │   │       ├── listening.*  Harf Yağmuru (letters), Hece Balonları (syllables), Şekil Yağmuru (joined shapes), Cezm Balonları; its .rain-* kit is shared
 │   │       ├── bridge.*     Cam Köprü, the mixed game at the end of every cove
-│   │       └── aquarium.*   Akvaryum: a fish for every letter whose harekes are learned
 │   ├── din-bilgisi/         Question island: sorular.js + game.js + style.css + ada.svg + kapsam.md
 │   ├── fen-bilimleri/       Question island: same pattern
 │   └── sosyal-bilgiler/     Question island: same pattern
@@ -106,13 +105,17 @@ sources/                     Raw material (not published)
 
 ## Akvaryum
 
-Every player from the 1st grade up has an aquarium of their own (Elif Ba Adası, for the preschool players, has its
-own letter fish in `islands/elif-ba/games/aquarium.js`). Each task the child gets done brings a reward, a fish or an
-ornament: an island of Çarpım Adası (once per island and round) or one of its mixed stages, a round finished on a question island's stop that
+Every player, from preschool to the 4th grade, has an aquarium of their own. Each task the child gets done brings a reward, a fish or an
+ornament: an islet of Elif Ba Adası finished (its Cam Köprü crossed; the first three rewards are fish, then ornaments and
+fish take turns: `karisik` in `akvaryum.odul`; islets finished before 0.41.0 are rewarded the next time the map shows), an island of Çarpım Adası (once per island and round) or one of its mixed stages, a round finished on a question island's stop that
 still has questions to learn, all the questions of a stop learned (once), a first mock exam or a new record, a
 Tekrar Kutusu round without a mistake. Every third reward is an ornament. A tank holds 12 fish and 6 ornaments; the
 next reward opens a new tank in the next theme (Mercan Koyu, Yeşil Vadi, Gece Mavisi, Gün Batımı Lagünü, then again).
-A tap on a fish lets the child give it a name, written above it from then on; a tap on the water drops food.
+A tap on a fish lets the child give it a name, written above it from then on; a tap on the water sprinkles food: rings
+spread on the water, the flakes scatter and sink, swaying, and the nearest fish come over, bring their mouths to a flake,
+dart the last bit, snap it up (it is sucked into the mouth, the fish gulps and a few bubbles rise), chew a moment and go
+on to the next flake until they have had their fill. For a preschool player the tank's lines are also said aloud in the
+device's voice (`akvaryum.sesVer`, given by Elif Ba), and a 🐢💬 button says what to do there.
 
 Players who had played before the aquarium came get, once (`gecmis` in their record), the rewards of the tasks
 already done: every island and mixed stage of Çarpım Adası finished, the rounds finished on each stop of a question island (counted

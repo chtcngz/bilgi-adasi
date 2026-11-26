@@ -26,9 +26,10 @@
   const gameNames = ['yagmur', 'balon', 'sekil', 'cezmbalon', 'kopru'];
   const blankGame = () => ({ rekor: 0, yildiz: 0, tamam: false, koylar: Array(coves.length).fill(false) });
   function blank() {
-    // balik: the letters whose fish the player has already seen arrive in the Akvaryum.
+    // (Until 0.41.0 a `balik` list kept the letter fish of Elif Ba's own aquarium; the island now fills the
+    // shared Akvaryum, core/js/akvaryum.js, and the list is dropped on the next save.)
     return { harf: Array(28).fill(0), hareke: Array(28).fill(0), bitisik: Array(28).fill(0), cezm: Array(28).fill(0), tanisma: false,
-      yagmur: blankGame(), balon: blankGame(), sekil: blankGame(), cezmbalon: blankGame(), kopru: blankGame(), balik: Array(28).fill(false) };
+      yagmur: blankGame(), balon: blankGame(), sekil: blankGame(), cezmbalon: blankGame(), kopru: blankGame() };
   }
   function load(id) {
     if (records.has(id)) return records.get(id);
@@ -41,7 +42,6 @@
         });
       }
       record.tanisma = saved.tanisma === true;
-      if (Array.isArray(saved.balik)) saved.balik.slice(0, 28).forEach((on, i) => { record.balik[i] = on === true; });
       for (const name of gameNames) {
         const game = saved[name];
         if (!game || typeof game !== 'object') continue;
@@ -192,23 +192,34 @@
     if (!journeying) $('elif-hub-note').textContent = '';
     setTitle('Elif Ba Adası');
   }
-  // Akvaryum: a fish for every letter whose harekes are learned. Fish not seen yet arrive when it opens.
-  const fishLetters = () => glyphs.map((_, i) => i).filter(i => mastered('hareke', i));
+  // Akvaryum: the shared one (core/js/akvaryum.js). Every islet finished (its Cam Köprü crossed) brings a reward:
+  // the first three are fish, then ornaments and fish take turns. Islets finished before the island filled the
+  // aquarium get theirs the next time the map shows, once each (`elif:<islet>`), in order.
+  const isletDone = k => steps.filter(step => step.cove === k).every(stepDone);
+  function rewardIslets() {
+    const got = [];
+    for (let k = 0; k < coves.length && isletDone(k); k++) {
+      const reward = akvaryum.odul({ anahtar: 'elif:' + k, neden: 'Elif Ba · ' + coves[k], karisik: true });
+      if (reward) got.push({ k, reward });
+    }
+    return got;
+  }
+  // The children cannot read: the tank's lines are said in the device's Turkish voice.
+  akvaryum.sesVer(text => voice.instruct(text));
   function drawAquariumCard() {
-    const have = fishLetters();
-    const fresh = have.filter(i => !progress.balik[i]);
+    rewardIslets();
+    const tank = akvaryum.ozet(activeProfile.id);
     const card = $('elif-aquarium-open');
-    card.classList.toggle('fresh', fresh.length > 0);
-    card.innerHTML = '<span class="elif-aq-fish" aria-hidden="true">' + (have.length ? have.slice(-3) : [1, 13, 23]).map(i => elifAquarium.fishSvg(i, 'hub-aq', false)).join('') +
-      '</span><span class="elif-aq-text"><strong>Akvaryum</strong><small>' + (have.length ? have.length + ' / 28 balık' : 'Harekeleri öğren, balıklar gelsin') +
-      '</small></span>' + (fresh.length ? '<span class="elif-aq-new">✨ ' + fresh.length + ' yeni</span>' : '') + '<span class="elif-aq-go" aria-hidden="true">▶</span>';
-    card.setAttribute('aria-label', 'Akvaryum, ' + have.length + ' balık' + (fresh.length ? ', ' + fresh.length + ' yeni balık' : ''));
+    card.classList.toggle('fresh', tank.yeni > 0);
+    card.innerHTML = '<span class="elif-aq-fish" aria-hidden="true">' + (tank.sonBaliklar.length ? tank.sonBaliklar : ['palyaco', 'neon', 'cerrah'])
+      .map(k => akvaryumSanat.fish(k)).join('') +
+      '</span><span class="elif-aq-text"><strong>Akvaryum</strong><small>' + (tank.balik ? tank.balik + ' balık · ' + tank.sus + ' süs' : 'Adacıkları bitir, balıklar gelsin') +
+      '</small></span>' + (tank.yeni ? '<span class="elif-aq-new">✨ ' + tank.yeni + ' yeni</span>' : '') + '<span class="elif-aq-go" aria-hidden="true">▶</span>';
+    card.setAttribute('aria-label', 'Akvaryum, ' + tank.balik + ' balık' + (tank.yeni ? ', ' + tank.yeni + ' yeni ödül' : ''));
     card.onclick = () => {
       if (journeying) return;
       voice.stop();
-      elifAquarium.open({ have, fresh, onClose: () => { if (!$('elif-view').hidden && !section) showHub(); } });
-      for (const i of fresh) progress.balik[i] = true;
-      if (fresh.length) save();
+      akvaryum.open({ kapaninca: () => { if (!$('elif-view').hidden && !section) showHub(); } });
     };
   }
   /* ---------- The map: bays, their islets and the islets' steps (map.js) ---------- */
@@ -616,6 +627,7 @@
     const step = steps.find(s => s.game === id && s.cove === k);
     if (!stepOpen(step)) return;
     voice.stop();
+    // Crossing Cam Köprü finishes the islet: its reward comes on the bridge's result card (as html).
     const result = ({ score, stars, finished }) => {
       const record = progress[id];
       record.rekor = Math.max(record.rekor, score);
@@ -625,6 +637,12 @@
         record.koylar[k] = true; // played to the end: the path goes on
       }
       save();
+      const got = id === 'kopru' && finished ? rewardIslets() : [];
+      if (!got.length) return '';
+      const items = got.map(g => g.reward.item);
+      setTimeout(() => voice.instruct(items.length > 1 ? 'Akvaryumuna ' + items.length + ' yeni ödül geldi!' :
+        'Akvaryumuna yeni bir ' + (items[0].t === 'b' ? 'balık' : 'süs') + ' geldi: ' + akvaryumVeri.tur(items[0].k).ad + '!'), 1600);
+      return akvaryum.kart(got.map(g => g.reward));
     };
     // After a game played to the end, the result card leads on to the next step.
     const next = () => {

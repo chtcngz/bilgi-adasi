@@ -150,7 +150,24 @@
   pointer-events: auto; cursor: pointer;
 }
 .ak-fish.new::after { content: '✨'; position: absolute; right: -8px; top: -16px; font-size: 22px; animation: ak-sparkle 1.4s ease-in-out 6 both; }
-.ak-food { position: absolute; left: 0; top: 0; width: 7px; height: 5px; margin: -2.5px -3.5px; border-radius: 2px; pointer-events: none; box-shadow: 0 0 0 .5px #0003; will-change: transform; }
+/* Food: round pellets and thin flakes that sink, swaying; one a fish snaps up is sucked into its mouth (scale, by JS) */
+.ak-food {
+  position: absolute; left: 0; top: 0; width: var(--s, 7px); height: calc(var(--s, 7px) * .82); margin: calc(var(--s, 7px) * -.41) calc(var(--s, 7px) * -.5);
+  border-radius: 50%; pointer-events: none; will-change: transform; transition: opacity 1s;
+  background: radial-gradient(circle at 34% 30%, #fff8 0 14%, var(--c1, #e8a040) 38%, var(--c2, #b25a1e));
+  box-shadow: 0 1px 2px #0003;
+}
+.ak-food.flake { height: calc(var(--s, 7px) * .5); margin-top: calc(var(--s, 7px) * -.25); border-radius: 30% 60% 40% 70%; background: linear-gradient(120deg, var(--c1), var(--c2)); opacity: .92; }
+.ak-food.gone { opacity: 0; }
+/* Rings on the water where food falls in */
+.ak-ripple {
+  position: absolute; width: 56px; height: 18px; margin: -9px -28px; border-radius: 50%; pointer-events: none;
+  border: 2px solid #ffffffb0; box-shadow: 0 0 6px #ffffff60; animation: ak-ripple 1.1s ease-out both;
+}
+@keyframes ak-ripple { from { transform: scale(.15); opacity: .95; } to { transform: scale(2.3); opacity: 0; } }
+.ak-puff.small { border-width: 1px; animation-duration: 1.6s; }
+.ak-tell { flex: none; width: 48px; height: 48px; border-radius: 50%; border: 2px solid #ffffffb0; background: #ffffffe6; font-size: 20px; box-shadow: 0 3px 8px #0003; }
+.ak-tell[hidden] { display: none; }
 
 /* Surface and glass */
 .ak-surface {

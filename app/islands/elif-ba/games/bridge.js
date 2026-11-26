@@ -682,7 +682,7 @@ const elifBridgeGame = (() => {
   function keep(finished) {
     if (!game || game.saved || !game.score) return;
     game.saved = true;
-    options.onResult({ score: game.score, stars: finished ? game.hearts : 0, finished: !!finished });
+    return options.onResult({ score: game.score, stars: finished ? game.hearts : 0, finished: !!finished });
   }
   function countUp(total, score) {
     const start = performance.now(), mine = session;
@@ -730,7 +730,8 @@ const elifBridgeGame = (() => {
     const stars = game.hearts;
     const whole = stars === HEARTS;
     const best = { ...options.best() };
-    keep(true);
+    // the islet's reward for the Akvaryum, if crossing it brought one
+    const prize = keep(true) || '';
     const record = game.score > 0 && game.score > (best.rekor || 0);
     const words = whole ? 'Hiç cam kırmadan 15 sırayı geçtin ve ' + options.toDative + ' ulaştın!' :
       options.toDative + ' ulaştın ama ' + (HEARTS - stars) + ' cam kırıldı. Üç yıldız için bir dahaki sefere hiç cam kırmadan geçmeyi dene!';
@@ -739,7 +740,7 @@ const elifBridgeGame = (() => {
       '<svg viewBox="0 0 24 24" aria-hidden="true"' + (n < stars ? ' class="won" style="--d:' + (0.35 + n * 0.3) + 's"' : '') +
       '><path d="' + starPath + '"/></svg>').join('') + '</div>' +
       '<h2 id="rain-title" tabindex="-1">' + (whole ? 'Mükemmel!' : 'Köprüyü geçtin!') + '</h2><p>' + words + '</p>' +
-      '<p class="rain-total"><b>0</b> puan</p>' + recordLine(record, best) +
+      '<p class="rain-total"><b>0</b> puan</p>' + recordLine(record, best) + prize +
       '<div class="rain-recap"><p>Köprüdeki harfler ve heceler · dokun, dinle</p><div>' + game.crossed.map((item, n) =>
         '<button type="button" class="rain-chip t' + n % 5 + '" data-cue data-n="' + n + '" aria-label="' + nameOf(item) + ' dinle">' +
         glyph(item) + '<span>' + nameOf(item) + '</span></button>').join('') + '</div></div>' +
@@ -869,7 +870,8 @@ const elifBridgeGame = (() => {
   // yazılış cove, whose panes show the harekeli letters' joined shapes, with known: all the letters, for
   // the syllables alone mixed in; cezm: a cezm cove, whose panes show only the letters' cezm syllables;
   // from, to, toDative: the cove the bridge starts at and the one it leads to ("İnci Koyu'na");
-  // best(): the player's { rekor, yildiz, tamam }; onResult({ score, stars, finished }) keeps them;
+  // best(): the player's { rekor, yildiz, tamam }; onResult({ score, stars, finished }) keeps them and may
+  // return html for the result card (the Akvaryum's reward);
   // next(): optional, { label, go } of the step after the bridge.
   function open(settings) {
     options = settings;

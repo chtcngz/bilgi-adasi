@@ -382,8 +382,7 @@ function startAdmin() {
       stat(count('harf') + ' / 28', '🐚 harf'),
       stat(count('hareke') + ' / 28', '🦪 hareke'),
       stat(count('bitisik') + ' / 28', '🪸 bitişik'),
-      stat(count('cezm') + ' / 28', '⭐ cezm'),
-      stat((record.balik || []).filter(Boolean).length + ' / 28', '🐟 akvaryum'));
+      stat(count('cezm') + ' / 28', '⭐ cezm'));
     box.append(meter(doneSteps, steps.length), stats1);
     box.ozet = '🐢 ' + doneSteps + ' / ' + steps.length + ' adım';
     // Every letter: how many times it was answered right in each section (learned at E.mastery).
@@ -507,7 +506,7 @@ function startAdmin() {
     if (shown.has('carpim')) card.append(carpim(data.carpim));
     for (const info of quizzes) if (shown.has(info.kod)) card.append(quiz(info, data[info.kod]));
     const tank = read('akvaryum-' + profile.id);
-    if (tank || [...shown].some(k => k !== 'elif')) card.append(aquarium(tank));
+    if (tank || shown.size) card.append(aquarium(tank));
     for (const box of card.querySelectorAll('.adm-island')) chips.append(el('span', 'adm-chip', box.ozet));
     // Raw saved data, for anything the summaries leave out.
     const raw = Object.keys(records).filter(k => k.endsWith(profile.id)).sort();
