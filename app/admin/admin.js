@@ -268,12 +268,47 @@ function startAdmin() {
   const thisUid = (() => { try { return JSON.parse(localStorage.getItem('bilgi-adasi-bulut'))?.uid || null; } catch { return null; } })();
   const sources = () => [
     ...cloud.filter(d => showTests || !isTest(d)).sort((a, b) => (b.son || 0) - (a.son || 0)).map(d => ({ id: d.uid, cloud: true, test: isTest(d), mine: d.uid === thisUid,
-      label: d.cihaz || 'Cihaz', last: d.son, version: d.surum, played: d.oyuncular, records: d.kayitlar })),
+      kimlik: cihazKimligi(d.uid), label: d.cihaz || 'Cihaz', last: d.son, version: d.surum, played: d.oyuncular, records: d.kayitlar })),
     // This browser, unless it is already in the cloud or has no players.
     ...(cloud.some(d => d.uid === thisUid) || !(parse(localRecords()[PROFILES]) || []).length ? [] :
       [{ id: 'local', label: 'Bu cihaz', local: true, records: localRecords() }]),
     ...readBackups().map(b => ({ id: b.id, label: b.ad || 'Yedek', when: b.tarih, added: b.eklendi, device: b.cihaz, records: b.kayitlar || {} }))
   ];
+  // Filtering by device: the devices chosen (by kimlik, or a backup's id), kept in the address (#cihaz=K7Q-X2M,…)
+  // so a reload or a bookmark keeps them. None chosen: every device.
+  const filterKey = source => source.kimlik || source.id;
+  const filter = new Set(decodeURIComponent((location.hash.match(/cihaz=([^&]*)/) || [])[1] || '').split(',').filter(Boolean));
+  function setFilter(keys) {
+    filter.clear();
+    for (const k of keys) filter.add(k);
+    // A full address: the page's <base href="../"> would turn a bare '#…' into the game's address.
+    history.replaceState(null, '', location.pathname + location.search + (filter.size ? '#cihaz=' + [...filter].join(',') : ''));
+    draw();
+  }
+  const toggleFilter = k => setFilter(filter.has(k) ? [...filter].filter(x => x !== k) : [...filter, k]);
+  const profilesOf = source => (parse(source.records[PROFILES]) || []).filter(p => p && p.id);
+  function filterBar(all) {
+    const bar = el('div', 'adm-filter');
+    bar.append(el('span', 'adm-filter-label', 'Cihaz:'));
+    const chip = (text, on, onclick, title) => {
+      const b = el('button', 'adm-fchip' + (on ? ' on' : ''), text);
+      b.type = 'button';
+      b.setAttribute('aria-pressed', String(on));
+      if (title) b.title = title;
+      b.onclick = onclick;
+      return b;
+    };
+    bar.append(chip('Hepsi (' + all.length + ')', !filter.size, () => setFilter([])));
+    for (const source of all) {
+      const k = filterKey(source);
+      const n = profilesOf(source).length;
+      const name = source.cloud ? (source.test ? '🧪 ' : '') + source.kimlik + ' · ' + source.label + (source.mine ? ' (bu cihaz)' : '')
+        : source.local ? 'Bu cihaz' : '📦 ' + source.label;
+      bar.append(chip(name + ' · ' + n + ' 👤', filter.has(k), () => toggleFilter(k),
+        source.last ? 'son kayıt ' + dateText(source.last) : ''));
+    }
+    return bar;
+  }
   async function loadCloud() {
     loading = true;
     cloudError = '';
@@ -531,12 +566,12 @@ function startAdmin() {
     const block = el('section', 'adm-source');
     const head = el('div', 'adm-source-head');
     const title = el('div');
-    title.append(el('h2', '', source.cloud ? (source.test ? '🧪 ' : '☁️ ') + source.label + (source.test ? ' (test kopyası)' : '') + (source.mine ? ' (bu cihaz)' : '') :
+    title.append(el('h2', '', source.cloud ? (source.test ? '🧪 ' : '☁️ ') + source.label + ' · ' + source.kimlik + (source.test ? ' (test kopyası)' : '') + (source.mine ? ' (bu cihaz)' : '') :
       source.local ? '📱 Bu cihaz (henüz buluta gönderilmedi)' : '📦 Elle eklenen yedek: ' + source.label));
     const meta = [];
     if (source.last) meta.push('son kayıt ' + dateText(source.last) + ' (' + ago(source.last) + ')');
     if (source.version) meta.push('sürüm ' + source.version);
-    if (source.cloud) meta.push('cihaz kimliği ' + source.id.slice(0, 8));
+
     if (source.when) meta.push('yedek alındı ' + dateText(source.when));
     if (source.added) meta.push('eklendi ' + dateText(source.added));
     if (source.device) meta.push(source.device);
@@ -567,22 +602,22 @@ function startAdmin() {
   // One table of every player, then each device in full. A player brought to other devices with their code
   // (Oyuncu kodum var) keeps the same id there, so they are one row naming every device; the name goes to the
   // device where they played last, whose copy is the newest.
+  // With a filter, a player is listed when any of their devices is chosen, still naming all of them.
   function overview(all) {
     const byPlayer = new Map();
     for (const source of all) {
-      const list = (parse(source.records[PROFILES]) || []).filter(p => p && p.id);
-      for (const p of list) {
+      for (const p of profilesOf(source)) {
         const last = source.played?.[p.id] || 0;
-        const where = source.cloud ? source.label + (source.test ? ' (test)' : '') : source.local ? 'Bu cihaz' : 'Yedek';
         const row = byPlayer.get(p.id);
-        if (!row) byPlayer.set(p.id, { p, source, last, where: [where] });
+        if (!row) byPlayer.set(p.id, { p, source, last, where: [source] });
         else {
-          row.where.push(where);
+          row.where.push(source);
           if (last > row.last) Object.assign(row, { p, source, last });
         }
       }
     }
-    const rows = [...byPlayer.values()].sort((a, b) => b.last - a.last).map(({ p, source, last, where }) => {
+    const visible = [...byPlayer.values()].filter(row => !filter.size || row.where.some(s => filter.has(filterKey(s))));
+    const rows = visible.sort((a, b) => b.last - a.last).map(({ p, source, last, where }) => {
       const go = el('button', 'adm-link', (p.icon || '') + ' ' + (p.name || '?'));
       go.type = 'button';
       go.onclick = () => {
@@ -592,11 +627,21 @@ function startAdmin() {
         card.scrollIntoView({ behavior: 'smooth', block: 'start' });
       };
       const code = /^[A-Z0-9]{8}$/.test(p.kod || '') ? p.kod.slice(0, 4) + '-' + p.kod.slice(4) : '–';
-      return { cells: [go, p.grade || '?', code, (where.length > 1 ? where.length + ' cihaz: ' : '') + where.join(', '),
-        last ? dateText(last) + ' (' + ago(last) + ')' : '–'] };
+      // Every device the player is on; a tap shows only that device.
+      const devices = el('span', 'adm-chips');
+      for (const s of where) {
+        const k = filterKey(s);
+        const b = el('button', 'adm-fchip small' + (filter.has(k) ? ' on' : ''),
+          s.cloud ? s.kimlik + ' · ' + s.label + (s.test ? ' (test)' : '') : s.local ? 'Bu cihaz' : 'Yedek: ' + s.label);
+        b.type = 'button';
+        b.title = 'Yalnızca bu cihazı göster';
+        b.onclick = () => setFilter([k]);
+        devices.append(b);
+      }
+      return { cells: [go, p.grade || '?', code, devices, last ? dateText(last) + ' (' + ago(last) + ')' : '–'] };
     });
     const box = el('section', 'adm-source');
-    box.append(el('h2', '', '👧🧒 Bütün oyuncular (' + rows.length + ')'));
+    box.append(el('h2', '', '👧🧒 ' + (filter.size ? 'Seçili cihazlardaki oyuncular' : 'Bütün oyuncular') + ' (' + rows.length + ')'));
     if (rows.length) box.append(table(['Oyuncu', 'Sınıf', 'Kod', 'Cihaz', 'Son oynama'], rows));
     return box;
   }
@@ -612,7 +657,12 @@ function startAdmin() {
       toggle.onclick = () => { showTests = !showTests; draw(); };
       status.append(' · 🧪 ' + tests + ' test kopyası ' + (showTests ? 'da listede: ' : 'gizlendi: '), toggle);
     }
-    $('adm-sources').replaceChildren(status, overview(all), ...all.map(sourceBlock));
+    const shown = filter.size ? all.filter(s => filter.has(filterKey(s))) : all;
+    const parts = [status];
+    if (all.length) parts.push(filterBar(all));
+    // A chosen device that is gone (its players deleted) or not loaded yet.
+    if (filter.size && !shown.length && !loading) parts.push(el('p', 'adm-empty', 'Seçili cihaz listede yok: ' + [...filter].join(', ') + '.'));
+    $('adm-sources').replaceChildren(...parts, overview(all), ...shown.map(sourceBlock));
   }
 
   /* ---------- Backups ---------- */

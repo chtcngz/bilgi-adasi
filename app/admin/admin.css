@@ -97,3 +97,12 @@ main#admin { width: min(94%, 1240px); margin: 22px auto 60px; }
 .adm-note.bad { color: #9b3326; }
 .head-right .adm-user .adm-button { width: auto; height: auto; border-radius: 12px; font-size: 13px; }
 @media (max-width: 650px) { #adm-user { display: none; } }
+
+/* ---------- Device filter ---------- */
+.adm-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 14px 0 4px; }
+.adm-filter-label { font-weight: 850; color: #357463; font-size: 14px; }
+.adm-fchip { font: inherit; font-size: 14px; font-weight: 800; min-height: 36px; padding: 6px 12px; border-radius: 30px; border: 1px solid #a0c8b0;
+  background: #fff; color: #183e41; cursor: pointer; font-variant-numeric: tabular-nums; max-width: 100%; overflow-wrap: anywhere; text-align: left; }
+.adm-fchip:hover { background: #edf6ee; }
+.adm-fchip.on { background: #237958; border-color: #1a674b; color: #fff; }
+.adm-fchip.small { min-height: 28px; padding: 3px 10px; font-size: 12px; }

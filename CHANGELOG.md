@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.54.0 · 26.11.2026
+
+- **Her cihazın kendi kimliği var:** Buluta bağlanan her cihaz kendiliğinden altı harf ve rakamlık bir kimlik alıyor (ör. K7Q-X2M); elle bir şey girmek gerekmiyor. Kimlik, Ayarlar penceresinin en altında sürümün yanında görünüyor.
+- **Yönetici sayfasında cihaza göre süzme:** Her cihaz kimliğiyle listeleniyor (“Android · Chrome · K7Q-X2M”). Üstteki *Cihaz:* düğmeleriyle bir ya da birkaç cihaz seçilince yalnızca onların oyuncuları görünüyor; oyuncu tablosunda bir cihaza dokunmak da yalnızca o cihazı gösteriyor. Seçim sayfanın adresinde kalıyor, yenileyince ya da yer imiyle açınca bozulmuyor.
+
 ## 0.53.0 · 26.11.2026
 
 İngilizce Koyu:

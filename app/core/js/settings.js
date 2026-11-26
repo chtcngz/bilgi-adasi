@@ -1,9 +1,10 @@
 // Settings: edit or delete the player, sound options and progress resets.
 // The Pages workflow writes the version into <meta name="surum"> when it publishes.
-(() => {
+const versionText = (() => {
   const stamp = document.querySelector('meta[name=surum]')?.content || '';
   const text = stamp && !stamp.startsWith('__') ? 'Sürüm ' + stamp : 'Geliştirme sürümü';
   for (const element of document.querySelectorAll('.app-version')) element.textContent = text;
+  return text;
 })();
 (() => {
   const dialog = $('settings');
@@ -286,6 +287,9 @@
     syncVoice();
     fillProgress();
     showTab(tab);
+    // The device's kimlik (core/js/bulut-ayar.js), the one the admin page lists it under; none before its first send.
+    const kimlik = cihazKimligi(bulut.durum().uid);
+    dialog.querySelector('.app-version').textContent = versionText + (kimlik ? ' · Cihaz ' + kimlik : '');
     dialog.showModal();
   };
   $('close-settings').onclick = () => dialog.close();
