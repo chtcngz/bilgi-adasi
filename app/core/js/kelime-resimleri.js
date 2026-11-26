@@ -67,9 +67,6 @@ const kelimeResimleri = (() => {
       '<path d="M12 20h16M12 28h24M12 36h12" stroke="#d3f9d8" stroke-width="2.4" stroke-linecap="round"/><path d="M16 49l-4 12M48 49l4 12"' + o(3) + '/>',
     blackboard: '<rect x="4" y="8" width="56" height="38" rx="3" fill="#343a40"' + o() + '/><rect x="2" y="44" width="60" height="5" rx="2" fill="#c98a4a"' + o(1.5) + '/>' +
       '<path d="M12 22q4-8 8 0t8 0M34 20h14M34 30h10M12 34h14" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M16 49l-4 12M48 49l4 12"' + o(3) + '/>',
-    whiteboard: '<rect x="4" y="8" width="56" height="38" rx="3" fill="#fff"' + o() + '/><rect x="8" y="12" width="48" height="30" fill="#f8f9fa"/>' +
-      '<path d="M12 22h18M12 30h26" stroke="#4dabf7" stroke-width="2.6" stroke-linecap="round"/><path d="M40 20l8 8M48 20l-8 8" stroke="#fa5252" stroke-width="2.6" stroke-linecap="round"/>' +
-      '<rect x="40" y="45" width="16" height="5" rx="2" fill="#1c7ed6"' + o(1.4) + '/><path d="M16 46l-4 14M48 50l4 10"' + o(3) + '/>',
     'smart-board': '<rect x="4" y="6" width="56" height="38" rx="3" fill="#212529"' + o() + '/><rect x="8" y="10" width="48" height="30" rx="1" fill="#74c0fc"/>' +
       '<path d="M8 32l12-10 10 8 8-6 18 12v4H8z" fill="#51cf66"/><circle cx="46" cy="18" r="4" fill="#ffd43b"/><path d="M30 44v8M22 58h20"' + o(3) + '/>' +
       '<path d="M40 30l14 14" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/><path d="M40 30l14 14" stroke="#e5484d" stroke-width="2.5" stroke-linecap="round"/>' +
@@ -107,13 +104,6 @@ const kelimeResimleri = (() => {
       '<path d="M29 32l-6 8 4 6M35 32l6 8-4 6"' + o(5) + ' fill="none"/><path d="M29 32l-6 8 4 6M35 32l6 8-4 6" stroke="#3b5bdb" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
       '<path d="M14 40v8M50 40v8M20 48v4M44 48v4" stroke="#e8590c" stroke-width="2.5" stroke-linecap="round"/>',
     // a person with the part meant in colour
-    head: '<rect x="20" y="34" width="24" height="18" rx="8" fill="' + GREY + '"' + o(1.5) + '/><rect x="24" y="50" width="6" height="10" fill="' + GREY2 + '"' + o(1.2) + '/><rect x="34" y="50" width="6" height="10" fill="' + GREY2 + '"' + o(1.2) + '/>' +
-      '<circle cx="32" cy="20" r="14" fill="' + SKIN + '"' + o(2.5) + '/><path d="M18 18q14-18 28 0q-14-8-28 0z" fill="#8b5a2b"' + o(1.4) + '/>' +
-      '<circle cx="27" cy="21" r="1.6" fill="' + INK + '"/><circle cx="37" cy="21" r="1.6" fill="' + INK + '"/><path d="M28 27q4 3 8 0" fill="none"' + o(1.4) + '/>' +
-      '<circle cx="32" cy="20" r="17" fill="none" stroke="#e8590c" stroke-width="2.5" stroke-dasharray="4 3"/>',
-    jacket: '<path d="M20 8l12 6 12-6 14 8-4 22-6-2v22H16V36l-6 2-4-22z" fill="#364fc7"' + o() + '/><path d="M26 12l6 16 6-16" fill="#fff"' + o(1.5) + '/>' +
-      '<path d="M32 28v30"' + o(1.5) + '/><path d="M24 11l8 17-6-4-4 4zM40 11l-8 17 6-4 4 4z" fill="#4c6ef5"' + o(1.4) + '/><circle cx="35" cy="38" r="1.6" fill="#ffd43b"' + o(1) + '/>' +
-      '<circle cx="35" cy="46" r="1.6" fill="#ffd43b"' + o(1) + '/><path d="M20 44h7M37 44h7"' + o(1.4) + '/>',
     uniform: '<path d="M22 8l10 5 10-5 12 7-3 14-5-2v8H18v-8l-5 2-3-14z" fill="#1c7ed6"' + o() + '/><path d="M26 10l6 7 6-7-6-2z" fill="#fff"' + o(1.4) + '/>' +
       '<path d="M30 17h4l1 9-3 3-3-3z" fill="#e5484d"' + o(1.2) + '/><path d="M40 22h6v5q-3 3-6 0z" fill="#ffd43b"' + o(1.2) + '/>' +
       '<path d="M18 37h28l5 21H13z" fill="#1864ab"' + o() + '/><path d="M22 37l-2 21M32 37v21M42 37l2 21"' + o(1.2) + '/>',

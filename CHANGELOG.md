@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.64.0 · 26.11.2026
+
+- **İngilizce Koyu'nda yeni resimler:** Kol, doğum günü, sarı saçlı (erkek ve kadın), vücut, teneffüs zamanı, el, şapka, kafa, sıcak, ceket, bacak, duvar, aferin, beyaz tahta, pencere ve sarı (gülen güneş) artık sevimli, renkli resimlerle gösteriliyor. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.
+
 ## 0.63.0 · 26.11.2026
 
 - **İngilizce Koyu'nda yeni resimler:** Ağız, burun, kukla, yağmur, atkı, gömlek, ayakkabı, uzun boylu, göstermek, küçük, kar, pantolon, tişört ve şemsiye artık sevimli, renkli resimlerle gösteriliyor. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.

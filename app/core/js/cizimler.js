@@ -68,7 +68,6 @@
     'pencil-case': '<g transform="rotate(-24 34 22)">' + r(28, 4, 6, 26, '#ffd43b', 1.5, 2) + p('M28 4l3-5 3 5z', '#ffd8a8', 1.6) + r(36, 6, 6, 24, '#4dabf7', 1.5, 2) + '</g>' + p('M6 30h52v18a8 8 0 0 1-8 8H14a8 8 0 0 1-8-8z', '#9775fa') +
       p('M6 30h52', 'none', 2.6) + lines('M10 34h44', '#ffd43b', 2.2) + r(46, 31, 6, 7, '#ced4da', 1.5, 1.8) + c(18, 46, 3, '#ffd43b', 1.6) + c(26, 48, 2.4, '#ff8787', 1.4),
     box: p('M8 24l24-12 24 12-24 12z', '#ffd8a8') + p('M8 24v22l24 12V36z', '#e8a24a') + p('M56 24v22L32 58V36z', '#d9480f') + lines('M20 18l24 12v8', '#c98a4a', 3) + p('M8 24l-4 8 24 12 4-8M56 24l4 8-24 12-4-8', 'none', 2),
-    window: r(8, 6, 48, 50, '#fff', 3) + r(13, 11, 38, 40, '#a5d8ff', 1, 2) + lines('M32 11v40M13 31h38', INK, 2.6) + c(42, 20, 4, '#ffe066', 0) + p('M15 40q6-6 12 0', '#fff', 0) + p('M14 7h36', 'none', 0) + r(4, 54, 56, 5, '#a9744f', 2),
     chair: r(16, 6, 32, 24, '#4dabf7', 4) + r(14, 30, 36, 7, '#339af0', 2) + lines('M18 37v21M46 37v21', INK, 3.4) + lines('M18 37v21M46 37v21', '#868e96', 1.6) + lines('M24 12h16M24 18h16', '#a5d8ff', 2),
     /* actions: a child */
     clap: kid({ l: [30, 30], r: [34, 30], mouth: 'open' }, '#ff922b') + lines('M22 22l-5-4M20 30h-6M42 22l5-4M44 30h6', '#f76707'),
@@ -89,9 +88,5 @@
     read: kid({ l: [24, 40], r: [40, 40] }, '#f783ac', true) + p('M18 32l14 4 14-4v14l-14 4-14-4z', '#fff', 2.2) + p('M32 36v14', 'none', 2) + lines('M22 38l6 2M22 42l6 2M36 40l6-2M36 44l6-2', '#4dabf7', 1.4),
     write: kid({ l: [24, 48], r: [40, 48] }, '#4dabf7', true) + r(16, 46, 32, 14, '#fff', 2) + lines('M20 51h18M20 55h12', '#adb5bd', 1.6) + '<g transform="rotate(30 42 46)">' + r(40, 38, 4, 12, '#e5484d', 1, 1.8) + '</g>',
     /* the body: the part meant is ringed */
-    hand: kid({ l: [21, 47], r: [47, 22] }, '#4dabf7', false, ring(47, 22, 6)),
-    arm: kid({ l: [21, 47], r: [47, 22] }, '#4dabf7', false, ring(43, 28, 7, 10)),
-    leg: kid({ legs: 'walk' }, '#4dabf7', false, ring(42, 52, 6, 8)),
-    body: kid({}, '#4dabf7', false, ring(32, 33, 22, 29, false))
   });
 })();

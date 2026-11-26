@@ -25,7 +25,10 @@
     'dear', 'hug', 'dress', 'dress-2', 'ear', 'ear-2', 'eye', 'face', 'face-2', 'gift', 'gift-2', 'glasses', 'glasses-2', 'gloves', 'gloves-2',
     'great', 'thumbs-up', 'hair', 'hair-2',
     // the body, clothes, weather
-    'puppet', 'mouth', 'nose', 'rain', 'scarf', 'shirt', 'shoes', 'tall-boys', 'show', 'small', 'snow', 'trousers', 't-shirt', 'umbrella', 'umbrella-2'
+    'puppet', 'mouth', 'nose', 'rain', 'scarf', 'shirt', 'shoes', 'tall-boys', 'show', 'small', 'snow', 'trousers', 't-shirt', 'umbrella', 'umbrella-2',
+    // the body, people, clothes; the classroom
+    'arm', 'birthday', 'blond', 'blonde', 'body', 'break-time', 'hand', 'hot', 'hat', 'jacket', 'head', 'leg',
+    'window', 'sun', 'wall', 'well-done', 'whiteboard', 'pencils'
   ];
   const more = {};
   for (const name of names) {
