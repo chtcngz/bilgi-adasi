@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.61.0 · 26.11.2026
+
+- **İngilizce Koyu'nda aile resimleri:** Albüm, bebek, güzel, yakışıklı, erkek kardeş, baba, kız evlat, aile, arkadaş, büyükbaba ve büyükanne artık sevimli, renkli resimlerle gösteriliyor. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.
+
 ## 0.60.0 · 26.11.2026
 
 - **İngilizce Koyu'nda yeni resim kartları:** Balkon, banyo, gaga, yatak, yatak odası, kuş, kedi, pençe, sehpa, salatalık, dans etmek, yemek odası, köpek, kapı zili, oyuncak bebek evi, bulmak, komik, bahçe, japon balığı ve mutlu artık renkli resim kartlarıyla gösteriliyor. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.

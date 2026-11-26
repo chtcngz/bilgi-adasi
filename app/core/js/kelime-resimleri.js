@@ -142,8 +142,6 @@ const kelimeResimleri = (() => {
       '<path d="M26 42L2 38M26 45L3 48M26 48L6 57M38 42l24-4M38 45l23 3M38 48l20 9" stroke="#ff922b" stroke-width="2.3" stroke-linecap="round"/>',
     /* people: the one meant in colour */
     son: person(20, 50, 'man', false) + person(44, 32, 'boy', true, '#40c057'),
-    daughter: person(20, 50, 'woman', false) + person(44, 32, 'girl', true, '#f06595'),
-    brother: person(19, 36, 'girl', false) + person(45, 38, 'boy', true, '#228be6'),
     sister: person(19, 38, 'boy', false) + person(45, 36, 'girl', true, '#f06595'),
     tall: person(20, 52, 'boy', true, '#fab005') + person(44, 30, 'boy', false) + arrow('M4 10v44M1 14l3-5 3 5M1 50l3 5 3-5', '#e8590c'),
     'sit-down': '<path d="M34 34h20v4H34zM50 10v28M36 38v20M52 38v20" fill="#e8a24a"' + o() + '/><rect x="48" y="8" width="5" height="30" rx="2" fill="#e8a24a"' + o(1.6) + '/>' +

@@ -1,6 +1,6 @@
 // Resimler: İngilizce Koyu's pictures from the owner's picture sheets (assets/images/ingilizce/<name>.webp, 256×256 with a
 // clear background; the house and animal cards keep their own coloured card). They join kelimeResimleri as [[y-<name>]],
-// drawn in the same 64×64 box. A picture no word uses yet (meal-bowl) can still be chosen on kontrol.html.
+// drawn in the same 64×64 box. A picture no word uses yet (meal-bowl, girl-smiling) can still be chosen on kontrol.html.
 (() => {
   const V = 2;   // bump when the pictures change
   const names = [
@@ -14,7 +14,10 @@
     'house', 'kitchen', 'paw', 'dog', 'rabbit', 'bedroom', 'sitting-room', 'cat',
     // home and pets, second sheet (bedroom, cat, dog and cucumber were drawn again)
     'balcony', 'bathroom', 'beak', 'bed', 'bird', 'claw', 'coffee-table', 'cucumber', 'dance', 'dining-room', 'doorbell', 'dollhouse', 'find',
-    'funny', 'garden', 'goldfish', 'happy'
+    'funny', 'garden', 'goldfish', 'happy',
+    // family (girl-smiling is not given to a word yet)
+    'album', 'baby', 'girl-flower', 'boy-hoodie', 'boy-and-sister', 'dad-and-son', 'girl-smiling', 'girl-teddy', 'family', 'grandfather',
+    'grandmother', 'kids-thumbs-up'
   ];
   const more = {};
   for (const name of names) {
