@@ -224,7 +224,7 @@ const akvaryum = (() => {
       '<div class="ak-plants back" aria-hidden="true"></div><canvas class="ak-floor" aria-hidden="true"></canvas>' +
       '<div class="ak-caustics" aria-hidden="true"><i></i><i></i></div>' +
       '<div class="ak-decor"></div><div class="ak-bubbles" aria-hidden="true"></div><div class="ak-swim"><canvas class="ak-school" aria-hidden="true"></canvas></div>' +
-      '<div class="ak-plants front" aria-hidden="true"></div><div class="ak-surface" aria-hidden="true"><i></i></div><div class="ak-glass" aria-hidden="true"></div>' +
+      '<div class="ak-plants front" aria-hidden="true"></div><div class="ak-letters"></div><div class="ak-surface" aria-hidden="true"><i></i></div><div class="ak-glass" aria-hidden="true"></div>' +
       '<p class="ak-say" role="status"></p>' +
     '</div></div>' +
     '<div class="ak-stand"><div class="ak-stand-info"><strong class="ak-tank-name"></strong><span class="ak-counts"></span></div>' +
@@ -242,6 +242,10 @@ const akvaryum = (() => {
 
   let shown = 0, fish = [], decor = [], crawlers = [], food = [], W = 0, H = 0, FH = 0, k = 1, sandTop = () => 0;
   let frameId = 0, last = 0, sayTimer = 0, naming = null, onClose = null, speak = null, hunger = 0;
+  // Letter bubbles (preschool): every 3 s one fish, never the same one twice running, blows a clear bubble
+  // with a letter of the player's level in it (harfBalonu gives them); a tap pops it and says it.
+  let letterSource = null, letters = [], letterTimer = 1.5, lastBlower = null;
+  const letterLayer = () => find('.ak-letters');
   // The device voice reads the tank's lines aloud for a preschool player (sesVer), without the emoji.
   const voiced = () => speak && activeProfile?.grade === 'Okul öncesi';
   const spoken = html => html.replace(/<[^>]*>/g, '').replace(/[^\p{L}\p{N}\s.,!?’'-]/gu, '').replace(/\s+/g, ' ').trim();
@@ -325,6 +329,7 @@ const akvaryum = (() => {
     // Ornaments and fish of this tank.
     for (const f of fish) f.node.remove();
     for (const bit of food) bit.node.remove();
+    clearLetters();
     fish = []; food = []; crawlers = []; decor = [];
     decorLayer.innerHTML = '';
     const items = inTank(record, a);
@@ -618,6 +623,7 @@ const akvaryum = (() => {
       hunger = .45;
       for (const f of fish) if (!f.meal && !f.hold && f.fed < 4 && Math.random() < .5) seek(f, W * .5);
     }
+    stepLetters(dt);
   }
   function frame(now) {
     frameId = requestAnimationFrame(frame);
@@ -904,6 +910,73 @@ const akvaryum = (() => {
     }
   }
 
+  /* ---------- Letter bubbles (preschool) ---------- */
+  // letterSource() gives { text, label, say() } for the player's level (a letter, a harekeli syllable, a joined
+  // shape, a syllable with a cezm …) or null. A bubble leaves the mouth of a fish, grows, rises swaying and,
+  // left alone, fades at the surface.
+  function stepLetters(dt) {
+    if (!letterSource || !voiced() || !fish.length) return;
+    letterTimer -= dt;
+    if (letterTimer <= 0) {
+      letterTimer = 3;
+      const free = fish.filter(f => !f.hold && !f.entering && f !== lastBlower);
+      const f = free.length ? pickOne(free) : null;
+      const item = f && letters.length < 5 ? letterSource() : null;
+      if (item) { blowLetter(f, item); lastBlower = f; }
+    }
+    for (const b of [...letters]) {
+      if (b.popped) continue;
+      b.age += dt;
+      b.grow = Math.min(1, b.grow + dt * 2.2);
+      b.y -= b.rise * dt * (.35 + .65 * b.grow);
+      b.x = clamp(b.x + Math.sin(b.age * 1.6 + b.seed) * 14 * dt, b.r, W - b.r);
+      if (b.y < H * .07 + b.r * .5) { fadeLetter(b); continue; }
+      b.node.style.transform = 'translate(' + (b.x - b.r).toFixed(1) + 'px,' + (b.y - b.r).toFixed(1) + 'px) scale(' + (.25 + .75 * b.grow).toFixed(3) + ')';
+    }
+  }
+  function blowLetter(f, item) {
+    const r = clamp(34 * k, 28, 46);
+    const node = document.createElement('button');
+    node.type = 'button';
+    node.className = 'ak-letter';
+    node.style.width = node.style.height = r * 2 + 'px';
+    node.innerHTML = '<b lang="ar" dir="rtl">' + item.text + '</b>';
+    node.setAttribute('aria-label', (item.label || '') + ': baloncuğu patlat, dinle');
+    letterLayer().append(node);
+    const b = { node, item, r, x: clamp(mouthX(f), r, W - r), y: mouthY(f) - r * .4, rise: rand(26, 36) * Math.max(.8, k), age: 0, grow: 0, seed: rand(0, 9), popped: false };
+    node.style.transform = 'translate(' + (b.x - r).toFixed(1) + 'px,' + (b.y - r).toFixed(1) + 'px) scale(.25)';
+    node.onclick = event => { event.stopPropagation(); popLetter(b); };
+    letters.push(b);
+    f.chomp = .36; // it puffs the bubble out
+    playCue('pop', { ambient: true, rate: .8, gain: .3 });
+  }
+  function popLetter(b) {
+    if (b.popped) return;
+    b.popped = true;
+    b.node.disabled = true;
+    b.node.classList.add('popped');
+    playCue('pop', { ambient: true });
+    burst(b.x, b.y, 6);
+    b.item.say?.();
+    setTimeout(() => removeLetter(b), 380);
+  }
+  function fadeLetter(b) {
+    b.popped = true;
+    b.node.disabled = true;
+    b.node.classList.add('gone');
+    setTimeout(() => removeLetter(b), 700);
+  }
+  function removeLetter(b) {
+    b.node.remove();
+    letters = letters.filter(other => other !== b);
+  }
+  function clearLetters() {
+    for (const b of letters) b.node.remove();
+    letters = [];
+    letterTimer = 1.5;
+    lastBlower = null;
+  }
+
   /* ---------- The stand: which tank, how full ---------- */
   function drawInfo() {
     const record = mine();
@@ -1006,6 +1079,7 @@ const akvaryum = (() => {
     cancelAnimationFrame(frameId);
     frameId = 0;
     closeNaming();
+    clearLetters();
     // ornaments that arrived now lose their sparkle next time
     for (const d of decor) d.node.classList.remove('arriving');
     refresh();
@@ -1043,5 +1117,7 @@ const akvaryum = (() => {
   };
   // Elif Ba Adası's players cannot read yet: it gives the tank a voice (its device voice) for them.
   const sesVer = fn => { speak = fn; };
-  return { odul, kart, ipucu, open, refresh, available, ozet, sesVer };
+  // ... and the letters its fish blow in bubbles: fn() gives { text, label, say() } or null.
+  const harfBalonu = fn => { letterSource = fn; };
+  return { odul, kart, ipucu, open, refresh, available, ozet, sesVer, harfBalonu };
 })();

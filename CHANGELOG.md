@@ -7,6 +7,12 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.42.0 · 26.11.2026
+
+- **Harf baloncukları (okul öncesi akvaryumu):** Balıklar ara ara saydam bir baloncuk üflüyor; baloncuğun içinde çocuğun o an öğrendiği seviyeden bir harf var. Önce harfler, harekeler öğrenilince harekeli heceler, bitişik yazılışta harekeli bitişik şekiller, cezmde cezimli heceler çıkıyor. Seviye atlayınca öncekiler artık çıkmıyor; yalnız o bölümde öğrenilmiş harfler geliyor.
+- Baloncuğa dokununca patlıyor ve harf ya da hece sesli okunuyor. Dokunulmazsa yukarı çıkıp yüzeyde kayboluyor.
+- Balıklar aynı anda üflemiyor: 3 saniyede bir, her seferinde başka bir balık bir baloncuk çıkarıyor.
+
 ## 0.41.0 · 26.11.2026
 
 Okul öncesi oyuncular da artık büyüklerin **akvaryumunu** kullanıyor.

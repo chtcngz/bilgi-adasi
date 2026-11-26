@@ -206,6 +206,21 @@
   }
   // The children cannot read: the tank's lines are said in the device's Turkish voice.
   akvaryum.sesVer(text => voice.instruct(text));
+  // The fish blow bubbles with what the player is learning now, and only that: letters, then harekeli
+  // syllables, then harekeli joined shapes, then syllables with a cezm, of the letters learned in that
+  // section (the latest section with any). A popped bubble says its letter or syllable.
+  akvaryum.harfBalonu(() => {
+    if (!activeProfile) return null;
+    const record = load(activeProfile.id);
+    const learned = part => glyphs.map((_, i) => i).filter(i => mastered(part, i, record));
+    const level = ['cezm', 'bitisik', 'hareke', 'harf'].find(part => learned(part).length);
+    if (!level) return null;
+    const i = pick(learned(level)), h = pick([0, 1, 2]);
+    if (level === 'harf') return { text: glyphs[i], label: names[i], say: () => voice.letter(i) };
+    if (level === 'hareke') return { text: syllable(i, h), label: syllableName(i, h), say: () => voice.syllable(i, h) };
+    if (level === 'bitisik') return { text: shape(i, pick([1, 2, 3]), h), label: syllableName(i, h), say: () => voice.syllable(i, h) };
+    return { text: cezm(i).text, label: cezmName(i), say: () => voice.cezm(i) };
+  });
   function drawAquariumCard() {
     rewardIslets();
     const tank = akvaryum.ozet(activeProfile.id);

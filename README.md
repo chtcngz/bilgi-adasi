@@ -115,7 +115,11 @@ A tap on a fish lets the child give it a name, written above it from then on; a 
 spread on the water, the flakes scatter and sink, swaying, and the nearest fish come over, bring their mouths to a flake,
 dart the last bit, snap it up (it is sucked into the mouth, the fish gulps and a few bubbles rise), chew a moment and go
 on to the next flake until they have had their fill. For a preschool player the tank's lines are also said aloud in the
-device's voice (`akvaryum.sesVer`, given by Elif Ba), and a 🐢💬 button says what to do there.
+device's voice (`akvaryum.sesVer`, given by Elif Ba), and a 🐢💬 button says what to do there. Its fish also blow letter bubbles
+(`akvaryum.harfBalonu`, given by Elif Ba): every 3 s one fish, never the same twice running, blows a clear bubble with
+something of the player's current level (letters, then harekeli syllables, then harekeli joined shapes, then cezm
+syllables: only the latest section with letters learned, only those letters); a tap pops it and says it, an untouched
+one rises and fades at the surface.
 
 Players who had played before the aquarium came get, once (`gecmis` in their record), the rewards of the tasks
 already done: every island and mixed stage of Çarpım Adası finished, the rounds finished on each stop of a question island (counted
