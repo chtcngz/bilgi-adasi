@@ -7,9 +7,13 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.55.1 · 26.11.2026
+
+- **Kitap sırasıyla duraklar yalnızca İngilizce Koyu’nda:** Din Bilgisi, Fen Bilimleri ve Sosyal Bilgiler adalarının durakları eskisi gibi.
+
 ## 0.55.0 · 26.11.2026
 
-- **Duraklar kitabın sırasıyla:** Her ünitenin durakları artık ders kitabının sayfa sırasını izliyor: 1. durak ünitenin ilk sayfaları, 2. durak biraz ilerisi, son durak ünitenin sonu. Sözlükteki kelimeler, kitapta ilk geçtikleri sayfanın durağında. (Bütün soru adalarında; çocukların ilerlemesi korunur.)
+- **Duraklar kitabın sırasıyla:** Her ünitenin durakları artık ders kitabının sayfa sırasını izliyor: 1. durak ünitenin ilk sayfaları, 2. durak biraz ilerisi, son durak ünitenin sonu. Sözlükteki kelimeler, kitapta ilk geçtikleri sayfanın durağında. (Çocukların ilerlemesi korunur.)
 - **Tur bitince:** Artık Deneme Sınavı’na yönlendirmiyor; “Sonraki durak”, “Önceki durak” ve “Tekrar oyna” çıkıyor.
 - **Oyun penceresi telefonda tam ekran:** Aşağıda kalan, üstü boş duran pencere artık bütün ekranı kaplıyor.
 - **Daha sade soru:** “A big brown bear bakes some bread.” gibi bir cümleyi soran sorularda cümle bir satırda, soru (“Ayı ne yapıyor?”) altında, daha küçük ve başka renkte.

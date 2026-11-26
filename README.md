@@ -73,7 +73,7 @@ app/                         Published site (GitHub Pages root)
 │   │       ├── art.js       Turtle, hearts, speaker and stars shared by the games
 │   │       ├── listening.*  Harf Yağmuru (letters), Hece Balonları (syllables), Şekil Yağmuru (joined shapes), Cezm Balonları; its .rain-* kit is shared
 │   │       ├── bridge.*     Cam Köprü, the mixed game at the end of every cove
-│   ├── din-bilgisi/         Question island: sorular.js + game.js + kapsam.md (+ sira.js, written by tools/kapsam.js)
+│   ├── din-bilgisi/         Question island: sorular.js + game.js + kapsam.md
 │   ├── fen-bilimleri/       Question island: same pattern
 │   ├── ingilizce-2/ -3/ -4/ İngilizce Koyu, one question island per grade (each grade sees only its own); 2nd grade done, 3rd and 4th still empty
 │   └── sosyal-bilgiler/     Question island: same pattern
@@ -101,8 +101,8 @@ sources/                     Raw material (not published)
 - **Load order matters** because the files are plain scripts: `core/js/app.js` → `sounds` → `fx` → islands and core helpers → `core/js/settings.js` (last).
 - **One look for back and close buttons** (`core/css/base.css`): a button that goes back to a place with a name is `.btn-back` (a pill with a chevron badge: *Keşif Limanı*, *Yol*); a button that leaves a game, a round or a map level is `.btn-round` (a round icon button, × by default, ‹ with `.is-back`; it has no text, so it needs an `aria-label`). Islands only place them (float, position); they do not restyle them.
 - **Cache busting:** every `<link>`/`<script>` address in `index.html` ends in `?v=…`. When you change a file, bump its number.
-  `islands/<ada>/sira.js` is rewritten by `node tools/kapsam.js` whenever kapsam.md changes: bump its number too.
-- **Stations in the book's order:** `sira.js` gives every question the first book page that asks it (kapsam.md; the table of
+  `islands/ingilizce-*/sira.js` is rewritten by `node tools/kapsam.js` whenever kapsam.md changes: bump its number too.
+- **Stations in the book's order (İngilizce Koyu only, set by the owner):** `sira.js` gives every question the first book page that asks it (kapsam.md; the table of
   contents does not count, and an English word asked from the glossary goes to the page of its unit that first uses it).
   `kitapSirasi()` (core/js/quiz.js) puts it on the questions, and a unit is cut into stations in that order, so station 1 is
   the unit's first pages. The bank's own order and the ids do not change. After a round the game offers the next station,
