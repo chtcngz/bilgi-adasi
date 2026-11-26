@@ -258,9 +258,13 @@ function startAdmin() {
   }
   // Cloud devices first, most recently played first; this browser only if it is not in the cloud yet.
   let cloud = [], cloudError = '', loading = true;
+  // Documents that development copies sent before 0.44.1 (version "geliştirme"): test runs, each in an empty
+  // browser, so each one a new device with its test player. No child's; hidden unless asked for.
+  const isTest = d => d.surum === 'geliştirme';
+  let showTests = false;
   const thisUid = (() => { try { return JSON.parse(localStorage.getItem('bilgi-adasi-bulut'))?.uid || null; } catch { return null; } })();
   const sources = () => [
-    ...cloud.slice().sort((a, b) => (b.son || 0) - (a.son || 0)).map(d => ({ id: d.uid, cloud: true, mine: d.uid === thisUid,
+    ...cloud.filter(d => showTests || !isTest(d)).sort((a, b) => (b.son || 0) - (a.son || 0)).map(d => ({ id: d.uid, cloud: true, test: isTest(d), mine: d.uid === thisUid,
       label: d.cihaz || 'Cihaz', last: d.son, version: d.surum, played: d.oyuncular, records: d.kayitlar })),
     // This browser, unless it is already in the cloud or has no players.
     ...(cloud.some(d => d.uid === thisUid) || !(parse(localRecords()[PROFILES]) || []).length ? [] :
@@ -521,7 +525,7 @@ function startAdmin() {
     const block = el('section', 'adm-source');
     const head = el('div', 'adm-source-head');
     const title = el('div');
-    title.append(el('h2', '', source.cloud ? '☁️ ' + source.label + (source.mine ? ' (bu cihaz)' : '') :
+    title.append(el('h2', '', source.cloud ? (source.test ? '🧪 ' : '☁️ ') + source.label + (source.test ? ' (test kopyası)' : '') + (source.mine ? ' (bu cihaz)' : '') :
       source.local ? '📱 Bu cihaz (henüz buluta gönderilmedi)' : '📦 Elle eklenen yedek: ' + source.label));
     const meta = [];
     if (source.last) meta.push('son kayıt ' + dateText(source.last) + ' (' + ago(source.last) + ')');
@@ -570,7 +574,7 @@ function startAdmin() {
           card.scrollIntoView({ behavior: 'smooth', block: 'start' });
         };
         rows.push({ last: last || 0, cells: [go, p.grade || '?',
-          source.cloud ? source.label : source.local ? 'Bu cihaz' : 'Yedek', last ? dateText(last) + ' (' + ago(last) + ')' : '–'] });
+          source.cloud ? source.label + (source.test ? ' (test)' : '') : source.local ? 'Bu cihaz' : 'Yedek', last ? dateText(last) + ' (' + ago(last) + ')' : '–'] });
       }
     }
     rows.sort((a, b) => b.last - a.last);
@@ -582,8 +586,15 @@ function startAdmin() {
   function draw() {
     const all = sources();
     const status = el('p', cloudError ? 'adm-note bad' : 'adm-small');
+    const tests = cloud.filter(isTest).length;
     status.textContent = loading ? '☁️ Buluttan okunuyor…' : cloudError ? '✗ ' + cloudError :
-      '☁️ Bulutta ' + cloud.length + ' cihaz · ' + dateText(Date.now()) + ' itibarıyla';
+      '☁️ Bulutta ' + (cloud.length - tests) + ' cihaz · ' + dateText(Date.now()) + ' itibarıyla';
+    if (!loading && !cloudError && tests) {
+      const toggle = el('button', 'adm-link', showTests ? 'gizle' : 'göster');
+      toggle.type = 'button';
+      toggle.onclick = () => { showTests = !showTests; draw(); };
+      status.append(' · 🧪 ' + tests + ' test kopyası ' + (showTests ? 'da listede: ' : 'gizlendi: '), toggle);
+    }
     $('adm-sources').replaceChildren(status, overview(all), ...all.map(sourceBlock));
   }
 

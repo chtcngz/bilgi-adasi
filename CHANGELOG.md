@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.44.1 · 26.11.2026
+
+- **Yönetici sayfası: test kopyaları ayrıldı.** “Bütün oyuncular” listesinde art arda görünen *Ali* ve *admin* (Okul öncesi, Linux · Chrome) satırları çocuk değildi: oyun geliştirilirken deneme amaçlı açılan otomatik tarayıcılardan geliyordu. Bu tarayıcılar her seferinde boş açıldığı için her deneme buluta yeni bir cihaz olarak düşüyordu. Artık geliştirme kopyaları ve otomatik (test) tarayıcılar buluta hiçbir şey göndermiyor.
+- Bulutta kalmış eski test kopyaları yönetici sayfasında gizleniyor; durum satırındaki **göster** bağlantısıyla “🧪 test kopyası” olarak görülebiliyor. Bulutta kaç cihaz olduğu sayılırken test kopyaları sayılmıyor.
+
 ## 0.44.0 · 26.11.2026
 
 - **Çarpım Koyu’nun adalarına isim verildi:** Adalar, çocuğun ne kadar hızlı olması gerektiğine göre adlandırıldı: 🐢 Kaplumbağa Adası (15 saniye), 🐇 Tavşan Adası (10 saniye), 🦌 Ceylan Adası (5 saniye), 🐆 Çita Adası (3 saniye), 🌀 Girdap Adası (karma, 5 saniye) ve ⚡ Şimşek Adası (karma, 3 saniye). Haritada adanın hayvanı ve saniyesi, altında da kaç tablonun bittiği görünüyor.
