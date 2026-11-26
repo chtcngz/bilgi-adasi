@@ -2,7 +2,7 @@
 // clear background; the house and animal cards keep their own coloured card). They join kelimeResimleri as [[y-<name>]],
 // drawn in the same 64×64 box. A picture no word uses yet (meal-bowl, girl-smiling, hug, snowman, thumbs-up, the -2s) can still be chosen on kontrol.html.
 (() => {
-  const V = 2;   // bump when the pictures change
+  const V = 3;   // bump when the pictures change
   const names = [
     // food, first sheet
     'apples', 'bananas', 'beans', 'bread', 'breakfast', 'broccoli', 'carrots', 'cauliflower', 'cherries', 'chicken', 'coffee',
@@ -30,7 +30,11 @@
     'arm', 'birthday', 'blond', 'blonde', 'body', 'break-time', 'hand', 'hot', 'hat', 'jacket', 'head', 'leg',
     'window', 'sun', 'wall', 'well-done', 'whiteboard', 'pencils',
     // the classroom and actions (night, picture and paint wait for a word)
-    'close', 'colour', 'come', 'computer', 'crayon', 'night', 'desk', 'door', 'draw', 'glue', 'green', 'help', 'listen', 'look', 'picture', 'paint'
+    'close', 'colour', 'come', 'computer', 'crayon', 'night', 'desk', 'door', 'draw', 'glue', 'green', 'help', 'listen', 'look', 'picture', 'paint',
+    // the classroom (show was drawn again; the others after quiet-2 wait for a word)
+    'quiet', 'raise', 'ready', 'red', 'repeat', 'rubber', 'say', 'scissors', 'sharpener', 'sit-down', 'smart-board', 'table', 'time',
+    'quiet-2', 'raise-2', 'apple-red', 'girl-ball', 'girl-talking', 'sit-at-desk', 'smart-board-2', 'clock', 'write', 'rubber-sharpener',
+    'scissors-2', 'sharpener-2', 'time-2'
   ];
   const more = {};
   for (const name of names) {

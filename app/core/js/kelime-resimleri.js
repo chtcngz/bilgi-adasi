@@ -46,15 +46,6 @@ const kelimeResimleri = (() => {
 
   const R = {
     /* school */
-    table: '<rect x="5" y="22" width="54" height="7" rx="2" fill="#e8a24a"' + o() + '/><rect x="9" y="29" width="5" height="28" rx="1.5" fill="#c98a4a"' + o(1.5) + '/>' +
-      '<rect x="50" y="29" width="5" height="28" rx="1.5" fill="#c98a4a"' + o(1.5) + '/><path d="M14 33h36"' + o(1.5) + '/>' +
-      '<path d="M27 22c-2-6 0-10 5-10s7 4 5 10z" fill="#74c0fc"' + o(1.5) + '/><circle cx="29" cy="9" r="3.5" fill="#ff6b6b"' + o(1.2) + '/><circle cx="35" cy="8" r="3.5" fill="#ffd43b"' + o(1.2) + '/>',
-    sharpener: '<rect x="30" y="18" width="28" height="30" rx="5" fill="#e5484d"' + o() + '/><rect x="34" y="22" width="20" height="6" rx="2" fill="#ffa8a8"/>' +
-      '<circle cx="38" cy="36" r="6" fill="#343a40"' + o(1.5) + '/><path d="M4 30l22-6 10 12-22 6z" fill="#fcc419"' + o(1.6) + '/><path d="M26 24l10 12 2-1-9-12z" fill="#f4d9b0"' + o(1.2) + '/>' +
-      '<path d="M14 42c-3 4 1 8 4 11M20 44c-1 3 2 5 3 8" fill="none" stroke="#c98a4a" stroke-width="2" stroke-linecap="round"/>',
-    rubber: '<g transform="rotate(-20 32 34)"><rect x="8" y="22" width="48" height="22" rx="5" fill="#ff8fab"' + o() + '/><rect x="32" y="22" width="24" height="22" rx="0" fill="#4dabf7"/>' +
-      '<rect x="8" y="22" width="48" height="22" rx="5" fill="none"' + o() + '/><path d="M32 22v22"' + o(1.5) + '/></g>' +
-      '<circle cx="12" cy="56" r="2" fill="#ffc9d5"' + o(1) + '/><circle cx="20" cy="58" r="1.6" fill="#ffc9d5"' + o(1) + '/><circle cx="6" cy="51" r="1.4" fill="#ffc9d5"' + o(1) + '/>',
     // a box of chalk sticks, one lying in front with its dust
     chalk: '<path d="M10 22h34v26H10z" fill="#4dabf7"' + o() + '/><path d="M10 22l6-8h34l-6 8z" fill="#74c0fc"' + o() + '/><path d="M44 22l6-8v26l-6 8z" fill="#339af0"' + o() + '/>' +
       '<rect x="15" y="8" width="6" height="16" rx="3" fill="#fff"' + o(1.5) + '/><rect x="24" y="6" width="6" height="18" rx="3" fill="#ffe3e3"' + o(1.5) + '/><rect x="33" y="9" width="6" height="15" rx="3" fill="#fff9db"' + o(1.5) + '/>' +
@@ -64,10 +55,6 @@ const kelimeResimleri = (() => {
       '<path d="M12 20h16M12 28h24M12 36h12" stroke="#d3f9d8" stroke-width="2.4" stroke-linecap="round"/><path d="M16 49l-4 12M48 49l4 12"' + o(3) + '/>',
     blackboard: '<rect x="4" y="8" width="56" height="38" rx="3" fill="#343a40"' + o() + '/><rect x="2" y="44" width="60" height="5" rx="2" fill="#c98a4a"' + o(1.5) + '/>' +
       '<path d="M12 22q4-8 8 0t8 0M34 20h14M34 30h10M12 34h14" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M16 49l-4 12M48 49l4 12"' + o(3) + '/>',
-    'smart-board': '<rect x="4" y="6" width="56" height="38" rx="3" fill="#212529"' + o() + '/><rect x="8" y="10" width="48" height="30" rx="1" fill="#74c0fc"/>' +
-      '<path d="M8 32l12-10 10 8 8-6 18 12v4H8z" fill="#51cf66"/><circle cx="46" cy="18" r="4" fill="#ffd43b"/><path d="M30 44v8M22 58h20"' + o(3) + '/>' +
-      '<path d="M40 30l14 14" stroke="' + INK + '" stroke-width="5" stroke-linecap="round"/><path d="M40 30l14 14" stroke="#e5484d" stroke-width="2.5" stroke-linecap="round"/>' +
-      '<circle cx="12" cy="40" r="1.4" fill="#fff"/>',
     bookcase: '<rect x="8" y="4" width="48" height="56" rx="2" fill="#a9744f"' + o() + '/><rect x="12" y="8" width="40" height="14" fill="#5c3d2e"/><rect x="12" y="26" width="40" height="14" fill="#5c3d2e"/><rect x="12" y="44" width="40" height="12" fill="#5c3d2e"/>' +
       '<rect x="14" y="10" width="5" height="12" fill="#e5484d"/><rect x="20" y="9" width="4" height="13" fill="#4dabf7"/><rect x="25" y="11" width="6" height="11" fill="#ffd43b"/><rect x="33" y="10" width="4" height="12" fill="#51cf66"/><path d="M39 22l5-12 4 1.5-5 10.5z" fill="#9775fa"/>' +
       '<rect x="14" y="28" width="6" height="12" fill="#ff922b"/><rect x="21" y="29" width="4" height="11" fill="#e599f7"/><rect x="27" y="28" width="5" height="12" fill="#22b8cf"/><rect x="34" y="30" width="6" height="10" fill="#e5484d"/><rect x="42" y="28" width="5" height="12" fill="#fab005"/>' +
@@ -115,10 +102,6 @@ const kelimeResimleri = (() => {
       '<path d="M26 42L2 38M26 45L3 48M26 48L6 57M38 42l24-4M38 45l23 3M38 48l20 9" stroke="#ff922b" stroke-width="2.3" stroke-linecap="round"/>',
     /* people: the one meant in colour */
     son: person(20, 50, 'man', false) + person(44, 32, 'boy', true, '#40c057'),
-    'sit-down': '<path d="M34 34h20v4H34zM50 10v28M36 38v20M52 38v20" fill="#e8a24a"' + o() + '/><rect x="48" y="8" width="5" height="30" rx="2" fill="#e8a24a"' + o(1.6) + '/>' +
-      '<circle cx="40" cy="14" r="6" fill="' + SKIN + '"' + o(1.5) + '/><path d="M34 13q6-9 12 0q-6-4-12 0z" fill="#4a3426"' + o(1.2) + '/>' +
-      '<rect x="34" y="20" width="12" height="14" rx="4" fill="#40c057"' + o(1.5) + '/><path d="M34 34H24v18"' + o(6) + ' fill="none"/><path d="M34 34H24v18" stroke="#3b5bdb" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
-      arrow('M12 8v26M6 28l6 7 6-7', '#e8590c'),
     /* verbs with a door */
     open: '<rect x="14" y="6" width="34" height="52" fill="#343a40"' + o() + '/><path d="M48 6l12 6v40l-12 6z" fill="#c98a4a"' + o() + '/><circle cx="53" cy="33" r="1.6" fill="#ffd43b"/>' +
       '<rect x="14" y="6" width="34" height="52" fill="none"' + o() + '/><path d="M22 58h20" stroke="#ffe066" stroke-width="3" stroke-linecap="round"/>' + arrow('M20 32h18M33 26l6 6-6 6', '#40c057'),
