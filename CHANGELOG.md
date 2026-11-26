@@ -7,6 +7,16 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.56.0 · 26.11.2026
+
+İngilizce Koyu:
+
+- **6 ada × 4 hafta:** Kitabın her teması bir ada; her adada kitabın sırasıyla ilerleyen 4 bölüm var: Hafta 1, 2, 3, 4. Bir haftanın turu bitmeden sonraki hafta kilitli kalıyor. Daha önce soruları öğrenilmiş haftalar açık sayılıyor.
+- **Her sorunun üstünde bir resim:** Diyalog soruları artık bir sahne: solda soran çocuk ve sorusu (“Is this a library?”), ortada sorulan yerin ya da şeyin büyük resmi, sağda cevap veren çocuk ve ✅/❌ ile boş bırakılmış cevap balonu (“Yes, ……”). Kelime sorularında ortada büyük bir resim, kelime kartı ya da 🎧 duruyor.
+- **Soru cümleleri sadeleşti:** “… İngilizcede hangisi?” gibi kalıplar yerine “Resme bak: … İngilizce nasıl söylenir?”, “Dinle ve doğru anlamı seç.”, “Evet diyerek cevap ver.” ve durum cümleleri (“Arkadaşını görünce nasıl merhaba dersin?”, “Birine yanlışlıkla çarptığında ne dersin?”).
+- **Tur bitince:** “Sonraki bölüm”, “Tekrar oyna” ve “Harita” düğmeleri.
+- **Resim kontrol sayfası** (`kontrol.html`, yalnızca yönetici için): her kelimenin resmi elle seçilip değişiklikler tek düğmeyle kopyalanabiliyor.
+
 ## 0.55.2 · 26.11.2026
 
 - **Kitap sırasıyla duraklar yalnızca İngilizce Koyu’nda:** Din Bilgisi, Fen Bilimleri ve Sosyal Bilgiler adalarının durakları eskisi gibi.

@@ -48,7 +48,8 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
 
   /* ---------- Progress ---------- */
   const storeKey = id => kayit + id;
-  const blank = () => ({ yildiz: {}, deneme: { en: null, son: null, sayi: 0 }, soru: {}, oyun: {} });
+  // bolum: İngilizce Koyu's weeks finished in each unit ({ okul: 2 } = Hafta 1 and 2 are done, Hafta 3 is open)
+  const blank = () => ({ yildiz: {}, deneme: { en: null, son: null, sayi: 0 }, soru: {}, oyun: {}, bolum: {} });
   function load(id) {
     if (records.has(id)) return records.get(id);
     const saved = readRecord(storeKey(id));
@@ -62,6 +63,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
       // Oyun Parkı: the best round of each game ({ dinle: 7, … })
       for (const [game, best] of Object.entries(saved.oyun || {})) if (Number.isInteger(best) && best >= 0) record.oyun[game] = best;
       for (const [key, row] of Object.entries(saved.soru || {})) if (byId.has(key) && row) record.soru[key] = row;
+      for (const stop of stops) { const n = saved.bolum?.[stop.id]; if (Number.isInteger(n) && n > 0) record.bolum[stop.id] = n; }
     }
     records.set(id, record);
     return record;
@@ -191,14 +193,24 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
     if (!inOrder.has(stop)) inOrder.set(stop, stop.sorular.map((q, n) => [q, n]).sort((a, b) => (a[0].sayfa ?? 0) - (b[0].sayfa ?? 0) || a[1] - b[1]).map(x => x[0]));
     return inOrder.get(stop);
   };
+  // İngilizce Koyu (a bay played as games): every unit is four weeks, Hafta 1-4, opened one after another
+  const haftali = !!oyunlar;
+  // the weeks finished: those whose round was finished, and at least the first weeks already learned before weeks came
+  const doneParts = stop => {
+    let learnedWeeks = 0;
+    for (const part of partsOf(stop)) { if (partLearned(part) < part.length) break; learnedWeeks++; }
+    return Math.max(progress.bolum?.[stop.id] || 0, learnedWeeks);
+  };
+  const partOpen = (k, p) => !haftali || devAll() || p <= doneParts(stops[k]);
+  const partName = p => haftali ? 'Hafta ' + (p + 1) : (p + 1) + '. durak';
   const partsOf = stop => {
-    const list = bookOrder(stop), n = list.length, count = Math.max(3, Math.min(6, Math.round(n / 20)));
+    const list = bookOrder(stop), n = list.length, count = haftali ? 4 : Math.max(3, Math.min(6, Math.round(n / 20)));
     return Array.from({ length: count }, (_, p) => list.slice(Math.floor(p * n / count), Math.floor((p + 1) * n / count)));
   };
   const partLearned = part => part.filter(q => learned(q)).length;
   const firstPart = stop => Math.max(0, partsOf(stop).findIndex(part => partLearned(part) < part.length));
   function nextStep() {
-    const at = k => ({ kind: 'durak', k, p: firstPart(stops[k]) });
+    const at = k => ({ kind: 'durak', k, p: haftali ? Math.min(doneParts(stops[k]), partsOf(stops[k]).length - 1) : firstPart(stops[k]) });
     const fresh = stops.findIndex(stop => !stop.ekstra && !starsOf(stop));
     if (fresh >= 0) return { ...at(fresh), label: stops[fresh].simge + ' ' + stops[fresh].ad };
     if (!progress.deneme.sayi) return { kind: 'deneme', label: '🏆 Deneme Sınavı' };
@@ -243,11 +255,15 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
         { simge: '🎈', ad: 'Balon Patlat', etiket: 'Yanlış Avı: Balon Patlat', not: huntCount() + ' yanlış', durum: 'open' }];
       if (k === EXAM_ISLE) return [{ simge: '🏆', ad: 'Deneme', etiket: 'Deneme Sınavı', not: progress.deneme.en === null ? EXAM + ' soru' : 'En iyi ' + progress.deneme.en + ' / ' + EXAM,
         durum: progress.deneme.sayi ? 'done' : 'now' }];
-      const now = firstPart(stops[k]);
-      return partsOf(stops[k]).map((part, p) => {
+      const parts = partsOf(stops[k]);
+      const now = haftali ? Math.min(doneParts(stops[k]), parts.length - 1) : firstPart(stops[k]);
+      return parts.map((part, p) => {
         const n = partLearned(part);
-        return { simge: String(p + 1), ad: (p + 1) + '. durak', etiket: stops[k].ad + ', ' + (p + 1) + '. durak', not: n + ' / ' + part.length,
-          durum: n === part.length ? 'done' : p === now ? 'now' : 'open' };
+        // a week is done once its round has been finished; the next week opens then
+        const done = haftali ? p < doneParts(stops[k]) : n === part.length;
+        return { simge: String(p + 1), ad: partName(p), etiket: stops[k].ad + ', ' + partName(p), not: n + ' / ' + part.length,
+          durum: !partOpen(k, p) ? 'locked' : done ? 'done' : p === now ? 'now' : 'open',
+          kilit: 'Önce ' + partName(p - 1) + ' bitmeli' };
       });
     },
     ac: (k, p) => k === HUNT_ISLE ? (p === 1 ? startBalloons() : startHunt()) : k === EXAM_ISLE ? startExam() : startStop(k, p),
@@ -320,7 +336,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
   }
   // A round on station p of stop k (the whole stop without p).
   function startStop(k, p) {
-    if (!stopOpen(k)) return;
+    if (!stopOpen(k) || (Number.isInteger(p) && !partOpen(k, p))) return;
     const part = Number.isInteger(p) ? partsOf(stops[k])[p] : stops[k].sorular;
     if (oyunlar) return startGame('durak', stops[k], pick(part, ROUND), p);
     begin('durak', stops[k], pick(part, ROUND));
@@ -334,7 +350,13 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
   }
   // İngilizce Koyu: the round's questions played as games (core/js/ingilizce-oyunlari.js). Every game answers its own
   // questions, so learning, stars, Tekrar Kutusu and the rewards work as in a question round; finish() ends it.
-  const wordQuestion = q => !!q.k && (q.d === 1 || / İngilizcede hangisi\?$/.test(q.s) || (/ ne demek\?$/.test(q.s) && q.s.startsWith('“' + q.k[0] + '”')));
+  // a question about the word itself: heard, its meaning asked, or the word to choose among the options
+  const wordQuestion = q => !!q.k && (q.d === 1 || q.s === 'Dinle ve doğru anlamı seç: “' + q.k[0] + '”' || q.a.some(a => bare(a) === bare(q.k[0])));
+  // the picture of the island's word named in a sentence ("Is it a classroom?" → 🟩🪑), the longest name first
+  const resimBul = text => {
+    const t = ' ' + bare(text) + ' ';
+    return pictureWords().filter(w => t.includes(' ' + bare(w.en) + ' ')).sort((a, b) => b.en.length - a.en.length)[0]?.emo || '';
+  };
   const asItem = q => ({ q, en: q.k[0], tr: q.k[1], emo: q.k[2] || '', word: wordQuestion(q) });
   function startGame(kind, stop, questions, part) {
     questions = questions.filter(q => q.k);
@@ -346,7 +368,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
     playCue('start');
     const mine = run;
     run.cancel = ingilizceOyunlari.tur({
-      stage: byKey('stage'), items: questions.map(asItem), havuz: pictureWords(), ayar: oyunlar, maskot: activeProfile?.icon, rich, stem,
+      stage: byKey('stage'), items: questions.map(asItem), havuz: pictureWords(), ayar: oyunlar, maskot: activeProfile?.icon, rich, stem, resimBul,
       sonuc: (item, ok) => {
         if (run !== mine) return;
         note(item.q, ok);
@@ -382,15 +404,19 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
     const total = run.items.length;
     const stage = byKey('stage');
     dialog.dataset.mood = '';
+    // İngilizce Koyu: a dialogue scene, the word's picture or card above the question (ingilizceOyunlari.sahne)
+    const sc = oyunlar ? ingilizceOyunlari.sahne(q, rich, resimBul) : null;
+    // a dialogue is heard only up to its question: the answer is what the child chooses
+    const heard = q.k ? (ingilizceSes.diyalog(q.k[0])?.[0] || q.k[0]) : '';
     stage.innerHTML = topBar() + dots() + '<p class="soru-step">Soru ' + (run.turn + 1) + ' / ' + total +
       (run.kind === 'deneme' ? '' : ' · <span>' + (run.kind === 'tekrar' ? q.stop.simge + ' ' + q.stop.ad : q.stop.konu) + '</span>') +
       (run.streak >= 3 ? '<span class="soru-streak" title="Üst üste doğru">🔥 ' + run.streak + '</span>' : '') + '</p>' +
-      (q.m ? '<div class="soru-passage">' + rich(q.m) + '</div>' : '') +
-      '<h2 id="' + kod + '-prompt" class="soru-prompt" tabindex="-1">' + stem(q.s) + (sayFirst(q) && !q.d ? ' ' + sayButton(q) : '') + '</h2>' +
+      (q.m ? '<div class="soru-passage">' + rich(q.m) + '</div>' : '') + (sc ? sc.gorsel : '') +
+      '<h2 id="' + kod + '-prompt" class="soru-prompt" tabindex="-1">' + (sc ? sc.metin : stem(q.s)) + (sayFirst(q) && !q.d ? ' ' + sayButton(q) : '') + '</h2>' +
       // a listening question: the word is only heard, and written only when the device has no English voice
       (sayFirst(q) && q.d ? '<div class="soru-listen">' + sayButton(q, true) + (canSpeak(q.k[0]) ? '' : '<span class="soru-heard">“' + escape(q.k[0]) + '”</span>') + '</div>' : '');
-    if (q.k) bindSay(stage, q.k[0]);
-    if (sayFirst(q)) setTimeout(() => { if (run && run.items[run.turn] === item && item.answer === null) say(q.k[0]); }, 350);
+    if (q.k) bindSay(stage, heard);
+    if (sayFirst(q)) setTimeout(() => { if (run && run.items[run.turn] === item && item.answer === null) say(heard); }, 350);
     const grid = el('div', 'soru-options');
     grid.setAttribute('role', 'group');
     grid.setAttribute('aria-labelledby', kod + '-prompt');
@@ -616,6 +642,8 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
     const before = starsOf(stop);
     const firstTime = before === 0;
     if (stars > before) progress.yildiz[stop.id] = stars;
+    // İngilizce Koyu: a finished round finishes its week and opens the next one
+    if (haftali && Number.isInteger(part) && doneParts(stop) < part + 1) (progress.bolum ||= {})[stop.id] = part + 1;
     save();
     const all = learnedAll() === byId.size;
     // A finished round brings a reward to the tank while the stop still has questions to learn; learning
@@ -638,12 +666,10 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
     playCue(all ? 'victory' : 'island');
     fx.confetti(dialog, { count: stars === 3 ? 180 : 110 });
     fx.burst(byKey('stage').querySelector('.soru-won'), { count: 12, spread: 100 });
-    // after a round: the next station of the book, the one before it, or this one again (never straight to the exam)
-    const later = nearPart(k, part, 1), earlier = nearPart(k, part, -1);
-    buttons(...(later ? [['Sonraki: ' + later.label + ' ›', () => startStop(later.k, later.p)]] : []),
-      ['↻ Tekrar oyna', () => startStop(k, part), !!later],
-      ...(earlier ? [['‹ Önceki: ' + earlier.label, () => startStop(earlier.k, earlier.p), true]] : []),
-      ['Haritaya dön', closeGame, true]);
+    // after a round: this one again, the map, or the next part of the book (never straight to the exam)
+    const later = nearPart(k, part, 1);
+    buttons(...(later ? [['Sonraki ' + (haftali ? 'bölüm' : 'durak') + ': ' + later.label + ' ›', () => startStop(later.k, later.p)]] : []),
+      ['↻ Tekrar oyna', () => startStop(k, part), !!later], ['🗺️ Harita', closeGame, true]);
   }
   // The station `step` away from station p of stop k, through the units in the book's order (an extra stop only
   // when it is open); null at either end.
@@ -656,7 +682,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
       if (!stopOpen(j)) continue;
       q = step > 0 ? 0 : count(j) - 1;
     }
-    return { k: j, p: q, label: stops[j].simge + ' ' + stops[j].ad + ' · ' + (q + 1) + '. durak' };
+    return { k: j, p: q, label: stops[j].simge + ' ' + stops[j].ad + ' · ' + partName(q) };
   }
 
   function finishExam() {

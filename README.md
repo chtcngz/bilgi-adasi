@@ -77,6 +77,7 @@ app/                         Published site (GitHub Pages root)
 │   ├── fen-bilimleri/       Question island: same pattern
 │   ├── ingilizce-2/ -3/ -4/ İngilizce Koyu, one question island per grade (each grade sees only its own); 2nd grade done, 3rd and 4th still empty
 │   └── sosyal-bilgiler/     Question island: same pattern
+├── kontrol.html             Resim kontrolü: the owner picks İngilizce Koyu's pictures by hand and copies the choices (not linked)
 ├── admin/                   Yönetici sayfası: every player of every device, read from the cloud copy; signs in with
 │                            the admin's Google account (automatically when the browser is already signed in to it)
 │                            or Firebase e-mail and password. Nothing links to it; open …/admin/.
@@ -102,6 +103,14 @@ sources/                     Raw material (not published)
 - **One look for back and close buttons** (`core/css/base.css`): a button that goes back to a place with a name is `.btn-back` (a pill with a chevron badge: *Keşif Limanı*, *Yol*); a button that leaves a game, a round or a map level is `.btn-round` (a round icon button, × by default, ‹ with `.is-back`; it has no text, so it needs an `aria-label`). Islands only place them (float, position); they do not restyle them.
 - **Cache busting:** every `<link>`/`<script>` address in `index.html` ends in `?v=…`. When you change a file, bump its number.
   `islands/ingilizce-*/sira.js` is rewritten by `node tools/kapsam.js` whenever kapsam.md changes: bump its number too.
+- **İngilizce Koyu: six islands × four weeks.** Each theme is an island and each island four stations, *Hafta 1-4*, in the
+  book's order; a week opens when the round of the one before has been finished (`progress.bolum`, or when every question
+  of the weeks before is learned). After a round: *Sonraki bölüm*, *Tekrar oyna*, *Harita*.
+- **İngilizce Koyu: a picture above every question** (`ingilizceOyunlari.sahne`, used by Bilgi Kartı and the question
+  rounds): a dialogue to answer is a scene (the asking child and the question, the thing in the middle, the answering
+  child with ✅/❌ and the answer blank), a dialogue to understand shows both lines, a word to listen to is a big card or 🎧,
+  a word to say is its picture, big. The stems say what to do ("Dinle ve doğru anlamı seç: “desk”", "Evet diyerek cevap
+  ver: “Is this a library?”", "Arkadaşını görünce nasıl “merhaba” dersin?").
 - **Stations in the book's order (İngilizce Koyu only, set by the owner):** `sira.js` gives every question the first book page that asks it (kapsam.md; the table of
   contents does not count, and an English word asked from the glossary goes to the page of its unit that first uses it).
   `kitapSirasi()` (core/js/quiz.js) puts it on the questions, and a unit is cut into stations in that order, so station 1 is

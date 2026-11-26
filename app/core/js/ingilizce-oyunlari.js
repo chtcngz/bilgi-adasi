@@ -898,7 +898,9 @@ const ingilizceOyunlari = (() => {
       const q = item.q;
       x.game.innerHTML = '';
       const card = el('div', 'og-card');
-      card.innerHTML = (q.m ? '<div class="soru-passage">' + x.c.rich(q.m) + '</div>' : '') + '<h3 class="og-q">' + (x.c.stem || x.c.rich)(q.s) + '</h3>';
+      const sc = sahne(q, x.c.rich, x.c.resimBul);
+      card.innerHTML = (q.m ? '<div class="soru-passage">' + x.c.rich(q.m) + '</div>' : '') + (sc ? sc.gorsel : '') +
+        '<h3 class="og-q">' + (sc ? sc.metin : (x.c.stem || x.c.rich)(q.s)) + '</h3>';
       // a dialogue asks only its question: the answer is what the child chooses, said afterwards in the answer voice
       const d = ingilizceSes.diyalog(item.en), bare = t => t.replace(/[^a-z]/gi, '').toLowerCase();
       const asked = d ? d[0] : item.en;
@@ -964,7 +966,39 @@ const ingilizceOyunlari = (() => {
     for (const [colour] of RENKLER) out.add(colour);
     return [...out];
   }
-  return { tur, balonTuru: (c) => turBalon(c), metinler, metinlerB, resimli, SOYUT };
+  /* ---------- the picture above a question (Bilgi Kartı and the question rounds) ----------
+     sahne(q, rich, resimBul) gives { gorsel, metin } for a question of İngilizce Koyu, or null:
+       a dialogue to answer ("Evet diyerek cevap ver: “Is this a library?”"): the asking child and the question on the
+         left, what it is about in the middle, the answering child on the right with ✅/❌ and the answer to choose blank;
+       a dialogue to understand (“Who is he?” “He’s my brother.” O kim?): both children and both lines, no picture
+         (it would give the answer);
+       a word to listen to ("Dinle ve doğru anlamı seç: “desk”"): the word on a big card; "🔊 Dinle …": a big 🎧;
+       a word to say ("🏛️📚 Resme bak: …"): the picture, big, in the middle.
+     resimBul(text) gives the picture of the island's word named in a text ("Is it a classroom?" → 🟩🪑). */
+  const isEnglish = t => !/[çğıöşüÇĞİÖŞÜ]/.test(t) && /[a-z]/i.test(t);
+  const sign = /❓|👎|✖️|✔️/gu;
+  const big = emo => '<div class="sahne-resim">' + pic(emo) + '</div>';
+  const kisi = (yuz, balon, cls = '') => '<div class="sahne-kisi"><span class="sahne-yuz" aria-hidden="true">' + yuz + '</span><span class="sahne-balon' + cls + '" lang="en">' + balon + '</span></div>';
+  function sahne(q, rich, resimBul = () => '') {
+    const s = q.s, kpic = (q.k?.[2] || '').replace(sign, '').trim();
+    let m;
+    if ((m = s.match(/^(Evet diyerek cevap ver|Hayır diyerek cevap ver|Soruya doğru cevabı ver): “([^”]+)”$/)) && q.a.every(isEnglish)) {
+      const d = q.k && ingilizceSes.diyalog(q.k[0]);
+      const resim = (d && kpic) || resimBul(m[2]) || kpic;
+      const cevap = /^Yes,/.test(q.a[0]) ? '✅ Yes, ……' : /^No,/.test(q.a[0]) ? '❌ No, ……' : '……';
+      return { gorsel: '<div class="sahne">' + kisi('👧', esc(m[2])) + (resim ? big(resim) : '<div></div>') + kisi('👦', cevap, ' cevap') + '</div>',
+        metin: esc(m[1]) + '.' };
+    }
+    if ((m = s.match(/^“([^”]+\?)” “([^”]+)” (.+)$/)) && isEnglish(m[1]) && isEnglish(m[2]))
+      return { gorsel: '<div class="sahne iki">' + kisi('👧', esc(m[1])) + '<div></div>' + kisi('👦', esc(m[2])) + '</div>', metin: rich(m[3]) };
+    if ((m = s.match(/^Dinle ve doğru anlamı seç: “([^”]+)”$/)))
+      return { gorsel: '<div class="sahne-kart" lang="en"><span aria-hidden="true">🔊</span>' + esc(m[1]) + '</div>', metin: 'Dinle ve doğru anlamı seç.' };
+    if (/^🔊 Dinle ve doğru olanı seç\.$/.test(s)) return { gorsel: '<div class="sahne-resim dinle" aria-hidden="true">🎧</div>', metin: 'Dinle ve doğru olanı seç.' };
+    if ((m = s.match(/^(\S+) (Resme bak: .+|.+\?)$/)) && /\p{Extended_Pictographic}|\[\[/u.test(m[1])) return { gorsel: big(m[1]), metin: rich(m[2]) };
+    return null;
+  }
+
+  return { tur, balonTuru: (c) => turBalon(c), metinler, metinlerB, resimli, SOYUT, sahne };
 
   // Balon Patlat for Yanlış Avı: one game of balloons over the given words (with written meanings).
   function turBalon(c) {

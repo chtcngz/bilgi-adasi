@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Resim Kontrolü · İngilizce Koyu</title>
+<!-- The owner's page for choosing the pictures of İngilizce Koyu's words by hand. Not linked from the game.
+     Every word (k of a question in islands/ingilizce-2/sorular.js) with its meaning, its picture and alternatives; the
+     choices stay in this browser (localStorage) and "Değişiklikleri Kopyala" copies them as text to paste to Claude. -->
+<style>
+  :root { --bg: #fffdf6; --ink: #173f40; --soft: #5d7471; --line: #e6dccb; --pick: #2f9b7f; --card: #fff; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  header { position: sticky; top: 0; z-index: 5; padding: 12px 16px; background: #fff8e6; border-bottom: 2px solid var(--line); }
+  h1 { margin: 0 0 8px; font-size: 20px; }
+  .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .bar input[type=search] { flex: 1 1 180px; min-width: 0; padding: 9px 12px; border: 2px solid var(--line); border-radius: 12px; font-size: 16px; }
+  .bar label { font-size: 14px; color: var(--soft); white-space: nowrap; }
+  main { padding: 8px 16px 140px; max-width: 900px; margin: 0 auto; }
+  h2 { margin: 22px 0 8px; font-size: 18px; }
+  .row { display: grid; grid-template-columns: 1fr; gap: 6px; padding: 10px 12px; margin: 8px 0; border: 2px solid var(--line); border-radius: 16px; background: var(--card); }
+  .row.changed { border-color: var(--pick); background: #f0faf5; }
+  .word { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+  .word b { font-size: 18px; }
+  .word span { color: var(--soft); }
+  .word small { color: #9aa9a6; font-size: 12px; }
+  .opts { display: flex; flex-wrap: wrap; gap: 6px; }
+  .opt { display: grid; place-items: center; min-width: 54px; height: 54px; padding: 2px 6px; border: 2px solid var(--line); border-radius: 12px; background: #fff; font-size: 30px; line-height: 1; cursor: pointer; }
+  .opt.now { border-style: dashed; }
+  .opt.on { border-color: var(--pick); box-shadow: 0 0 0 3px #b2f2d4; }
+  .opt.more { font-size: 14px; font-weight: 800; color: var(--soft); }
+  .kr { display: inline-block; width: 1.25em; height: 1.25em; vertical-align: middle; }
+  footer { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; padding: 10px 16px max(10px, env(safe-area-inset-bottom)); background: #fff8e6; border-top: 2px solid var(--line); }
+  footer button { padding: 12px 18px; border: 0; border-radius: 14px; background: var(--pick); color: #fff; font-size: 16px; font-weight: 800; }
+  footer button.quiet { background: #e9ecef; color: var(--ink); }
+  #count { font-weight: 800; }
+  #picker { position: fixed; inset: 0; z-index: 10; display: none; flex-direction: column; background: var(--bg); }
+  #picker.open { display: flex; }
+  #picker .top { display: flex; gap: 8px; padding: 12px 16px; border-bottom: 2px solid var(--line); background: #fff8e6; }
+  #picker .top input { flex: 1; min-width: 0; padding: 9px 12px; border: 2px solid var(--line); border-radius: 12px; font-size: 16px; }
+  #picker .grid { flex: 1; overflow: auto; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 6px; padding: 12px 16px 40px; }
+  #picker .grid .opt { flex-direction: column; height: auto; min-height: 62px; }
+  #picker .grid .opt small { font-size: 10px; color: var(--soft); max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #picker h3 { margin: 0; font-size: 16px; align-self: center; }
+  #own { display: flex; gap: 6px; padding: 0 16px 12px; }
+  #own input { flex: 1; min-width: 0; padding: 8px 10px; border: 2px solid var(--line); border-radius: 10px; font-size: 22px; }
+  #own button, #picker .top button { padding: 8px 14px; border: 0; border-radius: 10px; background: var(--pick); color: #fff; font-weight: 800; }
+  #picker .top button.quiet { background: #e9ecef; color: var(--ink); }
+  #out { width: 100%; height: 160px; margin-top: 8px; font: 13px/1.35 ui-monospace, monospace; }
+  .note { color: var(--soft); font-size: 14px; margin: 6px 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🖼️ İngilizce Koyu · Resim kontrolü</h1>
+  <div class="bar">
+    <input id="find" type="search" placeholder="Kelime ya da anlam ara…" aria-label="Ara">
+    <label><input id="sentences" type="checkbox"> Cümleleri de göster</label>
+    <label><input id="onlyChanged" type="checkbox"> Yalnız değiştirdiklerim</label>
+  </div>
+</header>
+<main id="list"><p class="note">Yükleniyor…</p></main>
+<footer>
+  <span><span id="count">0</span> değişiklik</span>
+  <button id="copy" type="button">📋 Değişiklikleri Kopyala</button>
+  <button id="clear" type="button" class="quiet">Temizle</button>
+</footer>
+<div id="picker" role="dialog" aria-modal="true" aria-labelledby="picker-title">
+  <div class="top"><h3 id="picker-title"></h3><input id="pfind" type="search" placeholder="Resim ara (ad ya da anlam)…" aria-label="Resim ara"><button id="pclose" type="button" class="quiet">✕</button></div>
+  <div id="own"><input id="ownInput" placeholder="ya da kendi emojini yaz" aria-label="Kendi emojin"><button id="ownOk" type="button">Seç</button></div>
+  <div class="grid" id="pgrid"></div>
+</div>
+<script src="core/js/kelime-resimleri.js"></script>
+<script src="islands/ingilizce-2/sorular.js"></script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const KEY = 'kontrol-secimler';
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(picks)); } catch {} };
+  let picks = load();                       // "en|tr" → new picture
+  const draw = pic => kelimeResimleri.kelimeResmi(pic);
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  const seg = typeof Intl !== 'undefined' && Intl.Segmenter ? new Intl.Segmenter() : null;
+  const pieces = pic => pic.match(/\[\[[a-z0-9-]+\]\]/g)?.length ? [pic] : (seg ? [...seg.segment(pic)].map(x => x.segment) : [pic]);
+
+  // every word once: its meaning, its picture, the unit it is in, the questions that ask it
+  const words = new Map();
+  for (const stop of ingilizce2Sorular) stop.sorular.forEach((q, n) => {
+    if (!q.k) return;
+    const key = q.k[0] + '|' + q.k[1];
+    if (!words.has(key)) words.set(key, { key, en: q.k[0], tr: q.k[1], pic: q.k[2] || '', stop, ids: [] });
+    words.get(key).ids.push(stop.id + ':' + n);
+  });
+  const sentence = w => /[.!?]/.test(w.en) || w.en.split(' ').length > 3;
+
+  // every picture of the project: the drawings, every picture the words use (and their parts), and more emoji
+  const EXTRA = '🏫 🎒 📚 📕 📗 📘 📙 📓 📔 📒 📝 ✏️ ✒️ 🖊️ 🖍️ 🖌️ 📏 📐 ✂️ 📎 🖇️ 📌 📍 🗂️ 📁 📂 🗒️ 🗓️ 📅 📆 ⏰ 🕰️ ⌚ 🔔 🧮 💻 🖥️ 📱 ⌨️ 🖱️ 🧑‍🏫 👩‍🏫 👨‍🏫 🧑‍🎓 👩‍🎓 👨‍🎓 🧒 👦 👧 👶 🧑 👩 👨 👵 👴 🧓 👪 👨‍👩‍👧 👨‍👩‍👧‍👦 👫 👬 👭 🙋 🙋‍♂️ 🙋‍♀️ 🙇 🤷 💁 🙆 🙅 👋 🤚 ✋ 🖐️ 👌 👍 👎 👏 🙌 🤝 🙏 ✍️ 💪 🦵 🦶 👂 👃 👁️ 👀 👄 🦷 👅 💇 🧍 🧎 🏃 🚶 💃 🕺 🤸 🧘 🏊 🚴 ⛹️ 🎤 🎧 🎵 🎶 🎨 🖼️ 🎭 🎪 🎈 🎉 🎊 🎁 🎂 🍰 🧁 🍭 🍬 🍫 🍩 🍪 🥐 🍞 🥖 🧀 🥚 🍳 🥞 🧇 🥓 🥩 🍗 🍖 🌭 🍔 🍟 🍕 🥪 🌮 🥗 🍝 🍜 🍲 🍛 🍱 🍚 🍙 🥘 🫕 🥣 🥛 🍼 ☕ 🍵 🧃 🥤 🧋 💧 🚰 🍎 🍏 🍐 🍊 🍋 🍌 🍉 🍇 🍓 🫐 🍈 🍒 🍑 🥭 🍍 🥥 🥝 🍅 🍆 🥑 🥦 🥬 🥒 🌶️ 🫑 🌽 🥕 🧄 🧅 🥔 🫘 🥜 🍄 🐶 🐕 🐱 🐈 🐭 🐹 🐰 🐇 🦊 🐻 🐼 🐨 🐯 🦁 🐮 🐷 🐸 🐵 🐒 🐔 🐧 🐦 🐤 🦆 🦉 🐴 🦄 🐝 🐛 🦋 🐌 🐞 🐜 🐢 🐍 🦎 🐙 🦀 🐠 🐟 🐡 🐬 🐳 🐋 🦈 🐊 🦓 🦒 🐘 🦘 🐾 🏠 🏡 🏘️ 🏢 🏛️ 🏥 🏪 🏟️ ⛪ 🕌 🚪 🪟 🛏️ 🛋️ 🪑 🚽 🚿 🛁 🧸 🪆 🧩 🪀 🪁 ⚽ 🏀 🏐 🎾 🛝 🌳 🌲 🌴 🌵 🌷 🌸 🌹 🌻 🌼 🌿 🍀 🍁 🍂 ☀️ 🌞 🌤️ ⛅ ☁️ 🌧️ ⛈️ ❄️ ☃️ ⛄ 🌈 🌙 ⭐ 🌟 ✨ ⚡ 🔥 💦 🌊 🗺️ 🇹🇷 🇦🇿 🚗 🚌 🚲 🚂 ✈️ 🚀 ⛵ 👕 👔 👗 👚 👖 🧥 🧣 🧤 🧦 👟 👞 👠 👢 🎩 🧢 👒 👓 🕶️ ☂️ 🌂 🎽 💼 👜 👝 📦 🔑 🔒 🔓 💡 🔦 🧴 🧽 🧹 🧺 🪣 🧼 ❤️ 💖 💯 ✅ ❌ ✔️ ✖️ ❓ ❗ ➕ ➖ 🔁 🔊 🔍 🆘 🏷️ 😀 😃 😄 😁 😆 😊 🙂 😉 😍 🥰 😋 😎 🤓 🤔 🤗 🤫 🤪 😴 😢 😭 😔 😟 😮 😲 🥶 🥵 🤤 😩 🥳 🥺 😡'.split(' ');
+  const all = new Map();                     // picture → names that use it
+  const add = (pic, name) => { if (!pic) return; if (!all.has(pic)) all.set(pic, new Set()); if (name) all.get(pic).add(name); };
+  for (const name of kelimeResimleri.adlar()) add('[[' + name + ']]', name + ' (çizim)');
+  for (const w of words.values()) if (w.pic) { add(w.pic, w.en + ' ' + w.tr); for (const p of pieces(w.pic)) add(p, w.en + ' ' + w.tr); }
+  for (const e of EXTRA) add(e, '');
+
+  // a few alternatives next to each word: the pictures of the same unit's words, the drawings first
+  const suggest = w => {
+    const out = [];
+    for (const o of words.values()) if (o.stop === w.stop && o.pic && o.pic !== w.pic && !out.includes(o.pic) && !sentence(o)) out.push(o.pic);
+    return out.sort((a, b) => (b.startsWith('[[') ? 1 : 0) - (a.startsWith('[[') ? 1 : 0)).slice(0, 7);
+  };
+
+  const list = $('list');
+  function rowOf(w) {
+    const chosen = picks[w.key];
+    const row = document.createElement('div');
+    row.className = 'row' + (chosen !== undefined ? ' changed' : '');
+    row.dataset.key = w.key;
+    const opts = [w.pic, ...suggest(w)];
+    if (chosen !== undefined && !opts.includes(chosen)) opts.splice(1, 0, chosen);
+    row.innerHTML = '<div class="word"><b lang="en">' + esc(w.en) + '</b><span>' + esc(w.tr) + '</span><small>' + w.ids.join(', ') + '</small></div>' +
+      '<div class="opts">' + opts.map((p, i) => '<button type="button" class="opt' + (i === 0 ? ' now' : '') + ((chosen ?? w.pic) === p ? ' on' : '') +
+        '" data-pic="' + esc(p) + '" title="' + (i === 0 ? 'Şimdiki resim' : 'Seç') + '">' + (p ? draw(p) : '∅') + '</button>').join('') +
+      '<button type="button" class="opt more" data-more>Tümü…</button></div>';
+    return row;
+  }
+  function render() {
+    const find = $('find').value.trim().toLocaleLowerCase('tr');
+    const withSentences = $('sentences').checked, onlyChanged = $('onlyChanged').checked;
+    list.innerHTML = '';
+    let lastStop = null, shown = 0;
+    for (const w of words.values()) {
+      if (!withSentences && sentence(w)) continue;
+      if (onlyChanged && picks[w.key] === undefined) continue;
+      if (find && !(w.en + ' ' + w.tr).toLocaleLowerCase('tr').includes(find)) continue;
+      if (w.stop !== lastStop) { lastStop = w.stop; const h = document.createElement('h2'); h.textContent = w.stop.simge + ' ' + w.stop.ad; list.append(h); }
+      list.append(rowOf(w));
+      shown++;
+    }
+    if (!shown) list.innerHTML = '<p class="note">Gösterilecek kelime yok.</p>';
+    $('count').textContent = Object.keys(picks).length;
+  }
+  function choose(key, pic) {
+    const w = words.get(key);
+    if (pic === w.pic) delete picks[key]; else picks[key] = pic;
+    save();
+    const old = list.querySelector('.row[data-key="' + CSS.escape(key) + '"]');
+    if (old) old.replaceWith(rowOf(w));
+    $('count').textContent = Object.keys(picks).length;
+  }
+  list.addEventListener('click', e => {
+    const b = e.target.closest('.opt'), row = e.target.closest('.row');
+    if (!b || !row) return;
+    if (b.hasAttribute('data-more')) return openPicker(row.dataset.key);
+    choose(row.dataset.key, b.dataset.pic);
+  });
+
+  // the picker: every picture of the project, searchable
+  let pickFor = null;
+  function openPicker(key) {
+    pickFor = key;
+    const w = words.get(key);
+    $('picker-title').textContent = w.en + ' · ' + w.tr;
+    $('pfind').value = '';
+    $('ownInput').value = '';
+    fillPicker();
+    $('picker').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePicker() { $('picker').classList.remove('open'); document.body.style.overflow = ''; pickFor = null; }
+  function fillPicker() {
+    const f = $('pfind').value.trim().toLocaleLowerCase('tr');
+    const items = [...all].filter(([pic, names]) => !f || [...names].join(' ').toLocaleLowerCase('tr').includes(f) || pic.includes(f));
+    $('pgrid').innerHTML = items.map(([pic, names]) => '<button type="button" class="opt" data-pic="' + esc(pic) + '" title="' + esc([...names].join(', ')) + '">' +
+      draw(pic) + '<small>' + esc([...names][0] || '') + '</small></button>').join('');
+  }
+  $('pfind').addEventListener('input', fillPicker);
+  $('pgrid').addEventListener('click', e => { const b = e.target.closest('.opt'); if (b && pickFor) { choose(pickFor, b.dataset.pic); closePicker(); } });
+  $('ownOk').addEventListener('click', () => { const v = $('ownInput').value.trim(); if (v && pickFor) { choose(pickFor, v); closePicker(); } });
+  $('pclose').addEventListener('click', closePicker);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePicker(); });
+
+  ['find', 'sentences', 'onlyChanged'].forEach(id => $(id).addEventListener('input', render));
+
+  // the changes as text: one line a word, then the same as JSON for applying them
+  function text() {
+    const rows = Object.entries(picks).filter(([key]) => words.has(key)).map(([key, pic]) => { const w = words.get(key); return { en: w.en, tr: w.tr, eski: w.pic, yeni: pic, sorular: w.ids }; });
+    return 'İngilizce Koyu · resim değişiklikleri (' + rows.length + ')\n' +
+      rows.map(r => r.en + ' (' + r.tr + '): ' + (r.eski || '∅') + ' → ' + r.yeni).join('\n') + '\n\n' + JSON.stringify(rows);
+  }
+  $('copy').addEventListener('click', async () => {
+    const t = text();
+    try { await navigator.clipboard.writeText(t); $('copy').textContent = '✓ Kopyalandı'; }
+    catch {
+      // no clipboard permission: show the text, selected, to copy by hand
+      let area = $('out');
+      if (!area) { area = document.createElement('textarea'); area.id = 'out'; area.readOnly = true; list.prepend(area); }
+      area.value = t; area.focus(); area.select();
+      $('copy').textContent = 'Metni seçip kopyala';
+    }
+    setTimeout(() => { $('copy').textContent = '📋 Değişiklikleri Kopyala'; }, 2500);
+  });
+  $('clear').addEventListener('click', () => { if (confirm('Bütün seçimler silinsin mi?')) { picks = {}; save(); render(); } });
+  render();
+})();
+</script>
+</body>
+</html>
