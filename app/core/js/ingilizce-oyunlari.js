@@ -12,9 +12,10 @@
 //     a colour                🎨 Sihirli Boyama ("Colour the fish blue.")
 //     a food                  🧺 Meyve Sepeti ("Put the apples in the basket." – drag it into the basket)
 //     a sentence              🚂 Kelime Treni (its words, in order, into the wagons; the train then leaves)
+//     a question with g       🔍 Gizli Kelimeler (a big picture, ayar.sahneler[g]: "Find the teacher!", tap her)
 //     anything else           🃏 Bilgi Kartı (the question itself, with a second try)
 //   c = { stage, items: [{ q, en, tr, emo }], havuz: [{ en, tr, emo }] (other pictured words, for wrong choices),
-//         ayar: { sepet: [food words] }, maskot (the player's icon), sonuc(item, dogru), bitir(), rich(text) }
+//         ayar: { sepet: [food words], sahneler: { id: picture } }, maskot (the player's icon), sonuc(item, dogru), bitir(), rich(text) }
 // ingilizceOyunlari.balon(c): Yanlış Avı's Balon Patlat, with only the words the child got wrong.
 // ingilizceOyunlari.metinler(ayar, kelimeler): every English line the games say, for the recording tool.
 const ingilizceSes = (() => {
@@ -278,15 +279,17 @@ const ingilizceOyunlari = (() => {
     }
     const ctx = { c, wait, sonuc, react, live, game, where, ...konusmaci(live, react) };
 
-    // Cut the station's questions into games.
-    const pictured = c.items.filter(i => resimli(i));
+    // Cut the station's questions into games. A question with a picture of its own (g) is found in that picture.
+    const sahneler = c.ayar?.sahneler || {};
+    const hidden = c.items.filter(i => i.q?.g && sahneler[i.q.g]?.yerler.some(y => y.en === i.en));
+    const pictured = c.items.filter(i => !hidden.includes(i) && resimli(i));
     const foods = pictured.filter(i => (c.ayar.sepet || []).includes(i.en));
     const colours = pictured.filter(i => renk(i));
     const words = pictured.filter(i => !foods.includes(i) && !colours.includes(i));
     const sentence = i => !resimli(i) && i.en.split(' ').length >= 3 && i.en.split(' ').length <= 7 && /^[A-Za-z’',.!? -]+$/.test(i.en) &&
       (i.word || i.q.a.some(a => a.replace(/[^a-z]/gi, '').toLowerCase() === i.en.replace(/[^a-z]/gi, '').toLowerCase()));
-    const trains = c.items.filter(i => !pictured.includes(i) && sentence(i));
-    const cards = c.items.filter(i => !pictured.includes(i) && !trains.includes(i));
+    const trains = c.items.filter(i => !hidden.includes(i) && !pictured.includes(i) && sentence(i));
+    const cards = c.items.filter(i => !hidden.includes(i) && !pictured.includes(i) && !trains.includes(i));
     const plan = [];
     const kinds = shuffled(['dinle', 'balon', 'hafiza']);
     let k = 0;
@@ -298,12 +301,16 @@ const ingilizceOyunlari = (() => {
       plan.push([kind, words.slice(i, i + size)]);
       i += size;
     }
+    for (const g of new Set(hidden.map(i => i.q.g))) {
+      const group = hidden.filter(i => i.q.g === g);
+      for (let i = 0; i < group.length; i += 4) plan.push(['gizli', group.slice(i, i + 4)]);
+    }
     if (foods.length) plan.push(['sepet', foods]);
     if (colours.length) plan.push(['boya', colours]);
     if (trains.length) plan.push(['tren', trains]);
     for (let i = 0; i < cards.length; i += 3) plan.push(['kart', cards.slice(i, i + 3)]);
     const order = shuffled(plan);
-    ingilizceSes.hazirla([...OVGU, ...TEKRAR, ...c.items.map(i => i.en)]);
+    ingilizceSes.hazirla([...OVGU, ...TEKRAR, ...c.items.map(i => i.en), ...hidden.map(i => yerOf(sahneler[i.q.g], i.en).bul)]);
 
     (async () => {
       for (const [kind, items] of order) {
@@ -946,7 +953,114 @@ const ingilizceOyunlari = (() => {
     }
   }
 
+  /* ---------- 🔍 Gizli Kelimeler ----------
+     A big picture of a place (ayar.sahneler[q.g], the island's sahneler.js); the voice says "Find the teacher!" and the
+     child taps her. A tap is right when the thing in front at that point is the asked word (friend: either child, its
+     icinde). A tap on something else
+     names it ("No! This is a pupil.") and asks again; the question then counts as missed at the first try. A tap on
+     nothing only says "Try again". */
+  const yerOf = (scene, en) => scene.yerler.find(y => y.en === en);
+  const insideShape = (s, px, py) => {
+    if (s.length === 4) return px >= s[0] && px <= s[0] + s[2] && py >= s[1] && py <= s[1] + s[3];
+    let inside = false;
+    for (let i = 0, j = s.length - 2; i < s.length; j = i, i += 2) {
+      const xi = s[i], yi = s[i + 1], xj = s[j], yj = s[j + 1];
+      if ((yi > py) !== (yj > py) && px < (xj - xi) * (py - yi) / (yj - yi) + xi) inside = !inside;
+    }
+    return inside;
+  };
+  async function gizli(x, items) {
+    const scene = x.c.ayar.sahneler[items[0].q.g];
+    const whole = s => s.length === 4 && s[0] <= 0 && s[1] <= 0 && s[2] >= scene.w && s[3] >= scene.h;
+    const svgNS = 'http://www.w3.org/2000/svg';
+    x.game.innerHTML = '';
+    const row = el('div', 'og-voice');
+    const box = el('div', 'og-sahne');
+    box.style.aspectRatio = scene.w + ' / ' + scene.h;
+    box.style.setProperty('--oran', scene.w / scene.h);
+    const img = el('img');
+    img.src = scene.resim + '?v=1';
+    img.alt = '';
+    img.draggable = false;
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 ' + scene.w + ' ' + scene.h);
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.setAttribute('aria-hidden', 'true');
+    box.append(img, svg);
+    x.game.append(row, box);
+    // a place's outline (not the whole picture), drawn for a moment: green when right, red when wrong
+    const show = (place, cls, ms) => {
+      const drawn = place.sekil.filter(s => !whole(s)).map(s => {
+        const node = document.createElementNS(svgNS, s.length === 4 ? 'rect' : 'polygon');
+        if (s.length === 4) { node.setAttribute('x', s[0]); node.setAttribute('y', s[1]); node.setAttribute('width', s[2]); node.setAttribute('height', s[3]); node.setAttribute('rx', 24); }
+        else node.setAttribute('points', s.join(' '));
+        node.setAttribute('class', 'og-yer ' + cls);
+        svg.append(node);
+        return node;
+      });
+      if (ms) setTimeout(() => drawn.forEach(n => n.remove()), ms);
+      return drawn.length;
+    };
+    // a ring where the finger touched (when the place is the whole picture, or nothing)
+    const ring = (px, py, cls) => {
+      const node = document.createElementNS(svgNS, 'circle');
+      node.setAttribute('cx', px); node.setAttribute('cy', py); node.setAttribute('r', 46);
+      node.setAttribute('class', 'og-yer ' + cls);
+      svg.append(node);
+      setTimeout(() => node.remove(), 1100);
+    };
+    for (const item of items) {
+      if (!x.live.on) return;
+      const place = yerOf(scene, item.en);
+      row.innerHTML = '';
+      row.append(...voiceRow(x, place.bul).children);
+      let first = true, busy = false;
+      await new Promise(resolve => {
+        box.onpointerdown = async e => {
+          if (busy || !x.live.on) return;
+          const r = img.getBoundingClientRect();
+          const px = (e.clientX - r.left) / r.width * scene.w, py = (e.clientY - r.top) / r.height * scene.h;
+          const hits = scene.yerler.filter(y => y.sekil.some(s => insideShape(s, px, py)));
+          // the thing in front is what was touched; a place's own parts (icinde: friend → boy, girl) count as the place
+          const top = hits.find(y => !(place.icinde || []).includes(y.en));
+          if (top === place) {
+            busy = true;
+            const own = { ...place, sekil: place.sekil.filter(s => !whole(s)) };
+            if (!show(own, 'right')) ring(px, py, 'right');
+            const host = el('span', 'og-isaret');
+            host.style.left = px / scene.w * 100 + '%';
+            host.style.top = py / scene.h * 100 + '%';
+            box.append(host);
+            sparkle(host, { count: 14, spread: 80 });
+            x.sonuc(item, first);
+            await x.praise(item.en);
+            await x.wait(700);
+            host.remove();
+            svg.innerHTML = '';
+            resolve();
+          } else if (hits.length) {
+            first = false;
+            const other = top || hits[0];
+            if (!show({ ...other, sekil: other.sekil.filter(s => insideShape(s, px, py)) }, 'wrong', 1300)) ring(px, py, 'wrong');
+            const s = x.seq();
+            x.react(false, '🤔');
+            playCue('retry');
+            if (!(await s.wait(200))) return;
+            await s.say(other.bu);
+            if (await s.wait(300)) await s.say(place.bul);
+          } else {
+            ring(px, py, 'wrong');
+            x.oops();
+          }
+        };
+        x.wait(300).then(() => { if (first && !busy) x.say(place.bul); });
+      });
+    }
+    box.onpointerdown = null;
+  }
+
   const OYUNLAR = {
+    gizli: { simge: '🔍', ad: 'Gizli Kelimeler', oyna: gizli },
     dinle: { simge: '👂', ad: 'Dinle ve Bul', oyna: dinle },
     balon: { simge: '🎈', ad: 'Balon Patlat', oyna: (x, items) => balonlar(x, items) },
     hafiza: { simge: '🃏', ad: 'Sesli Hafıza', oyna: hafiza },
@@ -968,6 +1082,7 @@ const ingilizceOyunlari = (() => {
     for (const food of ayar.sepet || []) out.add(sepetCumle(food));
     for (const thing of Object.keys(RESIMLER)) for (const [colour] of RENKLER) { out.add(boyaCumle(thing, colour)); out.add('The ' + thing + ' is ' + colour + '!'); }
     for (const [colour] of RENKLER) out.add(colour);
+    for (const scene of Object.values(ayar.sahneler || {})) for (const y of scene.yerler) { out.add(y.bul); out.add(y.bu); }
     return [...out];
   }
   /* ---------- the picture above a question (Bilgi Kartı and the question rounds) ----------

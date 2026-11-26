@@ -384,8 +384,10 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
   function startExam() {
     if (!examOpen()) return;
     // As many questions from each stop as its `deneme` says, topped up from the units.
-    const chosen = stops.flatMap(stop => pick(stop.sorular, stop.deneme || 0));
-    const rest = shuffled(units.flatMap(stop => stop.sorular).filter(q => !chosen.includes(q)));
+    // 🔍 Gizli Kelimeler questions (g) are played only on their picture, in the unit's rounds: never in the exam
+    const examable = list => list.filter(q => !q.g);
+    const chosen = stops.flatMap(stop => pick(examable(stop.sorular), stop.deneme || 0));
+    const rest = shuffled(examable(units.flatMap(stop => stop.sorular)).filter(q => !chosen.includes(q)));
     begin('deneme', null, shuffled([...chosen, ...rest].slice(0, EXAM)));
   }
 

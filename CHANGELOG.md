@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.74.0 · 26.11.2026
+
+- **İngilizce Koyu'nda yeni oyun: 🔍 Gizli Kelimeler.** 1. adada (Okul Hayatı) büyük bir okul resmi açılıyor ve ses “Find the teacher!” gibi bir kelime söylüyor. Çocuk resimde o kişiye ya da yere dokunuyor. Yanlış şeye dokunursa ses onun ne olduğunu söylüyor (“No! This is a pupil.”) ve soruyu yeniden soruyor. Beş resim var: öğretmenler odası, okul bahçesi ve kantin, kütüphane, okul ve oyun alanı, spor salonu. Adaya 26 yeni soru eklendi; her biri kelimesinin işlendiği haftada çıkıyor. Diğer sorular ve oyunlar olduğu gibi duruyor, deneme sınavında bu sorular sorulmuyor.
+
 ## 0.73.0 · 26.11.2026
 
 - **İngilizce Koyu'nda yeni resimler:** 1'den 20'ye bütün sayılar, siyah, beyaz, boya kalemi, alıştırma, renkler, tablet, tahta, 2. sınıf, Bay Aras, zürafa, erkek evlat, limon, yaşlı, tamam, hoş ve çok artık sevimli, renkli resimlerle gösteriliyor. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.

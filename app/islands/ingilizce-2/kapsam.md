@@ -43,25 +43,25 @@ ilgili durağın sonuna eklenir. Ünitelere ait olmayan baş sayfaların ve sond
 - s. 1 · Kitabın adı: English Year 2 Pupil’s Book (2. sınıf öğrenci kitabı). → okul:0
 - s. 8 · İçindekiler: Who’s she/he? She’s Mr Aras … This is Mr/Mrs/Miss Hopkins. (Mr: Bay; Mrs, Miss: Bayan) → okul:83
 - s. 8 · İçindekiler: Come here, please. (Buraya gel lütfen.) → okul:84
-- s. 14 · teacher’s room = öğretmenler odası → okul:1
-- s. 14 · library = kütüphane → okul:2
-- s. 14 · school = okul → okul:3
-- s. 14 · canteen = kantin → okul:4
-- s. 14 · classroom = sınıf → okul:5
-- s. 14 · garden = bahçe → okul:6
-- s. 14 · sports hall = spor salonu → okul:7
-- s. 14 · playground = oyun alanı → okul:8
-- s. 14 · lunch hall = yemekhane → okul:9
+- s. 14 · teacher’s room = öğretmenler odası → okul:1, okul:85
+- s. 14 · library = kütüphane → okul:2, okul:96
+- s. 14 · school = okul → okul:3, okul:101
+- s. 14 · canteen = kantin → okul:4, okul:91
+- s. 14 · classroom = sınıf → okul:5, okul:90
+- s. 14 · garden = bahçe → okul:6, okul:92
+- s. 14 · sports hall = spor salonu → okul:7, okul:106
+- s. 14 · playground = oyun alanı → okul:8, okul:103
+- s. 14 · lunch hall = yemekhane → okul:9, okul:102
 - s. 14 · Çınar is in the garden: Çınar bahçede. → okul:10
 - s. 15 · Is it a classroom? No, it isn’t. (Oyun: Burası sınıf mı? Hayır, değil.) → okul:11
 - s. 15 · Is it a library? Yes, it is. (Evet, öyle.) → okul:12
-- s. 15 · boy = erkek çocuk → okul:13
+- s. 15 · boy = erkek çocuk → okul:13, okul:93
 - s. 15 · hall = salon → okul:14
 - s. 15 · Tekerleme: An army of ants ate all the apples. (karıncalar, elmalar) → okul:15
 - s. 15 · Tekerleme: A big brown bear bakes some bread. (ayı, ekmek) → okul:16
-- s. 16 · pupil = öğrenci → okul:17
-- s. 16 · teacher = öğretmen → okul:18
-- s. 16 · headmaster = erkek okul müdürü → okul:19
+- s. 16 · pupil = öğrenci → okul:17, okul:89, okul:104
+- s. 16 · teacher = öğretmen → okul:18, okul:86, okul:110
+- s. 16 · headmaster = erkek okul müdürü → okul:19, okul:87, okul:99
 - s. 18 · Monday = Pazartesi → okul:20
 - s. 18 · Tuesday = Salı → okul:21
 - s. 18 · Wednesday = Çarşamba → okul:22
@@ -85,7 +85,7 @@ ilgili durağın sonuna eklenir. Ünitelere ait olmayan baş sayfaların ve sond
 - s. 22 · Jungle School: Ruby bir öğrenci (pupil). → okul:40
 - s. 22 · Jungle School: Bobby, Ruby’nin arkadaşı, bahçede. → okul:41
 - s. 22 · Jungle School: Mrs Tosby kadın okul müdürü (headmistress), kütüphanede. → okul:42
-- s. 22 · headmistress = kadın okul müdürü → okul:43
+- s. 22 · headmistress = kadın okul müdürü → okul:43, okul:88, okul:100
 - s. 23 · Group and write: yerler (playground …) ve kişiler (pupil …) ayrılır. → okul:44
 - s. 24 · Hello! What’s your name? My name is Daisy. My name is Henry. → okul:45
 - s. 24 · Nice to meet you. Nice to meet you, too. → okul:46
@@ -105,16 +105,16 @@ ilgili durağın sonuna eklenir. Ünitelere ait olmayan baş sayfaların ve sond
 - s. 129 · excuse me = affedersiniz → okul:59
 - s. 129 · fine = iyi → okul:60
 - s. 129 · finish = bitirmek → okul:61
-- s. 129 · friend = arkadaş → okul:62
-- s. 129 · girl = kız çocuk → okul:63
+- s. 129 · friend = arkadaş → okul:62, okul:95
+- s. 129 · girl = kız çocuk → okul:63, okul:94, okul:97
 - s. 129 · hello = merhaba → okul:64
 - s. 129 · hi = selam → okul:65
 - s. 129 · how = nasıl → okul:66
 - s. 129 · jump = zıplamak → okul:67
-- s. 129 · kid = çocuk → okul:68
+- s. 129 · kid = çocuk → okul:68, okul:98
 - s. 129 · meet = tanışmak → okul:69
 - s. 129 · name = isim → okul:70
-- s. 129 · people = insanlar → okul:71
+- s. 129 · people = insanlar → okul:71, okul:105
 - s. 129 · place = yer → okul:72
 - s. 129 · sing = şarkı söylemek → okul:73
 - s. 129 · start = başlamak → okul:74

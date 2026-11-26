@@ -169,3 +169,13 @@
 .secenek-resim { display: inline-grid; place-items: center; flex: none; width: 2.2em; height: 2.2em; margin-right: .5em; border-radius: .5em; background: #fff3bf; border: 2px solid #fff; box-shadow: 0 1px 4px #0002; font-size: 1.15em; line-height: 1; vertical-align: middle; }
 .secenek-resim .kr { width: 1.5em; height: 1.5em; vertical-align: 0; }
 .og-option { display: flex; align-items: center; }
+
+/* 🔍 Gizli Kelimeler: a big picture to find things in */
+.og-sahne { position: relative; width: min(100%, calc((100dvh - 250px) * var(--oran, 1.5))); min-width: min(100%, 280px); margin: 0 auto; border-radius: 18px; overflow: hidden;
+  border: 3px solid #cfe1d6; box-shadow: 0 4px #cfe1d6; background: #fff; touch-action: manipulation; cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.og-sahne img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.og-sahne svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.og-yer { fill: transparent; stroke-width: 5; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.og-yer.right { fill: rgba(47, 155, 127, .22); stroke: #2f9b7f; }
+.og-yer.wrong { fill: rgba(217, 83, 79, .2); stroke: #d9534f; }
+.og-isaret { position: absolute; width: 1px; height: 1px; pointer-events: none; }

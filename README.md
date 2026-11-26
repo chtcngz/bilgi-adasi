@@ -78,6 +78,8 @@ app/                         Published site (GitHub Pages root)
 │   ├── din-bilgisi/         Question island: sorular.js + game.js + kapsam.md
 │   ├── fen-bilimleri/       Question island: same pattern
 │   ├── ingilizce-2/ -3/ -4/ İngilizce Koyu, one question island per grade (each grade sees only its own); 2nd grade done, 3rd and 4th still empty
+│   │                        (ingilizce-2/sahneler.js: the pictures of 🔍 Gizli Kelimeler and the places to tap in them;
+│   │                        the pictures are assets/images/ingilizce/sahne/*.webp)
 │   └── sosyal-bilgiler/     Question island: same pattern
 ├── kontrol.html             Resim kontrolü: the owner picks İngilizce Koyu's pictures by hand and copies the choices (not linked)
 ├── admin/                   Yönetici sayfası: every player of every device, read from the cloud copy; signs in with
@@ -186,7 +188,10 @@ when one is done. A panel beside the map (under it on phones) has the Sıradaki 
   are cut into games and every game answers its own questions through the same `note()`, so learning, stars, Tekrar
   Kutusu and rewards work as before. A word with a picture (`k[2]`, not an abstract one) goes to Dinle ve Bul, Balon
   Patlat or Sesli Hafıza; a colour to Sihirli Boyama; a food listed in `sepet` to Meyve Sepeti; a sentence of 3-7 words
-  that the question asks in English to Kelime Treni; anything else is a Bilgi Kartı (the question itself, with a second
+  that the question asks in English to Kelime Treni; a question with `g` (a picture of the island's `sahneler.js`) to
+  🔍 Gizli Kelimeler (a big picture of a place, "Find the teacher!": the child taps her; a tap is right when the thing in
+  front at that point is the word, a wrong tap names what was touched, "No! This is a pupil.", and asks again; `g`
+  questions are never asked in the mock exam; only Okul Hayatı has them for now); anything else is a Bilgi Kartı (the question itself, with a second
   try). A miss in Sesli Hafıza is only memory, so a found pair counts as right. **Pictures (`k[2]`):** every word and every sentence has one, and it shows the thing itself (library 🏛️, not 📚); two words with different meanings never share one. A thing no emoji shows is drawn in `core/js/kelime-resimleri.js` and written `[[name]]` wherever an emoji would stand (k[2] and the texts: `[[desk]] sıra`); `rich()` and the games' `pic()` draw it. In a picture of a part or a person (tail, son) the one meant is in colour and the rest grey; a day is a week card with that day marked. A question's options carry pictures all or none, so a lone bare option does not give the answer away. Games start straight away (no title card); 
   player's icon cheers as a mascot, and every line is awaited before the next. **Two voices, one line at a time:** every line goes through a flow (`konusmaci()`): a new tap drops the lines still waiting in an older one, so two lines never run into each other. After a right answer the praise comes, a pause, then the answer in the answer voice (am_michael, `<id>-b.mp3`, `window.ingilizceKayitlarB`); a dialogue (“How are you? I’m fine, thank you.”) is said by both voices, and a Bilgi Kartı asks only its question half. Sesli Hafıza: both cards say their word, cards open one after another without waiting. The balloons, the train and the brush are moved frame by frame in JS (`frames`, `tween`), and base.css leaves `.og-head`/`.og-game` out of its reduced-motion rule: these movements are the game, and a device asking for less motion used to see no balloons at all. Sihirli Boyama paints only where the brush has gone (a mask path that grows along the brush's way). `ikinciSans: true` gives the classic
   question rounds a second try too. **The voice:** every English line (`tools/ingilizce_metinler.js`) is recorded with
