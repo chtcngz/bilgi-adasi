@@ -23,6 +23,11 @@ Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında 
 - **Soru koyları:** Din Bilgisi, Fen Bilimleri ve Sosyal Bilgiler’de her ünite bir ada; ekstra konular ve deneme sınavı da birer ada (bütün üniteler en az bir yıldız alınca açılıyor). Ünite adasının durakları, ünitenin sorularını kitaptaki sırayla 3-6 parçaya bölüyor; bir durağın bütün soruları öğrenilince durak, bütün ünite öğrenilince ada bitiyor.
 - **Sıradaki düğmesi ve ilerleme haritanın yanında:** Koyda ve adada “Sıradaki” düğmesi, öğrenilen sorular, yıldızlar, Tekrar Kutusu ve açıklamalar haritanın yanında (telefonda altında) duruyor.
 - İstatistikler, Ayarlar → İlerleme ve yönetici sayfası Çarpım’ı ada ada gösteriyor.
+## 0.42.1 · 26.11.2026
+
+- **Akvaryumda yem yeme düzeldi:** Yem atılınca bazı balıklar yemin yanında sağa sola dönüp titriyor, yemi yiyemiyordu. Artık her balık yeme doğru dönüyor, yaklaşıp son anda atılıyor ve yemi ağzına çekip yutuyor.
+- Yutarken balık belirgin biçimde şişip yerine oturuyor, ardından birkaç kez yanaklarını şişirerek çiğniyor; eskiden yutkunurken görünen küçük titreme kalktı.
+- Balığın burnu yukarı aşağı ani inip kalkmıyor, yumuşakça dönüyor.
 
 ## 0.42.0 · 26.11.2026
 
