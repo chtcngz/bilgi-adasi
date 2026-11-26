@@ -23,7 +23,9 @@
     // clothes, the body, a few words; the second choice of a word ends in -2 or -3, and some wait for a word
     'cake', 'cake-slice', 'cheer-up', 'cheer-up-2', 'clothes', 'clothes-2', 'clothes-3', 'coat', 'coat-2', 'cold', 'snowman', 'dark', 'dark-2',
     'dear', 'hug', 'dress', 'dress-2', 'ear', 'ear-2', 'eye', 'face', 'face-2', 'gift', 'gift-2', 'glasses', 'glasses-2', 'gloves', 'gloves-2',
-    'great', 'thumbs-up', 'hair', 'hair-2'
+    'great', 'thumbs-up', 'hair', 'hair-2',
+    // the body, clothes, weather
+    'puppet', 'mouth', 'nose', 'rain', 'scarf', 'shirt', 'shoes', 'tall-boys', 'show', 'small', 'snow', 'trousers', 't-shirt', 'umbrella', 'umbrella-2'
   ];
   const more = {};
   for (const name of names) {
