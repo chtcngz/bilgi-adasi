@@ -1,4 +1,4 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Keşif Limanı · Bilgi Adası</title><meta name="surum" content="__SURUM__"><link rel="stylesheet" href="core/css/base.css?v=5"><link rel="stylesheet" href="islands/elif-ba/style.css?v=18"><link rel="stylesheet" href="islands/elif-ba/games/listening.css?v=6"><link rel="stylesheet" href="islands/elif-ba/games/bridge.css?v=1"><link rel="stylesheet" href="core/css/quiz.css?v=3"><link rel="stylesheet" href="core/css/akvaryum.css?v=4"><link rel="stylesheet" href="islands/din-bilgisi/style.css?v=5"><link rel="stylesheet" href="islands/fen-bilimleri/style.css?v=2"><link rel="stylesheet" href="islands/sosyal-bilgiler/style.css?v=1"></head><body>
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Keşif Limanı · Bilgi Adası</title><meta name="surum" content="__SURUM__"><link rel="stylesheet" href="core/css/base.css?v=5"><link rel="stylesheet" href="core/css/harita.css?v=1"><link rel="stylesheet" href="islands/elif-ba/style.css?v=19"><link rel="stylesheet" href="islands/elif-ba/games/listening.css?v=6"><link rel="stylesheet" href="islands/elif-ba/games/bridge.css?v=1"><link rel="stylesheet" href="core/css/quiz.css?v=4"><link rel="stylesheet" href="core/css/akvaryum.css?v=4"></head><body>
 <header><div class="brand"><span class="brand-icon">⛵</span> Bilgi Adası</div><div class="head-right"><button id="player" aria-haspopup="dialog">Oyuncu seç</button><button id="aquarium-button" aria-haspopup="dialog" hidden></button><button id="settings-button" aria-label="Ayarlar" title="Ayarlar" aria-haspopup="dialog" hidden>⚙</button><div id="game-tools" hidden><button id="open-stats" aria-haspopup="dialog">İstatistikler</button><span id="stars">⭐ 0 yıldız</span><button id="sound" aria-label="Sesi aç" aria-pressed="false">♫</button></div></div></header>
 <main>
 <section id="catalog" hidden aria-labelledby="catalog-title">
@@ -8,41 +8,21 @@
     <p id="catalog-greeting" class="greeting"></p>
   </div>
   <button id="aquarium-card" class="ak-card" aria-haspopup="dialog" hidden></button>
+  <div id="kesif" class="kesif" hidden><div id="kesif-map" class="kh-map"></div><div id="kesif-panel" class="kh-panel" hidden></div></div>
   <div class="game-grid" id="game-grid">
     <button id="elif-card" class="catalog-card" data-grades="Okul öncesi" data-akvaryum hidden>
       <img src="islands/elif-ba/koy.jpg" width="1536" height="1024" alt="">
       <span class="catalog-caption"><span><small>Kur’an harfleri</small><strong>Elif Ba Adası</strong></span><span class="card-arrow" aria-hidden="true">▶</span></span>
     </button>
-    <button id="multiplication-card" class="catalog-card" data-akvaryum data-grades="2. sınıf|3. sınıf|4. sınıf" hidden>
-      <img src="assets/images/ada-atlasi.jpg" alt="" width="1536" height="1024">
-      <span class="catalog-caption">
-        <span><small>Matematik</small><strong>Çarpım Adası</strong></span>
-        <span class="card-arrow" aria-hidden="true">→</span>
-      </span>
-    </button>
-    <button id="din-card" class="catalog-card" data-akvaryum data-grades="4. sınıf" hidden>
-      <img src="islands/din-bilgisi/ada.svg" width="1440" height="800" alt="">
-      <span class="catalog-caption">
-        <span><small>Din Kültürü ve Ahlak Bilgisi</small><strong>Din Bilgisi Adası</strong></span>
-        <span class="card-arrow" aria-hidden="true">→</span>
-      </span>
-    </button>
-    <button id="fen-card" class="catalog-card" data-akvaryum data-grades="4. sınıf" hidden>
-      <img src="islands/fen-bilimleri/ada.svg" width="1440" height="800" alt="">
-      <span class="catalog-caption">
-        <span><small>Fen Bilimleri</small><strong>Fen Bilimleri Adası</strong></span>
-        <span class="card-arrow" aria-hidden="true">→</span>
-      </span>
-    </button>
-    <button id="sosyal-card" class="catalog-card" data-akvaryum data-grades="4. sınıf" hidden>
-      <img src="islands/sosyal-bilgiler/ada.svg" width="1440" height="800" alt="">
-      <span class="catalog-caption">
-        <span><small>Sosyal Bilgiler</small><strong>Sosyal Bilgiler Adası</strong></span>
-        <span class="card-arrow" aria-hidden="true">→</span>
-      </span>
-    </button>
   </div>
   <p id="empty-catalog" hidden>Bu yaş aralığında henüz oyun eklenmemiş.</p>
+  <!-- The bays of Keşif Haritası (core/js/harita.js): which grades see each one, and that it fills the aquarium. -->
+  <div hidden>
+    <span id="multiplication-card" data-koy data-akvaryum data-grades="2. sınıf|3. sınıf|4. sınıf"></span>
+    <span id="din-card" data-koy data-akvaryum data-grades="4. sınıf"></span>
+    <span id="fen-card" data-koy data-akvaryum data-grades="4. sınıf"></span>
+    <span id="sosyal-card" data-koy data-akvaryum data-grades="4. sınıf"></span>
+  </div>
 </section>
 <section id="elif-view" hidden aria-labelledby="elif-title">
   <nav class="elif-nav"><button id="elif-back" class="btn-back">Keşif Limanı</button><span id="elif-shells"></span></nav>
@@ -63,51 +43,15 @@
     <div class="elif-toolbar"><button id="elif-play" class="elif-action">▶ Oyna</button></div>
   </div>
 </section>
-<section id="din-view" class="soru-view" hidden aria-labelledby="din-title">
-  <nav class="soru-nav"><button id="din-back" class="btn-back">Keşif Limanı</button><span id="din-score" class="soru-score"></span></nav>
-  <div class="soru-hero"><div><h1 id="din-title" tabindex="-1">Din Bilgisi <em>Adası</em></h1><p>Ders kitabının beş ünitesini gez, soruları çöz, yıldızları topla. Sonunda gerçek sınav gibi bir deneme seni bekliyor!</p></div></div>
-  <button id="din-next" class="soru-next"></button>
-  <div id="din-mastery" class="soru-mastery"></div>
-  <h2 class="soru-h">Duraklar</h2>
-  <ol id="din-stops" class="soru-stops"></ol>
-  <div id="din-review" class="soru-review" hidden></div>
-  <p id="din-note" class="soru-note" role="status"></p>
-  <p class="soru-source">Her turda 10 soru, 3 kalp ve bir “yarı yarıya” jokerin var. Yanlış cevapladığın sorular Tekrar Kutusu’na girer. İlk beş durak MEB 4. sınıf Din Kültürü ve Ahlak Bilgisi ders kitabının ünitelerini sırasıyla izler; okulda hangi ünitedeysen oradan başlayabilirsin. Kitaptaki her bilgi en az bir soruyla soruluyor: bütün soruları öğrendiğinde kitapta öğrenmediğin bir şey kalmaz. Soruların tarzı ve 💎 Hazine Mağarası’ndaki ek konular, Ankara Tevfik İleri Anadolu İmam Hatip Lisesi’nin 2016-2025 yıllarındaki 5. sınıf giriş sınavlarından derlendi.</p>
-</section>
-<dialog id="din-game" class="soru-game" aria-labelledby="din-prompt"><button id="din-close" class="soru-close btn-round" aria-label="Adaya dön"></button><div id="din-stage" class="soru-stage"></div></dialog>
-<section id="fen-view" class="soru-view" hidden aria-labelledby="fen-title">
-  <nav class="soru-nav"><button id="fen-back" class="btn-back">Keşif Limanı</button><span id="fen-score" class="soru-score"></span></nav>
-  <div class="soru-hero"><div><h1 id="fen-title" tabindex="-1">Fen Bilimleri <em>Adası</em></h1><p>Ders kitabının yedi ünitesini keşfet, deney gibi soruları çöz, yıldızları topla. Sonunda gerçek sınav gibi bir deneme seni bekliyor!</p></div></div>
-  <button id="fen-next" class="soru-next"></button>
-  <div id="fen-mastery" class="soru-mastery"></div>
-  <h2 class="soru-h">Duraklar</h2>
-  <ol id="fen-stops" class="soru-stops"></ol>
-  <div id="fen-review" class="soru-review" hidden></div>
-  <p id="fen-note" class="soru-note" role="status"></p>
-  <p class="soru-source">Her turda 10 soru, 3 kalp ve bir “yarı yarıya” jokerin var. Yanlış cevapladığın sorular Tekrar Kutusu’na girer. İlk yedi durak, bu yıl okullarda okutulan MEB 4. sınıf Fen Bilimleri ders kitabının ünitelerini sırasıyla izler; okulda hangi ünitedeysen oradan başlayabilirsin. Kitaptaki her bilgi en az bir soruyla soruluyor: bütün soruları öğrendiğinde kitapta öğrenmediğin bir şey kalmaz. Soruların tarzı ve 🔭 Bilim Gözlemevi’ndeki ek konular, Ankara Tevfik İleri Anadolu İmam Hatip Lisesi’nin 2016-2025 yıllarındaki 5. sınıf giriş sınavlarının fen testlerinden derlendi.</p>
-</section>
-<dialog id="fen-game" class="soru-game" aria-labelledby="fen-prompt"><button id="fen-close" class="soru-close btn-round" aria-label="Adaya dön"></button><div id="fen-stage" class="soru-stage"></div></dialog>
-<section id="sosyal-view" class="soru-view" hidden aria-labelledby="sosyal-title">
-  <nav class="soru-nav"><button id="sosyal-back" class="btn-back">Keşif Limanı</button><span id="sosyal-score" class="soru-score"></span></nav>
-  <div class="soru-hero"><div><h1 id="sosyal-title" tabindex="-1">Sosyal Bilgiler <em>Adası</em></h1><p>Ders kitabının yedi ünitesini gez, haritayı ve tarihi keşfet, yıldızları topla. Sonunda gerçek sınav gibi bir deneme seni bekliyor!</p></div></div>
-  <button id="sosyal-next" class="soru-next"></button>
-  <div id="sosyal-mastery" class="soru-mastery"></div>
-  <h2 class="soru-h">Duraklar</h2>
-  <ol id="sosyal-stops" class="soru-stops"></ol>
-  <div id="sosyal-review" class="soru-review" hidden></div>
-  <p id="sosyal-note" class="soru-note" role="status"></p>
-  <p class="soru-source">Her turda 10 soru, 3 kalp ve bir “yarı yarıya” jokerin var. Yanlış cevapladığın sorular Tekrar Kutusu’na girer. İlk yedi durak, bu yıl okullarda okutulan MEB 4. sınıf Sosyal Bilgiler ders kitabının ünitelerini sırasıyla izler; okulda hangi ünitedeysen oradan başlayabilirsin. Kitaptaki her bilgi en az bir soruyla soruluyor: bütün soruları öğrendiğinde kitapta öğrenmediğin bir şey kalmaz. Soruların tarzı ve 📚 Kâşif Kütüphanesi’ndeki ek konular, Ankara Tevfik İleri Anadolu İmam Hatip Lisesi’nin 2016-2025 yıllarındaki 5. sınıf giriş sınavlarının Sosyal Bilgiler testlerinden derlendi.</p>
-</section>
-<dialog id="sosyal-game" class="soru-game" aria-labelledby="sosyal-prompt"><button id="sosyal-close" class="soru-close btn-round" aria-label="Adaya dön"></button><div id="sosyal-stage" class="soru-stage"></div></dialog>
+<dialog id="din-game" class="soru-game" aria-labelledby="din-prompt"><button id="din-close" class="soru-close btn-round" aria-label="Haritaya dön"></button><div id="din-stage" class="soru-stage"></div></dialog>
+<dialog id="fen-game" class="soru-game" aria-labelledby="fen-prompt"><button id="fen-close" class="soru-close btn-round" aria-label="Haritaya dön"></button><div id="fen-stage" class="soru-stage"></div></dialog>
+<dialog id="sosyal-game" class="soru-game" aria-labelledby="sosyal-prompt"><button id="sosyal-close" class="soru-close btn-round" aria-label="Haritaya dön"></button><div id="sosyal-stage" class="soru-stage"></div></dialog>
 <dialog id="elif-game" aria-labelledby="elif-prompt"><button id="elif-close" class="btn-round" aria-label="Adacığa dön"></button><div id="elif-stage" data-cue></div></dialog>
 <dialog id="elif-rain" aria-label="Harf Yağmuru"></dialog>
 
 <dialog id="elif-bridge" aria-label="Cam Köprü"></dialog>
 <dialog id="akvaryum" aria-label="Akvaryum"></dialog>
-<section id="island-view" hidden>
-<button class="btn-back" id="back-to-catalog">Keşif Limanı</button><div class="heading"><div><div class="eyebrow">MATEMATİK MACERASI</div><h1>Çarpım <em>Adası</em></h1><p>Dokuz adayı keşfet, çarpımları çöz ve yıldızları topla!</p></div><div class="grade" id="grade"></div></div>
-<div class="layout"><section class="map" aria-label="Keşif haritası"><img class="atlas" src="assets/images/ada-atlasi.jpg" width="1536" height="1024" fetchpriority="high" alt="Palmiyeli koydan hazine adasına uzanan dokuz adalık keşif haritası"><div class="map-title"><span>✥</span> Keşif haritası</div><div id="pins"></div><p id="map-hint" class="map-hint" role="status" hidden></p></section><aside><div class="eyebrow">SEÇİLİ BÖLÜM</div><div id="mission"></div><button class="primary" id="play">▶ &nbsp; Maceraya başla</button></aside></div>
-<section class="progress"><div class="medal">🏆</div><div class="progress-info"><div><strong>Keşif günlüğüm</strong><span id="count"></span></div><div class="track"><i id="bar"></i></div></div></section></section></main>
+</main>
 <dialog id="game" aria-labelledby="gameTitle"><button id="close" class="btn-round" aria-label="Haritaya dön"></button><button class="secondary" id="switch-game">Oyuncu değiştir</button><div id="stage"></div></dialog><dialog id="stats" aria-labelledby="stats-title">
   <div class="stats-heading"><h2 id="stats-title">İstatistikler</h2><button id="close-stats" aria-label="İstatistikleri kapat">×</button></div>
   <div id="stats-content"></div>
@@ -161,8 +105,8 @@
   </div>
   <div id="panel-progress" class="set-panel" role="tabpanel" aria-labelledby="tab-progress" hidden>
     <section id="carpim-progress">
-      <div class="set-who"><span class="player-face" aria-hidden="true">🏝️</span><div><strong>Çarpım Adası</strong><small id="carpim-summary"></small></div></div>
-      <p class="set-hint">Yeniden başlamak istediğin adaya dokun.</p>
+      <div class="set-who"><span class="player-face" aria-hidden="true">🏝️</span><div><strong>Çarpım Koyu</strong><small id="carpim-summary"></small></div></div>
+      <p class="set-hint">Yeniden başlamak istediğin tabloya dokun.</p>
       <div id="reset-map" class="reset-map"></div>
       <p id="reset-info" class="set-note" role="status"></p>
       <button type="button" class="danger wide" id="reset-go" disabled>Buradan yeniden başla</button>
@@ -172,22 +116,22 @@
       <button type="button" class="danger wide" id="elif-reset">Elif Ba ilerlemesini sıfırla</button>
     </section>
     <section id="din-progress">
-      <div class="set-who"><span class="player-face" aria-hidden="true">🕌</span><div><strong>Din Bilgisi Adası</strong><small id="din-summary"></small></div></div>
+      <div class="set-who"><span class="player-face" aria-hidden="true">🕌</span><div><strong>Din Bilgisi Koyu</strong><small id="din-summary"></small></div></div>
       <ul id="din-units" class="soru-units"></ul>
       <button type="button" class="danger wide" id="din-reset">Din Bilgisi ilerlemesini sıfırla</button>
     </section>
     <section id="fen-progress">
-      <div class="set-who"><span class="player-face" aria-hidden="true">🔬</span><div><strong>Fen Bilimleri Adası</strong><small id="fen-summary"></small></div></div>
+      <div class="set-who"><span class="player-face" aria-hidden="true">🔬</span><div><strong>Fen Bilimleri Koyu</strong><small id="fen-summary"></small></div></div>
       <ul id="fen-units" class="soru-units"></ul>
       <button type="button" class="danger wide" id="fen-reset">Fen Bilimleri ilerlemesini sıfırla</button>
     </section>
     <section id="sosyal-progress">
-      <div class="set-who"><span class="player-face" aria-hidden="true">🧭</span><div><strong>Sosyal Bilgiler Adası</strong><small id="sosyal-summary"></small></div></div>
+      <div class="set-who"><span class="player-face" aria-hidden="true">🧭</span><div><strong>Sosyal Bilgiler Koyu</strong><small id="sosyal-summary"></small></div></div>
       <ul id="sosyal-units" class="soru-units"></ul>
       <button type="button" class="danger wide" id="sosyal-reset">Sosyal Bilgiler ilerlemesini sıfırla</button>
     </section>
     <p id="no-progress" class="set-note" hidden>Bu oyuncunun sınıfı için sıfırlanacak ilerleme yok.</p>
   </div>
   <p class="app-version"></p>
-</dialog><script src="core/js/app.js?v=2"></script><script src="core/js/bulut-ayar.js?v=3"></script><script src="core/js/sync.js?v=3"></script><script src="core/js/sounds.js?v=13"></script><script src="core/js/fx.js?v=2"></script><script src="core/js/akvaryum-veri.js?v=1"></script><script src="core/js/akvaryum-sanat.js?v=2"></script><script src="core/js/akvaryum.js?v=4"></script><script src="islands/carpim/game.js?v=4"></script><script src="core/js/stats.js?v=3"></script><script src="core/js/profiles.js?v=5"></script><script src="islands/elif-ba/data.js?v=10"></script><script src="assets/audio/elif-ba/kayitlar.js?v=9"></script><script src="islands/elif-ba/voice.js?v=10"></script><script src="islands/elif-ba/games/art.js?v=1"></script><script src="islands/elif-ba/games/listening.js?v=12"></script><script src="islands/elif-ba/games/bridge.js?v=8"></script>
-<script src="islands/elif-ba/map.js?v=7"></script><script src="islands/elif-ba/game.js?v=22"></script><script src="core/js/quiz.js?v=5"></script><script src="islands/din-bilgisi/sorular.js?v=8"></script><script src="islands/din-bilgisi/game.js?v=5"></script><script src="islands/fen-bilimleri/sorular.js?v=4"></script><script src="islands/fen-bilimleri/game.js?v=2"></script><script src="islands/sosyal-bilgiler/sorular.js?v=4"></script><script src="islands/sosyal-bilgiler/game.js?v=1"></script><script src="core/js/settings.js?v=20"></script></body></html>
+</dialog><script src="core/js/app.js?v=2"></script><script src="core/js/bulut-ayar.js?v=3"></script><script src="core/js/sync.js?v=3"></script><script src="core/js/sounds.js?v=13"></script><script src="core/js/fx.js?v=2"></script><script src="core/js/harita-sanat.js?v=1"></script><script src="core/js/akvaryum-veri.js?v=1"></script><script src="core/js/akvaryum-sanat.js?v=2"></script><script src="core/js/akvaryum.js?v=5"></script><script src="core/js/harita.js?v=1"></script><script src="islands/carpim/game.js?v=5"></script><script src="core/js/stats.js?v=4"></script><script src="core/js/profiles.js?v=6"></script><script src="islands/elif-ba/data.js?v=10"></script><script src="assets/audio/elif-ba/kayitlar.js?v=9"></script><script src="islands/elif-ba/voice.js?v=10"></script><script src="islands/elif-ba/games/art.js?v=1"></script><script src="islands/elif-ba/games/listening.js?v=12"></script><script src="islands/elif-ba/games/bridge.js?v=8"></script>
+<script src="islands/elif-ba/map.js?v=8"></script><script src="islands/elif-ba/game.js?v=22"></script><script src="core/js/quiz.js?v=6"></script><script src="islands/din-bilgisi/sorular.js?v=8"></script><script src="islands/din-bilgisi/game.js?v=6"></script><script src="islands/fen-bilimleri/sorular.js?v=4"></script><script src="islands/fen-bilimleri/game.js?v=3"></script><script src="islands/sosyal-bilgiler/sorular.js?v=4"></script><script src="islands/sosyal-bilgiler/game.js?v=2"></script><script src="core/js/settings.js?v=21"></script></body></html>

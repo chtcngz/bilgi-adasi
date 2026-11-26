@@ -1,123 +1,71 @@
-// Çarpım Adası: 2'den 10'a çarpım tablosu, dokuz ada ve her adada giderek kısalan dört süre turu; dört tur
-// bitince Balina Denizi'nde iki karma bölüm (5 ve 3 sn): 2'den 9'a bütün çarpımlar karışık.
-const ports = [[.16,.252],[.49,.257],[.83,.24],[.16,.571],[.49,.568],[.83,.565],[.16,.894],[.49,.915],[.83,.891]];
+// Çarpım Koyu (once Çarpım Adası): the multiplication tables 2-10 on six islands of Keşif Haritası (core/js/harita.js).
+// The first four islands are the timed rounds, 15, 10, 5 and 3 seconds a question, each with the nine tables as its
+// stations; the last two are the mixed rounds (5 and 3 s), one station each: every product of 2..9 once. The stages go
+// in order (only the next one opens) and finishing an island brings a fish to the player's tank.
+// Progress is still saved by stage: stages 0-35 are the four rounds of the nine tables (round × 9 + table), 36 and 37
+// the mixed ones. `stage` is the one shown in the game window.
 const secondsPerRound = [15, 10, 5, 3];
-const islands = ['Palmiye Koyu', 'Çam Kumsalı', 'Kaya Geçidi', 'Fener Burnu',
-  'Mercan Koyu', 'Çam Limanı', 'Dağ Geçidi', 'Değirmen Adası', 'Hazine Zirvesi'];
-// Stages 0-35 are the four rounds of the nine tables; the two mixed stages follow them. Their pin is the whale
-// (`selected` is MIXED while it is chosen). A mixed stage asks every product of 2..9 once, smaller factor first
-// (3 × 4, never 4 × 3 as well), in a new order on every start.
+const TABLES = 9;
 const mixedSeconds = [5, 3];
-const MIXED = islands.length;
-const mixedPort = [.655, .33];
-const mixedPlace = 'Balina Denizi';
 const mixedPairs = [];
 for (let a = 2; a <= 9; a++) for (let b = a; b <= 9; b++) mixedPairs.push([a, b]);
-const tableStages = islands.length * secondsPerRound.length;
+const tableStages = TABLES * secondsPerRound.length;
 const total = tableStages + mixedSeconds.length;
-let progress, selected;
+const ISLANDS = secondsPerRound.length + mixedSeconds.length;
+let progress, stage = 0;
 let deck = [], answers = [], entry = '', deadline = 0, timer, playing = false;
-const round = () => Math.min(secondsPerRound.length - 1, Math.floor(progress.completed / islands.length));
-const mixedRound = () => Math.min(mixedSeconds.length - 1, Math.max(0, progress.completed - tableStages));
-const isMixed = () => selected === MIXED;
-const slot = () => isMixed() ? tableStages + mixedRound() : round() * islands.length + selected;
-const limit = () => isMixed() ? mixedSeconds[mixedRound()] : secondsPerRound[round()];
+// The island a stage is on, the stages of an island, and their names.
+const islandOf = index => index >= tableStages ? secondsPerRound.length + index - tableStages : Math.floor(index / TABLES);
+const islandStages = i => i < secondsPerRound.length ? Array.from({ length: TABLES }, (_, t) => i * TABLES + t) : [tableStages + i - secondsPerRound.length];
+const islandSeconds = i => i < secondsPerRound.length ? secondsPerRound[i] : mixedSeconds[i - secondsPerRound.length];
+const islandName = i => (i < secondsPerRound.length ? '' : 'Karma ') + islandSeconds(i) + ' Saniye Adası';
+// 2’ler, 6’lar …: the suffix follows the number's last vowel.
+const tableName = t => (t + 2) + '’' + ['ler', 'ler', 'ler', 'ler', 'lar', 'ler', 'ler', 'lar', 'lar'][t];
+const stageLabel = index => index >= tableStages ? islandName(islandOf(index)) : islandName(islandOf(index)) + ' · ' + tableName(index % TABLES);
+const isMixed = () => stage >= tableStages;
+const table = () => stage % TABLES;
+const slot = () => stage;
+const limit = () => islandSeconds(islandOf(stage));
 const questionCount = () => isMixed() ? mixedPairs.length : 10;
-const title = () => isMixed() ? 'Karma Çarpım' : (selected + 2) + ' Çarpım Adası';
-// The pin a stage belongs to, the place shown for a pin, and a stage's name in lists.
-const stageIsland = index => index >= tableStages ? MIXED : index % islands.length;
-const placeName = island => island === MIXED ? mixedPlace : islands[island];
-const stageLabel = index => index >= tableStages ? 'Karma · ' + mixedSeconds[index - tableStages] + ' sn' :
-  (index % islands.length + 2) + ' · ' + islands[index % islands.length];
-const scenePosition = island => island === MIXED ? '73% 23%' : (island % 3 * 50) + '% ' + (Math.floor(island / 3) * 50) + '%';
-const stageTag = () => isMixed() ? 'KARMA BÖLÜM ' + (mixedRound()+1) + ' / ' + mixedSeconds.length :
-  'TUR ' + (round()+1) + ' / ' + secondsPerRound.length;
+const title = () => isMixed() ? 'Karma Çarpım' : (table() + 2) + ' Çarpım Tablosu';
+const scenePosition = () => isMixed() ? '73% 23%' : (table() % 3 * 50) + '% ' + (Math.floor(table() / 3) * 50) + '%';
+const stageTag = () => islandName(islandOf(stage)).toLocaleUpperCase('tr') + (isMixed() ? '' : ' · ' + (table() + 1) + ' / ' + TABLES);
 // The question of a turn: a table deck holds the second factors, a mixed deck both.
-const factors = i => Array.isArray(deck[i]) ? deck[i] : [selected + 2, deck[i]];
+const factors = i => Array.isArray(deck[i]) ? deck[i] : [table() + 2, deck[i]];
 function save() {
   try { localStorage.setItem(progressKey(activeProfile), JSON.stringify(progress)); storageFailed = false; }
   catch { storageFailed = true; }
 }
 let shownStars = null;
 const praise = ['Harika!', 'Süper!', 'Bravo!', 'Aferin!', 'Müthiş!', 'Şahane!'];
-const islandRounds = island => island === MIXED ?
-  mixedSeconds.map((_, r) => tableStages + r < progress.completed) :
-  secondsPerRound.map((_, r) => r * islands.length + island < progress.completed);
-function starRow(island) {
-  const rounds = islandRounds(island);
-  return '<span class="round-stars" aria-label="' + rounds.filter(Boolean).length + ' / ' + rounds.length +
-    (island === MIXED ? ' bölüm' : ' tur') + ' tamamlandı">' + rounds.map(done =>
-    '<i class="' + (done ? 'won' : '') + '" aria-hidden="true">★</i>').join('') + '</span>';
+const islandDone = i => islandStages(i).every(index => index < progress.completed);
+const doneIn = i => islandStages(i).filter(index => index < progress.completed).length;
+// The island's stations as stars: one for every table (or the mixed round) done.
+function starRow(i) {
+  const list = islandStages(i);
+  return '<span class="round-stars" aria-label="' + doneIn(i) + ' / ' + list.length + ' tamamlandı">' + list.map(index =>
+    '<i class="' + (index < progress.completed ? 'won' : '') + '" aria-hidden="true">★</i>').join('') + '</span>';
 }
 function dots(done, missed = false, count = questionCount()) {
   return '<ol class="dots' + (count > 10 ? ' many' : '') + '" aria-label="' + done + ' / ' + count + ' doğru">' +
     Array.from({length: count}, (_, i) =>
     '<li class="' + (i < done ? 'done' : i === done ? (missed ? 'miss' : 'now') : '') + '"></li>').join('') + '</ol>';
 }
+// The stars in the header, and the map behind the game window.
 function render() {
   const done = progress.completed;
   $('stars').textContent = '⭐ ' + done + ' yıldız';
   if (shownStars !== null && done > shownStars) fx.bump($('stars'), 'star-bump');
   shownStars = done;
-  $('count').textContent = done + ' / ' + total + ' yıldız';
-  $('bar').style.width = done / total * 100 + '%';
-  const pin = ([x, y], i, index) => {
-    const button = document.createElement('button');
-    button.className = 'pin ' + (i === MIXED ? 'mixed ' : '') + (index < done ? 'done ' : '') + (i === selected ? 'active' : '');
-    button.style.left = x * 100 + '%'; button.style.top = y * 100 + '%';
-    button.style.setProperty('--i', i);
-    button.textContent = i === MIXED ? '×' : i + 2;
-    const locked = index > done && !devAll();
-    if (index < done) button.insertAdjacentHTML('beforeend', '<span class="pin-star" aria-hidden="true">★</span>');
-    if (locked) {
-      button.classList.add('locked');
-      button.dataset.cue = '';
-      button.setAttribute('aria-disabled', 'true');
-      button.insertAdjacentHTML('beforeend', '<span class="pin-lock" aria-hidden="true">🔒</span>');
-    }
-    button.title = (i === MIXED ? mixedPlace + ' · Karma çarpım (2-9)' : islands[i] + ' · ' + (i+2) + ' çarpım tablosu') +
-      (locked ? ' · Kilitli' : '');
-    button.setAttribute('aria-label', button.title);
-    button.setAttribute('aria-pressed', selected === i);
-    button.onclick = () => {
-      if (locked) {
-        playCue('oops');
-        fx.bump(button, 'denied');
-        mapHint(i === MIXED ? '🔒 Karma bölüm dört tur bitince açılır' : '🔒 Önce ' + islands[done % islands.length] + ' adasını tamamla');
-        return;
-      }
-      selected = i;
-      render();
-      openIsland();
-    };
-    return button;
-  };
-  $('pins').replaceChildren(...ports.map((port, i) => pin(port, i, round() * islands.length + i)),
-    pin(mixedPort, MIXED, tableStages + mixedRound()));
-  $('mission').innerHTML = '<div class="scene"><span class="scene-name">' + placeName(selected) +
-    '</span></div><span class="tag">' + (isMixed() ? 'Karma bölüm ' + (mixedRound()+1) + ' / ' + mixedSeconds.length :
-    'Tur ' + (round()+1) + ' / ' + secondsPerRound.length) + ' · Her soru ' + limit() + ' sn</span><h2>' + title() +
-    '</h2>' + starRow(selected) + '<p>' + (isMixed() ? '2’den 9’a bütün çarpımlar karışık sırayla: ' + questionCount() +
-    ' işlemi art arda doğru çöz.' : '10 karışık işlemi art arda doğru çöz.') + '</p>';
-  const scene = $('mission').querySelector('.scene');
-  scene.style.backgroundPosition = scenePosition(selected);
-  $('play').textContent = slot() === done ? (progress.attempt ? '▶  Kaldığın yerden devam et' : isMixed() ? '▶  Bölüme başla' : '▶  Adaya başla') : 'Keşif günlüğünü aç';
-  $('play').onclick = openIsland;
 }
-function openIsland() {
+// Opens stage `index` in the game window: the next one to play, or the journal of one already done.
+function openStage(index) {
+  if (index > progress.completed && !devAll()) return;
+  stage = Math.min(index, total - 1);
   $('game').showModal();
-  if (slot() !== progress.completed) journal();
-  else if (progress.attempt) resumeAttempt();
+  if (stage < progress.completed) journal();
+  else if (progress.attempt && stage === progress.completed) resumeAttempt();
   else brief();
-}
-let hintTimer;
-function mapHint(text) {
-  const hint = $('map-hint');
-  hint.textContent = text;
-  hint.hidden = false;
-  fx.bump(hint, 'show');
-  clearTimeout(hintTimer);
-  hintTimer = setTimeout(() => { hint.hidden = true; }, 2200);
 }
 function stop() { playing = false; clearInterval(timer); }
 function setMood(mood) {
@@ -135,15 +83,15 @@ function screen(heading, body, action, handler, { cue, mood, eyebrow } = {}) {
   $('next').focus();
 }
 function brief() {
-  const scene = '<div class="brief-scene" style="background-position:' + scenePosition(selected) + '"><span>' +
-    placeName(selected) + '</span></div>';
+  const i = islandOf(stage);
+  const scene = '<div class="brief-scene" style="background-position:' + scenePosition() + '"><span>' + islandName(i) + '</span></div>';
   const facts = '<ul class="facts"><li><b>' + questionCount() + '</b><span>soru</span></li><li><b>' + limit() +
-    '</b><span>sn / soru</span></li><li><b>' + starRow(selected) + '</b><span>' + (isMixed() ? 'bölüm' : 'tur') +
-    ' yıldızları</span></li></ul>';
+    '</b><span>sn / soru</span></li><li><b>' + starRow(i) + '</b><span>ada yıldızları</span></li></ul>';
   const rules = isMixed() ? '<p>2’den 9’a bütün çarpımlar karışık sırayla gelecek. Cevabını yazıp onayla. ' +
-    'Yanlış cevapta veya süre dolduğunda doğru işlemi görecek ve bölüme baştan başlayacaksın. ' +
-    'Sorular her seferinde yeni bir sırayla gelir.</p>' :
-    '<p>Cevabını yazıp onayla. Yanlış cevapta veya süre dolduğunda doğru işlemi görecek ve bu adanın başından yeniden başlayacaksın.</p>';
+    'Yanlış cevapta veya süre dolduğunda doğru işlemi görecek ve baştan başlayacaksın. ' +
+    'Sorular her seferinde yeni bir sırayla gelir. Bitirince akvaryumuna bir balık gelecek.</p>' :
+    '<p>Cevabını yazıp onayla. Yanlış cevapta veya süre dolduğunda doğru işlemi görecek ve bu tablonun başından yeniden başlayacaksın. ' +
+    'Adadaki dokuz tabloyu bitirince akvaryumuna bir balık gelecek.</p>';
   screen(title(), scene + facts + rules, 'Hazırım, başla', begin, { cue: 'start' });
 }
 function shuffle(list) {
@@ -189,7 +137,7 @@ function question() {
   entry = progress.attempt.entry;
   const [a, b] = factors(answers.length);
   const labels = { Sil: '<span aria-hidden="true">⌫</span>', Onayla: '<span aria-hidden="true">✓</span> Onayla' };
-  $('stage').innerHTML = '<div class="eyebrow">' + (isMixed() ? 'KARMA ' + limit() + ' SN' : 'TUR ' + (round()+1)) +
+  $('stage').innerHTML = '<div class="eyebrow">' + (isMixed() ? 'KARMA ' + limit() + ' SN' : limit() + ' SANİYE · ' + tableName(table()).toLocaleUpperCase('tr')) +
     ' · SORU ' + (answers.length+1) + ' / ' + questionCount() + '</div>' + dots(answers.length) + '<h2 id="gameTitle">' + title() +
     '</h2><div class="quiz"><div class="clock" id="clock" role="timer"><svg viewBox="0 0 44 44" aria-hidden="true">' +
     '<circle class="ring-track" cx="22" cy="22" r="19"/><circle class="ring" cx="22" cy="22" r="19" pathLength="100"/></svg>' +
@@ -291,8 +239,8 @@ function finish(timeout) {
     screen(timeout?'Ah, süre doldu!':'Ah, bu kez olmadı!', dots(answers.length - 1, true) + yours +
       '<p class="answer-label">Doğru cevap</p>' + equation + groups +
       '<p>Her grupta '+a+' tane var. '+b+' grup toplam '+product+' eder. ' + (isMixed() ?
-      'Hazır olduğunda bölüme baştan başla; sorular yeni bir sırayla gelecek.' : 'Hazır olduğunda aynı adayı yeniden dene.') +
-      '</p>' + akvaryum.ipucu((isMixed() ? 'Bölümü' : 'Adayı') + ' bitirince akvaryumuna yeni bir balık ya da süs gelecek.'),
+      'Hazır olduğunda baştan başla; sorular yeni bir sırayla gelecek.' : 'Hazır olduğunda aynı tabloyu yeniden dene.') +
+      '</p>' + akvaryum.ipucu(islandName(islandOf(stage)) + '’nı bitirince akvaryumuna yeni bir balık gelecek.'),
       'Tekrar dene', begin, { mood: 'bad', cue: 'start' });
     return;
   }
@@ -308,46 +256,39 @@ function finish(timeout) {
     return;
   }
   delete progress.attempt;
-  const stage = slot(), finished = stageIsland(stage), count = questionCount();
-  progress.reports[stage] = answers;
+  const played = stage, i = islandOf(played), count = questionCount();
+  progress.reports[played] = answers;
   progress.completed++;
   save();
-  selected = stageIsland(Math.min(progress.completed,total-1));
   render();
   const victory = progress.completed === total;
-  const opened = progress.completed === tableStages;
-  const message = victory ? 'Dokuz adanın hepsini dört turda tamamladın, karma bölümlerde de 2’den 9’a bütün çarpımları ' +
-      'her biri ' + mixedSeconds[mixedSeconds.length-1] + ' saniye içinde çözdün.' :
-    opened ? 'Dokuz adayı dört turda da tamamladın! ' + mixedPlace + '’nde karma bölüm açıldı: 2’den 9’a bütün çarpımlar ' +
-      'karışık sırayla gelecek. Her soru için ' + limit() + ' saniyen var.' :
-    finished === MIXED ? count + ' karma işlemi art arda doğru çözdün. Son bölümde her soru için ' + limit() + ' saniyen var.' :
-    finished === islands.length - 1 ? 'Dokuz adayı tamamladın. Şimdi 2 tablosuna dönüyorsun. Bu turda her soru için '+limit()+' saniyen var.' :
-    'On işlemi tek denemede doğru çözdün. Sırada '+title()+' var.';
-  // Every island or mixed stage finished brings a fish or an ornament to the player's tank (once per stage).
-  const prize = akvaryum.odul({ anahtar: 'carpim:' + stage,
-    neden: finished === MIXED ? 'Karma Çarpım · ' + mixedSeconds[stage - tableStages] + ' sn' : (finished + 2) + ' Çarpım Adası' });
+  const islandFinished = islandDone(i);
+  // Finishing an island brings a fish to the player's tank (once per island).
+  const prize = islandFinished ? akvaryum.odul({ anahtar: 'carpim-ada:' + i, neden: 'Çarpım Koyu · ' + islandName(i), balik: true }) : null;
+  const next = Math.min(progress.completed, total - 1);
+  const message = victory ? 'Altı adanın hepsini bitirdin: dokuz tabloyu dört hızda, sonra 2’den 9’a bütün çarpımları karışık sırayla ' +
+      mixedSeconds[mixedSeconds.length - 1] + ' saniye içinde çözdün.' :
+    islandFinished ? islandName(i) + '’nı bitirdin! Sırada ' + islandName(islandOf(next)) + ' var: her soru için ' + islandSeconds(islandOf(next)) + ' saniyen olacak.' :
+    count + ' işlemi tek denemede doğru çözdün. Sırada ' + tableName(next % TABLES) + ' var. Bu adada ' + (TABLES - doneIn(i)) + ' tablo kaldı.';
   playCue(victory ? 'victory' : 'island');
-  screen(victory?'Çarpım ustası!':finished === MIXED?'Bölüm tamamlandı!':'Ada tamamlandı!', '<div class="trophy" aria-hidden="true"><span>' +
-    (victory ? '🏆' : opened ? '🐋' : '⭐') + '</span></div>' + dots(count, false, count) + '<p class="trophy-stars">' +
-    placeName(finished) + ' ' + starRow(finished) + '</p><p>'+message+'</p>' + akvaryum.kart([prize]) +
-    (storageFailed?'<p>İlerlemen yalnızca bu oturumda saklanabildi.</p>':''),
-    victory?'Haritaya dön':'Devam et', victory ? ()=>$('game').close() : brief,
+  stage = next;
+  screen(victory ? 'Çarpım ustası!' : islandFinished ? 'Ada tamamlandı!' : 'Tablo tamamlandı!', '<div class="trophy" aria-hidden="true"><span>' +
+    (victory ? '🏆' : islandFinished ? '🐟' : '⭐') + '</span></div>' + dots(count, false, count) + '<p class="trophy-stars">' +
+    islandName(i) + ' ' + starRow(i) + '</p><p>' + message + '</p>' + (prize ? akvaryum.kart([prize]) : '') +
+    (storageFailed ? '<p>İlerlemen yalnızca bu oturumda saklanabildi.</p>' : ''),
+    victory || islandFinished ? 'Haritaya dön' : 'Devam et', victory || islandFinished ? () => $('game').close() : brief,
     { mood: 'win', eyebrow: '+1 YILDIZ · ' + progress.completed + ' / ' + total });
-  fx.confetti($('game'), { count: victory || opened ? 220 : 140, duration: victory || opened ? 4500 : 3200 });
+  fx.confetti($('game'), { count: victory || islandFinished ? 220 : 140, duration: victory || islandFinished ? 4500 : 3200 });
   fx.burst($('stage').querySelector('.trophy'), { count: 14, spread: 110 });
 }
+// The answers of a stage already done.
 function journal() {
-  const mixed = isMixed();
-  const reports = (mixed ? mixedSeconds : secondsPerRound).map((s,r) => {
-    const rows = progress.reports[mixed ? tableStages+r : r*islands.length+selected];
-    if (!rows) return '';
-    return '<details '+(r===(mixed ? mixedRound() : round())?'open':'')+'><summary>'+(mixed ? 'Bölüm ' : 'Tur ')+(r+1)+
-      ' · '+s+' sn</summary><ul>'+
-      rows.map(x=>'<li>'+x.a+' × '+x.b+' = '+x.a*x.b+' · '+
-        (x.answer===null?'Süre doldu':x.answer===x.a*x.b?'Doğru':'Cevabın '+x.answer)+' · '+x.seconds+' sn</li>').join('')+'</ul></details>';
-  }).join('');
-  screen(title(), '<p class="trophy-stars">' + placeName(selected) + ' ' + starRow(selected) + '</p>' + reports,
-    'Haritaya dön', ()=>$('game').close(), { eyebrow: 'KEŞİF GÜNLÜĞÜ' });
+  const rows = progress.reports[stage] || [];
+  const list = rows.length ? '<ul class="journal">' + rows.map(x => '<li>' + x.a + ' × ' + x.b + ' = ' + x.a * x.b + ' · ' +
+    (x.answer === null ? 'Süre doldu' : x.answer === x.a * x.b ? 'Doğru' : 'Cevabın ' + x.answer) + ' · ' + x.seconds + ' sn</li>').join('') + '</ul>' :
+    '<p>Bu aşamanın cevapları kaydedilmemiş.</p>';
+  screen(title(), '<p class="trophy-stars">' + islandName(islandOf(stage)) + ' ' + starRow(islandOf(stage)) + '</p><p>✓ Tamamlandı. Son denemen:</p>' + list,
+    'Haritaya dön', () => $('game').close(), { eyebrow: 'KEŞİF GÜNLÜĞÜ' });
 }
 function pauseAttempt() {
   if (!playing) return;
@@ -361,9 +302,58 @@ function leaveGame() {
   $('game').close();
 }
 $('close').onclick = leaveGame;
-$('game').addEventListener('close', () => setMood(''));
+$('game').addEventListener('close', () => { setMood(''); kesifHaritasi.yenile(); });
 $('game').addEventListener('cancel', pauseAttempt);
 window.addEventListener('pagehide', pauseAttempt);
 window.addEventListener('pageshow', e => {
   if (e.persisted && $('game').open && progress?.attempt && $('keys')) resumeAttempt();
+});
+
+/* ---------- Çarpım Koyu on Keşif Haritası ---------- */
+// The islands finished before the bay came (0.43.0) bring their fish the next time the map shows, once each.
+const rewardedIslands = new Set();
+function rewardIslands() {
+  if (rewardedIslands.has(activeProfile.id)) return;
+  rewardedIslands.add(activeProfile.id);
+  for (let i = 0; i < ISLANDS; i++) {
+    if (islandDone(i)) akvaryum.odul({ anahtar: 'carpim-ada:' + i, neden: 'Çarpım Koyu · ' + islandName(i), balik: true });
+  }
+}
+const stationState = index => index < progress.completed ? 'done' : index === progress.completed ? 'now' : devAll() ? 'open' : 'locked';
+kesifHaritasi.koy({
+  id: 'carpim', kart: 'multiplication-card', ad: 'Çarpım Koyu', lead: '2’den 10’a çarpım tablosu', simge: '✖️', tema: 'carpim', araclar: true,
+  hazirla() { render(); rewardIslands(); },
+  adalar: () => Array.from({ length: ISLANDS }, (_, i) => {
+    const list = islandStages(i);
+    return { ad: islandName(i), kisa: i < secondsPerRound.length ? islandSeconds(i) + ' Saniye' : 'Karma ' + islandSeconds(i) + ' sn',
+      simge: (i < secondsPerRound.length ? '⏱ ' : '✖ ') + islandSeconds(i), not: list.length > 1 ? doneIn(i) + ' / ' + list.length : '',
+      durum: islandDone(i) ? 'done' : list.includes(progress.completed) ? 'now' : devAll() ? 'open' : 'locked' };
+  }),
+  duraklar: i => islandStages(i).map(index => i < secondsPerRound.length ?
+    { simge: '×' + (index % TABLES + 2), ad: tableName(index % TABLES), etiket: stageLabel(index), durum: stationState(index),
+      kilit: 'Önce ' + tableName(progress.completed % TABLES) + ' tablosunu bitir' } :
+    { simge: '✖', ad: mixedPairs.length + ' işlem', etiket: stageLabel(index), durum: stationState(index), kilit: 'Önce ' + stageLabel(progress.completed) + '’nı bitir' }),
+  ac: (i, n) => openStage(islandStages(i)[n]),
+  kilit: () => 'Önce ' + islandName(islandOf(progress.completed)) + '’nı bitir',
+  panel(level, i) {
+    const { sonraki, kutu, olcer } = kesifHaritasi.parca;
+    const done = progress.completed;
+    const parts = [];
+    if (level === 'ada') {
+      const list = islandStages(i);
+      if (list.includes(done)) parts.push(sonraki('▶', progress.attempt ? 'Kaldığın yerden' : 'Sıradaki', i < secondsPerRound.length ? tableName(done % TABLES) + ' tablosu' : 'Karma çarpım',
+        () => openStage(done)));
+      parts.push(kutu('<strong>' + islandName(i) + ' ' + starRow(i) + '</strong><small>' + (i < secondsPerRound.length ?
+        'Dokuz tablo, her birinde 10 işlem. Her soru için ' + islandSeconds(i) + ' saniyen var.' :
+        '2’den 9’a bütün çarpımlar (' + mixedPairs.length + ' işlem) karışık sırayla. Her soru için ' + islandSeconds(i) + ' saniyen var.') +
+        '</small><small>🐟 ' + (islandDone(i) ? 'Bu adanın balığını kazandın.' : 'Adayı bitirince akvaryumuna bir balık gelecek.') + '</small>'));
+      return parts;
+    }
+    if (done < total) parts.push(sonraki('▶', progress.attempt ? 'Kaldığın yerden' : 'Sıradaki', stageLabel(done), () => openStage(done)));
+    else parts.push(kutu('<strong>🏆 Çarpım ustası!</strong><small>Altı adanın hepsini bitirdin. Bitirdiğin bir tabloya dokunup son denemene bakabilirsin.</small>'));
+    parts.push(kutu('<strong>Keşif günlüğüm · ' + done + ' / ' + total + ' yıldız</strong>' + olcer(done / total) +
+      '<small>Altı ada var: önce 15, 10, 5 ve 3 saniyede 2’den 10’a dokuz tablo, sonra 5 ve 3 saniyede karma çarpım. Yalnızca sıradaki tablo açılır.</small>' +
+      '<small>🐟 Her adayı bitirince akvaryumuna bir balık gelir.</small>'));
+    return parts;
+  }
 });

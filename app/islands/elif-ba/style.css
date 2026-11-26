@@ -36,26 +36,6 @@
 .elif-map button { -webkit-tap-highlight-color: transparent; }
 .elif-map button:focus-visible { outline: 3px solid #173f40; outline-offset: 2px; }
 
-/* Living sea: waves drift, sparkles twinkle, palms sway, boats bob, gulls glide, the whale blows. */
-.map-waves { animation: map-waves 4.5s ease-in-out infinite alternate; }
-@keyframes map-waves { to { transform: translateX(9px); } }
-.map-twinkle { transform-box: fill-box; transform-origin: center; animation: map-twinkle 2.8s ease-in-out infinite; animation-delay: calc(var(--n, 0) * -.9s); }
-@keyframes map-twinkle { 0%, 100% { opacity: .15; transform: scale(.6); } 50% { opacity: 1; transform: scale(1.1); } }
-.map-fronds { transform-box: fill-box; transform-origin: 50% 60%; animation: map-sway 3.4s ease-in-out infinite alternate; }
-@keyframes map-sway { from { transform: rotate(-4deg); } to { transform: rotate(5deg); } }
-.map-boat { transform-box: fill-box; transform-origin: 50% 100%; animation: map-bob 2.4s ease-in-out infinite alternate; }
-@keyframes map-bob { from { transform: rotate(4deg); } to { transform: rotate(-5deg) translateY(-1.5px); } }
-.map-gulls { animation: map-glide 5s ease-in-out infinite alternate; }
-@keyframes map-glide { to { transform: translate(12px, -5px); } }
-.map-lighthouse circle { animation: map-light 1.8s ease-in-out infinite alternate; }
-@keyframes map-light { to { opacity: .15; } }
-.map-moon circle { animation: map-light 2.6s ease-in-out infinite alternate; }
-.map-whale { animation: map-whale 3.2s ease-in-out infinite alternate; }
-@keyframes map-whale { to { transform: translate(-6px, 3px); } }
-.map-spout { transform-box: fill-box; transform-origin: 50% 100%; animation: map-spout 3.2s ease-out infinite; }
-@keyframes map-spout { 0%, 55% { opacity: 0; transform: scaleY(.2); } 70% { opacity: 1; transform: scaleY(1.1); } 100% { opacity: 0; transform: scaleY(1) translateY(-4px); } }
-.map-needle { transform-box: fill-box; transform-origin: center; animation: map-needle 4s ease-in-out infinite alternate; }
-@keyframes map-needle { from { transform: rotate(-14deg); } to { transform: rotate(12deg); } }
 .map-halo { opacity: 0; }
 
 /* Level 1: the bays, along a sea lane. */

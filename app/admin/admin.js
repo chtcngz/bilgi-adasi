@@ -152,19 +152,17 @@ function startAdmin() {
   // The game's saved-data keys (README: they never change).
   const PROFILES = 'carpim-adasi-profiller';
   const prefixes = ['carpim-adasi-', 'elif-ba-', 'din-bilgisi-', 'fen-bilimleri-', 'sosyal-bilgiler-', 'akvaryum-', 'carpim-ses', 'elif-ses'];
-  // Çarpım Adası's islands and rounds, as in islands/carpim/game.js.
-  const carpimIslands = ['Palmiye Koyu', 'Çam Kumsalı', 'Kaya Geçidi', 'Fener Burnu',
-    'Mercan Koyu', 'Çam Limanı', 'Dağ Geçidi', 'Değirmen Adası', 'Hazine Zirvesi'];
+  // Çarpım Koyu's six islands, as in islands/carpim/game.js: four timed rounds of the nine tables, then two mixed ones.
+  const carpimTablesPer = 9;
   const carpimSeconds = [15, 10, 5, 3];
   const carpimMixed = [5, 3];
-  const carpimTables = carpimIslands.length * carpimSeconds.length;
+  const carpimTables = carpimTablesPer * carpimSeconds.length;
   const carpimTotal = carpimTables + carpimMixed.length;
-  // A stage's round and name: the four rounds of the nine tables, then the mixed stages.
+  // A stage's island and table.
   const carpimStage = index => index >= carpimTables
-    ? { tur: 'Karma (' + carpimMixed[index - carpimTables] + ' sn)', ada: 'Karma · 2-9', kisa: 'Karma ' + carpimMixed[index - carpimTables] + ' sn' }
-    : { tur: 'Tur ' + (Math.floor(index / carpimIslands.length) + 1) + ' (' + carpimSeconds[Math.floor(index / carpimIslands.length)] + ' sn)',
-        ada: (index % carpimIslands.length + 2) + ' · ' + carpimIslands[index % carpimIslands.length],
-        kisa: 'Tur ' + (Math.floor(index / carpimIslands.length) + 1) + ' · ' + (index % carpimIslands.length + 2) };
+    ? { tur: 'Karma ' + carpimMixed[index - carpimTables] + ' Saniye Adası', ada: 'Karma · 2-9', kisa: 'Karma ' + carpimMixed[index - carpimTables] + ' sn' }
+    : { tur: carpimSeconds[Math.floor(index / carpimTablesPer)] + ' Saniye Adası', ada: (index % carpimTablesPer + 2) + ' tablosu',
+        kisa: carpimSeconds[Math.floor(index / carpimTablesPer)] + ' sn · ' + (index % carpimTablesPer + 2) + ' tablosu' };
   // Question islands, as in their game.js files. The banks are top-level consts, not window properties.
   const quizzes = [
     { kod: 'din', ad: 'Din Bilgisi Adası', simge: '🌙', kayit: 'din-bilgisi-', duraklar: typeof dinSorular !== 'undefined' && dinSorular },
@@ -279,10 +277,10 @@ function startAdmin() {
     draw();
   }
 
-  /* ---------- Çarpım Adası ---------- */
+  /* ---------- Çarpım Koyu ---------- */
   function carpim(record) {
     const box = el('section', 'adm-island');
-    box.append(el('h3', '', '✖️ Çarpım Adası'));
+    box.append(el('h3', '', '✖️ Çarpım Koyu'));
     box.ozet = '✖️ –';
     if (!record) { box.append(el('p', 'adm-empty', 'Henüz oynamadı.')); return box; }
     const done = Math.max(0, Math.min(carpimTotal, num(record.completed)));
@@ -295,8 +293,7 @@ function startAdmin() {
     const stats1 = el('div', 'adm-stats');
     stats1.append(
       stat(done + ' / ' + carpimTotal, 'yıldız'),
-      stat(done >= carpimTotal ? 'Bitti 🎉' : done >= carpimTables ? carpimStage(done).kisa :
-        'Tur ' + (Math.floor(done / carpimIslands.length) + 1) + ' · ' + (done % carpimIslands.length + 2) + ' tablosu', 'şu an'),
+      stat(done >= carpimTotal ? 'Bitti 🎉' : carpimStage(done).kisa, 'şu an'),
       stat(String(all.attempts), 'deneme'),
       stat(pct(all.correct, answered) + '%', 'doğru (' + all.correct + ' / ' + answered + ')'),
       stat(String(all.wrong), 'yanlış'),
@@ -319,7 +316,7 @@ function startAdmin() {
         String(num(s?.wrong)), String(num(s?.timeout)), s ? seconds(s.seconds) : '–'
       ] });
     }
-    box.append(fold('Ada ada sonuçlar', table(['Tur', 'Tablo', 'Durum', 'Deneme', 'Doğru', 'Yanlış', 'Süre doldu', 'Süre'], rows)));
+    box.append(fold('Ada ada sonuçlar', table(['Ada', 'Tablo', 'Durum', 'Deneme', 'Doğru', 'Yanlış', 'Süre doldu', 'Süre'], rows)));
     // The last attempt of every stage, answer by answer.
     const last = [];
     for (const [index, s] of Object.entries(stats)) {

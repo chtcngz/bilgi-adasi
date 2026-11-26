@@ -1,20 +1,23 @@
-// Soru adaları (Din Bilgisi Adası, Fen Bilimleri Adası): ders kitabının ünitelerini izleyen
-// duraklarda çoktan seçmeli sorular (her turda 10 soru, 3 kalp, bir yarı yarıya jokeri),
+// Soru adaları (Din Bilgisi, Fen Bilimleri, Sosyal Bilgiler): Keşif Haritası'nda birer koy. Koyun adaları ders
+// kitabının üniteleri, ekstra konular ve deneme sınavıdır; bir ünite adasının durakları, ünitenin sorularının
+// kitaptaki sırayla bölündüğü parçalardır. Duraklarda çoktan seçmeli sorular (her turda 10 soru, 3 kalp, bir yarı yarıya jokeri),
 // yanlış cevapların toplandığı bir Tekrar Kutusu ve gerçek sınav gibi 20 soruluk bir deneme.
-// Yıldızlar tek bir turu ölçer; bir durağın bitmesi ise bütün sorularının öğrenilmesidir:
+// Yıldızlar tek bir turu ölçer; bir ünite adasının bitmesi ise bütün sorularının öğrenilmesidir:
 // bir soru iki ayrı turda doğru bilinince (ve son cevabı doğruysa) öğrenilmiş sayılır.
 //
 // Her ada kendi game.js dosyasında soruAdasi({...}) ile kurulur:
-//   kod       sayfadaki kimliklerin öneki: din → #din-view, #din-game, #din-card …
+//   kod       sayfadaki kimliklerin öneki: din → #din-game, #din-card …
 //             (görünüm core/css/quiz.css'teki ortak .soru-* sınıflarından gelir)
-//   ad        "Din Bilgisi Adası" gibi; sekme başlığında görünür
+//   ad        "Din Bilgisi Adası" gibi: akvaryum ödüllerinin nedeninde görünür (değişmez, eski ödüller buna bakar)
+//   koy, lead, simge, tema   Keşif Haritası'ndaki koyun adı, ne öğrenildiği, işareti ve görünüşü (core/js/harita.js)
+//   kaynak    soruların nereden geldiğini anlatan not; koyun altında görünür
 //   kayit     ilerlemenin localStorage anahtarı öneki ('din-bilgisi-' + oyuncu kimliği)
 //   duraklar  soru bankası (bkz. islands/din-bilgisi/sorular.js)
 //   ovgu      doğru cevaptan sonra rastgele seçilen sözler
 //   simgeler  doğru cevapta saçılan simgeler
 // Ayarlar penceresi ilerlemeyi window.soruAdalari[kod] üzerinden okur ve sıfırlar.
 window.soruAdalari = {};
-function soruAdasi({ kod, ad, kayit, duraklar: stops, ovgu: praise, simgeler }) {
+function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: stops, ovgu: praise, simgeler }) {
   const ROUND = 10, HEARTS = 3, EXAM = 20;
   const letters = ['A', 'B', 'C', 'D'];
   const byKey = name => $(kod + '-' + name);
@@ -84,7 +87,7 @@ function soruAdasi({ kod, ad, kayit, duraklar: stops, ovgu: praise, simgeler }) 
   const reset = id => {
     records.set(id, blank());
     try { localStorage.removeItem(storeKey(id)); } catch {}
-    if (activeProfile?.id === id && !byKey('view').hidden) { progress = records.get(id); showHub(); }
+    if (activeProfile?.id === id) { progress = records.get(id); kesifHaritasi.yenile(); }
   };
   window.soruAdalari[kod] = { summary, reset, kayit };
 
@@ -122,97 +125,99 @@ function soruAdasi({ kod, ad, kayit, duraklar: stops, ovgu: praise, simgeler }) 
   const yearNote = q => q.y ? '<p class="soru-year"><span aria-hidden="true">📝</span> Benzeri Tevfik İleri ' + q.y + ' sınavında soruldu.</p>' : '';
   const prepare = q => ({ q, order: shuffled([0, 1, 2, 3]), answer: null, gone: [] });
 
-  /* ---------- Hub ---------- */
+  /* ---------- The bay on Keşif Haritası ---------- */
+  // A unit's questions in the book's order, cut into three to six stations of about twenty.
+  const partsOf = stop => {
+    const n = stop.sorular.length, count = Math.max(3, Math.min(6, Math.round(n / 20)));
+    return Array.from({ length: count }, (_, p) => stop.sorular.slice(Math.floor(p * n / count), Math.floor((p + 1) * n / count)));
+  };
+  const partLearned = part => part.filter(q => learned(q)).length;
+  const firstPart = stop => Math.max(0, partsOf(stop).findIndex(part => partLearned(part) < part.length));
   function nextStep() {
+    const at = k => ({ kind: 'durak', k, p: firstPart(stops[k]) });
     const fresh = stops.findIndex(stop => !stop.ekstra && !starsOf(stop));
-    if (fresh >= 0) return { kind: 'durak', k: fresh, label: stops[fresh].simge + ' ' + stops[fresh].ad };
+    if (fresh >= 0) return { ...at(fresh), label: stops[fresh].simge + ' ' + stops[fresh].ad };
     if (!progress.deneme.sayi) return { kind: 'deneme', label: '🏆 Deneme Sınavı' };
     const extra = stops.findIndex(stop => stop.ekstra && !starsOf(stop));
-    if (extra >= 0) return { kind: 'durak', k: extra, label: stops[extra].simge + ' ' + stops[extra].ad };
+    if (extra >= 0) return { ...at(extra), label: stops[extra].simge + ' ' + stops[extra].ad };
     if (missed().length) return { kind: 'tekrar', label: '🔁 Tekrar Kutusu' };
     // the open stop with the largest share of questions still to learn
     const todo = stops.map((stop, k) => ({ k, left: stop.sorular.length - learnedIn(stop), share: 1 - learnedIn(stop) / stop.sorular.length }))
       .filter(s => s.left > 0 && stopOpen(s.k)).sort((a, b) => b.share - a.share)[0];
-    if (todo) return { kind: 'durak', k: todo.k, label: stops[todo.k].simge + ' ' + stops[todo.k].ad + ' · ' + todo.left + ' soru kaldı' };
+    if (todo) return { ...at(todo.k), label: stops[todo.k].simge + ' ' + stops[todo.k].ad + ' · ' + todo.left + ' soru kaldı' };
     const better = stops.findIndex(stop => starsOf(stop) < 3);
-    if (better >= 0) return { kind: 'durak', k: better, label: stops[better].simge + ' ' + stops[better].ad + ' · 3 yıldız için' };
+    if (better >= 0) return { ...at(better), label: stops[better].simge + ' ' + stops[better].ad + ' · 3 yıldız için' };
     return { kind: 'deneme', label: '🏆 Deneme Sınavı · rekorunu geliştir' };
   }
-  function learnMeter(stop) {
-    const n = learnedIn(stop), all = stop.sorular.length;
-    return '<span class="soru-meter" aria-hidden="true"><i style="width:' + n / all * 100 + '%"></i></span>' +
-      '<b class="soru-learned">' + (n === all ? '✅ Bütün soruları öğrendin' : '📗 ' + n + ' / ' + all + ' soru öğrenildi') + '</b>';
-  }
   function go(step) {
-    if (step.kind === 'durak') startStop(step.k);
+    if (step.kind === 'durak') startStop(step.k, step.p);
     else if (step.kind === 'deneme') startExam();
     else startReview();
   }
-  function showHub() {
-    byKey('score').textContent = '⭐ ' + starTotal() + ' / ' + maxStars + ' · 📗 ' + learnedAll() + ' / ' + byId.size;
-    const total = learnedAll();
-    byKey('mastery').innerHTML = (total === byId.size
-      ? '<strong>🏅 Adanın bütün ' + byId.size + ' sorusunu öğrendin!</strong>'
-      : '<strong>📗 ' + total + ' / ' + byId.size + ' soru öğrenildi</strong>') +
-      '<span class="soru-meter" aria-hidden="true"><i style="width:' + total / byId.size * 100 + '%"></i></span>' +
-      '<small>Bir soru iki ayrı turda doğru bilinince öğrenilmiş sayılır. Ada, bütün sorular öğrenilince biter.</small>';
-    const cards = stops.map((stop, k) => {
-      const open = stopOpen(k);
-      const stars = starsOf(stop);
-      const item = el('li');
-      const button = el('button', 'soru-stop tone-' + k % 4 + (open ? '' : ' locked') + (stopMastered(stop) ? ' mastered' : ''));
-      button.style.setProperty('--i', k);
-      button.innerHTML = '<span class="soru-stop-icon" aria-hidden="true">' + (open ? stop.simge : '🔒') + '</span>' +
-        '<span class="soru-stop-text"><small>' + stop.unite + (stop.kitap ? ' <i>📘 Ders kitabı ' + stop.kitap + '</i>' : '') +
-        '</small><strong>' + stop.ad + '</strong><span>' + stop.konu + '</span>' +
-        (open ? starRow(stars) + learnMeter(stop) : '<em>' + lockText + '</em>') + '</span>';
-      button.setAttribute('aria-label', stop.unite + ', ' + stop.ad + ': ' + stop.konu + (open ? ', ' + stars + ' yıldız, ' +
-        learnedIn(stop) + ' / ' + stop.sorular.length + ' soru öğrenildi' : ', kilitli'));
-      if (!open) {
-        button.dataset.cue = '';
-        button.onclick = () => {
-          playCue('oops');
-          fx.bump(button, 'denied');
-          byKey('note').textContent = '🔒 ' + stop.ad + ' için önce ' + unitsLeft() + ' ünite daha bitirmelisin.';
-        };
-      } else button.onclick = () => startStop(k);
-      item.append(button);
-      return item;
-    });
-    const exam = el('li', 'soru-exam-item');
-    const examButton = el('button', 'soru-stop soru-exam' + (examOpen() ? '' : ' locked'));
-    examButton.style.setProperty('--i', stops.length);
-    const best = progress.deneme.en;
-    examButton.innerHTML = '<span class="soru-stop-icon" aria-hidden="true">' + (examOpen() ? '🏆' : '🔒') + '</span>' +
-      '<span class="soru-stop-text"><small>Hazine Zirvesi</small><strong>Deneme Sınavı</strong><span>Gerçek sınav gibi ' + EXAM +
-      ' soru, bütün konulardan karışık</span>' + (!examOpen() ? '<em>' + lockText + '</em>' :
-        best === null ? '<b class="soru-badge">Henüz girmedin</b>' : '<b class="soru-badge">En iyi: ' + best + ' / ' + EXAM + '</b>') + '</span>';
-    if (!examOpen()) {
-      examButton.dataset.cue = '';
-      examButton.onclick = () => {
-        playCue('oops');
-        fx.bump(examButton, 'denied');
-        byKey('note').textContent = '🔒 Deneme sınavı için ' + unitsLeft() + ' ünite daha kaldı.';
+  const EXAM_ISLE = stops.length; // the mock exam is the bay's last island
+  const starText = n => '★'.repeat(n) + '☆'.repeat(3 - n);
+  kesifHaritasi.koy({
+    id: kod, kart: kod + '-card', ad: koy, lead, simge, tema,
+    hazirla() { progress = load(activeProfile.id); },
+    adalar() {
+      const step = nextStep();
+      return [...stops.map((stop, k) => ({ ad: stop.ad, simge: stop.simge, not: starText(starsOf(stop)) + ' ' + learnedIn(stop) + '/' + stop.sorular.length,
+        durum: !stopOpen(k) ? 'locked' : stopMastered(stop) ? 'done' : step.kind === 'durak' && step.k === k ? 'now' : 'open' })),
+      { ad: 'Deneme Sınavı', simge: '🏆', not: progress.deneme.en === null ? EXAM + ' soru' : 'En iyi ' + progress.deneme.en + '/' + EXAM,
+        durum: !examOpen() ? 'locked' : step.kind === 'deneme' ? 'now' : progress.deneme.sayi ? 'done' : 'open' }];
+    },
+    duraklar(k) {
+      if (k === EXAM_ISLE) return [{ simge: '🏆', ad: 'Deneme', etiket: 'Deneme Sınavı', not: progress.deneme.en === null ? EXAM + ' soru' : 'En iyi ' + progress.deneme.en + ' / ' + EXAM,
+        durum: progress.deneme.sayi ? 'done' : 'now' }];
+      const now = firstPart(stops[k]);
+      return partsOf(stops[k]).map((part, p) => {
+        const n = partLearned(part);
+        return { simge: String(p + 1), ad: (p + 1) + '. durak', etiket: stops[k].ad + ', ' + (p + 1) + '. durak', not: n + ' / ' + part.length,
+          durum: n === part.length ? 'done' : p === now ? 'now' : 'open' };
+      });
+    },
+    ac: (k, p) => k === EXAM_ISLE ? startExam() : startStop(k, p),
+    kilit: () => lockText,
+    panel(level, k) {
+      const { sonraki, kutu, dugme, olcer } = kesifHaritasi.parca;
+      const parts = [];
+      const wrong = missed().length;
+      const review = () => {
+        if (!wrong) return null;
+        const box = kutu('<div class="kh-row"><span aria-hidden="true">🔁</span><div><strong>Tekrar Kutusu</strong><small>' + wrong +
+          ' soruyu yanlış cevapladın. Doğrusunu bulunca kutudan çıkar.</small></div></div>');
+        box.querySelector('.kh-row').append(dugme('Tekrar et', startReview));
+        return box;
       };
-    } else examButton.onclick = startExam;
-    exam.append(examButton);
-    byKey('stops').replaceChildren(...cards, exam);
-
-    const wrong = missed().length;
-    byKey('review').hidden = !wrong;
-    if (wrong) {
-      byKey('review').innerHTML = '<span aria-hidden="true">🔁</span><div><strong>Tekrar Kutusu</strong><small>' + wrong +
-        ' soruyu yanlış cevapladın. Doğrusunu bulunca kutudan çıkar.</small></div>';
-      const button = el('button', 'soru-action quiet', 'Tekrar et');
-      button.onclick = startReview;
-      byKey('review').append(button);
+      if (level === 'ada' && k === EXAM_ISLE) {
+        parts.push(sonraki('🏆', 'Hazine Zirvesi', 'Deneme Sınavı’na gir', startExam));
+        parts.push(kutu('<strong>Deneme Sınavı</strong><small>Gerçek sınav gibi ' + EXAM + ' soru, bütün konulardan karışık. Cevaplar sınavın sonunda görünür.</small>' +
+          '<small>' + (progress.deneme.en === null ? 'Henüz girmedin.' : 'En iyi: ' + progress.deneme.en + ' / ' + EXAM + ' · ' + progress.deneme.sayi + ' deneme') + '</small>'));
+        return parts;
+      }
+      if (level === 'ada') {
+        const stop = stops[k], p = firstPart(stop), n = learnedIn(stop), all = stop.sorular.length;
+        parts.push(sonraki('▶', stopMastered(stop) ? 'Yeniden oyna' : 'Sıradaki', stop.ad + ' · ' + (p + 1) + '. durak', () => startStop(k, p)));
+        parts.push(kutu('<strong>' + stop.simge + ' ' + stop.ad + ' <span class="soru-stars" aria-label="' + starsOf(stop) + ' / 3 yıldız">' + starRow(starsOf(stop), false) + '</span></strong>' +
+          '<small>' + stop.unite + ' · ' + stop.konu + (stop.kitap ? ' · 📘 Ders kitabı ' + stop.kitap : '') + '</small>' + olcer(n / all) +
+          '<small>' + (n === all ? '✅ Bütün soruları öğrendin' : '📗 ' + n + ' / ' + all + ' soru öğrenildi') + '. Duraklar ünitenin sorularını kitaptaki sırayla böler; ' +
+          'her turda 10 soru, 3 kalp ve bir “yarı yarıya” jokerin var.</small>'));
+        const box = review();
+        if (box) parts.push(box);
+        return parts;
+      }
+      const step = nextStep(), total = learnedAll();
+      parts.push(sonraki('▶', 'Sıradaki', step.label, () => go(step)));
+      parts.push(kutu('<strong>' + (total === byId.size ? '🏅 Bütün ' + byId.size + ' soruyu öğrendin!' : '📗 ' + total + ' / ' + byId.size + ' soru öğrenildi') +
+        ' · ⭐ ' + starTotal() + ' / ' + maxStars + '</strong>' + olcer(total / byId.size) +
+        '<small>Bir soru iki ayrı turda doğru bilinince öğrenilmiş sayılır. Bir ada, bütün soruları öğrenilince biter. ' +
+        'Deneme Sınavı' + (ekstra ? ' ve ' + ekstra.simge + ' ' + ekstra.ad : '') + ', ' + lockText.charAt(0).toLocaleLowerCase('tr') + lockText.slice(1) + '.</small>'));
+      const box = review();
+      if (box) parts.push(box);
+      if (kaynak) parts.push(kutu('<small>' + kaynak + '</small>'));
+      return parts;
     }
-    const step = nextStep();
-    byKey('next').innerHTML = '<span aria-hidden="true">▶</span> <span><small>Sıradaki</small>' + step.label + '</span>';
-    byKey('next').onclick = () => go(step);
-    byKey('note').textContent = '';
-    document.title = ad + ' · Bilgi Adası';
-  }
+  });
 
   /* ---------- Rounds ---------- */
   function begin(kind, stop, questions) {
@@ -224,9 +229,12 @@ function soruAdasi({ kod, ad, kayit, duraklar: stops, ovgu: praise, simgeler }) 
     playCue('start');
     ask();
   }
-  function startStop(k) {
+  // A round on station p of stop k (the whole stop without p).
+  function startStop(k, p) {
     if (!stopOpen(k)) return;
-    begin('durak', stops[k], pick(stops[k].sorular, ROUND));
+    const part = Number.isInteger(p) ? partsOf(stops[k])[p] : stops[k].sorular;
+    begin('durak', stops[k], pick(part, ROUND));
+    run.part = p;
   }
   function startReview() {
     const list = missed();
@@ -412,10 +420,10 @@ function soruAdasi({ kod, ad, kayit, duraklar: stops, ovgu: praise, simgeler }) 
     let html = '';
     if (run.stop) {
       const n = learnedIn(run.stop), all = run.stop.sorular.length;
-      if (n === all && run.stopLearnedBefore < all) html += '<p class="soru-unlock">✅ ' + run.stop.ad + ' durağının bütün sorularını öğrendin!</p>';
-      html += '<p class="soru-learn-line">📗 ' + (gained > 0 ? '+' + gained + ' yeni soru öğrendin · ' : '') + 'Bu durakta ' + n + ' / ' + all + ' öğrenildi</p>';
-    } else html += '<p class="soru-learn-line">📗 ' + (gained > 0 ? '+' + gained + ' yeni soru öğrendin · ' : '') + 'Adada ' + now + ' / ' + byId.size + ' öğrenildi</p>';
-    if (now === byId.size && run.learnedBefore < byId.size) html += '<p class="soru-unlock">🏅 Adanın bütün ' + byId.size + ' sorusunu öğrendin! Ders kitabının bütün konularını bitirdin.</p>';
+      if (n === all && run.stopLearnedBefore < all) html += '<p class="soru-unlock">✅ ' + run.stop.ad + ' adasının bütün sorularını öğrendin!</p>';
+      html += '<p class="soru-learn-line">📗 ' + (gained > 0 ? '+' + gained + ' yeni soru öğrendin · ' : '') + 'Bu adada ' + n + ' / ' + all + ' öğrenildi</p>';
+    } else html += '<p class="soru-learn-line">📗 ' + (gained > 0 ? '+' + gained + ' yeni soru öğrendin · ' : '') + 'Koyda ' + now + ' / ' + byId.size + ' öğrenildi</p>';
+    if (now === byId.size && run.learnedBefore < byId.size) html += '<p class="soru-unlock">🏅 Koyun bütün ' + byId.size + ' sorusunu öğrendin! Ders kitabının bütün konularını bitirdin.</p>';
     return html;
   }
   function finish() {
@@ -433,17 +441,17 @@ function soruAdasi({ kod, ad, kayit, duraklar: stops, ovgu: praise, simgeler }) 
         (prize ? akvaryum.kart([prize]) : akvaryum.ipucu('Bir turu hatasız bitirince akvaryumuna yeni bir balık ya da süs gelir.')) + storage, 'win');
       playCue(run.right === total ? 'island' : 'correct');
       if (run.right === total) fx.confetti(dialog, { count: 120 });
-      buttons(...(left ? [['🔁 Bir tur daha', startReview]] : []), ['Adaya dön', closeGame, left > 0]);
+      buttons(...(left ? [['🔁 Bir tur daha', startReview]] : []), ['Haritaya dön', closeGame, left > 0]);
       return;
     }
     const stop = run.stop;
-    const k = stops.indexOf(stop);
+    const k = stops.indexOf(stop), part = run.part;
     if (run.hearts === 0) {
       result(topBar() + '<div class="soru-prize" aria-hidden="true">💔</div><h2 id="' + kod + '-result-title" tabindex="-1">Kalplerin bitti!</h2>' +
         '<p>' + (run.turn + 1) + ' sorudan ' + run.right + ' tanesini bildin. Yanlış yaptığın sorular Tekrar Kutusu’na eklendi; ' +
         '“Biliyor muydun?” notlarını hatırlayarak yeniden dene.</p>' + akvaryum.ipucu('Turu bitirince akvaryumuna yeni bir balık ya da süs gelecek.') + storage, 'bad');
       playCue('oops');
-      buttons(['↻ Tekrar dene', () => startStop(k)], ['Adaya dön', closeGame, true]);
+      buttons(['↻ Tekrar dene', () => startStop(k, part)], ['Haritaya dön', closeGame, true]);
       return;
     }
     const stars = run.right === total ? 3 : run.right === total - 1 ? 2 : 1;
@@ -462,19 +470,19 @@ function soruAdasi({ kod, ad, kayit, duraklar: stops, ovgu: praise, simgeler }) 
     let text = run.right + ' / ' + total + ' doğru';
     if (run.bestStreak >= 3) text += ' · en uzun seri 🔥 ' + run.bestStreak;
     let extra = stars < 3 ? '<p>3 yıldız için turu hatasız bitir. Jokerini akıllıca kullan!</p>' :
-      !stopMastered(stop) ? '<p>Bu durağın bütün sorularını öğrenmek için tekrar oyna; her turda yeni sorular gelir.</p>' : '';
+      !stopMastered(stop) ? '<p>Bu adanın bütün sorularını öğrenmek için tekrar oyna; her turda yeni sorular gelir.</p>' : '';
     if (firstTime && !stop.ekstra && left) extra += '<p class="soru-unlock">Deneme Sınavı’na ' + left + ' ünite kaldı.</p>';
     if (examNow) extra += '<p class="soru-unlock">🔓 <b>Deneme Sınavı</b>' + (ekstra ? ' ve <b>' + ekstra.simge + ' ' + ekstra.ad + '</b>' : '') +
       ' açıldı! Gerçek sınav gibi ' + EXAM + ' soru seni bekliyor.</p>';
     result('<div class="soru-prize" aria-hidden="true">' + stop.simge + '</div>' +
-      '<h2 id="' + kod + '-result-title" tabindex="-1">' + (stars > before && !firstTime ? 'Yeni rekor!' : stars === 3 ? 'Mükemmel!' : 'Durak tamamlandı!') + '</h2>' +
+      '<h2 id="' + kod + '-result-title" tabindex="-1">' + (stars > before && !firstTime ? 'Yeni rekor!' : stars === 3 ? 'Mükemmel!' : 'Tur tamamlandı!') + '</h2>' +
       '<div class="soru-won">' + starRow(stars) + '</div><p class="soru-score-big">' + text + '</p>' + extra + akvaryum.kart(prizes) + storage, 'win');
     playCue(all ? 'victory' : 'island');
     fx.confetti(dialog, { count: stars === 3 ? 180 : 110 });
     fx.burst(byKey('stage').querySelector('.soru-won'), { count: 12, spread: 100 });
     const step = nextStep();
-    buttons(...(step.kind !== 'durak' || step.k !== k ? [['Sıradaki: ' + step.label + ' ›', () => go(step)]] : []),
-      ['↻ Tekrar oyna', () => startStop(k), true], ['Adaya dön', closeGame, true]);
+    buttons(...(step.kind !== 'durak' || step.k !== k || step.p !== part ? [['Sıradaki: ' + step.label + ' ›', () => go(step)]] : []),
+      ['↻ Tekrar oyna', () => startStop(k, part), true], ['Haritaya dön', closeGame, true]);
   }
 
   function finishExam() {
@@ -515,7 +523,7 @@ function soruAdasi({ kod, ad, kayit, duraklar: stops, ovgu: praise, simgeler }) 
       learnedNote() + (storageNote ? '<p class="soru-small">' + storageNote + '</p>' : ''), score >= 15 ? 'win' : '');
     playCue(score >= 18 ? 'victory' : score >= 10 ? 'island' : 'correct');
     if (score >= 15) fx.confetti(dialog, { count: score >= 18 ? 220 : 140, duration: 4000 });
-    buttons(['↻ Yeni deneme', startExam], ['Adaya dön', closeGame, true]);
+    buttons(['↻ Yeni deneme', startExam], ['Haritaya dön', closeGame, true]);
   }
 
   function closeGame() { dialog.close(); }
@@ -531,21 +539,12 @@ function soruAdasi({ kod, ad, kayit, duraklar: stops, ovgu: praise, simgeler }) 
     if (button && !button.disabled) { e.preventDefault(); button.click(); }
   });
 
-  /* ---------- Entry and leaving ---------- */
-  byKey('card').onclick = () => {
-    if (!availableForPlayer(byKey('card'))) return;
-    progress = load(activeProfile.id);
-    $('catalog').hidden = true;
-    byKey('view').hidden = false;
-    showHub();
-    byKey('title').focus();
-  };
-  byKey('back').onclick = showCatalog;
+  /* ---------- Leaving ---------- */
   byKey('close').onclick = closeGame;
   dialog.addEventListener('close', () => {
     run = null;
     dialog.dataset.mood = '';
     for (const canvas of dialog.querySelectorAll('.fx-confetti')) canvas.remove();
-    if (!byKey('view').hidden) showHub();
+    kesifHaritasi.yenile();
   });
 }

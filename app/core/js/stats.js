@@ -33,7 +33,7 @@ function initializeStats() {
 function stageDetail(index, stats) {
   const complete = index < progress.completed;
   const status = complete ? 'Tamamlandı' : index > progress.completed ? 'Kilitli' :
-    stats?.attempts ? 'Devam ediyor' : index >= tableStages ? 'Sıradaki bölüm' : 'Sıradaki ada';
+    stats?.attempts ? 'Devam ediyor' : 'Sıradaki';
   const heading = '<b>' + stageLabel(index) + '</b><small>' + status +
     (stats ? ' · ' + duration(stats.seconds) : '') + '</small>';
   if (!stats) return '<div class="stat-stage empty">' + heading + '</div>';
@@ -52,28 +52,18 @@ function stageDetail(index, stats) {
     (stats.legacy ? '<small>Önceki sürümden bu aşamanın yalnızca son denemesi aktarılabildi.</small>' : '') +
     '</div></details>';
 }
-// The two mixed stages after the four rounds, in one fold.
-function mixedSummary() {
-  const stages = mixedSeconds.map((_, k) => tableStages + k);
-  const done = Math.max(0, Math.min(mixedSeconds.length, progress.completed - tableStages));
-  const time = stages.reduce((sum, index) => sum + (progress.stats[index]?.seconds || 0), 0);
-  return '<details class="stat-round" ' + (progress.completed >= tableStages ? 'open' : '') +
-    '><summary><b>Karma · ' + mixedSeconds.join(' ve ') + ' sn/soru</b><small>' + done + ' / ' + mixedSeconds.length +
-    ' bölüm tamamlandı · ' + duration(time) + '</small></summary>' +
-    stages.map(index => stageDetail(index, progress.stats[index])).join('') + '</details>';
-}
+// One fold for every island of Çarpım Koyu: the nine tables of a timed round, or a mixed round.
 function showStats() {
   const all = Object.values(progress.stats);
   const totalSeconds = all.reduce((sum, item) => sum + item.seconds, 0);
-  const summaries = secondsPerRound.map((seconds, r) => {
-    const first = r * islands.length;
-    const done = Math.min(islands.length, Math.max(0, progress.completed - first));
-    const details = islands.map((_, i) => stageDetail(first+i, progress.stats[first+i])).join('');
-    const time = islands.reduce((sum, _, i) => sum + (progress.stats[first+i]?.seconds || 0), 0);
-    return '<details class="stat-round" ' + (r === round() && progress.completed < tableStages ? 'open' : '') +
-      '><summary><b>Tur ' + (r+1) + ' · ' + seconds + ' sn/soru</b><small>' + done +
-      ' / ' + islands.length + ' ada tamamlandı · ' + duration(time) + '</small></summary>' + details + '</details>';
-  }).join('') + mixedSummary();
+  const summaries = Array.from({ length: ISLANDS }, (_, i) => {
+    const stages = islandStages(i);
+    const done = stages.filter(index => index < progress.completed).length;
+    const time = stages.reduce((sum, index) => sum + (progress.stats[index]?.seconds || 0), 0);
+    return '<details class="stat-round" ' + (stages.includes(Math.min(progress.completed, total - 1)) ? 'open' : '') +
+      '><summary><b>' + islandName(i) + '</b><small>' + (stages.length > 1 ? done + ' / ' + stages.length + ' tablo tamamlandı' : done ? 'Tamamlandı' : 'Tamamlanmadı') +
+      ' · ' + duration(time) + '</small></summary>' + stages.map(index => stageDetail(index, progress.stats[index])).join('') + '</details>';
+  }).join('');
   $('stats-content').innerHTML = '<p class="stat-total"><b>' + progress.completed + ' / ' + total +
     ' aşama tamamlandı</b><br>Kayıtlı cevap süresi · ' + duration(totalSeconds) +
     '</p><p>Süreler, cevaplanan veya süresi dolan sorularda geçirilen zamanı gösterir. Kayıtlar bu tarayıcıda tutulur.</p>' +

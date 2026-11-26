@@ -1,0 +1,190 @@
+/* The drawings shared by the maps (core/js/harita-sanat.js): */
+/* Living sea: waves drift, sparkles twinkle, palms sway, boats bob, gulls glide, the whale blows. */
+.map-waves { animation: map-waves 4.5s ease-in-out infinite alternate; }
+@keyframes map-waves { to { transform: translateX(9px); } }
+.map-twinkle { transform-box: fill-box; transform-origin: center; animation: map-twinkle 2.8s ease-in-out infinite; animation-delay: calc(var(--n, 0) * -.9s); }
+@keyframes map-twinkle { 0%, 100% { opacity: .15; transform: scale(.6); } 50% { opacity: 1; transform: scale(1.1); } }
+.map-fronds { transform-box: fill-box; transform-origin: 50% 60%; animation: map-sway 3.4s ease-in-out infinite alternate; }
+@keyframes map-sway { from { transform: rotate(-4deg); } to { transform: rotate(5deg); } }
+.map-boat { transform-box: fill-box; transform-origin: 50% 100%; animation: map-bob 2.4s ease-in-out infinite alternate; }
+@keyframes map-bob { from { transform: rotate(4deg); } to { transform: rotate(-5deg) translateY(-1.5px); } }
+.map-gulls { animation: map-glide 5s ease-in-out infinite alternate; }
+@keyframes map-glide { to { transform: translate(12px, -5px); } }
+.map-lighthouse circle { animation: map-light 1.8s ease-in-out infinite alternate; }
+@keyframes map-light { to { opacity: .15; } }
+.map-moon circle { animation: map-light 2.6s ease-in-out infinite alternate; }
+.map-whale { animation: map-whale 3.2s ease-in-out infinite alternate; }
+@keyframes map-whale { to { transform: translate(-6px, 3px); } }
+.map-spout { transform-box: fill-box; transform-origin: 50% 100%; animation: map-spout 3.2s ease-out infinite; }
+@keyframes map-spout { 0%, 55% { opacity: 0; transform: scaleY(.2); } 70% { opacity: 1; transform: scaleY(1.1); } 100% { opacity: 0; transform: scaleY(1) translateY(-4px); } }
+.map-needle { transform-box: fill-box; transform-origin: center; animation: map-needle 4s ease-in-out infinite alternate; }
+@keyframes map-needle { from { transform: rotate(-14deg); } to { transform: rotate(12deg); } }
+
+/* ---------- Keşif Haritası (core/js/harita.js): the grades' bays, a bay's islands, an island's stations ---------- */
+.kesif { display: grid; grid-template-columns: minmax(0, 460px) minmax(0, 1fr); align-items: start; gap: clamp(14px, 3vw, 36px); margin: 18px 0 24px; }
+.kesif[hidden] { display: none; }
+@media (max-width: 820px) { .kesif { grid-template-columns: minmax(0, 1fr); } }
+.kh-map {
+  position: relative; width: min(100%, 460px); margin: 0 auto; aspect-ratio: 400 / 680; container-type: inline-size;
+  overflow: hidden; border-radius: 26px; background: #3cb0c8; box-shadow: 0 5px 0 #b9d8c9; isolation: isolate;
+}
+.kh-scene { position: absolute; inset: 0; }
+.kh-scene[hidden] { display: none; }
+.kh-art { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.kh-map button { -webkit-tap-highlight-color: transparent; }
+.kh-map button:focus-visible { outline: 3px solid #173f40; outline-offset: 2px; }
+.kh-halo { opacity: 0; }
+@keyframes kh-halo { 50% { opacity: .35; transform: scale(1.06); } }
+@keyframes kh-bounce { 50% { transform: translateY(-4px) scale(1.06); } }
+.kh-badge {
+  display: grid; place-items: center; flex: none; width: 7cqw; max-width: 28px; aspect-ratio: 1; border-radius: 50%; border: 2px solid #176d60;
+  background: #fff; color: #176d60; font-style: normal; font-size: clamp(11px, 3.4cqw, 14px); font-weight: 950; line-height: 1; box-shadow: 0 2px 0 #0b4a5a33;
+}
+
+/* Level 1: the bays */
+.kh-bay-in { transition: filter .4s, opacity .4s; }
+.kh-bay-art.current .kh-halo, .kh-isle-art.now .kh-halo { opacity: .9; transform-box: fill-box; transform-origin: center; animation: kh-halo 1.8s ease-in-out infinite; }
+.kh-dot-lane { fill: none; stroke: #e9fbff; stroke-width: 2; stroke-dasharray: 3 3; }
+.kh-dot-sand { fill: #f3d892; stroke: #fff; stroke-width: 1.4; }
+.kh-dot-top { fill: #9fd88a; }
+.kh-dot.done .kh-dot-sand { stroke: #2f9b7f; stroke-width: 2.2; }
+.kh-dot.done .kh-dot-top { fill: #ffd34d; }
+.kh-dot.now .kh-dot-sand { stroke: #f2a93b; stroke-width: 2.8; }
+.kh-dot.now { transform-box: fill-box; transform-origin: center; animation: kh-dot 1.4s ease-in-out infinite; }
+@keyframes kh-dot { 50% { scale: 1.3; } }
+.kh-dot.locked { opacity: .5; }
+.kh-bay { position: absolute; margin: 0; padding: 0; border: 0; border-radius: 30px; background: none; color: inherit; font: inherit; cursor: pointer; }
+.kh-bay-sign {
+  position: absolute; left: 50%; top: 16%; translate: -50% -50%; padding: 1px .4em; border-radius: 12px; border: 2px solid #c98a4a;
+  background: #fff7e0; font-size: clamp(16px, 5.4cqw, 23px); line-height: 1.3; box-shadow: 0 2px 0 #9a6a3c66;
+}
+.kh-bay-label {
+  position: absolute; left: 50%; top: 62%; translate: -50% 0; display: grid; justify-items: center; gap: 1px; max-width: 104%;
+  padding: 3px 11px 4px; border-radius: 13px; background: #fffdf6; color: #173f40; white-space: nowrap; box-shadow: 0 2px 0 #0b4a5a26;
+}
+.kh-bay-name { display: flex; align-items: center; gap: 5px; font-weight: 950; font-size: clamp(12.5px, 3.9cqw, 16.5px); line-height: 1.2; }
+.kh-bay-label small { font-weight: 750; font-size: clamp(10px, 2.9cqw, 12.5px); line-height: 1.2; color: #4d6763; }
+.kh-bay-label em { font-style: normal; font-weight: 900; font-size: clamp(10px, 2.9cqw, 12.5px); color: #995122; }
+.kh-bay.done .kh-badge { border-color: #2f9b7f; background: #2f9b7f; color: #fff; }
+.kh-bay.current .kh-badge { border-color: #f2a93b; background: #f2a93b; color: #fff; animation: kh-bounce 1.6s ease-in-out infinite; }
+.kh-bay.here .kh-bay-label { box-shadow: 0 0 0 3px #ffe38a, 0 3px 0 #0b4a5a33; }
+
+/* Level 2: a bay, its islands joined by bridges */
+.kh-rails { fill: none; stroke: #7a4a22; stroke-width: 12; stroke-linecap: round; }
+.kh-panes { fill: none; stroke: #e9fbff; stroke-width: 7; stroke-dasharray: 9 4; }
+.kh-bridge.crossed .kh-panes { stroke: #ffd863; }
+.kh-bridge.open .kh-panes { animation: kh-shimmer 1.4s linear infinite; }
+.kh-bridge.locked { opacity: .35; }
+@keyframes kh-shimmer { to { stroke-dashoffset: -26; } }
+.kh-isle-in { transition: filter .4s, opacity .4s; }
+.kh-isle-art.locked .kh-isle-in { filter: grayscale(.85); opacity: .65; }
+.kh-isle {
+  position: absolute; width: 27%; height: 12.5%; translate: -50% -50%; margin: 0; padding: 0; border: 0; border-radius: 40%;
+  background: none; color: inherit; font: inherit; cursor: pointer;
+}
+.kh-isle .kh-badge { position: absolute; left: 0; top: 0; }
+.kh-isle-sign {
+  position: absolute; left: 50%; top: 44%; translate: -50% -50%; padding: 0 .35em; border-radius: 10px; background: #fffdf6e6; color: #8a4f1c;
+  font-weight: 950; font-size: clamp(14px, 4.6cqw, 20px); line-height: 1.25; white-space: nowrap; box-shadow: 0 2px 0 #9a6a3c40;
+}
+.kh-isle-name {
+  position: absolute; left: 50%; top: 84%; translate: -50% 0; display: grid; justify-items: center; padding: 1px 9px 2px; border-radius: 12px;
+  background: #fffdf6; color: #173f40; font-size: clamp(10.5px, 3.2cqw, 13px); font-weight: 900; line-height: 1.2; white-space: nowrap; box-shadow: 0 2px 0 #0b4a5a26;
+}
+.kh-isle-name small { font-size: .82em; font-weight: 800; color: #4d6763; }
+.kh-isle-name small:empty { display: none; }
+.kh-isle.done .kh-badge { border-color: #fff; background: #2f9b7f; color: #fff; }
+.kh-isle.now .kh-badge { border-color: #fff; background: #f2a93b; color: #fff; animation: kh-bounce 1.6s ease-in-out infinite; }
+.kh-isle.locked .kh-badge { border-color: #d8d2c4; background: #f6f4ee; font-size: clamp(9px, 3cqw, 12px); }
+.kh-isle.locked .kh-isle-sign { filter: grayscale(.8); opacity: .75; }
+.kh-isle.locked .kh-isle-name { background: #f6f4ee; color: #8a8576; }
+.kh-isle.here .kh-isle-name { background: #176d60; color: #fff; }
+.kh-isle.here .kh-isle-name small { color: #d9f3ea; }
+.kh-isle.denied, .kh-station.denied, .kh-bay.denied { animation: shake .4s; }
+.kh-isle.fresh, .kh-station.fresh { animation: kh-fresh .7s cubic-bezier(.2, 1.6, .4, 1); }
+@keyframes kh-fresh { 0% { scale: 1; } 40% { scale: 1.28; rotate: -8deg; } 70% { rotate: 6deg; } 100% { scale: 1; rotate: 0deg; } }
+
+/* Level 3: an island, its stations on a path */
+.kh-trail { fill: none; stroke: #e2bf7c; stroke-width: 20; stroke-linecap: round; stroke-linejoin: round; opacity: .9; }
+.kh-trail-dots { fill: none; stroke: #fff4d6; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 1 13; }
+.kh-station {
+  position: absolute; display: grid; place-items: center; width: 17%; aspect-ratio: 1; translate: -50% -50%; margin: 0; padding: 0;
+  border: 4px solid #fff; border-radius: 50%; background: #fffdf6; color: #173f40; font: inherit; cursor: pointer; box-shadow: 0 4px 0 #9a6a3c, 0 8px 14px #0b4a5a30;
+}
+.kh-station-icon { font-weight: 950; font-size: clamp(18px, 6.6cqw, 28px); line-height: 1; white-space: nowrap; }
+.kh-station-state {
+  position: absolute; right: -8%; top: -8%; display: grid; place-items: center; width: 36%; aspect-ratio: 1; border-radius: 50%; border: 2px solid #fff;
+  color: #fff; font-size: clamp(10px, 3.2cqw, 14px); font-weight: 950; line-height: 1;
+}
+.kh-station-state:empty { display: none; }
+.kh-station-name {
+  position: absolute; left: 50%; top: 104%; translate: -50% 0; display: grid; justify-items: center; padding: 1px 9px 2px; border-radius: 10px;
+  background: #fffdf6; color: #173f40; font-size: clamp(10.5px, 3.1cqw, 13px); font-weight: 900; line-height: 1.2; white-space: nowrap; box-shadow: 0 2px 0 #0b4a5a1f;
+}
+.kh-station-name small { font-size: .82em; font-weight: 800; color: #4d6763; }
+.kh-station-name small:empty { display: none; }
+.kh-station.done { background: #e3f6e8; }
+.kh-station.done .kh-station-state { background: #2f9b7f; }
+.kh-station.now { border-color: #f2a93b; background: #fff6d8; box-shadow: 0 4px 0 #9a6a3c, 0 0 0 6px #ffe38a99; animation: kh-bounce 1.6s ease-in-out infinite; }
+.kh-station.now .kh-station-state { background: #176d60; }
+.kh-station.now .kh-station-name { background: #176d60; color: #fff; }
+.kh-station.now .kh-station-name small { color: #d9f3ea; }
+.kh-station.locked { background: #efe8d8; }
+.kh-station.locked .kh-station-icon { filter: grayscale(.9); opacity: .55; }
+.kh-station.locked .kh-station-state { background: #b9b2a3; font-size: clamp(8px, 2.4cqw, 11px); }
+.kh-station.locked .kh-station-name { color: #8a8576; }
+
+/* The headers of a bay and an island, and the hint for a locked place */
+.kh-back { position: absolute; left: 3%; top: 2.2%; z-index: 3; }
+.kh-title {
+  position: absolute; left: 50%; top: 2.2%; z-index: 3; translate: -50% 0; display: grid; justify-items: center; max-width: 70%; padding: 4px 14px 5px;
+  border-radius: 16px; background: #fffdf6; color: #173f40; white-space: nowrap; box-shadow: 0 3px 0 #0b4a5a33;
+}
+.kh-title strong { font-weight: 950; font-size: clamp(13.5px, 4.3cqw, 18px); line-height: 1.2; }
+.kh-title small { font-weight: 750; font-size: clamp(10px, 3cqw, 12.5px); color: #4d6763; line-height: 1.2; }
+.kh-hint {
+  position: absolute; left: 50%; bottom: 3%; z-index: 4; translate: -50% 0; width: max-content; max-width: 88%; margin: 0; padding: 8px 14px;
+  border-radius: 14px; background: #173f40; color: #fff; font-weight: 850; font-size: clamp(12px, 3.6cqw, 15px); text-align: center; box-shadow: 0 4px 12px #0b4a5a55;
+}
+.kh-hint[hidden] { display: none; }
+
+/* The player's own icon, where they are */
+.kh-me { position: absolute; z-index: 2; translate: -50% -100%; pointer-events: none; }
+.kh-me span {
+  display: grid; place-items: center; width: 11.5cqw; max-width: 52px; aspect-ratio: 1; border-radius: 50% 50% 50% 8%; rotate: -45deg; border: 3px solid #fff;
+  background: #f2a93b; box-shadow: 0 4px 6px #0b4a5a55; font-size: clamp(18px, 6.4cqw, 28px); line-height: 1; animation: kh-me 2.4s ease-in-out infinite;
+}
+.kh-me b { rotate: 45deg; font-weight: normal; }
+[data-level="ada"] .kh-me span { width: 13cqw; }
+@keyframes kh-me { 50% { translate: 0 -5px; } }
+.kh-me.hopping span { animation: none; }
+
+/* Arriving: the bays, islands and stations rise out of the sea one after another */
+.kh-scene.arriving :is(.kh-bay-in, .kh-isle-in) { transform-box: fill-box; transform-origin: 50% 80%; animation: kh-rise .55s cubic-bezier(.2, 1.5, .4, 1) both; animation-delay: calc(.3s + var(--n) * 70ms); }
+.kh-scene.arriving :is(.kh-isle, .kh-station, .kh-bay) { animation: pop-in .5s cubic-bezier(.2, 1.4, .4, 1) both; animation-delay: calc(.3s + var(--n, 0) * 70ms); }
+@keyframes kh-rise { from { opacity: 0; transform: translateY(14px) scale(.5); } }
+
+/* The panel beside or under the map: what to do next, progress, notes */
+.kh-panel { display: grid; gap: 12px; align-content: start; }
+.kh-panel[hidden] { display: none; }
+.kh-next {
+  display: flex; align-items: center; gap: 14px; width: 100%; margin: 0; padding: 14px 18px; border: 0; border-radius: 20px; text-align: left;
+  background: #176d60; color: #fff; font: inherit; font-weight: 900; font-size: clamp(17px, 2.2vw, 21px); cursor: pointer; box-shadow: 0 5px #0c5146;
+}
+.kh-next small { display: block; font-size: 12.5px; font-weight: 850; text-transform: uppercase; letter-spacing: .05em; opacity: .85; }
+.kh-next > span:nth-child(2) { flex: 1; }
+.kh-next-icon { font-size: 30px; }
+.kh-next:active { transform: translateY(3px); box-shadow: 0 2px #0c5146; }
+.kh-box { padding: 14px 16px; border-radius: 18px; background: #fffdf8; border: 1px solid #e3d8bf; }
+.kh-box strong { display: block; font-size: 17px; }
+.kh-box small, .kh-box p { display: block; margin: 4px 0 0; color: #4d6763; font-weight: 700; font-size: 14px; line-height: 1.4; }
+.kh-meter { display: block; height: 10px; margin-top: 8px; border-radius: 6px; background: #e9e1cd; overflow: hidden; }
+.kh-meter i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #2f9b7f, #6fcf97); }
+.kh-row { display: flex; align-items: center; gap: 12px; }
+.kh-row > span:first-child { font-size: 28px; }
+.kh-row > div { flex: 1; }
+.kh-quiet { padding: 8px 14px; border: 2px solid #d5e6dc; border-radius: 14px; background: #fff; color: #17594f; font: inherit; font-weight: 850; cursor: pointer; }
+
+@media (prefers-reduced-motion: reduce) {
+  .kh-map * { animation: none !important; }
+}

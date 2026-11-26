@@ -57,9 +57,7 @@
     $('edit-note').textContent = '';
   }
   function refreshView() {
-    const hidesGame = (view, card) => !$(view).hidden && !availableForPlayer($(card));
-    if (!$('catalog').hidden || hidesGame('island-view', 'multiplication-card') || hidesGame('elif-view', 'elif-card') ||
-      Object.keys(window.soruAdalari).some(kod => hidesGame(kod + '-view', kod + '-card'))) {
+    if (!$('catalog').hidden || (!$('elif-view').hidden && !availableForPlayer($('elif-card')))) {
       window.speechSynthesis?.cancel();
       showCatalog();
     }
@@ -116,8 +114,7 @@
     bulut.oyuncuSilindi(profile.id);
     window.speechSynthesis?.cancel();
     activeProfile = null;
-    for (const view of ['catalog', 'island-view', 'elif-view', 'game-tools', 'settings-button', 'aquarium-button']) $(view).hidden = true;
-    for (const kod of Object.keys(window.soruAdalari)) $(kod + '-view').hidden = true;
+    for (const view of ['catalog', 'elif-view', 'game-tools', 'settings-button', 'aquarium-button']) $(view).hidden = true;
     $('player').textContent = 'Oyuncu seç';
     $('player').title = '';
     disarmDelete();
@@ -147,20 +144,15 @@
 
   /* ---------- Progress ---------- */
   function lastResettable() { return Math.min(progress.completed, total - 1); }
-  function describe(index) {
-    if (index >= tableStages) return 'Karma bölüm · ' + mixedSeconds[index - tableStages] + ' sn';
-    return 'Tur ' + (Math.floor(index / islands.length) + 1) + ' · ' + islands[index % islands.length] +
-      ' (' + (index % islands.length + 2) + ' tablosu)';
-  }
+  const describe = stageLabel;
   function drawResetMap() {
     const done = progress.completed;
     $('carpim-summary').textContent = '⭐ ' + done + ' / ' + total + ' yıldız · ' + (done >= total ? 'Hepsi tamamlandı' :
-      done >= tableStages ? 'Karma bölüm ' + (mixedRound() + 1) + ' / ' + mixedSeconds.length :
-      'Tur ' + (round() + 1) + ' / ' + secondsPerRound.length);
-    // One row per round of the nine tables, then a row for the mixed stages ([stage index, button text]).
+      islandName(islandOf(done)) + ' (' + (islandOf(done) + 1) + ' / ' + ISLANDS + ')');
+    // One row per island of the nine tables, then a row for the two mixed islands ([stage index, button text]).
     const rows = secondsPerRound.map((seconds, r) =>
-      ['Tur ' + (r + 1), seconds + ' sn', islands.map((_, i) => [r * islands.length + i, i + 2])]);
-    rows.push(['Karma', '2-9', mixedSeconds.map((seconds, k) => [tableStages + k, seconds + ' sn'])]);
+      [seconds + ' sn', 'Ada ' + (r + 1), islandStages(r).map(index => [index, index % TABLES + 2])]);
+    rows.push(['Karma', 'Ada 5-6', mixedSeconds.map((seconds, k) => [tableStages + k, seconds + ' sn'])]);
     $('reset-map').replaceChildren(...rows.map(([name, small, stages]) => {
       const row = document.createElement('div');
       row.className = 'reset-row';
@@ -187,7 +179,7 @@
     }));
     const lost = resetAt === null ? 0 : done - resetAt;
     $('reset-info').textContent = resetAt === null ? '' : lost > 0
-      ? describe(resetAt) + ' ve sonrası sıfırlanır: ' + lost + ' yıldız ve bu adaların istatistikleri silinir.'
+      ? describe(resetAt) + ' ve sonrası sıfırlanır: ' + lost + ' yıldız ve bu tabloların istatistikleri silinir.'
       : describe(resetAt) + ' için denemeler ve istatistikler silinir. Yıldız kaybetmezsin.';
     $('reset-go').disabled = resetAt === null;
   }
@@ -198,9 +190,10 @@
     }
     progress.completed = index;
     delete progress.attempt;
-    selected = stageIsland(index);
+    stage = index;
     save();
     render();
+    kesifHaritasi.yenile();
     resetAt = null;
     drawResetMap();
     playCue('start');

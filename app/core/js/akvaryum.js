@@ -1,5 +1,5 @@
 // Akvaryum: every player's own tank, from preschool (Elif Ba Adası) to the 4th grade. Each task the child gets
-// done on an island (an island of Çarpım Adası, a round of a question island's stop, an islet of Elif Ba …)
+// done on an island (an island of Çarpım Koyu, a round of a question island's stop, an islet of Elif Ba …)
 // brings a reward: a fish or an ornament. A tank holds 12 fish and 6 ornaments; the next reward opens a new tank, in the
 // next theme. A tap on a fish lets the child give it a name, written above it from then on.
 //
@@ -7,7 +7,7 @@
 //   { son: last item number, esya: [{ n, t: 'b' fish | 's' ornament, k: kind, a: tank, s: slot (ornaments),
 //     ad: name (fish), g: what earned it, z: when, yeni: 1 until seen }], gorev: { key: 1 },
 //     gecmis: 1 once the tasks done before the aquarium came were rewarded, gecmisSayi: how many came then (until shown) }
-// gorev remembers tasks that give a reward only once (an island of Çarpım Adası, a stop learned in full).
+// gorev remembers tasks that give a reward only once (an island of Çarpım Koyu, a stop learned in full).
 //
 // Islands call akvaryum.odul({ anahtar, neden }) when a task is done and put akvaryum.kart(rewards) on their
 // result screen; its 🐠 button opens the tank on top of the game. The header's 🐠 button and the card in
@@ -77,27 +77,28 @@ const akvaryum = (() => {
     return pickOne(fresh.length ? fresh : pool).id;
   }
   // One reward for the active player. anahtar: a task that rewards only once; karisik: the first three rewards
-  // of the player are fish, then ornaments and fish take turns (Elif Ba Adası). Returns what came, or null.
-  function odul({ anahtar, neden = '', karisik = false } = {}) {
+  // of the player are fish, then ornaments and fish take turns (Elif Ba Adası); balik: always a fish (an island of
+  // Çarpım Koyu), in a new tank once this one has all its fish. Returns what came, or null.
+  function odul({ anahtar, neden = '', karisik = false, balik = false } = {}) {
     if (!activeProfile) return null;
-    const got = grant(load(activeProfile.id), anahtar, neden, karisik);
+    const got = grant(load(activeProfile.id), anahtar, neden, karisik, balik);
     if (!got) return null;
     save();
     refresh();
     return got;
   }
-  function grant(record, anahtar, neden, karisik = false) {
+  function grant(record, anahtar, neden, karisik = false, balik = false) {
     if (anahtar && record.gorev[anahtar]) return null;
     let a = tankCount(record) - 1;
     let here = inTank(record, a);
     let fish = here.filter(e => e.t === 'b').length, orn = here.length - fish;
-    if (fish >= V.BALIK && orn >= V.SUS) { a++; here = []; fish = orn = 0; }
+    if (fish >= V.BALIK && (orn >= V.SUS || balik)) { a++; here = []; fish = orn = 0; }
     const n = fish + orn;
     // every third reward is an ornament (or, karisik, every other one after three fish), as long as the
     // tank has room for its kind
     const all = record.esya.length;
     const turn = karisik ? all >= 3 && (all - 3) % 2 === 0 : n % 3 === 2;
-    const ornament = orn < V.SUS && (fish >= V.BALIK || turn);
+    const ornament = !balik && orn < V.SUS && (fish >= V.BALIK || turn);
     const item = { n: ++record.son, t: ornament ? 's' : 'b', a, g: String(neden).slice(0, 60), z: Date.now(), yeni: 1 };
     if (ornament) { item.s = orn; item.k = chooseOrnament(record, here, orn); }
     else { item.k = chooseFish(record, here); item.ad = ''; }
@@ -108,7 +109,7 @@ const akvaryum = (() => {
 
   /* ---------- Tasks done before the aquarium came (0.38.0) ---------- */
   // Once per player, the tasks already done bring their rewards, so no child who had played before loses out:
-  // every island and mixed stage of Çarpım Adası finished; on a question island the rounds finished on each stop (counted from
+  // every island of Çarpım Koyu finished (a fish each); on a question island the rounds finished on each stop (counted from
   // the right answers given there, nine to a round, at least one for a stop with a star), every stop learned
   // in full and the mock exam if taken. What the aquarium already gave for a task is not given again.
   function gecmis() {
@@ -116,13 +117,14 @@ const akvaryum = (() => {
     if (record.gecmis) return;
     record.gecmis = 1;
     let given = 0;
-    const give = (anahtar, neden) => { if (grant(record, anahtar, neden)) given++; };
+    const give = (anahtar, neden, balik = false) => { if (grant(record, anahtar, neden, false, balik)) given++; };
     let carpim = null;
     try { carpim = JSON.parse(localStorage.getItem('carpim-adasi-oyuncu-' + activeProfile.id)); } catch {}
-    // the 36 islands of the four rounds, then the mixed stages of Balina Denizi (islands/carpim/game.js)
-    const stages = typeof total === 'number' ? total : 36, tables = typeof tableStages === 'number' ? tableStages : 36;
-    const stagesDone = Math.max(0, Math.min(stages, Math.floor(Number(carpim?.completed) || 0)));
-    for (let i = 0; i < stagesDone; i++) give('carpim:' + i, i >= tables && typeof mixedSeconds !== 'undefined' ? 'Karma Çarpım · ' + mixedSeconds[i - tables] + ' sn' : (i % 9 + 2) + ' Çarpım Adası');
+    // the six islands of Çarpım Koyu finished (islands/carpim/game.js), a fish each
+    const stagesDone = Math.max(0, Math.min(total, Math.floor(Number(carpim?.completed) || 0)));
+    for (let i = 0; i < ISLANDS; i++) {
+      if (islandStages(i).every(index => index < stagesDone)) give('carpim-ada:' + i, 'Çarpım Koyu · ' + islandName(i), true);
+    }
     for (const [kod, island] of Object.entries(window.soruAdalari || {})) {
       const sum = island.summary(activeProfile.id);
       if (!sum.any) continue;

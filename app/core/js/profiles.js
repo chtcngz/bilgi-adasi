@@ -47,7 +47,6 @@ function saveProfiles() {
 function showPlayerButton() {
   $('player').textContent = activeProfile.icon + ' ' + activeProfile.name;
   $('player').title = activeProfile.name + ' · Oyuncu değiştir';
-  $('grade').textContent = activeProfile.grade;
 }
 
 function choosePlayer(profile) {
@@ -56,7 +55,7 @@ function choosePlayer(profile) {
     { completed: 0, reports: {}, stats: {} };
   sessionProgress.set(profile.id, progress);
   initializeStats();
-  selected = stageIsland(Math.min(progress.completed, total - 1));
+  stage = Math.min(progress.completed, total - 1);
   deck = []; answers = []; entry = '';
   showPlayerButton();
   $('settings-button').hidden = false;
@@ -67,31 +66,22 @@ function choosePlayer(profile) {
 function availableForPlayer(card) {
   return devAll() || card.dataset.grades.split('|').includes(activeProfile.grade);
 }
+// Keşif Limanı: for the 1st to 4th grades, Keşif Haritası with a bay for every subject (core/js/harita.js);
+// for preschool, the island cards (Elif Ba Adası).
 function showCatalog() {
+  const map = kesifHaritasi.goster();
   const cards = Array.from($('game-grid').children);
   for (const card of cards) card.hidden = !availableForPlayer(card);
   $('catalog-grade').textContent = activeProfile.grade;
-  $('catalog-greeting').textContent = 'Merhaba ' + activeProfile.name + '! Bugün hangi adayı keşfedeceksin?';
+  $('catalog-greeting').textContent = 'Merhaba ' + activeProfile.name + '! Bugün hangi ' + (map ? 'koyu' : 'adayı') + ' keşfedeceksin?';
   $('elif-view').hidden = true;
-  for (const kod of Object.keys(window.soruAdalari || {})) $(kod + '-view').hidden = true;
-  $('empty-catalog').hidden = cards.some(card => !card.hidden);
-  $('island-view').hidden = true;
-  $('game-tools').hidden = true;
+  $('empty-catalog').hidden = map || cards.some(card => !card.hidden);
+  if (!map) $('game-tools').hidden = true;
   $('catalog').hidden = false;
   document.title = 'Keşif Limanı · Bilgi Adası';
   akvaryum.refresh();
   $('catalog-title').focus();
 }
-$('back-to-catalog').onclick = showCatalog;
-$('multiplication-card').onclick = () => {
-  if (!availableForPlayer($('multiplication-card'))) return;
-  $('catalog').hidden = true;
-  $('island-view').hidden = false;
-  $('game-tools').hidden = false;
-  document.title = 'Çarpım Adası · Bilgi Adası';
-  render();
-  $('play').focus();
-};
 
 function openProfiles() {
   $('players').replaceChildren(...profiles.map((profile, i) => {

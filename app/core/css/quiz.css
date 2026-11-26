@@ -1,48 +1,8 @@
-/* Soru adaları (Din Bilgisi, Fen Bilimleri): ortak görünüm. Her adanın kendi style.css dosyası
-   resmini ve renklerini ekler. Sayfadaki kimlikler adaya göre (#din-view, #fen-view …), sınıflar ortaktır. */
-.soru-view { max-width: 1040px; margin: auto; }
-.soru-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 12px 0; font-weight: 800; color: #345a56; }
-.soru-score { white-space: nowrap; padding: 6px 12px; border-radius: 20px; background: #f7ebca; color: #705127; }
-.soru-hero { min-height: clamp(200px, 26vw, 300px); display: flex; align-items: center; border-radius: 28px; overflow: hidden; background: #3f8e98 no-repeat calc(100% + 150px) 80% / auto 145%; }
-.soru-hero > div { padding: clamp(17px, 4vw, 52px); width: 58%; background: linear-gradient(90deg, #fff8e9f2, #fff8e9c4 68%, transparent); align-self: stretch; display: flex; flex-direction: column; justify-content: center; }
-.soru-hero h1 { color: #173f40; }
-.soru-hero h1 em { color: #1d6f6c; }
-.soru-hero p { max-width: 34ch; margin: 10px 0 0; font-weight: 750; font-size: clamp(16px, 2vw, 20px); line-height: 1.4; color: #2b4f4b; }
-.soru-next { display: flex; align-items: center; gap: 14px; width: 100%; margin-top: 16px; padding: 14px 20px; text-align: left; font-size: 21px; min-height: 48px; border: 0; border-radius: 15px; background: #176d60; box-shadow: 0 4px #0c5146; color: white; font-weight: 850; }
-.soru-next small { display: block; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; opacity: .85; }
-.soru-next:active { transform: translateY(2px); box-shadow: 0 2px #0c5146; }
-.soru-h { margin: 26px 0 12px; }
-
-/* Stops */
-.soru-stops { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; }
-.soru-exam-item { grid-column: 1 / -1; }
-.soru-stop { width: 100%; height: 100%; display: flex; gap: 14px; align-items: flex-start; text-align: left; padding: 16px; border: 2px solid var(--rim, #b9d8c9); border-radius: 22px; background: var(--tint, #fbfff8); box-shadow: 0 4px var(--rim, #b9d8c9); color: #173f40; animation: rise .4s calc(var(--i) * 45ms) both; transition: transform .15s; }
-.soru-stop-icon { flex: none; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: #fff; border: 2px solid var(--rim, #b9d8c9); font-size: 30px; }
-.soru-stop-text { display: grid; gap: 3px; min-width: 0; flex: 1; }
-.soru-stop-text small { color: #5a6f6a; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
-.soru-stop-text strong { font-size: 22px; }
-.soru-stop-text small i { font-style: normal; text-transform: none; letter-spacing: 0; font-weight: 700; margin-left: 6px; color: #6a7d78; }
-.soru-stop-text > span:not(.soru-stars) { color: #3f5f58; font-weight: 650; }
-.soru-stop-text em { font-style: normal; justify-self: start; margin-top: 6px; padding: 3px 10px; border-radius: 12px; background: #ebe6da; color: #6d6555; font-weight: 800; font-size: 14px; }
-.soru-stop.locked { --tint: #f6f4ee; --rim: #ddd5c4; color: #6d6555; }
-.soru-stop.locked .soru-stop-icon { filter: grayscale(1); opacity: .8; }
-.soru-stop.denied { animation: shake .4s; }
-.soru-exam { --tint: #fff6da; --rim: #ebcf8c; align-items: center; }
-.soru-exam .soru-stop-icon { width: 64px; height: 64px; font-size: 36px; background: #fff3c4; }
-.soru-exam.locked { --tint: #f6f4ee; --rim: #ddd5c4; }
-.soru-badge { justify-self: start; margin-top: 6px; padding: 3px 12px; border-radius: 20px; background: #1d6f6c; color: #fff; font-weight: 850; font-size: 14px; }
-@media (hover: hover) { .soru-stop:not(.locked):hover { transform: translateY(-3px); } }
+/* Soru adaları (Din Bilgisi, Fen Bilimleri, Sosyal Bilgiler): the game window, shared by every question island.
+   Their bays on Keşif Haritası are drawn by core/js/harita.js. */
 .soru-stars { display: inline-flex; gap: 2px; margin-top: 4px; font-size: 24px; line-height: 1; }
 .soru-stars i { font-style: normal; color: #ddd3bd; }
 .soru-stars i.won { color: #f2b234; text-shadow: 0 2px 0 #c98c1a55; }
-.soru-review { display: flex; align-items: center; gap: 14px; margin-top: 14px; padding: 14px 16px; border-radius: 22px; background: #fdeee9; border: 2px solid #efc3b4; }
-.soru-review[hidden] { display: none; }
-.soru-review > span { font-size: 32px; }
-.soru-review > div { flex: 1; display: grid; gap: 2px; }
-.soru-review strong { font-size: 19px; color: #8a3f2d; }
-.soru-review small { color: #8d5444; font-weight: 700; font-size: 15px; }
-.soru-note { min-height: 24px; font-weight: 750; }
-.soru-source { margin: 6px 0 0; color: #5a6f6a; font-size: 14px; font-weight: 650; line-height: 1.45; }
 .soru-action { min-height: 48px; border: 0; border-radius: 15px; padding: 10px 20px; background: #176d60; box-shadow: 0 4px #0c5146; color: white; font-weight: 850; }
 .soru-action.quiet { background: white; color: #176d60; box-shadow: 0 3px #b2d5c4; border: 2px solid #b2d5c4; }
 
@@ -125,30 +85,18 @@
 .soru-right { color: #1d6f50; font-weight: 800; }
 
 @media (max-width: 580px) {
-  .soru-hero { background-position: 62% 75%; background-size: cover; }
-  .soru-hero > div { width: 84%; }
-  .soru-hero h1 { font-size: 36px; letter-spacing: -2px; }
-  .soru-stops { grid-template-columns: 1fr; }
-  .soru-stop-icon { width: 48px; height: 48px; font-size: 26px; }
-  .soru-stop-text strong { font-size: 20px; }
   .soru-game { padding: 18px 14px; }
   .soru-option { font-size: 16px; min-height: 54px; }
   .soru-passage { font-size: 16px; }
   .soru-by-stop li { grid-template-columns: minmax(0, 1fr) 56px auto; }
-  .soru-review { flex-wrap: wrap; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .soru-stop, .soru-prize, .soru-won .soru-stars i.won, .soru-option.right, .soru-streak, .soru-feedback.good, .soru-feedback.bad { animation: none; }
+  .soru-prize, .soru-won .soru-stars i.won, .soru-option.right, .soru-streak, .soru-feedback.good, .soru-feedback.bad { animation: none; }
 }
 
 /* Learned questions */
 .soru-meter { display: block; height: 8px; margin-top: 8px; border-radius: 8px; background: #00000012; overflow: hidden; }
 .soru-meter i { display: block; height: 100%; border-radius: 8px; background: #2f9b7f; transition: width .4s; }
-.soru-learned { justify-self: start; margin-top: 4px; font-size: 14px; font-weight: 800; color: #2b5e52; }
-.soru-stop.mastered { box-shadow: 0 4px var(--rim), 0 0 0 3px #2f9b7f inset; }
-.soru-mastery { display: grid; gap: 4px; margin-top: 14px; padding: 12px 16px; border-radius: 18px; background: #fff; border: 2px solid #cfe1d6; }
-.soru-mastery strong { font-size: 18px; color: #1d5e4e; }
-.soru-mastery small { color: #5a6f6a; font-weight: 650; font-size: 13px; }
 .soru-learn-line { margin: 10px 0 0; font-weight: 800; color: #1d5e4e; }
 .soru-units { list-style: none; margin: 0 0 6px; padding: 0; display: grid; gap: 8px; }
 .soru-units li { display: grid; grid-template-columns: 26px minmax(0, 1fr) 70px auto; align-items: center; gap: 8px; font-size: 14px; }

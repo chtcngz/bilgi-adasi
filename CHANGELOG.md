@@ -7,6 +7,18 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.43.0 · 26.11.2026
+
+1-4. sınıflarda **Keşif Limanı artık bir harita**: okul öncesindeki Elif Ba gibi koylara ve adalara bölündü.
+
+- **Koylar:** Her ders bir koy: Çarpım Koyu (2, 3 ve 4. sınıf), Din Bilgisi Koyu, Fen Bilimleri Koyu ve Sosyal Bilgiler Koyu (4. sınıf). Koya dokununca içine yakınlaşılıyor, adalar köprülerle bağlı görünüyor; adaya dokununca adanın durakları bir yol üstünde açılıyor. ‹ düğmesi bir üst seviyeye dönüyor.
+- **Oyuncunun simgesi haritada:** Çocuğun kendi simgesi (🦊, 🐬 …) bulunduğu adada ve sıradaki durakta duruyor. Bir durak bitince yıldızlar saçılıyor, simge sıradaki durağa yürüyor; ada bitince harita koya dönüyor ve simge bir sonraki adaya geçiyor.
+- **Çarpım Koyu’nda altı ada:** 15 Saniye, 10 Saniye, 5 Saniye ve 3 Saniye Adası’nda 2’den 10’a dokuz tablo birer durak; Karma 5 Saniye ve Karma 3 Saniye Adası’nda 2’den 9’a bütün çarpımlar karışık. Yalnızca sıradaki tablo açık; bitmiş bir tabloya dokununca son deneme görünüyor.
+- **Adayı bitiren balık kazanıyor:** Çarpım Koyu’nda bir adanın bütün durakları bitince akvaryuma bir balık geliyor (artık her tablo için ayrı ödül yok). Daha önce bitirilmiş adaların balıkları bir kez veriliyor.
+- **Soru koyları:** Din Bilgisi, Fen Bilimleri ve Sosyal Bilgiler’de her ünite bir ada; ekstra konular ve deneme sınavı da birer ada (bütün üniteler en az bir yıldız alınca açılıyor). Ünite adasının durakları, ünitenin sorularını kitaptaki sırayla 3-6 parçaya bölüyor; bir durağın bütün soruları öğrenilince durak, bütün ünite öğrenilince ada bitiyor.
+- **Sıradaki düğmesi ve ilerleme haritanın yanında:** Koyda ve adada “Sıradaki” düğmesi, öğrenilen sorular, yıldızlar, Tekrar Kutusu ve açıklamalar haritanın yanında (telefonda altında) duruyor.
+- İstatistikler, Ayarlar → İlerleme ve yönetici sayfası Çarpım’ı ada ada gösteriyor.
+
 ## 0.42.0 · 26.11.2026
 
 - **Harf baloncukları (okul öncesi akvaryumu):** Balıklar ara ara saydam bir baloncuk üflüyor; baloncuğun içinde çocuğun o an öğrendiği seviyeden bir harf var. Önce harfler, harekeler öğrenilince harekeli heceler, bitişik yazılışta harekeli bitişik şekiller, cezmde cezimli heceler çıkıyor. Seviye atlayınca öncekiler artık çıkmıyor; yalnız o bölümde öğrenilmiş harfler geliyor.
