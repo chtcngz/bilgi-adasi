@@ -256,10 +256,10 @@ const bulut = (() => {
     }
     return { profil: { ...profil, kod }, kayitlar, degisti: Date.parse(f.degisti?.timestampValue) || 0 };
   }
-  // Writes a player's keys as the cloud has them (without counting it as playing here) and removes the ones it lacks.
+  // Writes a player's keys as the cloud has them (without counting it as playing here). A key the cloud lacks is
+  // never removed here: a copy that lacks keys is a copy that missed them, and removing them lost a child's progress.
   function apply(doc) {
     const id = doc.profil.id;
-    for (const key of playerKeys(id)) if (!(key in doc.kayitlar)) { try { removeItem.call(storage, key); } catch {} }
     for (const [key, value] of Object.entries(doc.kayitlar)) setItem.call(storage, key, value);
     state.oyuncular[id] = doc.degisti || Date.now();
     delete state.kirli[id];
@@ -290,6 +290,17 @@ const bulut = (() => {
         const doc = await fetchPlayer(p.kod);
         if (doc.profil.id !== p.id || doc.degisti <= (state.oyuncular[p.id] || 0)) continue;
         if (ok && !ok(p.id)) continue;
+        // The newer copy lacks something this device keeps (an island, the aquarium): it is not this player's whole
+        // progress, so it does not replace it. This device's copy goes up instead, as the newest, and the other
+        // devices take it from there.
+        if (playerKeys(p.id).some(key => !(key in doc.kayitlar))) {
+          state.oyuncular[p.id] = Date.now();
+          state.kirli[p.id] = true;
+          state.bekliyor = true;
+          keep();
+          schedule(DELAY);
+          continue;
+        }
         apply(doc);
         updated.push(doc.profil);
       } catch {}

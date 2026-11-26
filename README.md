@@ -128,7 +128,9 @@ sources/                     Raw material (not published)
   id, and when the player last changed something (`degisti`). On another device, *Kim keşfe çıkıyor? → Oyuncu kodum
   var* loads that document: the player keeps the same id, so the keys and the admin page match. When the page opens,
   a player whose document is newer than this device's copy (played elsewhere since) is updated before being chosen;
-  the device where the player last played wins. The code is the only key to the document (anyone signed in who knows
+  the device where the player last played wins. A newer copy that lacks a key this device keeps (an
+  island, the aquarium) is not taken: this device's copy goes up as the newest instead, and no key is ever removed by a
+  copy from the cloud. The code is the only key to the document (anyone signed in who knows
   it may read and write it, nobody but the admin may list them), so it is shown only in Settings. Deleting a player
   deletes their document too; another device that still has the player sends it again when they play there. The admin
   page lists a player found on several devices once, naming every device.

@@ -16,6 +16,10 @@ Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında 
 - **İngilizce Koyu resimleri:** Yanlış resimler düzeltildi ve yenileri çizildi: kitaplık, tablet, akıllı tahta, Türk çay bardağı, japon balığı (fanusta), yapıştırıcı, duvar saati, tahta / kara tahta / beyaz tahta, tebeşir, boya kalemleri, salon, fotoğraf, oyuncak bebek evi, kafa, saç, zıplamak, koyu renk; büyük / küçük / uzun / kısa artık fil ya da cetvel değil, iki şeyin karşılaştırması. Öğrenci 🧒🎒, kütüphane 🏛️📚.
 - **Çeviriler:** “sorry” özür dilerim, “whiskers” bıyık (tavşanın da bıyığı var), “What have you got?” Sende ne var?, “Great job!” Harika iş çıkardın!, “Do you like chicken? No, I don’t.” Hayır, sevmem; birkaç cümlenin eksik çevirisi tamamlandı.
 
+## 0.54.1 · 26.11.2026
+
+- **Oyuncu kodu ilerlemeyi silmiyor:** Kodla başka bir cihaza getirilen oyuncunun buluttaki kopyası eksikse (ilerlemesiz gelmişse), oyuncunun asıl cihazı bir sonraki açılışta bu eksik kopyayı alıp kendi ilerlemesini siliyordu. Artık eksik bir kopya hiçbir cihazda ilerleme silmiyor: asıl cihaz kendi tam kopyasını buluta gönderiyor, diğer cihaz da bir sonraki açılışta onu alıyor.
+
 ## 0.54.0 · 26.11.2026
 
 - **Her cihazın kendi kimliği var:** Buluta bağlanan her cihaz kendiliğinden altı harf ve rakamlık bir kimlik alıyor (ör. K7Q-X2M); elle bir şey girmek gerekmiyor. Kimlik, Ayarlar penceresinin en altında sürümün yanında görünüyor.
