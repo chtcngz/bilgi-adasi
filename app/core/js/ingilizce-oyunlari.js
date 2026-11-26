@@ -97,9 +97,15 @@ const ingilizceSes = (() => {
     });
   }
   const kayitli = text => !!window.ingilizceKayitlar?.[text];
+  // how long a line takes to say, in seconds: its recording's length, or a guess for the device's voice
+  async function sure(text, slow = false) {
+    const src = clip(text, slow);
+    const buffer = src ? await decode(src) : null;
+    return buffer ? buffer.duration : (slow ? 0.13 : 0.075) * String(text).length + 0.3;
+  }
   // "How are you? I’m fine, thank you." → ["How are you?", "I’m fine, thank you."]: a question and its answer
   const diyalog = text => { const m = String(text).match(/^(.+?\?)\s+(\S.*)$/); return m ? [m[1], m[2]] : null; };
-  return { say, stop, hazirla, kayitli, diyalog };
+  return { say, stop, hazirla, kayitli, diyalog, sure };
 })();
 
 const ingilizceOyunlari = (() => {
@@ -203,7 +209,8 @@ const ingilizceOyunlari = (() => {
      Every line goes through a "flow": a new tap starts a new flow, and the lines still waiting in an older one (the rest
      of "Try again! … dog") are dropped, so two lines never run into each other. A dialogue is said by two voices: the
      question in the main voice, a short pause, the answer in the answer voice ('b'). After a right answer the answer is
-     said in the answer voice too, after a pause, so it is heard on its own and clearly. */
+     said first, in the answer voice, and the praise only after it, so the two voices never run into each other. Moving
+     on to the next question (Devam, the next game) drops every line of the question before (sus). */
   function konusmaci(live, react) {
     let flow = 0;
     const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -225,14 +232,17 @@ const ingilizceOyunlari = (() => {
       const ok = () => id === flow && live.on;
       return { ok, say: (text, opts) => line(text, id, opts), wait: async ms => { await pause(ms); return ok(); } };
     };
+    // the answer first, in the answer voice, and only when it has been heard to the end the praise
     const praise = async (word, said = any(OVGU)) => {
       const s = seq();
       react(true, said);
       playCue('correct');
       if (!(await s.wait(250))) return;
+      if (word) { await s.say(word, { ses: 'b' }); if (!(await s.wait(400))) return; }
       await s.say(said);
-      if (word && (await s.wait(350))) await s.say(word, { ses: 'b' });
     };
+    // silence: whatever is being said or still waiting to be said is dropped (on to the next question)
+    const sus = () => { ++flow; ingilizceSes.stop(); };
     const oops = async again => {
       const s = seq();
       react(false, '🤔');
@@ -241,7 +251,7 @@ const ingilizceOyunlari = (() => {
       await s.say(any(TEKRAR));
       if (again && (await s.wait(300))) await s.say(again);
     };
-    return { say, seq, praise, oops };
+    return { say, seq, praise, oops, sus };
   }
 
   /* ---------- the round: a frame, the mascot, stars, and the games one after another ---------- */
@@ -315,6 +325,7 @@ const ingilizceOyunlari = (() => {
     (async () => {
       for (const [kind, items] of order) {
         if (!live.on) return;
+        ctx.sus();
         const info = OYUNLAR[kind];
         where.innerHTML = '<span aria-hidden="true">' + info.simge + '</span> ' + info.ad;
         // straight into the game: its name stays in the corner, nothing is announced first
@@ -367,12 +378,13 @@ const ingilizceOyunlari = (() => {
     }
   }
   // 🔊 and 🐢 (slow) for a word
-  function voiceRow(x, text, big = true) {
+  // (said(slow): also called when a button is tapped, as 🔍 Gizli Kelimeler writes the line it says)
+  function voiceRow(x, text, big = true, said = null) {
     const row = el('div', 'og-voice');
     const loud = button('soru-say' + (big ? ' big' : ''), '🔊', 'Dinle');
-    loud.onclick = () => { x.say(text); fx.bump(loud, 'show'); };
+    loud.onclick = () => { said?.(false); x.say(text); fx.bump(loud, 'show'); };
     const slow = button('soru-say slow', '🐢', 'Yavaş dinle');
-    slow.onclick = () => { x.say(text, true); fx.bump(slow, 'show'); };
+    slow.onclick = () => { said?.(true); x.say(text, true); fx.bump(slow, 'show'); };
     row.append(loud, slow);
     return row;
   }
@@ -934,7 +946,7 @@ const ingilizceOyunlari = (() => {
               x.sonuc(item, first);
               note.innerHTML = '<p><span aria-hidden="true">💡</span> ' + x.c.rich(q.b) + '</p>';
               const go = button('primary og-next', 'Devam ▶');
-              go.onclick = () => resolve();
+              go.onclick = () => { x.sus(); resolve(); };
               note.append(go);
               go.focus({ preventScroll: true });
               x.praise(item.en);
@@ -975,6 +987,26 @@ const ingilizceOyunlari = (() => {
     const svgNS = 'http://www.w3.org/2000/svg';
     x.game.innerHTML = '';
     const row = el('div', 'og-voice');
+    // the line being said, written letter by letter as long as it takes to say it
+    const yazi = el('p', 'og-yazi');
+    yazi.lang = 'en';
+    let typing = 0;
+    const yaz = async (text, slow = false) => {
+      const mine = ++typing;
+      const secs = await ingilizceSes.sure(text, slow);
+      if (mine !== typing) return;
+      yazi.textContent = '';
+      const shown = el('span', 'og-yazi-on'), rest = el('span', 'og-yazi-off', esc(text));
+      yazi.append(shown, rest);
+      const chars = [...text], step = Math.max(25, secs * 900 / chars.length);
+      for (let i = 1; i <= chars.length; i++) {
+        if (mine !== typing || !yazi.isConnected) return;
+        shown.textContent = chars.slice(0, i).join('');
+        rest.textContent = chars.slice(i).join('');
+        await x.wait(step);
+      }
+    };
+    const soyle = (text, slow) => { yaz(text, slow); return x.say(text, slow); };
     const box = el('div', 'og-sahne');
     box.style.aspectRatio = scene.w + ' / ' + scene.h;
     box.style.setProperty('--oran', scene.w / scene.h);
@@ -987,7 +1019,7 @@ const ingilizceOyunlari = (() => {
     svg.setAttribute('preserveAspectRatio', 'none');
     svg.setAttribute('aria-hidden', 'true');
     box.append(img, svg);
-    x.game.append(row, box);
+    x.game.append(row, yazi, box);
     // a place's outline (not the whole picture), drawn for a moment: green when right, red when wrong
     const show = (place, cls, ms) => {
       const drawn = place.sekil.filter(s => !whole(s)).map(s => {
@@ -1013,7 +1045,7 @@ const ingilizceOyunlari = (() => {
       if (!x.live.on) return;
       const place = yerOf(scene, item.en);
       row.innerHTML = '';
-      row.append(...voiceRow(x, place.bul).children);
+      row.append(...voiceRow(x, place.bul, true, slow => yaz(place.bul, slow)).children);
       let first = true, busy = false;
       await new Promise(resolve => {
         box.onpointerdown = async e => {
@@ -1046,14 +1078,15 @@ const ingilizceOyunlari = (() => {
             x.react(false, '🤔');
             playCue('retry');
             if (!(await s.wait(200))) return;
+            yaz(other.bu);
             await s.say(other.bu);
-            if (await s.wait(300)) await s.say(place.bul);
+            if (await s.wait(300)) { yaz(place.bul); await s.say(place.bul); }
           } else {
             ring(px, py, 'wrong');
             x.oops();
           }
         };
-        x.wait(300).then(() => { if (first && !busy) x.say(place.bul); });
+        x.wait(300).then(() => { if (first && !busy) soyle(place.bul); });
       });
     }
     box.onpointerdown = null;

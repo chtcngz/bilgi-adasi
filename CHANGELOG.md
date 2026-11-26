@@ -7,6 +7,13 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.75.0 · 26.11.2026
+
+- **Gizli Kelimeler'de yazılı soru:** Ses “Find the teacher!” derken aynı cümle resmin üstünde harf harf, sesle birlikte yazılıyor (🐢 ile yavaş dinlenince yavaş yazılıyor). Yanlış dokunuşta “No! This is a pupil.” da yazılıyor.
+- **Önce cevap, sonra övgü:** Doğru cevaptan sonra önce erkek sesi cevabı söylüyor, o bitince övgü geliyor; iki ses artık üst üste binmiyor.
+- **Önceki sorunun sesi kesiliyor:** Devam'a basınca ya da yeni soruya geçince önceki sorudan kalan sesler hemen susuyor.
+- **Daha büyük resimler:** Dinle ve Bul, Sesli Hafıza, Balon Patlat ve Bilgi Kartı'ndaki resimler büyüdü; kartlar ekran büyüdükçe resimler de büyüyor.
+
 ## 0.74.0 · 26.11.2026
 
 - **İngilizce Koyu'nda yeni oyun: 🔍 Gizli Kelimeler.** 1. adada (Okul Hayatı) büyük bir okul resmi açılıyor ve ses “Find the teacher!” gibi bir kelime söylüyor. Çocuk resimde o kişiye ya da yere dokunuyor. Yanlış şeye dokunursa ses onun ne olduğunu söylüyor (“No! This is a pupil.”) ve soruyu yeniden soruyor. Beş resim var: öğretmenler odası, okul bahçesi ve kantin, kütüphane, okul ve oyun alanı, spor salonu. Adaya 26 yeni soru eklendi; her biri kelimesinin işlendiği haftada çıkıyor. Diğer sorular ve oyunlar olduğu gibi duruyor, deneme sınavında bu sorular sorulmuyor.

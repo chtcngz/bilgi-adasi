@@ -551,7 +551,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
       // after the answer the English is always heard (and written, for a listening question)
       feedback.insertAdjacentHTML('beforeend', '<p class="soru-said">' + sayButton(q) + ' <span lang="en">' + escape(q.k[0]) + '</span> · ' + escape(q.k[1]) + '</p>');
       bindSay(feedback, q.k[0]);
-      setTimeout(() => say(q.k[0]), right ? 250 : 500);
+      run.sayLater = setTimeout(() => say(q.k[0]), right ? 250 : 500);
     }
     byKey('stage').querySelector('.soru-dots').outerHTML = dots();
     const next = byKey('continue');
@@ -559,7 +559,8 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
     const last = run.turn === run.items.length - 1;
     next.hidden = false;
     next.textContent = over ? 'Sonucu gör' : last ? 'Sonucu gör' : 'Sıradaki soru ›';
-    next.onclick = () => { if (over || last) finish(); else { run.turn++; ask(); } };
+    // nothing of this question is heard over the next one
+    next.onclick = () => { clearTimeout(run.sayLater); if (typeof ingilizceSes !== 'undefined') ingilizceSes.stop(); if (over || last) finish(); else { run.turn++; ask(); } };
     next.focus({ preventScroll: true });
     feedback.scrollIntoView({ block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   }

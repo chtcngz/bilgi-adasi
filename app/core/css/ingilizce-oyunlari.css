@@ -30,14 +30,14 @@
 
 /* 👂 Dinle ve Bul and 🃏 Sesli Hafıza: picture cards */
 .og-pictures { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.og-picture, .og-mem { display: grid; place-items: center; aspect-ratio: 1.25; border: 3px solid #cfe1d6; border-radius: 20px; background: #fff; box-shadow: 0 4px #cfe1d6; font-size: clamp(46px, 15vw, 68px); line-height: 1; transition: transform .12s, opacity .3s, background .2s; }
+.og-picture, .og-mem { display: grid; place-items: center; aspect-ratio: 1.25; border: 3px solid #cfe1d6; border-radius: 20px; background: #fff; box-shadow: 0 4px #cfe1d6; font-size: clamp(54px, 18vw, 88px); line-height: 1; transition: transform .12s, opacity .3s, background .2s; }
 .og-picture:active:not(:disabled), .og-mem:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px #cfe1d6; }
 .og-picture.right { border-color: #2f9b7f; background: #e1f6e5; box-shadow: 0 4px #2f9b7f; animation: og-hop .7s; }
 .og-picture.wrong { border-color: #d9534f; background: #fde4e1; opacity: .35; animation: shake .4s; }
 .og-picture:disabled:not(.right):not(.wrong) { opacity: .5; }
 .og-memory { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
 .og-memory.small { grid-template-columns: repeat(3, 1fr); }
-.og-mem { aspect-ratio: .9; font-size: clamp(32px, 10vw, 48px); background: #5aa9d6; border-color: #3d8dbd; box-shadow: 0 4px #2f78a3; }
+.og-mem { aspect-ratio: .9; font-size: clamp(42px, 14vw, 66px); background: #5aa9d6; border-color: #3d8dbd; box-shadow: 0 4px #2f78a3; }
 .og-mem .og-face { display: none; }
 .og-mem .og-back { color: #fff; font-size: .7em; }
 .og-mem.open { background: #fff; border-color: #b9d6ea; box-shadow: 0 4px #b9d6ea; animation: og-flip .35s; }
@@ -55,11 +55,11 @@
 .og-cloud::after { width: 60px; height: 60px; left: 44px; top: -32px; }
 .og-hill { position: absolute; left: -10%; right: -10%; bottom: -60px; height: 110px; border-radius: 50% 50% 0 0; background: #69db7c; box-shadow: inset 0 8px 0 #8ce99a; }
 .og-hill.back { left: 30%; right: -30%; bottom: -50px; background: #40c057; box-shadow: inset 0 8px 0 #69db7c; }
-.og-balloon { position: absolute; left: 0; top: 0; z-index: 2; width: clamp(60px, 19%, 92px); padding: 0; border: 0; background: none; box-shadow: none; display: grid; justify-items: center; transform-origin: 50% 100%; will-change: transform; -webkit-tap-highlight-color: transparent; }
+.og-balloon { position: absolute; left: 0; top: 0; z-index: 2; width: clamp(74px, 23%, 122px); padding: 0; border: 0; background: none; box-shadow: none; display: grid; justify-items: center; transform-origin: 50% 100%; will-change: transform; -webkit-tap-highlight-color: transparent; }
 .og-bbody { position: relative; display: grid; place-items: center; align-content: center; gap: 2px; width: 100%; aspect-ratio: .84; padding: 6px; border-radius: 50% 50% 48% 48% / 56% 56% 44% 44%;
   background: radial-gradient(circle at 34% 28%, #ffffffb0 0 9%, #ffffff00 30%), radial-gradient(circle at 60% 70%, #0000 40%, #0002 100%), var(--c); box-shadow: inset -7px -9px 0 #0000001c; color: #173f40; }
 .og-shine { position: absolute; left: 20%; top: 14%; width: 16%; height: 26%; border-radius: 50%; background: #ffffffc0; rotate: 25deg; }
-.og-bpic { display: grid; place-items: center; width: 74%; aspect-ratio: 1; border-radius: 50%; background: #ffffffc4; font-size: clamp(26px, 8vw, 36px); line-height: 1; }
+.og-bpic { display: grid; place-items: center; width: 82%; aspect-ratio: 1; border-radius: 50%; background: #ffffffc4; font-size: clamp(34px, 11vw, 54px); line-height: 1; }
 .og-bbody small { font-size: 12px; font-weight: 850; line-height: 1.1; text-align: center; }
 .og-knot { width: 12px; height: 9px; margin-top: -2px; background: var(--c); clip-path: polygon(50% 0, 100% 100%, 0 100%); filter: brightness(.85); }
 .og-string { width: 24px; height: 62px; margin-top: -1px; overflow: visible; }
@@ -154,8 +154,8 @@
 .sahne-balon::after { content: ''; position: absolute; left: 50%; bottom: -8px; width: 12px; height: 12px; translate: -50% 0; rotate: 45deg; background: #fff; border-right: 2px solid #b9d6ea; border-bottom: 2px solid #b9d6ea; }
 .sahne-balon.cevap { border-color: #ffd43b; background: #fff9db; color: #8a5a00; letter-spacing: .5px; }
 .sahne-balon.cevap::after { background: #fff9db; border-color: #ffd43b; }
-.sahne-resim { display: grid; place-items: center; align-self: center; margin: 0 auto 12px; font-size: clamp(56px, 18vw, 84px); line-height: 1; }
-.sahne .sahne-resim { margin: 0; font-size: clamp(46px, 15vw, 70px); }
+.sahne-resim { display: grid; place-items: center; align-self: center; margin: 0 auto 12px; font-size: clamp(66px, 22vw, 104px); line-height: 1; }
+.sahne .sahne-resim { margin: 0; font-size: clamp(52px, 17vw, 82px); }
 .sahne-resim.dinle { width: 1.6em; height: 1.6em; border-radius: 50%; background: #e7f5ff; box-shadow: inset 0 0 0 4px #b9d6ea; font-size: clamp(44px, 13vw, 58px); }
 .sahne-kart { display: grid; justify-items: center; gap: 4px; width: fit-content; max-width: 100%; margin: 0 auto 12px; padding: 14px 22px; border: 3px solid #b9d6ea; border-radius: 20px; background: #fff; box-shadow: 0 4px #b9d6ea; color: #1d4f72; font-weight: 950; font-size: clamp(26px, 8vw, 36px); line-height: 1.15; text-align: center; overflow-wrap: anywhere; }
 .sahne-kart span { font-size: .6em; }
@@ -164,14 +164,14 @@
    shadow, a soft colour behind it; and the small card of a picture at the start of an option */
 .resim-kart { display: inline-grid; place-items: center; width: 1.75em; height: 1.75em; border-radius: .3em; background: var(--kb, #fff3bf); border: .05em solid #fff; box-shadow: 0 .05em .14em #0000002e, inset 0 -.06em 0 #0000000d; line-height: 1; }
 .resim-kart .og-emo { font-size: 1em; }
-.og-mem .resim-kart { width: 1.45em; height: 1.45em; }
+.og-mem .resim-kart { width: 1.5em; height: 1.5em; }
 .og-mem.open .og-face { display: grid; place-items: center; }
-.secenek-resim { display: inline-grid; place-items: center; flex: none; width: 2.2em; height: 2.2em; margin-right: .5em; border-radius: .5em; background: #fff3bf; border: 2px solid #fff; box-shadow: 0 1px 4px #0002; font-size: 1.15em; line-height: 1; vertical-align: middle; }
+.secenek-resim { display: inline-grid; place-items: center; flex: none; width: 2.2em; height: 2.2em; margin-right: .5em; border-radius: .5em; background: #fff3bf; border: 2px solid #fff; box-shadow: 0 1px 4px #0002; font-size: 1.6em; line-height: 1; vertical-align: middle; }
 .secenek-resim .kr { width: 1.5em; height: 1.5em; vertical-align: 0; }
 .og-option { display: flex; align-items: center; }
 
 /* 🔍 Gizli Kelimeler: a big picture to find things in */
-.og-sahne { position: relative; width: min(100%, calc((100dvh - 250px) * var(--oran, 1.5))); min-width: min(100%, 280px); margin: 0 auto; border-radius: 18px; overflow: hidden;
+.og-sahne { position: relative; width: min(100%, calc((100dvh - 310px) * var(--oran, 1.5))); min-width: min(100%, 280px); margin: 0 auto; border-radius: 18px; overflow: hidden;
   border: 3px solid #cfe1d6; box-shadow: 0 4px #cfe1d6; background: #fff; touch-action: manipulation; cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
 .og-sahne img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
 .og-sahne svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
@@ -179,3 +179,14 @@
 .og-yer.right { fill: rgba(47, 155, 127, .22); stroke: #2f9b7f; }
 .og-yer.wrong { fill: rgba(217, 83, 79, .2); stroke: #d9534f; }
 .og-isaret { position: absolute; width: 1px; height: 1px; pointer-events: none; }
+/* the line being said, written as it is heard */
+.og-yazi { margin: 0; min-height: 1.3em; text-align: center; font-size: clamp(24px, 6vw, 34px); font-weight: 950; line-height: 1.25; color: #1d4f72; }
+.og-yazi-off { color: transparent; }
+/* pictures grow with their cards (the cards' width follows the window) */
+.og-pictures, .og-memory, .og-sky { container-type: inline-size; }
+@supports (width: 1cqw) {
+  .og-picture { font-size: min(18cqw, 120px); }
+  .og-memory .og-mem { font-size: min(13cqw, 84px); }
+  .og-memory.small .og-mem { font-size: min(17cqw, 100px); }
+  .og-bpic { font-size: clamp(30px, 10cqw, 60px); }
+}
