@@ -58,7 +58,6 @@
     clap: kid({ l: [30, 30], r: [34, 30], mouth: 'open' }, '#ff922b') + lines('M22 22l-5-4M20 30h-6M42 22l5-4M44 30h6', '#f76707'),
     sing: kid({ l: [22, 46], r: [40, 27], mouth: 'open' }, '#9775fa', true) + r(39, 22, 4, 9, '#495057', 2, 1.8) + note(48, 6, '#e64980') + note(54, 18, '#4dabf7') + note(6, 10, '#40c057'),
     'stand-up': kid({}, '#40c057') + lines('M56 52V14M51 20l5-6 5 6', '#f76707', 4) + r(2, 40, 12, 4, '#ffa94d', 1.5) + lines('M4 44v12M12 44v12M12 40V24', INK, 2.4),
-    wait: kid({ l: [30, 40], r: [34, 40], mouth: 'o' }, '#adb5bd') + p('M48 6h12M48 30h12M50 6q0 9 4 12-4 3-4 12M58 6q0 9-4 12 4 3 4 12', '#fff', 2.2) + p('M51 27q3-4 6 0z', '#ffd43b', 1.4),
     read: kid({ l: [24, 40], r: [40, 40] }, '#f783ac', true) + p('M18 32l14 4 14-4v14l-14 4-14-4z', '#fff', 2.2) + p('M32 36v14', 'none', 2) + lines('M22 38l6 2M22 42l6 2M36 40l6-2M36 44l6-2', '#4dabf7', 1.4),
     write: kid({ l: [24, 48], r: [40, 48] }, '#4dabf7', true) + r(16, 46, 32, 14, '#fff', 2) + lines('M20 51h18M20 55h12', '#adb5bd', 1.6) + '<g transform="rotate(30 42 46)">' + r(40, 38, 4, 12, '#e5484d', 1, 1.8) + '</g>',
     /* the body: the part meant is ringed */

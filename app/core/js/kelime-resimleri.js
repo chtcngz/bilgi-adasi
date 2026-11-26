@@ -96,7 +96,7 @@ const kelimeResimleri = (() => {
       '<path d="M24 22h16M23 26h18" stroke="#6c757d" stroke-width="1.2"/><circle cx="29" cy="35" r="1" fill="' + INK + '"/><circle cx="35" cy="35" r="1" fill="' + INK + '"/>' +
       '<path d="M29 40h6"' + o(1) + '/>',
     /* the days: Monday first */
-    tuesday: week([1]), wednesday: week([2]), thursday: week([3]), friday: week([4]), saturday: week([5]), sunday: week([6]),
+    friday: week([4]), saturday: week([5]), sunday: week([6]),
     'monday-tuesday': week([0, 1])
   };
   const NUMS = ['#ff6b6b', '#ff922b', '#fcc419', '#51cf66', '#22b8cf', '#339af0', '#845ef7', '#f06595', '#20c997', '#e8590c'];

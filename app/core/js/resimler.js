@@ -43,7 +43,11 @@
     'point-2', 'purple', 'put', 'put-2',
     // school and greetings
     'headmaster', 'headmaster-2', 'headmistress', 'headmistress-2', 'hello', 'hello-2', 'hi', 'how', 'how-2', 'jump', 'jump-2', 'kid', 'library',
-    'library-2', 'library-3', 'lunch-hall', 'lunch-hall-2', 'meet', 'meet-2', 'monday', 'monday-2', 'name', 'people', 'school-kids'
+    'library-2', 'library-3', 'lunch-hall', 'lunch-hall-2', 'meet', 'meet-2', 'monday', 'monday-2', 'name', 'people', 'school-kids',
+    // days, time, question words
+    'thank-you', 'thursday', 'today', 'together', 'tuesday', 'wait', 'wednesday', 'week', 'what', 'find-2', 'where', 'who',
+    'thank-you-2', 'today-2', 'point-up', 'together-2', 'heart-girl', 'wait-2', 'hi-2', 'today-3', 'what-2', 'look-2', 'look-3', 'who-2',
+    'thank-you-3', 'together-3', 'boy-ball', 'paint-2', 'time-3', 'wait-3', 'week-2', 'what-3', 'where-2', 'who-3'
   ];
   const more = {};
   for (const name of names) {
