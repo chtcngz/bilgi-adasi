@@ -130,7 +130,11 @@ const ingilizceOyunlari = (() => {
   const SOYUT = new Set(['🙏', '🙋', '🙌', '👋', '👍', '👌', '🤝', '❓', '📍', '➕', '❗', '🔶', '🏷️', '📝', '🆘', '⏳', '⏰', '🔔', '📆', '🗓️',
     '🌞', '🎨', '✅', '🔁', '🗣️', '👄', '🫴', '🤲', '👉', '👆', '👀', '🚶', '🚦', '🏁', '🧍', '🤫', '💖', '🌟', '🥰', '😊', '🙂', '😀', '😄', '😋',
     '🤤', '😔', '🤪', '💦', '🥶', '🥵', '🧓', '🐭', '🐘', '📏', '🤏', '🎉', '📌', '🧩', '👫', '📺', '✍️', '📖', '🎧', '🤗', '🌑', '🎤', '🦘',
-    '👏', '🔍', '💃', '📥', '🥄', '🖼️', '👨‍👩‍👧‍👦', '🧑‍🤝‍🧑', '🤵', '🌸', '👱‍♂️', '👱‍♀️', '🖍️', '🧑‍🏫', '🧑‍🎓', '🏛️', '📅']);
+    '👏', '🔍', '💃', '📥', '🥄', '🖼️', '👨‍👩‍👧‍👦', '🧑‍🤝‍🧑', '🤵', '🌸', '👱‍♂️', '👱‍♀️', '🖍️', '🧑‍🏫', '🧑‍🎓', '📅',
+    '✨', '🥳', '💬', '🔤', '🙇', '👥', '👥📝']);
+  // A picture of two things (👩‍🏫☕ teacher’s room, 🛏️🌙 bedroom) is drawn smaller so it fits a card or a balloon.
+  const seg = typeof Intl !== 'undefined' && Intl.Segmenter ? new Intl.Segmenter() : null;
+  const pic = emo => '<span class="og-emo' + ((seg ? [...seg.segment(emo)].length : 1) > 1 ? ' iki' : '') + '" aria-hidden="true">' + emo + '</span>';
   const resimli = w => !!w.emo && !SOYUT.has(w.emo) && !/[.!?]/.test(w.en) && w.en.split(' ').length <= 3;
   const renk = w => RENKLER.find(r => r[0] === w.en.toLowerCase());
 
@@ -289,7 +293,7 @@ const ingilizceOyunlari = (() => {
       let first = true;
       await new Promise(resolve => {
         grid.append(...choices(x.c, item, 4).map(w => {
-          const card = button('og-picture', '<span aria-hidden="true">' + w.emo + '</span>', 'Resim');
+          const card = button('og-picture', pic(w.emo), 'Resim');
           card.onclick = async () => {
             if (w === item) {
               for (const other of grid.children) other.disabled = true;
@@ -408,7 +412,7 @@ const ingilizceOyunlari = (() => {
         const starts = shuffled([0.12, 0.62, 0.36, 0.84].slice(0, set.length));
         const balloons = set.map((w, i) => {
           const colour = colours[(i + n * 2) % colours.length];
-          const node = button('og-balloon', '<span class="og-bbody"><i class="og-shine"></i>' + (w.emo ? '<span class="og-bpic" aria-hidden="true">' + w.emo + '</span>' : '') +
+          const node = button('og-balloon', '<span class="og-bbody"><i class="og-shine"></i>' + (w.emo ? '<span class="og-bpic">' + pic(w.emo) + '</span>' : '') +
             (yazili ? '<small>' + esc(w.tr) + '</small>' : '') + '</span><i class="og-knot"></i><svg class="og-string" viewBox="0 0 24 70" aria-hidden="true"><path d="M12 0Q12 35 12 70"/></svg>',
             yazili ? w.tr : 'Balon');
           node.style.setProperty('--c', colour);
@@ -498,7 +502,7 @@ const ingilizceOyunlari = (() => {
     let open = [], found = 0, busy = false;
     await new Promise(resolve => {
       grid.append(...shuffled(items.flatMap(item => [{ item, sound: true }, { item, sound: false }])).map(card => {
-        const node = button('og-mem', '<span class="og-back" aria-hidden="true">❓</span><span class="og-face" aria-hidden="true">' + (card.sound ? '🔊' : card.item.emo) + '</span>',
+        const node = button('og-mem', '<span class="og-back" aria-hidden="true">❓</span><span class="og-face" aria-hidden="true">' + (card.sound ? '🔊' : pic(card.item.emo)) + '</span>',
           card.sound ? 'Ses kartı' : 'Resim kartı');
         node.onclick = async () => {
           if (busy || node.classList.contains('open')) return;

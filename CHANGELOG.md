@@ -7,6 +7,15 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.51.0 · 26.11.2026
+
+İngilizce Koyu (2. sınıf): kelime resimleri baştan sona denetlendi.
+
+- **Her resim kelimenin kendisi:** “library” artık 🏛️ (kitap yığını 📚 değil), “tail” bir köpek, “whiskers” bir kedi resmi değil. Tam karşılığı olmayan yerler iki resimle anlatılıyor: öğretmenler odası 👩‍🏫☕, yatak odası 🛏️🌙, yemekhane 🏫🍽️, oyuncak bebek evi 🪆🏠.
+- **Bir resim, bir anlam:** Farklı anlamlı iki kelime artık aynı resmi paylaşmıyor (yatak 🛏️ / yatak odası, kahvaltı 🍳 / mutfak, kapı 🚪 / oda, sandalye 🪑 / sıra, kulak 👂 / dinlemek, zürafa 🦒 / uzun boylu, erkek çocuk 👦 / erkek kardeş / erkek evlat …).
+- **Doğru resmi olmayan kelimelerin resmi kaldırıldı:** masa, sehpa, sıra, silgi, kalemtıraş, kukla, oda, balkon, ceket, okul forması, gaga, pençe, kuyruk, kedi bıyığı, kardeşler, evlatlar, soru kelimeleri ve günler. Bu kelimeler resimli oyunlar yerine Bilgi Kartı’nda soruluyor.
+- **Şıklar cevabı ele vermiyor:** Bir sorunun şıklarının ya hepsinde resim var ya hiçbirinde; tek resimsiz şık artık doğru cevabı göstermiyor.
+
 ## 0.50.0 · 26.11.2026
 
 İngilizce Koyu'nun oyunları her cihazda hareket ediyor ve daha canlı:

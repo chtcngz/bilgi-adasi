@@ -17,6 +17,8 @@
 .og-stars i.won { color: #f5b301; text-shadow: 0 1px 0 #c98a00; }
 .og-stars i.miss { color: #f3b7b2; }
 .og-game { position: relative; display: grid; gap: 14px; }
+.og-emo { display: inline-block; line-height: 1; white-space: nowrap; }
+.og-emo.iki { font-size: .62em; letter-spacing: -.04em; }
 
 /* the title card every game starts with */
 .og-intro { display: grid; justify-items: center; gap: 6px; padding: 30px 16px; text-align: center; border-radius: 24px; background: linear-gradient(#fff8e6, #ffeec4); animation: og-in .5s ease-out; }
