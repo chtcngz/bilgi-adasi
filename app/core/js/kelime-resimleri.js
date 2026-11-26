@@ -178,14 +178,9 @@ const kelimeResimleri = (() => {
     close: '<rect x="10" y="6" width="34" height="52" fill="#c98a4a"' + o() + '/><rect x="15" y="12" width="24" height="18" rx="2" fill="#a9744f"' + o(1.3) + '/><rect x="15" y="35" width="24" height="17" rx="2" fill="#a9744f"' + o(1.3) + '/>' +
       '<circle cx="39" cy="33" r="2" fill="#ffd43b"' + o(1) + '/>' + arrow('M63 33H52M57 27l-6 6 6 6', '#e5484d'),
     /* food */
-    courgette: '<path d="M8 44q-4-8 4-12l36-20q8-4 11 3t-5 11L18 50q-8 3-10-6z" fill="#2b8a3e"' + o() + '/><path d="M14 40l38-22M16 45l36-21" stroke="#69db7c" stroke-width="2" stroke-linecap="round"/>' +
-      '<path d="M54 14l6-6" stroke="#5c940d" stroke-width="5" stroke-linecap="round"/><circle cx="10" cy="45" r="3" fill="#ffd43b"' + o(1.2) + '/>',
     ayran: '<path d="M16 14h32l-4 44H20z" fill="#fff"' + o() + '/><path d="M18 26h28l-3 32H21z" fill="#f8f9fa"/><path d="M16 14h32l-4 44H20z" fill="none"' + o() + '/>' +
       '<path d="M14 16q4-8 9-4 3-6 9-2 5-5 10 0 6-2 8 6z" fill="#fff"' + o(1.6) + '/><circle cx="24" cy="20" r="2" fill="#e9ecef"' + o(.8) + '/><circle cx="38" cy="19" r="2.4" fill="#e9ecef"' + o(.8) + '/>' +
       '<circle cx="31" cy="22" r="1.6" fill="#e9ecef"' + o(.8) + '/><path d="M44 4l-6 14" stroke="#e5484d" stroke-width="3" stroke-linecap="round"/>',
-    cauliflower: '<path d="M8 36q-2 16 24 22 26-6 24-22-12 8-24 6-12 2-24-6z" fill="#51cf66"' + o() + '/><path d="M14 42q8 10 18 12M50 42q-8 10-18 12" fill="none" stroke="#2f9e44" stroke-width="1.6"/>' +
-      '<circle cx="20" cy="30" r="9" fill="#fff9db"' + o(1.6) + '/><circle cx="44" cy="30" r="9" fill="#fff9db"' + o(1.6) + '/><circle cx="32" cy="22" r="10" fill="#fff9db"' + o(1.6) + '/>' +
-      '<circle cx="26" cy="35" r="8" fill="#fff9db"' + o(1.6) + '/><circle cx="38" cy="35" r="8" fill="#fff9db"' + o(1.6) + '/><circle cx="32" cy="30" r="6" fill="#fff9db"/>',
     spinach: '<path d="M30 60l2-20M32 60l6-22M28 60l-6-22" stroke="#5c940d" stroke-width="3" stroke-linecap="round"/>' +
       '<path d="M22 40q-18-6-14-26 14-2 18 12 4 8-4 14z" fill="#2b8a3e"' + o() + '/><path d="M40 38q18-8 12-28-14 0-16 14-2 8 4 14z" fill="#2b8a3e"' + o() + '/>' +
       '<path d="M32 40q-10-14 0-34 10 20 0 34z" fill="#37b24d"' + o() + '/><path d="M32 38V12M22 38L13 18M40 36l9-20" stroke="#8ce99a" stroke-width="1.4"/>' +
