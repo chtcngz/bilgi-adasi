@@ -124,9 +124,10 @@ for (const name of islands) {
     if (!points) problem('kapsam.md içinde madde yok.');
   }
 
-  // sira.js: the book page of every question (the first page that asks it), so the game cuts a unit into stations in
+  // sira.js (İngilizce Koyu): the book page of every question (the first page that asks it), so the game cuts a unit into stations in
   // the book's order (core/js/quiz.js, kitapSirasi). A question no page asks keeps the page of the one before it.
-  if (bank && page.size) {
+  // only İngilizce Koyu is ordered this way (set by the owner); the other islands keep their bank's order
+  if (bank && page.size && name.startsWith('ingilizce-')) {
     // an English word asked from the glossary at the back is placed where the book first uses it ("clap": s. 18)
     const said = [];
     fs.readFileSync(listFile, 'utf8').split('\n').forEach(line => {
