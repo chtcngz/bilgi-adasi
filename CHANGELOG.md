@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.62.0 · 26.11.2026
+
+- **İngilizce Koyu'nda yeni resimler:** Aç, sevimli, öğle yemeği, öğle yemeği zamanı, anne, fotoğraf, uzun boylu, kız kardeş, özür dilerim; pasta, neşelenmek, giysi, mont, soğuk, karanlık, sevgili, elbise, kulak, göz, yüz, hediye, gözlük, eldiven, harika ve saç artık sevimli, renkli resimlerle gösteriliyor. Bu kelimelerin eski emoji ve çizimleri kaldırıldı; ikinci seçenekler kontrol sayfasında seçilebiliyor.
+
 ## 0.61.0 · 26.11.2026
 
 - **İngilizce Koyu'nda aile resimleri:** Albüm, bebek, güzel, yakışıklı, erkek kardeş, baba, kız evlat, aile, arkadaş, büyükbaba ve büyükanne artık sevimli, renkli resimlerle gösteriliyor. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.

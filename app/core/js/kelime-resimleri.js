@@ -90,9 +90,6 @@ const kelimeResimleri = (() => {
     clock: '<path d="M32 2v6" stroke="#868e96" stroke-width="2"/><circle cx="32" cy="2.5" r="2" fill="#868e96"/><circle cx="32" cy="34" r="26" fill="#ff922b"' + o() + '/><circle cx="32" cy="34" r="21" fill="#fff"' + o(1.5) + '/>' +
       [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(h => { const a = h * Math.PI / 6; return '<circle cx="' + (32 + Math.sin(a) * 17).toFixed(1) + '" cy="' + (34 - Math.cos(a) * 17).toFixed(1) + '" r="' + (h % 3 ? 1 : 1.8) + '" fill="' + INK + '"/>'; }).join('') +
       '<path d="M32 34V20M32 34l9 5"' + o(2.8) + '/><circle cx="32" cy="34" r="2.2" fill="#e5484d"/>',
-    photo: '<g transform="rotate(-6 32 32)"><rect x="8" y="8" width="48" height="50" rx="2" fill="#fff"' + o() + '/><rect x="13" y="13" width="38" height="32" fill="#a5d8ff"/>' +
-      '<path d="M13 45V36q8-6 19 0t19-2v11z" fill="#69db7c"/><circle cx="24" cy="27" r="4" fill="' + SKIN + '"' + o(1) + '/><rect x="20" y="31" width="8" height="9" rx="3" fill="#e5484d"' + o(1) + '/>' +
-      '<circle cx="38" cy="29" r="3.4" fill="' + SKIN + '"' + o(1) + '/><rect x="34.5" y="32.5" width="7" height="7.5" rx="3" fill="#4dabf7"' + o(1) + '/><circle cx="45" cy="18" r="3" fill="#ffd43b"/></g>',
     hall: '<rect x="4" y="6" width="56" height="30" fill="#ffe8cc"' + o() + '/><path d="M4 6h56v6H4z" fill="#c92a2a"' + o(1.5) + '/>' +
       '<path d="M4 12q6 10 0 24M60 12q-6 10 0 24" fill="#e03131"' + o(1.5) + '/><rect x="16" y="28" width="32" height="8" fill="#a9744f"' + o(1.5) + '/>' +
       '<circle cx="32" cy="20" r="4" fill="' + SKIN + '"' + o(1) + '/><rect x="29" y="24" width="6" height="4" fill="#4dabf7"/>' +
@@ -115,9 +112,6 @@ const kelimeResimleri = (() => {
       '<circle cx="32" cy="20" r="14" fill="' + SKIN + '"' + o(2.5) + '/><path d="M18 18q14-18 28 0q-14-8-28 0z" fill="#8b5a2b"' + o(1.4) + '/>' +
       '<circle cx="27" cy="21" r="1.6" fill="' + INK + '"/><circle cx="37" cy="21" r="1.6" fill="' + INK + '"/><path d="M28 27q4 3 8 0" fill="none"' + o(1.4) + '/>' +
       '<circle cx="32" cy="20" r="17" fill="none" stroke="#e8590c" stroke-width="2.5" stroke-dasharray="4 3"/>',
-    hair: '<circle cx="32" cy="34" r="14" fill="' + GREY + '"' + o(1.5) + '/><path d="M14 40q-4-30 18-30t18 30q-2-14-8-18-6 6-20 4-6 6-8 14z" fill="#e8590c"' + o(2) + '/>' +
-      '<path d="M14 40q-2 12 4 18M50 40q2 12-4 18" fill="none" stroke="#e8590c" stroke-width="6" stroke-linecap="round"/><path d="M14 40q-2 12 4 18M50 40q2 12-4 18" fill="none"' + o(1.2) + '/>' +
-      '<circle cx="27" cy="36" r="1.6" fill="' + GREY2 + '"/><circle cx="37" cy="36" r="1.6" fill="' + GREY2 + '"/>',
     puppet: '<path d="M18 56V28a14 14 0 0 1 28 0v28z" fill="#9775fa"' + o() + '/><circle cx="26" cy="27" r="4.5" fill="#fff"' + o(1.4) + '/><circle cx="38" cy="27" r="4.5" fill="#fff"' + o(1.4) + '/>' +
       '<circle cx="27" cy="28" r="2" fill="' + INK + '"/><circle cx="37" cy="28" r="2" fill="' + INK + '"/><path d="M25 37q7 6 14 0" fill="#e5484d"' + o(1.5) + '/>' +
       '<circle cx="32" cy="33" r="2.5" fill="#ff922b"' + o(1.2) + '/><path d="M18 40q-8-2-10-10M46 40q8-2 10-10" fill="none"' + o(3) + '/><path d="M18 40q-8-2-10-10M46 40q8-2 10-10" fill="none" stroke="#9775fa" stroke-width="1.6" stroke-linecap="round"/>' +
@@ -142,8 +136,6 @@ const kelimeResimleri = (() => {
       '<path d="M26 42L2 38M26 45L3 48M26 48L6 57M38 42l24-4M38 45l23 3M38 48l20 9" stroke="#ff922b" stroke-width="2.3" stroke-linecap="round"/>',
     /* people: the one meant in colour */
     son: person(20, 50, 'man', false) + person(44, 32, 'boy', true, '#40c057'),
-    sister: person(19, 38, 'boy', false) + person(45, 36, 'girl', true, '#f06595'),
-    tall: person(20, 52, 'boy', true, '#fab005') + person(44, 30, 'boy', false) + arrow('M4 10v44M1 14l3-5 3 5M1 50l3 5 3-5', '#e8590c'),
     'sit-down': '<path d="M34 34h20v4H34zM50 10v28M36 38v20M52 38v20" fill="#e8a24a"' + o() + '/><rect x="48" y="8" width="5" height="30" rx="2" fill="#e8a24a"' + o(1.6) + '/>' +
       '<circle cx="40" cy="14" r="6" fill="' + SKIN + '"' + o(1.5) + '/><path d="M34 13q6-9 12 0q-6-4-12 0z" fill="#4a3426"' + o(1.2) + '/>' +
       '<rect x="34" y="20" width="12" height="14" rx="4" fill="#40c057"' + o(1.5) + '/><path d="M34 34H24v18"' + o(6) + ' fill="none"/><path d="M34 34H24v18" stroke="#3b5bdb" stroke-width="3.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +

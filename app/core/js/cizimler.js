@@ -90,9 +90,6 @@
     read: kid({ l: [24, 40], r: [40, 40] }, '#f783ac', true) + p('M18 32l14 4 14-4v14l-14 4-14-4z', '#fff', 2.2) + p('M32 36v14', 'none', 2) + lines('M22 38l6 2M22 42l6 2M36 40l6-2M36 44l6-2', '#4dabf7', 1.4),
     write: kid({ l: [24, 48], r: [40, 48] }, '#4dabf7', true) + r(16, 46, 32, 14, '#fff', 2) + lines('M20 51h18M20 55h12', '#adb5bd', 1.6) + '<g transform="rotate(30 42 46)">' + r(40, 38, 4, 12, '#e5484d', 1, 1.8) + '</g>',
     /* the body: the part meant is ringed */
-    face: kid({}, '#4dabf7', false, ring(32, 18, 14.5, 14.5, false)),
-    eye: kid({}, '#4dabf7', false, ring(28, 18, 5)),
-    ear: kid({}, '#4dabf7', false, ring(43, 19, 6)),
     nose: kid({}, '#4dabf7', false, ring(32, 20.5, 4.5)) + c(32, 20.5, 1.6, '#f08c00', 1.2),
     mouth: kid({ mouth: 'open' }, '#4dabf7', false, ring(32, 24.5, 6, 4.5)),
     hand: kid({ l: [21, 47], r: [47, 22] }, '#4dabf7', false, ring(47, 22, 6)),

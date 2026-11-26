@@ -1,6 +1,6 @@
 // Resimler: İngilizce Koyu's pictures from the owner's picture sheets (assets/images/ingilizce/<name>.webp, 256×256 with a
 // clear background; the house and animal cards keep their own coloured card). They join kelimeResimleri as [[y-<name>]],
-// drawn in the same 64×64 box. A picture no word uses yet (meal-bowl, girl-smiling) can still be chosen on kontrol.html.
+// drawn in the same 64×64 box. A picture no word uses yet (meal-bowl, girl-smiling, hug, snowman, thumbs-up, the -2s) can still be chosen on kontrol.html.
 (() => {
   const V = 2;   // bump when the pictures change
   const names = [
@@ -17,7 +17,13 @@
     'funny', 'garden', 'goldfish', 'happy',
     // family (girl-smiling is not given to a word yet)
     'album', 'baby', 'girl-flower', 'boy-hoodie', 'boy-and-sister', 'dad-and-son', 'girl-smiling', 'girl-teddy', 'family', 'grandfather',
-    'grandmother', 'kids-thumbs-up'
+    'grandmother', 'kids-thumbs-up',
+    // people and feelings
+    'hungry', 'lovely', 'lunch-kids', 'mother', 'snack-time', 'photo', 'tall-short', 'sister', 'sorry',
+    // clothes, the body, a few words; the second choice of a word ends in -2 or -3, and some wait for a word
+    'cake', 'cake-slice', 'cheer-up', 'cheer-up-2', 'clothes', 'clothes-2', 'clothes-3', 'coat', 'coat-2', 'cold', 'snowman', 'dark', 'dark-2',
+    'dear', 'hug', 'dress', 'dress-2', 'ear', 'ear-2', 'eye', 'face', 'face-2', 'gift', 'gift-2', 'glasses', 'glasses-2', 'gloves', 'gloves-2',
+    'great', 'thumbs-up', 'hair', 'hair-2'
   ];
   const more = {};
   for (const name of names) {
