@@ -29,6 +29,7 @@ app/                         Published site (GitHub Pages root)
 │   │   ├── quiz.js          Question-island engine: soruAdasi({...})
 │   │   ├── ingilizce-oyunlari.js  İngilizce Koyu's games (a station's round is played as games) and its recorded English voice
 │   │   ├── kelime-resimleri.js    Drawn pictures for the words no emoji shows, written [[name]] in a question (kelimeResimleri)
+│   │   ├── cizimler.js            İngilizce Koyu's cartoon pictures (places, school things, a child in action poses, parts of the body), added with kelimeResimleri.ekle
 │   │   ├── akvaryum-veri.js Akvaryum: the fish, ornaments and tank themes (names, sizes; the admin page loads it too)
 │   │   ├── akvaryum-sanat.js Akvaryum's drawings: fish, ornaments, plants (SVG), sand and caustics (canvas)
 │   │   ├── akvaryum.js      Akvaryum: every player's own tank, rewards (akvaryum.odul / akvaryum.kart), naming the fish
@@ -106,6 +107,10 @@ sources/                     Raw material (not published)
 - **İngilizce Koyu: six islands × four weeks.** Each theme is an island and each island four stations, *Hafta 1-4*, in the
   book's order; a week opens when the round of the one before has been finished (`progress.bolum`, or when every question
   of the weeks before is learned). After a round: *Sonraki bölüm*, *Tekrar oyna*, *Harita*.
+- **İngilizce Koyu's pictures** are cartoon drawings where an emoji is weak (`core/js/cizimler.js`: thick outlines, bright
+  colours; an action is a child in a pose, a part of the body is ringed). A big picture sits on a card (`resimKarti`: rounded,
+  a light shadow, a soft colour that is always the same for a picture), and an option's picture on a small card (`secenek`).
+  `kontrol.html` offers the drawings named like a word first.
 - **İngilizce Koyu: a picture above every question** (`ingilizceOyunlari.sahne`, used by Bilgi Kartı and the question
   rounds): a dialogue to answer is a scene (the asking child and the question, the thing in the middle, the answering
   child with ✅/❌ and the answer blank), a dialogue to understand shows both lines, a word to listen to is a big card or 🎧,

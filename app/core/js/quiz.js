@@ -125,6 +125,9 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
   // *word* is underlined and bold, like the negatives in the printed exam.
   // [[name]] in a text is a drawn picture (core/js/kelime-resimleri.js), for a word no emoji shows
   const rich = text => kelimeResimleri.resimliMetin(escape(text).replace(/\*(.+?)\*/g, '<u><b>$1</b></u>'));
+  // an option that starts with a picture ("🍎 elma", "[[desk]] sıra"): the picture on a small card before the words
+  const LEAD = /^((?:\p{Extended_Pictographic}|[\u{1F1E6}-\u{1F1FF}]|[0-9#*]\ufe0f?\u20e3|\[\[[a-z0-9-]+\]\])(?:[\u200d\ufe0f\u{1F3FB}-\u{1F3FF}\u{1F1E6}-\u{1F1FF}]|\p{Extended_Pictographic}|[0-9#*]\ufe0f?\u20e3|\[\[[a-z0-9-]+\]\])*) (.+)$/u;
+  const secenek = text => { const m = String(text).match(LEAD); return m ? '<span class="secenek-resim" aria-hidden="true">' + rich(m[1]) + '</span>' + rich(m[2]) : rich(text); };
   // A question that quotes a sentence and then asks about it ("“A big brown bear bakes some bread.” Ayı ne yapıyor?"):
   // the sentence on its own line, the question under it, smaller and in another colour.
   const stem = text => {
@@ -368,7 +371,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
     playCue('start');
     const mine = run;
     run.cancel = ingilizceOyunlari.tur({
-      stage: byKey('stage'), items: questions.map(asItem), havuz: pictureWords(), ayar: oyunlar, maskot: activeProfile?.icon, rich, stem, resimBul,
+      stage: byKey('stage'), items: questions.map(asItem), havuz: pictureWords(), ayar: oyunlar, maskot: activeProfile?.icon, rich, stem, resimBul, secenek,
       sonuc: (item, ok) => {
         if (run !== mine) return;
         note(item.q, ok);
@@ -421,7 +424,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
     grid.setAttribute('role', 'group');
     grid.setAttribute('aria-labelledby', kod + '-prompt');
     item.order.forEach((choice, n) => {
-      const button = el('button', 'soru-option', '<b aria-hidden="true">' + letters[n] + '</b><span>' + rich(q.a[choice]) + '</span>');
+      const button = el('button', 'soru-option', '<b aria-hidden="true">' + letters[n] + '</b><span>' + secenek(q.a[choice]) + '</span>');
       button.dataset.cue = '';
       button.dataset.choice = choice;
       button.setAttribute('aria-label', letters[n] + ') ' + q.a[choice].replace(/\*/g, ''));

@@ -210,5 +210,7 @@ const kelimeResimleri = (() => {
   // An escaped text with [[name]] pictures in it.
   const resimliMetin = html => String(html).replace(TOKEN, (_, name) => svg(name));
   const cizim = pic => /\[\[[a-z0-9-]+\]\]/.test(String(pic || ''));
-  return { kelimeResmi, resimliMetin, cizim, adlar: () => Object.keys(R) };
+  // more drawings from other files (core/js/cizimler.js): { name: svg inner markup in a 64×64 box }
+  const ekle = more => Object.assign(R, more);
+  return { kelimeResmi, resimliMetin, cizim, ekle, adlar: () => Object.keys(R) };
 })();

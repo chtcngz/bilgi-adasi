@@ -7,6 +7,14 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.57.0 · 26.11.2026
+
+İngilizce Koyu:
+
+- **Yeni, renkli çizimler:** Emojinin zayıf kaldığı 52 kelime için kalın çizgili, parlak renkli, çizgi film tarzında resimler çizildi: okul, sınıf, kütüphane, oyun alanı, kantin, spor salonu, yemekhane, öğretmenler odası ve evin odaları; kalem, kitap, çanta, defter, makas, pastel boya, kalem kutusu, kutu, pencere, sandalye; alkışlamak, şarkı söylemek, dans etmek, bakmak, dinlemek, göstermek, el kaldırmak, el sallamak (merhaba), çizmek, boyamak, gelmek, uzatmak, koymak, göstermek, söylemek, beklemek, bulmak, okumak, yazmak, ayağa kalkmak (her biri bir çocuk o hareketi yaparken); yüz, göz, kulak, burun, ağız, el, kol, bacak ve vücut (çocuğun o bölümü işaretli).
+- **Resim kartları:** Resimler artık küçük emojiler gibi değil, yuvarlak köşeli, hafif gölgeli, renkli arka planlı büyük kartların içinde. Şıklardaki resimler de küçük birer kartta.
+- **Kontrol sayfası:** Bütün yeni çizimler seçilebiliyor; bir kelimeyle aynı adı taşıyan çizim önerilerin başında. Seçenekler büyük, renkli kartlar hâlinde.
+
 ## 0.56.0 · 26.11.2026
 
 İngilizce Koyu:

@@ -26,11 +26,12 @@
   .word span { color: var(--soft); }
   .word small { color: #9aa9a6; font-size: 12px; }
   .opts { display: flex; flex-wrap: wrap; gap: 6px; }
-  .opt { display: grid; place-items: center; min-width: 54px; height: 54px; padding: 2px 6px; border: 2px solid var(--line); border-radius: 12px; background: #fff; font-size: 30px; line-height: 1; cursor: pointer; }
-  .opt.now { border-style: dashed; }
-  .opt.on { border-color: var(--pick); box-shadow: 0 0 0 3px #b2f2d4; }
+  .opt { display: grid; place-items: center; min-width: 76px; height: 76px; padding: 4px 8px; border: 3px solid #fff; border-radius: 18px; background: var(--kb, #fff3bf); box-shadow: 0 2px 6px #0002; font-size: 38px; line-height: 1; cursor: pointer; }
+  .opts .opt { position: relative; }
+  .opt.now { outline: 3px dashed #adb5bd; outline-offset: 2px; }
+  .opt.on { border-color: var(--pick); box-shadow: 0 0 0 4px #b2f2d4, 0 2px 6px #0002; }
   .opt.more { font-size: 14px; font-weight: 800; color: var(--soft); }
-  .kr { display: inline-block; width: 1.25em; height: 1.25em; vertical-align: middle; }
+  .kr { display: inline-block; width: 1.5em; height: 1.5em; vertical-align: middle; }
   footer { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; padding: 10px 16px max(10px, env(safe-area-inset-bottom)); background: #fff8e6; border-top: 2px solid var(--line); }
   footer button { padding: 12px 18px; border: 0; border-radius: 14px; background: var(--pick); color: #fff; font-size: 16px; font-weight: 800; }
   footer button.quiet { background: #e9ecef; color: var(--ink); }
@@ -40,7 +41,7 @@
   #picker .top { display: flex; gap: 8px; padding: 12px 16px; border-bottom: 2px solid var(--line); background: #fff8e6; }
   #picker .top input { flex: 1; min-width: 0; padding: 9px 12px; border: 2px solid var(--line); border-radius: 12px; font-size: 16px; }
   #picker .grid { flex: 1; overflow: auto; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 6px; padding: 12px 16px 40px; }
-  #picker .grid .opt { flex-direction: column; height: auto; min-height: 62px; }
+  #picker .grid .opt { flex-direction: column; height: auto; min-height: 84px; min-width: 84px; }
   #picker .grid .opt small { font-size: 10px; color: var(--soft); max-width: 70px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   #picker h3 { margin: 0; font-size: 16px; align-self: center; }
   #own { display: flex; gap: 6px; padding: 0 16px 12px; }
@@ -72,6 +73,7 @@
   <div class="grid" id="pgrid"></div>
 </div>
 <script src="core/js/kelime-resimleri.js"></script>
+<script src="core/js/cizimler.js"></script>
 <script src="islands/ingilizce-2/sorular.js"></script>
 <script>
 (() => {
@@ -81,6 +83,9 @@
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(picks)); } catch {} };
   let picks = load();                       // "en|tr" → new picture
   const draw = pic => kelimeResimleri.kelimeResmi(pic);
+  const KART = ['#fff3bf', '#d3f9d8', '#d0ebff', '#ffe3e3', '#f3d9fa', '#ffe8cc', '#c5f6fa', '#e5dbff'];
+  const tint = pic => KART[[...String(pic)].reduce((h, ch) => (h * 31 + ch.codePointAt(0)) >>> 0, 7) % KART.length];
+  const slug = t => t.toLowerCase().replace(/’/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   const esc = t => String(t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
   const seg = typeof Intl !== 'undefined' && Intl.Segmenter ? new Intl.Segmenter() : null;
   const pieces = pic => pic.match(/\[\[[a-z0-9-]+\]\]/g)?.length ? [pic] : (seg ? [...seg.segment(pic)].map(x => x.segment) : [pic]);
@@ -104,10 +109,13 @@
   for (const e of EXTRA) add(e, '');
 
   // a few alternatives next to each word: the pictures of the same unit's words, the drawings first
+  const drawings = kelimeResimleri.adlar();
   const suggest = w => {
-    const out = [];
-    for (const o of words.values()) if (o.stop === w.stop && o.pic && o.pic !== w.pic && !out.includes(o.pic) && !sentence(o)) out.push(o.pic);
-    return out.sort((a, b) => (b.startsWith('[[') ? 1 : 0) - (a.startsWith('[[') ? 1 : 0)).slice(0, 7);
+    const out = [], name = slug(w.en);
+    // the drawings named like the word (reading → read, teacher’s room → teachers-room)
+    for (const d of drawings) if (name && (d === name || (d.length >= 3 && (name.startsWith(d) || d.startsWith(name))))) out.push('[[' + d + ']]');
+    for (const o of words.values()) if (o.stop === w.stop && o.pic && !sentence(o) && !out.includes(o.pic)) out.push(o.pic);
+    return out.filter(x => x !== w.pic).slice(0, 9);
   };
 
   const list = $('list');
@@ -120,7 +128,7 @@
     if (chosen !== undefined && !opts.includes(chosen)) opts.splice(1, 0, chosen);
     row.innerHTML = '<div class="word"><b lang="en">' + esc(w.en) + '</b><span>' + esc(w.tr) + '</span><small>' + w.ids.join(', ') + '</small></div>' +
       '<div class="opts">' + opts.map((p, i) => '<button type="button" class="opt' + (i === 0 ? ' now' : '') + ((chosen ?? w.pic) === p ? ' on' : '') +
-        '" data-pic="' + esc(p) + '" title="' + (i === 0 ? 'Şimdiki resim' : 'Seç') + '">' + (p ? draw(p) : '∅') + '</button>').join('') +
+        '" style="--kb:' + tint(p) + '" data-pic="' + esc(p) + '" title="' + (i === 0 ? 'Şimdiki resim' : 'Seç') + '">' + (p ? draw(p) : '∅') + '</button>').join('') +
       '<button type="button" class="opt more" data-more>Tümü…</button></div>';
     return row;
   }
@@ -171,7 +179,7 @@
   function fillPicker() {
     const f = $('pfind').value.trim().toLocaleLowerCase('tr');
     const items = [...all].filter(([pic, names]) => !f || [...names].join(' ').toLocaleLowerCase('tr').includes(f) || pic.includes(f));
-    $('pgrid').innerHTML = items.map(([pic, names]) => '<button type="button" class="opt" data-pic="' + esc(pic) + '" title="' + esc([...names].join(', ')) + '">' +
+    $('pgrid').innerHTML = items.map(([pic, names]) => '<button type="button" class="opt" style="--kb:' + tint(pic) + '" data-pic="' + esc(pic) + '" title="' + esc([...names].join(', ')) + '">' +
       draw(pic) + '<small>' + esc([...names][0] || '') + '</small></button>').join('');
   }
   $('pfind').addEventListener('input', fillPicker);

@@ -135,6 +135,10 @@ const ingilizceOyunlari = (() => {
   // A word's picture: an emoji, two emoji, or a drawing ([[desk]], core/js/kelime-resimleri.js).
   const parts = emo => { const rest = emo.replace(/\[\[[a-z0-9-]+\]\]/g, ''); return (emo.length - rest.length ? emo.match(/\[\[/g).length : 0) + (rest ? (seg ? [...seg.segment(rest)].length : 1) : 0); };
   const pic = emo => '<span class="og-emo' + (parts(emo) > 1 ? ' iki' : '') + '" aria-hidden="true">' + kelimeResimleri.kelimeResmi(emo) + '</span>';
+  // a big picture on a card: rounded, a light shadow, a soft colour behind it (always the same one for a picture)
+  const KART = ['#fff3bf', '#d3f9d8', '#d0ebff', '#ffe3e3', '#f3d9fa', '#ffe8cc', '#c5f6fa', '#e5dbff'];
+  const tint = emo => KART[[...String(emo)].reduce((h, ch) => (h * 31 + ch.codePointAt(0)) >>> 0, 7) % KART.length];
+  const resimKarti = emo => '<span class="resim-kart" style="--kb:' + tint(emo) + '">' + pic(emo) + '</span>';
   const resimli = w => !!w.emo && !SOYUT.has(w.emo) && !/[.!?]/.test(w.en) && w.en.split(' ').length <= 3;
   const renk = w => RENKLER.find(r => r[0] === w.en.toLowerCase());
 
@@ -331,7 +335,7 @@ const ingilizceOyunlari = (() => {
       let first = true;
       await new Promise(resolve => {
         grid.append(...choices(x.c, item, 4).map(w => {
-          const card = button('og-picture', pic(w.emo), 'Resim');
+          const card = button('og-picture', resimKarti(w.emo), 'Resim');
           card.onclick = async () => {
             if (w === item) {
               for (const other of grid.children) other.disabled = true;
@@ -552,7 +556,7 @@ const ingilizceOyunlari = (() => {
         for (const o of pair) if (!o.node.classList.contains('matched')) o.node.classList.remove('open');
       };
       grid.append(...shuffled(items.flatMap(item => [{ item, sound: true }, { item, sound: false }])).map(card => {
-        const node = button('og-mem', '<span class="og-back" aria-hidden="true">❓</span><span class="og-face" aria-hidden="true">' + (card.sound ? '🔊' : pic(card.item.emo)) + '</span>',
+        const node = button('og-mem', '<span class="og-back" aria-hidden="true">❓</span><span class="og-face" aria-hidden="true">' + (card.sound ? '🔊' : resimKarti(card.item.emo)) + '</span>',
           card.sound ? 'Ses kartı' : 'Resim kartı');
         node.onclick = async () => {
           if (node.classList.contains('open') || node.classList.contains('matched')) return;
@@ -793,7 +797,7 @@ const ingilizceOyunlari = (() => {
       x.game.innerHTML = '';
       const talk = voiceRow(x, item.en);
       const meaning = el('p', 'og-meaning', '“' + esc(item.tr) + '”');
-      const scene = item.emo ? el('div', 'og-scene', pic(item.emo)) : null;   // what the sentence is about
+      const scene = item.emo ? el('div', 'og-scene', resimKarti(item.emo)) : null;   // what the sentence is about
       const track = el('div', 'og-track', '<i class="og-rails"></i>');
       const train = el('div', 'og-train');
       train.innerHTML = LOKOMOTIF + words.map((w, i) => '<span class="og-wagon" style="--c:' + wagonColours[i % wagonColours.length] + '"><i class="og-coupler"></i>' +
@@ -914,7 +918,7 @@ const ingilizceOyunlari = (() => {
       let first = true;
       await new Promise(resolve => {
         options.append(...shuffled([0, 1, 2, 3]).map(n => {
-          const b = button('og-option', x.c.rich(q.a[n]));
+          const b = button('og-option', (x.c.secenek || x.c.rich)(q.a[n]));
           b.onclick = async () => {
             if (n === 0) {
               for (const o of options.children) o.disabled = true;
@@ -977,7 +981,7 @@ const ingilizceOyunlari = (() => {
      resimBul(text) gives the picture of the island's word named in a text ("Is it a classroom?" → 🟩🪑). */
   const isEnglish = t => !/[çğıöşüÇĞİÖŞÜ]/.test(t) && /[a-z]/i.test(t);
   const sign = /❓|👎|✖️|✔️/gu;
-  const big = emo => '<div class="sahne-resim">' + pic(emo) + '</div>';
+  const big = emo => '<div class="sahne-resim">' + resimKarti(emo) + '</div>';
   const kisi = (yuz, balon, cls = '') => '<div class="sahne-kisi"><span class="sahne-yuz" aria-hidden="true">' + yuz + '</span><span class="sahne-balon' + cls + '" lang="en">' + balon + '</span></div>';
   function sahne(q, rich, resimBul = () => '') {
     const s = q.s, kpic = (q.k?.[2] || '').replace(sign, '').trim();
