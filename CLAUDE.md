@@ -59,13 +59,6 @@ As soon as a piece of work is finished (committed, `node tools/kapsam.js` passin
 the browser), publish it without waiting to be asked: merge it into `main` and push `main`, which deploys `app/` to
 GitHub Pages. Work on the session's branch, then bring `main` up to date with it; never rewrite `main`'s history.
 
-A branch whose work is in `main` is deleted (set by the owner): once `main` is pushed, delete the merged branch on GitHub
-(`git push origin --delete <branch>`), and any other branch whose work you have brought into `main` another way. Check
-first that everything on it is in `main`. If the session is not allowed to delete branches (the push is refused), say
-so and give the owner the branch names to delete. The `Dal temizliği` workflow (`.github/workflows/dal-temizle.yml`)
-deletes, after every push to `main`, each `claude/*` branch whose last commit is in `main`'s history; only a branch
-brought in another way (cherry-picked, rewritten) is left for the owner.
-
 ## Versions
 
 Every change the children can see bumps `VERSION` and gets a Turkish entry in `CHANGELOG.md`.
