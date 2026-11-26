@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.60.0 · 26.11.2026
+
+- **İngilizce Koyu'nda yeni resim kartları:** Balkon, banyo, gaga, yatak, yatak odası, kuş, kedi, pençe, sehpa, salatalık, dans etmek, yemek odası, köpek, kapı zili, oyuncak bebek evi, bulmak, komik, bahçe, japon balığı ve mutlu artık renkli resim kartlarıyla gösteriliyor. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.
+
 ## 0.59.0 · 26.11.2026
 
 - **İngilizce Koyu'nda yeni resimler:** Et, süt, portakal, armut, biber, patates, ıspanak, çilek, çay, domates, sebze, su, öğle yemeği ve susamış (bardaktan içen çocuk) için yeni yiyecek resimleri; ev, mutfak, yatak odası, oturma odası, köpek, kedi, tavşan ve pati için renkli resim kartları. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.

@@ -52,9 +52,6 @@ const kelimeResimleri = (() => {
     table: '<rect x="5" y="22" width="54" height="7" rx="2" fill="#e8a24a"' + o() + '/><rect x="9" y="29" width="5" height="28" rx="1.5" fill="#c98a4a"' + o(1.5) + '/>' +
       '<rect x="50" y="29" width="5" height="28" rx="1.5" fill="#c98a4a"' + o(1.5) + '/><path d="M14 33h36"' + o(1.5) + '/>' +
       '<path d="M27 22c-2-6 0-10 5-10s7 4 5 10z" fill="#74c0fc"' + o(1.5) + '/><circle cx="29" cy="9" r="3.5" fill="#ff6b6b"' + o(1.2) + '/><circle cx="35" cy="8" r="3.5" fill="#ffd43b"' + o(1.2) + '/>',
-    'coffee-table': '<rect x="4" y="36" width="56" height="7" rx="3" fill="#a9744f"' + o() + '/><path d="M10 43l-2 13M54 43l2 13M20 43v9M44 43v9"' + o(3) + '/>' +
-      '<path d="M22 26h12v8a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z" fill="#fff"' + o(1.6) + '/><path d="M34 28a4 4 0 0 1 0 7"' + o(1.6) + ' fill="none"/>' +
-      '<path d="M26 22c-1-2 1-3 0-5M30 22c-1-2 1-3 0-5"' + o(1.3) + ' fill="none"/><rect x="40" y="30" width="12" height="6" rx="1" fill="#e599f7"' + o(1.4) + '/>',
     sharpener: '<rect x="30" y="18" width="28" height="30" rx="5" fill="#e5484d"' + o() + '/><rect x="34" y="22" width="20" height="6" rx="2" fill="#ffa8a8"/>' +
       '<circle cx="38" cy="36" r="6" fill="#343a40"' + o(1.5) + '/><path d="M4 30l22-6 10 12-22 6z" fill="#fcc419"' + o(1.6) + '/><path d="M26 24l10 12 2-1-9-12z" fill="#f4d9b0"' + o(1.2) + '/>' +
       '<path d="M14 42c-3 4 1 8 4 11M20 44c-1 3 2 5 3 8" fill="none" stroke="#c98a4a" stroke-width="2" stroke-linecap="round"/>',
@@ -93,16 +90,9 @@ const kelimeResimleri = (() => {
     clock: '<path d="M32 2v6" stroke="#868e96" stroke-width="2"/><circle cx="32" cy="2.5" r="2" fill="#868e96"/><circle cx="32" cy="34" r="26" fill="#ff922b"' + o() + '/><circle cx="32" cy="34" r="21" fill="#fff"' + o(1.5) + '/>' +
       [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(h => { const a = h * Math.PI / 6; return '<circle cx="' + (32 + Math.sin(a) * 17).toFixed(1) + '" cy="' + (34 - Math.cos(a) * 17).toFixed(1) + '" r="' + (h % 3 ? 1 : 1.8) + '" fill="' + INK + '"/>'; }).join('') +
       '<path d="M32 34V20M32 34l9 5"' + o(2.8) + '/><circle cx="32" cy="34" r="2.2" fill="#e5484d"/>',
-    goldfish: '<path d="M10 22q-4 18 6 32h32q10-14 6-32" fill="#d0ebff" opacity=".85"' + o() + '/><ellipse cx="32" cy="22" rx="22" ry="4" fill="#e7f5ff"' + o(1.5) + '/>' +
-      '<path d="M12 40q20 6 40 0v8q-4 6-8 6H20q-4 0-8-6z" fill="#74c0fc" opacity=".6"/><path d="M22 36q8-10 18-2-10 8-18 2z" fill="#ff922b"' + o(1.5) + '/><path d="M40 34l8-6v14z" fill="#ffa94d"' + o(1.5) + '/>' +
-      '<circle cx="26" cy="34" r="1.4" fill="' + INK + '"/><circle cx="18" cy="28" r="1.6" fill="#fff"' + o(.8) + '/><circle cx="15" cy="23" r="1.1" fill="#fff"' + o(.8) + '/><path d="M20 52q2-6 0-10M44 52q-2-5 0-9" stroke="#2f9e44" stroke-width="2" fill="none"/>',
     photo: '<g transform="rotate(-6 32 32)"><rect x="8" y="8" width="48" height="50" rx="2" fill="#fff"' + o() + '/><rect x="13" y="13" width="38" height="32" fill="#a5d8ff"/>' +
       '<path d="M13 45V36q8-6 19 0t19-2v11z" fill="#69db7c"/><circle cx="24" cy="27" r="4" fill="' + SKIN + '"' + o(1) + '/><rect x="20" y="31" width="8" height="9" rx="3" fill="#e5484d"' + o(1) + '/>' +
       '<circle cx="38" cy="29" r="3.4" fill="' + SKIN + '"' + o(1) + '/><rect x="34.5" y="32.5" width="7" height="7.5" rx="3" fill="#4dabf7"' + o(1) + '/><circle cx="45" cy="18" r="3" fill="#ffd43b"/></g>',
-    dollhouse: '<path d="M6 26L32 6l26 20z" fill="#f06595"' + o() + '/><rect x="10" y="26" width="44" height="32" fill="#fff0f6"' + o() + '/><path d="M32 26v32M10 42h44"' + o(2) + '/>' +
-      '<rect x="14" y="31" width="7" height="7" fill="#a5d8ff"' + o(1) + '/><rect x="40" y="33" width="10" height="5" rx="1" fill="#e599f7"' + o(1) + '/>' +
-      '<circle cx="24" cy="50" r="3" fill="' + SKIN + '"' + o(1) + '/><path d="M21 58l1-5h4l1 5z" fill="#f783ac"' + o(1) + '/><path d="M20 48q4-5 8 0" fill="#8b5a2b"/>' +
-      '<rect x="38" y="49" width="12" height="5" rx="1" fill="#ffd43b"' + o(1) + '/><path d="M39 54v4M49 54v4"' + o(1.4) + '/>',
     hall: '<rect x="4" y="6" width="56" height="30" fill="#ffe8cc"' + o() + '/><path d="M4 6h56v6H4z" fill="#c92a2a"' + o(1.5) + '/>' +
       '<path d="M4 12q6 10 0 24M60 12q-6 10 0 24" fill="#e03131"' + o(1.5) + '/><rect x="16" y="28" width="32" height="8" fill="#a9744f"' + o(1.5) + '/>' +
       '<circle cx="32" cy="20" r="4" fill="' + SKIN + '"' + o(1) + '/><rect x="29" y="24" width="6" height="4" fill="#4dabf7"/>' +
@@ -142,22 +132,14 @@ const kelimeResimleri = (() => {
     room: '<path d="M4 4l10 8v32L4 58z" fill="#f8d7a8"' + o() + '/><path d="M60 4l-10 8v32l10 14z" fill="#f8d7a8"' + o() + '/><path d="M14 12h36v32H14z" fill="#ffe8cc"' + o() + '/>' +
       '<path d="M14 44h36l10 14H4z" fill="#d9a066"' + o() + '/><rect x="19" y="18" width="12" height="10" fill="#a5d8ff"' + o(1.5) + '/><path d="M25 18v10M19 23h12"' + o(1.2) + '/>' +
       '<rect x="36" y="22" width="9" height="22" fill="#c98a4a"' + o(1.5) + '/><circle cx="43" cy="33" r="1" fill="' + INK + '"/>',
-    balcony: '<rect x="6" y="4" width="52" height="56" fill="#ffe3bf"' + o() + '/><rect x="20" y="10" width="24" height="34" rx="2" fill="#a5d8ff"' + o() + '/><path d="M32 10v34"' + o(1.5) + '/>' +
-      '<rect x="4" y="44" width="56" height="5" fill="#adb5bd"' + o() + '/><path d="M6 28h52"' + o(3) + '/><path d="M10 28v16M18 28v16M26 28v16M34 28v16M42 28v16M50 28v16"' + o(1.8) + '/>' +
-      '<path d="M48 22h6l-1 6h-4z" fill="#e8590c"' + o(1.2) + '/><circle cx="49" cy="18" r="3" fill="#51cf66"' + o(1) + '/><circle cx="53" cy="19" r="3" fill="#ff6b6b"' + o(1) + '/>',
     /* animals: the part in colour */
     tail: '<path d="M10 40q0-14 16-14h12q12 0 12 12v4q0 6-6 6H16q-6 0-6-8z" fill="' + GREY + '"' + o() + '/><circle cx="14" cy="28" r="9" fill="' + GREY + '"' + o() + '/>' +
       '<path d="M7 22l1-9 6 6M15 19l6-6 1 9" fill="' + GREY + '"' + o(1.5) + '/><path d="M16 48v10M24 48v10M38 48v10M45 48v10"' + o(3.5) + '/>' +
       '<path d="M48 34q10-2 10-14t-8-10" fill="none" stroke="' + INK + '" stroke-width="8" stroke-linecap="round"/><path d="M48 34q10-2 10-14t-8-10" fill="none" stroke="#ff922b" stroke-width="5" stroke-linecap="round"/>',
-    claw: '<ellipse cx="32" cy="40" rx="18" ry="15" fill="' + GREY + '"' + o() + '/><ellipse cx="32" cy="44" rx="8" ry="6" fill="' + GREY2 + '"/>' +
-      '<circle cx="18" cy="24" r="6" fill="' + GREY + '"' + o() + '/><circle cx="28" cy="18" r="6" fill="' + GREY + '"' + o() + '/><circle cx="38" cy="18" r="6" fill="' + GREY + '"' + o() + '/><circle cx="47" cy="24" r="6" fill="' + GREY + '"' + o() + '/>' +
-      '<path d="M15 19l-3-12 7 9zM26 13l-1-12 5 11zM36 12l3-11 2 12zM46 18l7-10-3 12z" fill="#e8590c"' + o(1.4) + '/>',
     whiskers: '<path d="M14 26l-2-18 12 10M50 26l2-18-12 10" fill="' + GREY + '"' + o() + '/><ellipse cx="32" cy="36" rx="20" ry="18" fill="' + GREY + '"' + o() + '/>' +
       '<circle cx="25" cy="31" r="3" fill="' + INK + '"/><circle cx="39" cy="31" r="3" fill="' + INK + '"/><path d="M29 39h6l-3 3z" fill="' + GREY2 + '"' + o(1.2) + '/>' +
       '<path d="M26 42L2 38M26 45L3 48M26 48L6 57M38 42l24-4M38 45l23 3M38 48l20 9" stroke="' + INK + '" stroke-width="4.5" stroke-linecap="round"/>' +
       '<path d="M26 42L2 38M26 45L3 48M26 48L6 57M38 42l24-4M38 45l23 3M38 48l20 9" stroke="#ff922b" stroke-width="2.3" stroke-linecap="round"/>',
-    beak: '<circle cx="28" cy="30" r="18" fill="' + GREY + '"' + o() + '/><path d="M12 40q4 18 22 20h10L40 44" fill="' + GREY + '"' + o() + '/><circle cx="30" cy="25" r="4" fill="#fff"' + o(1.4) + '/>' +
-      '<circle cx="31" cy="25" r="2" fill="' + INK + '"/><path d="M44 26l18 6-18 6z" fill="#ff922b"' + o() + '/><path d="M44 32h17"' + o(1.4) + '/>',
     /* people: the one meant in colour */
     son: person(20, 50, 'man', false) + person(44, 32, 'boy', true, '#40c057'),
     daughter: person(20, 50, 'woman', false) + person(44, 32, 'girl', true, '#f06595'),

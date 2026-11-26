@@ -58,10 +58,6 @@
       r(6, 8, 52, 14, '#e7f5ff', 3) + lines('M12 15h10M28 15h8M42 15h10', '#4dabf7', 2.4),
     'teachers-room': room('#f3f0ff', '#c98a4a') + r(8, 8, 24, 16, '#fff', 2) + lines('M12 13h10M12 18h14', '#9775fa', 2) + r(4, 36, 56, 6, '#a9744f', 2) + lines('M10 42v12M54 42v12', INK, 2.6) +
       p('M38 27h9v6a4 4 0 0 1-4 4h-1a4 4 0 0 1-4-4z', '#fff', 2) + p('M47 29a3 3 0 0 1 0 5', 'none', 1.8) + lines('M40 23q1-2 0-4M44 23q1-2 0-4', '#adb5bd', 1.6) + r(14, 28, 14, 8, '#4dabf7', 1.5) + r(16, 26, 10, 3, '#ffd43b', 1, 1.6),
-    bathroom: room('#e3fafc', '#99e9f2') + p('M4 40h40v6a10 10 0 0 1-10 10H14A10 10 0 0 1 4 46z', '#fff') + lines('M10 56v4M38 56v4', INK, 2.4) + p('M40 40V14a5 5 0 0 1 10 0', 'none', 2.6) + p('M46 14h8l-2 4h-4z', '#adb5bd', 2) +
-      lines('M47 21l-1 4M50 21v4M53 21l1 4', '#4dabf7', 1.8) + c(12, 36, 3, '#a5d8ff', 1.4) + c(20, 34, 4, '#a5d8ff', 1.4) + c(28, 36, 3, '#a5d8ff', 1.4) + r(52, 40, 8, 14, '#ffd43b', 2),
-    'dining-room': room('#fff4e6', '#c98a4a') + '<ellipse cx="32" cy="38" rx="26" ry="7" fill="#e8a24a"' + o() + '/>' + lines('M14 44v12M50 44v12', INK, 3) + '<ellipse cx="22" cy="36" rx="6" ry="2.6" fill="#fff"' + o(1.8) + '/><ellipse cx="42" cy="36" rx="6" ry="2.6" fill="#fff"' + o(1.8) + '/>' +
-      p('M28 30q4-8 8 0z', '#e5484d', 2) + r(8, 8, 48, 12, '#ffd8a8', 3) + c(32, 14, 3, '#ffe066', 1.6),
     /* school things */
     pencil: '<g transform="rotate(-35 32 32)">' + r(14, 26, 34, 12, '#ffd43b', 2) + lines('M14 30h34M14 34h34', '#fab005', 1.4) + p('M48 26l12 6-12 6z', '#ffd8a8') + p('M56 30l4 2-4 2z', INK, 1) + r(6, 26, 8, 12, '#ff8787', 3) + r(12, 25, 4, 14, '#adb5bd', 1, 2) + '</g>',
     book: p('M10 10h36a6 6 0 0 1 6 6v38H16a6 6 0 0 1-6-6z', '#e5484d') + p('M16 54a6 6 0 0 1-6-6 6 6 0 0 1 6-6h36v12z', '#fff') + lines('M18 46h30M18 50h30', '#ced4da', 1.6) + r(20, 16, 24, 10, '#ffd43b', 2, 2) + c(32, 21, 2.4, '#e5484d', 1.4),
@@ -77,7 +73,6 @@
     /* actions: a child */
     clap: kid({ l: [30, 30], r: [34, 30], mouth: 'open' }, '#ff922b') + lines('M22 22l-5-4M20 30h-6M42 22l5-4M44 30h6', '#f76707'),
     sing: kid({ l: [22, 46], r: [40, 27], mouth: 'open' }, '#9775fa', true) + r(39, 22, 4, 9, '#495057', 2, 1.8) + note(48, 6, '#e64980') + note(54, 18, '#4dabf7') + note(6, 10, '#40c057'),
-    dance: kid({ l: [12, 18], r: [52, 40], legs: 'walk', mouth: 'open' }, '#f06595', true) + lines('M6 30q3-3 0-6M58 22q3-3 0-6', '#f76707') + note(52, 4, '#9775fa'),
     'stand-up': kid({}, '#40c057') + lines('M56 52V14M51 20l5-6 5 6', '#f76707', 4) + r(2, 40, 12, 4, '#ffa94d', 1.5) + lines('M4 44v12M12 44v12M12 40V24', INK, 2.4),
     look: kid({ l: [21, 47], r: [36, 9], eyes: 2 }, '#22b8cf') + lines('M48 14l8-3M48 20h9M48 26l8 3', '#f76707'),
     listen: kid({ l: [21, 47], r: [45, 15], eyes: -1 }, '#20c997') + lines('M51 11q4 7 0 14M56 7q6 11 0 22', '#f76707'),
@@ -92,7 +87,6 @@
     show: kid({ l: [21, 47], r: [46, 22] }, '#ffa94d', true) + r(42, 6, 18, 14, '#fff', 2) + c(51, 13, 3.4, '#e5484d', 1.6) + lines('M38 4l2 3M62 22l-2-2', '#f76707'),
     say: kid({ mouth: 'open' }, '#4dabf7') + p('M44 4h16a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3h-9l-5 5v-5h-2a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z', '#fff', 2.2) + lines('M48 10h10M48 15h7', '#4dabf7', 2),
     wait: kid({ l: [30, 40], r: [34, 40], mouth: 'o' }, '#adb5bd') + p('M48 6h12M48 30h12M50 6q0 9 4 12-4 3-4 12M58 6q0 9-4 12 4 3 4 12', '#fff', 2.2) + p('M51 27q3-4 6 0z', '#ffd43b', 1.4),
-    find: kid({ l: [21, 47], r: [44, 30], eyes: 2 }, '#40c057', true) + c(50, 24, 7, '#a5d8ff', 3) + lines('M45 29l-3 4', INK, 4),
     read: kid({ l: [24, 40], r: [40, 40] }, '#f783ac', true) + p('M18 32l14 4 14-4v14l-14 4-14-4z', '#fff', 2.2) + p('M32 36v14', 'none', 2) + lines('M22 38l6 2M22 42l6 2M36 40l6-2M36 44l6-2', '#4dabf7', 1.4),
     write: kid({ l: [24, 48], r: [40, 48] }, '#4dabf7', true) + r(16, 46, 32, 14, '#fff', 2) + lines('M20 51h18M20 55h12', '#adb5bd', 1.6) + '<g transform="rotate(30 42 46)">' + r(40, 38, 4, 12, '#e5484d', 1, 1.8) + '</g>',
     /* the body: the part meant is ringed */
