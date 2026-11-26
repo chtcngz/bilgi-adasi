@@ -10,3 +10,12 @@ Haritada her birinin koyu bulutların altında, kilitli ve “Yakında” olarak
 - [ ] **Şedde:** Harfi iki kez oku
 - [ ] **Uzatma (med):** Med harfleriyle uzun okuma
 - [ ] **Kelime ve âyet:** Kısa surelerle cüze hazırlık
+
+## İngilizce Koyu (2., 3. ve 4. sınıf)
+
+Her sınıf kendi İngilizce ders kitabının ünitelerini görür: üç ayrı soru adası, her birinin kendi `kapsam.md`’si. İngilizce kelime ve cümleler cihazın İngilizce sesiyle okunur (🔊), seçenekler yerine göre resim ya da emoji olur; yönergeler Türkçe.
+
+- [ ] **Ders kitapları:** 2026-2027’de okutulan 2., 3. ve 4. sınıf İngilizce kitaplarının PDF’leri
+- [ ] **2. sınıf İngilizce adası**
+- [ ] **3. sınıf İngilizce adası**
+- [ ] **4. sınıf İngilizce adası**
