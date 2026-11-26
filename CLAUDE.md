@@ -21,7 +21,8 @@ be left unlearned.
 - Every line ends with `→` and the ids of the questions that ask it (`birey:0` is the first question of
   the stop whose id is `birey`). A fact that only appears in an explanation (`b`) does not count: it
   needs a question that asks it.
-- `node tools/kapsam.js` must pass before every commit that touches a question island.
+- `node tools/kapsam.js` must pass before every commit that touches a question island. It also rewrites the island's `sira.js` (the page
+  of every question, which orders the stations): commit it with the change and bump its `?v=` in `index.html`.
 - Question ids are the stop id plus the position, and children's progress is saved against them: only
   ever append questions to the end of a stop; never delete or reorder them.
 - Topics an exam asks but the book does not teach go to the island's `ekstra` stop, not to a unit stop.

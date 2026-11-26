@@ -566,7 +566,7 @@ Sözlük (Glossary, s. 131):
 - s. 132 · lunchtime = öğle yemeği zamanı → aile:44
 - s. 132 · nice = hoş → aile:45
 - s. 132 · photo = fotoğraf → aile:46
-- s. 132 · sorry = üzgün → aile:47
+- s. 132 · sorry = üzgün (sözlükte); kitapta “Sorry, Mrs Rose.” = özür dilerim → aile:47
 - s. 132 · very = çok → aile:48
 
 Sözlük (Glossary, s. 132):
@@ -631,7 +631,7 @@ Sözlük (Glossary, s. 132):
 - s. 82 · claw = pençe → ev:26
 - s. 82 · tail = kuyruk → ev:27
 - s. 82 · beak = gaga → ev:28
-- s. 82 · whiskers = kedi bıyığı → ev:29
+- s. 82 · whiskers = kedi bıyığı (sözlükte); kitapta “A rabbit has got whiskers.”: hayvan bıyığı → ev:29
 - s. 82 · fish = balık → ev:30
 - s. 83 · Look, count, and say: There are eleven cats. → ev:31
 - s. 84 · This is my dog. It’s got a tail, paws and beautiful eyes. → ev:32
