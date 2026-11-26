@@ -158,11 +158,13 @@ function startAdmin() {
   const carpimMixed = [5, 3];
   const carpimTables = carpimTablesPer * carpimSeconds.length;
   const carpimTotal = carpimTables + carpimMixed.length;
+  const carpimNames = ['Kaplumbağa', 'Tavşan', 'Ceylan', 'Çita', 'Girdap', 'Şimşek'];
   // A stage's island and table.
   const carpimStage = index => index >= carpimTables
-    ? { tur: 'Karma ' + carpimMixed[index - carpimTables] + ' Saniye Adası', ada: 'Karma · 2-9', kisa: 'Karma ' + carpimMixed[index - carpimTables] + ' sn' }
-    : { tur: carpimSeconds[Math.floor(index / carpimTablesPer)] + ' Saniye Adası', ada: (index % carpimTablesPer + 2) + ' tablosu',
-        kisa: carpimSeconds[Math.floor(index / carpimTablesPer)] + ' sn · ' + (index % carpimTablesPer + 2) + ' tablosu' };
+    ? { tur: carpimNames[carpimSeconds.length + index - carpimTables] + ' Adası (karma, ' + carpimMixed[index - carpimTables] + ' sn)', ada: 'Karma · 2-9',
+        kisa: carpimNames[carpimSeconds.length + index - carpimTables] + ' · karma ' + carpimMixed[index - carpimTables] + ' sn' }
+    : { tur: carpimNames[Math.floor(index / carpimTablesPer)] + ' Adası (' + carpimSeconds[Math.floor(index / carpimTablesPer)] + ' sn)', ada: (index % carpimTablesPer + 2) + ' tablosu',
+        kisa: carpimNames[Math.floor(index / carpimTablesPer)] + ' · ' + (index % carpimTablesPer + 2) + ' tablosu' };
   // Question islands, as in their game.js files. The banks are top-level consts, not window properties.
   const quizzes = [
     { kod: 'din', ad: 'Din Bilgisi Adası', simge: '🌙', kayit: 'din-bilgisi-', duraklar: typeof dinSorular !== 'undefined' && dinSorular },

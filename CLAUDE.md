@@ -53,6 +53,12 @@ game of Elif Ba Adası for them:
 `YAPILACAKLAR.md` lists the work not done yet. When an item is finished and in the game, delete its line (do not
 tick it); the changelog records what was done. New planned work the owner asks for goes on the list.
 
+## Going live (set by the owner)
+
+As soon as a piece of work is finished (committed, `node tools/kapsam.js` passing when a question island changed, tried in
+the browser), publish it without waiting to be asked: merge it into `main` and push `main`, which deploys `app/` to
+GitHub Pages. Work on the session's branch, then bring `main` up to date with it; never rewrite `main`'s history.
+
 ## Versions
 
 Every change the children can see bumps `VERSION` and gets a Turkish entry in `CHANGELOG.md`.

@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.44.0 · 26.11.2026
+
+- **Çarpım Koyu’nun adalarına isim verildi:** Adalar, çocuğun ne kadar hızlı olması gerektiğine göre adlandırıldı: 🐢 Kaplumbağa Adası (15 saniye), 🐇 Tavşan Adası (10 saniye), 🦌 Ceylan Adası (5 saniye), 🐆 Çita Adası (3 saniye), 🌀 Girdap Adası (karma, 5 saniye) ve ⚡ Şimşek Adası (karma, 3 saniye). Haritada adanın hayvanı ve saniyesi, altında da kaç tablonun bittiği görünüyor.
+- İstatistikler, Ayarlar → İlerleme ve yönetici sayfası da yeni isimleri kullanıyor.
+
 ## 0.43.0 · 26.11.2026
 
 1-4. sınıflarda **Keşif Limanı artık bir harita**: okul öncesindeki Elif Ba gibi koylara ve adalara bölündü.

@@ -115,8 +115,9 @@ Bilgisi, Fen Bilimleri and Sosyal Bilgiler Koyu for the 4th), a bay's islands jo
 on a path. A tap zooms in, ‹ zooms out; the player's own icon stands on the island and the station to do, and walks on
 when one is done. A panel beside the map (under it on phones) has the Sıradaki button, the progress and the notes.
 
-- **Çarpım Koyu** has six islands: 15, 10, 5 and 3 Saniye Adası, each with the tables 2-10 as its nine stations, then
-  Karma 5 and Karma 3 Saniye Adası, one station each. Only the next station opens; a station already done shows its last
+- **Çarpım Koyu** has six islands, named after how fast the child must be: Kaplumbağa, Tavşan, Ceylan and Çita Adası
+  (15, 10, 5 and 3 s a question), each with the tables 2-10 as its nine stations, then Girdap and Şimşek Adası (mixed,
+  5 and 3 s), one station each. Only the next station opens; a station already done shows its last
   attempt. Finishing an island brings a fish.
 - **A question island's bay** has an island for every textbook unit, one for the extras and one for the mock exam (the
   last two open once every unit has a star). A unit's stations cut its questions in the book's order into three to six

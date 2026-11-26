@@ -151,8 +151,8 @@
       islandName(islandOf(done)) + ' (' + (islandOf(done) + 1) + ' / ' + ISLANDS + ')');
     // One row per island of the nine tables, then a row for the two mixed islands ([stage index, button text]).
     const rows = secondsPerRound.map((seconds, r) =>
-      [seconds + ' sn', 'Ada ' + (r + 1), islandStages(r).map(index => [index, index % TABLES + 2])]);
-    rows.push(['Karma', 'Ada 5-6', mixedSeconds.map((seconds, k) => [tableStages + k, seconds + ' sn'])]);
+      [seconds + ' sn', islandNames[r], islandStages(r).map(index => [index, index % TABLES + 2])]);
+    rows.push(['Karma', islandNames.slice(secondsPerRound.length).join(', '), mixedSeconds.map((seconds, k) => [tableStages + k, seconds + ' sn'])]);
     $('reset-map').replaceChildren(...rows.map(([name, small, stages]) => {
       const row = document.createElement('div');
       row.className = 'reset-row';

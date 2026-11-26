@@ -18,7 +18,11 @@ let deck = [], answers = [], entry = '', deadline = 0, timer, playing = false;
 const islandOf = index => index >= tableStages ? secondsPerRound.length + index - tableStages : Math.floor(index / TABLES);
 const islandStages = i => i < secondsPerRound.length ? Array.from({ length: TABLES }, (_, t) => i * TABLES + t) : [tableStages + i - secondsPerRound.length];
 const islandSeconds = i => i < secondsPerRound.length ? secondsPerRound[i] : mixedSeconds[i - secondsPerRound.length];
-const islandName = i => (i < secondsPerRound.length ? '' : 'Karma ') + islandSeconds(i) + ' Saniye Adası';
+// The islands are named after how fast the child must be: from the slow turtle (15 s) to the cheetah (3 s), then
+// the whirlpool and the lightning of the mixed rounds (5 and 3 s).
+const islandNames = ['Kaplumbağa', 'Tavşan', 'Ceylan', 'Çita', 'Girdap', 'Şimşek'];
+const islandSigns = ['🐢', '🐇', '🦌', '🐆', '🌀', '⚡'];
+const islandName = i => islandNames[i] + ' Adası';
 // 2’ler, 6’lar …: the suffix follows the number's last vowel.
 const tableName = t => (t + 2) + '’' + ['ler', 'ler', 'ler', 'ler', 'lar', 'ler', 'ler', 'lar', 'lar'][t];
 const stageLabel = index => index >= tableStages ? islandName(islandOf(index)) : islandName(islandOf(index)) + ' · ' + tableName(index % TABLES);
@@ -325,8 +329,8 @@ kesifHaritasi.koy({
   hazirla() { render(); rewardIslands(); },
   adalar: () => Array.from({ length: ISLANDS }, (_, i) => {
     const list = islandStages(i);
-    return { ad: islandName(i), kisa: i < secondsPerRound.length ? islandSeconds(i) + ' Saniye' : 'Karma ' + islandSeconds(i) + ' sn',
-      simge: (i < secondsPerRound.length ? '⏱ ' : '✖ ') + islandSeconds(i), not: list.length > 1 ? doneIn(i) + ' / ' + list.length : '',
+    return { ad: islandName(i), kisa: islandNames[i],
+      simge: islandSigns[i] + ' ' + islandSeconds(i), not: islandSeconds(i) + ' sn · ' + (list.length > 1 ? doneIn(i) + ' / ' + list.length : 'karma'),
       durum: islandDone(i) ? 'done' : list.includes(progress.completed) ? 'now' : devAll() ? 'open' : 'locked' };
   }),
   duraklar: i => islandStages(i).map(index => i < secondsPerRound.length ?

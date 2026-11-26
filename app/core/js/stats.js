@@ -61,7 +61,7 @@ function showStats() {
     const done = stages.filter(index => index < progress.completed).length;
     const time = stages.reduce((sum, index) => sum + (progress.stats[index]?.seconds || 0), 0);
     return '<details class="stat-round" ' + (stages.includes(Math.min(progress.completed, total - 1)) ? 'open' : '') +
-      '><summary><b>' + islandName(i) + '</b><small>' + (stages.length > 1 ? done + ' / ' + stages.length + ' tablo tamamlandı' : done ? 'Tamamlandı' : 'Tamamlanmadı') +
+      '><summary><b>' + islandName(i) + ' · ' + islandSeconds(i) + ' sn' + (i >= secondsPerRound.length ? ' karma' : '') + '</b><small>' + (stages.length > 1 ? done + ' / ' + stages.length + ' tablo tamamlandı' : done ? 'Tamamlandı' : 'Tamamlanmadı') +
       ' · ' + duration(time) + '</small></summary>' + stages.map(index => stageDetail(index, progress.stats[index])).join('') + '</details>';
   }).join('');
   $('stats-content').innerHTML = '<p class="stat-total"><b>' + progress.completed + ' / ' + total +
