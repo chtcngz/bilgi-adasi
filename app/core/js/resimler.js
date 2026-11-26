@@ -28,7 +28,9 @@
     'puppet', 'mouth', 'nose', 'rain', 'scarf', 'shirt', 'shoes', 'tall-boys', 'show', 'small', 'snow', 'trousers', 't-shirt', 'umbrella', 'umbrella-2',
     // the body, people, clothes; the classroom
     'arm', 'birthday', 'blond', 'blonde', 'body', 'break-time', 'hand', 'hot', 'hat', 'jacket', 'head', 'leg',
-    'window', 'sun', 'wall', 'well-done', 'whiteboard', 'pencils'
+    'window', 'sun', 'wall', 'well-done', 'whiteboard', 'pencils',
+    // the classroom and actions (night, picture and paint wait for a word)
+    'close', 'colour', 'come', 'computer', 'crayon', 'night', 'desk', 'door', 'draw', 'glue', 'green', 'help', 'listen', 'look', 'picture', 'paint'
   ];
   const more = {};
   for (const name of names) {

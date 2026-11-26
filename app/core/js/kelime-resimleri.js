@@ -46,9 +46,6 @@ const kelimeResimleri = (() => {
 
   const R = {
     /* school */
-    desk: '<path d="M8 22h48l-4 8H12z" fill="#e8a24a"' + o() + '/><rect x="11" y="30" width="42" height="9" fill="#c98a4a"' + o() + '/>' +
-      '<path d="M14 39v19M50 39v19M14 50h36"' + o(3) + '/><rect x="16" y="46" width="32" height="4" rx="1.5" fill="#e8a24a"' + o(1.5) + '/>' +
-      '<rect x="18" y="15" width="16" height="7" rx="1" fill="#4dabf7"' + o(1.5) + '/><path d="M38 19l14-4"' + o(3) + '/><path d="M38 19l14-4" stroke="#fcc419" stroke-width="2" stroke-linecap="round"/>',
     table: '<rect x="5" y="22" width="54" height="7" rx="2" fill="#e8a24a"' + o() + '/><rect x="9" y="29" width="5" height="28" rx="1.5" fill="#c98a4a"' + o(1.5) + '/>' +
       '<rect x="50" y="29" width="5" height="28" rx="1.5" fill="#c98a4a"' + o(1.5) + '/><path d="M14 33h36"' + o(1.5) + '/>' +
       '<path d="M27 22c-2-6 0-10 5-10s7 4 5 10z" fill="#74c0fc"' + o(1.5) + '/><circle cx="29" cy="9" r="3.5" fill="#ff6b6b"' + o(1.2) + '/><circle cx="35" cy="8" r="3.5" fill="#ffd43b"' + o(1.2) + '/>',
@@ -78,9 +75,6 @@ const kelimeResimleri = (() => {
       '<path d="M12 22h40M12 40h40"' + o(2) + '/>',
     'coloured-pencil': [['#e5484d', -24], ['#ffd43b', -8], ['#4dabf7', 8], ['#51cf66', 24]].map(([c, r]) =>
       '<g transform="rotate(' + r + ' 32 58)"><rect x="28" y="16" width="8" height="38" fill="' + c + '"' + o(1.5) + '/><path d="M28 16l4-10 4 10z" fill="#f4d9b0"' + o(1.5) + '/><path d="M30.6 9.5l1.4-3.5 1.4 3.5z" fill="' + c + '"/></g>').join(''),
-    glue: '<path d="M22 22h20v34a4 4 0 0 1-4 4H26a4 4 0 0 1-4-4z" fill="#fff"' + o() + '/><rect x="22" y="32" width="20" height="16" fill="#ff922b"' + o(1.5) + '/>' +
-      '<path d="M26 22l3-10h6l3 10z" fill="#ffd43b"' + o(1.5) + '/><path d="M31 12v-4h2v4z" fill="#ffd43b"' + o(1.2) + '/><path d="M34 6q8 2 6 12q-1 4 2 8" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>' +
-      '<path d="M34 6q8 2 6 12q-1 4 2 8" fill="none" stroke="' + INK + '" stroke-width="1.2"/><path d="M28 40h8" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>',
     tablet: '<rect x="6" y="10" width="52" height="40" rx="6" fill="#343a40"' + o() + '/><rect x="11" y="15" width="42" height="30" rx="2" fill="#a5d8ff"/>' +
       '<rect x="15" y="19" width="9" height="9" rx="2" fill="#ff8787"/><rect x="27" y="19" width="9" height="9" rx="2" fill="#69db7c"/><rect x="39" y="19" width="9" height="9" rx="2" fill="#ffd43b"/>' +
       '<rect x="15" y="32" width="9" height="9" rx="2" fill="#b197fc"/><rect x="27" y="32" width="9" height="9" rx="2" fill="#ffa94d"/><circle cx="55" cy="30" r="1.5" fill="#868e96"/>',
@@ -128,8 +122,6 @@ const kelimeResimleri = (() => {
     /* verbs with a door */
     open: '<rect x="14" y="6" width="34" height="52" fill="#343a40"' + o() + '/><path d="M48 6l12 6v40l-12 6z" fill="#c98a4a"' + o() + '/><circle cx="53" cy="33" r="1.6" fill="#ffd43b"/>' +
       '<rect x="14" y="6" width="34" height="52" fill="none"' + o() + '/><path d="M22 58h20" stroke="#ffe066" stroke-width="3" stroke-linecap="round"/>' + arrow('M20 32h18M33 26l6 6-6 6', '#40c057'),
-    close: '<rect x="10" y="6" width="34" height="52" fill="#c98a4a"' + o() + '/><rect x="15" y="12" width="24" height="18" rx="2" fill="#a9744f"' + o(1.3) + '/><rect x="15" y="35" width="24" height="17" rx="2" fill="#a9744f"' + o(1.3) + '/>' +
-      '<circle cx="39" cy="33" r="2" fill="#ffd43b"' + o(1) + '/>' + arrow('M63 33H52M57 27l-6 6 6 6', '#e5484d'),
     /* food */
     ayran: '<path d="M16 14h32l-4 44H20z" fill="#fff"' + o() + '/><path d="M18 26h28l-3 32H21z" fill="#f8f9fa"/><path d="M16 14h32l-4 44H20z" fill="none"' + o() + '/>' +
       '<path d="M14 16q4-8 9-4 3-6 9-2 5-5 10 0 6-2 8 6z" fill="#fff"' + o(1.6) + '/><circle cx="24" cy="20" r="2" fill="#e9ecef"' + o(.8) + '/><circle cx="38" cy="19" r="2.4" fill="#e9ecef"' + o(.8) + '/>' +
