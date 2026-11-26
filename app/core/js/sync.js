@@ -10,6 +10,15 @@
 // Loaded right after core/js/app.js and core/js/bulut-ayar.js. Changes are noticed by wrapping Storage.prototype.setItem/removeItem,
 // so no island needs to know about the cloud.
 const bulut = (() => {
+  // No child plays a development copy (served locally, so the publish workflow has not stamped its version)
+  // or a browser driven by a program (a test run: Playwright, Selenium, headless Chrome). Such a run starts
+  // with an empty browser every time, so it would sign up anew and show on the admin page as one more device:
+  // it sends nothing.
+  const surum = document.querySelector('meta[name=surum]')?.content || '';
+  if (surum.startsWith('__') || navigator.webdriver === true || /HeadlessChrome/.test(navigator.userAgent)) {
+    return { durum: () => ({ uid: null, bekliyor: false, gonderildi: null, hata: null, kapali: true }),
+      simdi: () => Promise.resolve(), oyuncuSilindi: () => Promise.resolve() };
+  }
   const config = bulutAyar;
   // The game's saved-data keys (README: they never change). Sound settings stay on the device.
   const prefixes = ['carpim-adasi-', 'elif-ba-', 'din-bilgisi-', 'fen-bilimleri-', 'sosyal-bilgiler-', 'akvaryum-'];
@@ -109,12 +118,11 @@ const bulut = (() => {
     } catch {}
     const oyuncular = {};
     for (const [id, ms] of Object.entries(state.oyuncular)) oyuncular[id] = { timestampValue: new Date(ms).toISOString() };
-    const surum = document.querySelector('meta[name=surum]')?.content || '';
     return { fields: {
       kayitlar: { mapValue: { fields: kayitlar } },
       oyuncular: { mapValue: { fields: oyuncular } },
       cihaz: { stringValue: device() },
-      surum: { stringValue: surum.startsWith('__') ? 'geliştirme' : surum },
+      surum: { stringValue: surum },
       son: { timestampValue: new Date().toISOString() }
     } };
   }
