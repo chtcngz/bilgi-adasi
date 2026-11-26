@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.55.1 · 26.11.2026
+
+- **Oyuncu kodu ilerlemeyi silmiyor:** Kodla başka bir cihaza getirilen oyuncunun buluttaki kopyası eksikse (ilerlemesiz gelmişse), oyuncunun asıl cihazı bir sonraki açılışta bu eksik kopyayı alıp kendi ilerlemesini siliyordu. Artık eksik bir kopya hiçbir cihazda ilerleme silmiyor: asıl cihaz kendi tam kopyasını buluta gönderiyor, diğer cihaz da bir sonraki açılışta onu alıyor.
+
 ## 0.55.0 · 26.11.2026
 
 - **Duraklar kitabın sırasıyla:** Her ünitenin durakları artık ders kitabının sayfa sırasını izliyor: 1. durak ünitenin ilk sayfaları, 2. durak biraz ilerisi, son durak ünitenin sonu. Sözlükteki kelimeler, kitapta ilk geçtikleri sayfanın durağında. (Bütün soru adalarında; çocukların ilerlemesi korunur.)
@@ -15,10 +19,6 @@ Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında 
 - **Daha sade soru:** “A big brown bear bakes some bread.” gibi bir cümleyi soran sorularda cümle bir satırda, soru (“Ayı ne yapıyor?”) altında, daha küçük ve başka renkte.
 - **İngilizce Koyu resimleri:** Yanlış resimler düzeltildi ve yenileri çizildi: kitaplık, tablet, akıllı tahta, Türk çay bardağı, japon balığı (fanusta), yapıştırıcı, duvar saati, tahta / kara tahta / beyaz tahta, tebeşir, boya kalemleri, salon, fotoğraf, oyuncak bebek evi, kafa, saç, zıplamak, koyu renk; büyük / küçük / uzun / kısa artık fil ya da cetvel değil, iki şeyin karşılaştırması. Öğrenci 🧒🎒, kütüphane 🏛️📚.
 - **Çeviriler:** “sorry” özür dilerim, “whiskers” bıyık (tavşanın da bıyığı var), “What have you got?” Sende ne var?, “Great job!” Harika iş çıkardın!, “Do you like chicken? No, I don’t.” Hayır, sevmem; birkaç cümlenin eksik çevirisi tamamlandı.
-
-## 0.54.1 · 26.11.2026
-
-- **Oyuncu kodu ilerlemeyi silmiyor:** Kodla başka bir cihaza getirilen oyuncunun buluttaki kopyası eksikse (ilerlemesiz gelmişse), oyuncunun asıl cihazı bir sonraki açılışta bu eksik kopyayı alıp kendi ilerlemesini siliyordu. Artık eksik bir kopya hiçbir cihazda ilerleme silmiyor: asıl cihaz kendi tam kopyasını buluta gönderiyor, diğer cihaz da bir sonraki açılışta onu alıyor.
 
 ## 0.54.0 · 26.11.2026
 
