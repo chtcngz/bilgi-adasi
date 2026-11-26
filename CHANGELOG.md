@@ -7,6 +7,15 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.53.0 · 26.11.2026
+
+İngilizce Koyu:
+
+- **Balon Patlat düzeldi:** Doğru balon patlatılınca da “Try again” deniyordu; artık doğru cevap doğru sayılıyor.
+- **Sesli Hafıza:** Kartlar art arda, beklemeden açılıyor; eşleşmeyen iki kart üçüncü dokunuşta hemen kapanıyor. Ses kartı gibi resim kartı da açılınca kelimeyi söylüyor. Övgü, kelime bitince geliyor.
+- **Sesler üst üste binmiyor:** Bir ses bitmeden yenisi başlamıyor; çocuk araya dokunursa eski cümlenin kalanı söylenmiyor. Meyve Sepeti’nde “Yummy!” bitiyor, kısa bir ara, sonra yiyeceğin adı.
+- **Cevap başka bir sesle:** Her doğru cevaptan sonra önce övgü, kısa bir ara, sonra doğru cevap ikinci bir sesle (erkek sesi) tane tane söyleniyor. Diyaloglarda soru birinci sesle, cevap ikinci sesle okunuyor (“How are you?” · “I’m fine, thank you.”). Bilgi Kartı diyalog sorularında artık cevabı baştan okumuyor, yalnızca soruyu soruyor.
+
 ## 0.52.0 · 26.11.2026
 
 İngilizce Koyu (2. sınıf):
