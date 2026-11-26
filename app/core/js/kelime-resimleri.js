@@ -66,11 +66,6 @@ const kelimeResimleri = (() => {
     // light and dark blue: the dark one is meant
     dark: '<rect x="4" y="12" width="26" height="40" rx="5" fill="#a5d8ff"' + o(1.5) + '/><rect x="34" y="8" width="26" height="48" rx="5" fill="#1c3d73"' + o(3) + '/>' +
       '<path d="M40 50l6-6 6 6" stroke="#ffd43b" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
-    jump: '<path d="M14 58h36" stroke="#adb5bd" stroke-width="3" stroke-linecap="round"/><ellipse cx="32" cy="57" rx="8" ry="2" fill="#dee2e6"/>' +
-      '<circle cx="32" cy="12" r="6" fill="' + SKIN + '"' + o(1.5) + '/><path d="M26 11q6-9 12 0q-6-4-12 0z" fill="#4a3426"' + o(1.2) + '/>' +
-      '<rect x="27" y="18" width="10" height="14" rx="4" fill="#fab005"' + o(1.5) + '/><path d="M27 21l-9-9M37 21l9-9"' + o(5) + '/><path d="M27 21l-9-9M37 21l9-9" stroke="' + SKIN + '" stroke-width="2.6" stroke-linecap="round"/>' +
-      '<path d="M29 32l-6 8 4 6M35 32l6 8-4 6"' + o(5) + ' fill="none"/><path d="M29 32l-6 8 4 6M35 32l6 8-4 6" stroke="#3b5bdb" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
-      '<path d="M14 40v8M50 40v8M20 48v4M44 48v4" stroke="#e8590c" stroke-width="2.5" stroke-linecap="round"/>',
     // a person with the part meant in colour
     uniform: '<path d="M22 8l10 5 10-5 12 7-3 14-5-2v8H18v-8l-5 2-3-14z" fill="#1c7ed6"' + o() + '/><path d="M26 10l6 7 6-7-6-2z" fill="#fff"' + o(1.4) + '/>' +
       '<path d="M30 17h4l1 9-3 3-3-3z" fill="#e5484d"' + o(1.2) + '/><path d="M40 22h6v5q-3 3-6 0z" fill="#ffd43b"' + o(1.2) + '/>' +
@@ -101,7 +96,7 @@ const kelimeResimleri = (() => {
       '<path d="M24 22h16M23 26h18" stroke="#6c757d" stroke-width="1.2"/><circle cx="29" cy="35" r="1" fill="' + INK + '"/><circle cx="35" cy="35" r="1" fill="' + INK + '"/>' +
       '<path d="M29 40h6"' + o(1) + '/>',
     /* the days: Monday first */
-    monday: week([0]), tuesday: week([1]), wednesday: week([2]), thursday: week([3]), friday: week([4]), saturday: week([5]), sunday: week([6]),
+    tuesday: week([1]), wednesday: week([2]), thursday: week([3]), friday: week([4]), saturday: week([5]), sunday: week([6]),
     'monday-tuesday': week([0, 1])
   };
   const NUMS = ['#ff6b6b', '#ff922b', '#fcc419', '#51cf66', '#22b8cf', '#339af0', '#845ef7', '#f06595', '#20c997', '#e8590c'];

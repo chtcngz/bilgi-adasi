@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.69.0 · 26.11.2026
+
+- **İngilizce Koyu'nda yeni resimler:** Erkek ve kadın okul müdürü, merhaba, selam, nasıl, zıplamak, çocuk, kütüphane, yemekhane, tanışmak, Pazartesi, isim ve insanlar artık sevimli, renkli resim kartlarıyla gösteriliyor. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.
+
 ## 0.68.0 · 26.11.2026
 
 - **İngilizce Koyu'nda yeni resimler:** İhtiyaç duymak, defter, nesne, açmak, turuncu, uzatmak, kalem, kalem kutusu, resim, pembe, lütfen, işaret etmek, mor ve koymak artık sevimli, renkli resimlerle gösteriliyor. Bu kelimelerin eski emoji ve çizimleri kaldırıldı.

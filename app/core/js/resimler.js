@@ -40,7 +40,10 @@
     'bookcase', 'bookcase-2', 'box', 'box-2', 'break', 'break-2', 'brown', 'cap', 'cap-chalk', 'cat-2', 'chair', 'chair-clock', 'chalk', 'clock-2', 'teddy',
     // classroom actions and colours
     'need', 'notebook', 'object', 'open', 'orange', 'pass', 'pass-2', 'pencil', 'pencil-case', 'picture-2', 'picture-3', 'pink', 'please', 'point',
-    'point-2', 'purple', 'put', 'put-2'
+    'point-2', 'purple', 'put', 'put-2',
+    // school and greetings
+    'headmaster', 'headmaster-2', 'headmistress', 'headmistress-2', 'hello', 'hello-2', 'hi', 'how', 'how-2', 'jump', 'jump-2', 'kid', 'library',
+    'library-2', 'library-3', 'lunch-hall', 'lunch-hall-2', 'meet', 'meet-2', 'monday', 'monday-2', 'name', 'people', 'school-kids'
   ];
   const more = {};
   for (const name of names) {
