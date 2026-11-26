@@ -48,35 +48,51 @@ const elifBridgeGame = (() => {
   const twoMarks = () => { const marks = shuffled([0, 1, 2, Math.floor(Math.random() * 3)]); return [marks, marks.map(h => (h + 1 + Math.floor(Math.random() * 2)) % 3)]; };
 
   // Rows are laid one by one, each picked at random among those that keep the rules; a dead end
-  // starts over. If no order keeps them all (it nearly always does), the last try is used.
-  function arrange(rows, allowed) {
+  // starts over. If no order keeps them all (it nearly always does), the next, easier rules are
+  // tried, and after the last ones the last try is used.
+  function arrange(rows, ...rules) {
     let order = [];
-    for (let tries = 0; tries < 300; tries++) {
-      const left = shuffled(rows.slice(0, ROWS));
-      order = [];
-      while (left.length) {
-        const at = left.findIndex(row => allowed(order, row));
-        if (at < 0) break;
-        order.push(left.splice(at, 1)[0]);
+    for (const allowed of rules) {
+      for (let tries = 0; tries < 300; tries++) {
+        const left = shuffled(rows.slice(0, ROWS));
+        order = [];
+        while (left.length) {
+          const at = left.findIndex(row => allowed(order, row));
+          if (at < 0) break;
+          order.push(left.splice(at, 1)[0]);
+        }
+        if (!left.length) return order;
+        order.push(...left);
       }
-      if (!left.length) return order;
-      order.push(...left);
     }
     return order;
   }
   // Fifteen rows of harekeli syllables: every letter of the newest cove with two of its harekes, then
   // the earlier coves' letters for review. The first cove, with nothing before it, fills the bridge
-  // with its letters' third harekes and then any of them. A row is never about the letter of the row before.
+  // with its letters' third harekes and then each of them once more. A row is never about the letter of either of
+  // the two rows before, and one hareke is never asked three rows running; if no order keeps both, the
+  // letter two rows back may come, and then the hareke too, but never the letter of the row before.
   function plan(letters, recent) {
     const fresh = shuffled(recent.filter(i => letters.includes(i)));
     const earlier = letters.filter(i => !fresh.includes(i));
     const [first, second] = twoMarks();
     const rows = fresh.flatMap((i, n) => [{ i, h: first[n] }, { i, h: second[n] }]);
-    rows.push(...shuffled(earlier).slice(0, ROWS - rows.length).map(syllableOf));
+    // the review rows take the harekes in turn, so that no hareke piles up
+    let marks = [];
+    rows.push(...shuffled(earlier).slice(0, ROWS - rows.length).map(i => {
+      if (!marks.length) marks = shuffled([0, 1, 2]);
+      return { i, h: marks.pop() };
+    }));
     const spare = shuffled(fresh.flatMap(i => [0, 1, 2].map(h => ({ i, h })))
       .filter(s => !rows.some(r => r.i === s.i && r.h === s.h)));
-    while (rows.length < ROWS) rows.push(spare.pop() || syllableOf(pick(fresh.length ? fresh : letters)));
-    return arrange(rows, (order, row) => !order.length || row.i !== order.at(-1).i);
+    // still short (the first cove): its letters once more each, so none comes more often than the rules allow
+    const again = shuffled(fresh.length ? fresh : letters);
+    while (rows.length < ROWS) rows.push(spare.pop() || syllableOf(again[rows.length % again.length]));
+    const newLetter = (order, row) => row.i !== order.at(-1)?.i;
+    const notTwoBack = (order, row) => row.i !== order.at(-2)?.i;
+    const newMark = (order, row) => order.length < 2 || row.h !== order.at(-1).h || row.h !== order.at(-2).h;
+    return arrange(rows, (order, row) => newLetter(order, row) && notTwoBack(order, row) && newMark(order, row),
+      (order, row) => newLetter(order, row) && newMark(order, row), newLetter);
   }
   // A bitişik bridge: every harekeli letter of the cove at the start, in the middle and at the end of a
   // word, then the earlier bitişik coves' letters, and syllables alone of all the letters to fill the

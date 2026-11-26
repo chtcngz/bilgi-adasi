@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.44.2 · 26.11.2026
+
+- **Cam Köprü'de daha az tekrar:** Harf koylarının köprüsünde bir sıra, önceki iki sıradan hiçbirinin harfiyle gelmiyor (önceden yalnızca bir öncekiyle gelmiyordu). Aynı hareke de üç sıra üst üste sorulmuyor.
+- Tekrar için gelen eski harflerin harekeleri sırayla dağıtılıyor; ilk koyda köprüyü dolduran son sıralarda her harf birer kez geliyor, böylece hiçbir harf köprüde öbeklenmiyor.
+
 ## 0.44.1 · 26.11.2026
 
 - **Yönetici sayfası: test kopyaları ayrıldı.** “Bütün oyuncular” listesinde art arda görünen *Ali* ve *admin* (Okul öncesi, Linux · Chrome) satırları çocuk değildi: oyun geliştirilirken deneme amaçlı açılan otomatik tarayıcılardan geliyordu. Bu tarayıcılar her seferinde boş açıldığı için her deneme buluta yeni bir cihaz olarak düşüyordu. Artık geliştirme kopyaları ve otomatik (test) tarayıcılar buluta hiçbir şey göndermiyor.
