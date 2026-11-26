@@ -127,3 +127,9 @@
 .soru-card.matched { border-color: #2f9b7f; background: #e1f6e5; box-shadow: 0 3px #2f9b7f; opacity: .55; cursor: default; }
 @media (max-width: 520px) { .soru-card { font-size: 15px; min-height: 54px; padding: 8px 9px; } .soru-say.big { width: 84px; height: 84px; font-size: 40px; } }
 @media (prefers-reduced-motion: reduce) { .soru-card.wrong { animation: none; } }
+
+/* 🐢 the slow voice, next to 🔊 */
+.soru-says { display: inline-flex; gap: 6px; vertical-align: middle; }
+.soru-listen .soru-says { align-items: center; gap: 12px; }
+.soru-say.slow { width: 40px; height: 40px; font-size: 20px; border-color: #c9e3b8; background: #f2fae9; box-shadow: 0 3px #c9e3b8; }
+.soru-listen .soru-say.slow { width: 60px; height: 60px; font-size: 30px; }

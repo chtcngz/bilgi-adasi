@@ -1,0 +1,77 @@
+/* İngilizce Koyu's mini games (core/js/ingilizce-oyunlari.js): Oyun Parkı and Balon Patlat */
+.og-body { display: grid; gap: 14px; margin-top: 4px; }
+.og-count { font-weight: 850; color: #1d6f6c; }
+.og-voice { display: flex; justify-content: center; align-items: center; gap: 14px; }
+.og-voice .soru-say.slow { width: 60px; height: 60px; font-size: 30px; }
+
+/* 👂 Dinle ve Bul and 🃏 Sesli Hafıza: picture cards */
+.og-pictures { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.og-picture, .og-mem { display: grid; place-items: center; aspect-ratio: 1.25; border: 3px solid #cfe1d6; border-radius: 20px; background: #fff; box-shadow: 0 4px #cfe1d6; font-size: clamp(44px, 14vw, 64px); line-height: 1; transition: transform .12s, opacity .25s, background .2s; }
+.og-picture:active:not(:disabled), .og-mem:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px #cfe1d6; }
+.og-picture.right, .og-mem.matched { border-color: #2f9b7f; background: #e1f6e5; box-shadow: 0 4px #2f9b7f; }
+.og-picture.wrong { border-color: #d9534f; background: #fde4e1; opacity: .4; animation: shake .4s; }
+.og-memory { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.og-mem { aspect-ratio: .9; font-size: clamp(30px, 9vw, 44px); background: #5aa9d6; border-color: #3d8dbd; box-shadow: 0 4px #2f78a3; }
+.og-mem .og-face { display: none; }
+.og-mem .og-back { color: #fff; font-size: .8em; }
+.og-mem.open { background: #fff; border-color: #b9d6ea; box-shadow: 0 4px #b9d6ea; }
+.og-mem.open .og-face { display: block; }
+.og-mem.open .og-back { display: none; }
+.og-mem.matched { border-color: #2f9b7f; background: #e1f6e5; box-shadow: 0 4px #2f9b7f; opacity: .8; }
+
+/* 🧺 Meyve Sepeti */
+.og-table { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 14px 10px; border-radius: 20px; background: repeating-linear-gradient(45deg, #fff4e0 0 14px, #ffe9c4 14px 28px); border: 2px solid #f0d29a; }
+.og-food { width: 66px; height: 66px; display: grid; place-items: center; border: 2px solid #f0d29a; border-radius: 50%; background: #fff; box-shadow: 0 3px #e7c47e; font-size: 36px; touch-action: none; transition: transform .15s, opacity .3s; }
+.og-food.picked { border-color: #3a5fb0; box-shadow: 0 3px #3a5fb0; transform: scale(1.08); }
+.og-food.og-dragging, .og-chip.og-dragging { position: relative; z-index: 5; transition: none; box-shadow: 0 10px 20px #0003; }
+.og-food.in { opacity: 0; transform: scale(.3); pointer-events: none; }
+.og-basket { justify-self: center; display: grid; place-items: center; width: 150px; height: 120px; border: 3px dashed #c98a4a; border-radius: 26px; background: #fff8ec; font-size: 64px; line-height: 1; }
+.og-basket small { font-size: 13px; font-weight: 850; color: #995122; }
+.og-basket.got { animation: og-bounce .45s; }
+@keyframes og-bounce { 40% { transform: scale(1.12); } }
+
+/* 🎨 Sihirli Boyama */
+.og-art { display: grid; place-items: center; padding: 8px; border-radius: 22px; background: #fffdf6; border: 2px solid #ece3cf; }
+.og-art svg { width: min(260px, 70vw); height: auto; }
+.og-art .p { fill: #fff; stroke: #2b3a3a; stroke-width: 3.5; stroke-linejoin: round; transition: fill .3s; }
+.og-art .ink { fill: #2b3a3a; }
+.og-art .line { fill: none; stroke: #2b3a3a; stroke-width: 3.5; stroke-linecap: round; }
+.og-art .leaf { fill: #6cc070; stroke: #2b3a3a; stroke-width: 3; }
+.og-art .door { fill: #c98a4a; stroke: #2b3a3a; stroke-width: 3; }
+.og-art .win { fill: #bfe6ff; stroke: #2b3a3a; stroke-width: 3; }
+.og-art .band { fill: #2b3a3a; }
+.og-art.done { animation: og-bounce .6s; }
+.og-pots { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.og-pot { width: 54px; height: 54px; border-radius: 50%; border: 4px solid #fff; background: var(--c); box-shadow: 0 0 0 2px #b7c6c0, 0 4px 0 #0002; transition: transform .12s, opacity .25s; }
+.og-pot:active:not(:disabled) { transform: scale(.92); }
+.og-pot.wrong { opacity: .25; }
+
+/* 🚂 Kelime Treni */
+.og-meaning { margin: 0; text-align: center; font-weight: 800; color: #4d6763; }
+.og-train { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 6px; min-height: 64px; padding: 8px 6px 14px; border-bottom: 5px solid #8b5a2b; }
+.og-engine { font-size: 44px; line-height: 1; transform: scaleX(-1); }
+.og-wagon { min-width: 64px; min-height: 44px; display: grid; place-items: center; padding: 4px 10px; border: 2px dashed #b9a07a; border-radius: 10px 10px 4px 4px; background: #fffaf0; font-weight: 900; color: #1d4f72; }
+.og-wagon.full { border-style: solid; border-color: #3d8dbd; background: #eef7fd; }
+.og-train.go .og-engine, .og-train.go .og-wagon { animation: og-go 1.6s ease-in; }
+@keyframes og-go { 70% { transform: translateX(14px); } 100% { transform: translateX(0); } }
+.og-train.go .og-engine { animation-name: og-go-engine; }
+@keyframes og-go-engine { 70% { transform: scaleX(-1) translateX(-14px); } 100% { transform: scaleX(-1); } }
+.og-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.og-chip { padding: 10px 16px; border: 2px solid #b9d6ea; border-radius: 14px; background: #f6fbff; box-shadow: 0 3px #b9d6ea; font-weight: 900; font-size: 18px; color: #1d4f72; touch-action: none; }
+.og-chip.used { visibility: hidden; }
+
+/* 🎈 Balon Patlat */
+.og-sky { position: relative; height: min(52vh, 420px); overflow: hidden; border-radius: 22px; background: linear-gradient(#bfe6ff, #eaf7ff 70%, #d8f3d0); }
+.og-balloon { position: absolute; left: var(--x); bottom: -130px; width: 21%; min-width: 74px; aspect-ratio: .8; display: grid; place-items: center; align-content: center; gap: 2px; padding: 6px; border: 0; border-radius: 50% 50% 46% 46%; background: radial-gradient(circle at 32% 28%, #fff8 0 12%, transparent 13%), var(--c); color: #173f40; box-shadow: inset -6px -8px 0 #0001; animation: og-rise 9s linear var(--d) forwards; }
+.og-balloon::after { content: ''; position: absolute; top: 100%; left: 50%; width: 2px; height: 34px; background: #6a7a78; }
+.og-balloon span { font-size: 30px; line-height: 1; }
+.og-balloon small { font-size: 12px; font-weight: 850; line-height: 1.1; }
+.og-balloon.pop { animation: og-pop .3s ease-out forwards; pointer-events: none; }
+@keyframes og-rise { to { transform: translateY(calc(-1 * min(52vh, 420px) - 150px)); } }
+@keyframes og-pop { to { transform: scale(1.5); opacity: 0; } }
+
+@media (max-width: 520px) { .og-food { width: 58px; height: 58px; font-size: 32px; } .og-chip { font-size: 16px; padding: 9px 12px; } }
+@media (prefers-reduced-motion: reduce) {
+  .og-picture.wrong, .og-basket.got, .og-art.done, .og-train.go .og-engine, .og-train.go .og-wagon { animation: none; }
+  .og-balloon { animation-duration: 14s; }
+}

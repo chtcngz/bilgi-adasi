@@ -419,8 +419,8 @@ const ingilizce2Sorular = [
   ]},
   {"id": "sehir", "ad": "Şehir ve Dünya", "konu": "Şehir ve Dünya", "simge": "🍎", "unite": "6. Tema · Life in the City & the World", "kitap": "s. 91-106", "deneme": 3, "sorular": [
     {"s": "Hikâyedeki şenliğin adı ne? “Healthy Festival”", "a": ["Sağlıklı Yiyecek Şenliği", "Spor Şenliği", "Kitap Şenliği", "Müzik Şenliği"], "b": "Healthy: sağlıklı. Şenlikte FRUITS (meyveler), VEGETABLES (sebzeler) ve TURKISH KITCHEN (Türk mutfağı) bölümleri var.", "k": ["The Healthy Food Festival", "Sağlıklı Yiyecek Şenliği"]},
-    {"s": "“fruit” ne demek?", "a": ["🍓 meyve", "❓ soru", "📷 fotoğraf", "🤗 birlikte"], "b": "“fruit” = meyve 🍓.", "k": ["fruit", "meyve", "🍓"]},
-    {"s": "🥦 “sebze” İngilizcede hangisi?", "a": ["vegetable", "help", "name", "question"], "b": "“vegetable” = sebze 🥦.", "k": ["vegetable", "sebze", "🥦"]},
+    {"s": "“fruit” ne demek?", "a": ["🍉 meyve", "❓ soru", "📷 fotoğraf", "🤗 birlikte"], "b": "“fruit” = meyve 🍉.", "k": ["fruit", "meyve", "🍉"]},
+    {"s": "🌽 “sebze” İngilizcede hangisi?", "a": ["vegetable", "help", "name", "question"], "b": "“vegetable” = sebze 🌽.", "k": ["vegetable", "sebze", "🌽"]},
     {"s": "“What have you got in your basket?” sorusuna hangisi cevap olur?", "a": ["I’ve got some apples.", "I’m seven.", "It’s in the kitchen.", "Yes, I do."], "b": "“What have you got in your basket?” Sepetinde ne var? “I’ve got some apples, carrots, and bananas.”", "k": ["What have you got in your basket?", "Sepetinde ne var?"]},
     {"s": "🔊 Dinle! Duyduğun kelime ne demek?", "a": ["🥣 yoğurt", "karnabahar", "🍋 limon", "🍎 elma"], "d": 1, "b": "“yoghurt” = yoğurt 🥣.", "k": ["yoghurt", "yoğurt", "🥣"]},
     {"s": "“zebra” ne demek?", "a": ["🦓 zebra", "🐟 balık", "🐦 kuş", "🐱 kedi"], "b": "“zebra” = zebra 🦓.", "k": ["zebra", "zebra", "🦓"]},
