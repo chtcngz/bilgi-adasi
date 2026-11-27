@@ -223,6 +223,7 @@ const versionText = (() => {
       (summary.bitisik ? ' · 🪸 ' + summary.bitisik + ' / 28 bitişik yazılış' : '') +
       (summary.cezm ? ' · ⭐ ' + summary.cezm + ' / 28 cezm' : '') +
       (summary.tenvin ? ' · 🐬 ' + summary.tenvin + ' / 28 tenvin' : '') +
+      (summary.sedde ? ' · 🐙 ' + summary.sedde + ' / 28 şedde' : '') +
       (summary.tamam ? ' · 🌧️ Harf Yağmuru tamamlandı (rekor ' + summary.rekor + ')' : summary.rekor ? ' · 🌧️ Harf Yağmuru rekoru ' + summary.rekor : '') +
       (summary.balon?.tamam ? ' · 🎈 Hece Balonları tamamlandı (rekor ' + summary.balon.rekor + ')' :
         summary.balon?.rekor ? ' · 🎈 Hece Balonları rekoru ' + summary.balon.rekor : '') +
@@ -232,6 +233,8 @@ const versionText = (() => {
         summary.cezmbalon?.rekor ? ' · 🎐 Cezm Balonları rekoru ' + summary.cezmbalon.rekor : '') +
       (summary.tenvinbalon?.tamam ? ' · 🪁 Tenvin Balonları tamamlandı (rekor ' + summary.tenvinbalon.rekor + ')' :
         summary.tenvinbalon?.rekor ? ' · 🪁 Tenvin Balonları rekoru ' + summary.tenvinbalon.rekor : '') +
+      (summary.seddebalon?.tamam ? ' · 🎏 Şedde Balonları tamamlandı (rekor ' + summary.seddebalon.rekor + ')' :
+        summary.seddebalon?.rekor ? ' · 🎏 Şedde Balonları rekoru ' + summary.seddebalon.rekor : '') +
       (summary.oyunlar || []).map(g => g.rekor ? ' · ' + g.icon + ' ' + g.name + (g.oynanan ? ' ' + g.oynanan + ' adacıkta bitti' : '') + ' (rekor ' + g.rekor + ')' : '').join('') +
       (summary.kopru?.gecilen ? ' · 🌉 ' + summary.kopru.gecilen + ' / ' + summary.kopru.koy + ' Cam Köprü geçildi' + (summary.kopru.rekor ? ' (rekor ' + summary.kopru.rekor + ')' : '') :
         summary.kopru?.rekor ? ' · 🌉 Cam Köprü rekoru ' + summary.kopru.rekor : '');

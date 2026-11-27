@@ -7,6 +7,18 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.84.0 · 27.11.2026
+
+Elif Ba Adası’na **Şedde** bölümü geldi. Tenvin Koyu’nu bitiren çocuklar Güneş Adacığı’ndan tekneyle yeni **Şedde Koyu**’na geçiyor: İkiz, Kayalık, Mağara, Şelale, Kale, Yanardağ ve Hazine Adacığı. Her adacıkta yine dört harf var; 28 harfin her biri şeddeli okunuyor. Yolda artık 35 adacık var.
+
+- **Şedde adımı:** Her harfin kartında şeddeli hecenin nasıl oluştuğu sağdan sola duruyor: cezimli hece + harekeli harf = şeddeli hece (بِسْ + سَ = بِسَّ, “bis, se: bisse”). Altında aynı hecenin üstün, esre ve ötreyle şeddelisi var (بِسَّ بِسِّ بِسُّ). Her parçaya dokununca sesi geliyor; ♪ düğmesi “Sin şedde: bis, se, bisse” diye okuyor. Adacığın başında şedde işareti (dokununca adı söyleniyor) ve Diyanet’in şeddeli bir kelimesi var, şeddeli harf kırmızı (تَبَّتْ, عَدَّ, كُلٌّ …). Elif şedde almadığından onun yerinde, Cezm Koyu’ndaki gibi hemze var.
+- **Şedde turu (12-16 soru):** Duyulan şeddeli heceyi yazılılar arasında bulma, gösterilen şeddeli hecenin sesini üç ses arasında bulma ve “Son harfe hangi işaret?”: hece son harfi işaretsiz gösterilip dinletiliyor, şeddeli hareke, yalnız hareke, cezm ve başka harekeli şedde arasından doğru işaret bulunuyor. Şıklarda hep aynı harflerin şeddesizi de var (bisse ile bise). Yalnızca hemze ve ayn, şeddeli ve şeddesiz hâli kulakla ayırt edilemediği için şeddesiziyle yan yana gelmiyor. Önceki şedde adacıklarının harfleri tekrar için karışıyor. Bütün sorular ilk denemede bilinince adacığın 🐙 ahtapotları kazanılıyor.
+- **🎏 Şedde oyunları:** Şedde Balonları’nda şeddeli heceler uçuyor, aralarında şeddesizler de var. Yengeç Avı, Kabuk Hafızası, Balık Tutma ve Sepete Topla da şeddeyle oynanıyor; Sepete Topla’da şeddeli ve şeddesiz sepetleri var.
+- **🌉 Cam Köprü:** Kaplumbağa hep şeddeli bir hece okuyor; camlarda aynı harflerin şeddesizi ya da başka harekeyle şeddelisi var.
+- **Harita:** Şedde Koyu bir hazine adası: koyu turkuaz deniz, adacıklarda dalgalanan bayraklar, en sondaki Hazine Adacığı’nda bir hazine sandığı. Üstteki sayaçlara 🐙 şedde, akvaryumun harf baloncuklarına şeddeli heceler, Ayarlar’daki ilerleme özetine ve yönetici sayfasına Şedde ve Şedde Balonları eklendi.
+- **Sesler:** Diyanet Elifba’da her harfin şeddeli hecesinin ayrı kaydı yok. Şeddeli heceler, Diyanet’in kuralına göre (“harfi bir önceki harf ile birleştirip sesi bölmeden tekrar okutur”) oyundaki iki Diyanet kaydı aradaki sessizlik kesilerek birleştirilip yapıldı: cezimli hece ve harekeli hece (bis + se). Karşılaştırma için şeddesizleri de aynı yolla yapıldı (bi + se). 7 örnek kelime Diyanet’in Şedde dersinden olduğu gibi alındı; şeddenin adı kız çocuk sesiyle.
+- Çocukların kayıtlı ilerlemesi olduğu gibi duruyor.
+
 ## 0.83.0 · 27.11.2026
 
 Elif Ba Adası’nda her adacığın oyun adımında artık **oyun seçiliyor**. Harf Yağmuru, Hece Balonları, Şekil Yağmuru, Cezm ve Tenvin Balonları’nın yerine dört yeni oyun da oynanabiliyor; hangisi sonuna kadar oynanırsa yola devam ediliyor.

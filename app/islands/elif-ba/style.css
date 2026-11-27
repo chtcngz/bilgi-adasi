@@ -304,6 +304,18 @@
 .elif-tenvin-marks .elif-syllable { min-width: 64px; padding: 0 6px 4px; }
 .elif-tenvin-marks .elif-syllable b, .elif-choices.marks .elif-choice b { color: #c0392b; }
 .elif-tenvin-marks .elif-syllable b { font-size: 40px; line-height: 1.4; }
+/* Şedde: how the şedde syllable is made (بِسْ + سَ = بِسَّ), then the syllable with each hareke. */
+.elif-cards.seddes { grid-template-columns: repeat(2, 1fr); }
+.elif-sedde { position: relative; padding: 10px 12px 12px; border-radius: 20px; border: 2px solid var(--rim); background: var(--tint); color: var(--ink); box-shadow: 0 4px var(--rim); }
+.elif-sedde .elif-syllables-head b { display: block; font: normal 46px/1.3 "Traditional Arabic", "Times New Roman", serif; }
+.elif-sedde .elif-cezm-row .elif-syllable.sakin b { color: inherit; }
+.elif-sedde .elif-cezm-row .elif-syllable.whole b, .elif-sedde .elif-syllable-row b { color: #c0392b; }
+.elif-sedde .elif-syllable-row .elif-syllable b { font-size: clamp(36px, 5vw, 50px); }
+.elif-sedde-lesson .elif-syllables-head { flex-wrap: wrap; }
+.elif-sedde-lesson .elif-syllable.mark { min-width: 64px; padding: 0 6px 4px; }
+.elif-sedde-lesson .elif-syllable.mark b { font-size: 40px; line-height: 1.4; color: #c0392b; }
+.elif-sedde-word { width: 100%; margin-top: 8px; min-height: 72px; }
+.elif-sedde-word b { font-size: clamp(40px, 7vw, 56px) !important; }
 .elif-apart { display: flex; align-items: center; gap: 10px; width: 100%; margin: 8px 0 0; padding: 4px 12px; border-radius: 14px; border: 2px dashed var(--rim); background: #fffdf8; color: var(--ink); text-align: left; }
 .elif-apart b { font: normal 36px/1.4 "Traditional Arabic", "Times New Roman", serif; }
 .elif-apart span:last-child { font-weight: 750; font-size: 13px; }
@@ -412,7 +424,7 @@
   .elif-hero > div { width: 76%; }
   .elif-hero h1 { font-size: 38px; letter-spacing: -2px; }
   .elif-cards { grid-template-columns: repeat(2, 1fr); }
-  .elif-cards.syllables, .elif-cards.shapes, .elif-cards.cezms, .elif-cards.tenvins { grid-template-columns: 1fr; }
+  .elif-cards.syllables, .elif-cards.shapes, .elif-cards.cezms, .elif-cards.tenvins, .elif-cards.seddes { grid-template-columns: 1fr; }
   .elif-tile { min-height: 116px; }
   .elif-big b { font-size: 80px; }
   .elif-hunt-word { min-width: 0; width: 100%; padding: 0 10px 6px; }

@@ -2,7 +2,7 @@
 
 ## Kız çocuk sesi
 
-`cocuk/` klasöründeki kayıtlar oyunun sahibinin eklediği çocuk sesi kayıtlarıdır (`elifba-ses-onizleme/`): `harf/NN.mp3` harf adları (ve `hemze.mp3`), `hece/NN-H.mp3` üstün, esre, ötre ile okunuşlar, `yer/P.mp3` “başta / ortada / sonda”, `tenvin/NN-H.mp3` iki üstün, iki esre, iki ötre ile okunuşlar (ben, bin, bun …), `hareke/` üstün, esre, ötre, cezm, iki üstün, iki esre ve iki ötre adları. Ayarlarda **Kız çocuk sesi** seçiliyken (varsayılan) bunlar çalınır; çocuk sesinde kaydı olmayanlar (bitişik yazılış örnek kelimeleri, cezimli heceler, cezm ve tenvin örnekleri) aşağıdaki Diyanet kayıtlarından erkek sesiyle çalınır. **Erkek sesi** seçilince hepsi Diyanet kayıtlarıdır.
+`cocuk/` klasöründeki kayıtlar oyunun sahibinin eklediği çocuk sesi kayıtlarıdır (`elifba-ses-onizleme/`): `harf/NN.mp3` harf adları (ve `hemze.mp3`), `hece/NN-H.mp3` üstün, esre, ötre ile okunuşlar, `yer/P.mp3` “başta / ortada / sonda”, `tenvin/NN-H.mp3` iki üstün, iki esre, iki ötre ile okunuşlar (ben, bin, bun …), `hareke/` üstün, esre, ötre, cezm, iki üstün, iki esre, iki ötre ve şedde adları. Ayarlarda **Kız çocuk sesi** seçiliyken (varsayılan) bunlar çalınır; çocuk sesinde kaydı olmayanlar (bitişik yazılış örnek kelimeleri, cezimli ve şeddeli heceler, cezm, tenvin ve şedde örnekleri) aşağıdaki Diyanet kayıtlarından erkek sesiyle çalınır. **Erkek sesi** seçilince hepsi Diyanet kayıtlarıdır.
 
 ## Erkek sesi (Diyanet)
 
@@ -286,3 +286,24 @@ Tenvinli hecelerin kayıtları Fetha’nın Tenvini (İki Fetha), Kesra’nın T
 | `tenvin-ornek/4.mp3` | جَنَفًا | [uygulama/btn_11.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/uygulama/btn_11.mp3) |
 | `tenvin-ornek/5.mp3` | فَلَكٍ | [uygulama/btn_1.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/uygulama/btn_1.mp3) |
 | `tenvin-ornek/6.mp3` | سَكَنًا | [uygulama/btn_14.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/uygulama/btn_14.mp3) |
+
+## Şedde
+
+Diyanet Elifba’nın Şedde dersinde her harfin şeddeli hecesinin ayrı kaydı yok; dersin tablosundaki dokuz kaydın metni arşivde bulunmuyor, bu yüzden kullanılmadı. Şeddeli heceler, Diyanet’in kurala verdiği tarifle (şedde “bulunduğu harfi bir önceki harf ile birleştirip sesi bölmeden tekrar okutur”) oyundaki iki Diyanet kaydı birleştirilerek yapıldı:
+
+- `sedde/NN-H.mp3`: NN harfinin cezimli hecesi (`cezm/NN.mp3`, بِسْ) ile aynı harfin H harekeli hecesi (`hece/NN-H.mp3`, سَ): بِسَّ, “bis-se”.
+- `seddesiz/NN-H.mp3`: karşılaştırmak için şeddesiz hâli; cezimli hecenin ilk harfi harekesiyle (`hece/…`, بِ) ve aynı hece (سَ): بِسَ, “bi-se”.
+
+İlk kaydın sonundaki, ikincinin başındaki sessizlik kesildi (ses, 10 ms’lik ortalamada kaydın en yüksek sesinin 18 dB altına kadar sayıldı; ilk kayıttan son sesten sonra 40 ms, ikinciden ilk sesten önce 20 ms bırakıldı) ve iki kayıt 20 ms’lik geçişle birleştirildi. Her dosyanın hangi iki kayıttan yapıldığı `kaynak.json` içinde `derivedFrom` alanında yazar. Elif şedde almadığından onun yerinde, cezmde olduğu gibi hemze var (بِئَّ). Kız çocuk sesiyle yalnızca şeddenin adı (`cocuk/hareke/sedde.mp3`) var; şeddeli heceler erkek sesiyle çalınır.
+
+`sedde-ornek/P.mp3`: P. şedde adacığının başındaki örnek kelime, Şedde dersinin Uygulama bölümünden, olduğu gibi.
+
+| Dosya | Metin | Kaynak |
+|---|---|---|
+| `sedde-ornek/0.mp3` | تَبَّتْ | [uygulama/btn_5.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/sedde/uygulama/btn_5.mp3) |
+| `sedde-ornek/1.mp3` | عَدَّ | [uygulama/btn_2.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/sedde/uygulama/btn_2.mp3) |
+| `sedde-ornek/2.mp3` | مُسْتَقَرٌّ | [uygulama/btn_9.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/sedde/uygulama/btn_9.mp3) |
+| `sedde-ornek/3.mp3` | تَطَّلِعُ | [uygulama/btn_6.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/sedde/uygulama/btn_6.mp3) |
+| `sedde-ornek/4.mp3` | يُكَذِّبُ | [uygulama/btn_8.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/sedde/uygulama/btn_8.mp3) |
+| `sedde-ornek/5.mp3` | كُلٌّ | [uygulama/btn_3.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/sedde/uygulama/btn_3.mp3) |
+| `sedde-ornek/6.mp3` | يَمُدُّهُمْ | [uygulama/btn_7.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/sedde/uygulama/btn_7.mp3) |

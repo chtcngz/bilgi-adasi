@@ -1,5 +1,5 @@
 /* The drawings shared by the maps (core/js/harita-sanat.js): */
-/* Living sea: waves drift, sparkles twinkle, palms sway, boats bob, gulls glide, the whale blows, the sun turns, dolphins leap. */
+/* Living sea: waves drift, sparkles twinkle, palms sway, boats bob, gulls glide, the whale blows, the sun turns, dolphins leap, flags wave. */
 .map-waves { animation: map-waves 4.5s ease-in-out infinite alternate; }
 @keyframes map-waves { to { transform: translateX(9px); } }
 .map-twinkle { transform-box: fill-box; transform-origin: center; animation: map-twinkle 2.8s ease-in-out infinite; animation-delay: calc(var(--n, 0) * -.9s); }
@@ -19,6 +19,9 @@
 .map-dolphin { transform-box: fill-box; transform-origin: 50% 100%; animation: map-leap 2.8s ease-in-out infinite alternate; }
 @keyframes map-leap { from { transform: translate(-2px, 3px) rotate(10deg); } to { transform: translate(2px, -4px) rotate(-8deg); } }
 .map-splash { animation: map-light 1.4s ease-in-out infinite alternate; }
+.map-flag { transform-box: fill-box; transform-origin: 0 50%; animation: map-flag 1.2s ease-in-out infinite alternate; }
+@keyframes map-flag { to { transform: skewY(-8deg) scaleX(.9); } }
+.map-chest circle { animation: map-light 2s ease-in-out infinite alternate; }
 .map-whale { animation: map-whale 3.2s ease-in-out infinite alternate; }
 @keyframes map-whale { to { transform: translate(-6px, 3px); } }
 .map-spout { transform-box: fill-box; transform-origin: 50% 100%; animation: map-spout 3.2s ease-out infinite; }

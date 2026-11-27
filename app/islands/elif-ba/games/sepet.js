@@ -2,7 +2,8 @@
 // (or taps a basket) into the right basket. The baskets sort what the islet teaches: in a letter islet the
 // mussel only sings (🔊) and goes into its letter's basket; syllables and joined shapes go into the üstün,
 // esre or ötre basket; in a cezm islet the syllable with its cezm (بِسْ) and the same letters with a hareke
-// (بِسَ) go into two baskets, in a tenvin islet the tenvin (بٍ) and the hareke alone (بِ). A wrong basket
+// (بِسَ) go into two baskets, in a tenvin islet the tenvin (بٍ) and the hareke alone (بِ), in a şedde islet the
+// şedde syllable (بِسَّ) and the same letters without it (بِسَ). A wrong basket
 // breaks a heart and the right one lights up. Sixteen mussels, three hearts.
 (() => {
   const { names, harekeler, readings, cezm } = elifData;
@@ -23,6 +24,7 @@
     if (id === 'harf') return api.options.recent.slice(0, 4).map(i => ({ html: api.glyph(i), name: names[i], test: k => k === i }));
     if (id === 'hece' || id === 'sekil') return [0, 1, 2].map(h => ({ html: mark(harekeler[h].mark), name: harekeler[h].name, test: k => k % 3 === h }));
     if (id === 'cezm') return [{ html: mark('ْ'), name: 'Cezimli', test: k => k < 100 }, { html: marks(harekeler.map(x => x.mark)), name: 'Cezimsiz', test: k => k >= 100 }];
+    if (id === 'sedde') return [{ html: mark('ّ'), name: 'Şeddeli', test: k => k < 84 }, { html: marks(harekeler.map(x => x.mark)), name: 'Şeddesiz', test: k => k >= 84 }];
     return [{ html: marks(['ً', 'ٍ', 'ٌ']), name: 'Tenvinli', test: k => k < 84 }, { html: marks(harekeler.map(x => x.mark)), name: 'Tenvinsiz', test: k => k >= 84 }];
   }
   // Carrying the mussel: it follows the finger and drops into the basket under it; a tap says it again.
@@ -99,11 +101,13 @@
     first: '👆 Midyeyi doğru sepete taşı',
     intro: kind => 'Kumsala midyeler geliyor. Kaplumbağa midyenin içindekini söyleyecek. Midyeyi tut ve doğru sepete taşı; istersen sepete dokun. ' +
       ({ harf: 'Her harfin kendi sepeti var.', hece: 'Üstün, esre ve ötrenin ayrı sepetleri var.', sekil: 'Üstün, esre ve ötrenin ayrı sepetleri var.',
-        cezm: 'Cezimli heceler bir sepete, cezimsizler öteki sepete.', tenvin: 'Tenvinli heceler bir sepete, tenvinsizler öteki sepete.' })[kind] +
+        cezm: 'Cezimli heceler bir sepete, cezimsizler öteki sepete.', tenvin: 'Tenvinli heceler bir sepete, tenvinsizler öteki sepete.',
+        sedde: 'Şeddeli heceler bir sepete, şeddesizler öteki sepete.' })[kind] +
       ' 16 midyeyi toplayınca yoluna devam edersin; hiç can kaybetmezsen üç yıldız!',
     say: kind => 'Sepete Topla! Kaplumbağa midyenin içindekini söyleyecek. Midyeyi doğru sepete taşı. ' +
       ({ harf: 'Her harfin kendi sepeti var.', hece: 'Üstün sepeti, esre sepeti, ötre sepeti.', sekil: 'Üstün sepeti, esre sepeti, ötre sepeti.',
-        cezm: 'Cezimli sepet ve cezimsiz sepet.', tenvin: 'Tenvinli sepet ve tenvinsiz sepet.' })[kind] + ' Başlamak için yeşil düğmeye bas.',
+        cezm: 'Cezimli sepet ve cezimsiz sepet.', tenvin: 'Tenvinli sepet ve tenvinsiz sepet.', sedde: 'Şeddeli sepet ve şeddesiz sepet.' })[kind] +
+      ' Başlamak için yeşil düğmeye bas.',
     sample: api => basketsFor(api).slice(0, 3).map((b, n) => '<span class="sp-basket sp-sample t' + [0, 4, 1][n] + '">' + basketSvg +
       '<span class="sp-label">' + b.html + '</span></span>').join(''),
     // Cezimsiz twins of the cezm syllables: 100 + letter * 3 + hareke, the letter with that hareke in place of its cezm (بِسَ).
@@ -121,13 +125,13 @@
           voice.syllable(b.i, b.h, note, () => voice.syllable(i, x, note, end));
         } };
     },
-    // Half the mussels of a cezm or tenvin islet lose their cezm (tenvin): بِسْ becomes بِسَ, بٍ becomes بِ.
+    // Half the mussels of a cezm, tenvin or şedde islet lose their cezm (tenvin, şedde): بِسْ becomes بِسَ, بٍ becomes بِ, بِسَّ becomes بِسَ.
     plan(api) {
       const id = api.options.kind;
       const base = api.plan(api.options.letters.filter(k => !api.kind.decoy?.(k)), api.options.recent, 16);
-      if (id !== 'cezm' && id !== 'tenvin') return base;
+      if (id !== 'cezm' && id !== 'tenvin' && id !== 'sedde') return base;
       const flip = new Set(api.shuffled(base.map((_, n) => n)).slice(0, base.length / 2));
-      return base.map((k, n) => !flip.has(n) ? k : id === 'tenvin' ? 84 + k : 100 + k * 3 + Math.floor(Math.random() * 3));
+      return base.map((k, n) => !flip.has(n) ? k : id === 'cezm' ? 100 + k * 3 + Math.floor(Math.random() * 3) : 84 + k);
     },
     build(api) {
       api.stage.innerHTML = '<div class="sp-beach" aria-hidden="true"><i class="sp-wave"></i></div><div class="sp-shelf"></div><div class="sp-baskets"></div>';
