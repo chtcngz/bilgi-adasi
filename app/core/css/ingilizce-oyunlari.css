@@ -160,6 +160,11 @@
 .og-card:has(.sahne-foto) .sahne-foto { margin-bottom: 0; }
 .og-card:has(.sahne-foto) .og-options { grid-template-columns: 1fr 1fr; gap: 8px; }
 .og-card:has(.sahne-foto) .og-option { min-height: 52px; padding: 8px 10px; font-size: 16px; }
+.sahne-foto img { transition: max-height .3s ease-out; }
+.og-card.cevaplandi .sahne-foto img { max-height: min(420px, max(100px, calc(100vh - 500px))); max-height: min(420px, max(100px, calc(100dvh - 500px))); }
+.og-card.cevaplandi:has(.sahne-foto) .og-options { grid-template-columns: 1fr; }
+.og-card.cevaplandi:has(.sahne-foto) .og-option:not(.right) { display: none; }
+.og-card:has(.sahne-foto) .og-note p { margin-bottom: 8px; font-size: 15px; line-height: 1.35; }
 .sahne-foto img { display: block; margin: 0 auto; max-width: 100%; max-height: min(420px, max(140px, calc(100vh - 350px))); max-height: min(420px, max(140px, calc(100dvh - 350px))); border-radius: 20px; box-shadow: 0 4px 14px rgba(0, 0, 0, .14); user-select: none; -webkit-user-select: none; }
 .sahne-resim { display: grid; place-items: center; align-self: center; margin: 0 auto 12px; font-size: clamp(66px, 22vw, 104px); line-height: 1; }
 .sahne .sahne-resim { margin: 0; font-size: clamp(52px, 17vw, 82px); }

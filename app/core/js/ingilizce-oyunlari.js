@@ -1134,6 +1134,10 @@ const ingilizceOyunlari = (() => {
               const go = button('primary og-next', 'Devam ▶');
               go.onclick = () => { x.sus(); resolve(); };
               note.append(go);
+              // a card under its own picture: the picture shrinks to make room for the explanation and Devam, which is then
+              // scrolled into view if the screen is still too short
+              card.classList.add('cevaplandi');
+              if (q.r) setTimeout(() => go.scrollIntoView({ block: 'nearest', behavior: 'smooth' }), 350);
               go.focus({ preventScroll: true });
               x.praise(item.en);
             } else {

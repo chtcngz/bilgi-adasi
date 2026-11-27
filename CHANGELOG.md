@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.89.2 · 27.11.2026
+
+- **Devam düğmesi görünüyor:** Diyalog resimli bir soruda doğru şık seçilince resim küçülüyor, yanlış şıklar kalkıyor, yalnızca doğru cevap, açıklama ve Devam düğmesi kalıyor; düğme küçük telefonlarda da ekranın içinde.
+
 ## 0.89.1 · 27.11.2026
 
 - **Diyalog resimli sorular ekrana sığıyor:** Resim ekranın yüksekliğine göre küçülüyor, şıklar ikişer ikişer yan yana diziliyor; küçük telefonlarda da resim ve dört şık birlikte görünüyor, aşağı kaydırmak gerekmiyor.
