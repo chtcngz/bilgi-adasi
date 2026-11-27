@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.89.3 · 27.11.2026
+
+- **Yeni diyalog resmi:** “This is my friend, Linda.” sorusu artık resimle soruluyor: okul bahçesinde bir çocuk arkadaşı Linda’yı gösteriyor.
+
 ## 0.89.2 · 27.11.2026
 
 - **Devam düğmesi görünüyor:** Diyalog resimli bir soruda doğru şık seçilince resim küçülüyor, yanlış şıklar kalkıyor, yalnızca doğru cevap, açıklama ve Devam düğmesi kalıyor; düğme küçük telefonlarda da ekranın içinde.
