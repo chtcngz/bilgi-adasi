@@ -7,6 +7,12 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.81.0 · 27.11.2026
+
+- **Okul Hayatı artık 9 istasyon:** 2. sınıf İngilizce'nin 1. adası 4 hafta yerine konulara göre 9 istasyona ayrıldı: 🏫 Okuldaki yerler 1, 🌳 Okuldaki yerler 2, 🧒 Çocuklar, 👩‍🏫 Okuldaki kişiler, 📅 Günler, ⏰ Zaman, 🎵 Şarkı ve hareket, ❓ Soru kelimeleri, 👋 Tanışma ve selamlaşma. Her istasyonda 4-7 kelime var. Daha önce hafta bitirmiş çocukların ilerlemesi aynı oranda istasyonlara çevrildi (2 hafta bitmişse 5 istasyon).
+- **Keşif Kartı:** Bir istasyona ilk kez girince oyundan önce kelimeleri tek tek tanıtan kartlar açılıyor: büyük resim, İngilizce kelime sesli okunuyor, Türkçesi yazılı ve (cihazda Türkçe ses varsa) sesli. Resme dokununca resim zıplıyor ve kelime yeniden okunuyor. Üstte çocuğun simgesi adım adım ilerliyor; isteyen sağ üstteki “Atla ⏭” ile hemen oyuna geçebiliyor. Sonraki girişlerde oyun doğrudan başlıyor; kelimeler adanın altındaki “📖 Kelimeleri Gör” bölümünden yeniden görülebiliyor.
+- **31 yeni resim:** Ünitenin bütün kelimeleri için yeni resimler ve “Resme bak” soruları eklendi. Deneme Sınavı değişmedi.
+
 ## 0.80.0 · 27.11.2026
 
 - **Gün ve hafta (day, week):** 1. adada (Okul Hayatı) Gizli Kelimeler'e yeni bir resim geldi: öğretmen tahtada “one day” (bir gün, tek takvim yaprağı) ile “one week”i (bir hafta, yedi yaprak) gösteriyor. Ses “Find “day”!” diyor ve cümle üstte yazıyor; çocuk tek yaprağa dokununca doğru, haftaya dokununca ses “No! This is a week.” diyor. Bir de “day” ve “week” için yeni tek resimler ve “Resme bak” soruları eklendi. Adaya 4 yeni soru geldi.

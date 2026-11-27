@@ -33,7 +33,7 @@ function kitapSirasi(bank, pages) {
   for (const stop of bank) (pages[stop.id] || []).forEach((page, n) => { if (stop.sorular[n]) stop.sorular[n].sayfa = page; });
 }
 
-function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: stops, ovgu: praise, simgeler, ses, yanlisAvi, ikinciSans, oyunlar }) {
+function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: stops, ovgu: praise, simgeler, ses, yanlisAvi, ikinciSans, oyunlar, istasyonlar }) {
   const ROUND = 10, HEARTS = 3, EXAM = 20;
   const letters = ['A', 'B', 'C', 'D'];
   const byKey = name => $(kod + '-' + name);
@@ -48,8 +48,10 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
 
   /* ---------- Progress ---------- */
   const storeKey = id => kayit + id;
-  // bolum: İngilizce Koyu's weeks finished in each unit ({ okul: 2 } = Hafta 1 and 2 are done, Hafta 3 is open)
-  const blank = () => ({ yildiz: {}, deneme: { en: null, son: null, sayi: 0 }, soru: {}, oyun: {}, bolum: {} });
+  // bolum: İngilizce Koyu's weeks finished in each unit ({ okul: 2 } = Hafta 1 and 2 are done, Hafta 3 is open);
+  // istasyon: the same for a unit cut into stations (istasyonlar.js); tanitim: the stations whose Keşif Kartı was seen ({ 'okul:3': 1 })
+  const blank = () => ({ yildiz: {}, deneme: { en: null, son: null, sayi: 0 }, soru: {}, oyun: {}, bolum: {}, istasyon: {}, tanitim: {} });
+  const ist = stop => istasyonlar?.[stop.id] || null;
   function load(id) {
     if (records.has(id)) return records.get(id);
     const saved = readRecord(storeKey(id));
@@ -64,6 +66,16 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
       for (const [game, best] of Object.entries(saved.oyun || {})) if (Number.isInteger(best) && best >= 0) record.oyun[game] = best;
       for (const [key, row] of Object.entries(saved.soru || {})) if (byId.has(key) && row) record.soru[key] = row;
       for (const stop of stops) { const n = saved.bolum?.[stop.id]; if (Number.isInteger(n) && n > 0) record.bolum[stop.id] = n; }
+      // a unit cut into stations: its stations finished; a player who finished weeks before the stations came gets
+      // the same share of the stations (2 of 4 weeks → 5 of 9 stations), once
+      for (const stop of stops) {
+        const list = ist(stop);
+        if (!list) continue;
+        const n = saved.istasyon?.[stop.id], weeks = record.bolum[stop.id];
+        if (Number.isInteger(n) && n > 0) record.istasyon[stop.id] = Math.min(list.length, n);
+        else if (!saved.istasyon?.[stop.id] && weeks) record.istasyon[stop.id] = Math.min(list.length, Math.round(weeks * list.length / 4));
+      }
+      for (const [key, seen] of Object.entries(saved.tanitim || {})) if (seen) record.tanitim[key] = 1;
     }
     records.set(id, record);
     return record;
@@ -202,11 +214,13 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
   const doneParts = stop => {
     let learnedWeeks = 0;
     for (const part of partsOf(stop)) { if (partLearned(part) < part.length) break; learnedWeeks++; }
-    return Math.max(progress.bolum?.[stop.id] || 0, learnedWeeks);
+    return Math.max((ist(stop) ? progress.istasyon : progress.bolum)?.[stop.id] || 0, learnedWeeks);
   };
   const partOpen = (k, p) => !haftali || devAll() || p <= doneParts(stops[k]);
-  const partName = p => haftali ? 'Hafta ' + (p + 1) : (p + 1) + '. durak';
+  const partName = (p, stop) => ist(stop)?.[p] ? ist(stop)[p].baslik : haftali ? 'Hafta ' + (p + 1) : (p + 1) + '. durak';
   const partsOf = stop => {
+    // a unit cut into stations by topic (istasyonlar.js), each station its own questions
+    if (ist(stop)) return ist(stop).map(s => s.sorular.map(n => stop.sorular[n]).filter(Boolean));
     const list = bookOrder(stop), n = list.length, count = haftali ? 4 : Math.max(3, Math.min(6, Math.round(n / 20)));
     return Array.from({ length: count }, (_, p) => list.slice(Math.floor(p * n / count), Math.floor((p + 1) * n / count)));
   };
@@ -264,9 +278,10 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
         const n = partLearned(part);
         // a week is done once its round has been finished; the next week opens then
         const done = haftali ? p < doneParts(stops[k]) : n === part.length;
-        return { simge: String(p + 1), ad: partName(p), etiket: stops[k].ad + ', ' + partName(p), not: n + ' / ' + part.length,
+        const s = ist(stops[k])?.[p];
+        return { simge: s ? s.simge : String(p + 1), ad: s ? s.ad : partName(p), etiket: stops[k].ad + ', ' + partName(p, stops[k]), not: n + ' / ' + part.length,
           durum: !partOpen(k, p) ? 'locked' : done ? 'done' : p === now ? 'now' : 'open',
-          kilit: 'Önce ' + partName(p - 1) + ' bitmeli' };
+          kilit: 'Önce ' + partName(p - 1, stops[k]) + ' bitmeli' };
       });
     },
     ac: (k, p) => k === HUNT_ISLE ? (p === 1 ? startBalloons() : startHunt()) : k === EXAM_ISLE ? startExam() : startStop(k, p),
@@ -305,11 +320,19 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
       }
       if (level === 'ada') {
         const stop = stops[k], p = firstPart(stop), n = learnedIn(stop), all = stop.sorular.length;
-        parts.push(sonraki('▶', stopMastered(stop) ? 'Yeniden oyna' : 'Sıradaki', stop.ad + ' · ' + (p + 1) + '. durak', () => startStop(k, p)));
+        const q = haftali ? Math.min(doneParts(stop), partsOf(stop).length - 1) : p;
+        parts.push(sonraki('▶', stopMastered(stop) ? 'Yeniden oyna' : 'Sıradaki', stop.ad + ' · ' + (ist(stop) ? partName(q, stop) : (q + 1) + '. durak'), () => startStop(k, q)));
         parts.push(kutu('<strong>' + stop.simge + ' ' + stop.ad + ' <span class="soru-stars" aria-label="' + starsOf(stop) + ' / 3 yıldız">' + starRow(starsOf(stop), false) + '</span></strong>' +
           '<small>' + stop.unite + ' · ' + stop.konu + (stop.kitap ? ' · 📘 Ders kitabı ' + stop.kitap : '') + '</small>' + olcer(n / all) +
-          '<small>' + (n === all ? '✅ Bütün soruları öğrendin' : '📗 ' + n + ' / ' + all + ' soru öğrenildi') + '. Duraklar ünitenin sorularını kitaptaki sırayla böler; ' +
+          '<small>' + (n === all ? '✅ Bütün soruları öğrendin' : '📗 ' + n + ' / ' + all + ' soru öğrenildi') + (ist(stop) ? '. Ünite ' + ist(stop).length + ' istasyona ayrılır, her biri bir konunun kelimeleri; ' : '. Duraklar ünitenin sorularını kitaptaki sırayla böler; ') +
           'her turda 10 soru, 3 kalp ve bir “yarı yarıya” jokerin var.</small>'));
+        // a unit cut into stations: every open station's Keşif Kartı, to see its words again
+        if (ist(stop) && oyunlar) {
+          const words = kutu('<strong>📖 Kelimeleri Gör</strong><small>İstasyonun kelimelerini resim ve sesle yeniden gör.</small><div class="kh-row kh-kelimeler"></div>');
+          const row = words.querySelector('.kh-kelimeler');
+          ist(stop).forEach((s, n) => { if (partOpen(k, n)) row.append(dugme(s.simge + ' ' + s.ad, () => tanit(k, n, null))); });
+          parts.push(words);
+        }
         const box = review();
         if (box) parts.push(box);
         return parts;
@@ -341,7 +364,12 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
   function startStop(k, p) {
     if (!stopOpen(k) || (Number.isInteger(p) && !partOpen(k, p))) return;
     const part = Number.isInteger(p) ? partsOf(stops[k])[p] : stops[k].sorular;
-    if (oyunlar) return startGame('durak', stops[k], pick(part, ROUND), p);
+    if (oyunlar) {
+      const play = () => startGame('durak', stops[k], pick(part, ROUND), p);
+      // a station's words come first, the first time it is opened (Keşif Kartı)
+      if (Number.isInteger(p) && ist(stops[k])?.[p] && !progress.tanitim?.[stops[k].id + ':' + p]) return tanit(k, p, play);
+      return play();
+    }
     begin('durak', stops[k], pick(part, ROUND));
     run.part = p;
   }
@@ -379,6 +407,25 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
         if (ok) { run.right++; run.streak++; run.bestStreak = Math.max(run.bestStreak, run.streak); } else run.streak = 0;
       },
       bitir: () => { if (run === mine) finish(); }
+    });
+  }
+  // Keşif Kartı: the words of station p of stop k, one by one (picture, English said, Turkish meaning). Then `sonra`
+  // (the round), or back to the map when it was opened from 📖 Kelimeleri Gör. Seen once, the station's round starts at once.
+  function tanit(k, p, sonra) {
+    const stop = stops[k], s = ist(stop)[p], key = stop.id + ':' + p;
+    if (!dialog.open) dialog.showModal();
+    dialog.dataset.mode = 'oyun';
+    dialog.dataset.mood = '';
+    const mine = run = { kind: 'tanitim' };
+    run.cancel = ingilizceOyunlari.kesif({
+      stage: byKey('stage'), maskot: activeProfile?.icon, baslik: s.simge + ' ' + s.baslik,
+      kelimeler: s.kelimeler.map(([en, tr, emo]) => ({ en, tr, emo })), son: sonra ? 'Oyuna Başla! 🚀' : '✓ Tamam',
+      bitti: () => {
+        if (run !== mine) return;
+        (progress.tanitim ||= {})[key] = 1;
+        save();
+        if (sonra) sonra(); else closeGame();
+      }
     });
   }
   function startExam() {
@@ -649,7 +696,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
     const firstTime = before === 0;
     if (stars > before) progress.yildiz[stop.id] = stars;
     // İngilizce Koyu: a finished round finishes its week and opens the next one
-    if (haftali && Number.isInteger(part) && doneParts(stop) < part + 1) (progress.bolum ||= {})[stop.id] = part + 1;
+    if (haftali && Number.isInteger(part) && doneParts(stop) < part + 1) (ist(stop) ? (progress.istasyon ||= {}) : (progress.bolum ||= {}))[stop.id] = part + 1;
     save();
     const all = learnedAll() === byId.size;
     // A finished round brings a reward to the tank while the stop still has questions to learn; learning
@@ -688,7 +735,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
       if (!stopOpen(j)) continue;
       q = step > 0 ? 0 : count(j) - 1;
     }
-    return { k: j, p: q, label: stops[j].simge + ' ' + stops[j].ad + ' · ' + partName(q) };
+    return { k: j, p: q, label: stops[j].simge + ' ' + stops[j].ad + ' · ' + partName(q, stops[j]) };
   }
 
   function finishExam() {

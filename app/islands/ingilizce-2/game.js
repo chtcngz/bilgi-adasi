@@ -16,6 +16,8 @@ soruAdasi({
   yanlisAvi: true,
   ikinciSans: true,
   // Stations are played as games; the foods of Meyve Sepeti (all from the book) and the pictures of 🔍 Gizli Kelimeler (sahneler.js)
+  // 1. ünite (Okul Hayatı) is cut into nine stations by topic (istasyonlar.js); the other units into four weeks
+  istasyonlar: ingilizce2Istasyonlar,
   oyunlar: {
     sahneler: ingilizce2Sahneler,
     sepet: ['apples', 'bananas', 'cherries', 'grapes', 'pears', 'strawberries', 'oranges', 'lemon', 'tomatoes', 'carrots', 'broccoli', 'potatoes',

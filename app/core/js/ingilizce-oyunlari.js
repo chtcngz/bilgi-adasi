@@ -1151,7 +1151,78 @@ const ingilizceOyunlari = (() => {
     return null;
   }
 
-  return { tur, balonTuru: (c) => turBalon(c), metinler, metinlerB, resimli, SOYUT, sahne };
+  /* ---------- Keşif Kartı: a station's words before its first round ----------
+     kesif(c): c = { stage, kelimeler: [{ en, tr, emo }], maskot, baslik, son (the last button's label), bitti() }.
+     One word at a time: a big picture, the English word said (and the Turkish meaning in the device's Turkish voice, when it
+     has one), 🔊 and 🐢; tapping the picture bounces it and says the word again. A bar of steps on top with the player's
+     icon walking along, and Atla ⏭ to go straight on. Returns a stop function. */
+  function trSoyle(text) {
+    return new Promise(resolve => {
+      const synth = window.speechSynthesis;
+      const voice = synth?.getVoices().find(v => /^tr/i.test(v.lang));
+      if (!synth || !voice || typeof SpeechSynthesisUtterance === 'undefined') return resolve(false);
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'tr-TR'; u.voice = voice; u.rate = 0.95;
+      u.onend = u.onerror = () => resolve(true);
+      synth.speak(u);
+    });
+  }
+  function kesif(c) {
+    const live = { on: true };
+    const words = c.kelimeler, n = words.length;
+    let at = 0, flow = 0;
+    c.stage.innerHTML = '<div class="og-kesif"><div class="ok-top"><div class="ok-bar" aria-hidden="true">' +
+      words.map(() => '<i></i>').join('') + '<b class="ok-me">' + esc(c.maskot || '🦊') + '</b></div></div>' +
+      '<p class="ok-baslik">' + esc(c.baslik || '') + '</p><div class="ok-kart" aria-live="polite"></div><div class="ok-alt"></div></div>';
+    const root = c.stage.querySelector('.og-kesif'), bar = root.querySelector('.ok-bar'), me = root.querySelector('.ok-me');
+    const kart = root.querySelector('.ok-kart'), alt = root.querySelector('.ok-alt');
+    const skip = button('ok-atla', 'Atla ⏭', 'Kelimeleri atla, oyuna geç');
+    root.querySelector('.ok-top').append(skip);
+    const next = button('primary ok-next', '');
+    alt.append(next);
+    const end = () => { if (!live.on) return; live.on = false; ingilizceSes.stop(); c.bitti(); };
+    skip.onclick = end;
+    // the word, then its meaning; a newer tap or the next word cuts in
+    const say = async (w, slow = false) => {
+      const mine = ++flow;
+      ingilizceSes.stop();
+      await ingilizceSes.say(w.en, slow);
+      if (mine !== flow || !live.on) return;
+      await wait(250);
+      if (mine === flow && live.on) await trSoyle(w.tr);
+    };
+    const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+    function show() {
+      const w = words[at];
+      [...bar.querySelectorAll('i')].forEach((dot, i) => { dot.className = i < at ? 'done' : i === at ? 'now' : ''; });
+      const dot = bar.querySelectorAll('i')[at];
+      requestAnimationFrame(() => { me.style.left = dot.offsetLeft + dot.offsetWidth / 2 + 'px'; });
+      bar.setAttribute('aria-label', (at + 1) + ' / ' + n);
+      kart.innerHTML = '';
+      const pic = button('ok-resim', resimKarti(w.emo), w.en + ', yeniden dinle');
+      pic.onclick = () => { pic.classList.remove('hop'); void pic.offsetWidth; pic.classList.add('hop'); say(w); };
+      const en = el('p', 'ok-en', esc(w.en)); en.lang = 'en';
+      const tr = el('p', 'ok-tr', esc(w.tr));
+      const row = el('div', 'og-voice');
+      const loud = button('soru-say big', '🔊', 'Dinle'); loud.onclick = () => { fx.bump(loud, 'show'); say(w); };
+      const slow = button('soru-say slow', '🐢', 'Yavaş dinle'); slow.onclick = () => { fx.bump(slow, 'show'); say(w, true); };
+      row.append(loud, slow);
+      kart.append(pic, en, tr, row);
+      next.innerHTML = at < n - 1 ? 'Sıradaki 👉' : esc(c.son || 'Oyuna Başla! 🚀');
+      next.focus({ preventScroll: true });
+      say(w);
+    }
+    next.onclick = () => {
+      if (!live.on) return;
+      playCue('tap', { gain: 0.6 });
+      if (at < n - 1) { at++; show(); } else end();
+    };
+    ingilizceSes.hazirla(words.map(w => w.en));
+    show();
+    return () => { live.on = false; ++flow; ingilizceSes.stop(); };
+  }
+
+  return { tur, kesif, balonTuru: (c) => turBalon(c), metinler, metinlerB, resimli, SOYUT, sahne };
 
   // Balon Patlat for Yanlış Avı: one game of balloons over the given words (with written meanings).
   function turBalon(c) {

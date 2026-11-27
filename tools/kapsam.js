@@ -15,6 +15,8 @@
 //      questions that ask it:  "- s. 13 · T.C. kimlik numarası 11 hanelidir. → birey:0, birey:4"
 //      Every id must exist. A point without a question, or an island without a checklist,
 //      is an error.
+//   3. (İngilizce Koyu) istasyonlar.js: a unit cut into stations has every one of its questions in exactly one station,
+//      and every word of a station's Keşif Kartı has its three parts.
 //   An island whose bank is still empty (its bay says "Yakında") is skipped until its first question.
 // It exits with 1 when something is wrong, so it can guard a commit or a deploy.
 'use strict';
@@ -59,6 +61,9 @@ function loadScenes(file) {
   vm.runInContext(code + '\n;globalThis.__scenes = ' + match[1] + ';', context, { filename: file });
   return context.__scenes;
 }
+
+// istasyonlar.js (İngilizce Koyu): the stations of a unit, or null
+const loadStations = file => loadScenes(file);
 
 const isText = value => typeof value === 'string' && value.trim().length > 0;
 const balanced = text => (text.match(/\*/g) || []).length % 2 === 0;
@@ -136,6 +141,26 @@ for (const name of islands) {
       }
     });
     if (!points) problem('kapsam.md içinde madde yok.');
+  }
+
+  // istasyonlar.js: every question of a unit cut into stations is in exactly one station
+  const stations = bank && loadStations(path.join(islandsDir, name, 'istasyonlar.js'));
+  if (stations) for (const [stopId, list] of Object.entries(stations)) {
+    const stop = bank.find(s => s.id === stopId);
+    if (!stop) { problem('istasyonlar.js: "' + stopId + '" diye bir durak yok.'); continue; }
+    const seen = new Map();
+    list.forEach((station, j) => {
+      if (!isText(station.ad) || !isText(station.simge) || !Array.isArray(station.kelimeler) || !station.kelimeler.length)
+        problem('istasyonlar.js: ' + stopId + ' ' + (j + 1) + '. istasyonun adı, simgesi ya da kelimeleri eksik.');
+      for (const w of station.kelimeler || []) if (!Array.isArray(w) || w.length !== 3 || !w.every(isText))
+        problem('istasyonlar.js: ' + stopId + ' ' + (j + 1) + '. istasyonda bir kelime [İngilizce, Türkçe, resim] değil.');
+      for (const n of station.sorular || []) {
+        if (!stop.sorular[n]) problem('istasyonlar.js: ' + stopId + ':' + n + ' diye bir soru yok.');
+        else if (seen.has(n)) problem('istasyonlar.js: ' + stopId + ':' + n + ' iki istasyonda birden (' + (seen.get(n) + 1) + ' ve ' + (j + 1) + ').');
+        seen.set(n, j);
+      }
+    });
+    stop.sorular.forEach((q, n) => { if (!seen.has(n)) problem('istasyonlar.js: ' + stopId + ':' + n + ' hiçbir istasyonda değil → ' + String(q.s).slice(0, 60)); });
   }
 
   // sira.js (İngilizce Koyu): the book page of every question (the first page that asks it), so the game cuts a unit into stations in

@@ -190,3 +190,21 @@
   .og-memory.small .og-mem { font-size: min(17cqw, 100px); }
   .og-bpic { font-size: clamp(30px, 10cqw, 60px); }
 }
+
+/* Keşif Kartı: a station's words before its first round */
+.og-kesif { display: grid; gap: 12px; justify-items: center; text-align: center; }
+.ok-top { display: flex; align-items: center; gap: 12px; width: 100%; padding-right: 44px; box-sizing: border-box; }
+.ok-bar { position: relative; flex: 1; display: flex; gap: 6px; padding-top: 30px; }
+.ok-bar i { flex: 1; height: 10px; border-radius: 6px; background: #dbe9ef; transition: background .3s; }
+.ok-bar i.done { background: #7fd18b; }
+.ok-bar i.now { background: #ffc94d; }
+.ok-me { position: absolute; top: 0; left: 0; translate: -50% 0; font-size: 26px; font-weight: 400; line-height: 1; transition: left .45s ease-out; }
+.ok-atla { flex: none; padding: 6px 12px; border-radius: 999px; border: 2px solid #cfe0e6; background: #fff; color: #35606a; font-weight: 800; font-size: 14px; cursor: pointer; }
+.ok-baslik { margin: 0; font-weight: 950; font-size: 18px; color: #173f40; }
+.ok-kart { display: grid; gap: 6px; justify-items: center; animation: og-in .35s ease-out; }
+.ok-resim { border: 0; background: none; padding: 0; cursor: pointer; font-size: clamp(120px, 34vw, 190px); line-height: 1; }
+.ok-resim.hop { animation: og-hop .6s ease-out; }
+.ok-en { margin: 6px 0 0; font-size: 34px; font-weight: 950; color: #1d5fa8; }
+.ok-tr { margin: 0 0 4px; font-size: 20px; font-weight: 800; color: #6a5a2a; }
+.ok-alt { display: flex; justify-content: center; width: 100%; padding-top: 4px; }
+.ok-next { min-width: 200px; font-size: 20px; }
