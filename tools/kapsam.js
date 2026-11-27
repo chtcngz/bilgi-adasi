@@ -154,8 +154,10 @@ for (const name of islands) {
     list.forEach((station, j) => {
       if (!isText(station.ad) || !isText(station.simge) || !Array.isArray(station.kelimeler) || !station.kelimeler.length)
         problem('istasyonlar.js: ' + stopId + ' ' + (j + 1) + '. istasyonun adı, simgesi ya da kelimeleri eksik.');
-      for (const w of station.kelimeler || []) if (!Array.isArray(w) || w.length !== 3 || !w.every(isText))
-        problem('istasyonlar.js: ' + stopId + ' ' + (j + 1) + '. istasyonda bir kelime [İngilizce, Türkçe, resim] değil.');
+      for (const w of station.kelimeler || []) if (!Array.isArray(w) || w.length < 3 || w.length > 4 || !w.every(isText))
+        problem('istasyonlar.js: ' + stopId + ' ' + (j + 1) + '. istasyonda bir kelime [İngilizce, Türkçe, resim, büyük resim?] değil.');
+        else if (w[3] && !fs.existsSync(path.join(__dirname, '..', 'app', 'assets', 'images', 'ingilizce', w[3] + '.webp')))
+          problem('istasyonlar.js: ' + stopId + ' ' + (j + 1) + '. istasyonda "' + w[0] + '" için büyük resim yok: ' + w[3] + '.webp');
       for (const n of station.sorular || []) {
         if (!stop.sorular[n]) problem('istasyonlar.js: ' + stopId + ':' + n + ' diye bir soru yok.');
         else if (seen.has(n)) problem('istasyonlar.js: ' + stopId + ':' + n + ' iki istasyonda birden (' + (seen.get(n) + 1) + ' ve ' + (j + 1) + ').');

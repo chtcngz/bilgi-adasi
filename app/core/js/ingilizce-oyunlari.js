@@ -1350,7 +1350,7 @@ const ingilizceOyunlari = (() => {
   }
 
   /* ---------- Keşif Kartı: a station's words before its first round ----------
-     kesif(c): c = { stage, kelimeler: [{ en, tr, emo }], maskot, baslik, son (the last button's label), bitti() }.
+     kesif(c): c = { stage, kelimeler: [{ en, tr, emo, foto? }], maskot, baslik, son (the last button's label), bitti() }.
      One word at a time: a big picture, the English word said (and the Turkish meaning in the device's Turkish voice, when it
      has one), 🔊 and 🐢; tapping the picture bounces it and says the word again. A bar of steps on top with the player's
      icon walking along, and Atla ⏭ to go straight on. Returns a stop function. */
@@ -1397,7 +1397,8 @@ const ingilizceOyunlari = (() => {
       requestAnimationFrame(() => { me.style.left = dot.offsetLeft + dot.offsetWidth / 2 + 'px'; });
       bar.setAttribute('aria-label', (at + 1) + ' / ' + n);
       kart.innerHTML = '';
-      const pic = button('ok-resim', resimKarti(w.emo), w.en + ', yeniden dinle');
+      // a word with a big picture of its own (foto, assets/images/ingilizce/<foto>.webp) shows that instead of its small card
+      const pic = button('ok-resim' + (w.foto ? ' foto' : ''), w.foto ? '<img src="assets/images/ingilizce/' + esc(w.foto) + '.webp?v=2" alt="" draggable="false">' : resimKarti(w.emo), w.en + ', yeniden dinle');
       pic.onclick = () => { pic.classList.remove('hop'); void pic.offsetWidth; pic.classList.add('hop'); say(w); };
       const en = el('p', 'ok-en', esc(w.en)); en.lang = 'en';
       const tr = el('p', 'ok-tr', esc(w.tr));

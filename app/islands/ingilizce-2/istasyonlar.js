@@ -1,6 +1,7 @@
 // İngilizce Adası, 2. sınıf: the stations of a unit (core/js/quiz.js). A unit listed here is cut into these stations
 // instead of four weeks. Each station: ad (its short name on the map), simge, baslik (its full name), kelimeler (the words
-// shown on its Keşif Kartı before the first round: [English, Türkçe, picture]) and sorular (the unit's question numbers:
+// shown on its Keşif Kartı before the first round: [English, Türkçe, picture, big picture?]; the big picture, a file of
+// assets/images/ingilizce, is shown on the Keşif Kartı instead of the small one) and sorular (the unit's question numbers:
 // okul:12 is 12). Every question of the unit belongs to exactly one station: node tools/kapsam.js checks it, so a
 // question added to the unit is also added here.
 const ingilizce2Istasyonlar = {
@@ -18,7 +19,7 @@ const ingilizce2Istasyonlar = {
       kelimeler: [['pupil', 'öğrenci', '[[y-pupil-2]]'], ['teacher', 'öğretmen', '[[y-teacher-2]]'], ['headmaster', 'erkek okul müdürü', '[[y-headmaster-3]]'], ['headmistress', 'kadın okul müdürü', '[[y-headmistress-3]]'], ['student', 'öğrenci', '[[y-pupil]]']],
       sorular: [17, 18, 19, 37, 39, 40, 42, 43, 44, 49, 83, 86, 87, 88, 89, 99, 100, 104, 110, 162, 163, 164, 165] },
     { ad: 'Günler', resim: 'assets/images/ingilizce/istasyon/takvim.webp?v=1', simge: '📅', baslik: 'Günler',
-      kelimeler: [['Monday', 'pazartesi', '[[y-today-monday]]'], ['Tuesday', 'salı', '[[y-today-tuesday]]'], ['Wednesday', 'çarşamba', '[[y-today-wednesday]]'], ['Thursday', 'perşembe', '[[y-today-thursday]]'], ['Friday', 'cuma', '[[y-today-friday]]'], ['Saturday', 'cumartesi', '[[y-today-saturday]]'], ['Sunday', 'pazar', '[[y-today-sunday]]']],
+      kelimeler: [['Monday', 'pazartesi', '[[y-today-monday]]', 'gun/monday'], ['Tuesday', 'salı', '[[y-today-tuesday]]', 'gun/tuesday'], ['Wednesday', 'çarşamba', '[[y-today-wednesday]]', 'gun/wednesday'], ['Thursday', 'perşembe', '[[y-today-thursday]]', 'gun/thursday'], ['Friday', 'cuma', '[[y-today-friday]]', 'gun/friday'], ['Saturday', 'cumartesi', '[[y-today-saturday]]', 'gun/saturday'], ['Sunday', 'pazar', '[[y-today-sunday]]', 'gun/sunday']],
       sorular: [20, 21, 22, 23, 24, 25, 26, 28, 29, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141] },
     { ad: 'Zaman', resim: 'assets/images/ingilizce/istasyon/zaman.webp?v=1', simge: '⏰', baslik: 'Zaman',
       kelimeler: [['day', 'gün', '[[y-day-2]]'], ['today', 'bugün', '[[y-today]]'], ['week', 'hafta', '[[y-week-3]]'], ['start', 'başlamak', '[[y-start-2]]'], ['finish', 'bitirmek', '[[y-finish-2]]'], ['wait', 'beklemek', '[[y-wait-4]]']],

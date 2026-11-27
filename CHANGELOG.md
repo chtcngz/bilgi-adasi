@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.90.0 · 27.11.2026
+
+- **Günler tanıtımı büyük resimlerle:** Günler istasyonunun başındaki sesli tanıtımda (Keşif Kartı) her gün artık küçük pano yerine haftalık takvimin büyük resmiyle tanıtılıyor: o günün sütunu sarı, TODAY panosunda günün adı yazılı.
+
 ## 0.89.9 · 27.11.2026
 
 - **Pazartesi resminde perşembe:** Pazartesi sorusunun haftalık takviminde eksik olan Thursday sütunu eklendi; takvimde artık yedi gün sırasıyla duruyor.

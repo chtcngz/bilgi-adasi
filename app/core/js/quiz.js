@@ -424,7 +424,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
     const mine = run = { kind: 'tanitim' };
     run.cancel = ingilizceOyunlari.kesif({
       stage: byKey('stage'), maskot: activeProfile?.icon, baslik: s.simge + ' ' + s.baslik,
-      kelimeler: s.kelimeler.map(([en, tr, emo]) => ({ en, tr, emo })), son: sonra ? 'Oyuna Başla! 🚀' : '✓ Tamam',
+      kelimeler: s.kelimeler.map(([en, tr, emo, foto]) => ({ en, tr, emo, foto })), son: sonra ? 'Oyuna Başla! 🚀' : '✓ Tamam',
       bitti: () => {
         if (run !== mine) return;
         (progress.tanitim ||= {})[key] = 1;
