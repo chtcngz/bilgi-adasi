@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.82.1 · 27.11.2026
+
+- **Keşif Kartı küçük ekranlara sığıyor:** Yatay tutulan telefonda ve küçük tablette kartın resmi çok büyük kalıyor, kelime ve “Sıradaki” düğmesi ekranın dışına taşıyordu. Resim artık ekranın yüksekliğine göre küçülüyor; yatay telefonda resim kelimenin yanında duruyor.
+
 ## 0.82.0 · 27.11.2026
 
 - **Okul Hayatı artık 9 istasyon:** 2. sınıf İngilizce'nin 1. adası 4 hafta yerine konulara göre 9 istasyona ayrıldı: 🏫 Okuldaki yerler 1, 🌳 Okuldaki yerler 2, 🧒 Çocuklar, 👩‍🏫 Okuldaki kişiler, 📅 Günler, ⏰ Zaman, 🎵 Şarkı ve hareket, ❓ Soru kelimeleri, 👋 Tanışma ve selamlaşma. Her istasyonda 4-7 kelime var. Daha önce hafta bitirmiş çocukların ilerlemesi aynı oranda istasyonlara çevrildi (2 hafta bitmişse 5 istasyon).

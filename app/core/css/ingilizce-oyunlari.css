@@ -202,9 +202,26 @@
 .ok-atla { flex: none; padding: 6px 12px; border-radius: 999px; border: 2px solid #cfe0e6; background: #fff; color: #35606a; font-weight: 800; font-size: 14px; cursor: pointer; }
 .ok-baslik { margin: 0; font-weight: 950; font-size: 18px; color: #173f40; }
 .ok-kart { display: grid; gap: 6px; justify-items: center; animation: og-in .35s ease-out; }
-.ok-resim { border: 0; background: none; padding: 0; cursor: pointer; font-size: clamp(120px, 34vw, 190px); line-height: 1; }
+.ok-resim { border: 0; background: none; padding: 0; cursor: pointer; font-size: clamp(56px, min(34vw, 18vh), 190px); font-size: clamp(56px, min(34vw, 18dvh), 190px); line-height: 1; }
 .ok-resim.hop { animation: og-hop .6s ease-out; }
 .ok-en { margin: 6px 0 0; font-size: 34px; font-weight: 950; color: #1d5fa8; }
 .ok-tr { margin: 0 0 4px; font-size: 20px; font-weight: 800; color: #6a5a2a; }
 .ok-alt { display: flex; justify-content: center; width: 100%; padding-top: 4px; }
 .ok-next { min-width: 200px; font-size: 20px; }
+/* a short screen (a phone on its side, a small tablet): everything smaller so the card and its buttons fit */
+@media (max-height: 640px) {
+  .og-kesif { gap: 6px; }
+  .ok-bar { padding-top: 24px; }
+  .ok-me { font-size: 20px; }
+  .ok-baslik { font-size: 15px; }
+  .ok-en { margin-top: 2px; font-size: 26px; }
+  .ok-tr { font-size: 16px; }
+  .og-kesif .og-voice .soru-say.big { width: 52px; height: 52px; font-size: 26px; }
+  .og-kesif .og-voice .soru-say.slow { width: 44px; height: 44px; font-size: 22px; }
+  .ok-next { min-width: 160px; font-size: 17px; padding-block: 8px; }
+}
+/* a phone on its side: the picture beside the word */
+@media (max-height: 480px) and (orientation: landscape) {
+  .ok-kart { grid-template-columns: auto auto; grid-template-rows: auto auto auto; column-gap: 20px; align-items: center; }
+  .ok-resim { grid-row: 1 / 4; font-size: clamp(48px, 27vh, 140px); font-size: clamp(48px, 27dvh, 140px); }
+}
