@@ -292,13 +292,14 @@ const ingilizceOyunlari = (() => {
     // Cut the station's questions into games. A question with a picture of its own (g) is found in that picture.
     const sahneler = c.ayar?.sahneler || {};
     const hidden = c.items.filter(i => i.q?.g && sahneler[i.q.g]?.yerler.some(y => y.en === i.en));
-    const pictured = c.items.filter(i => !hidden.includes(i) && resimli(i));
+    // a question with a drawn dialogue of its own (r) is always a Bilgi Kartı, asked under that picture
+    const pictured = c.items.filter(i => !hidden.includes(i) && !i.q?.r && resimli(i));
     const foods = pictured.filter(i => (c.ayar.sepet || []).includes(i.en));
     const colours = pictured.filter(i => renk(i));
     const words = pictured.filter(i => !foods.includes(i) && !colours.includes(i));
     const sentence = i => !resimli(i) && i.en.split(' ').length >= 3 && i.en.split(' ').length <= 7 && /^[A-Za-z’',.!? -]+$/.test(i.en) &&
       (i.word || i.q.a.some(a => a.replace(/[^a-z]/gi, '').toLowerCase() === i.en.replace(/[^a-z]/gi, '').toLowerCase()));
-    const trains = c.items.filter(i => !hidden.includes(i) && !pictured.includes(i) && sentence(i));
+    const trains = c.items.filter(i => !hidden.includes(i) && !pictured.includes(i) && !i.q?.r && sentence(i));
     const cards = c.items.filter(i => !hidden.includes(i) && !pictured.includes(i) && !trains.includes(i));
     const plan = [];
     const kinds = shuffled(['dinle', 'balon', 'hafiza']);
@@ -1312,6 +1313,7 @@ const ingilizceOyunlari = (() => {
          (it would give the answer);
        a word to listen to ("Dinle ve doğru anlamı seç: “desk”"): the word on a big card; "🔊 Dinle …": a big 🎧;
        a word to say ("🏛️📚 Resme bak: …"): the picture, big, in the middle.
+       a question with a drawn dialogue of its own (r): that picture, wide, over the question;
      resimBul(text) gives the picture of the island's word named in a text ("Is it a classroom?" → 🟩🪑). */
   const isEnglish = t => !/[çğıöşüÇĞİÖŞÜ]/.test(t) && /[a-z]/i.test(t);
   const sign = /❓|👎|✖️|✔️/gu;
@@ -1320,6 +1322,12 @@ const ingilizceOyunlari = (() => {
   function sahne(q, rich, resimBul = () => '') {
     const s = q.s, kpic = (q.k?.[2] || '').replace(sign, '').trim();
     let m;
+    // a drawn dialogue of its own (r): the picture already holds the question's speech bubble, so the stem keeps only the instruction
+    if (q.r) {
+      m = s.match(/^(Evet diyerek cevap ver|Hayır diyerek cevap ver|Soruya doğru cevabı ver): “[^”]+”$/);
+      return { gorsel: '<div class="sahne-foto"><img src="assets/images/ingilizce/' + esc(q.r) + '.webp?v=1" alt="" draggable="false"></div>',
+        metin: m ? esc(m[1]) + '.' : rich(s) };
+    }
     if ((m = s.match(/^(Evet diyerek cevap ver|Hayır diyerek cevap ver|Soruya doğru cevabı ver): “([^”]+)”$/)) && q.a.every(isEnglish)) {
       const d = q.k && ingilizceSes.diyalog(q.k[0]);
       const resim = (d && kpic) || resimBul(m[2]) || kpic;

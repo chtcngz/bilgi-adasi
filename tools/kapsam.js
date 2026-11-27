@@ -96,7 +96,9 @@ for (const name of islands) {
         const id = stop.id + ':' + n;
         ids.set(id, q);
         const at = id + ' (' + String(q.s || '').slice(0, 40) + '…)';
-        for (const key of Object.keys(q)) if (!['s', 'm', 'a', 'b', 'y', 'k', 'd', 'g'].includes(key)) problem(at + ': bilinmeyen alan "' + key + '".');
+        for (const key of Object.keys(q)) if (!['s', 'm', 'a', 'b', 'y', 'k', 'd', 'g', 'r'].includes(key)) problem(at + ': bilinmeyen alan "' + key + '".');
+        // r: the question is asked with a picture of its own, app/assets/images/ingilizce/<r>.webp (a dialogue drawn with its speech bubbles)
+        if (q.r !== undefined && !(typeof q.r === 'string' && /^[a-z0-9/-]+$/.test(q.r) && fs.existsSync(path.join(__dirname, '..', 'app', 'assets', 'images', 'ingilizce', q.r + '.webp')))) problem(at + ': r, assets/images/ingilizce/ altında bir .webp resmi olmalı.');
         // g: a 🔍 Gizli Kelimeler question, played on a picture of sahneler.js that has a place for its word
         if (q.g !== undefined && !(q.k && scenes?.[q.g]?.yerler.some(y => y.en === q.k[0]))) problem(at + ': g, sahneler.js’te k[0] için yeri olan bir resim olmalı.');
         // English islands: k = [English, Turkish, emoji?] is what 🔊 says and Yanlış Avı matches; d: 1 asks it by ear only

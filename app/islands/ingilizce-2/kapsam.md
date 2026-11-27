@@ -52,7 +52,7 @@ ilgili durağın sonuna eklenir. Ünitelere ait olmayan baş sayfaların ve sond
 - s. 14 · sports hall = spor salonu → okul:7, okul:106, okul:152
 - s. 14 · playground = oyun alanı → okul:8, okul:103, okul:153
 - s. 14 · lunch hall = yemekhane → okul:9, okul:102, okul:154
-- s. 14 · Çınar is in the garden: Çınar bahçede. → okul:10
+- s. 14 · Çınar is in the garden: Çınar bahçede. → okul:10, okul:179
 - s. 15 · Is it a classroom? No, it isn’t. (Oyun: Burası sınıf mı? Hayır, değil.) → okul:11
 - s. 15 · Is it a library? Yes, it is. (Evet, öyle.) → okul:12
 - s. 15 · boy = erkek çocuk → okul:13, okul:93, okul:156
@@ -80,7 +80,7 @@ ilgili durağın sonuna eklenir. Ünitelere ait olmayan baş sayfaların ve sond
 - s. 20 · Excuse me! Who is this boy? He is Jack. → okul:35
 - s. 20 · Where is Mrs Yalçın? She is in the teacher’s room. → okul:36
 - s. 21 · student = öğrenci → okul:37
-- s. 21 · Is this a library? Yes, it is. / He is in the sports hall. → okul:38
+- s. 21 · Is this a library? Yes, it is. / He is in the sports hall. → okul:38, okul:177, okul:178
 - s. 22 · Jungle School: Mr Elfy öğretmen, sınıfta. → okul:39
 - s. 22 · Jungle School: Ruby bir öğrenci (pupil). → okul:40
 - s. 22 · Jungle School: Bobby, Ruby’nin arkadaşı, bahçede. → okul:41

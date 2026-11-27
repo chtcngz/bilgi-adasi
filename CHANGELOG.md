@@ -7,6 +7,15 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.89.0 · 27.11.2026
+
+İngilizce Koyu, Okul Hayatı:
+
+- **Diyalog resimleri:** Bazı sorular artık konuşma balonlu büyük bir resimle soruluyor: elmaları yiyen karınca ordusu, ekmek pişiren ayı, “Where is Çınar?” diye soran çocuklar, “Mr Elfy is our teacher.” ve “Mrs Tosby is the headmistress.” Bu sorular hep Bilgi Kartı olarak geliyor; resim sorunun üstünde duruyor.
+- **Burası kütüphane mi?** İki yeni soru: çocuk “Is this a library?” diye soruyor, öteki çocuğun cevap balonu boş. Kütüphanede doğru cevap “Yes, it is.”, kantinde “No, it isn’t.”; çocuk cevabı resme bakarak buluyor.
+- **Yeni soru:** “Where is Çınar?” Resimde Çınar bahçede; doğru cevap “He is in the garden.”
+- **Eksik sesler kaydedildi:** Son eklenen soruların ve oyunların 184 İngilizce cümlesi artık cihazın sesiyle değil, öteki cümleler gibi doğal sesle okunuyor.
+
 ## 0.88.0 · 27.11.2026
 
 - **Sapanın topu duvardan seker:** Balon Patlat'ta top gökyüzünün kenarlarına çarpınca geri sekiyor (en çok üç kez); noktalı nişan çizgisi de seken yolu gösteriyor.

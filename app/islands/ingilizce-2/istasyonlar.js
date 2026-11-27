@@ -7,10 +7,10 @@ const ingilizce2Istasyonlar = {
   okul: [
     { ad: 'Yerler 1', resim: 'assets/images/ingilizce/istasyon/okul.webp?v=1', simge: '🏫', baslik: 'Okuldaki yerler 1',
       kelimeler: [['teacher’s room', 'öğretmenler odası', '[[y-teachers-room-2]]'], ['library', 'kütüphane', '[[y-library-4]]'], ['school', 'okul', '[[y-school-2]]'], ['canteen', 'kantin', '[[y-canteen-2]]'], ['classroom', 'sınıf', '[[y-classroom-2]]']],
-      sorular: [0, 1, 2, 3, 4, 5, 11, 12, 38, 52, 85, 90, 91, 96, 101, 146, 147, 148, 149, 150] },
+      sorular: [0, 1, 2, 3, 4, 5, 11, 12, 38, 52, 85, 90, 91, 96, 101, 146, 147, 148, 149, 150, 177, 178] },
     { ad: 'Yerler 2', resim: 'assets/images/ingilizce/istasyon/yerler.webp?v=1', simge: '🌳', baslik: 'Okuldaki yerler 2',
       kelimeler: [['garden', 'bahçe', '[[y-garden-3]]'], ['sports hall', 'spor salonu', '[[y-sports-hall-2]]'], ['playground', 'oyun alanı', '[[y-playground-2]]'], ['lunch hall', 'yemekhane', '[[y-lunch-hall-3]]'], ['place', 'yer', '[[y-place-2]]'], ['hall', 'salon', '[[hall]]']],
-      sorular: [6, 7, 8, 9, 10, 14, 72, 92, 102, 103, 106, 107, 108, 109, 151, 152, 153, 154, 155] },
+      sorular: [6, 7, 8, 9, 10, 14, 72, 92, 102, 103, 106, 107, 108, 109, 151, 152, 153, 154, 155, 179] },
     { ad: 'Çocuklar', resim: 'assets/images/ingilizce/istasyon/cocuklar.webp?v=1', simge: '🧒', baslik: 'Çocuklar',
       kelimeler: [['boy', 'erkek çocuk', '[[y-boy-2]]'], ['girl', 'kız çocuk', '[[y-girl-4]]'], ['kid', 'çocuk', '[[y-kid-2]]'], ['friend', 'arkadaş', '[[y-friend-2]]'], ['people', 'insanlar', '[[y-people-2]]'], ['big', 'büyük', '[[y-big-2]]']],
       sorular: [13, 15, 16, 41, 47, 56, 62, 63, 68, 71, 93, 94, 95, 97, 98, 105, 156, 157, 158, 159, 160, 161] },

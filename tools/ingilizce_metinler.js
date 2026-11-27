@@ -19,7 +19,9 @@ vm.runInContext(fs.readFileSync(path.join(root, 'app/core/js/ingilizce-oyunlari.
 for (const name of fs.readdirSync(islands).filter(n => n.startsWith('ingilizce-'))) {
   const bank = fs.readFileSync(path.join(islands, name, 'sorular.js'), 'utf8');
   const sahneler = path.join(islands, name, 'sahneler.js');
-  const game = (fs.existsSync(sahneler) ? fs.readFileSync(sahneler, 'utf8') + ';\n' : '') + fs.readFileSync(path.join(islands, name, 'game.js'), 'utf8');
+  const istasyonlar = path.join(islands, name, 'istasyonlar.js');
+  const game = [sahneler, istasyonlar].filter(f => fs.existsSync(f)).map(f => fs.readFileSync(f, 'utf8') + ';\n').join('') +
+    fs.readFileSync(path.join(islands, name, 'game.js'), 'utf8');
   const c = { settings: null };
   vm.createContext(c);
   vm.runInContext(bank + ';globalThis.__bank = ' + bank.match(/^const\s+(\w+)\s*=\s*\[/m)[1] + ';' +

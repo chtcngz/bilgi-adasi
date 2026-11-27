@@ -154,6 +154,8 @@
 .sahne-balon::after { content: ''; position: absolute; left: 50%; bottom: -8px; width: 12px; height: 12px; translate: -50% 0; rotate: 45deg; background: #fff; border-right: 2px solid #b9d6ea; border-bottom: 2px solid #b9d6ea; }
 .sahne-balon.cevap { border-color: #ffd43b; background: #fff9db; color: #8a5a00; letter-spacing: .5px; }
 .sahne-balon.cevap::after { background: #fff9db; border-color: #ffd43b; }
+.sahne-foto { margin: 0 auto 12px; text-align: center; }
+.sahne-foto img { display: block; margin: 0 auto; max-width: 100%; max-height: min(46vh, 420px); border-radius: 20px; box-shadow: 0 4px 14px rgba(0, 0, 0, .14); user-select: none; -webkit-user-select: none; }
 .sahne-resim { display: grid; place-items: center; align-self: center; margin: 0 auto 12px; font-size: clamp(66px, 22vw, 104px); line-height: 1; }
 .sahne .sahne-resim { margin: 0; font-size: clamp(52px, 17vw, 82px); }
 .sahne-resim.dinle { width: 1.6em; height: 1.6em; border-radius: 50%; background: #e7f5ff; box-shadow: inset 0 0 0 4px #b9d6ea; font-size: clamp(44px, 13vw, 58px); }
