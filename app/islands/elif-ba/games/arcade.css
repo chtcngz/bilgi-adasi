@@ -1,0 +1,247 @@
+/* The other games of a game step (games/arcade.js and the games it holds) and the picker that offers them.
+   The top bar, hearts, turtle, cards and effects are the .rain-* ones of listening.css. */
+#elif-arcade {
+  width: min(780px, 100vw); height: 100vh; height: min(940px, 100dvh); max-width: 100vw; max-height: 100vh; max-height: 100dvh;
+  margin: auto; padding: 0; border-radius: 28px; overflow: hidden; background: #8bd2f1; color: #173f40;
+}
+#elif-arcade::backdrop { background: #0f3a48d9; }
+@media (max-width: 650px), (max-height: 600px) {
+  #elif-arcade { width: 100vw; height: 100vh; height: 100dvh; margin: 0; border-radius: 0; }
+}
+.arc-stage { position: absolute; inset: 0; z-index: 1; overflow: hidden; }
+.arc-scene .rain-hud { background: linear-gradient(#ffffffd9, #ffffff8c 70%, #fff0); padding-bottom: 8px; }
+.arc-scene .rain-slots { display: grid; grid-template-columns: repeat(var(--cols, 8), auto); place-items: center; gap: 3px 4px; }
+.arc-scene .rain-slots li.now { background: #fffaf0; border: 4px solid #ffb12b; margin: -1px; }
+.arc-scene .rain-slots li.now::before, .arc-scene .rain-slots li.now::after { content: none; }
+.arc-scene .rain-prompt { top: calc(var(--ceil, 100px) + 10px); }
+.arc-scene .rain-turtle.arc-turtle { position: absolute; z-index: 5; left: 6px; bottom: 6px; width: 104px; transform: none; }
+.arc-scene .arc-turtle .rain-bubble { left: 64%; bottom: 72%; transform-origin: 10% 115%; }
+.arc-scene .arc-turtle .rain-bubble::after { left: 18%; right: auto; }
+.arc-scene b[lang="ar"] { font-family: "Traditional Arabic", "Times New Roman", serif; font-weight: normal; }
+.arc-intro-art { display: flex; justify-content: center; align-items: flex-end; gap: 12px; min-height: 96px; margin: 4px 0 6px; }
+.arc-intro-art > * { animation: rain-hover 2.6s ease-in-out infinite; }
+.arc-intro-art > :nth-child(2) { animation-delay: -.9s; }
+.arc-intro-art > :nth-child(3) { animation-delay: -1.7s; }
+
+/* ---------- 🦀 Yengeç Avı: crabs come up out of holes in the sand ---------- */
+.yg-sea { position: absolute; left: 0; right: 0; top: 0; height: calc(var(--ceil, 100px) + 36px); background: linear-gradient(#7fd2ea, #57bfdc); }
+.yg-sea::after {
+  content: ''; position: absolute; left: 0; width: calc(100% + 300px); bottom: -12px; height: 24px;
+  background: radial-gradient(circle at 12px -4px, #57bfdc 14px, #fff 15px 18px, transparent 19px) 0 0 / 24px 24px repeat-x;
+  animation: rain-swell 6s linear infinite;
+}
+.yg-sand { position: absolute; left: 0; right: 0; top: calc(var(--ceil, 100px) + 36px); bottom: 0; background: radial-gradient(circle at 20% 30%, #fbe7b4, #f3d48e 60%, #e9c178); }
+.yg-holes {
+  position: absolute; left: 12px; right: 12px; top: calc(var(--ceil, 100px) + 60px); bottom: 118px;
+  display: grid; grid-template-columns: repeat(var(--cols, 2), 1fr); grid-auto-rows: 1fr; gap: 8px;
+}
+.yg-hole { position: relative; }
+.yg-pit {
+  position: absolute; left: 50%; bottom: 8px; width: calc(var(--crab, 110px) * .96); height: calc(var(--crab, 110px) * .3); transform: translateX(-50%);
+  border-radius: 50%; background: radial-gradient(ellipse at 50% 35%, #6b4a22, #8b6532 60%, #c99c5a 78%, #e9c178 100%);
+}
+.yg-mask {
+  position: absolute; left: 50%; bottom: calc(8px + var(--crab, 110px) * .15); width: calc(var(--crab, 110px) * 1.2); height: calc(var(--crab, 110px) * 1.25);
+  transform: translateX(-50%); overflow: hidden; pointer-events: none;
+}
+.yg-rim {
+  position: absolute; left: 50%; bottom: 8px; width: calc(var(--crab, 110px) * .96); height: calc(var(--crab, 110px) * .15); transform: translateX(-50%);
+  border-radius: 0 0 50% 50% / 0 0 100% 100%; background: #e9c178; box-shadow: inset 0 3px 0 #c99c5a; pointer-events: none;
+}
+.yg-crab {
+  position: absolute; left: 50%; bottom: 0; width: var(--crab, 110px); height: calc(var(--crab, 110px) * 1.16); margin: 0 0 0 calc(var(--crab, 110px) * -.5);
+  padding: 0; border: 0; background: none; transform: translateY(105%); transition: transform .22s ease-in; pointer-events: none;
+  touch-action: none; -webkit-tap-highlight-color: transparent;
+}
+.yg-crab.up { transform: none; transition: transform .3s cubic-bezier(.2, 1.4, .4, 1); pointer-events: auto; cursor: pointer; }
+.yg-body { position: absolute; left: 0; bottom: 0; width: 100%; height: auto; overflow: visible; }
+.yg-sign, .yg-sample .yg-sign {
+  position: absolute; z-index: 1; left: 50%; top: 0; display: grid; place-items: center; width: 64%; aspect-ratio: 1; transform: translateX(-50%);
+  border-radius: 50%; border: 3px solid var(--deep, #e8c88a); background: radial-gradient(circle at 40% 32%, #fff, var(--light, #fffbea) 60%, var(--mid, #fff0b5));
+  box-shadow: 0 4px 0 #b8361f55;
+}
+.yg-sign b { font-size: calc(var(--crab, 110px) * .34); line-height: 1.4; color: var(--ink, #74501a); }
+.yg-crab.up .yg-arm { animation: yg-wave .8s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 50% 100%; }
+.yg-crab.up .yg-arm.r { animation-delay: -.4s; }
+@keyframes yg-wave { from { transform: rotate(-6deg); } to { transform: rotate(6deg); } }
+.yg-crab.caught { transform: translateY(-28%) scale(1.06); transition: transform .25s cubic-bezier(.2, 1.4, .4, 1); }
+.yg-crab.caught .yg-sign { border-color: #2fb56f; box-shadow: 0 0 0 5px #2fb56f66; }
+.yg-crab.pinch .yg-arm { animation: yg-pinch .18s ease-in-out 4 alternate; }
+@keyframes yg-pinch { to { transform: rotate(14deg) scale(1.1); } }
+.yg-crab.wrong .yg-sign { filter: grayscale(.8); border-color: #c0392b; }
+.yg-tag:empty { display: none; }
+.yg-tag {
+  position: absolute; z-index: 2; left: 50%; top: 62%; transform: translateX(-50%); padding: 2px 10px; border-radius: 12px;
+  background: #fff; color: #b03a46; font: normal 900 14px/1.35 Nunito, "Trebuchet MS", sans-serif; white-space: nowrap; box-shadow: 0 3px 8px #0003;
+}
+.yg-bucket { position: absolute; right: 14px; bottom: 14px; width: 86px; }
+.yg-bucket svg { display: block; width: 100%; height: auto; }
+.yg-sample { position: relative; display: block; width: 84px; height: 98px; --crab: 84px; }
+.yg-sample svg { position: absolute; left: 0; bottom: 0; width: 100%; height: auto; }
+
+/* ---------- 🐚 Kabuk Hafızası: shells on the sand, opened two at a time ---------- */
+.kb-beach { position: absolute; inset: 0; background: linear-gradient(#7fd2ea 0, #a8e2ee calc(var(--ceil, 100px) + 10px), #fbe7b4 calc(var(--ceil, 100px) + 46px), #f0cf88); }
+.kb-board {
+  position: absolute; left: 12px; right: 12px; top: calc(var(--ceil, 100px) + 54px); bottom: 116px; display: grid;
+  grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); align-content: center; gap: clamp(8px, 2vw, 16px); margin: 0 auto; max-width: 620px;
+}
+.kb-shell {
+  position: relative; display: block; aspect-ratio: 1 / .92; padding: 0; border: 0; background: none; perspective: 600px; cursor: pointer;
+  animation: kb-deal .45s calc(var(--n, 0) * 60ms) cubic-bezier(.2, 1.4, .4, 1) both;
+}
+@keyframes kb-deal { from { opacity: 0; transform: translateY(30px) scale(.6); } }
+.kb-shell > span { position: absolute; inset: 0; display: grid; place-items: center; backface-visibility: hidden; transition: transform .45s; }
+.kb-back svg { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 4px 0 #c99c5a); }
+.kb-lid { fill: var(--mid, #ffd6c9); stroke: var(--deep, #f0a48a); stroke-width: 3; }
+.kb-ribs { stroke: var(--deep, #f0a48a); opacity: .8; }
+.kb-hinge { fill: var(--deep, #f0a48a); }
+.kb-face {
+  transform: rotateY(180deg); border-radius: 50% 50% 42% 42%; border: 3px solid #fff; background: radial-gradient(circle at 40% 35%, #fff, var(--light, #f4fcff) 55%, var(--mid, #c6ebfc));
+  box-shadow: 0 4px 0 #c99c5a, inset 0 -6px 10px #0000000f;
+}
+.kb-face b { font-size: clamp(36px, 11vw, 58px); line-height: 1.5; color: var(--ink, #134f76); }
+.kb-sound svg { width: clamp(30px, 8vw, 46px); height: auto; color: var(--ink, #134f76); }
+.kb-shell.open .kb-back { transform: rotateY(180deg); }
+.kb-shell.open .kb-face { transform: none; }
+.kb-shell.pearl .kb-face {
+  background: radial-gradient(circle at 35% 30%, #fff, #f5efff 55%, #ddd0f7); border-color: #fff; box-shadow: 0 0 18px #c9b7ff, 0 4px 0 #c99c5a;
+  animation: kb-pearl .6s cubic-bezier(.2, 1.6, .4, 1);
+}
+.kb-shell.pearl .kb-face b, .kb-shell.pearl .kb-sound svg { color: #5b47a8; }
+@keyframes kb-pearl { 40% { transform: scale(1.12); } }
+.kb-sample { width: 76px; animation: none; }
+.kb-sample.open .kb-face { transform: none; }
+
+/* ---------- 🎣 Balık Tutma: a boat on the sea, fish swimming under it ---------- */
+.ol-sky { position: absolute; left: 0; right: 0; top: 0; height: var(--surface, 240px); background: linear-gradient(#8fd4f2, #cfeefa 80%, #e8f8fd); }
+.ol-water {
+  position: absolute; left: 0; right: 0; top: var(--surface, 240px); bottom: 0; overflow: hidden;
+  background: linear-gradient(#4fc0d6, #2c97bd 45%, #1d6f9a);
+}
+.ol-water::before {
+  content: ''; position: absolute; left: 0; top: -10px; width: calc(100% + 60px); height: 20px; animation: rain-swell 5s linear infinite;
+  background: radial-gradient(circle at 15px 0, #e8f8fd 15px, transparent 16px) 0 0 / 30px 20px repeat-x;
+}
+.ol-ray { position: absolute; top: 0; width: 70px; height: 70%; background: linear-gradient(#ffffff40, transparent); transform: skewX(-14deg); animation: ol-ray 6s ease-in-out infinite alternate; }
+.ol-ray.one { left: 18%; }
+.ol-ray.two { left: 62%; width: 46px; animation-delay: -3s; }
+@keyframes ol-ray { to { opacity: .35; transform: skewX(-8deg); } }
+.ol-bed { position: absolute; left: 0; right: 0; bottom: 0; height: 64px; background: radial-gradient(ellipse at 50% 120%, #f3d48e 60%, #e0b76a 80%, transparent 81%) 0 0 / 100% 100%; }
+.ol-weed { position: absolute; bottom: 20px; width: 14px; height: 70px; border-radius: 8px 8px 0 0; background: #3aa86a; transform-origin: 50% 100%; animation: ol-sway 3s ease-in-out infinite alternate; }
+.ol-weed.one { left: 22%; }
+.ol-weed.two { left: 25%; height: 50px; background: #2f9158; animation-delay: -1s; }
+.ol-weed.three { right: 18%; height: 84px; animation-delay: -2s; }
+@keyframes ol-sway { from { transform: rotate(-8deg); } to { transform: rotate(8deg); } }
+.ol-boat { position: absolute; z-index: 2; left: 0; top: calc(var(--surface, 240px) - 40px); width: 150px; }
+.ol-boat svg { display: block; width: 100%; height: auto; }
+.arc-scene[data-game="olta"] .arc-turtle { left: 22px; top: calc(var(--surface, 240px) - 106px); bottom: auto; width: 100px; }
+.ol-rod, .ol-line { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.ol-rod { z-index: 6; }
+.ol-rod path { fill: none; stroke: #7a3f17; stroke-width: 5; stroke-linecap: round; }
+.ol-line { z-index: 4; opacity: 0; }
+.ol-line.on { opacity: 1; }
+.ol-line line { stroke: #fff; stroke-width: 2; }
+.ol-hook { fill: none; stroke: #5b6770; stroke-width: 3; stroke-linecap: round; }
+.ol-fishes { position: absolute; inset: 0; z-index: 3; }
+.ol-fish {
+  position: absolute; left: 0; top: 0; width: var(--fish, 110px); height: calc(var(--fish, 110px) * .6); padding: 0; border: 0; background: none;
+  cursor: pointer; touch-action: none; -webkit-tap-highlight-color: transparent; will-change: transform;
+}
+.ol-flip { position: absolute; inset: 0; display: block; }
+.ol-fish.right .ol-flip { transform: scaleX(-1); }
+.ol-flip svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.ol-skin { fill: var(--mid, #ffd6c9); stroke: var(--deep, #f0a48a); stroke-width: 3; }
+.ol-tail, .ol-fin { fill: var(--deep, #f0a48a); }
+.ol-fish:not(.hooked) .ol-tail { transform-box: fill-box; transform-origin: 0 50%; animation: ol-tail .5s ease-in-out infinite alternate; }
+@keyframes ol-tail { to { transform: scaleY(.7); } }
+.ol-sign {
+  position: absolute; left: 50%; top: 50%; display: grid; place-items: center; width: 56%; aspect-ratio: 1; transform: translate(-50%, -50%);
+  border-radius: 50%; background: radial-gradient(circle at 40% 32%, #fff, var(--light, #f4fcff)); border: 2px solid #fff; box-shadow: 0 2px 6px #0003;
+}
+.ol-fish.right .ol-sign { left: 46%; }
+.ol-fish:not(.right) .ol-sign { left: 46%; }
+.ol-sign b { font-size: calc(var(--fish, 110px) * .3); line-height: 1.45; color: var(--ink, #134f76); }
+.ol-fish.hooked .ol-sign { box-shadow: 0 0 0 4px #ffd35c; }
+.ol-fish.flee { opacity: .75; }
+.ol-fish.flee .ol-sign { filter: grayscale(.8); }
+.ol-fish .rain-tag:empty { display: none; }
+.ol-fish .rain-tag { top: 100%; }
+.ol-sample { position: relative; display: block; width: 104px; height: 64px; --fish: 104px; }
+
+/* ---------- 🧺 Sepete Topla: a mussel on the sand, carried into a basket ---------- */
+.sp-beach { position: absolute; inset: 0; background: linear-gradient(#7fd2ea 0, #a8e2ee calc(var(--ceil, 100px) + 10px), #fbe7b4 calc(var(--ceil, 100px) + 50px), #f0cf88); }
+.arc-scene[data-game="sepet"] .arc-turtle { top: calc(var(--ceil, 100px) + 56px); bottom: auto; width: 92px; }
+.sp-shelf { position: absolute; left: 0; right: 0; top: calc(var(--ceil, 100px) + 50px); bottom: 200px; display: grid; place-items: center; z-index: 6; pointer-events: none; }
+.sp-shelf > * { pointer-events: auto; }
+.sp-mussel {
+  position: relative; width: clamp(150px, 46vw, 210px); aspect-ratio: 1.2; padding: 0; border: 0; background: none; cursor: grab; touch-action: none;
+  -webkit-tap-highlight-color: transparent; animation: sp-in .45s cubic-bezier(.2, 1.5, .4, 1) both;
+}
+@keyframes sp-in { from { opacity: 0; transform: translateY(40px) scale(.4); } }
+.sp-mussel svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 6px 0 #c99c5a); }
+.sp-shell { fill: #3c5a8a; stroke: #24395e; stroke-width: 3; }
+.sp-inside { fill: #f4f1ff; }
+.sp-pearl { position: absolute; inset: 14% 16% 12%; display: grid; place-items: center; }
+.sp-pearl b { font-size: clamp(58px, 16vw, 84px); line-height: 1.4; color: #263f6e; }
+.sp-sound svg { position: static; width: 54px; height: 54px; color: #263f6e; filter: none; }
+.sp-mussel.dragging { z-index: 20; cursor: grabbing; scale: .8; transition: scale .15s; }
+.sp-mussel.returning { transition: translate .3s cubic-bezier(.2, 1.3, .4, 1); }
+.sp-mussel.going { transition: translate .32s ease-in, scale .32s ease-in; scale: .25; opacity: .9; }
+.sp-baskets {
+  position: absolute; z-index: 4; left: 10px; right: 10px; bottom: 12px; display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 170px));
+  justify-content: center; gap: 10px;
+}
+.sp-basket { position: relative; display: block; aspect-ratio: 1.15; padding: 0; border: 0; background: none; cursor: pointer; transition: transform .15s; }
+.sp-basket svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.sp-handle { stroke: #9a6a3c; }
+.sp-body { fill: #d9a15c; stroke: #8a5a2b; stroke-width: 3; stroke-linejoin: round; }
+.sp-weave { stroke: #b07a3c; }
+.sp-rim { fill: #c8874a; stroke: #8a5a2b; stroke-width: 3; }
+.sp-label {
+  position: absolute; left: 11%; right: 11%; top: 38%; bottom: 8%; display: grid; place-items: center; border-radius: 14px;
+  border: 3px solid var(--deep, #f3d16c); background: var(--light, #fffbea); box-shadow: 0 3px 0 #8a5a2b66;
+}
+.sp-label b { font-size: clamp(34px, 9vw, 52px); line-height: 1.3; color: var(--ink, #74501a); }
+.sp-mark.small { font-size: clamp(24px, 6.4vw, 36px) !important; letter-spacing: -.06em; white-space: nowrap; }
+.sp-basket.over, .sp-basket:active { transform: scale(1.07); }
+.sp-basket.over .sp-label, .sp-basket.got .sp-label { border-color: #2fb56f; box-shadow: 0 0 0 4px #2fb56f55; }
+.sp-basket.hint .sp-label { border-color: #2fb56f; animation: sp-hint .5s ease-in-out 3 alternate; }
+@keyframes sp-hint { to { box-shadow: 0 0 0 8px #2fb56f88; } }
+.sp-sample { width: 90px; }
+
+/* ---------- The picker of a game step ---------- */
+#elif-pick { width: min(560px, 96vw); max-height: 94vh; padding: 0; border: 0; border-radius: 28px; background: #fffdf6; color: #173f40; overflow: auto; }
+#elif-pick::backdrop { background: #0f3a48b3; }
+.pick-card { position: relative; padding: 18px 16px 18px; text-align: center; }
+.pick-close { position: absolute; right: 12px; top: 12px; }
+.pick-tell { position: absolute; left: 12px; top: 12px; }
+#elif-pick h2 { margin: 6px 56px 2px; font-size: clamp(24px, 6vw, 32px); letter-spacing: -.03em; }
+#elif-pick h2 small { display: block; font-size: 14px; letter-spacing: .02em; color: #5a6f6a; }
+#elif-pick p { margin: 4px auto 12px; max-width: 34ch; font-weight: 700; color: #3f5f58; }
+.pick-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.pick-game {
+  display: grid; justify-items: center; gap: 2px; padding: 12px 8px 10px; border-radius: 22px; border: 3px solid var(--rim); background: var(--tint); color: var(--ink);
+  box-shadow: 0 5px 0 var(--rim); font: inherit; cursor: pointer; transition: transform .1s;
+}
+.pick-game:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--rim); }
+.pick-game.own { grid-column: 1 / -1; }
+.pick-icon { font-size: clamp(48px, 14vw, 64px); line-height: 1.1; }
+.pick-game strong { font-size: 18px; }
+.pick-stars { color: #e0981b; font-size: 16px; letter-spacing: 2px; }
+@media (min-width: 620px) { .pick-list { grid-template-columns: repeat(3, 1fr); } .pick-game.own { grid-column: span 1; } }
+
+/* ---------- Small and short screens ---------- */
+@media (max-height: 700px) {
+  .yg-holes, .kb-board { bottom: 96px; }
+  .arc-scene .rain-turtle.arc-turtle { width: 86px; }
+  .sp-shelf { bottom: 170px; }
+}
+@media (max-height: 520px) {
+  .yg-holes { top: calc(var(--ceil, 60px) + 30px); bottom: 12px; left: 100px; }
+  .kb-board { top: calc(var(--ceil, 60px) + 30px); bottom: 10px; left: 100px; --cols: 6 !important; }
+  .sp-shelf { top: var(--ceil, 60px); bottom: 110px; }
+  .sp-baskets { left: 100px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .arc-scene *, .arc-intro-art > * { animation: none !important; transition: none !important; }
+}

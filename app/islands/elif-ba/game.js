@@ -23,17 +23,20 @@
   /* ---------- Progress ---------- */
   const storeKey = id => 'elif-ba-v2-' + id;
   // yagmur (Harf Yağmuru), balon (Hece Balonları), sekil (Şekil Yağmuru), cezmbalon (Cezm Balonları), tenvinbalon (Tenvin
-  // Balonları) and kopru (Cam Köprü): the
+  // Balonları), the games that can be played in their place (yengec, kabuk, olta, sepet: games/arcade.js) and kopru (Cam Köprü): the
   // game's best score, the most hearts (stars) a section was finished with, whether it was ever finished
   // with all three, and the coves whose game step was played to the end (koylar).
   const parts = ['harf', 'hareke', 'bitisik', 'cezm', 'tenvin'];
-  const gameNames = ['yagmur', 'balon', 'sekil', 'cezmbalon', 'tenvinbalon', 'kopru'];
+  const gameNames = ['yagmur', 'balon', 'sekil', 'cezmbalon', 'tenvinbalon', 'yengec', 'kabuk', 'olta', 'sepet', 'kopru'];
+  // The games a game step can be played with besides its own (games/arcade.js); their records keep the islets played on.
+  const otherGames = ['yengec', 'kabuk', 'olta', 'sepet'];
   const blankGame = () => ({ rekor: 0, yildiz: 0, tamam: false, koylar: Array(coves.length).fill(false) });
   function blank() {
     // (Until 0.41.0 a `balik` list kept the letter fish of Elif Ba's own aquarium; the island now fills the
     // shared Akvaryum, core/js/akvaryum.js, and the list is dropped on the next save.)
     return { harf: Array(28).fill(0), hareke: Array(28).fill(0), bitisik: Array(28).fill(0), cezm: Array(28).fill(0), tenvin: Array(28).fill(0),
-      tanisma: false, yagmur: blankGame(), balon: blankGame(), sekil: blankGame(), cezmbalon: blankGame(), tenvinbalon: blankGame(), kopru: blankGame() };
+      tanisma: false, yagmur: blankGame(), balon: blankGame(), sekil: blankGame(), cezmbalon: blankGame(), tenvinbalon: blankGame(),
+      yengec: blankGame(), kabuk: blankGame(), olta: blankGame(), sepet: blankGame(), kopru: blankGame() };
   }
   function load(id) {
     if (records.has(id)) return records.get(id);
@@ -118,7 +121,7 @@
   const stepOpen = step => devAll() || stepDone(step) || step === nextStep();
   const coveOpen = (part, k) => stepOpen(steps.find(step => step.part === part && step.cove === k));
   const stepIcon = step => step.intro ? '✨' : step.game ? games[step.game].icon : prizeOf(step.part);
-  const stepName = step => step.intro ? 'Harekelerle tanış' : step.game ? games[step.game].name : sections.find(s => s.id === step.part).title;
+  const stepName = step => step.intro ? 'Harekelerle tanış' : step.game ? games[step.game].step || games[step.game].name : sections.find(s => s.id === step.part).title;
   const stepLabel = step => coves[step.cove] + ' · ' + stepName(step);
   // Opens a step. When the map is not inside the step's islet, the turtle first goes there: out of the
   // islet and the bay it is in, over the sea to the right bay, over the bridges to the islet, and into it.
@@ -134,7 +137,8 @@
   }
   function open(step) {
     if (step.intro) { showHub(); startIntro(); return; }
-    if (step.game) { showHub(); openGame(step.game, step.cove); return; }
+    if (step.game === 'kopru') { showHub(); openGame(step.game, step.cove); return; }
+    if (step.game) { showHub(); pickGame(step); return; }
     openSection(step.part, step.cove);
   }
 
@@ -143,6 +147,8 @@
     return { harf: masteredCount('harf', record), hareke: masteredCount('hareke', record), bitisik: masteredCount('bitisik', record),
       cezm: masteredCount('cezm', record), tenvin: masteredCount('tenvin', record), rekor: record.yagmur.rekor, tamam: record.yagmur.tamam,
       balon: { ...record.balon }, sekil: { ...record.sekil }, cezmbalon: { ...record.cezmbalon }, tenvinbalon: { ...record.tenvinbalon },
+      oyunlar: otherGames.map(id => ({ id, ...(elifArcade.list().find(g => g.id === id) || {}), ...record[id], koylar: undefined,
+        oynanan: record[id].koylar.filter(Boolean).length })),
       kopru: { ...record.kopru, gecilen: record.kopru.koylar.filter(Boolean).length, koy: coves.length },
       any: parts.some(part => record[part].some(Boolean)) || record.tanisma || gameNames.some(name => record[name].rekor > 0) };
   };
@@ -697,30 +703,32 @@
   /* ---------- The games: Harf Yağmuru, Hece Balonları, Şekil Yağmuru and Cam Köprü ---------- */
   // Each cove has all three as steps of the path: Harf Yağmuru after its letters rains every letter
   // learned so far, Hece Balonları after its harekes flies those letters' syllables (letter * 3 + hareke),
-  // and Cam Köprü mixes both on the bridge to the next cove.
+  // and Cam Köprü mixes both on the bridge to the next cove. A game step (every one but Cam Köprü) opens a
+  // picker: its own game or one of the games of games/arcade.js with the same letters; any of them played to
+  // the end passes the step.
   // The admin player (devAll) can open a game before learning its letters: it plays them as if learned.
   const playable = (part, i) => devAll() || mastered(part, i);
   const games = {
     yagmur: {
-      kind: 'harf', name: 'Harf Yağmuru', icon: '🌧️', tag: 'Oyun',
+      kind: 'harf', name: 'Harf Yağmuru', step: 'Harf oyunları', icon: '🌧️', tag: 'Oyun',
       items: () => glyphs.map((_, i) => i).filter(i => playable('harf', i))
     },
     balon: {
-      kind: 'hece', name: 'Hece Balonları', icon: '🎈', tag: 'Oyun',
+      kind: 'hece', name: 'Hece Balonları', step: 'Hece oyunları', icon: '🎈', tag: 'Oyun',
       items: () => glyphs.map((_, i) => i).filter(i => playable('hareke', i)).flatMap(i => [i * 3, i * 3 + 1, i * 3 + 2])
     },
     sekil: {
-      kind: 'sekil', name: 'Şekil Yağmuru', icon: '☔', tag: 'Oyun',
+      kind: 'sekil', name: 'Şekil Yağmuru', step: 'Şekil oyunları', icon: '☔', tag: 'Oyun',
       items: () => glyphs.map((_, i) => i).filter(i => playable('bitisik', i)).flatMap(i => [i * 3, i * 3 + 1, i * 3 + 2])
     },
     cezmbalon: {
-      kind: 'cezm', name: 'Cezm Balonları', icon: '🎐', tag: 'Oyun',
+      kind: 'cezm', name: 'Cezm Balonları', step: 'Cezm oyunları', icon: '🎐', tag: 'Oyun',
       items: () => glyphs.map((_, i) => i).filter(i => playable('cezm', i))
     },
     // The letters' tenvins (letter * 3 + tenvin) and, as balloons not to pop, the same letters with the hareke
     // alone (84 + letter * 3 + hareke): bin beside bi.
     tenvinbalon: {
-      kind: 'tenvin', name: 'Tenvin Balonları', icon: '🪁', tag: 'Oyun',
+      kind: 'tenvin', name: 'Tenvin Balonları', step: 'Tenvin oyunları', icon: '🪁', tag: 'Oyun',
       items: () => glyphs.map((_, i) => i).filter(i => playable('tenvin', i)).flatMap(i => [0, 1, 2].flatMap(h => [i * 3 + h, 84 + i * 3 + h]))
     },
     kopru: { name: 'Cam Köprü', icon: '🌉', tag: 'Karma' }
@@ -732,20 +740,52 @@
     if (k < coves.length - 1 && bayCoves(bayOf(k)).at(-1) !== k) return { to: coves[k + 1], toDative: coves[k + 1] + "'na" };
     return next && !next.soon ? { to: next.name, toDative: next.name + "'na" } : { to: 'Sıradaki koy', toDative: 'sıradaki koya' };
   }
-  // A cove's game plays with everything learned up to and including that cove.
-  function openGame(id, k) {
+  // The picker of a game step: big picture cards, the step's own game first. The children cannot read: the
+  // cards are pictures, and the turtle button says what to do.
+  const pickDialog = $('elif-pick');
+  function pickGame(step) {
+    if (!stepOpen(step)) return;
+    voice.stop();
+    const own = games[step.game];
+    const choices = [{ id: 'base', name: own.name, icon: own.icon, record: progress[step.game] },
+      ...elifArcade.list().map(g => ({ ...g, record: progress[g.id] }))];
+    const stars = n => n ? '<span class="pick-stars" aria-label="' + n + ' yıldız">' + '★'.repeat(n) + '☆'.repeat(3 - n) + '</span>' : '';
+    pickDialog.innerHTML = '<div class="pick-card"><button type="button" class="pick-close btn-round" aria-label="Kapat"></button>' +
+      '<button type="button" class="elif-howto pick-tell" aria-label="Ne yapacağımı söyle"><span aria-hidden="true">🐢💬</span></button>' +
+      '<h2 id="elif-pick-title" tabindex="-1"><small>' + coves[step.cove] + '</small>' + stepName(step) + '</h2>' +
+      '<p>Bir oyun seç. Hangisini bitirirsen yoluna devam edersin.</p><div class="pick-list">' + choices.map((g, n) =>
+        '<button type="button" class="pick-game tone-' + n % 4 + (n ? '' : ' own') + '" data-id="' + g.id + '" data-cue>' +
+        '<span class="pick-icon" aria-hidden="true">' + g.icon + '</span><strong>' + g.name + '</strong>' + stars(g.record.yildiz) + '</button>').join('') +
+      '</div></div>';
+    pickDialog.querySelector('.pick-close').onclick = () => pickDialog.close();
+    pickDialog.querySelector('.pick-tell').onclick = () => voice.instruct('Bir oyun seç. Resimlere dokun. Hangi oyunu bitirirsen yoluna devam edersin.');
+    for (const button of pickDialog.querySelectorAll('.pick-game')) {
+      button.onclick = () => {
+        pickDialog.close();
+        openGame(step.game, step.cove, button.dataset.id);
+      };
+    }
+    if (!pickDialog.open) pickDialog.showModal();
+    $('elif-pick-title').focus();
+  }
+  pickDialog.addEventListener('close', () => voice.stop());
+  // A cove's game plays with everything learned up to and including that cove. `choice` is the game picked
+  // for a game step: 'base' (its own) or one of games/arcade.js; its record is kept under its own name.
+  function openGame(id, k, choice = 'base') {
     const info = games[id];
     const step = steps.find(s => s.game === id && s.cove === k);
     if (!stepOpen(step)) return;
     voice.stop();
+    const recordId = choice === 'base' ? id : choice;
     // Crossing Cam Köprü finishes the islet: its reward comes on the bridge's result card (as html).
     const result = ({ score, stars, finished }) => {
-      const record = progress[id];
+      const record = progress[recordId];
       record.rekor = Math.max(record.rekor, score);
       if (finished) {
         record.yildiz = Math.max(record.yildiz, stars);
         if (stars === 3) record.tamam = true;
         record.koylar[k] = true; // played to the end: the path goes on
+        progress[id].koylar[k] = true;
       }
       save();
       const got = id === 'kopru' && finished ? rewardIslets() : [];
@@ -780,13 +820,14 @@
       return;
     }
     const recent = coveLetters(k);
-    elifListeningGame.open({
+    const settings = {
       kind: info.kind,
       letters: info.items().filter(upTo),
       recent: bySyllable ? recent.flatMap(i => [i * 3, i * 3 + 1, i * 3 + 2]) : recent,
-      best: () => progress[id],
+      best: () => progress[recordId],
       onResult: result, next, onClose
-    });
+    };
+    if (choice === 'base') elifListeningGame.open(settings); else elifArcade.open({ ...settings, game: choice });
   }
 
   /* ---------- Rounds ---------- */
@@ -1409,7 +1450,7 @@
         let text = perfect ? 'Bütün soruları ilk denemede bildin.' : misses;
         if (before) { /* a replay: nothing to announce */ }
         else if (!step) text += ' Sıradaki bölümler yakında geliyor.';
-        else if (step.game) text += ' Şimdi oyun zamanı: ' + games[step.game].name + '!';
+        else if (step.game) text += ' Şimdi oyun zamanı! Bir oyun seç.';
         else if (step.intro) text += ' Şimdi harekelerle tanışalım.';
         else if (step.part === 'hareke') text += ' Şimdi bu harfleri harekeleriyle okuyalım.';
         else if (step.part === 'bitisik') text += ' Sırada harflerin bitişik yazılışı var: ' + coves[step.cove] + '.';

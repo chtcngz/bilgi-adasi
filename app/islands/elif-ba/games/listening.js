@@ -8,7 +8,6 @@
 // Balonları syllables with a cezm rise as balloons, in Tenvin Balonları letters with a tenvin, among the same
 // letters with the hareke alone.
 const elifListeningGame = (() => {
-  const { glyphs, names, readings, harekeler, syllable, twins, shape, cezm, cezmReadings, cezmAlike, tenvin, tenvinler, tenvinReading } = elifData;
   const voice = elifVoice;
   const dialog = $('elif-rain');
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
@@ -37,13 +36,10 @@ const elifListeningGame = (() => {
     }
     return result;
   }
-  // What a game plays with. Harf Yağmuru: letter indexes. Hece Balonları: letter * 3 + hareke.
+  // What a game plays with (games/kinds.js), and how each game shows and tells it.
   const kinds = {
     harf: {
-      rising: false, label: 'Harf Yağmuru', title: 'Harf <em>Yağmuru</em>',
-      text: i => glyphs[i], name: i => names[i], sound: i => names[i], speak: (i, note, end) => voice.letter(i, note, end), group: i => i,
-      // look-alike letters (the same shape, other dots) join in once a few letters are done
-      alike: i => twins(i), alikeFrom: 3, alikeChance: 0.3,
+      ...elifKinds.harf, rising: false, label: 'Harf Yağmuru', title: 'Harf <em>Yağmuru</em>',
       t: { listen: 'Harfi tekrar dinle', slots: 'Bölümün harfleri', first: '👆 Duyduğun harfi patlat', fresh: '🔊 Yeni harf',
         freshSay: 'Yeni harf. Dinle.', allDone: '24 harfin hepsini patlattın.', whole: 'Hiç can kaybetmeden 24 harfin hepsini patlattın!',
         partly: '24 harfin hepsini patlattın ama ', recap: 'Patlattığın harfler · dokun, dinle', chip: ' harfini dinle',
@@ -54,13 +50,7 @@ const elifListeningGame = (() => {
         unit: 'harf', piece: 'damla patlat', pool: 'Oyundaki harfler' }
     },
     hece: {
-      rising: true, label: 'Hece Balonları', title: 'Hece <em>Balonları</em>',
-      // shown by its letter and hareke ("Be üstün"); the reading only tells syllables that sound alike apart
-      text: k => syllable(Math.floor(k / 3), k % 3), sound: k => readings[Math.floor(k / 3)][k % 3],
-      name: k => names[Math.floor(k / 3)] + ' ' + harekeler[k % 3].name.toLocaleLowerCase('tr'),
-      speak: (k, note, end) => voice.syllable(Math.floor(k / 3), k % 3, note, end), group: k => Math.floor(k / 3),
-      // the same letter with its other harekes is what is to be told apart
-      alike: k => [0, 1, 2].map(h => k - k % 3 + h).filter(j => j !== k), alikeFrom: 1, alikeChance: 0.4,
+      ...elifKinds.hece, rising: true, label: 'Hece Balonları', title: 'Hece <em>Balonları</em>',
       t: { listen: 'Heceyi tekrar dinle', slots: 'Bölümün heceleri', first: '👆 Duyduğun hecenin balonunu patlat', fresh: '🔊 Yeni hece',
         freshSay: 'Yeni hece. Dinle.', allDone: '24 hecenin hepsini patlattın.', whole: 'Hiç can kaybetmeden 24 balonun hepsini patlattın!',
         partly: '24 hecenin hepsini patlattın ama ', recap: 'Patlattığın heceler · dokun, dinle', chip: ' hecesini dinle',
@@ -72,16 +62,7 @@ const elifListeningGame = (() => {
         unit: 'hece', piece: 'balon patlat', pool: 'Oyundaki heceler' }
     },
     sekil: {
-      rising: false, label: 'Şekil Yağmuru', title: 'Şekil <em>Yağmuru</em>',
-      // a harekeli syllable (letter * 3 + hareke); a drop shows it at the start, in the middle or at the end
-      // of a word, picked when it is made
-      text: k => shape(Math.floor(k / 3), 1 + Math.floor(Math.random() * 3), k % 3), sound: k => readings[Math.floor(k / 3)][k % 3],
-      name: k => names[Math.floor(k / 3)] + ' ' + harekeler[k % 3].name.toLocaleLowerCase('tr'),
-      speak: (k, note, end) => voice.syllable(Math.floor(k / 3), k % 3, note, end), group: k => Math.floor(k / 3),
-      // the same letter with its other harekes, and the look-alike letters with the same hareke
-      alike: k => [...[0, 1, 2].map(h => k - k % 3 + h).filter(j => j !== k), ...twins(Math.floor(k / 3)).map(i => i * 3 + k % 3)],
-      alikeFrom: 2, alikeChance: 0.4,
-      preload: letters => voice.preload([...new Set(letters.map(k => Math.floor(k / 3)))], false, true),
+      ...elifKinds.sekil, rising: false, label: 'Şekil Yağmuru', title: 'Şekil <em>Yağmuru</em>',
       t: { listen: 'Heceyi tekrar dinle', slots: 'Bölümün heceleri', first: '👆 Duyduğun heceyi patlat', fresh: '🔊 Yeni hece',
         freshSay: 'Yeni hece. Dinle.', allDone: '24 hecenin hepsini patlattın.', whole: 'Hiç can kaybetmeden 24 hecenin hepsini patlattın!',
         partly: '24 hecenin hepsini patlattın ama ', recap: 'Patlattığın heceler · dokun, dinle', chip: ' hecesini dinle',
@@ -94,14 +75,7 @@ const elifListeningGame = (() => {
         unit: 'hece', piece: 'damla patlat', pool: 'Oyundaki heceler' }
     },
     cezm: {
-      rising: true, label: 'Cezm Balonları', title: 'Cezm <em>Balonları</em>',
-      // i: the letter with the cezm. Shown as "Be esre, Sin cezm", the way it is chanted.
-      text: i => cezm(i).text, sound: i => cezmReadings[i].replace(/[’‘]/g, '').replace(/ı/g, 'i'),
-      name: i => { const { before } = cezm(i); return names[before.i] + ' ' + harekeler[before.h].name.toLocaleLowerCase('tr') + ', ' + (i ? names[i] : 'Hemze') + ' cezm'; },
-      speak: (i, note, end) => voice.cezm(i, note, end), group: i => i,
-      // syllables that start with the same harekeli letter (bis, bi’) are what is to be told apart
-      alike: i => glyphs.map((_, j) => j).filter(j => j !== i && !cezmAlike(i, j) && cezm(j).text.slice(0, 2) === cezm(i).text.slice(0, 2)),
-      alikeFrom: 1, alikeChance: 0.4, preload: letters => voice.preload(letters, true, false, true),
+      ...elifKinds.cezm, rising: true, label: 'Cezm Balonları', title: 'Cezm <em>Balonları</em>',
       t: { listen: 'Heceyi tekrar dinle', slots: 'Bölümün heceleri', first: '👆 Duyduğun hecenin balonunu patlat', fresh: '🔊 Yeni hece',
         freshSay: 'Yeni hece. Dinle.', allDone: '24 hecenin hepsini patlattın.', whole: 'Hiç can kaybetmeden 24 balonun hepsini patlattın!',
         partly: '24 hecenin hepsini patlattın ama ', recap: 'Patlattığın heceler · dokun, dinle', chip: ' hecesini dinle',
@@ -112,18 +86,7 @@ const elifListeningGame = (() => {
         unit: 'hece', piece: 'balon patlat', pool: 'Oyundaki heceler' }
     },
     tenvin: {
-      rising: true, label: 'Tenvin Balonları', title: 'Tenvin <em>Balonları</em>',
-      // k < 84: letter * 3 + tenvin (بٍ, "Be iki esre"); from 84 on, the same letter with the hareke alone
-      // (84 + letter * 3 + hareke, بِ), only ever a balloon not to pop
-      text: k => k < 84 ? tenvin(Math.floor(k / 3), k % 3) : syllable(Math.floor((k - 84) / 3), k % 3),
-      sound: k => k < 84 ? tenvinReading(Math.floor(k / 3), k % 3) : readings[Math.floor((k - 84) / 3)][k % 3],
-      name: k => k < 84 ? names[Math.floor(k / 3)] + ' ' + tenvinler[k % 3].name.toLocaleLowerCase('tr') :
-        names[Math.floor((k - 84) / 3)] + ' ' + harekeler[k % 3].name.toLocaleLowerCase('tr'),
-      speak: (k, note, end) => k < 84 ? voice.tenvin(Math.floor(k / 3), k % 3, note, end) : voice.syllable(Math.floor((k - 84) / 3), k % 3, note, end),
-      group: k => Math.floor(k % 84 / 3), decoy: k => k >= 84,
-      // the same letter with the hareke alone (bi for bin), then its other tenvins
-      alike: k => [84 + k, ...[0, 1, 2].map(h => k - k % 3 + h).filter(j => j !== k)], alikeFrom: 1, alikeChance: 0.5,
-      preload: letters => voice.preload([...new Set(letters.map(k => Math.floor(k % 84 / 3)))], false, false, false, true),
+      ...elifKinds.tenvin, rising: true, label: 'Tenvin Balonları', title: 'Tenvin <em>Balonları</em>',
       t: { listen: 'Heceyi tekrar dinle', slots: 'Bölümün heceleri', first: '👆 Duyduğun hecenin balonunu patlat', fresh: '🔊 Yeni hece',
         freshSay: 'Yeni hece. Dinle.', allDone: '24 hecenin hepsini patlattın.', whole: 'Hiç can kaybetmeden 24 balonun hepsini patlattın!',
         partly: '24 hecenin hepsini patlattın ama ', recap: 'Patlattığın heceler · dokun, dinle', chip: ' hecesini dinle',
@@ -366,7 +329,7 @@ const elifListeningGame = (() => {
     let fresh = recent.filter(i => letters.includes(i));
     if (!fresh.length) fresh = letters;
     const groups = new Map();
-    for (const i of fresh) groups.set(kind.group(i), [...(groups.get(kind.group(i)) || []), i]);
+    for (const i of fresh) groups.set(kind.letter(i), [...(groups.get(kind.letter(i)) || []), i]);
     const keys = [...groups.keys()];
     const laps = Math.ceil(ROUND / keys.length);
     // A letter's own turns: its syllables taking turns, the same one never twice running.
@@ -912,9 +875,7 @@ const elifListeningGame = (() => {
     listen.setAttribute('aria-label', kind.t.listen);
     slotBox.setAttribute('aria-label', kind.t.slots);
     setPace(keptPace());
-    if (kind.preload) kind.preload(options.letters);
-    else if (kind.rising) voice.preload([...new Set(options.letters.map(k => Math.floor(k / 3)))]);
-    else voice.preload(options.letters, true);
+    kind.preload(options.letters);
     if (!dialog.open) dialog.showModal();
     newGame(true);
   }

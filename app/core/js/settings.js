@@ -232,6 +232,7 @@ const versionText = (() => {
         summary.cezmbalon?.rekor ? ' · 🎐 Cezm Balonları rekoru ' + summary.cezmbalon.rekor : '') +
       (summary.tenvinbalon?.tamam ? ' · 🪁 Tenvin Balonları tamamlandı (rekor ' + summary.tenvinbalon.rekor + ')' :
         summary.tenvinbalon?.rekor ? ' · 🪁 Tenvin Balonları rekoru ' + summary.tenvinbalon.rekor : '') +
+      (summary.oyunlar || []).map(g => g.rekor ? ' · ' + g.icon + ' ' + g.name + (g.oynanan ? ' ' + g.oynanan + ' adacıkta bitti' : '') + ' (rekor ' + g.rekor + ')' : '').join('') +
       (summary.kopru?.gecilen ? ' · 🌉 ' + summary.kopru.gecilen + ' / ' + summary.kopru.koy + ' Cam Köprü geçildi' + (summary.kopru.rekor ? ' (rekor ' + summary.kopru.rekor + ')' : '') :
         summary.kopru?.rekor ? ' · 🌉 Cam Köprü rekoru ' + summary.kopru.rekor : '');
     $('elif-reset').disabled = !summary.any;

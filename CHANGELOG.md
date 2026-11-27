@@ -7,10 +7,22 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
-## 0.83.0 · 27.11.2026
+## 0.84.0 · 27.11.2026
 
 - **İstasyonların resimleri:** Okul Hayatı'nın 9 istasyonu haritada artık emoji yerine kendi resmiyle görünüyor: okul binası, oyun alanı, çocuklar, okul müdürleri, takvim, saatler, mikrofon, soru işaretleri ve tokalaşan çocuklar.
 - **Telefonda ekran büyümüyor:** Oyunlarda resme ya da karta art arda hızlı dokununca telefonun tarayıcısı ekranı yakınlaştırıyordu. Çift dokunmayla yakınlaşma kapatıldı; telefon yan çevrilince yazılar da kendiliğinden büyümüyor.
+
+## 0.83.0 · 27.11.2026
+
+Elif Ba Adası’nda her adacığın oyun adımında artık **oyun seçiliyor**. Harf Yağmuru, Hece Balonları, Şekil Yağmuru, Cezm ve Tenvin Balonları’nın yerine dört yeni oyun da oynanabiliyor; hangisi sonuna kadar oynanırsa yola devam ediliyor.
+
+- **Oyun seçme ekranı:** Oyun adımına dokununca büyük resimli kartlar açılıyor: adımın kendi oyunu, 🦀 Yengeç Avı, 🐚 Kabuk Hafızası, 🎣 Balık Tutma ve 🧺 Sepete Topla. Her kartta o oyunda kazanılan en iyi yıldızlar görünüyor; 🐢💬 düğmesi ne yapılacağını söylüyor. Haritadaki adımların adı da değişti: Harf oyunları, Hece oyunları, Şekil oyunları, Cezm oyunları, Tenvin oyunları.
+- **🦀 Yengeç Avı:** Kumdaki deliklerden tabela tutan yengeçler çıkıp saklanıyor. Kaplumbağa bir hece söylüyor; o tabelayı tutan yengece dokununca yengeç kovaya zıplıyor, yanlış yengeç çimdikliyor. 16 tur, 3 can.
+- **🎣 Balık Tutma:** Kaplumbağa teknesinde oltayla bekliyor, altında harfli balıklar yüzüyor. Duyulan hecenin balığına dokununca olta inip balığı tekneye çekiyor; yanlış balık oltadan kurtulup kaçıyor. 16 tur, 3 can.
+- **🐚 Kabuk Hafızası:** Kumsalda kapalı kabuklar var; bir kabuk heceyi söylüyor 🔊, öteki yazısını gösteriyor. Sesi ile yazısı aynı olan iki kabuk inci oluyor. İki tahta (4 ve 6 çift); ikincisinde kolay karışanlar da var (bin ile bi). Can yok, acele yok; boşuna az kabuk açan üç yıldız alıyor.
+- **🧺 Sepete Topla:** Kumsala bir midye geliyor, kaplumbağa içindekini söylüyor; midye sürüklenip ya da sepete dokunularak doğru sepete atılıyor. Harf adacıklarında her harfin sepeti var ve midye yalnızca ses çıkarıyor; hece ve bitişik adacıklarında üstün, esre, ötre sepetleri; cezm adacıklarında cezimli ve cezimsiz (بِسْ, بِسَ); tenvin adacıklarında tenvinli ve tenvinsiz (بٍ, بِ). Yanlış sepette doğru sepet yeşil yanıyor. 16 midye, 3 can.
+- Her yeni oyunun rekoru ve yıldızları ayrı saklanıyor; Ayarlar’daki ilerleme özeti ve yönetici sayfası onları da gösteriyor.
+- Çocukların kayıtlı ilerlemesi olduğu gibi duruyor; bitmiş oyun adımları bitmiş sayılıyor.
 
 ## 0.82.2 · 27.11.2026
 
