@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.77.0 · 27.11.2026
+
+- **jump için yeni resim:** 1. adada (Okul Hayatı) zıplayan bir çocuk resmi ve onunla bir “Resme bak” sorusu eklendi. Artık sahnelerdeki yedi hareketin hepsinin yeni tek resmi var.
+
 ## 0.76.0 · 27.11.2026
 
 - **Gizli Kelimeler'e iki yeni resim:** 1. adada (Okul Hayatı) okul bahçesinde ve spor salonunun önünde hareket eden çocuklar var. Ses “Find “jump”!” gibi bir hareket söylüyor, çocuk resimde o hareketi yapan kişiye dokunuyor: meet (tanışmak), wait (beklemek), jump (zıplamak), clap (alkışlamak), start (başlamak), sing (şarkı söylemek), finish (bitirmek).

@@ -110,7 +110,7 @@ ilgili durağın sonuna eklenir. Ünitelere ait olmayan baş sayfaların ve sond
 - s. 129 · hello = merhaba → okul:64
 - s. 129 · hi = selam → okul:65
 - s. 129 · how = nasıl → okul:66
-- s. 129 · jump = zıplamak → okul:67, okul:113, okul:118
+- s. 129 · jump = zıplamak → okul:67, okul:113, okul:118, okul:127
 - s. 129 · kid = çocuk → okul:68, okul:98
 - s. 129 · meet = tanışmak → okul:69, okul:112, okul:121
 - s. 129 · name = isim → okul:70

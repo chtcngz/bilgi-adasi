@@ -131,7 +131,8 @@ const ingilizce2Sorular = [
     {"s": "[[y-wait-4]] Resme bak: “beklemek” İngilizce nasıl söylenir?", "a": ["wait", "jump", "meet", "sing"], "b": "“wait” = beklemek [[y-wait-4]].", "k": ["wait", "beklemek", "[[y-wait-4]]"]},
     {"s": "[[y-finish-2]] Resme bak: “bitirmek” İngilizce nasıl söylenir?", "a": ["finish", "start", "clap", "wait"], "b": "“finish” = bitirmek [[y-finish-2]].", "k": ["finish", "bitirmek", "[[y-finish-2]]"]},
     {"s": "[[y-sing-2]] Resme bak: “şarkı söylemek” İngilizce nasıl söylenir?", "a": ["sing", "clap", "jump", "finish"], "b": "“sing” = şarkı söylemek [[y-sing-2]].", "k": ["sing", "şarkı söylemek", "[[y-sing-2]]"]},
-    {"s": "[[y-clap-2]] Resme bak: “alkışlamak” İngilizce nasıl söylenir?", "a": ["clap", "sing", "wait", "jump"], "b": "“clap” = alkışlamak [[y-clap-2]].", "k": ["clap", "alkışlamak", "[[y-clap-2]]"]}
+    {"s": "[[y-clap-2]] Resme bak: “alkışlamak” İngilizce nasıl söylenir?", "a": ["clap", "sing", "wait", "jump"], "b": "“clap” = alkışlamak [[y-clap-2]].", "k": ["clap", "alkışlamak", "[[y-clap-2]]"]},
+    {"s": "[[y-jump-3]] Resme bak: “zıplamak” İngilizce nasıl söylenir?", "a": ["jump", "wait", "start", "clap"], "b": "“jump” = zıplamak [[y-jump-3]].", "k": ["jump", "zıplamak", "[[y-jump-3]]"]}
   ]},
   {"id": "sinif", "ad": "Sınıf Hayatı", "konu": "Sınıf Hayatı", "simge": "✏️", "unite": "2. Tema · Classroom Life", "kitap": "s. 27-42", "deneme": 3, "sorular": [
     {"s": "Dinle ve doğru anlamı seç: “yellow”", "a": ["[[y-sun]] sarı", "[[y-orange]] turuncu", "[[y-blue]] mavi", "[[y-green]] yeşil"], "b": "“yellow” = sarı [[y-sun]].", "k": ["yellow", "sarı", "[[y-sun]]"]},
