@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.78.0 · 27.11.2026
+
+- **“Bugün günlerden ne?” resimleri:** 1. adada (Okul Hayatı) haftanın yedi günü için birer “TODAY” (bugün) panosu resmi geldi. Panoda hangi gün yazıyorsa çocuk onu seçiyor; ses cümleyi İngilizce söylüyor (“It’s Monday today.”), Türkçesi yazılı görünüyor (“Bugün günlerden pazartesi.”). Adaya 7 yeni soru eklendi.
+
 ## 0.77.0 · 27.11.2026
 
 - **jump için yeni resim:** 1. adada (Okul Hayatı) zıplayan bir çocuk resmi ve onunla bir “Resme bak” sorusu eklendi. Artık sahnelerdeki yedi hareketin hepsinin yeni tek resmi var.

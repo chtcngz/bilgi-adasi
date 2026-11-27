@@ -59,7 +59,9 @@
     'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty', 'giraffe', 'tall-short-2', 'short-tall-3', 'son', 'lemon', 'old', 'all-right',
     'nice', 'very',
     // action words (School Life): second pictures
-    'meet-3', 'start-2', 'wait-4', 'finish-2', 'sing-2', 'clap-2', 'jump-3'
+    'meet-3', 'start-2', 'wait-4', 'finish-2', 'sing-2', 'clap-2', 'jump-3',
+    // "It’s Monday today.": the TODAY board of a classroom calendar for every day
+    'today-monday', 'today-tuesday', 'today-wednesday', 'today-thursday', 'today-friday', 'today-saturday', 'today-sunday'
   ];
   const more = {};
   for (const name of names) {
