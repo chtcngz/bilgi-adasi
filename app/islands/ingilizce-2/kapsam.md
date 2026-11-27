@@ -62,13 +62,13 @@ ilgili durağın sonuna eklenir. Ünitelere ait olmayan baş sayfaların ve sond
 - s. 16 · pupil = öğrenci → okul:17, okul:89, okul:104
 - s. 16 · teacher = öğretmen → okul:18, okul:86, okul:110
 - s. 16 · headmaster = erkek okul müdürü → okul:19, okul:87, okul:99
-- s. 18 · Monday = Pazartesi → okul:20, okul:128
-- s. 18 · Tuesday = Salı → okul:21, okul:129
-- s. 18 · Wednesday = Çarşamba → okul:22, okul:130
-- s. 18 · Thursday = Perşembe → okul:23, okul:131
-- s. 18 · Friday = Cuma → okul:24, okul:132
-- s. 18 · Saturday = Cumartesi → okul:25, okul:133
-- s. 18 · Sunday = Pazar → okul:26, okul:134
+- s. 18 · Monday = Pazartesi → okul:20, okul:128, okul:135
+- s. 18 · Tuesday = Salı → okul:21, okul:129, okul:136
+- s. 18 · Wednesday = Çarşamba → okul:22, okul:130, okul:137
+- s. 18 · Thursday = Perşembe → okul:23, okul:131, okul:138
+- s. 18 · Friday = Cuma → okul:24, okul:132, okul:139
+- s. 18 · Saturday = Cumartesi → okul:25, okul:133, okul:140
+- s. 18 · Sunday = Pazar → okul:26, okul:134, okul:141
 - s. 18 · What day is it today? (Bugün günlerden ne?) → okul:27, okul:128, okul:129, okul:130, okul:131, okul:132, okul:133, okul:134
 - s. 18 · It’s Saturday today. (Bugün Cumartesi.) → okul:28, okul:128, okul:129, okul:130, okul:131, okul:132, okul:133, okul:134
 - s. 18 · Haftanın günleri sırasıyla: Monday … Sunday. → okul:29

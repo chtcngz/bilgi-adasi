@@ -3,6 +3,7 @@
 // yerler: resimde dokunulabilecek her şey. Sıra önemlidir: bir nokta birkaç yerin içindeyse, yanlış dokunuşta ilk yer
 // söylenir ("No! This is a pupil."), bu yüzden öndeki kişiler önce, arkadaki binalar ve bütün oda en sonda yazılır.
 // Dokunulan noktada en öndeki yer sorulan kelimeyse dokunuş doğrudur; icinde, yerin parçalarıdır (friend: iki çocuğun ikisi de).
+// yazisiz: true olan resimde söylenen cümle ekrana yazılmaz, yalnızca duyulur (okumayı değil dinlemeyi sınar).
 // sekil: resmin piksel koordinatlarında şekiller; dört sayı bir dikdörtgendir [x, y, en, boy], daha fazlası bir çokgendir [x1, y1, x2, y2, …].
 const ingilizce2Sahneler = {
   oda: { resim: 'assets/images/ingilizce/sahne/ogretmenler-odasi.webp', w: 1248, h: 832, yerler: [
@@ -91,5 +92,22 @@ const ingilizce2Sahneler = {
       sekil: [[748, 315, 155, 395]] },
     { en: 'finish', bul: 'Find “finish”!', bu: 'No! This is “finish”.',
       sekil: [[940, 320, 250, 400], [955, 195, 265, 100]] }
+  ] },
+  // "It’s Wednesday today.": only heard, nothing written (yazisiz); the child taps the day on the week board
+  gunler: { resim: 'assets/images/ingilizce/sahne/gunler.webp', w: 1248, h: 832, yazisiz: true, yerler: [
+    { en: 'Monday', bul: 'It’s Monday today. Find Monday!', bu: 'No! It isn’t Monday today.',
+      sekil: [[128, 235, 107, 413]] },
+    { en: 'Tuesday', bul: 'It’s Tuesday today. Find Tuesday!', bu: 'No! It isn’t Tuesday today.',
+      sekil: [[235, 235, 115, 413]] },
+    { en: 'Wednesday', bul: 'It’s Wednesday today. Find Wednesday!', bu: 'No! It isn’t Wednesday today.',
+      sekil: [[350, 235, 115, 413]] },
+    { en: 'Thursday', bul: 'It’s Thursday today. Find Thursday!', bu: 'No! It isn’t Thursday today.',
+      sekil: [[465, 235, 110, 413]] },
+    { en: 'Friday', bul: 'It’s Friday today. Find Friday!', bu: 'No! It isn’t Friday today.',
+      sekil: [[575, 235, 107, 413]] },
+    { en: 'Saturday', bul: 'It’s Saturday today. Find Saturday!', bu: 'No! It isn’t Saturday today.',
+      sekil: [[682, 235, 108, 413]] },
+    { en: 'Sunday', bul: 'It’s Sunday today. Find Sunday!', bu: 'No! It isn’t Sunday today.',
+      sekil: [[790, 235, 102, 413]] }
   ] }
 };

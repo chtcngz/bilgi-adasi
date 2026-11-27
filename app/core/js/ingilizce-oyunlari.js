@@ -1019,7 +1019,8 @@ const ingilizceOyunlari = (() => {
     svg.setAttribute('preserveAspectRatio', 'none');
     svg.setAttribute('aria-hidden', 'true');
     box.append(img, svg);
-    x.game.append(row, yazi, box);
+    // a picture marked yazisiz (sahneler.js) is only heard: the line is not written
+    x.game.append(...(scene.yazisiz ? [row, box] : [row, yazi, box]));
     // a place's outline (not the whole picture), drawn for a moment: green when right, red when wrong
     const show = (place, cls, ms) => {
       const drawn = place.sekil.filter(s => !whole(s)).map(s => {

@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.79.0 · 27.11.2026
+
+- **Gizli Kelimeler'de haftalık pano:** 1. adada (Okul Hayatı) yeni bir resim var: sınıftaki “OUR WEEK” panosu. Bu resimde hiçbir şey yazılmıyor, yalnızca ses var: ses “It’s Wednesday today. Find Wednesday!” diyor, çocuk panoda o güne dokunuyor. Başka bir güne dokunursa ses “No! It isn’t Sunday today.” (Hayır, bugün pazar değil) diyor ve günü yeniden söylüyor. Haftanın yedi günü için 7 yeni soru eklendi.
+
 ## 0.78.0 · 27.11.2026
 
 - **“Bugün günlerden ne?” resimleri:** 1. adada (Okul Hayatı) haftanın yedi günü için birer “TODAY” (bugün) panosu resmi geldi. Panoda hangi gün yazıyorsa çocuk onu seçiyor; ses cümleyi İngilizce söylüyor (“It’s Monday today.”), Türkçesi yazılı görünüyor (“Bugün günlerden pazartesi.”). Adaya 7 yeni soru eklendi.
