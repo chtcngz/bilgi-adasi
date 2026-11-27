@@ -7,6 +7,15 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.91.0 · 27.11.2026
+
+İngilizce Koyu, 🃏 Sesli Hafıza yenilendi:
+
+- **Kabuklar ve sandıklar:** Ses kartları artık pembe birer deniz kabuğu, resim kartları altın kenarlı birer hazine sandığı. Her çift bir kabuk ve bir sandık; çocuk bir kabuk ve bir sandık açması gerektiğini görüyor.
+- **Açılış:** Kabuğa dokununca kapağı aralanıyor, içinde parlayan bir inci, etrafında ses halkaları ve uçuşan ♪ notaları. Sandığa dokununca kapak arkaya kalkıyor, altın bir ışık yükseliyor ve kelimenin resmi sandıktan yaylanarak çıkıyor. Kapalı kartlar hafifçe nefes alıp sallanıyor.
+- **Doğru çift:** İki kartın üstünde yıldızlar patlıyor; kabuk ve resim ekranın ortasına uçup büyüyor, parlıyor ve yerlerine dönüyor. Köşedeki maskot sevinip zıplıyor. Bütün çiftler bulununca konfeti.
+- **Yanlış çift:** Kartlar hafifçe sarsılıp kapaklarını yumuşakça kapatıyor, maskot şaşırıyor (😮). Ceza yok.
+
 ## 0.90.0 · 27.11.2026
 
 - **Günler tanıtımı büyük resimlerle:** Günler istasyonunun başındaki sesli tanıtımda (Keşif Kartı) her gün artık küçük pano yerine haftalık takvimin büyük resmiyle tanıtılıyor: o günün sütunu sarı, TODAY panosunda günün adı yazılı.

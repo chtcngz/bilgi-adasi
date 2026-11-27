@@ -747,22 +747,87 @@ const ingilizceOyunlari = (() => {
   }
 
   /* ---------- 🃏 Sesli Hafıza: a sound card and its picture card ----------
-     Both cards say the word when they open. Cards open one after another without waiting: a third tap closes a pair
-     that did not match at once, and a found pair is praised while the child goes on. */
+     Every sound card is a closed sea shell and every picture card a treasure chest, so a pair is always one shell and one
+     chest. Closed, they breathe and sway; a tapped shell lifts its lid on a shining pearl with sound rings and notes, a
+     tapped chest throws its lid back and the word's picture jumps up out of a golden glow. Both say the word. Cards open one
+     after another without waiting: a third tap closes a pair that did not match at once. A found pair flies to the middle,
+     grows and shines, and flies back; a pair that does not match shakes and closes softly. Confetti when all are found. */
+  const SV = body => '<svg viewBox="0 0 100 111" aria-hidden="true">' + body + '</svg>';
+  const KABUK_ALT = SV('<ellipse cx="50" cy="70" rx="38" ry="16" fill="#ffdeeb" stroke="#c2255c" stroke-width="3"/>' +
+    '<path d="M12 70C14 92 32 104 50 104S86 92 88 70C76 80 64 84 50 84S24 80 12 70Z" fill="#f783ac" stroke="#c2255c" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M30 86l-3 10M50 88v12M70 86l3 10" stroke="#d6336c" stroke-width="2.5" stroke-linecap="round"/>');
+  const KABUK_KAPAK = SV('<path d="M36 92h28l-4 12H40Z" fill="#ff8fab" stroke="#c2255c" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M50 98C30 86 10 70 10 48S28 10 50 10S90 26 90 48S70 86 50 98Z" fill="#ff8fab" stroke="#c2255c" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M50 94L17 42M50 94L31 20M50 94V13M50 94L69 20M50 94L83 42" stroke="#e64980" stroke-width="3" stroke-linecap="round" fill="none"/>' +
+    '<path d="M50 94L23 30M50 94L40 15M50 94L60 15M50 94L77 30" stroke="#ffc2d4" stroke-width="2" stroke-linecap="round" fill="none"/>' +
+    '<path d="M22 34Q30 20 42 16" stroke="#fff" stroke-opacity=".7" stroke-width="3.5" stroke-linecap="round" fill="none"/>');
+  const ALTIN = 'fill="#fcc419" stroke="#b07d00" stroke-width="2"';
+  const SANDIK_ALT = SV('<rect x="12" y="44" width="76" height="12" rx="3" fill="#5c3310"/>' +
+    '<rect x="8" y="52" width="84" height="50" rx="6" fill="#c27c3e" stroke="#5c3310" stroke-width="3"/>' +
+    '<path d="M8 69H92M8 86H92" stroke="#8f5424" stroke-width="2.5"/>' +
+    '<rect x="20" y="52" width="9" height="50" ' + ALTIN + '/><rect x="71" y="52" width="9" height="50" ' + ALTIN + '/>' +
+    '<rect x="6" y="96" width="88" height="8" rx="3" ' + ALTIN + '/>' +
+    '<rect x="41" y="56" width="18" height="20" rx="4" fill="#ffd43b" stroke="#b07d00" stroke-width="2.5"/>' +
+    '<circle cx="50" cy="64" r="3" fill="#5c3310"/><rect x="48.6" y="65" width="2.8" height="6" rx="1" fill="#5c3310"/>' +
+    '<circle cx="24.5" cy="60" r="1.6" fill="#b07d00"/><circle cx="75.5" cy="60" r="1.6" fill="#b07d00"/><circle cx="24.5" cy="92" r="1.6" fill="#b07d00"/><circle cx="75.5" cy="92" r="1.6" fill="#b07d00"/>');
+  const SANDIK_KAPAK = SV('<path d="M8 56V40C8 22 26 14 50 14S92 22 92 40V56Z" fill="#d9894a" stroke="#5c3310" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M8 40C30 34 70 34 92 40" stroke="#a35f2a" stroke-width="2.5" fill="none"/>' +
+    '<path d="M20 56V21Q24 17.5 29 16.3V56Z" ' + ALTIN + '/><path d="M71 16.3Q76 17.5 80 21V56H71Z" ' + ALTIN + '/>' +
+    '<rect x="6" y="50" width="88" height="8" rx="3" ' + ALTIN + '/>' +
+    '<rect x="44" y="50" width="12" height="13" rx="3" fill="#ffd43b" stroke="#b07d00" stroke-width="2"/>' +
+    '<path d="M16 34C22 24 34 20 46 19" stroke="#fff" stroke-opacity=".5" stroke-width="3" stroke-linecap="round" fill="none"/>');
+  const INCI = '<span class="om-inci"></span><span class="om-dalga"><i></i><i></i></span><span class="om-nota"><i>♪</i><i>♫</i><i>♪</i></span>';
+  function hafizaKarti(card, n) {
+    const sound = card.sound;
+    const node = button('og-mem ' + (sound ? 'kabuk' : 'sandik'), '<span class="om-govde">' +
+      '<span class="om-alt">' + (sound ? KABUK_ALT : SANDIK_ALT) + '</span><span class="om-isik"></span>' +
+      '<span class="om-yuz" aria-hidden="true">' + (sound ? INCI : resimKarti(card.item.emo)) + '</span>' +
+      '<span class="om-kapak">' + (sound ? KABUK_KAPAK : SANDIK_KAPAK) + '</span></span>',
+      sound ? 'Deniz kabuğu: ses kartı' : 'Hazine sandığı: resim kartı');
+    node.style.setProperty('--n', n);
+    return node;
+  }
+  // A found pair: copies of the two cards fly to the middle of the game, grow and shine, and fly back into their places.
+  function ortada(x, nodes) {
+    const host = x.game, g = host.getBoundingClientRect(), grid = nodes[0].parentElement.getBoundingClientRect();
+    const w = nodes[0].getBoundingClientRect().width;
+    const gap = 12, scale = Math.max(1.15, Math.min(1.8, (g.width - 40) / (2 * w)));
+    const cy = grid.top - g.top + grid.height / 2;
+    nodes.forEach((node, i) => {
+      const r = node.getBoundingClientRect();
+      const copy = node.cloneNode(true);
+      copy.classList.add('om-uc');
+      copy.removeAttribute('aria-label');
+      copy.setAttribute('aria-hidden', 'true');
+      copy.tabIndex = -1;
+      Object.assign(copy.style, { left: r.left - g.left + 'px', top: r.top - g.top + 'px', width: r.width + 'px', height: r.height + 'px' });
+      host.append(copy);
+      const tx = g.width / 2 + (i ? 1 : -1) * (w * scale / 2 + gap / 2) - (r.left - g.left + r.width / 2);
+      const ty = cy - (r.top - g.top + r.height / 2);
+      const at = 'translate(' + tx + 'px, ' + ty + 'px) scale(';
+      copy.animate([
+        { transform: 'translate(0, 0) scale(1)', opacity: 1, easing: 'cubic-bezier(.34, 1.4, .64, 1)' },
+        { transform: at + scale + ')', opacity: 1, offset: 0.3, easing: 'ease-in-out' },
+        { transform: at + scale * 1.05 + ')', opacity: 1, offset: 0.72, easing: 'cubic-bezier(.5, 0, .75, 0)' },
+        { transform: 'translate(0, 0) scale(1)', opacity: 0 }
+      ], { duration: 1500 }).finished.then(() => copy.remove(), () => copy.remove());
+      setTimeout(() => sparkle(copy, { count: 10, spread: 70 }), 420);
+    });
+  }
   async function hafiza(x, items) {
     x.game.innerHTML = '';
     const grid = el('div', 'og-memory' + (items.length > 3 ? '' : ' small'));
     x.game.append(grid);
-    let open = [], found = 0, closing = null;
+    let open = [], found = 0, closing = null, shaking = null;
     await new Promise(resolve => {
       const shut = pair => {
         clearTimeout(closing);
-        closing = null;
+        clearTimeout(shaking);
+        closing = shaking = null;
         for (const o of pair) if (!o.node.classList.contains('matched')) o.node.classList.remove('open');
       };
-      grid.append(...shuffled(items.flatMap(item => [{ item, sound: true }, { item, sound: false }])).map(card => {
-        const node = button('og-mem', '<span class="og-back" aria-hidden="true">❓</span><span class="og-face" aria-hidden="true">' + (card.sound ? '🔊' : resimKarti(card.item.emo)) + '</span>',
-          card.sound ? 'Ses kartı' : 'Resim kartı');
+      grid.append(...shuffled(items.flatMap(item => [{ item, sound: true }, { item, sound: false }])).map((card, n) => {
+        const node = hafizaKarti(card, n);
         node.onclick = async () => {
           if (node.classList.contains('open') || node.classList.contains('matched')) return;
           // two cards that did not match are still showing: they close now, and this card opens
@@ -776,11 +841,15 @@ const ingilizceOyunlari = (() => {
           if (a.card.item === b.card.item) {
             open = [];
             for (const n of [a.node, b.node]) { n.classList.add('matched'); n.disabled = true; }
-            sparkle(b.node, { count: 10, spread: 60 });
+            x.react(true, '⭐');
+            fx.burst(a.node, { count: 8, spread: 60 });
+            fx.burst(b.node, { count: 8, spread: 60 });
+            ortada(x, [a.node, b.node]);
             // matching a word to its picture is knowing it; a miss in a memory game is only memory
             x.sonuc(a.card.item, true);
             found++;
             if (found === items.length) {
+              fx.confetti?.(x.game.closest('dialog'), { count: 120 });
               await said;
               await x.praise(a.card.item.en);
               await x.wait(600);
@@ -790,7 +859,10 @@ const ingilizceOyunlari = (() => {
             }
           } else {
             const pair = open;
-            closing = setTimeout(() => { if (open === pair) { shut(pair); open = []; } }, 1400);
+            x.react(false, '😮');
+            // once the second card is open: a little shake, then the lids close softly
+            shaking = setTimeout(() => { if (open === pair) for (const o of pair) fx.bump(o.node, 'om-sars'); }, 650);
+            closing = setTimeout(() => { if (open === pair) { shut(pair); open = []; } }, 1500);
           }
         };
         return node;
