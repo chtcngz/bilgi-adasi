@@ -13,7 +13,7 @@
 //   ad, lead     the bay's name and what is learned there; simge: its sign; tema: carpim | din | fen | sosyal | ingilizce
 //   hazirla()    load the active player's progress (called before anything else is asked)
 //   adalar()     [{ ad, kisa, simge, durum, not }]: durum is done | now | open | locked
-//   duraklar(k)  the stations of island k: [{ simge, ad, etiket, durum, not }]
+//   duraklar(k)  the stations of island k: [{ simge, resim?, ad, etiket, durum, not }] (resim: a picture in place of the sign)
 //   ac(k, n)     open the game of station n of island k
 //   kilit(k)     what to say when a locked island is tapped
 //   panel(level, k)  a node shown under the map: what to do next, progress, notes
@@ -145,7 +145,7 @@ const kesifHaritasi = (() => {
       '<path class="kh-trail" d="' + trail + '"/><path class="kh-trail-dots" d="' + trail + '"/>' +
       palm(62, 300, 1.5) + palm(344, 360, 1.4, true) + palm(80, 590, 1.3, true) + palm(326, 600, 1.2) + palm(236, 182, 1.1) + decor + '</svg>' +
       stations.map((station, n) => '<button type="button" class="kh-station" data-n="' + n + '" style="--n:' + n + ';left:' + pct(spots[n][0], W) + ';top:' + pct(spots[n][1], H) + '">' +
-        '<span class="kh-station-icon" aria-hidden="true">' + esc(station.simge) + '</span><span class="kh-station-state" aria-hidden="true"></span>' +
+        '<span class="kh-station-icon' + (station.resim ? ' resim' : '') + '" aria-hidden="true">' + (station.resim ? '<img src="' + esc(station.resim) + '" alt="" draggable="false">' : esc(station.simge)) + '</span><span class="kh-station-state" aria-hidden="true"></span>' +
         '<span class="kh-station-name">' + esc(station.ad) + '<small></small></span></button>').join('') +
       me() + header('Koya dön');
   }

@@ -7,7 +7,7 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
-## 0.84.0 · 27.11.2026
+## 0.85.0 · 27.11.2026
 
 Elif Ba Adası’na **Şedde** bölümü geldi. Tenvin Koyu’nu bitiren çocuklar Güneş Adacığı’ndan tekneyle yeni **Şedde Koyu**’na geçiyor: İkiz, Kayalık, Mağara, Şelale, Kale, Yanardağ ve Hazine Adacığı. Her adacıkta yine dört harf var; 28 harfin her biri şeddeli okunuyor. Yolda artık 35 adacık var.
 
@@ -18,6 +18,15 @@ Elif Ba Adası’na **Şedde** bölümü geldi. Tenvin Koyu’nu bitiren çocukl
 - **Harita:** Şedde Koyu bir hazine adası: koyu turkuaz deniz, adacıklarda dalgalanan bayraklar, en sondaki Hazine Adacığı’nda bir hazine sandığı. Üstteki sayaçlara 🐙 şedde, akvaryumun harf baloncuklarına şeddeli heceler, Ayarlar’daki ilerleme özetine ve yönetici sayfasına Şedde ve Şedde Balonları eklendi.
 - **Sesler:** Diyanet Elifba’da her harfin şeddeli hecesinin ayrı kaydı yok. Şeddeli heceler, Diyanet’in kuralına göre (“harfi bir önceki harf ile birleştirip sesi bölmeden tekrar okutur”) oyundaki iki Diyanet kaydı aradaki sessizlik kesilerek birleştirilip yapıldı: cezimli hece ve harekeli hece (bis + se). Karşılaştırma için şeddesizleri de aynı yolla yapıldı (bi + se). 7 örnek kelime Diyanet’in Şedde dersinden olduğu gibi alındı; şeddenin adı kız çocuk sesiyle.
 - Çocukların kayıtlı ilerlemesi olduğu gibi duruyor.
+
+## 0.84.1 · 27.11.2026
+
+- **Telefonda büyüyen ekran düzeldi:** Okul Hayatı adasının altındaki “📖 Kelimeleri Gör” düğmeleri yan yana sığmayınca alt satıra geçmiyor, sayfayı ekrandan genişletiyordu; telefon da bütün sayfayı büyütüp kaydırıyordu (Keşif Kartı'nda ve sorularda ekran büyük görünüyordu). Düğmeler artık alt alta diziliyor ve kendi resimleriyle görünüyor; sayfa hiçbir zaman ekrandan genişlemiyor.
+
+## 0.84.0 · 27.11.2026
+
+- **İstasyonların resimleri:** Okul Hayatı'nın 9 istasyonu haritada artık emoji yerine kendi resmiyle görünüyor: okul binası, oyun alanı, çocuklar, okul müdürleri, takvim, saatler, mikrofon, soru işaretleri ve tokalaşan çocuklar.
+- **Telefonda ekran büyümüyor:** Oyunlarda resme ya da karta art arda hızlı dokununca telefonun tarayıcısı ekranı yakınlaştırıyordu. Çift dokunmayla yakınlaşma kapatıldı; telefon yan çevrilince yazılar da kendiliğinden büyümüyor.
 
 ## 0.83.0 · 27.11.2026
 

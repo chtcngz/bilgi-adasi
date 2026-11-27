@@ -279,7 +279,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
         // a week is done once its round has been finished; the next week opens then
         const done = haftali ? p < doneParts(stops[k]) : n === part.length;
         const s = ist(stops[k])?.[p];
-        return { simge: s ? s.simge : String(p + 1), ad: s ? s.ad : partName(p), etiket: stops[k].ad + ', ' + partName(p, stops[k]), not: n + ' / ' + part.length,
+        return { simge: s ? s.simge : String(p + 1), resim: s?.resim, ad: s ? s.ad : partName(p), etiket: stops[k].ad + ', ' + partName(p, stops[k]), not: n + ' / ' + part.length,
           durum: !partOpen(k, p) ? 'locked' : done ? 'done' : p === now ? 'now' : 'open',
           kilit: 'Önce ' + partName(p - 1, stops[k]) + ' bitmeli' };
       });
@@ -330,7 +330,12 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
         if (ist(stop) && oyunlar) {
           const words = kutu('<strong>📖 Kelimeleri Gör</strong><small>İstasyonun kelimelerini resim ve sesle yeniden gör.</small><div class="kh-row kh-kelimeler"></div>');
           const row = words.querySelector('.kh-kelimeler');
-          ist(stop).forEach((s, n) => { if (partOpen(k, n)) row.append(dugme(s.simge + ' ' + s.ad, () => tanit(k, n, null))); });
+          ist(stop).forEach((s, n) => {
+            if (!partOpen(k, n)) return;
+            const b = dugme(s.ad, () => tanit(k, n, null));
+            if (s.resim) { const img = el('img'); img.src = s.resim; img.alt = ''; b.prepend(img); } else b.prepend(s.simge + ' ');
+            row.append(b);
+          });
           parts.push(words);
         }
         const box = review();

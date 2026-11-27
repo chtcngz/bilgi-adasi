@@ -140,6 +140,9 @@
 .kh-station.now .kh-station-name small { color: #d9f3ea; }
 .kh-station.locked { background: #efe8d8; }
 .kh-station.locked .kh-station-icon { filter: grayscale(.9); opacity: .55; }
+/* a station with a picture (İngilizce Koyu's stations by topic): the picture fills the circle */
+.kh-station-icon.resim { position: absolute; inset: 0; overflow: hidden; border-radius: 50%; }
+.kh-station-icon.resim img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .kh-station.locked .kh-station-state { background: #b9b2a3; font-size: clamp(8px, 2.4cqw, 11px); }
 .kh-station.locked .kh-station-name { color: #8a8576; }
 
@@ -193,6 +196,10 @@
 .kh-row > span:first-child { font-size: 28px; }
 .kh-row > div { flex: 1; }
 .kh-quiet { padding: 8px 14px; border: 2px solid #d5e6dc; border-radius: 14px; background: #fff; color: #17594f; font: inherit; font-weight: 850; cursor: pointer; }
+/* 📖 Kelimeleri Gör: a button for every open station, wrapping onto new lines so it never widens the page */
+.kh-kelimeler { flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.kh-kelimeler .kh-quiet { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px 4px 4px; }
+.kh-kelimeler .kh-quiet img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
 
 @media (prefers-reduced-motion: reduce) {
   .kh-map * { animation: none !important; }
