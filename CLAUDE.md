@@ -31,8 +31,15 @@ be left unlearned.
 
 `app/english/` (…/bilgi-adasi/english/) is the English for Kids site: English Koyu only, built from the owner's topic map
 (*English for Kids — Konu Haritası*, 13 bölüm). One island per bölüm (`app/islands/english-<n>/`), one station per topic. Until
-the owner says otherwise, work only on bölüm 1 (İlk Adımlar: Greetings, Alphabet, Numbers, Question Words). Its `kapsam.md` lists the
-words of the map's sub-topics instead of book pages; the textbook rule's checks (every line has a question) still apply.
+the owner says otherwise, work only on bölüm 1 (İlk Adımlar: Greetings, Alphabet, Numbers, Question Words).
+
+- **Never write questions unless the owner asks for them.** The owner gives each station's word list; it lives in the island's
+  `kelimeler.js` (and `kapsam.md`).
+- **A question may use only the words of those lists.** The only extras allowed: English first names, and ages from 5 to 20, in
+  questions and answers about names and ages.
+- Nobody plays the site yet (only the owner, testing), so questions may keep the stop id `ilk` when they are written again.
+- The owner picks the words' pictures on `…/english/resimler/` (up to six per word, first = main); the choices and uploads are
+  in Firestore `resimler/…`. "Resimleri oyuna işle" means: read them (public read) and bring them into the game.
 
 ## Elif Ba: the children cannot read yet (set by the owner)
 

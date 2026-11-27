@@ -16,6 +16,7 @@ Sounds are loaded with `fetch`, so opening the file directly via `file://` leave
 app/                         Published site (GitHub Pages root)
 ├── index.html               All screens and the script/style load order
 ├── english/index.html       English for Kids (…/english/): the same game with only English Koyu (see "English for Kids")
+├── english/resimler/        Resimler · English: the owner picks the words' pictures (index.html, sayfa.js, sayfa.css; not linked)
 ├── core/                    Shared infrastructure for every island
 │   ├── js/
 │   │   ├── app.js           $(), activeProfile, storageFailed: loaded first
@@ -90,8 +91,8 @@ app/                         Published site (GitHub Pages root)
 │   │       ├── sepet.js     🧺 Sepete Topla: mussels carried into baskets (by letter, hareke, cezm, tenvin, şedde)
 │   │       ├── bridge.*     Cam Köprü, the mixed game at the end of every cove
 │   ├── din-bilgisi/         Question island: sorular.js + game.js + kapsam.md
-│   ├── english-1/           English for Kids, Ada 1 (İlk Adımlar): sorular.js, istasyonlar.js, game.js, kapsam.md and
-│   │                        resimler.js (the letter tiles [[harf-a]] … and the ordinal badges [[sira-4]] …)
+│   ├── english-1/           English for Kids, Ada 1 (İlk Adımlar): kelimeler.js (the stations' words), sorular.js (empty
+│   │                        until the owner asks), game.js, kapsam.md and resimler.js (letter tiles [[harf-a]] …, badges [[sira-4]] …)
 │   ├── fen-bilimleri/       Question island: same pattern
 │   ├── ingilizce-2/ -3/ -4/ İngilizce Koyu, one question island per grade (each grade sees only its own); 2nd grade done, 3rd and 4th still empty
 │   │                        (ingilizce-2/sahneler.js: the pictures of 🔍 Gizli Kelimeler and the places to tap in them;
@@ -201,11 +202,25 @@ A second site at `…/bilgi-adasi/english/` (`app/english/index.html`) teaches E
 - `<body data-koylar="eng1-card">`: `availableForPlayer` (core/js/profiles.js) hides every bay and card not listed, for every grade
   and for devAll too, so Çarpım Koyu and Elif Ba (still loaded, Ayarlar needs them) never show there.
 - **English Koyu** has one island per bölüm of the topic map, each a stop of `islands/english-<n>/sorular.js`, cut into one station
-  per topic (`istasyonlar.js`) and played as İngilizce Koyu's games. Only bölüm 1, İlk Adımlar (Greetings, Alphabet, Numbers,
-  Question Words), is built; the rest is on `YAPILACAKLAR.md`. There is no textbook: `kapsam.md` lists the words and phrases of
-  every sub-topic of the map, and `node tools/kapsam.js` checks that each has a question.
-- Progress is saved as `ingilizce-en1-<player id>` (the `ingilizce-` prefix is already in the cloud copy). The new English lines
-  are not recorded yet: the device's English voice reads them until `tools/ingilizce_sesler.py` records them.
+  per topic and played as İngilizce Koyu's games. The owner gives every station's words (`kelimeler.js`, `window.englishAdalari`);
+  questions use only those words and are written only when the owner asks. Bölüm 1, İlk Adımlar, has its Selamlaşma words
+  (42) and no questions yet, so its island says "Yakında". `kapsam.md` lists the same words; `node tools/kapsam.js` checks it
+  once the bank has questions.
+- Progress is saved as `ingilizce-en1-<player id>` (the `ingilizce-` prefix is already in the cloud copy).
+- **Resimler · English** (`app/english/resimler/`, not linked): every word by island › station › group with up to six pictures
+  (the first is the main one; ◀ ✕ ▶ order and remove them). 🖼️ Tüm resimler opens every picture of the project (the drawings of
+  kelime-resimleri.js, cizimler.js, resimler.js and the islands' resimler.js, the emoji of İngilizce Koyu's questions, the
+  uploads) grouped by where they are used, with a search over the picture's name and the words it is used for. 📤 Yükle makes a
+  picture 256×256 at most and keeps it in the cloud. Choices: Firestore `resimler/secimler` (`json`: `{"english-1/selam/hello":
+  ["[[y-hello-3]]", …]}`); uploads: `resimler/yuklenen/liste/{id}` (`ad`, `veri` = a data: URL). Writing needs the admin's
+  account (same sign-in as admin/); the owner adds this rule in the Firebase console:
+  ```
+  match /resimler/{doc=**} {
+    allow read: if true;
+    allow write: if isAdmin();
+  }
+  ```
+  The choices reach the game only when they are brought in (an upload becomes `assets/images/english/<id>.webp`).
 
 ## Keşif Haritası
 

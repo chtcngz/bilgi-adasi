@@ -1,0 +1,65 @@
+<!doctype html>
+<!-- Resimler · English (…/bilgi-adasi/english/resimler/): the owner's page for the pictures of English for Kids. Not linked
+     from the game. Every word of every station (islands/english-*/kelimeler.js), grouped by island and station, with up to six
+     pictures chosen for it; 🖼️ Tüm resimler opens every picture of the project with a search box, and 📤 Yükle adds a picture
+     of the owner's own. Choices and uploads are kept in the cloud (Firestore resimler/…), written with the admin's account.
+     <base href="../../"> makes every path resolve to app/. -->
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<base href="../../">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Resimler · English</title>
+<link rel="stylesheet" href="english/resimler/sayfa.css?v=1">
+</head>
+<body>
+<header class="rs-head">
+  <div class="rs-top">
+    <h1><span aria-hidden="true">🖼️</span> Resimler <small>· English</small></h1>
+    <span id="rs-durum" class="rs-durum" role="status"></span>
+  </div>
+  <div class="rs-bar">
+    <input id="rs-kelime-ara" type="search" placeholder="🔍 Kelime ara (hello, merhaba …)" autocomplete="off" aria-label="Kelime ara">
+    <span id="rs-giris" class="rs-giris"></span>
+  </div>
+</header>
+<p id="rs-uyari" class="rs-uyari" hidden></p>
+<div id="rs-kilit" class="rs-kilit" hidden>
+  <p>Değişiklikleri kaydetmek için yönetici hesabınla gir. Girmeden de bakabilirsin.</p>
+  <div id="rs-google"></div>
+  <details><summary>E-postayla gir</summary>
+    <form id="rs-form" class="rs-form">
+      <input id="rs-email" type="email" autocomplete="username" placeholder="E-posta" required>
+      <input id="rs-sifre" type="password" autocomplete="current-password" placeholder="Şifre" required>
+      <button type="submit" class="rs-btn ana">Gir ▶</button>
+    </form>
+  </details>
+  <p id="rs-kilit-not" class="rs-not" role="alert"></p>
+</div>
+<main id="rs-ana"></main>
+<dialog id="rs-havuz" aria-labelledby="rs-havuz-baslik">
+  <div class="rs-havuz-ust">
+    <div class="rs-havuz-satir">
+      <h2 id="rs-havuz-baslik">Tüm resimler</h2>
+      <button type="button" id="rs-havuz-kapat" class="rs-yuvarlak" aria-label="Kapat">✕</button>
+    </div>
+    <p id="rs-havuz-kelime" class="rs-havuz-kelime"></p>
+    <div class="rs-havuz-satir">
+      <input id="rs-bul" type="search" placeholder="🔍 Bul: resim adı ya da kelime (apple, elma, hello …)" autocomplete="off" aria-label="Resim bul">
+      <label class="rs-btn"><input type="file" id="rs-yukle-havuz" accept="image/*" multiple hidden>📤 Yükle</label>
+    </div>
+  </div>
+  <div id="rs-havuz-icerik" class="rs-havuz-icerik"></div>
+</dialog>
+<input type="file" id="rs-yukle" accept="image/*" multiple hidden>
+<script src="core/js/bulut-ayar.js?v=4"></script>
+<script src="core/js/kelime-resimleri.js?v=19"></script>
+<script src="core/js/cizimler.js?v=15"></script>
+<script src="core/js/resimler.js?v=20"></script>
+<script src="islands/english-1/resimler.js?v=1"></script>
+<script src="islands/english-1/kelimeler.js?v=1"></script>
+<script src="islands/ingilizce-2/sorular.js?v=38"></script>
+<script src="english/resimler/sayfa.js?v=1"></script>
+</body>
+</html>

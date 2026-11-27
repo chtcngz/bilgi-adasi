@@ -9,7 +9,7 @@ soruAdasi({
   lead: 'İngilizce · 8-12 yaş',
   simge: '🇬🇧',
   tema: 'ingilizce',
-  kaynak: 'English for Kids, 1. bölüm: İlk Adımlar. Dört istasyon: 👋 Selamlaşma, 🔤 Alfabe, 🔢 Sayılar, ❓ Soru kelimeleri. Her istasyon önce kelimelerini resim ve sesle tanıtır (Keşif Kartı), sonra oyunlarla oynanır: 👂 Dinle ve Bul, 🎈 Balon Patlat, 🃏 Sesli Hafıza, 🚂 Kelime Treni ve 🎴 Bilgi Kartı. 🐢 ile yavaşça da dinleyebilirsin. İlk denemede bilemediğin kelimeler Tekrar Kutusu’na girer; orada 6 yanlış birikince 🎯 Yanlış Avı açılır. Yeni bölümler (renkler, aile, okul …) adım adım gelecek.',
+  kaynak: 'English for Kids, 1. bölüm: İlk Adımlar (👋 Selamlaşma, 🔤 Alfabe, 🔢 Sayılar, ❓ Soru kelimeleri). Sorular hazırlanıyor.',
   kayit: 'ingilizce-en1-',
   duraklar: english1Sorular,
   ovgu: ['Great!', 'Super!', 'Well done!', 'Excellent!', 'Bravo!', 'Fantastic!'],
@@ -17,6 +17,5 @@ soruAdasi({
   ses: 'en-GB',
   yanlisAvi: true,
   ikinciSans: true,
-  istasyonlar: english1Istasyonlar,
   oyunlar: { sepet: [] }
 });

@@ -21,7 +21,10 @@ Haritada her birinin koyu bulutların altında, kilitli ve “Yakında” olarak
 
 1. bölüm (İlk Adımlar) hazır. Sıradaki bölümler, konu haritasındaki sırayla, her biri bir ada (`app/islands/english-<n>/`), her konusu bir istasyon. Sahibi söyleyene kadar yalnızca 1. bölüm üzerinde çalışılır.
 
-- [ ] **İlk Adımlar’ın İngilizce sesleri:** yeni cümlelerin doğal ses kayıtları (`tools/ingilizce_sesler.py`); şimdilik cihazın İngilizce sesi okuyor
+- [ ] **İlk Adımlar’ın soruları:** sahibi istediğinde, yalnızca istasyonların kelime listelerindeki kelimelerle
+- [ ] **Alfabe, Sayılar, Soru kelimeleri istasyonlarının kelime listeleri** (sahibinden)
+- [ ] **Resimlerin oyuna işlenmesi:** Resimler sayfasındaki seçimler ve yüklenen resimler oyuna
+- [ ] **Firestore kuralı:** `resimler` koleksiyonu için okuma/yazma kuralı (sahibi Firebase konsolunda ekler)
 - [ ] **2. bölüm, Temel Kavramlar:** Renkler, Şekiller, Zıt Kavramlar, Yönler
 - [ ] **3. bölüm, İnsan:** Aile, Vücut, Kişilik, Duygular, Kıyafetler
 - [ ] **4. bölüm, Okul:** Okuldaki İnsanlar, Okul Eşyaları, Okulun Bölümleri, Dersler, Sınıf Dili

@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.95.0 · 27.11.2026
+
+- **English, İlk Adımlar’ın soruları kaldırıldı:** Sorular, istasyonların kelime listelerine göre yeniden hazırlanacak; ada o zamana kadar haritada “Yakında” duruyor. Selamlaşma istasyonunun 42 kelimelik listesi saklandı.
+- **Yeni sayfa: Resimler (…/english/resimler/).** Kelimeler ada ve istasyona göre sıralı; her kelimeye en fazla 6 resim seçilebiliyor (ilk resim ana resim). 🖼️ Tüm resimler projedeki bütün resimleri gruplar hâlinde ve 🔍 Bul aramasıyla açıyor; 📤 Yükle ile yeni resim eklenebiliyor. Seçimler yönetici hesabıyla buluta kaydediliyor.
+
 ## 0.94.0 · 27.11.2026
 
 - **English, Selamlaşma istasyonu büyüdü:** 26 yeni soruyla istasyonda artık 42 kelime ve kalıp var. Yeni olanlar: bye-bye, see you later, see you soon, take care, Have a nice day!, friend, Welcome!, I am good, I am great, I am okay, And you?, thanks, Thank you very much!, I am sorry, yes, no. “Welcome!” (Hoş geldin) ile “You’re welcome!” (Rica ederim) farkını soran bir soru da var.
