@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.92.0 · 27.11.2026
+
+- **Dinle ve Bul'da doğru kelime aşağıdan yükseliyor:** Doğru resme dokununca kelimenin resmi ve altında İngilizce yazısı ekranın altından yaylanarak ortaya çıkıyor, etrafında yıldızlar patlıyor. Erkek sesi kelimeyi ancak kart ortaya oturunca söylüyor, ardından övgü geliyor.
+
 ## 0.91.0 · 27.11.2026
 
 İngilizce Koyu, 🃏 Sesli Hafıza yenilendi:

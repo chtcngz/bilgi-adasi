@@ -361,8 +361,15 @@ const ingilizceOyunlari = (() => {
               card.classList.add('right');
               sparkle(card, { count: 14, spread: 80 });
               x.sonuc(item, first);
+              // the word rises from the bottom to the middle; only when it is there does the answer voice say it
+              // (a line still waiting from a wrong tap is dropped first)
+              x.sus();
+              const shown = cikar(x.game, item);
+              await shown.geldi;
+              if (!x.live.on) return;
               await x.praise(item.en);
               await x.wait(700);
+              await shown.kapat();
               resolve();
             } else {
               first = false;
@@ -719,6 +726,22 @@ const ingilizceOyunlari = (() => {
         x.wait(300).then(() => { if (!over && first) x.say(item.en); });
       });
     }
+  }
+  // 👂 Dinle ve Bul: the right word's picture and the word itself rise from the bottom of the game to its middle.
+  function cikar(host, item) {
+    const card = el('div', 'og-buyuk og-cikan', (item.emo ? resimKarti(item.emo) : '') + '<b lang="en">' + esc(item.en) + '</b>');
+    host.append(card);
+    const below = host.clientHeight / 2 + card.offsetHeight / 2 + 20;
+    const geldi = card.animate([
+      { transform: 'translate(-50%, calc(-50% + ' + below + 'px)) scale(.6)', opacity: 0, easing: 'cubic-bezier(.3, .7, .4, 1.25)' },
+      { transform: 'translate(-50%, -50%) scale(1.08)', opacity: 1, offset: 0.8, easing: 'ease-out' },
+      { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 }
+    ], { duration: 900, fill: 'forwards' }).finished.then(() => { sparkle(card, { count: 14, spread: 110 }); }, () => {});
+    return {
+      geldi,
+      kapat: () => card.animate([{ opacity: 1, transform: 'translate(-50%, -50%) scale(1)' }, { opacity: 0, transform: 'translate(-50%, -60%) scale(.9)' }], { duration: 250, fill: 'forwards' })
+        .finished.then(() => card.remove(), () => card.remove())
+    };
   }
   // The right balloon's picture, from where the balloon was to the middle of the sky, growing, with the word under it.
   function buyut(sky, item, from) {
