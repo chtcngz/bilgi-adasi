@@ -7,6 +7,13 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.93.0 · 27.11.2026
+
+- **Yeni site: English for Kids.** Çocuklara İngilizce öğreten ada oyunu artık kendi adresinde: **…/bilgi-adasi/english/**. Oyuncular, ilerleme ve akvaryum Bilgi Adası ile ortak; aynı çocuk aynı oyuncuyla girer. Haritada yalnızca English Koyu var.
+- **İlk ada: İlk Adımlar.** Konu haritasının 1. bölümü, dört istasyon ve 172 soru: 👋 **Selamlaşma** (selamlaşma ve vedalaşma, tanışma, nezaket sözcükleri), 🔤 **Alfabe** (26 harf ve okunuşları, her harfe bir örnek kelime, heceleme), 🔢 **Sayılar** (1–20, first–tenth), ❓ **Soru kelimeleri** (who, what, where, when, why, how). Her istasyon önce kelimelerini resim ve sesle tanıtır, sonra İngilizce Koyu’nun oyunlarıyla oynanır; adanın sonunda 20 soruluk deneme ve 🎯 Yanlış Avı var.
+- **Harf ve sıra resimleri:** Alfabe için her harfin büyük ve küçük hâlini gösteren renkli harf kartları, 4th–10th için kurdeleli sıra rozetleri çizildi.
+- Diğer bölümler (renkler, aile, okul …) haritada sırayla eklenecek.
+
 ## 0.92.0 · 27.11.2026
 
 - **Dinle ve Bul'da doğru kelime aşağıdan yükseliyor:** Doğru resme dokununca kelimenin resmi ve altında İngilizce yazısı ekranın altından yaylanarak ortaya çıkıyor, etrafında yıldızlar patlıyor. Erkek sesi kelimeyi ancak kart ortaya oturunca söylüyor, ardından övgü geliyor.

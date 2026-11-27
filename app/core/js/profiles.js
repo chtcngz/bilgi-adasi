@@ -73,7 +73,11 @@ function choosePlayer(profile) {
   showCatalog();
 }
 
+// A page that shows only some bays (app/english/: <body data-koylar="eng1-card">) hides every other bay and card, even for devAll.
+const pageCards = document.body.dataset.koylar?.split(' ') || null;
+const pageTitle = document.title;
 function availableForPlayer(card) {
+  if (pageCards && !pageCards.includes(card.id)) return false;
   return devAll() || card.dataset.grades.split('|').includes(activeProfile.grade);
 }
 // Keşif Limanı: for the 1st to 4th grades, Keşif Haritası with a bay for every subject (core/js/harita.js);
@@ -88,7 +92,7 @@ function showCatalog() {
   $('empty-catalog').hidden = map || cards.some(card => !card.hidden);
   if (!map) $('game-tools').hidden = true;
   $('catalog').hidden = false;
-  document.title = 'Keşif Limanı · Bilgi Adası';
+  document.title = pageTitle;
   akvaryum.refresh();
   $('catalog-title').focus();
 }

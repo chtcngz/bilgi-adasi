@@ -172,7 +172,9 @@ function startAdmin() {
     { kod: 'sosyal', ad: 'Sosyal Bilgiler Adası', simge: '🗺️', kayit: 'sosyal-bilgiler-', duraklar: typeof sosyalSorular !== 'undefined' && sosyalSorular },
     { kod: 'ing2', ad: 'İngilizce Adası (2. sınıf)', simge: '🇬🇧', kayit: 'ingilizce-2-', duraklar: typeof ingilizce2Sorular !== 'undefined' && ingilizce2Sorular },
     { kod: 'ing3', ad: 'İngilizce Adası (3. sınıf)', simge: '🇬🇧', kayit: 'ingilizce-3-', duraklar: typeof ingilizce3Sorular !== 'undefined' && ingilizce3Sorular },
-    { kod: 'ing4', ad: 'İngilizce Adası (4. sınıf)', simge: '🇬🇧', kayit: 'ingilizce-4-', duraklar: typeof ingilizce4Sorular !== 'undefined' && ingilizce4Sorular }
+    { kod: 'ing4', ad: 'İngilizce Adası (4. sınıf)', simge: '🇬🇧', kayit: 'ingilizce-4-', duraklar: typeof ingilizce4Sorular !== 'undefined' && ingilizce4Sorular },
+    // the English for Kids site (app/english/): shown for a player once they have played it
+    { kod: 'eng1', ad: 'English: İlk Adımlar', simge: '🇬🇧', kayit: 'ingilizce-en1-', duraklar: typeof english1Sorular !== 'undefined' && english1Sorular }
   ].filter(q => Array.isArray(q.duraklar) && q.duraklar.length); // a bank still empty (İngilizce) is left out
   const gradeIslands = {
     'Okul öncesi': ['elif'], '1. sınıf': [], '2. sınıf': ['carpim', 'ing2'], '3. sınıf': ['carpim', 'ing3'],

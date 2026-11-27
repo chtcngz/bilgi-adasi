@@ -15,6 +15,7 @@ Sounds are loaded with `fetch`, so opening the file directly via `file://` leave
 ```
 app/                         Published site (GitHub Pages root)
 ├── index.html               All screens and the script/style load order
+├── english/index.html       English for Kids (…/english/): the same game with only English Koyu (see "English for Kids")
 ├── core/                    Shared infrastructure for every island
 │   ├── js/
 │   │   ├── app.js           $(), activeProfile, storageFailed: loaded first
@@ -89,6 +90,8 @@ app/                         Published site (GitHub Pages root)
 │   │       ├── sepet.js     🧺 Sepete Topla: mussels carried into baskets (by letter, hareke, cezm, tenvin, şedde)
 │   │       ├── bridge.*     Cam Köprü, the mixed game at the end of every cove
 │   ├── din-bilgisi/         Question island: sorular.js + game.js + kapsam.md
+│   ├── english-1/           English for Kids, Ada 1 (İlk Adımlar): sorular.js, istasyonlar.js, game.js, kapsam.md and
+│   │                        resimler.js (the letter tiles [[harf-a]] … and the ordinal badges [[sira-4]] …)
 │   ├── fen-bilimleri/       Question island: same pattern
 │   ├── ingilizce-2/ -3/ -4/ İngilizce Koyu, one question island per grade (each grade sees only its own); 2nd grade done, 3rd and 4th still empty
 │   │                        (ingilizce-2/sahneler.js: the pictures of 🔍 Gizli Kelimeler and the places to tap in them;
@@ -118,7 +121,8 @@ sources/                     Raw material (not published)
 - **Every sound lives under `app/assets/audio/`**: effects in `ui/`, and each island's or section's recordings in their own subfolder. The raw, unprocessed library is kept in `sources/` and is not published.
 - **Load order matters** because the files are plain scripts: `core/js/app.js` → `sounds` → `fx` → islands and core helpers → `core/js/settings.js` (last).
 - **One look for back and close buttons** (`core/css/base.css`): a button that goes back to a place with a name is `.btn-back` (a pill with a chevron badge: *Keşif Limanı*, *Yol*); a button that leaves a game, a round or a map level is `.btn-round` (a round icon button, × by default, ‹ with `.is-back`; it has no text, so it needs an `aria-label`). Islands only place them (float, position); they do not restyle them.
-- **Cache busting:** every `<link>`/`<script>` address in `index.html` ends in `?v=…`. When you change a file, bump its number.
+- **Cache busting:** every `<link>`/`<script>` address in `index.html` ends in `?v=…`. When you change a file, bump its number
+  (in `english/index.html` too when it loads the file).
   `islands/ingilizce-*/sira.js` is rewritten by `node tools/kapsam.js` whenever kapsam.md changes: bump its number too.
 - **İngilizce Koyu: six islands × four weeks.** Each theme is an island and each island four stations, *Hafta 1-4*, in the
   book's order; a week opens when the round of the one before has been finished (`progress.bolum`, or when every question
@@ -185,6 +189,23 @@ sources/                     Raw material (not published)
   `core/js/bulut-ayar.js` when set. If the Google account gets a different UID from the old e-mail account,
   `isAdmin()` must name it too.
 - **Saved-data keys never change.** Progress is kept in localStorage (`carpim-adasi-profiller`, `carpim-adasi-oyuncu-*`, `elif-ba-v2-*`, `din-bilgisi-*`, `akvaryum-*` …). Renaming a key wipes the children's progress. Every key of a player ends in the player's id, so deleting the player removes them all.
+
+## English for Kids
+
+A second site at `…/bilgi-adasi/english/` (`app/english/index.html`) teaches English to 8-12 year olds by the owner's topic map,
+*English for Kids — Konu Haritası* (13 bölüm, 46 ünite, A1 → early A2). It is Bilgi Adası itself with one bay:
+
+- `<base href="../">` makes every path of the page resolve to `app/`, so it loads Bilgi Adası's own code, sounds and pictures, and
+  being the same origin it shares the players, their progress, the cloud copy and the aquarium. Keep its markup and `?v=` numbers in
+  step with `app/index.html`; it leaves out the other question islands (their dialogs, progress rows and scripts).
+- `<body data-koylar="eng1-card">`: `availableForPlayer` (core/js/profiles.js) hides every bay and card not listed, for every grade
+  and for devAll too, so Çarpım Koyu and Elif Ba (still loaded, Ayarlar needs them) never show there.
+- **English Koyu** has one island per bölüm of the topic map, each a stop of `islands/english-<n>/sorular.js`, cut into one station
+  per topic (`istasyonlar.js`) and played as İngilizce Koyu's games. Only bölüm 1, İlk Adımlar (Greetings, Alphabet, Numbers,
+  Question Words), is built; the rest is on `YAPILACAKLAR.md`. There is no textbook: `kapsam.md` lists the words and phrases of
+  every sub-topic of the map, and `node tools/kapsam.js` checks that each has a question.
+- Progress is saved as `ingilizce-en1-<player id>` (the `ingilizce-` prefix is already in the cloud copy). The new English lines
+  are not recorded yet: the device's English voice reads them until `tools/ingilizce_sesler.py` records them.
 
 ## Keşif Haritası
 

@@ -27,6 +27,13 @@ be left unlearned.
   ever append questions to the end of a stop; never delete or reorder them.
 - Topics an exam asks but the book does not teach go to the island's `ekstra` stop, not to a unit stop.
 
+## English for Kids (set by the owner)
+
+`app/english/` (…/bilgi-adasi/english/) is the English for Kids site: English Koyu only, built from the owner's topic map
+(*English for Kids — Konu Haritası*, 13 bölüm). One island per bölüm (`app/islands/english-<n>/`), one station per topic. Until
+the owner says otherwise, work only on bölüm 1 (İlk Adımlar: Greetings, Alphabet, Numbers, Question Words). Its `kapsam.md` lists the
+words of the map's sub-topics instead of book pages; the textbook rule's checks (every line has a question) still apply.
+
 ## Elif Ba: the children cannot read yet (set by the owner)
 
 The children who learn the Elif Ba cannot read or write, in Turkish or in Arabic. Design every section and
