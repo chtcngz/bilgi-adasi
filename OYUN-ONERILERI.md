@@ -7,8 +7,8 @@ Oynanabilir taslaklar **Deneme Odası**'nda duruyor: `app/deneme/` (yayında `�
 | 🐣 İlk Harf Albümüm | Deneme Odası’nda · yumurtalardan çıkan 28 sesli harf |
 | 🐢 Harf Büyüteci | Deneme Odası’nda · gösterilen harfin eşine dokunma |
 | 🐠 Akvaryum | **Oyunda** (0.16.0) |
-| 🐚 Kabuk Hafızası | **Oyunda** (0.82.0) · oyun adımlarında seçilebiliyor; taslağı Deneme Odası'nda da duruyor |
-| 🦀 Yengeç Avı, 🎣 Balık Tutma, 🧺 Sepete Topla | **Oyunda** (0.82.0) · oyun adımlarında balon ve yağmur oyunlarının yerine seçilebiliyor |
+| 🐚 Kabuk Hafızası | **Oyunda** (0.83.0) · oyun adımlarında seçilebiliyor; taslağı Deneme Odası'nda da duruyor |
+| 🦀 Yengeç Avı, 🎣 Balık Tutma, 🧺 Sepete Topla | **Oyunda** (0.83.0) · oyun adımlarında balon ve yağmur oyunlarının yerine seçilebiliyor |
 | 🚂 Hece Treni | Deneme Odası'nda |
 | 🎩 Harekeyi Giydir | Yeni fikir, Deneme Odası'nda |
 | 📿 İnci Kolye | Yeni fikir, Deneme Odası'nda |
@@ -35,9 +35,9 @@ Kumsalda kapalı deniz kabukları var. Çocuk iki kabuk açıyor ve her açılan
 
 **Taslakta:** Üç seviye de var (4, 4 ve 5 çift). Hece seviyesinde aynı okunan iki hece aynı tahtaya gelmiyor.
 
-**Oyunda (0.82.0):** Her adacığın oyun adımında, adımın kendi yağmur ya da balon oyunu yerine seçilebiliyor (`games/kabuk.js`). Bir kabuk heceyi söylüyor 🔊, öteki yazısını gösteriyor; sesi ile yazısı eşleşince inci oluyor. İki tahta var (4 ve 6 çift), ikincisinde ilk tahtadakilerin en kolay karışanları da var (bin ile bi, be ile bi). Can yok; boşuna açılan kabuk sayısı yıldızları belirliyor.
+**Oyunda (0.83.0):** Her adacığın oyun adımında, adımın kendi yağmur ya da balon oyunu yerine seçilebiliyor (`games/kabuk.js`). Bir kabuk heceyi söylüyor 🔊, öteki yazısını gösteriyor; sesi ile yazısı eşleşince inci oluyor. İki tahta var (4 ve 6 çift), ikincisinde ilk tahtadakilerin en kolay karışanları da var (bin ile bi, be ile bi). Can yok; boşuna açılan kabuk sayısı yıldızları belirliyor.
 
-## 🦀 Yengeç Avı, 🎣 Balık Tutma, 🧺 Sepete Topla (0.82.0)
+## 🦀 Yengeç Avı, 🎣 Balık Tutma, 🧺 Sepete Topla (0.83.0)
 
 Balon ve yağmur oyunlarına üç seçenek daha; üçü de oyun adımlarının seçme ekranında (`games/arcade.js` ortak kabuğu, `yengec.js`, `olta.js`, `sepet.js`).
 

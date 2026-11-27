@@ -63,7 +63,9 @@
     // "It’s Monday today.": the TODAY board of a classroom calendar for every day
     'today-monday', 'today-tuesday', 'today-wednesday', 'today-thursday', 'today-friday', 'today-saturday', 'today-sunday',
     // one day, one week (7 days)
-    'day-2', 'week-3'
+    'day-2', 'week-3',
+    // School Life: a second picture for every word of the unit
+    'teachers-room-2', 'library-4', 'school-2', 'canteen-2', 'classroom-2', 'garden-3', 'sports-hall-2', 'playground-2', 'lunch-hall-3', 'place-2', 'boy-2', 'girl-4', 'kid-2', 'friend-2', 'people-2', 'big-2', 'pupil-2', 'teacher-2', 'headmaster-3', 'headmistress-3', 'together-4', 'what-4', 'who-4', 'where-3', 'how-3', 'excuse-me-2', 'hello-3', 'hi-3', 'name-2', 'fine-3', 'thank-you-4'
   ];
   const more = {};
   for (const name of names) {

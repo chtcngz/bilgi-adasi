@@ -120,6 +120,14 @@ sources/                     Raw material (not published)
 - **İngilizce Koyu: six islands × four weeks.** Each theme is an island and each island four stations, *Hafta 1-4*, in the
   book's order; a week opens when the round of the one before has been finished (`progress.bolum`, or when every question
   of the weeks before is learned). After a round: *Sonraki bölüm*, *Tekrar oyna*, *Harita*.
+- **Stations by topic (istasyonlar.js).** A unit listed in an island's `istasyonlar.js` (2. sınıf: Okul Hayatı) is cut
+  into those stations instead of four weeks: each has a short name, a sign, its full name, its words `[English, Türkçe,
+  picture]` and the unit's question numbers. `tools/kapsam.js` checks that every question of such a unit is in exactly one
+  station, so a new question is added there too. Finished stations are `progress.istasyon` (a player who had finished weeks
+  gets the same share of the stations, once). The first time a station is opened its **Keşif Kartı** comes before the round
+  (`ingilizceOyunlari.kesif`: the words one by one, a big picture, the English said and the Turkish meaning in the device's
+  Turkish voice, a step bar with the player's icon, *Atla ⏭*); seen ones are `progress.tanitim` (`{ 'okul:3': 1 }`), and the
+  island's panel has *📖 Kelimeleri Gör* to see a station's words again.
 - **İngilizce Koyu's pictures** are cartoon drawings where an emoji is weak (`core/js/cizimler.js`: thick outlines, bright
   colours; an action is a child in a pose, a part of the body is ringed). A big picture sits on a card (`resimKarti`: rounded,
   a light shadow, a soft colour that is always the same for a picture), and an option's picture on a small card (`secenek`).

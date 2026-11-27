@@ -7,7 +7,7 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
-## 0.82.0 · 27.11.2026
+## 0.83.0 · 27.11.2026
 
 Elif Ba Adası’nda her adacığın oyun adımında artık **oyun seçiliyor**. Harf Yağmuru, Hece Balonları, Şekil Yağmuru, Cezm ve Tenvin Balonları’nın yerine dört yeni oyun da oynanabiliyor; hangisi sonuna kadar oynanırsa yola devam ediliyor.
 
@@ -18,6 +18,20 @@ Elif Ba Adası’nda her adacığın oyun adımında artık **oyun seçiliyor**.
 - **🧺 Sepete Topla:** Kumsala bir midye geliyor, kaplumbağa içindekini söylüyor; midye sürüklenip ya da sepete dokunularak doğru sepete atılıyor. Harf adacıklarında her harfin sepeti var ve midye yalnızca ses çıkarıyor; hece ve bitişik adacıklarında üstün, esre, ötre sepetleri; cezm adacıklarında cezimli ve cezimsiz (بِسْ, بِسَ); tenvin adacıklarında tenvinli ve tenvinsiz (بٍ, بِ). Yanlış sepette doğru sepet yeşil yanıyor. 16 midye, 3 can.
 - Her yeni oyunun rekoru ve yıldızları ayrı saklanıyor; Ayarlar’daki ilerleme özeti ve yönetici sayfası onları da gösteriyor.
 - Çocukların kayıtlı ilerlemesi olduğu gibi duruyor; bitmiş oyun adımları bitmiş sayılıyor.
+
+## 0.82.2 · 27.11.2026
+
+- **Keşif Kartı'nda ünitenin bütün kelimeleri:** Okul Hayatı'nın 50 kelimesinin hepsi artık kendi istasyonunun kartlarında tanıtılıyor; eksik kalan “hall” (salon) Okuldaki yerler 2'ye, “student” (öğrenci) Okuldaki kişiler'e eklendi.
+
+## 0.82.1 · 27.11.2026
+
+- **Keşif Kartı küçük ekranlara sığıyor:** Yatay tutulan telefonda ve küçük tablette kartın resmi çok büyük kalıyor, kelime ve “Sıradaki” düğmesi ekranın dışına taşıyordu. Resim artık ekranın yüksekliğine göre küçülüyor; yatay telefonda resim kelimenin yanında duruyor.
+
+## 0.82.0 · 27.11.2026
+
+- **Okul Hayatı artık 9 istasyon:** 2. sınıf İngilizce'nin 1. adası 4 hafta yerine konulara göre 9 istasyona ayrıldı: 🏫 Okuldaki yerler 1, 🌳 Okuldaki yerler 2, 🧒 Çocuklar, 👩‍🏫 Okuldaki kişiler, 📅 Günler, ⏰ Zaman, 🎵 Şarkı ve hareket, ❓ Soru kelimeleri, 👋 Tanışma ve selamlaşma. Her istasyonda 4-7 kelime var. Daha önce hafta bitirmiş çocukların ilerlemesi aynı oranda istasyonlara çevrildi (2 hafta bitmişse 5 istasyon).
+- **Keşif Kartı:** Bir istasyona ilk kez girince oyundan önce kelimeleri tek tek tanıtan kartlar açılıyor: büyük resim, İngilizce kelime sesli okunuyor, Türkçesi yazılı ve (cihazda Türkçe ses varsa) sesli. Resme dokununca resim zıplıyor ve kelime yeniden okunuyor. Üstte çocuğun simgesi adım adım ilerliyor; isteyen sağ üstteki “Atla ⏭” ile hemen oyuna geçebiliyor. Sonraki girişlerde oyun doğrudan başlıyor; kelimeler adanın altındaki “📖 Kelimeleri Gör” bölümünden yeniden görülebiliyor.
+- **31 yeni resim:** Ünitenin bütün kelimeleri için yeni resimler ve “Resme bak” soruları eklendi. Deneme Sınavı değişmedi.
 
 ## 0.81.0 · 27.11.2026
 
