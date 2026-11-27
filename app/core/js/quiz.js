@@ -279,7 +279,7 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
         // a week is done once its round has been finished; the next week opens then
         const done = haftali ? p < doneParts(stops[k]) : n === part.length;
         const s = ist(stops[k])?.[p];
-        return { simge: s ? s.simge : String(p + 1), ad: s ? s.ad : partName(p), etiket: stops[k].ad + ', ' + partName(p, stops[k]), not: n + ' / ' + part.length,
+        return { simge: s ? s.simge : String(p + 1), resim: s?.resim, ad: s ? s.ad : partName(p), etiket: stops[k].ad + ', ' + partName(p, stops[k]), not: n + ' / ' + part.length,
           durum: !partOpen(k, p) ? 'locked' : done ? 'done' : p === now ? 'now' : 'open',
           kilit: 'Önce ' + partName(p - 1, stops[k]) + ' bitmeli' };
       });

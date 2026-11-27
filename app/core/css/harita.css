@@ -137,6 +137,9 @@
 .kh-station.now .kh-station-name small { color: #d9f3ea; }
 .kh-station.locked { background: #efe8d8; }
 .kh-station.locked .kh-station-icon { filter: grayscale(.9); opacity: .55; }
+/* a station with a picture (İngilizce Koyu's stations by topic): the picture fills the circle */
+.kh-station-icon.resim { position: absolute; inset: 0; overflow: hidden; border-radius: 50%; }
+.kh-station-icon.resim img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .kh-station.locked .kh-station-state { background: #b9b2a3; font-size: clamp(8px, 2.4cqw, 11px); }
 .kh-station.locked .kh-station-name { color: #8a8576; }
 

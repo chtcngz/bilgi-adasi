@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.83.0 · 27.11.2026
+
+- **İstasyonların resimleri:** Okul Hayatı'nın 9 istasyonu haritada artık emoji yerine kendi resmiyle görünüyor: okul binası, oyun alanı, çocuklar, okul müdürleri, takvim, saatler, mikrofon, soru işaretleri ve tokalaşan çocuklar.
+- **Telefonda ekran büyümüyor:** Oyunlarda resme ya da karta art arda hızlı dokununca telefonun tarayıcısı ekranı yakınlaştırıyordu. Çift dokunmayla yakınlaşma kapatıldı; telefon yan çevrilince yazılar da kendiliğinden büyümüyor.
+
 ## 0.82.2 · 27.11.2026
 
 - **Keşif Kartı'nda ünitenin bütün kelimeleri:** Okul Hayatı'nın 50 kelimesinin hepsi artık kendi istasyonunun kartlarında tanıtılıyor; eksik kalan “hall” (salon) Okuldaki yerler 2'ye, “student” (öğrenci) Okuldaki kişiler'e eklendi.
