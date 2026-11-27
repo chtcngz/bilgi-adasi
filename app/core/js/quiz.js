@@ -330,7 +330,12 @@ function soruAdasi({ kod, ad, koy, lead, simge, tema, kaynak, kayit, duraklar: s
         if (ist(stop) && oyunlar) {
           const words = kutu('<strong>📖 Kelimeleri Gör</strong><small>İstasyonun kelimelerini resim ve sesle yeniden gör.</small><div class="kh-row kh-kelimeler"></div>');
           const row = words.querySelector('.kh-kelimeler');
-          ist(stop).forEach((s, n) => { if (partOpen(k, n)) row.append(dugme(s.simge + ' ' + s.ad, () => tanit(k, n, null))); });
+          ist(stop).forEach((s, n) => {
+            if (!partOpen(k, n)) return;
+            const b = dugme(s.ad, () => tanit(k, n, null));
+            if (s.resim) { const img = el('img'); img.src = s.resim; img.alt = ''; b.prepend(img); } else b.prepend(s.simge + ' ');
+            row.append(b);
+          });
           parts.push(words);
         }
         const box = review();

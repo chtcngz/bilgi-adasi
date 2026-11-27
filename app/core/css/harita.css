@@ -193,6 +193,10 @@
 .kh-row > span:first-child { font-size: 28px; }
 .kh-row > div { flex: 1; }
 .kh-quiet { padding: 8px 14px; border: 2px solid #d5e6dc; border-radius: 14px; background: #fff; color: #17594f; font: inherit; font-weight: 850; cursor: pointer; }
+/* 📖 Kelimeleri Gör: a button for every open station, wrapping onto new lines so it never widens the page */
+.kh-kelimeler { flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.kh-kelimeler .kh-quiet { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px 4px 4px; }
+.kh-kelimeler .kh-quiet img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
 
 @media (prefers-reduced-motion: reduce) {
   .kh-map * { animation: none !important; }
