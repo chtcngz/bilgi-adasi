@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.85.0 · 27.11.2026
+
+- **Balon Patlat'ta sapan:** Gökyüzünün altında ahşap bir sapan var. Çocuk topu parmağıyla aşağı ve yana çekiyor; topun gideceği yolu noktalı bir çizgi gösteriyor ve çizginin değdiği balon parlıyor. Bırakınca top hızla fırlıyor ve yolundaki ilk balonu patlatıyor: doğru balonsa övgü ve konfeti, yanlışsa yanlış tepkisi geliyor. Çekerken balonlar yavaşlıyor; ıska ceza değil, top hemen geri geliyor. Balonlara doğrudan dokunmak da eskisi gibi çalışıyor. Sapan Yanlış Avı'nın balon oyununda da var.
+
 ## 0.84.1 · 27.11.2026
 
 - **Telefonda büyüyen ekran düzeldi:** Okul Hayatı adasının altındaki “📖 Kelimeleri Gör” düğmeleri yan yana sığmayınca alt satıra geçmiyor, sayfayı ekrandan genişletiyordu; telefon da bütün sayfayı büyütüp kaydırıyordu (Keşif Kartı'nda ve sorularda ekran büyük görünüyordu). Düğmeler artık alt alta diziliyor ve kendi resimleriyle görünüyor; sayfa hiçbir zaman ekrandan genişlemiyor.

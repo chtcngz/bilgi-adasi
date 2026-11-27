@@ -447,8 +447,153 @@ const ingilizceOyunlari = (() => {
     return { x: r.left - h.left + r.width / 2, y: r.top - h.top + r.height / 2, w: r.width, h: r.height };
   };
 
+  /* ---------- 🪃 the slingshot under Balon Patlat's sky ----------
+     sapan(sky, { hedefler, vur, bitti }): a wooden slingshot at the bottom middle of the sky. The child pulls the ball down
+     and to a side (finger, mouse or pen: pointer events, captured, so the pull never breaks off the pad); a dotted line
+     shows where it will go, as far as the first balloon in its way, which glows. Let go: the ball flies straight and fast;
+     the first balloon it touches is chosen (vur(b)), as if it was tapped. A miss costs nothing: the ball comes back at
+     once. A short pull does not shoot. The balloons stay buttons, so tapping one still chooses it. step(dt) moves the
+     ball (called from the sky's frames); aiming() is true while the band is pulled (the balloons slow down then). */
+  function sapan(sky, { hedefler, vur, bitti }) {
+    const NS = 'http://www.w3.org/2000/svg';
+    const make = (tag, attrs) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); return n; };
+    const svg = make('svg', { class: 'og-sapan', 'aria-hidden': 'true' });
+    const dots = make('g', { class: 'og-sapan-dots' });
+    const bandBack = make('line', { class: 'og-sapan-band' });
+    const fork = make('path', { class: 'og-sapan-fork' });
+    const bandFront = make('line', { class: 'og-sapan-band' });
+    const ball = make('circle', { class: 'og-sapan-ball', r: 13 });
+    const shine = make('circle', { class: 'og-sapan-shine', r: 4 });
+    svg.append(dots, bandBack, fork, ball, shine, bandFront);
+    const pad = el('div', 'og-sapan-pad');
+    pad.setAttribute('aria-hidden', 'true');
+    sky.append(svg, pad);
+    const MAX = 82, MIN = 20, R = 13;
+    let W = 0, H = 0, rest = { x: 0, y: 0 }, tips = [];
+    let aiming = false, pull = { x: 0, y: 0 }, flying = null, target = null, back = 0;
+    const layout = () => {
+      W = sky.clientWidth; H = sky.clientHeight;
+      svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+      // the ball rests between the fork's tips, high enough that a full pull stays inside the sky
+      rest = { x: W / 2, y: H - 104 };
+      tips = [{ x: W / 2 - 28, y: H - 106 }, { x: W / 2 + 28, y: H - 106 }];
+      fork.setAttribute('d', 'M' + W / 2 + ' ' + (H - 8) + 'V' + (H - 72) + 'M' + tips[0].x + ' ' + tips[0].y + 'Q' + (W / 2 - 22) + ' ' + (H - 74) + ' ' + W / 2 + ' ' + (H - 72) +
+        'Q' + (W / 2 + 22) + ' ' + (H - 74) + ' ' + tips[1].x + ' ' + tips[1].y);
+    };
+    // the balloon's body, in the sky's pixels
+    const bodyOf = b => {
+      const r = b.body.getBoundingClientRect(), s = sky.getBoundingClientRect();
+      return { cx: r.left - s.left + r.width / 2, cy: r.top - s.top + r.height / 2, rx: r.width / 2, ry: r.height / 2 };
+    };
+    const live = () => hedefler.filter(b => b.state === 'fly');
+    // a point inside a balloon's body (a little wider than it looks, so a near miss counts)
+    const inside = (b, px, py, extra = R) => {
+      const e = bodyOf(b), dx = (px - e.cx) / (e.rx + extra), dy = (py - e.cy) / (e.ry + extra);
+      return dx * dx + dy * dy <= 1;
+    };
+    const direction = () => {
+      const len = Math.hypot(pull.x, pull.y) || 1;
+      return { x: -pull.x / len, y: -pull.y / len };
+    };
+    // where the ball would go: the first balloon on the line, and the line up to it
+    const trace = () => {
+      const d = direction(), list = live();
+      for (let s = 0; s < 1400; s += 8) {
+        const px = rest.x + d.x * s, py = rest.y + d.y * s;
+        if (px < -10 || px > W + 10 || py < -10) return { hit: null, length: s };
+        const b = list.find(b => inside(b, px, py, 4));
+        if (b) return { hit: b, length: s };
+      }
+      return { hit: null, length: 1400 };
+    };
+    const draw = () => {
+      const bx = flying ? flying.x : rest.x + pull.x, by = flying ? flying.y : rest.y + pull.y;
+      const hidden = back > 0;
+      ball.setAttribute('cx', bx); ball.setAttribute('cy', by);
+      shine.setAttribute('cx', bx - 4); shine.setAttribute('cy', by - 5);
+      ball.style.opacity = shine.style.opacity = hidden ? 0 : 1;
+      const holdX = flying || hidden ? rest.x : bx, holdY = flying || hidden ? rest.y : by;
+      for (const [line, tip] of [[bandBack, tips[0]], [bandFront, tips[1]]]) {
+        line.setAttribute('x1', tip.x); line.setAttribute('y1', tip.y); line.setAttribute('x2', holdX); line.setAttribute('y2', holdY);
+      }
+      dots.replaceChildren();
+      let glow = null;
+      if (aiming && Math.hypot(pull.x, pull.y) >= MIN) {
+        const d = direction(), { hit, length } = trace();
+        glow = hit;
+        for (let s = 26; s < length; s += 18) {
+          dots.append(make('circle', { cx: rest.x + d.x * s, cy: rest.y + d.y * s, r: Math.max(2.2, 4.5 - s / 160), class: hit ? 'on' : '' }));
+        }
+      }
+      if (glow !== target) {
+        target?.node.classList.remove('og-hedef');
+        glow?.node.classList.add('og-hedef');
+        target = glow;
+      }
+    };
+    const at = e => { const s = sky.getBoundingClientRect(); return { x: e.clientX - s.left, y: e.clientY - s.top }; };
+    const setPull = e => {
+      const p = at(e);
+      let dx = p.x - rest.x, dy = Math.max(p.y - rest.y, -6);
+      // always shoot upwards: the pull goes down, at most about 70° to a side
+      if (dy < Math.abs(dx) * 0.36) dy = Math.abs(dx) * 0.36;
+      const len = Math.hypot(dx, dy);
+      if (len > MAX) { dx *= MAX / len; dy *= MAX / len; }
+      pull = { x: dx, y: dy };
+    };
+    let pointer = null;
+    pad.addEventListener('pointerdown', e => {
+      if (bitti() || flying || back > 0 || pointer !== null) return;
+      pointer = e.pointerId;
+      try { pad.setPointerCapture(e.pointerId); } catch {}
+      aiming = true;
+      setPull(e);
+      playCue('tap', { gain: 0.35 });
+      e.preventDefault();
+    });
+    pad.addEventListener('pointermove', e => { if (e.pointerId === pointer && aiming) { setPull(e); e.preventDefault(); } });
+    const release = (e, shoot) => {
+      if (e.pointerId !== pointer) return;
+      pointer = null;
+      const strong = Math.hypot(pull.x, pull.y) >= MIN;
+      aiming = false;
+      if (shoot && strong && !bitti()) {
+        const d = direction(), speed = Math.max(1100, H * 3.2);
+        flying = { x: rest.x + pull.x, y: rest.y + pull.y, vx: d.x * speed, vy: d.y * speed };
+        playCue('tap', { gain: 0.8 });
+      }
+      pull = { x: 0, y: 0 };
+    };
+    pad.addEventListener('pointerup', e => release(e, true));
+    pad.addEventListener('pointercancel', e => release(e, false));
+    layout();
+    // the ball wobbles once at the start: pull me
+    let hint = 0.9;
+    return {
+      aiming: () => aiming,
+      step(dt) {
+        if (sky.clientWidth !== W || sky.clientHeight !== H) layout();
+        if (hint > 0 && !aiming && !flying) { hint = Math.max(0, hint - dt); pull = { x: Math.sin(hint * 14) * 9 * hint, y: 10 * Math.sin(Math.min(1, hint * 2) * Math.PI) }; if (!hint) pull = { x: 0, y: 0 }; }
+        if (back > 0) back = Math.max(0, back - dt);
+        if (flying) {
+          // small steps, so a fast ball never jumps over a balloon
+          const steps = Math.ceil(Math.hypot(flying.vx, flying.vy) * dt / 9) || 1;
+          for (let i = 0; i < steps && flying; i++) {
+            flying.x += flying.vx * dt / steps; flying.y += flying.vy * dt / steps;
+            const b = live().find(b => inside(b, flying.x, flying.y));
+            if (b) { flying = null; back = 0.25; vur(b); }
+            else if (flying.y < -30 || flying.x < -30 || flying.x > W + 30) { flying = null; back = 0.2; }
+          }
+        }
+        draw();
+      },
+      remove() { svg.remove(); pad.remove(); }
+    };
+  }
+
   /* ---------- 🎈 Balon Patlat (also Yanlış Avı's, with the meaning written under the picture) ----------
-     Balloons float up and down the sky swaying on their strings, always in sight, until the right one is popped. */
+     Balloons float up and down the sky swaying on their strings, always in sight, until the right one is popped:
+     tapped, or hit with the slingshot's ball (sapan). */
   async function balonlar(x, items, { yazili = false } = {}) {
     const colours = ['#ff6b6b', '#ffa94d', '#4dabf7', '#9775fa', '#51cf66', '#f783ac', '#ffd43b'];
     for (const [n, item] of items.entries()) {
@@ -484,8 +629,11 @@ const ingilizceOyunlari = (() => {
             x0: lane * (lanes[i] + 0.5) - bw / 2, y: 4, lift: Math.asin(starts[i] * 2 - 1), spin: (Math.PI * 2) / (8 + Math.random() * 4) * (i % 2 ? 1 : -1),
             f: 1.1 + Math.random() * 0.6, phase: Math.random() * 6, state: 'fly' };
         });
+        let sling = null;
         const stop = frames((dt, t) => {
           const h = sky.clientHeight;
+          // the balloons slow down while the slingshot is pulled, so a child can aim
+          const pace = sling?.aiming() ? 0.3 : 1;
           for (const b of balloons) {
             if (b.state === 'gone' || b.state === 'popped') continue;
             if (b.state === 'away') {
@@ -494,8 +642,8 @@ const ingilizceOyunlari = (() => {
               if (b.y < -b.bh - 10) { b.state = 'gone'; b.node.remove(); continue; }
             } else {
               // they float up and down inside the sky and never leave it, slowing down gently at the top and the bottom
-              const top = 4, bottom = Math.max(top, h - b.bh - 4);
-              b.lift += b.spin * dt;
+              const top = 4, bottom = Math.max(top, h - b.bh - 70);
+              b.lift += b.spin * dt * pace;
               b.y = top + (bottom - top) * (0.5 + 0.5 * Math.sin(b.lift));
             }
             const sway = Math.sin(t * b.f + b.phase);
@@ -508,6 +656,7 @@ const ingilizceOyunlari = (() => {
             if (c.x > sky.clientWidth + 20) c.x = -140;
             c.node.style.transform = 'translateX(' + c.x.toFixed(1) + 'px)';
           }
+          sling?.step(dt);
         }, () => sky.isConnected && x.live.on);
         // The balloon bursts into pieces and its string falls.
         const pop = (b, big) => {
@@ -527,8 +676,8 @@ const ingilizceOyunlari = (() => {
           b.node.querySelector('.og-string').animate([{ transform: 'translateY(0) rotate(0)', opacity: 1 }, { transform: 'translateY(160px) rotate(40deg)', opacity: 0 }],
             { duration: 900, easing: 'ease-in', fill: 'forwards' });
         };
-        for (const b of balloons) {
-          b.node.onclick = async () => {
+        // a balloon is chosen by a tap or by the slingshot's ball
+        const choose = async b => {
             if (over || b.state !== 'fly') return;
             if (b.w === item) {
               over = true;
@@ -544,8 +693,9 @@ const ingilizceOyunlari = (() => {
               pop(b, false);
               await x.oops(item.en);
             }
-          };
-        }
+        };
+        for (const b of balloons) b.node.onclick = () => choose(b);
+        sling = sapan(sky, { hedefler: balloons, vur: choose, bitti: () => over });
         x.wait(300).then(() => { if (!over && first) x.say(item.en); });
       });
     }

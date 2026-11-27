@@ -225,3 +225,15 @@
   .ok-kart { grid-template-columns: auto auto; grid-template-rows: auto auto auto; column-gap: 20px; align-items: center; }
   .ok-resim { grid-row: 1 / 4; font-size: clamp(48px, 27vh, 140px); font-size: clamp(48px, 27dvh, 140px); }
 }
+
+/* 🪃 the slingshot under Balon Patlat's sky (sapan): drawn over the sky, grabbed on the pad along the bottom */
+.og-sapan { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; overflow: visible; }
+.og-sapan-pad { position: absolute; left: 0; right: 0; bottom: 0; height: 170px; z-index: 1; touch-action: none; cursor: grab; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.og-sapan-pad:active { cursor: grabbing; }
+.og-sapan-fork { fill: none; stroke: #8a5a2b; stroke-width: 11; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 3px 0 #5e3b1a); }
+.og-sapan-band { stroke: #c2410c; stroke-width: 5; stroke-linecap: round; }
+.og-sapan-ball { fill: #ff6b9a; stroke: #c2255c; stroke-width: 3; }
+.og-sapan-shine { fill: #ffffffcc; pointer-events: none; }
+.og-sapan-dots circle { fill: #ffffffd9; stroke: #1d4f72; stroke-width: 1.5; }
+.og-sapan-dots circle.on { fill: #ffe066; stroke: #c2410c; }
+.og-balloon.og-hedef .og-bbody { box-shadow: inset -7px -9px 0 #0000001c, 0 0 0 5px #ffe066, 0 0 22px 6px #ffe066b0; }
