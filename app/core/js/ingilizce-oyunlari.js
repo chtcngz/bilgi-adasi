@@ -1326,11 +1326,12 @@ const ingilizceOyunlari = (() => {
   function sahne(q, rich, resimBul = () => '') {
     const s = q.s, kpic = (q.k?.[2] || '').replace(sign, '').trim();
     let m;
-    // a drawn dialogue of its own (r): the picture already holds the question's speech bubble, so the stem keeps only the instruction
+    // a drawn dialogue of its own (r): the picture already holds the question's speech bubble, so the stem keeps only the instruction;
+    // a small picture at the start of the stem ("[[y-today-tuesday]] Resme bak: …") gives way to the big one
     if (q.r) {
       m = s.match(/^(Evet diyerek cevap ver|Hayır diyerek cevap ver|Soruya doğru cevabı ver): “[^”]+”$/);
       return { gorsel: '<div class="sahne-foto"><img src="assets/images/ingilizce/' + esc(q.r) + '.webp?v=1" alt="" draggable="false"></div>',
-        metin: m ? esc(m[1]) + '.' : rich(s) };
+        metin: m ? esc(m[1]) + '.' : rich(s.replace(/^(\S+) (?=\S)/, (all, first) => /\p{Extended_Pictographic}|\[\[/u.test(first) ? '' : all)) };
     }
     if ((m = s.match(/^(Evet diyerek cevap ver|Hayır diyerek cevap ver|Soruya doğru cevabı ver): “([^”]+)”$/)) && q.a.every(isEnglish)) {
       const d = q.k && ingilizceSes.diyalog(q.k[0]);

@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.89.7 · 27.11.2026
+
+- **Günler büyük resimle:** “Resme bak: Bugün günlerden ne?” soruları salı, çarşamba, perşembe, cumartesi ve pazar için artık sınıfın duvarındaki haftalık takvimin büyük resmiyle soruluyor: o günün sütunu sarı, yanındaki TODAY panosunda günün adı yazılı.
+
 ## 0.89.6 · 27.11.2026
 
 - **Günler hep TODAY panosuyla:** Haftanın günlerini soran bütün sorularda ve şıklarda (Dinle ve Bul, Balon Patlat, Sesli Hafıza, Kelime Treni, Bilgi Kartı) artık Keşif Kartı’ndaki gibi o günün yazılı olduğu TODAY panosu görünüyor; eski takvim ve piknik resimleri kalktı.
