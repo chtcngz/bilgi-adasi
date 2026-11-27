@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.89.9 · 27.11.2026
+
+- **Pazartesi resminde perşembe:** Pazartesi sorusunun haftalık takviminde eksik olan Thursday sütunu eklendi; takvimde artık yedi gün sırasıyla duruyor.
+
 ## 0.89.8 · 27.11.2026
 
 - **Haftanın yedi günü büyük resimle:** “Resme bak: Bugün günlerden ne?” sorularına pazartesi ve cuma da eklendi; yedi günün hepsi artık haftalık takvimin büyük resmiyle soruluyor.

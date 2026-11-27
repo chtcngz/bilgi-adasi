@@ -1330,7 +1330,7 @@ const ingilizceOyunlari = (() => {
     // a small picture at the start of the stem ("[[y-today-tuesday]] Resme bak: …") gives way to the big one
     if (q.r) {
       m = s.match(/^(Evet diyerek cevap ver|Hayır diyerek cevap ver|Soruya doğru cevabı ver): “[^”]+”$/);
-      return { gorsel: '<div class="sahne-foto"><img src="assets/images/ingilizce/' + esc(q.r) + '.webp?v=1" alt="" draggable="false"></div>',
+      return { gorsel: '<div class="sahne-foto"><img src="assets/images/ingilizce/' + esc(q.r) + '.webp?v=2" alt="" draggable="false"></div>',
         metin: m ? esc(m[1]) + '.' : rich(s.replace(/^(\S+) (?=\S)/, (all, first) => /\p{Extended_Pictographic}|\[\[/u.test(first) ? '' : all)) };
     }
     if ((m = s.match(/^(Evet diyerek cevap ver|Hayır diyerek cevap ver|Soruya doğru cevabı ver): “([^”]+)”$/)) && q.a.every(isEnglish)) {
