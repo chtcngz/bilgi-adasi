@@ -20,21 +20,22 @@ const elifData = (() => {
     { name: 'Ötre', mark: 'ُ', place: 'Harfin üstünde küçük bir vav' }
   ];
   // The first seven coves teach the letters and their harekes, four letters each; the next seven go
-  // through the same groups of four again to learn how they are written joined (bitişik yazılış), and
-  // the seven after them to read each letter with a cezm. On the map a cove is an islet (adacık), and the
-  // seven islets of a section lie together in a bay (koy, see `bays` below).
+  // through the same groups of four again to learn how they are written joined (bitişik yazılış), the
+  // seven after them to read each letter with a cezm, and the seven after those with a tenvin. On the map a
+  // cove is an islet (adacık), and the seven islets of a section lie together in a bay (koy, see `bays` below).
   const coves = ['Kaplumbağa Adacığı', 'İnci Adacığı', 'Mercan Adacığı', 'Yıldız Adacığı', 'Yunus Adacığı', 'Sedef Adacığı', 'Deniz Feneri Adacığı',
     'Martı Adacığı', 'Yengeç Adacığı', 'Ahtapot Adacığı', 'Denizatı Adacığı', 'Balina Adacığı', 'Pelikan Adacığı', 'Gökkuşağı Adacığı',
-    'Dalga Adacığı', 'Yelken Adacığı', 'Köpük Adacığı', 'Rüzgâr Adacığı', 'Pusula Adacığı', 'Kumsal Adacığı', 'Ay Işığı Adacığı'];
+    'Dalga Adacığı', 'Yelken Adacığı', 'Köpük Adacığı', 'Rüzgâr Adacığı', 'Pusula Adacığı', 'Kumsal Adacığı', 'Ay Işığı Adacığı',
+    'Şafak Adacığı', 'Midye Adacığı', 'Çapa Adacığı', 'Flamingo Adacığı', 'Kayık Adacığı', 'Lagün Adacığı', 'Güneş Adacığı'];
   const LETTER_COVES = 7;
-  const TOPICS = ['harf', 'bitisik', 'cezm'];
+  const TOPICS = ['harf', 'bitisik', 'cezm', 'tenvin'];
   const coveTopic = k => TOPICS[Math.floor(k / LETTER_COVES)];
   const sections = [
     { id: 'harf', title: 'Harfler', lead: '28 harfi tanı, sesinden bul', prize: '🐚', prizeName: 'deniz kabuğu' },
     { id: 'hareke', title: 'Harekeler', lead: 'Üstün, esre ve ötre ile oku', prize: '🦪', prizeName: 'inci' },
     { id: 'bitisik', title: 'Bitişik yazılış', lead: 'Harflerin başta, ortada ve sonda yazılışı', prize: '🪸', prizeName: 'mercan' },
     { id: 'cezm', title: 'Cezm', lead: 'Sessiz harflerle hece kur', prize: '⭐', prizeName: 'deniz yıldızı' },
-    { id: 'tenvin', title: 'Tenvin', lead: 'İki üstün, iki esre, iki ötre', soon: true },
+    { id: 'tenvin', title: 'Tenvin', lead: 'İki üstün, iki esre, iki ötre', prize: '🐬', prizeName: 'yunus' },
     { id: 'sedde', title: 'Şedde', lead: 'Harfi iki kez oku', soon: true },
     { id: 'med', title: 'Uzatma', lead: 'Med harfleriyle uzun okuma', soon: true },
     { id: 'okuma', title: 'Kelime ve âyet', lead: 'Kısa surelerle cüze hazırlık', soon: true }
@@ -46,7 +47,7 @@ const elifData = (() => {
     { id: 'harf', name: 'Harf Koyu', lead: '28 harf ve harekeleri', sample: 'ا ب ت', say: 'Harf Koyu. Harfleri ve harekeleri öğren.' },
     { id: 'bitisik', name: 'Bitişik Koyu', lead: 'Harfler başta, ortada, sonda', sample: 'ـبـ', say: 'Bitişik Koyu. Harflerin bitişik yazılışını öğren.' },
     { id: 'cezm', name: 'Cezm Koyu', lead: 'Cezimli harflerle hece', sample: 'بِسْ', say: 'Cezm Koyu. Cezimli harflerle hece oku.' },
-    { id: 'tenvin', name: 'Tenvin Koyu', lead: 'İki üstün, iki esre, iki ötre', sample: 'بً', say: 'Tenvin Koyu yakında açılacak.' },
+    { id: 'tenvin', name: 'Tenvin Koyu', lead: 'İki üstün, iki esre, iki ötre', sample: 'بًا بٍ بٌ', say: 'Tenvin Koyu. İki üstün, iki esre ve iki ötre ile oku.' },
     { id: 'sedde', name: 'Şedde Koyu', lead: 'Harfi iki kez oku', sample: 'بَّ', say: 'Şedde Koyu yakında açılacak.' },
     { id: 'med', name: 'Uzatma Koyu', lead: 'Med harfleriyle uzun okuma', sample: 'بَا', say: 'Uzatma Koyu yakında açılacak.' },
     { id: 'okuma', name: 'Âyet Koyu', lead: 'Kelime ve kısa sureler', sample: 'بِسْمِ', say: 'Âyet Koyu yakında açılacak.' }
@@ -94,9 +95,29 @@ const elifData = (() => {
     ['اِذَ', 'اِذْ', 'اِذْ قَامُوا']];
   const cezmExampleReadings = [['ase', 'as', 'aslaha'], ['vira', 'vir', 'virden'], ['yeise', 'yeis', 'yeisne'], ['fehuke', 'fehuk', 'fehukmu'],
     ['ize', 'iz', 'iz kamu']];
+  // Tenvin: two harekes on the letter (iki üstün ً, iki esre ٍ, iki ötre ٌ) add an n to its sound (be: ben,
+  // bin, bun). With iki üstün an elif is written after the letter (بًا) and not read; the elif itself and
+  // the lâm-elif carry the mark on the elif (اً, لاً), as in Diyanet's Elifba. h: 0 iki üstün, 1 iki esre, 2 iki ötre.
+  const tenvinler = [
+    { name: 'İki üstün', mark: 'ً' },
+    { name: 'İki esre', mark: 'ٍ' },
+    { name: 'İki ötre', mark: 'ٌ' }
+  ];
+  const tenvin = (i, h) => h ? glyphs[i] + tenvinler[h].mark : i === 0 ? 'اً' : i === 22 ? 'لاً' : glyphs[i] + tenvinler[0].mark + 'ا';
+  // Its reading (only spoken by the Turkish voice and compared, never shown): the hareke's and an n.
+  const tenvinReading = (i, h) => readings[i][h] + 'n';
+  // At the top of every tenvin cove one of Diyanet's words ending in a tenvin, in three steps: its last
+  // letter with the hareke, with the tenvin, and the word (بُ ← بٌ ← كُتُبٌ). { i, h } is that last letter.
+  const tenvinExamples = [
+    { word: 'كُتُبٌ', i: 1, h: 2, reading: 'kutubun' }, { word: 'بِاَخٍ', i: 6, h: 1, reading: 'biehin' },
+    { word: 'وِزْرٌ', i: 9, h: 2, reading: 'vizrun' }, { word: 'قَصَصًا', i: 13, h: 0, reading: 'kasasan' },
+    { word: 'جَنَفًا', i: 19, h: 0, reading: 'cenefen' }, { word: 'فَلَكٍ', i: 21, h: 1, reading: 'felekin' },
+    { word: 'سَكَنًا', i: 24, h: 0, reading: 'sekenen' }
+  ];
   // A cove's letters as the map and the path show them: alone, in their middle shape with an üstün in a
-  // bitişik cove, with their cezm in a cezm cove.
-  const coveGlyphs = k => coveLetters(k).map(i => coveTopic(k) === 'bitisik' ? shape(i, 2, 0) : coveTopic(k) === 'cezm' ? cezm(i).sakin : glyphs[i]);
+  // bitişik cove, with their cezm in a cezm cove, with the three tenvins in turn in a tenvin cove.
+  const coveGlyphs = k => coveLetters(k).map((i, n) => coveTopic(k) === 'bitisik' ? shape(i, 2, 0) : coveTopic(k) === 'cezm' ? cezm(i).sakin :
+    coveTopic(k) === 'tenvin' ? tenvin(i, n % 3) : glyphs[i]);
   // The example words of the bitişik yazılış: for every letter one word with it at the start, one in the
   // middle and one at the end. The bitişik coves come after the harekes and before the cezm, so every
   // letter of a word has a hareke and none has a cezm, a şedde or a tenvin: three-letter words of the
@@ -131,5 +152,6 @@ const elifData = (() => {
   const families = [[1, 2, 3], [4, 5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16], [17, 18], [19, 20]];
   const twins = i => (families.find(f => f.includes(i)) || []).filter(j => j !== i);
   return { glyphs, names, readings, harekeler, coves, LETTER_COVES, coveTopic, sections, bays, bayCoves, bayOf, sameSound, syllable, coveLetters, coveGlyphs, twins,
-    places, joinsNext, shape, word, SUKUN, cezm, cezmReadings, cezmAlike, cezmFaint, cezmExamples, cezmExampleReadings, mastery: 2 };
+    places, joinsNext, shape, word, SUKUN, cezm, cezmReadings, cezmAlike, cezmFaint, cezmExamples, cezmExampleReadings,
+    tenvinler, tenvin, tenvinReading, tenvinExamples, mastery: 2 };
 })();

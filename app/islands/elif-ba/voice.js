@@ -8,8 +8,8 @@
 // memory. Phones are strict with <audio> elements: iOS wants a touch for each new
 // element and Android caps how many may exist, so an element is only the fallback.
 const elifVoice = (() => {
-  const recorded = { harf: {}, hece: {}, kelime: {}, yer: {}, cezm: {}, cezmOrnek: {}, ...window.elifRecordings };
-  const child = { harf: {}, hece: {}, yer: {}, hareke: {}, ...recorded.cocuk };
+  const recorded = { harf: {}, hece: {}, kelime: {}, yer: {}, cezm: {}, cezmOrnek: {}, tenvin: {}, tenvinOrnek: {}, ...window.elifRecordings };
+  const child = { harf: {}, hece: {}, yer: {}, hareke: {}, tenvin: {}, ...recorded.cocuk };
   const MODES = ['cocuk', 'kayit', 'turkce'];
   const buffers = new Map();
   const elements = new Map();
@@ -113,9 +113,10 @@ const elifVoice = (() => {
   const letterClip = i => clip('harf', i);
   const syllableClip = (i, h) => clip('hece', i + '-' + h);
   const hareke = h => elifData.harekeler[h].name.toLocaleLowerCase('tr');
-  // "Be üstün", "Sin cezm" (h: 0-2 or 'cezm'; i 0 with a cezm is the hemze): the girl says the letter and
-  // the mark as two clips; the man's recordings have no mark names, so the device's voice says them.
-  const markText = h => h === 'cezm' ? 'cezm' : hareke(h);
+  // "Be üstün", "Sin cezm", "Be iki üstün" (h: 0-2, 'cezm' or 'tenvin-0' to 'tenvin-2'; i 0 with a cezm is the
+  // hemze): the girl says the letter and the mark as two clips; the man's recordings have no mark names, so
+  // the device's voice says them.
+  const markText = h => h === 'cezm' ? 'cezm' : String(h).startsWith('tenvin-') ? elifData.tenvinler[h.slice(7)].name.toLocaleLowerCase('tr') : hareke(h);
   function named(i, h) {
     const hemze = h === 'cezm' && i === 0;
     const name = hemze ? 'Hemze' : elifData.names[i];
@@ -132,6 +133,9 @@ const elifVoice = (() => {
   // Cezm: the syllable in which letter i has the cezm, and Diyanet's five examples (p) in three steps (s).
   const cezmClip = i => clip('cezm', i);
   const exampleClip = (p, s) => clip('cezmOrnek', p + '-' + s);
+  // Tenvin: letter i with iki üstün, iki esre or iki ötre (h 0-2), and the word at the top of tenvin cove p.
+  const tenvinClip = (i, h) => clip('tenvin', i + '-' + h);
+  const tenvinStep = (i, h) => ({ src: tenvinClip(i, h), text: elifData.tenvinReading(i, h) });
 
   return {
     say: (text, note, after) => sequence([{ text }], note, after),
@@ -156,6 +160,22 @@ const elifVoice = (() => {
         ...named(i, 'cezm'), { src: cezmClip(i), text: elifData.cezmReadings[i] }], note, after);
     },
     cezmExample: (p, s, note, after) => sequence([{ src: exampleClip(p, s), text: elifData.cezmExampleReadings[p][s] }], note, after),
+    tenvin: (i, h, note, after) => sequence([tenvinStep(i, h)], note, after),
+    // "Be iki üstün ben": a tenvin the way it is chanted in class; without h, all three in turn.
+    tenvinChant(i, h, note, after) {
+      sequence([...(h === undefined ? [0, 1, 2] : [h])].flatMap(k => [...named(i, 'tenvin-' + k), tenvinStep(i, k)]), note, after);
+    },
+    // A mark's name on its own ("iki esre"), in the girl's voice when she has it.
+    tenvinName(h, note, after) {
+      const markClip = mode === 'cocuk' && child.hareke['tenvin-' + h];
+      sequence([markClip ? { src: markClip, text: markText('tenvin-' + h) } : { text: markText('tenvin-' + h) }], note, after);
+    },
+    // The three steps at the top of tenvin cove p (s: 0 the last letter with its hareke, 1 with its tenvin, 2 the word).
+    tenvinExample(p, s, note, after) {
+      const { i, h, reading } = elifData.tenvinExamples[p];
+      sequence([s === 0 ? { src: syllableClip(i, h), text: elifData.readings[i][h] } : s === 1 ? tenvinStep(i, h) :
+        { src: clip('tenvinOrnek', p), text: reading }], note, after);
+    },
     // "Be üstün be, be esre bi, be ötre bu": the way the harekes are chanted in class.
     chant(i, h, note) {
       const steps = [];
@@ -168,8 +188,9 @@ const elifVoice = (() => {
     // Fetch and decode a cove's clips ahead of time, so the first tap plays at once.
     // Harf Yağmuru only says letter names, so it leaves the syllables out; a bitişik cove (joined)
     // also wants the syllables of its example words and the three places, a cezm cove (cezm) its cezm
-    // syllables and the syllables they start with.
-    preload(letters, namesOnly = false, joined = false, cezm = false) {
+    // syllables and the syllables they start with, a tenvin cove (tenvin) the letters' tenvins.
+    preload(letters, namesOnly = false, joined = false, cezm = false, tenvin = false) {
+      if (tenvin) for (const i of letters) for (const h of [0, 1, 2]) if (tenvinClip(i, h)) decode(tenvinClip(i, h));
       if (joined) for (const f of [1, 2, 3]) if (placeClip(f)) decode(placeClip(f));
       if (mode === 'cocuk' && !namesOnly) for (const src of Object.values(child.hareke)) decode(src);
       if (cezm) for (const i of letters) {

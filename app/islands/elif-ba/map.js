@@ -1,5 +1,5 @@
 // Elif Ba Adası's map, in three levels shown one at a time in the same frame:
-//  1. The bays (koylar), one for every section of the path: Harf, Bitişik and Cezm Koyu, then the bays
+//  1. The bays (koylar), one for every section of the path: Harf, Bitişik, Cezm and Tenvin Koyu, then the bays
 //     of the sections still to come, locked under clouds ("Yakında"). A bay shows its name, what is
 //     learned there, a little sign of it and its seven islets as dots in its lagoon.
 //  2. A bay: its seven islets (the coves of game.js) joined by glass bridges (each islet's Cam Köprü),
@@ -17,12 +17,14 @@ const elifMap = (() => {
   const wait = ms => new Promise(resolve => setTimeout(resolve, calm.matches ? 0 : ms));
   const r1 = n => Math.round(n * 10) / 10;
 
-  const { curve, pathOf, along, palm, lighthouse, rainbow, boat, moon, gulls, cloud, twinkle, mosque, waves } = haritaSanat;
+  const { curve, pathOf, along, palm, lighthouse, rainbow, boat, moon, sun, dolphin, gulls, cloud, twinkle, mosque, waves } = haritaSanat;
   const sea = (id, colors) => haritaSanat.sea(id, colors, W, H);
   const compass = haritaSanat.compass(352, 52), whale = haritaSanat.whale(332, 640);
 
-  // The sea of each bay: a bright day in Harf Koyu, a sunny one with a rainbow in Bitişik Koyu, dusk in Cezm Koyu.
-  const seas = { harf: ['#8fe3ee', '#62c9dd', '#3cb0c8'], bitisik: ['#a6ecdf', '#6fd2d0', '#35adbf'], cezm: ['#6c6fbf', '#5aa9d6', '#3cb0c8'] };
+  // The sea of each bay: a bright day in Harf Koyu, a sunny one with a rainbow in Bitişik Koyu, dusk in Cezm Koyu,
+  // sunrise with dolphins in Tenvin Koyu.
+  const seas = { harf: ['#8fe3ee', '#62c9dd', '#3cb0c8'], bitisik: ['#a6ecdf', '#6fd2d0', '#35adbf'], cezm: ['#6c6fbf', '#5aa9d6', '#3cb0c8'],
+    tenvin: ['#ffc9a3', '#8fdbe6', '#3cb0c8'] };
 
   // The turtle, with a boat it sails in between the bays: the sail behind it, the hull in front.
   const turtleHtml = id => '<div class="elif-map-turtle" aria-hidden="true"><div class="elif-map-turtle-turn">' +
@@ -53,6 +55,7 @@ const elifMap = (() => {
       harf: palm(side * 66, -8, 1.05, side > 0) + lighthouse(side * 42, -20),
       bitisik: rainbow(0, -14, 1.2) + palm(side * 60, -12, 1, side > 0) + gulls(-side * 26, -46),
       cezm: moon(side * 46, -50) + twinkle([side * 14, -62], 0) + twinkle([side * 74, -32], 2) + palm(side * 62, -12, 1.1, side > 0) + boat(-side * 30, -18, .9, side > 0),
+      tenvin: sun(side * 44, -52, .9) + palm(side * 64, -12, 1.1, side > 0) + dolphin(-side * 34, -14, .8, side < 0),
       okuma: mosque(side * 38, -16) + palm(side * 66, -10, .95, side > 0)
     }[id] || palm(side * 60, -12, 1.05, side > 0) + palm(side * 40, -18, .8, side < 0);
     const dots = soon ? '' : '<polyline class="map-dot-lane" points="' + DOTS.map(p => p.join(' ')).join(' ') + '"/>' +
@@ -86,16 +89,17 @@ const elifMap = (() => {
     const n = k % LETTER_COVES;
     const [x, y] = ISLE[n];
     const flip = n % 2 ? ' scale(-1 1)' : '';
-    const LIGHTHOUSE = LETTER_COVES - 1, RAINBOW = 2 * LETTER_COVES - 1, LAST = coves.length - 1;
-    // The cove where the letters end has a lighthouse, the one where bitişik yazılış ends a rainbow; the coves
-    // of bitişik yazılış have seagulls over them, those of cezm a sailing boat, and the last one a moon.
+    const LIGHTHOUSE = LETTER_COVES - 1, RAINBOW = 2 * LETTER_COVES - 1, MOON = 3 * LETTER_COVES - 1, SUN = 4 * LETTER_COVES - 1;
+    // The cove where the letters end has a lighthouse, the one where bitişik yazılış ends a rainbow, the one where
+    // cezm ends a moon and the one where tenvin ends a sun; the coves of bitişik yazılış have seagulls over them,
+    // those of cezm a sailing boat, those of tenvin a dolphin.
     return '<g class="map-isle" data-k="' + k + '" transform="translate(' + x + ' ' + y + ')"><g class="map-isle-in" style="--n:' + n + '">' +
       '<ellipse class="map-halo" rx="64" ry="40" fill="none" stroke="#ffe38a" stroke-width="5"/>' +
       '<ellipse rx="60" ry="37" fill="#a8ecf2" opacity=".75"/><ellipse class="map-sand" rx="49" ry="29" fill="#f3d892"/>' +
       '<g transform="' + flip.trim() + '"><path class="map-grass" d="M-34-4C-30-20 0-26 20-18c14 6 10 18-6 20C-8 5-36 8-34-4Z" fill="#9fd88a"/>' +
-      ([LIGHTHOUSE, RAINBOW, LAST].includes(k) ? '' : palm(24, -12)) + '</g>' + (k === LIGHTHOUSE ? lighthouse(26, -6) : '') +
-      (k === RAINBOW ? rainbow(0, 0) : '') + (k === LAST ? moon(24, -30) : '') + (coveTopic(k) === 'bitisik' ? gulls(-20, -42) : '') +
-      (coveTopic(k) === 'cezm' ? boat(n % 2 ? 50 : -58, 10) : '') + '</g></g>';
+      ([LIGHTHOUSE, RAINBOW, MOON, SUN].includes(k) ? '' : palm(24, -12)) + '</g>' + (k === LIGHTHOUSE ? lighthouse(26, -6) : '') +
+      (k === RAINBOW ? rainbow(0, 0) : '') + (k === MOON ? moon(24, -30) : '') + (k === SUN ? sun(22, -30) : '') + (coveTopic(k) === 'bitisik' ? gulls(-20, -42) : '') +
+      (coveTopic(k) === 'cezm' ? boat(n % 2 ? 50 : -58, 10) : '') + (coveTopic(k) === 'tenvin' ? dolphin(n % 2 ? 54 : -56, 14, .8, n % 2 === 0) : '') + '</g></g>';
   }
   function bridgeArt(k) {
     const [x1, y1] = ISLE[k % LETTER_COVES], [x2, y2] = ISLE[(k + 1) % LETTER_COVES];
@@ -112,6 +116,7 @@ const elifMap = (() => {
       palm(30, 50, 1.1) + palm(372, 40, 1.05, true) + palm(92, 26, .8, true) + '</g>';
     const theme = id === 'bitisik' ? rainbow(200, 104, 2.2) + gulls(110, 210) + gulls(300, 140, .9) :
       id === 'cezm' ? '<g class="map-sparkles" fill="#fff">' + [[120, 110], [290, 86], [60, 220], [240, 196], [360, 300], [30, 470]].map(twinkle).join('') + '</g>' :
+      id === 'tenvin' ? sun(330, 104, 2) + dolphin(110, 250, 1.6) + dolphin(330, 420, 1.4, true) + gulls(220, 160, .9) :
       lighthouse(374, 96, .9);
     const exitLane = '<path class="map-exit-lane" d="M' + ISLE[6].join(' ') + 'Q' + (MOUTH[0] + 90) + ' ' + (MOUTH[1] + 40) + ' ' + MOUTH.join(' ') + 'T200 -30"/>';
     return '<svg class="elif-map-art" viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true">' + sea('map-sea-' + id, seas[id] || seas.harf) +
@@ -139,8 +144,10 @@ const elifMap = (() => {
     const last = at[count - 1];
     const toNext = last[0] < 200 ? [-40, last[1] - 150] : [440, last[1] - 150];
     const decor = (k === LETTER_COVES - 1 ? lighthouse(330, 226, 1.7) : '') + (k === 2 * LETTER_COVES - 1 ? rainbow(200, 152, 3.4) : '') +
-      (k === coves.length - 1 ? moon(330, 96, 1.8) : '') + (coveTopic(k) === 'bitisik' ? gulls(80, 118, 1.3) + gulls(320, 160) : '') +
-      (coveTopic(k) === 'cezm' ? boat(48, 140, 1.8) + boat(366, 620, 1.4, true) : '');
+      (k === 3 * LETTER_COVES - 1 ? moon(330, 96, 1.8) : '') + (k === 4 * LETTER_COVES - 1 ? sun(330, 96, 1.8) : '') +
+      (coveTopic(k) === 'bitisik' ? gulls(80, 118, 1.3) + gulls(320, 160) : '') +
+      (coveTopic(k) === 'cezm' ? boat(48, 140, 1.8) + boat(366, 620, 1.4, true) : '') +
+      (coveTopic(k) === 'tenvin' ? dolphin(52, 150, 1.8) + dolphin(360, 624, 1.5, true) : '');
     return '<svg class="elif-map-art" viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true">' + sea('map-sea-islet', seas[id] || seas.harf) +
       waves([[60, 110], [300, 70], [20, 400], [370, 420], [40, 640], [330, 660], [240, 110], [380, 200]]) +
       (id === 'cezm' ? '<g class="map-sparkles" fill="#fff">' + [[160, 90], [260, 120], [20, 260], [384, 330], [90, 50]].map(twinkle).join('') + '</g>' : '') +

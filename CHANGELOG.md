@@ -7,6 +7,18 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.81.0 · 27.11.2026
+
+Elif Ba Adası’na **Tenvin** bölümü geldi. Cezm Koyu’nu bitiren çocuklar Ay Işığı Adacığı’ndan tekneyle yeni **Tenvin Koyu**’na geçiyor: Şafak, Midye, Çapa, Flamingo, Kayık, Lagün ve Güneş Adacığı. Her adacıkta yine dört harf var; 28 harfin her biri iki üstün, iki esre ve iki ötre ile okunuyor. Yolda artık 28 adacık var.
+
+- **Tenvin adımı:** Her harfin kartında üç sütun var: üstte harekeli hece, altta aynı harfin tenvinlisi (بَ ⬇ بًا, بِ ⬇ بٍ, بُ ⬇ بٌ). Harekeliye dokununca “be”, tenvinliye dokununca derslerdeki gibi “Be iki üstün ben” okunuyor; ♪ düğmesi üçünü sırayla okuyor: “Be iki üstün ben, be iki esre bin, be iki ötre bun”. Adacığın başında üç tenvin işareti (dokununca adı söyleniyor) ve Diyanet’in bir kelimesi üç adımda duruyor: tenvinsiz, tenvinli ve kelime (بُ ← بٌ ← كُتُبٌ).
+- **Tenvin turu (12-16 soru):** Duyulan tenvinli heceyi yazılı heceler arasında bulma, gösterilen tenvinli hecenin sesini üç ses arasında bulma ve “Hangi işaret?”: harf işaretsiz gösterilip hece dinletiliyor, iki üstün, iki esre, iki ötre ve harekesi arasından doğru işaret bulunuyor. Şıklarda hep aynı harfin tenvinsizi de var (bin ile bi): n sesini duymak önemli. Önceki tenvin adacıklarının harfleri tekrar için karışıyor. Bütün sorular ilk denemede bilinince adacığın 🐬 yunusları kazanılıyor.
+- **🪁 Tenvin Balonları:** Balonlarda tenvinli heceler uçuyor; aralarında aynı harflerin yalnızca harekeli balonları da var, onlara dikkat etmek gerekiyor.
+- **🌉 Cam Köprü:** Kaplumbağa hep tenvinli bir hece okuyor; camlarda yanında aynı harfin tenvinsizi ya da başka tenviniyle diğer harflerin tenvinleri var.
+- **Harita:** Tenvin Koyu gün doğumu renklerinde, güneşli ve zıplayan yunuslu; en sondaki Güneş Adacığı’nda bir güneş var. Üstteki sayaçlara 🐬 tenvin, akvaryumun harf baloncuklarına tenvinli heceler, Ayarlar’daki ilerleme özetine ve yönetici sayfasına Tenvin ve Tenvin Balonları eklendi.
+- **Sesler:** 84 tenvinli hece kız çocuk sesiyle; erkek sesi için 84 tenvinli hece ve 7 örnek kelime Diyanet Elifba’nın Fetha’nın, Kesra’nın ve Damme’nin Tenvini derslerinden bayt bayt aynen alındı.
+- Çocukların kayıtlı ilerlemesi olduğu gibi duruyor.
+
 ## 0.80.0 · 27.11.2026
 
 - **Gün ve hafta (day, week):** 1. adada (Okul Hayatı) Gizli Kelimeler'e yeni bir resim geldi: öğretmen tahtada “one day” (bir gün, tek takvim yaprağı) ile “one week”i (bir hafta, yedi yaprak) gösteriyor. Ses “Find “day”!” diyor ve cümle üstte yazıyor; çocuk tek yaprağa dokununca doğru, haftaya dokununca ses “No! This is a week.” diyor. Bir de “day” ve “week” için yeni tek resimler ve “Resme bak” soruları eklendi. Adaya 4 yeni soru geldi.

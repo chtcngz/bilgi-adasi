@@ -2,11 +2,11 @@
 
 ## Kız çocuk sesi
 
-`cocuk/` klasöründeki kayıtlar oyunun sahibinin eklediği çocuk sesi kayıtlarıdır (`elifba-ses-onizleme/`): `harf/NN.mp3` harf adları (ve `hemze.mp3`), `hece/NN-H.mp3` üstün, esre, ötre ile okunuşlar, `yer/P.mp3` “başta / ortada / sonda”, `hareke/` üstün, esre, ötre ve cezm adları. Ayarlarda **Kız çocuk sesi** seçiliyken (varsayılan) bunlar çalınır; çocuk sesinde kaydı olmayanlar (bitişik yazılış örnek kelimeleri, cezimli heceler ve cezm örnekleri) aşağıdaki Diyanet kayıtlarından erkek sesiyle çalınır. **Erkek sesi** seçilince hepsi Diyanet kayıtlarıdır.
+`cocuk/` klasöründeki kayıtlar oyunun sahibinin eklediği çocuk sesi kayıtlarıdır (`elifba-ses-onizleme/`): `harf/NN.mp3` harf adları (ve `hemze.mp3`), `hece/NN-H.mp3` üstün, esre, ötre ile okunuşlar, `yer/P.mp3` “başta / ortada / sonda”, `tenvin/NN-H.mp3` iki üstün, iki esre, iki ötre ile okunuşlar (ben, bin, bun …), `hareke/` üstün, esre, ötre, cezm, iki üstün, iki esre ve iki ötre adları. Ayarlarda **Kız çocuk sesi** seçiliyken (varsayılan) bunlar çalınır; çocuk sesinde kaydı olmayanlar (bitişik yazılış örnek kelimeleri, cezimli heceler, cezm ve tenvin örnekleri) aşağıdaki Diyanet kayıtlarından erkek sesiyle çalınır. **Erkek sesi** seçilince hepsi Diyanet kayıtlarıdır.
 
 ## Erkek sesi (Diyanet)
 
-28 harf adı, 84 harekeli okuma, bitişik yazılış ve cezm kayıtları Diyanet İşleri Başkanlığının Elifba uygulamasından alınmıştır. Harf adları Harfler dersinden, heceler Fetha, Kesra ve Damme derslerinden, bitişik yazılış örnek kelimeleri ile “Kelimenin Başında / Ortasında / Sonunda” kayıtları Harfler ve Şekilleri dersinden, cezimli heceler Cezm dersinden eşleştirilmiştir.
+28 harf adı, 84 harekeli okuma, bitişik yazılış, cezm ve tenvin kayıtları Diyanet İşleri Başkanlığının Elifba uygulamasından alınmıştır. Harf adları Harfler dersinden, heceler Fetha, Kesra ve Damme derslerinden, bitişik yazılış örnek kelimeleri ile “Kelimenin Başında / Ortasında / Sonunda” kayıtları Harfler ve Şekilleri dersinden, cezimli heceler Cezm dersinden, tenvinli heceler Fetha’nın, Kesra’nın ve Damme’nin Tenvini derslerinden eşleştirilmiştir.
 
 Oyun kopyaları `sources/elifba-sesleri/katalog.json` arşivindeki kayıtlarla bayt düzeyinde aynıdır. Harf sırası oyundaki sıradır. He ve vav konumları metne göre eşleştirilmiştir.
 
@@ -188,3 +188,101 @@ Cezimli hecelerin ve örneklerin kayıtları Cezm dersinden alınmıştır. `cez
 | `cezm-ornek/4-0.mp3` | اِذَ | [cezm/btn_13.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_13.mp3) |
 | `cezm-ornek/4-1.mp3` | اِذْ | [cezm/btn_14.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_14.mp3) |
 | `cezm-ornek/4-2.mp3` | اِذْ قَامُوا | [cezm/btn_15.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/cezm/btn_15.mp3) |
+
+## Tenvin
+
+Tenvinli hecelerin kayıtları Fetha’nın Tenvini (İki Fetha), Kesra’nın Tenvini ve Damme’nin Tenvini derslerinden alınmıştır. `tenvin/NN-H.mp3`: NN harfinin iki üstün (H = 0), iki esre (1) ve iki ötre (2) ile okunuşu. `tenvin-ornek/P.mp3`: P. tenvin adacığının başındaki örnek kelime; üçü Tenvin derslerinin Uygulama bölümünden, وِزْرٌ Cezm dersinin Uygulama bölümünden.
+
+| Dosya | Metin | Kaynak |
+|---|---|---|
+| `tenvin/00-0.mp3` | اً | [fetha-tenvin/btn_1.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_1.mp3) |
+| `tenvin/01-0.mp3` | بًا | [fetha-tenvin/btn_2.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_2.mp3) |
+| `tenvin/02-0.mp3` | تًا | [fetha-tenvin/btn_3.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_3.mp3) |
+| `tenvin/03-0.mp3` | ثًا | [fetha-tenvin/btn_4.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_4.mp3) |
+| `tenvin/04-0.mp3` | جًا | [fetha-tenvin/btn_5.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_5.mp3) |
+| `tenvin/05-0.mp3` | حًا | [fetha-tenvin/btn_6.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_6.mp3) |
+| `tenvin/06-0.mp3` | خًا | [fetha-tenvin/btn_21.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_21.mp3) |
+| `tenvin/07-0.mp3` | دًا | [fetha-tenvin/btn_7.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_7.mp3) |
+| `tenvin/08-0.mp3` | ذًا | [fetha-tenvin/btn_8.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_8.mp3) |
+| `tenvin/09-0.mp3` | رًا | [fetha-tenvin/btn_22.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_22.mp3) |
+| `tenvin/10-0.mp3` | زًا | [fetha-tenvin/btn_9.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_9.mp3) |
+| `tenvin/11-0.mp3` | سًا | [fetha-tenvin/btn_10.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_10.mp3) |
+| `tenvin/12-0.mp3` | شًا | [fetha-tenvin/btn_11.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_11.mp3) |
+| `tenvin/13-0.mp3` | صًا | [fetha-tenvin/btn_25.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_25.mp3) |
+| `tenvin/14-0.mp3` | ضًا | [fetha-tenvin/btn_26.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_26.mp3) |
+| `tenvin/15-0.mp3` | طًا | [fetha-tenvin/btn_27.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_27.mp3) |
+| `tenvin/16-0.mp3` | ظًا | [fetha-tenvin/btn_28.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_28.mp3) |
+| `tenvin/17-0.mp3` | عًا | [fetha-tenvin/btn_12.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_12.mp3) |
+| `tenvin/18-0.mp3` | غًا | [fetha-tenvin/btn_23.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_23.mp3) |
+| `tenvin/19-0.mp3` | فًا | [fetha-tenvin/btn_13.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_13.mp3) |
+| `tenvin/20-0.mp3` | قًا | [fetha-tenvin/btn_24.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_24.mp3) |
+| `tenvin/21-0.mp3` | كًا | [fetha-tenvin/btn_14.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_14.mp3) |
+| `tenvin/22-0.mp3` | لاً | [fetha-tenvin/btn_15.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_15.mp3) |
+| `tenvin/23-0.mp3` | مًا | [fetha-tenvin/btn_16.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_16.mp3) |
+| `tenvin/24-0.mp3` | نًا | [fetha-tenvin/btn_17.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_17.mp3) |
+| `tenvin/25-0.mp3` | وًا | [fetha-tenvin/btn_19.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_19.mp3) |
+| `tenvin/26-0.mp3` | هًا | [fetha-tenvin/btn_18.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_18.mp3) |
+| `tenvin/27-0.mp3` | يًا | [fetha-tenvin/btn_20.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/fetha-tenvin/btn_20.mp3) |
+| `tenvin/00-1.mp3` | اٍ | [kesranin-tenvini/btn_1.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_1.mp3) |
+| `tenvin/01-1.mp3` | بٍ | [kesranin-tenvini/btn_2.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_2.mp3) |
+| `tenvin/02-1.mp3` | تٍ | [kesranin-tenvini/btn_3.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_3.mp3) |
+| `tenvin/03-1.mp3` | ثٍ | [kesranin-tenvini/btn_4.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_4.mp3) |
+| `tenvin/04-1.mp3` | جٍ | [kesranin-tenvini/btn_5.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_5.mp3) |
+| `tenvin/05-1.mp3` | حٍ | [kesranin-tenvini/btn_6.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_6.mp3) |
+| `tenvin/06-1.mp3` | خٍ | [kesranin-tenvini/btn_22.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_22.mp3) |
+| `tenvin/07-1.mp3` | دٍ | [kesranin-tenvini/btn_7.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_7.mp3) |
+| `tenvin/08-1.mp3` | ذٍ | [kesranin-tenvini/btn_8.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_8.mp3) |
+| `tenvin/09-1.mp3` | رٍ | [kesranin-tenvini/btn_9.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_9.mp3) |
+| `tenvin/10-1.mp3` | زٍ | [kesranin-tenvini/btn_10.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_10.mp3) |
+| `tenvin/11-1.mp3` | سٍ | [kesranin-tenvini/btn_11.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_11.mp3) |
+| `tenvin/12-1.mp3` | شٍ | [kesranin-tenvini/btn_12.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_12.mp3) |
+| `tenvin/13-1.mp3` | صٍ | [kesranin-tenvini/btn_25.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_25.mp3) |
+| `tenvin/14-1.mp3` | ضٍ | [kesranin-tenvini/btn_26.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_26.mp3) |
+| `tenvin/15-1.mp3` | طٍ | [kesranin-tenvini/btn_27.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_27.mp3) |
+| `tenvin/16-1.mp3` | ظٍ | [kesranin-tenvini/btn_28.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_28.mp3) |
+| `tenvin/17-1.mp3` | عٍ | [kesranin-tenvini/btn_13.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_13.mp3) |
+| `tenvin/18-1.mp3` | غٍ | [kesranin-tenvini/btn_23.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_23.mp3) |
+| `tenvin/19-1.mp3` | فٍ | [kesranin-tenvini/btn_14.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_14.mp3) |
+| `tenvin/20-1.mp3` | قٍ | [kesranin-tenvini/btn_24.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_24.mp3) |
+| `tenvin/21-1.mp3` | كٍ | [kesranin-tenvini/btn_15.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_15.mp3) |
+| `tenvin/22-1.mp3` | لٍ | [kesranin-tenvini/btn_16.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_16.mp3) |
+| `tenvin/23-1.mp3` | مٍ | [kesranin-tenvini/btn_17.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_17.mp3) |
+| `tenvin/24-1.mp3` | نٍ | [kesranin-tenvini/btn_18.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_18.mp3) |
+| `tenvin/25-1.mp3` | وٍ | [kesranin-tenvini/btn_20.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_20.mp3) |
+| `tenvin/26-1.mp3` | هٍـ | [kesranin-tenvini/btn_19.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_19.mp3) |
+| `tenvin/27-1.mp3` | ىٍ | [kesranin-tenvini/btn_21.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/kesranin-tenvini/btn_21.mp3) |
+| `tenvin/00-2.mp3` | اٌ | [dammenin-tenvini/btn_1.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_1.mp3) |
+| `tenvin/01-2.mp3` | بٌ | [dammenin-tenvini/btn_2.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_2.mp3) |
+| `tenvin/02-2.mp3` | تٌ | [dammenin-tenvini/btn_3.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_3.mp3) |
+| `tenvin/03-2.mp3` | ثٌ | [dammenin-tenvini/btn_4.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_4.mp3) |
+| `tenvin/04-2.mp3` | جٌ | [dammenin-tenvini/btn_5.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_5.mp3) |
+| `tenvin/05-2.mp3` | حٌ | [dammenin-tenvini/btn_6.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_6.mp3) |
+| `tenvin/06-2.mp3` | خٌ | [dammenin-tenvini/btn_21.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_21.mp3) |
+| `tenvin/07-2.mp3` | دٌ | [dammenin-tenvini/btn_7.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_7.mp3) |
+| `tenvin/08-2.mp3` | ذٌ | [dammenin-tenvini/btn_8.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_8.mp3) |
+| `tenvin/09-2.mp3` | رٌ | [dammenin-tenvini/btn_22.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_22.mp3) |
+| `tenvin/10-2.mp3` | زٌ | [dammenin-tenvini/btn_9.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_9.mp3) |
+| `tenvin/11-2.mp3` | سٌ | [dammenin-tenvini/btn_10.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_10.mp3) |
+| `tenvin/12-2.mp3` | شٌ | [dammenin-tenvini/btn_11.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_11.mp3) |
+| `tenvin/13-2.mp3` | صٌ | [dammenin-tenvini/btn_25.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_25.mp3) |
+| `tenvin/14-2.mp3` | ضٌ | [dammenin-tenvini/btn_26.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_26.mp3) |
+| `tenvin/15-2.mp3` | طٌ | [dammenin-tenvini/btn_27.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_27.mp3) |
+| `tenvin/16-2.mp3` | ظٌ | [dammenin-tenvini/btn_28.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_28.mp3) |
+| `tenvin/17-2.mp3` | عٌ | [dammenin-tenvini/btn_12.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_12.mp3) |
+| `tenvin/18-2.mp3` | غٌ | [dammenin-tenvini/btn_23.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_23.mp3) |
+| `tenvin/19-2.mp3` | فٌ | [dammenin-tenvini/btn_13.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_13.mp3) |
+| `tenvin/20-2.mp3` | قٌ | [dammenin-tenvini/btn_24.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_24.mp3) |
+| `tenvin/21-2.mp3` | كٌ | [dammenin-tenvini/btn_14.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_14.mp3) |
+| `tenvin/22-2.mp3` | لٌ | [dammenin-tenvini/btn_15.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_15.mp3) |
+| `tenvin/23-2.mp3` | مٌ | [dammenin-tenvini/btn_16.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_16.mp3) |
+| `tenvin/24-2.mp3` | نٌ | [dammenin-tenvini/btn_17.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_17.mp3) |
+| `tenvin/25-2.mp3` | وٌ | [dammenin-tenvini/btn_19.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_19.mp3) |
+| `tenvin/26-2.mp3` | هٌـ | [dammenin-tenvini/btn_18.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_18.mp3) |
+| `tenvin/27-2.mp3` | ىٌ | [dammenin-tenvini/btn_20.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/dammenin-tenvini/btn_20.mp3) |
+| `tenvin-ornek/0.mp3` | كُتُبٌ | [uygulama/btn_1.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/dammenin-tenvini/uygulama/btn_1.mp3) |
+| `tenvin-ornek/1.mp3` | بِاَخٍ | [uygulama/btn_4.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/uygulama/btn_4.mp3) |
+| `tenvin-ornek/2.mp3` | وِزْرٌ | [uygulama/btn_2.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/cezm/uygulama/btn_2.mp3) |
+| `tenvin-ornek/3.mp3` | قَصَصًا | [uygulama/btn_7.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/uygulama/btn_7.mp3) |
+| `tenvin-ornek/4.mp3` | جَنَفًا | [uygulama/btn_11.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/uygulama/btn_11.mp3) |
+| `tenvin-ornek/5.mp3` | فَلَكٍ | [uygulama/btn_1.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/uygulama/btn_1.mp3) |
+| `tenvin-ornek/6.mp3` | سَكَنًا | [uygulama/btn_14.mp3](https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/uygulama/btn_14.mp3) |
