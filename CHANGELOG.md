@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.82.2 · 27.11.2026
+
+- **Keşif Kartı'nda ünitenin bütün kelimeleri:** Okul Hayatı'nın 50 kelimesinin hepsi artık kendi istasyonunun kartlarında tanıtılıyor; eksik kalan “hall” (salon) Okuldaki yerler 2'ye, “student” (öğrenci) Okuldaki kişiler'e eklendi.
+
 ## 0.82.1 · 27.11.2026
 
 - **Keşif Kartı küçük ekranlara sığıyor:** Yatay tutulan telefonda ve küçük tablette kartın resmi çok büyük kalıyor, kelime ve “Sıradaki” düğmesi ekranın dışına taşıyordu. Resim artık ekranın yüksekliğine göre küçülüyor; yatay telefonda resim kelimenin yanında duruyor.
