@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.89.4 · 27.11.2026
+
+- **Üç soru daha resimle:** “What is this, Daisy? It’s a …” sorusu kütüphane resmiyle, “Evet diyerek cevap ver: Is it a library?” sorusu “Is this a library?” diye soran çocukların kütüphane resmiyle, “Jungle School’da Ruby kim?” sorusu okul formalı kız öğrenci resmiyle soruluyor.
+
 ## 0.89.3 · 27.11.2026
 
 - **Yeni diyalog resmi:** “This is my friend, Linda.” sorusu artık resimle soruluyor: okul bahçesinde bir çocuk arkadaşı Linda’yı gösteriyor.
