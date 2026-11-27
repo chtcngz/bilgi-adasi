@@ -302,7 +302,7 @@
 .elif-tenvin-lesson .elif-syllables-head { flex-wrap: wrap; }
 .elif-tenvin-marks { display: flex; gap: 6px; }
 .elif-tenvin-marks .elif-syllable { min-width: 64px; padding: 0 6px 4px; }
-.elif-tenvin-marks .elif-syllable b, .elif-choices.marks .elif-choice b { color: #c0392b; }
+.elif-tenvin-marks .elif-syllable b { color: #c0392b; }
 .elif-tenvin-marks .elif-syllable b { font-size: 40px; line-height: 1.4; }
 /* Şedde: how the şedde syllable is made (بِسْ + سَ = بِسَّ), then the syllable with each hareke. */
 .elif-cards.seddes { grid-template-columns: repeat(2, 1fr); }

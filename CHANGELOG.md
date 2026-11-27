@@ -7,6 +7,14 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.86.0 · 27.11.2026
+
+Elif Ba Adası’nda şıkları tek başına işaret olan sorular (noktalı daire üstünde üstün, iki üstün, şedde …) kaldırıldı.
+
+- **Tenvin turu:** “Hangi işaret?” sorusunun yerine **“Tenvinli heceyi bul”** geldi: aynı harfin tenvinlisi ile üstünlü, esreli ve ötreli hâli yan yana duruyor (بٍ بَ بِ بُ), çocuk iki harekeli olanı buluyor. Doğru bulununca “Be iki esre bin” diye okunuyor.
+- **Şedde turu:** “Son harfe hangi işaret?” sorusunun yerine **“Şeddeli heceyi bul”** geldi: şeddeli hece, aynı harflerin şeddesiz iki hâli ve cezimlisiyle yan yana (بِسَّ بِسَ بِسِ بِسْ). Doğru bulununca “Sin şedde: bis, se, bisse” diye okunuyor.
+- **Sepete Topla:** Sepetlerin üstünde artık noktalı daire üstünde işaret yok; Be harfiyle yazılmış heceler var: üstün sepetinde بَ, esre sepetinde بِ, ötre sepetinde بُ; tenvinli sepette بًا بٍ بٌ, şeddeli sepette بَّ بِّ بُّ, cezimli sepette بْ, öteki sepette بَ بِ بُ.
+
 ## 0.85.0 · 27.11.2026
 
 Elif Ba Adası’na **Şedde** bölümü geldi. Tenvin Koyu’nu bitiren çocuklar Güneş Adacığı’ndan tekneyle yeni **Şedde Koyu**’na geçiyor: İkiz, Kayalık, Mağara, Şelale, Kale, Yanardağ ve Hazine Adacığı. Her adacıkta yine dört harf var; 28 harfin her biri şeddeli okunuyor. Yolda artık 35 adacık var.

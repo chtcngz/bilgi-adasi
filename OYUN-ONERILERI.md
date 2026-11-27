@@ -43,7 +43,7 @@ Balon ve yağmur oyunlarına üç seçenek daha; üçü de oyun adımlarının s
 
 - **Yengeç Avı:** Kumdaki altı delikten tabelalı yengeçler çıkıp saklanıyor. Kaplumbağa bir hece söylüyor, çocuk o tabelayı tutan yengece dokunuyor. 16 tur, 3 can.
 - **Balık Tutma:** Kaplumbağa teknede oltayla bekliyor; altında harfli balıklar yüzüyor. Duyulan hecenin balığına dokununca olta inip balığı tekneye çekiyor; yanlış balık oltadan kaçıyor. 16 tur, 3 can.
-- **Sepete Topla:** Bir midye geliyor, kaplumbağa içindekini söylüyor; çocuk onu sürükleyip (ya da sepete dokunup) doğru sepete atıyor. Sepetler adacığın konusuna göre: harf adacıklarında harflerin sepetleri (midye yalnızca ses çıkarıyor), hece ve bitişik adacıklarında üstün, esre, ötre sepetleri, cezm adacıklarında cezimli ve cezimsiz (بِسْ ile بِسَ), tenvin adacıklarında tenvinli ve tenvinsiz (بٍ ile بِ). Yanlış sepette doğru sepet yeşil yanıyor. 16 midye, 3 can.
+- **Sepete Topla:** Bir midye geliyor, kaplumbağa içindekini söylüyor; çocuk onu sürükleyip (ya da sepete dokunup) doğru sepete atıyor. Sepetler adacığın konusuna göre: harf adacıklarında harflerin sepetleri (midye yalnızca ses çıkarıyor), hece ve bitişik adacıklarında üstün, esre, ötre sepetleri, cezm adacıklarında cezimli ve cezimsiz (بِسْ ile بِسَ), tenvin adacıklarında tenvinli ve tenvinsiz (بٍ ile بِ), şedde adacıklarında şeddeli ve şeddesiz (بِسَّ ile بِسَ). Sepetlerin üstünde tek başına işaret değil, Be harfiyle yazılmış heceler var (بَ، بَ بِ بُ، بًا بٍ بٌ …). Yanlış sepette doğru sepet yeşil yanıyor. 16 midye, 3 can.
 
 ## 3. 🚂 Hece Treni: kelime okumaya köprü
 

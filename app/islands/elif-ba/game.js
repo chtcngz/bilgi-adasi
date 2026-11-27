@@ -497,10 +497,10 @@
     'cezm-harf': 'Dinle. Hangi harf cezimli? Eksik harfi bul.',
     'ses-tenvin': 'Dinle. Duyduğun heceyi bul. Sonunda n sesi var mı, dikkat et.',
     'tenvin-ses': 'Bu hecenin sesi hangisi? Seslere dokun, dinle. Doğru sesi bulunca yeşil tike bas.',
-    'tenvin-isaret': 'Dinle. Bu harfe hangi işaret gelir? İşareti bul.',
+    'tenvin-bul': 'Hangisi tenvinli? Tenvinli heceyi bul ve dokun.',
     'ses-sedde': 'Dinle. Duyduğun heceyi bul. Harf iki kez okunuyor mu, dikkat et.',
     'sedde-ses': 'Bu hecenin sesi hangisi? Seslere dokun, dinle. Doğru sesi bulunca yeşil tike bas.',
-    'sedde-isaret': 'Dinle. Son harfe hangi işaret gelir? İşareti bul.'
+    'sedde-bul': 'Hangisinde şedde var? Şeddeli heceyi bul ve dokun.'
   };
   // The letter's three harekeli syllables over three columns, one for each place in the word (right to
   // left: start, middle, end), each with its shapes there and an example word, the letter coloured in it.
@@ -1060,9 +1060,9 @@
     return spread(questions);
   }
   // Tenvin: every letter of the cove three times, once with each tenvin. Its tenvin is heard and found among
-  // written syllables (ses-tenvin), shown and its sound found among three sounds (tenvin-ses), and heard with
-  // the letter shown alone, its mark to be found (tenvin-isaret). The same letter with the hareke alone (bi for
-  // bin) is always among the choices: hearing the n is the point. From the second tenvin cove on, letters of the
+  // written syllables (ses-tenvin), shown and its sound found among three sounds (tenvin-ses), and seen among the
+  // same letter with each hareke alone, to be found by its two marks (tenvin-bul: بٍ among بَ بِ بُ). The same letter
+  // with the hareke alone (bi for bin) is always among the choices: hearing and seeing the tenvin is the point. From the second tenvin cove on, letters of the
   // earlier ones come back for review. A choice is a tenvin ({ i, h, t: true }) or a harekeli syllable ({ i, h }).
   const tenvinEarlier = k => Array.from({ length: k % LETTER_COVES * 4 }, (_, i) => i);
   function tenvinChoices(target, h, count) {
@@ -1073,10 +1073,10 @@
     const fourth = alike.length && Math.random() < 0.5 ? alike[0] : { i: target, h: third, t: true };
     return shuffled([...picked, fourth].slice(0, count));
   }
-  const tenvinQuestion = (type, target, h) => ({ type, target, h, choices: type === 'tenvin-isaret' ?
-    shuffled([...[0, 1, 2].map(x => ({ i: target, h: x, t: true })), { i: target, h }]) : tenvinChoices(target, h, type === 'tenvin-ses' ? 3 : 4) });
+  const tenvinQuestion = (type, target, h) => ({ type, target, h, choices: type === 'tenvin-bul' ?
+    shuffled([{ i: target, h, t: true }, ...[0, 1, 2].map(x => ({ i: target, h: x }))]) : tenvinChoices(target, h, type === 'tenvin-ses' ? 3 : 4) });
   function tenvinRound(k) {
-    const types = ['ses-tenvin', 'tenvin-ses', 'tenvin-isaret'];
+    const types = ['ses-tenvin', 'tenvin-ses', 'tenvin-bul'];
     const questions = [];
     for (const target of coveLetters(k)) {
       const marks = shuffled([0, 1, 2]);
@@ -1086,9 +1086,10 @@
     return spread(questions);
   }
   // Şedde: every letter of the cove three times, once with each hareke. Its şedde syllable is heard and found among
-  // written ones (ses-sedde), shown and its sound found among three sounds (sedde-ses), and heard with its last letter
-  // shown bare, the mark to be found (sedde-isaret). The same letters without the şedde (bise for bisse) are always
-  // among the choices, but for a hemze or ayn, which sound alike with and without it. From the second şedde cove on,
+  // written ones (ses-sedde), shown and its sound found among three sounds (sedde-ses), and seen among the same letters
+  // without it, to be found by its mark (sedde-bul: بِسَّ among بِسَ بِسِ بِسْ). The same letters without the şedde (bise
+  // for bisse) are always among the choices, but in what is heard not for a hemze or ayn, which sound alike with and
+  // without it. From the second şedde cove on,
   // letters of the earlier ones come back for review. A choice is { i, h, s }: s 'sedde', 'seddesiz' or 'cezm'.
   const seddeEarlier = k => Array.from({ length: k % LETTER_COVES * 4 }, (_, i) => i);
   function seddeChoices(target, h, count) {
@@ -1101,16 +1102,13 @@
       Math.random() < 0.5 ? { i: target, h: 0, s: 'cezm' } : { i: target, h: third, s: 'sedde' });
     return shuffled(picked.slice(0, count));
   }
-  // the marks for "which mark?": the şedde with the hareke, the hareke alone, the cezm, the şedde with another hareke
-  function seddeMarks(target, h) {
-    const other = pick([0, 1, 2].filter(x => x !== h));
-    return shuffled([{ i: target, h, s: 'sedde' }, seddeFaint(target) ? { i: target, h: pick([0, 1, 2].filter(x => x !== h && x !== other)), s: 'sedde' } :
-      { i: target, h, s: 'seddesiz' }, { i: target, h: 0, s: 'cezm' }, { i: target, h: other, s: 'sedde' }]);
-  }
-  const seddeQuestion = (type, target, h) => ({ type, target, h, choices: type === 'sedde-isaret' ? seddeMarks(target, h) :
+  // "Find the şedde": the şedde syllable, the same letters without it with this hareke and another, and the cezm syllable.
+  const seddeSeen = (target, h) => shuffled([{ i: target, h, s: 'sedde' }, { i: target, h, s: 'seddesiz' },
+    { i: target, h: pick([0, 1, 2].filter(x => x !== h)), s: 'seddesiz' }, { i: target, h: 0, s: 'cezm' }]);
+  const seddeQuestion = (type, target, h) => ({ type, target, h, choices: type === 'sedde-bul' ? seddeSeen(target, h) :
     seddeChoices(target, h, type === 'sedde-ses' ? 3 : 4) });
   function seddeRound(k) {
-    const types = ['ses-sedde', 'sedde-ses', 'sedde-isaret'];
+    const types = ['ses-sedde', 'sedde-ses', 'sedde-bul'];
     const questions = [];
     for (const target of coveLetters(k)) {
       const marks = shuffled([0, 1, 2]);
@@ -1165,8 +1163,8 @@
     const letterQuestion = q.type === 'listen' || q.type === 'sound';
     const joined = ['sekil-harf', 'dinle-sekil', 'bul'].includes(q.type);
     const withCezm = ['ses-cezm', 'cezm-ses', 'cezm-harf'].includes(q.type);
-    const withTenvin = ['ses-tenvin', 'tenvin-ses', 'tenvin-isaret'].includes(q.type);
-    const withSedde = ['ses-sedde', 'sedde-ses', 'sedde-isaret'].includes(q.type);
+    const withTenvin = ['ses-tenvin', 'tenvin-ses', 'tenvin-bul'].includes(q.type);
+    const withSedde = ['ses-sedde', 'sedde-ses', 'sedde-bul'].includes(q.type);
     // A bitişik question says the letter and its place ("Be. Kelimenin başında"); the example word can be heard on its own.
     const play = () => q.type === 'bul' ? voice.syllable(q.target, q.h, response) : joined ? voice.shape(q.target, q.h, q.f, response) : letterQuestion ? voice.letter(q.target, response) :
       withCezm ? voice.cezm(q.target, response) : withTenvin ? voice.tenvin(q.target, q.h, response) : withSedde ? voice.sedde(q.target, q.h, response) :
@@ -1175,18 +1173,14 @@
     const seddeText = c => c.s === 'sedde' ? sedde(c.i, c.h) : c.s === 'seddesiz' ? seddesiz(c.i, c.h) : cezm(c.i).text;
     const seddeChoiceName = c => c.s === 'sedde' ? seddeName(c.i, c.h) : c.s === 'seddesiz' ? seddesizName(c.i, c.h) : cezmName(c.i);
     const hearSedde = c => c.s === 'sedde' ? voice.sedde(c.i, c.h, response) : c.s === 'seddesiz' ? voice.seddesiz(c.i, c.h, response) : voice.cezm(c.i, response);
-    const seddeMarkOf = c => c.s === 'cezm' ? elifData.SUKUN : harekeler[c.h].mark + (c.s === 'sedde' ? SEDDE : '');
-    const seddeMarkName = c => c.s === 'cezm' ? 'cezm' : c.s === 'sedde' ? 'şedde ' + hareke(c.h) : hareke(c.h);
     const seddeRight = c => c.s === 'sedde' && c.i === q.target && c.h === q.h;
-    // In "which mark?" the syllable is shown with its last letter bare; once answered, it gets its marks.
-    const showSedde = () => { const big = stage.querySelector('.elif-sedde-letter'); if (big) big.innerHTML = glyphHtml(sedde(q.target, q.h)); };
+
     // A choice of a tenvin question: a tenvin ({ i, h, t: true }) or the harekeli syllable ({ i, h }).
     const tenvinText = c => c.t ? tenvin(c.i, c.h) : syllable(c.i, c.h);
     const tenvinChoiceName = c => c.t ? tenvinName(c.i, c.h) : syllableName(c.i, c.h);
     const hearTenvinChoice = c => c.t ? voice.tenvin(c.i, c.h, response) : voice.syllable(c.i, c.h, response);
     const tenvinRight = c => c.t === true && c.i === q.target && c.h === q.h;
-    // In "which mark?" the letter alone is shown; once answered, it gets its tenvin.
-    const showTenvin = () => { const big = stage.querySelector('.elif-tenvin-letter'); if (big) big.innerHTML = glyphHtml(tenvin(q.target, q.h)); };
+
     // A choice of a cezm question: a cezm syllable ({ c }) or a harekeli syllable ({ i, h }).
     const cezmText = c => c.c !== undefined ? cezm(c.c).text : syllable(c.i, c.h);
     const cezmChoiceName = c => c.c !== undefined ? cezmName(c.c) : syllableName(c.i, c.h);
@@ -1296,14 +1290,12 @@
       prompt.textContent = 'Bu hecenin sesi hangisi?';
       stage.append(prompt, el('div', 'elif-big', glyphHtml(tenvin(q.target, q.h))));
       soundChoices(q.choices.map(c => [() => hearTenvinChoice(c), tenvinRight(c)]), stage, response, 'Bu ses başka bir hecenin.');
-    } else if (q.type === 'tenvin-isaret') {
-      // The tenvin is heard and the letter shown alone: which mark does it take? The three tenvins and the hareke.
-      prompt.textContent = 'Dinle: hangi işaret?';
-      grid.classList.add('four', 'cezm', 'marks');
-      q.choices.forEach((c, n) => grid.append(choice('<b lang="ar" dir="rtl">◌' + (c.t ? tenvinler[c.h].mark : harekeler[c.h].mark) + '</b>', n, tenvinRight(c),
-        () => 'Bu ' + (c.t ? tenvinMark(c.h) : hareke(c.h)) + '.')));
-      stage.append(prompt, el('div', 'elif-big elif-tenvin-letter', glyphHtml(glyphs[q.target])), speaker(), grid);
-      autoplay = true;
+    } else if (q.type === 'tenvin-bul') {
+      // The same letter with the tenvin and with each hareke alone: which one has the two marks? Seen, not heard.
+      prompt.textContent = 'Tenvinli heceyi bul';
+      grid.classList.add('four', 'cezm');
+      q.choices.forEach((c, n) => grid.append(choice(glyphHtml(tenvinText(c)), n, tenvinRight(c), () => 'Bu ' + tenvinChoiceName(c) + ', tenvinsiz.')));
+      stage.append(prompt, grid);
     } else if (q.type === 'ses-sedde') {
       // The şedde syllable is heard; it is found among written ones, the same letters without the şedde among them.
       prompt.textContent = 'Dinle ve heceyi bul';
@@ -1316,14 +1308,12 @@
       prompt.textContent = 'Bu hecenin sesi hangisi?';
       stage.append(prompt, el('div', 'elif-big', glyphHtml(sedde(q.target, q.h))));
       soundChoices(q.choices.map(c => [() => hearSedde(c), seddeRight(c)]), stage, response, 'Bu ses başka bir hecenin.');
-    } else if (q.type === 'sedde-isaret') {
-      // The şedde syllable is heard and shown with its last letter bare: which mark goes on it?
-      prompt.textContent = 'Dinle: son harfe hangi işaret?';
-      grid.classList.add('four', 'cezm', 'marks');
-      q.choices.forEach((c, n) => grid.append(choice('<b lang="ar" dir="rtl">◌' + seddeMarkOf(c) + '</b>', n, seddeRight(c),
-        () => 'Bu ' + seddeMarkName(c) + '.')));
-      stage.append(prompt, el('div', 'elif-big elif-sedde-letter', glyphHtml(seddesiz(q.target, q.h).slice(0, -1))), speaker(), grid);
-      autoplay = true;
+    } else if (q.type === 'sedde-bul') {
+      // The şedde syllable among the same letters without it: which one has the şedde? Seen, not heard.
+      prompt.textContent = 'Şeddeli heceyi bul';
+      grid.classList.add('four', 'cezm');
+      q.choices.forEach((c, n) => grid.append(choice(glyphHtml(seddeText(c)), n, seddeRight(c), () => 'Bu ' + seddeChoiceName(c) + ', şeddesiz.')));
+      stage.append(prompt, grid);
     }
     stage.append(response, next);
     prompt.focus();
@@ -1350,8 +1340,6 @@
       rightButton?.classList.add('matched');
       stage.querySelector('.elif-dots li.now')?.classList.replace('now', 'miss');
       response.textContent = 'Ah, bu kez olmadı! ' + text + ' Doğrusu: ' + answer + '. Tur baştan başlıyor.';
-      if (q.type === 'tenvin-isaret') showTenvin();
-      if (q.type === 'sedde-isaret') showSedde();
       setTimeout(() => { if (dialog.open && round.questions[turn] === q) {
         if (round.kind === 'intro') voice.chant(q.target, q.h); else play();
       } }, 600);
@@ -1386,9 +1374,9 @@
       response.textContent = message;
       if (round.kind === 'intro') voice.chant(q.target, q.h);
       else if (q.type === 'cezm-harf') voice.cezmChant(q.target, response);
-      else if (q.type === 'tenvin-isaret') { showTenvin(); voice.tenvinChant(q.target, q.h, response); }
+      else if (q.type === 'tenvin-bul') voice.tenvinChant(q.target, q.h, response);
       else if (q.type === 'tenvin-ses') play();
-      else if (q.type === 'sedde-isaret') { showSedde(); voice.seddeChant(q.target, q.h, response); }
+      else if (q.type === 'sedde-bul') voice.seddeChant(q.target, q.h, response);
       else if (q.type === 'sedde-ses') play();
       else if (q.type === 'bul') hunt.spell();
       else if (q.type === 'hece-ses' || q.type === 'sound' || q.type === 'cezm-ses' || joined) play();
