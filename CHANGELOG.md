@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.88.0 · 27.11.2026
+
+- **Sapanın topu duvardan seker:** Balon Patlat'ta top gökyüzünün kenarlarına çarpınca geri sekiyor (en çok üç kez); noktalı nişan çizgisi de seken yolu gösteriyor.
+- **Doğru balonun resmi ortaya gelir:** Doğru balon patlayınca resmi gökyüzünün ortasına uçup büyüyor, altında İngilizce kelime yazıyor; erkek sesi kelimeyi tekrarlıyor, sonra övgü geliyor.
+
 ## 0.87.0 · 27.11.2026
 
 - **Balon Patlat'ta sapan:** Gökyüzünün altında ahşap bir sapan var. Çocuk topu parmağıyla aşağı ve yana çekiyor; topun gideceği yolu noktalı bir çizgi gösteriyor ve çizginin değdiği balon parlıyor. Bırakınca top hızla fırlıyor ve yolundaki ilk balonu patlatıyor: doğru balonsa övgü ve konfeti, yanlışsa yanlış tepkisi geliyor. Çekerken balonlar yavaşlıyor; ıska ceza değil, top hemen geri geliyor. Balonlara doğrudan dokunmak da eskisi gibi çalışıyor. Sapan Yanlış Avı'nın balon oyununda da var.

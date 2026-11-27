@@ -126,7 +126,9 @@ sources/                     Raw material (not published)
 - **Balon Patlat's slingshot (`sapan`).** A wooden slingshot under the sky: pull the ball down and to a side (pointer
   events, captured on a pad along the bottom, `touch-action: none`), a dotted aim line runs to the first balloon in the way,
   which glows; letting go shoots the ball straight and fast, and the first balloon it touches is chosen exactly as a tap
-  would choose it. A short pull does not shoot, a miss costs nothing, and the balloons slow down while the band is pulled.
+  would choose it. The ball bounces off the sides of the sky (three times at most; the aim line shows the bounces). After
+  the right balloon its picture grows into the middle of the sky with the word (`buyut`) while the answer voice says it.
+  A short pull does not shoot, a miss costs nothing, and the balloons slow down while the band is pulled.
   The balloons stay buttons, so tapping still works. Also in Yanlış Avı's balloons.
 - **Stations by topic (istasyonlar.js).** A unit listed in an island's `istasyonlar.js` (2. sınıf: Okul Hayatı) is cut
   into those stations instead of four weeks: each has a short name, a sign, its full name, its words `[English, Türkçe,

@@ -451,7 +451,8 @@ const ingilizceOyunlari = (() => {
      sapan(sky, { hedefler, vur, bitti }): a wooden slingshot at the bottom middle of the sky. The child pulls the ball down
      and to a side (finger, mouse or pen: pointer events, captured, so the pull never breaks off the pad); a dotted line
      shows where it will go, as far as the first balloon in its way, which glows. Let go: the ball flies straight and fast;
-     the first balloon it touches is chosen (vur(b)), as if it was tapped. A miss costs nothing: the ball comes back at
+     the first balloon it touches is chosen (vur(b)), as if it was tapped. The ball bounces off the sides of the sky (up to
+     three times; the aim line shows the bounces too). A miss costs nothing: the ball comes back at
      once. A short pull does not shoot. The balloons stay buttons, so tapping one still chooses it. step(dt) moves the
      ball (called from the sky's frames); aiming() is true while the band is pulled (the balloons slow down then). */
   function sapan(sky, { hedefler, vur, bitti }) {
@@ -495,16 +496,22 @@ const ingilizceOyunlari = (() => {
       const len = Math.hypot(pull.x, pull.y) || 1;
       return { x: -pull.x / len, y: -pull.y / len };
     };
-    // where the ball would go: the first balloon on the line, and the line up to it
+    // where the ball would go, bouncing off the sides of the sky: the first balloon in its way and the points of its path
+    const BOUNCES = 3;
     const trace = () => {
-      const d = direction(), list = live();
-      for (let s = 0; s < 1400; s += 8) {
-        const px = rest.x + d.x * s, py = rest.y + d.y * s;
-        if (px < -10 || px > W + 10 || py < -10) return { hit: null, length: s };
+      const list = live(), d = direction();
+      let px = rest.x, py = rest.y, vx = d.x, vy = d.y, bounces = 0;
+      const path = [];
+      for (let s = 0; s < 1600; s += 6) {
+        px += vx * 6; py += vy * 6;
+        if (px < R) { px = 2 * R - px; vx = -vx; if (++bounces > BOUNCES) break; }
+        else if (px > W - R) { px = 2 * (W - R) - px; vx = -vx; if (++bounces > BOUNCES) break; }
+        if (py < -10) break;
+        path.push([px, py]);
         const b = list.find(b => inside(b, px, py, 4));
-        if (b) return { hit: b, length: s };
+        if (b) return { hit: b, path };
       }
-      return { hit: null, length: 1400 };
+      return { hit: null, path };
     };
     const draw = () => {
       const bx = flying ? flying.x : rest.x + pull.x, by = flying ? flying.y : rest.y + pull.y;
@@ -519,10 +526,11 @@ const ingilizceOyunlari = (() => {
       dots.replaceChildren();
       let glow = null;
       if (aiming && Math.hypot(pull.x, pull.y) >= MIN) {
-        const d = direction(), { hit, length } = trace();
+        const { hit, path } = trace();
         glow = hit;
-        for (let s = 26; s < length; s += 18) {
-          dots.append(make('circle', { cx: rest.x + d.x * s, cy: rest.y + d.y * s, r: Math.max(2.2, 4.5 - s / 160), class: hit ? 'on' : '' }));
+        // a dot every 18 px along the path (every third point), smaller further away
+        for (let i = 4; i < path.length; i += 3) {
+          dots.append(make('circle', { cx: path[i][0], cy: path[i][1], r: Math.max(2.2, 4.5 - i / 45), class: hit ? 'on' : '' }));
         }
       }
       if (glow !== target) {
@@ -559,7 +567,7 @@ const ingilizceOyunlari = (() => {
       aiming = false;
       if (shoot && strong && !bitti()) {
         const d = direction(), speed = Math.max(1100, H * 3.2);
-        flying = { x: rest.x + pull.x, y: rest.y + pull.y, vx: d.x * speed, vy: d.y * speed };
+        flying = { x: rest.x + pull.x, y: rest.y + pull.y, vx: d.x * speed, vy: d.y * speed, bounces: 0 };
         playCue('tap', { gain: 0.8 });
       }
       pull = { x: 0, y: 0 };
@@ -580,6 +588,13 @@ const ingilizceOyunlari = (() => {
           const steps = Math.ceil(Math.hypot(flying.vx, flying.vy) * dt / 9) || 1;
           for (let i = 0; i < steps && flying; i++) {
             flying.x += flying.vx * dt / steps; flying.y += flying.vy * dt / steps;
+            // the sides of the sky send the ball back (a few times, then it is a miss)
+            const wall = flying.x < R ? R : flying.x > W - R ? W - R : null;
+            if (wall !== null) {
+              flying.x = 2 * wall - flying.x; flying.vx = -flying.vx;
+              if (++flying.bounces > BOUNCES) { flying = null; back = 0.2; break; }
+              playCue('tap', { gain: 0.3 });
+            }
             const b = live().find(b => inside(b, flying.x, flying.y));
             if (b) { flying = null; back = 0.25; vur(b); }
             else if (flying.y < -30 || flying.x < -30 || flying.x > W + 30) { flying = null; back = 0.2; }
@@ -681,11 +696,15 @@ const ingilizceOyunlari = (() => {
             if (over || b.state !== 'fly') return;
             if (b.w === item) {
               over = true;
+              const from = relTo(b.body, sky);
               pop(b, true);
               x.sonuc(item, first);
               for (const other of balloons) if (other.state === 'fly') { other.state = 'away'; other.node.disabled = true; }
+              // the balloon's picture grows into the middle of the sky while the answer voice says the word
+              const shown = buyut(sky, item, from);
               await x.praise(item.en);
               await x.wait(700);
+              await shown.kapat();
               stop();
               resolve();
             } else {
@@ -699,6 +718,22 @@ const ingilizceOyunlari = (() => {
         x.wait(300).then(() => { if (!over && first) x.say(item.en); });
       });
     }
+  }
+  // The right balloon's picture, from where the balloon was to the middle of the sky, growing, with the word under it.
+  function buyut(sky, item, from) {
+    const card = el('div', 'og-buyuk', (item.emo ? resimKarti(item.emo) : '') + '<b lang="en">' + esc(item.en) + '</b>');
+    sky.append(card);
+    const dx = from.x - sky.clientWidth / 2, dy = from.y - sky.clientHeight / 2;
+    card.animate([
+      { transform: 'translate(calc(-50% + ' + dx + 'px), calc(-50% + ' + dy + 'px)) scale(.25)', opacity: 0.4 },
+      { transform: 'translate(-50%, -50%) scale(1.08)', opacity: 1, offset: 0.75 },
+      { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 }
+    ], { duration: 650, easing: 'cubic-bezier(.2,.8,.3,1.2)', fill: 'forwards' });
+    sparkle(card, { count: 14, spread: 110 });
+    return {
+      kapat: () => card.animate([{ opacity: 1 }, { opacity: 0, transform: 'translate(-50%, -50%) scale(.9)' }], { duration: 250, fill: 'forwards' })
+        .finished.then(() => card.remove(), () => card.remove())
+    };
   }
   function balloonSet(x, item) {
     const out = [item];

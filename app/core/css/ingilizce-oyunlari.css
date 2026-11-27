@@ -237,3 +237,7 @@
 .og-sapan-dots circle { fill: #ffffffd9; stroke: #1d4f72; stroke-width: 1.5; }
 .og-sapan-dots circle.on { fill: #ffe066; stroke: #c2410c; }
 .og-balloon.og-hedef .og-bbody { box-shadow: inset -7px -9px 0 #0000001c, 0 0 0 5px #ffe066, 0 0 22px 6px #ffe066b0; }
+/* the right balloon's picture, grown into the middle of the sky (buyut) */
+.og-buyuk { position: absolute; left: 50%; top: 50%; z-index: 3; display: grid; justify-items: center; gap: 6px; pointer-events: none; transform: translate(-50%, -50%); }
+.og-buyuk .resim-kart { font-size: clamp(70px, min(26vw, 22vh), 150px); font-size: clamp(70px, min(26vw, 22dvh), 150px); box-shadow: 0 10px 30px #0b4a5a40, 0 0 0 6px #fff; }
+.og-buyuk b { padding: 2px 14px; border-radius: 14px; background: #fff; color: #1d5fa8; font-size: clamp(22px, 6vw, 32px); font-weight: 950; box-shadow: 0 3px 0 #0b4a5a26; white-space: nowrap; }
