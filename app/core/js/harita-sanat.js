@@ -42,6 +42,15 @@ const haritaSanat = (() => {
       const a = n * Math.PI / 4, c = Math.cos(a), d = Math.sin(a);
       return '<path d="M' + r1(c * 15) + ' ' + r1(d * 15) + 'L' + r1(c * 21) + ' ' + r1(d * 21) + '"/>';
     }).join('') + '</g><circle r="11" fill="#ffd863" stroke="#f2a93b" stroke-width="2"/></g></g>';
+  // A pennant on a pole, waving.
+  const flag = (x, y, s = 1, color = '#e05a5a') => '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')"><path d="M0 0V-30" stroke="#7a3f17" stroke-width="2.4" stroke-linecap="round"/>' +
+    '<path class="map-flag" d="M1-30C8-32 14-26 22-28L18-22 22-16C14-14 8-20 1-18Z" fill="' + color + '" stroke="#00000033" stroke-width="1"/></g>';
+  // A treasure chest, open, with a glow over its gold.
+  const chest = (x, y, s = 1) => '<g class="map-chest" transform="translate(' + x + ' ' + y + ') scale(' + s + ')"><circle cy="-16" r="18" fill="#fff3b0" opacity=".55"/>' +
+    '<rect x="-15" y="-12" width="30" height="16" rx="2.5" fill="#c8743a" stroke="#7a3f17" stroke-width="2"/><path d="M-15-6H15" stroke="#7a3f17" stroke-width="1.4" opacity=".5"/>' +
+    '<rect x="-2.5" y="-9" width="5" height="6" rx="1" fill="#f7d36a" stroke="#a8781a" stroke-width="1"/>' +
+    '<path d="M-15-12C-15-24 15-24 15-12Z" fill="#b5652b" stroke="#7a3f17" stroke-width="2" transform="rotate(-24 -15 -12)"/>' +
+    '<g fill="#ffd863" stroke="#e0a630" stroke-width="1"><circle cx="-6" cy="-13" r="3"/><circle cx="1" cy="-14" r="3"/><circle cx="7" cy="-12" r="3"/></g></g>';
   // A dolphin leaping out of the water, facing right (flip: left).
   const dolphin = (x, y, s = 1, flip = false) => '<g transform="translate(' + x + ' ' + y + ') scale(' + (flip ? -s : s) + ' ' + s + ')"><g class="map-dolphin">' +
     '<path d="M-2-7-5-13 3-9Z" fill="#4f84cf"/><path d="M-12 7C-8-6 4-10 12-4L18-2 12-1C4-4-5 0-10 9L-14 12-13 7-18 4Z" fill="#5b93dd" stroke="#2d5c9e" stroke-width="1.4" stroke-linejoin="round"/>' +
@@ -66,5 +75,5 @@ const haritaSanat = (() => {
     '<path d="M-12-16v-12M-12-26c-3-6-8-8-12-6M-12-26c3-6 8-8 12-6"/></g>' +
     '<path d="M-34 2C-34-16 6-20 22-6c6 5 12 0 16-10 4 8 2 16-6 20C14 14-34 16-34 2Z" fill="#3a7fa8"/>' +
     '<path d="M-30 6C-20 12 6 12 18 6C6 14-24 14-30 6Z" fill="#c7e6f2"/><circle cx="-22" cy="-4" r="2.4" fill="#173f40"/></g></g>';
-  return { r1, curve, pathOf, along, palm, lighthouse, rainbow, boat, moon, sun, dolphin, gulls, cloud, twinkle, mosque, wave, waves, sea, compass, whale };
+  return { r1, curve, pathOf, along, palm, lighthouse, rainbow, boat, moon, sun, dolphin, flag, chest, gulls, cloud, twinkle, mosque, wave, waves, sea, compass, whale };
 })();

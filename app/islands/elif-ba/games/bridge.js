@@ -6,9 +6,11 @@
 // shore passes the step, losing all three starts the bridge again. In a cove of bitişik yazılış the
 // panes show the harekeli letters in their joined shapes (ـبَـ), with a few syllables alone mixed in for
 // review; in a cezm cove every pane is a syllable with a cezm (بِسْ); in a tenvin cove every row asks a letter with a
-// tenvin (بٍ), beside the same letter with the hareke alone (بِ) or with another tenvin.
+// tenvin (بٍ), beside the same letter with the hareke alone (بِ) or with another tenvin; in a şedde cove every row asks
+// a şedde syllable (بِسَّ), beside the same letters without the şedde (بِسَ) or with another hareke.
 const elifBridgeGame = (() => {
   const { glyphs, names, harekeler, syllable, sameSound, twins, shape, places, cezm, cezmAlike, cezmFaint, tenvin, tenvinler } = elifData;
+  const seddeKind = elifKinds.sedde;
   const { heart: heartSvg, speaker: speakerSvg, star: starPath } = elifArt;
   const voice = elifVoice;
   const dialog = $('elif-bridge');
@@ -32,20 +34,26 @@ const elifBridgeGame = (() => {
   // An item is a harekeli syllable ({ i, h }), a harekeli letter in its joined shape at a place in the
   // word ({ i, h, f }, f 1-3: start, middle, end), said as the syllable too, a cezm syllable
   // ({ i, c: true }), the one in which letter i has the cezm, said as it is read, or a letter with a tenvin
-  // ({ i, h, t: true }, h 0-2: iki üstün, iki esre, iki ötre).
+  // ({ i, h, t: true }, h 0-2: iki üstün, iki esre, iki ötre), or a şedde syllable and the same letters without the
+  // şedde ({ i, h, s: 0 or 84 }: the item of games/kinds.js's şedde kind is i * 3 + h + s).
   const isShape = item => item.f !== undefined;
   const isCezm = item => item.c === true;
   const isTenvin = item => item.t === true;
-  const isSyllable = item => !isShape(item) && !isCezm(item) && !isTenvin(item);
+  const isSedde = item => item.s !== undefined;
+  const seddeItem = item => item.s + item.i * 3 + item.h;
+  const isSyllable = item => !isShape(item) && !isCezm(item) && !isTenvin(item) && !isSedde(item);
   const hareke = h => harekeler[h].name.toLocaleLowerCase('tr');
-  const text = item => isCezm(item) ? cezm(item.i).text : isTenvin(item) ? tenvin(item.i, item.h) : isShape(item) ? shape(item.i, item.f, item.h) : syllable(item.i, item.h);
+  const text = item => isCezm(item) ? cezm(item.i).text : isTenvin(item) ? tenvin(item.i, item.h) : isSedde(item) ? seddeKind.text(seddeItem(item)) :
+    isShape(item) ? shape(item.i, item.f, item.h) : syllable(item.i, item.h);
   const cezmName = i => { const { before } = cezm(i); return names[before.i] + ' ' + hareke(before.h) + ', ' + (i ? names[i] : 'Hemze') + ' cezm'; };
   const nameOf = item => isCezm(item) ? cezmName(item.i) : isTenvin(item) ? names[item.i] + ' ' + tenvinler[item.h].name.toLocaleLowerCase('tr') :
+    isSedde(item) ? seddeKind.name(seddeItem(item)) :
     names[item.i] + ' ' + hareke(item.h) + (isShape(item) ? ' · ' + places[item.f].toLocaleLowerCase('tr') : '');
   const glyph = item => '<b lang="ar" dir="rtl">' + text(item) + '</b>';
   // The voice writes its "no Turkish voice here" note into this; the turtle's bubble then shows the name.
   const unheard = {};
   const speak = (item, end) => isCezm(item) ? voice.cezm(item.i, unheard, end) : isTenvin(item) ? voice.tenvin(item.i, item.h, unheard, end) :
+    isSedde(item) ? seddeKind.speak(seddeItem(item), unheard, end) :
     voice.syllable(item.i, item.h, unheard, end);
   const syllableOf = i => ({ i, h: Math.floor(Math.random() * 3) });
   // Two harekes for each of four letters, each hareke at least twice.
@@ -123,6 +131,7 @@ const elifBridgeGame = (() => {
   // A tenvin bridge: the rows of a letter cove's bridge (every letter of the cove with two of its tenvins, then
   // the earlier tenvin coves' letters), each letter with a tenvin.
   const planTenvin = (letters, recent) => plan(letters, recent).map(row => ({ ...row, t: true }));
+  const planSedde = (letters, recent) => plan(letters, recent).map(row => ({ ...row, s: 0 }));
   // The two wrong panes of a row, never two that sound the same (sin üstün and se üstün are both "se").
   // From the fourth row on, half the rows get the hard ones: a letter that differs only by its dots with
   // the same hareke, or the same letter with another hareke. A shape's wrong panes are shapes at the same place.
@@ -138,6 +147,19 @@ const elifBridgeGame = (() => {
       for (const i of [...alike, ...shuffled(letters), ...shuffled(all)]) {
         if (picked.length < 2 && i !== target.i && !picked.some(p => p.i === i) && !cezmAlike(i, target.i) &&
           !picked.some(p => cezmAlike(p.i, i))) picked.push({ i, c: true });
+      }
+      return picked;
+    }
+    if (isSedde(target)) {
+      // beside it always the same letters without the şedde (bi-se for bis-se) or with another hareke, both when hard;
+      // the others are other letters' şedde syllables; never two that sound the same (a hemze or ayn with a şedde)
+      const own = shuffled([{ i: target.i, h: target.h, s: 84 }, ...[0, 1, 2].filter(h => h !== target.h).map(h => ({ i: target.i, h, s: 0 }))]);
+      const others = shuffled(letters.filter(i => i !== target.i).flatMap(i => [0, 1, 2].map(h => ({ i, h, s: 0 }))));
+      const everyone = shuffled(glyphs.map((_, i) => i).filter(i => i !== target.i).map(i => ({ i, h: target.h, s: 0 })));
+      const same = (p, q) => seddeKind.sound(seddeItem(p)) === seddeKind.sound(seddeItem(q));
+      const picked = [];
+      for (const pane of [...own.slice(0, hard ? 2 : 1), ...others, ...everyone]) {
+        if (picked.length < 2 && ![target, ...picked].some(p => same(p, pane))) picked.push(pane);
       }
       return picked;
     }
@@ -169,9 +191,9 @@ const elifBridgeGame = (() => {
     }
     return picked;
   }
-  function build({ letters, recent, joined, cezm: cezmCove, tenvin: tenvinCove, known }) {
-    const targets = cezmCove ? planCezm(letters, recent) : tenvinCove ? planTenvin(letters, recent) : joined ? planJoined(letters, recent, known) :
-      plan(letters, recent);
+  function build({ letters, recent, joined, cezm: cezmCove, tenvin: tenvinCove, sedde: seddeCove, known }) {
+    const targets = cezmCove ? planCezm(letters, recent) : tenvinCove ? planTenvin(letters, recent) : seddeCove ? planSedde(letters, recent) :
+      joined ? planJoined(letters, recent, known) : plan(letters, recent);
     const rows = [];
     targets.forEach((target, n) => {
       let panes;
@@ -840,6 +862,7 @@ const elifBridgeGame = (() => {
     const best = options.best();
     const sample = options.cezm ? [1, 2, 3].map(n => ({ i: options.recent[n] ?? options.recent[0], c: true })) :
       options.tenvin ? [1, 0, 2].map((h, n) => ({ i: options.recent[n] ?? options.recent[0], h, t: true })) :
+      options.sedde ? [1, 0, 2].map((h, n) => ({ i: options.recent[n] ?? options.recent[0], h, s: 0 })) :
       options.joined ? [1, 2, 3].map(f => ({ i: options.recent[f] ?? options.recent[0], h: f - 1, f })) :
       [{ i: options.recent[0], h: 1 }, { i: options.recent[1] ?? options.recent[0], h: 0 }, { i: options.recent[2] ?? options.recent[0], h: 2 }];
     showCard('<div class="rain-card intro"><div class="bridge-intro-art" aria-hidden="true">' + sample.map((item, n) =>
@@ -848,20 +871,23 @@ const elifBridgeGame = (() => {
       '<p>Kaplumbağa ' + options.toDative + ' gitmek için cam köprüden geçecek. Her sırada üç cam var. Kaplumbağa bir ' +
       'hece okuyacak, sen o camı bul.' + (options.joined ? ' Harekeli harfler camlarda bitişik yazılışlarıyla duruyor: kelimenin başındaki, ' +
       'ortasındaki ya da sonundaki şekilleriyle.' : options.cezm ? ' Camlardaki hecelerin hepsi cezimli.' :
-      options.tenvin ? ' Okunan hece hep tenvinli; camlarda tenvinsiz heceler de var.' : ' Camlardaki harflerin hepsi harekeli.') +
+      options.tenvin ? ' Okunan hece hep tenvinli; camlarda tenvinsiz heceler de var.' :
+      options.sedde ? ' Okunan hece hep şeddeli; camlarda şeddesiz heceler de var.' : ' Camlardaki harflerin hepsi harekeli.') +
       ' Yanlış cam kırılır, kaplumbağa denize düşer! Hiç cam kırmazsan üç yıldız.</p>' +
       '<ul class="rain-facts"><li><b>15</b><span>sıra</span></li><li><b>Karma</b><span>' + (options.joined ? 'şekil ve hece' : options.cezm ? 'cezimli hece' :
-      options.tenvin ? 'tenvinli hece' : 'harekeli hece') +
+      options.tenvin ? 'tenvinli hece' : options.sedde ? 'şeddeli hece' : 'harekeli hece') +
       '</span></li><li><b>3</b><span>can</span></li></ul>' +
       '<div class="rain-pool bridge-pool" aria-label="Köprüdeki harfler">' + options.letters.map(i => '<b lang="ar" title="' + names[i] + '">' +
-        (options.joined ? shape(i, 2, 0) : options.cezm ? cezm(i).text : options.tenvin ? tenvin(i, 1) : syllable(i, 0)) + '</b>').join('') + '</div>' +
+        (options.joined ? shape(i, 2, 0) : options.cezm ? cezm(i).text : options.tenvin ? tenvin(i, 1) : options.sedde ? seddeKind.text(i * 3) :
+          syllable(i, 0)) + '</b>').join('') + '</div>' +
       (best.tamam ? '<p class="rain-record">✅ Köprüyü hiç cam kırmadan geçtin · 🏆 ' + best.rekor + ' puan</p>' :
         best.rekor ? '<p class="rain-record">🏆 Rekorun: ' + best.rekor + ' puan</p>' : '') +
       '<button type="button" class="rain-go" data-cue>▶ Başla</button></div>');
     // The game's introduction is said aloud only when the turtle (info) button is tapped.
     const tell = () => voice.instruct('Cam Köprü! Kaplumbağa bir hece okuyacak. Doğru cama dokun, kaplumbağa üstüne zıplasın. ' +
       (options.joined ? 'Harekeli harfler camlarda bitişik şekilleriyle duruyor. ' : options.cezm ? 'Camlarda cezimli heceler var. Dikkatle dinle. ' :
-        options.tenvin ? 'Kaplumbağa tenvinli heceler okuyacak. Sondaki n sesine dikkat et. ' : '') + 'Yanlış cam kırılır! Başlamak için yeşil düğmeye bas.');
+        options.tenvin ? 'Kaplumbağa tenvinli heceler okuyacak. Sondaki n sesine dikkat et. ' :
+        options.sedde ? 'Kaplumbağa şeddeli heceler okuyacak. Şeddeli harf iki kez okunur. ' : '') + 'Yanlış cam kırılır! Başlamak için yeşil düğmeye bas.');
     const again = document.createElement('button');
     again.type = 'button';
     again.className = 'rain-tell';
@@ -911,7 +937,7 @@ const elifBridgeGame = (() => {
   // letters: the letters learned up to this cove; recent: the cove's own, asked most; joined: a bitişik
   // yazılış cove, whose panes show the harekeli letters' joined shapes, with known: all the letters, for
   // the syllables alone mixed in; cezm: a cezm cove, whose panes show only the letters' cezm syllables; tenvin: a
-  // tenvin cove, whose rows ask the letters' tenvins;
+  // tenvin cove, whose rows ask the letters' tenvins; sedde: a şedde cove, whose rows ask the letters' şedde syllables;
   // from, to, toDative: the cove the bridge starts at and the one it leads to ("İnci Koyu'na");
   // best(): the player's { rekor, yildiz, tamam }; onResult({ score, stars, finished }) keeps them and may
   // return html for the result card (the Akvaryum's reward);
@@ -921,7 +947,7 @@ const elifBridgeGame = (() => {
     rounds = 0;
     find('.bridge-from').textContent = settings.from;
     find('.bridge-to').textContent = settings.to;
-    voice.preload(settings.letters, false, settings.joined, settings.cezm, settings.tenvin);
+    voice.preload(settings.letters, false, settings.joined, settings.cezm, settings.tenvin, settings.sedde);
     if (!dialog.open) dialog.showModal();
     newGame(true);
   }

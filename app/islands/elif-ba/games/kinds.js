@@ -5,13 +5,17 @@
 //   cezm   the letter with the cezm in its cezm syllable (بِسْ for sin)
 //   tenvin a letter with a tenvin: letter * 3 + tenvin (بٍ); from 84 on, the same letter with the hareke
 //          alone (84 + letter * 3 + hareke, بِ), a decoy that is never the one to find
+//   sedde  a letter's şedde syllable: letter * 3 + hareke (بِسَّ, bis-se); from 84 on, the same letters without
+//          the şedde (84 + letter * 3 + hareke, بِسَ, bi-se), a decoy
 // For every kind: how an item is written (text), named (name, "Be iki esre"), heard (speak) and told apart
 // by ear (sound: two items with the same sound are never set side by side), its letter (letter), the items
 // most easily mixed up with it (alike, offered more often as the game goes on: from the alikeFrom-th turn,
 // alikeChance of the time), whether it is a decoy and what to fetch ahead of time (preload). Harf Yağmuru,
 // the balloons (listening.js) and the other games of the same step (arcade.js) all use them.
 const elifKinds = (() => {
-  const { glyphs, names, readings, harekeler, syllable, twins, shape, cezm, cezmReadings, cezmAlike, tenvin, tenvinler, tenvinReading } = elifData;
+  const { glyphs, names, readings, harekeler, syllable, twins, shape, cezm, cezmReadings, cezmAlike, tenvin, tenvinler, tenvinReading,
+    sedde, seddesiz, seddeReading, seddesizReading } = elifData;
+  const plain = reading => reading.replace(/[’‘]/g, '').replace(/ı/g, 'i');
   const voice = elifVoice;
   const hareke = h => harekeler[h].name.toLocaleLowerCase('tr');
   const lettersOf = items => [...new Set(items)];
@@ -62,6 +66,23 @@ const elifKinds = (() => {
       // the same letter with the hareke alone (bi for bin), then its other tenvins
       alike: k => [84 + k, ...[0, 1, 2].map(h => k - k % 3 + h).filter(j => j !== k)], alikeFrom: 1, alikeChance: 0.5,
       preload: items => voice.preload(lettersOf(items.map(k => Math.floor(k % 84 / 3))), false, false, false, true)
+    },
+    sedde: {
+      text: k => k < 84 ? sedde(Math.floor(k / 3), k % 3) : seddesiz(Math.floor((k - 84) / 3), k % 3),
+      // bisse and bise; a hemze or ayn with a şedde sounds like none (bie), and is never set beside it
+      sound: k => plain(k < 84 ? seddeReading(Math.floor(k / 3), k % 3) : seddesizReading(Math.floor((k - 84) / 3), k % 3)),
+      letter: k => Math.floor(k % 84 / 3),
+      name: k => {
+        const i = Math.floor(k % 84 / 3), h = k % 3, letter = i ? names[i] : 'Hemze';
+        if (k < 84) return letter + ' şedde ' + hareke(h);
+        const { before } = cezm(i);
+        return names[before.i] + ' ' + hareke(before.h) + ', ' + letter + ' ' + hareke(h);
+      },
+      speak: (k, note, end) => k < 84 ? voice.sedde(Math.floor(k / 3), k % 3, note, end) : voice.seddesiz(Math.floor((k - 84) / 3), k % 3, note, end),
+      decoy: k => k >= 84,
+      // the same letters without the şedde (bise for bisse), then the şedde with the other harekes
+      alike: k => [84 + k, ...[0, 1, 2].map(h => k - k % 3 + h).filter(j => j !== k)], alikeFrom: 1, alikeChance: 0.5,
+      preload: items => voice.preload(lettersOf(items.map(k => Math.floor(k % 84 / 3))), true, false, false, false, true)
     }
   };
 })();

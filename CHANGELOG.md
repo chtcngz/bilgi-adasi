@@ -7,9 +7,29 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
-## 0.85.0 · 27.11.2026
+## 0.87.0 · 27.11.2026
 
 - **Balon Patlat'ta sapan:** Gökyüzünün altında ahşap bir sapan var. Çocuk topu parmağıyla aşağı ve yana çekiyor; topun gideceği yolu noktalı bir çizgi gösteriyor ve çizginin değdiği balon parlıyor. Bırakınca top hızla fırlıyor ve yolundaki ilk balonu patlatıyor: doğru balonsa övgü ve konfeti, yanlışsa yanlış tepkisi geliyor. Çekerken balonlar yavaşlıyor; ıska ceza değil, top hemen geri geliyor. Balonlara doğrudan dokunmak da eskisi gibi çalışıyor. Sapan Yanlış Avı'nın balon oyununda da var.
+
+## 0.86.0 · 27.11.2026
+
+Elif Ba Adası’nda şıkları tek başına işaret olan sorular (noktalı daire üstünde üstün, iki üstün, şedde …) kaldırıldı.
+
+- **Tenvin turu:** “Hangi işaret?” sorusunun yerine **“Tenvinli heceyi bul”** geldi: aynı harfin tenvinlisi ile üstünlü, esreli ve ötreli hâli yan yana duruyor (بٍ بَ بِ بُ), çocuk iki harekeli olanı buluyor. Doğru bulununca “Be iki esre bin” diye okunuyor.
+- **Şedde turu:** “Son harfe hangi işaret?” sorusunun yerine **“Şeddeli heceyi bul”** geldi: şeddeli hece, aynı harflerin şeddesiz iki hâli ve cezimlisiyle yan yana (بِسَّ بِسَ بِسِ بِسْ). Doğru bulununca “Sin şedde: bis, se, bisse” diye okunuyor.
+- **Sepete Topla:** Sepetlerin üstünde artık noktalı daire üstünde işaret yok; Be harfiyle yazılmış heceler var: üstün sepetinde بَ, esre sepetinde بِ, ötre sepetinde بُ; tenvinli sepette بًا بٍ بٌ, şeddeli sepette بَّ بِّ بُّ, cezimli sepette بْ, öteki sepette بَ بِ بُ.
+
+## 0.85.0 · 27.11.2026
+
+Elif Ba Adası’na **Şedde** bölümü geldi. Tenvin Koyu’nu bitiren çocuklar Güneş Adacığı’ndan tekneyle yeni **Şedde Koyu**’na geçiyor: İkiz, Kayalık, Mağara, Şelale, Kale, Yanardağ ve Hazine Adacığı. Her adacıkta yine dört harf var; 28 harfin her biri şeddeli okunuyor. Yolda artık 35 adacık var.
+
+- **Şedde adımı:** Her harfin kartında şeddeli hecenin nasıl oluştuğu sağdan sola duruyor: cezimli hece + harekeli harf = şeddeli hece (بِسْ + سَ = بِسَّ, “bis, se: bisse”). Altında aynı hecenin üstün, esre ve ötreyle şeddelisi var (بِسَّ بِسِّ بِسُّ). Her parçaya dokununca sesi geliyor; ♪ düğmesi “Sin şedde: bis, se, bisse” diye okuyor. Adacığın başında şedde işareti (dokununca adı söyleniyor) ve Diyanet’in şeddeli bir kelimesi var, şeddeli harf kırmızı (تَبَّتْ, عَدَّ, كُلٌّ …). Elif şedde almadığından onun yerinde, Cezm Koyu’ndaki gibi hemze var.
+- **Şedde turu (12-16 soru):** Duyulan şeddeli heceyi yazılılar arasında bulma, gösterilen şeddeli hecenin sesini üç ses arasında bulma ve “Son harfe hangi işaret?”: hece son harfi işaretsiz gösterilip dinletiliyor, şeddeli hareke, yalnız hareke, cezm ve başka harekeli şedde arasından doğru işaret bulunuyor. Şıklarda hep aynı harflerin şeddesizi de var (bisse ile bise). Yalnızca hemze ve ayn, şeddeli ve şeddesiz hâli kulakla ayırt edilemediği için şeddesiziyle yan yana gelmiyor. Önceki şedde adacıklarının harfleri tekrar için karışıyor. Bütün sorular ilk denemede bilinince adacığın 🐙 ahtapotları kazanılıyor.
+- **🎏 Şedde oyunları:** Şedde Balonları’nda şeddeli heceler uçuyor, aralarında şeddesizler de var. Yengeç Avı, Kabuk Hafızası, Balık Tutma ve Sepete Topla da şeddeyle oynanıyor; Sepete Topla’da şeddeli ve şeddesiz sepetleri var.
+- **🌉 Cam Köprü:** Kaplumbağa hep şeddeli bir hece okuyor; camlarda aynı harflerin şeddesizi ya da başka harekeyle şeddelisi var.
+- **Harita:** Şedde Koyu bir hazine adası: koyu turkuaz deniz, adacıklarda dalgalanan bayraklar, en sondaki Hazine Adacığı’nda bir hazine sandığı. Üstteki sayaçlara 🐙 şedde, akvaryumun harf baloncuklarına şeddeli heceler, Ayarlar’daki ilerleme özetine ve yönetici sayfasına Şedde ve Şedde Balonları eklendi.
+- **Sesler:** Diyanet Elifba’da her harfin şeddeli hecesinin ayrı kaydı yok. Şeddeli heceler, Diyanet’in kuralına göre (“harfi bir önceki harf ile birleştirip sesi bölmeden tekrar okutur”) oyundaki iki Diyanet kaydı aradaki sessizlik kesilerek birleştirilip yapıldı: cezimli hece ve harekeli hece (bis + se). Karşılaştırma için şeddesizleri de aynı yolla yapıldı (bi + se). 7 örnek kelime Diyanet’in Şedde dersinden olduğu gibi alındı; şeddenin adı kız çocuk sesiyle.
+- Çocukların kayıtlı ilerlemesi olduğu gibi duruyor.
 
 ## 0.84.1 · 27.11.2026
 

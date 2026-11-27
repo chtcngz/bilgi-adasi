@@ -6,7 +6,7 @@
 // their harekes rise from the sea up into the clouds; in Şekil Yağmuru harekeli letters rain in their
 // joined shapes, each drop of a syllable in another one (at the start, in the middle, at the end); in Cezm
 // Balonları syllables with a cezm rise as balloons, in Tenvin Balonları letters with a tenvin, among the same
-// letters with the hareke alone.
+// letters with the hareke alone, in Şedde Balonları şedde syllables, among the same letters without the şedde.
 const elifListeningGame = (() => {
   const voice = elifVoice;
   const dialog = $('elif-rain');
@@ -96,6 +96,19 @@ const elifListeningGame = (() => {
         intro: 'Kaplumbağa tenvinli bir hece okuyacak: o hecenin balonunu patlat, hemen yeni hece gelsin. Balonların bazılarında tenvin yok, ' +
           'yalnızca hareke var: onlara dikkat et! Her harf altı kez gelir, her tenvini iki kez. 24 heceyi bitirince yoluna devam edersin; ' +
           'hiç can kaybetmezsen üç yıldız! Canların biterse oyun baştan başlar.',
+        unit: 'hece', piece: 'balon patlat', pool: 'Oyundaki heceler' }
+    },
+    sedde: {
+      ...elifKinds.sedde, rising: true, label: 'Şedde Balonları', title: 'Şedde <em>Balonları</em>',
+      t: { listen: 'Heceyi tekrar dinle', slots: 'Bölümün heceleri', first: '👆 Duyduğun hecenin balonunu patlat', fresh: '🔊 Yeni hece',
+        freshSay: 'Yeni hece. Dinle.', allDone: '24 hecenin hepsini patlattın.', whole: 'Hiç can kaybetmeden 24 balonun hepsini patlattın!',
+        partly: '24 hecenin hepsini patlattın ama ', recap: 'Patlattığın heceler · dokun, dinle', chip: ' hecesini dinle',
+        some: ' heceyi patlattın. ', none: 'Sesi dikkatle dinle, sonra o hecenin balonunu patlat. ',
+        say: 'Şedde Balonları! Kaplumbağa şeddeli bir hece okuyacak. O hecenin balonunu patlat. Şeddeli harf iki kez okunur, dikkatle dinle. ' +
+          'Başlamak için yeşil düğmeye bas.',
+        intro: 'Kaplumbağa şeddeli bir hece okuyacak: o hecenin balonunu patlat, hemen yeni hece gelsin. Balonların bazılarında şedde yok: ' +
+          'onlara dikkat et! Her harf altı kez gelir. 24 heceyi bitirince yoluna devam edersin; hiç can kaybetmezsen üç yıldız! ' +
+          'Canların biterse oyun baştan başlar.',
         unit: 'hece', piece: 'balon patlat', pool: 'Oyundaki heceler' }
     }
   };
@@ -859,8 +872,8 @@ const elifListeningGame = (() => {
     then?.();
   });
 
-  // kind: 'harf' (Harf Yağmuru, the default), 'hece' (Hece Balonları), 'sekil' (Şekil Yağmuru), 'cezm' (Cezm Balonları) or
-  // 'tenvin' (Tenvin Balonları);
+  // kind: 'harf' (Harf Yağmuru, the default), 'hece' (Hece Balonları), 'sekil' (Şekil Yağmuru), 'cezm' (Cezm Balonları),
+  // 'tenvin' (Tenvin Balonları) or 'sedde' (Şedde Balonları);
   // letters: learned letters (syllables) to play with; recent: the newest cove's, asked more often;
   // best(): the player's { rekor, yildiz, tamam }; onResult({ score, stars, finished }) keeps them;
   // next(): optional, { label, go } of the step after a game played to the end.

@@ -1826,6 +1826,1553 @@
    "text": "سَكَنًا",
    "archiveFile": "elifba/fetha-tenvin/uygulama/okuma/سَكَنًا__btn_14.mp3",
    "sha256": "73e746037109eb95c6b53d658b39aa5c576f2327929487906838c5f250d20ee0"
+  },
+  "sedde/00-0.mp3": {
+   "text": "بِئَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/بِئْ__btn_1.mp3",
+    "elifba/fetha/fetha/okuma/اَ__btn_1.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "34ec8871c68870cb7fbebb96a3946b7fccc9e8cdad203c41d9b4bc6d37f2d325"
+  },
+  "seddesiz/00-0.mp3": {
+   "text": "بِئَ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/بِ__btn_2.mp3",
+    "elifba/fetha/fetha/okuma/اَ__btn_1.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "de4f2a85247aee565d73f862e1a77e9042f57ca194cbb726c0dd5bf925c515e6"
+  },
+  "sedde/00-1.mp3": {
+   "text": "بِئِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/بِئْ__btn_1.mp3",
+    "elifba/kesra/kesra/okuma/اِ__btn_1.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "00d3e23b21a8cd48e709b22186110d307e157ebdb9181dd540d6f035b94fc15a"
+  },
+  "seddesiz/00-1.mp3": {
+   "text": "بِئِ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/بِ__btn_2.mp3",
+    "elifba/kesra/kesra/okuma/اِ__btn_1.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "46223916811a05910e40042931110fd339435899b3de3bae19fa80fcaaf7a517"
+  },
+  "sedde/00-2.mp3": {
+   "text": "بِئُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/بِئْ__btn_1.mp3",
+    "elifba/damme/damme/okuma/اُ__btn_1.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "41e35edcd9a120464c806f36ab3b9286bec3667ba68ff64c3a5ecf8008b6eb52"
+  },
+  "seddesiz/00-2.mp3": {
+   "text": "بِئُ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/بِ__btn_2.mp3",
+    "elifba/damme/damme/okuma/اُ__btn_1.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "0d620d4135ff0fdeab327b7161f20308302f57619751cf3f66c4ca9fc8afcb24"
+  },
+  "sedde/01-0.mp3": {
+   "text": "تِبَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/تِبْ__btn_2.mp3",
+    "elifba/fetha/fetha/okuma/بَ__btn_2.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "e838ef5b12afc604f6ca327a735d44cded068c544c707d76a4d90259740a93d3"
+  },
+  "seddesiz/01-0.mp3": {
+   "text": "تِبَ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/تِ__btn_3.mp3",
+    "elifba/fetha/fetha/okuma/بَ__btn_2.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "551517c3a024db442ac52897774d7252758ac5dd69a610854e40acb097dbeb45"
+  },
+  "sedde/01-1.mp3": {
+   "text": "تِبِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/تِبْ__btn_2.mp3",
+    "elifba/kesra/kesra/okuma/بِ__btn_2.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "7ad6758b5b3f04e9e85eeedab4dea42273555c758efe5a52e275dc3d317e0eea"
+  },
+  "seddesiz/01-1.mp3": {
+   "text": "تِبِ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/تِ__btn_3.mp3",
+    "elifba/kesra/kesra/okuma/بِ__btn_2.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "ede897d5fd7fee9e55be64f8fc60da0d945be046b9b16c1c873d9bc5c5021881"
+  },
+  "sedde/01-2.mp3": {
+   "text": "تِبُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/تِبْ__btn_2.mp3",
+    "elifba/damme/damme/okuma/بُ__btn_2.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "885fe828577a108a925b05247563a9576ef5ff945a8dd04dd60622a665cdc900"
+  },
+  "seddesiz/01-2.mp3": {
+   "text": "تِبُ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/تِ__btn_3.mp3",
+    "elifba/damme/damme/okuma/بُ__btn_2.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "fac84ac40b5fa1479b2630cea677e095c33c88d9f810066660a31d2fcf8c75ea"
+  },
+  "sedde/02-0.mp3": {
+   "text": "مُتَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/مُتْ__btn_3.mp3",
+    "elifba/fetha/fetha/okuma/تَ__btn_3.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "63f3e87ff9d54df3048d5e1353550e32e235cf998af600e1a8f8cb4f982fcedd"
+  },
+  "seddesiz/02-0.mp3": {
+   "text": "مُتَ",
+   "derivedFrom": [
+    "elifba/damme/damme/okuma/مُ__btn_16.mp3",
+    "elifba/fetha/fetha/okuma/تَ__btn_3.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "7aabacb0d355a45590c0f5eace9623f0d1c8961c58aa16172027d85fe4fd0e1f"
+  },
+  "sedde/02-1.mp3": {
+   "text": "مُتِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/مُتْ__btn_3.mp3",
+    "elifba/kesra/kesra/okuma/تِ__btn_3.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "a89581cf1c33c95bafe00169313bfb86bdeff28a7d43f24bd7f8f19b736c56b4"
+  },
+  "seddesiz/02-1.mp3": {
+   "text": "مُتِ",
+   "derivedFrom": [
+    "elifba/damme/damme/okuma/مُ__btn_16.mp3",
+    "elifba/kesra/kesra/okuma/تِ__btn_3.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "ae57727160b4a74dea9211f8995ffe378ee955a815412e199f9d719d65a6a068"
+  },
+  "sedde/02-2.mp3": {
+   "text": "مُتُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/مُتْ__btn_3.mp3",
+    "elifba/damme/damme/okuma/تُ__btn_3.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "2e492890d7b7dca3f561084c09339b2c32ac9c5efcea2924bd6c8c628a8d4e12"
+  },
+  "seddesiz/02-2.mp3": {
+   "text": "مُتُ",
+   "derivedFrom": [
+    "elifba/damme/damme/okuma/مُ__btn_16.mp3",
+    "elifba/damme/damme/okuma/تُ__btn_3.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "e4e98a5dd0ef218024fcdf42eca6810d57d51eb435b85a3b62488ce521683c38"
+  },
+  "sedde/03-0.mp3": {
+   "text": "هَثَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/هَثْ__btn_4.mp3",
+    "elifba/fetha/fetha/okuma/ثَ__btn_4.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "368d7ee1cff3617bbe8de2f9780051e068859fac822a9c7169c146fa56e813bf"
+  },
+  "seddesiz/03-0.mp3": {
+   "text": "هَثَ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/هَـ__btn_18.mp3",
+    "elifba/fetha/fetha/okuma/ثَ__btn_4.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "7e5ef25ab0983886dcb0cc67449fb2b410c031757d13506abe05141f48395786"
+  },
+  "sedde/03-1.mp3": {
+   "text": "هَثِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/هَثْ__btn_4.mp3",
+    "elifba/kesra/kesra/okuma/ثِ__btn_4.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "88109f454adb3bd386a41e3f56db8a5df31e0668612bdcdd1a75326c2c30c7bc"
+  },
+  "seddesiz/03-1.mp3": {
+   "text": "هَثِ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/هَـ__btn_18.mp3",
+    "elifba/kesra/kesra/okuma/ثِ__btn_4.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "9960d412c6e914d7c5e1c51805c8c1c3fd9931b85d6beb3e801480c413f8608d"
+  },
+  "sedde/03-2.mp3": {
+   "text": "هَثُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/هَثْ__btn_4.mp3",
+    "elifba/damme/damme/okuma/ثُ__btn_4.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "ecfa0ea7e19aaa94cce8d67168a5cff32e0ebce9c5c38e88e36449f8d5d0f9c6"
+  },
+  "seddesiz/03-2.mp3": {
+   "text": "هَثُ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/هَـ__btn_18.mp3",
+    "elifba/damme/damme/okuma/ثُ__btn_4.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "9410223b58ed89999f366ad21c915c9839aee64243e10a1d9626548d0473ec11"
+  },
+  "sedde/04-0.mp3": {
+   "text": "يَجَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/يَجْ__btn_5.mp3",
+    "elifba/fetha/fetha/okuma/جَ__btn_5.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "0b28c2b4ab4c735cbe574b65a795d6fd1abb499e9dd1cc22380e86b36bbf5490"
+  },
+  "seddesiz/04-0.mp3": {
+   "text": "يَجَ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/ىَ__btn_20.mp3",
+    "elifba/fetha/fetha/okuma/جَ__btn_5.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "4a99be2050c5d0f9e7e9693c50cdae2a1d9d7adc4254648f9415e50bf4362155"
+  },
+  "sedde/04-1.mp3": {
+   "text": "يَجِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/يَجْ__btn_5.mp3",
+    "elifba/kesra/kesra/okuma/جِ__btn_5.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "0d9f184fc637ddec20fa05a91fdcf92127cf3d3f8fab73f647ab798897ba485c"
+  },
+  "seddesiz/04-1.mp3": {
+   "text": "يَجِ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/ىَ__btn_20.mp3",
+    "elifba/kesra/kesra/okuma/جِ__btn_5.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "5d7163435d817dcef3611bc7ffe85d3ac3aa76659239668934ee52a291b50cf6"
+  },
+  "sedde/04-2.mp3": {
+   "text": "يَجُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/يَجْ__btn_5.mp3",
+    "elifba/damme/damme/okuma/جُ__btn_5.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "2802736aa514029338db51fcb89e1413ff85235829f97b125ae8cce83c2f28ed"
+  },
+  "seddesiz/04-2.mp3": {
+   "text": "يَجُ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/ىَ__btn_20.mp3",
+    "elifba/damme/damme/okuma/جُ__btn_5.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "7842f45259c0e493545fadf2845e18f07e82886321b201df0bc291dbbd9b629b"
+  },
+  "sedde/05-0.mp3": {
+   "text": "يَحَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/يَحْ__btn_6.mp3",
+    "elifba/fetha/fetha/okuma/حَ__btn_6.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "ae94bd6e68bec652db21830ff46918d913ebc2fc748a2f5b2064de6784ebca0c"
+  },
+  "seddesiz/05-0.mp3": {
+   "text": "يَحَ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/ىَ__btn_20.mp3",
+    "elifba/fetha/fetha/okuma/حَ__btn_6.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "458a17f719ce62ce5c526df6beae6de60c2127f05f6aeac572f334acaab7fe63"
+  },
+  "sedde/05-1.mp3": {
+   "text": "يَحِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/يَحْ__btn_6.mp3",
+    "elifba/kesra/kesra/okuma/حِ__btn_6.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "12cb28cd45d853cf3b14123fb24763b705ed0537cc7e7998ff6b6004139fe0ae"
+  },
+  "seddesiz/05-1.mp3": {
+   "text": "يَحِ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/ىَ__btn_20.mp3",
+    "elifba/kesra/kesra/okuma/حِ__btn_6.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "bfd2f1a08b2768b8498152c579cfd8cfba96845d1bd9c912beb86c4d24ed3bdd"
+  },
+  "sedde/05-2.mp3": {
+   "text": "يَحُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/يَحْ__btn_6.mp3",
+    "elifba/damme/damme/okuma/حُ__btn_6.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "68f2bda46b8460a1dfe83d273dfbce673dbab1b1ef36f10dbb2259da8ca9f57d"
+  },
+  "seddesiz/05-2.mp3": {
+   "text": "يَحُ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/ىَ__btn_20.mp3",
+    "elifba/damme/damme/okuma/حُ__btn_6.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "339533ee542d269d4465a1e05d3950ab00addf9ece7f8fd594f6ffd15a5c1557"
+  },
+  "sedde/06-0.mp3": {
+   "text": "سِخَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/سِخْ__btn_7.mp3",
+    "elifba/fetha/fetha/okuma/خَ__btn_25.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "503e48d9ce1d05db094edcbe7f0f9dbb7e1077c74a2a17fdee3569b49f40c71d"
+  },
+  "seddesiz/06-0.mp3": {
+   "text": "سِخَ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/سِ__btn_11.mp3",
+    "elifba/fetha/fetha/okuma/خَ__btn_25.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "6c134168d756e3a16a54eae86eb2a76ee4b6f805240b806c03ba46e2d629fd5b"
+  },
+  "sedde/06-1.mp3": {
+   "text": "سِخِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/سِخْ__btn_7.mp3",
+    "elifba/kesra/kesra/okuma/خِ__btn_22.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "ee228a2fb4a909b2beec965e73afe563c4d2dcf2a21ffdde5a7177b2db47e0ad"
+  },
+  "seddesiz/06-1.mp3": {
+   "text": "سِخِ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/سِ__btn_11.mp3",
+    "elifba/kesra/kesra/okuma/خِ__btn_22.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "b4990789bed35dc5d146176d6cf5298125ebc493c4d75a465609ff8647b07647"
+  },
+  "sedde/06-2.mp3": {
+   "text": "سِخُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/سِخْ__btn_7.mp3",
+    "elifba/damme/damme/okuma/خُ__btn_21.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "9603d700c8beae2afe302752f5e4529e8204ed7b969e60b2e2eef91cf11ccd16"
+  },
+  "seddesiz/06-2.mp3": {
+   "text": "سِخُ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/سِ__btn_11.mp3",
+    "elifba/damme/damme/okuma/خُ__btn_21.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "130317c1bef6f7d474d3c9ffa001f9f967f85443673967ee01482d79a196dc70"
+  },
+  "sedde/07-0.mp3": {
+   "text": "قَدَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/قَدْ__btn_8.mp3",
+    "elifba/fetha/fetha/okuma/دَ__btn_7.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "e6a214ef776ded2a0ffef247e86b21294dac4a07f307b7a2fbfb3c5375c9f023"
+  },
+  "seddesiz/07-0.mp3": {
+   "text": "قَدَ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/قَ__btn_28.mp3",
+    "elifba/fetha/fetha/okuma/دَ__btn_7.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "8b7816319a09b3b340b703b5018202637b7a181ec6b827512a70776678c58c62"
+  },
+  "sedde/07-1.mp3": {
+   "text": "قَدِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/قَدْ__btn_8.mp3",
+    "elifba/kesra/kesra/okuma/دِ__btn_7.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "afe20acdbfd7189cfb70b3431034224d4bd11f3b248a72265b9ce7f91c146994"
+  },
+  "seddesiz/07-1.mp3": {
+   "text": "قَدِ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/قَ__btn_28.mp3",
+    "elifba/kesra/kesra/okuma/دِ__btn_7.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "100972ce7f07847669e57a9062e99e3be1a585c520e706f3f8124da77144c594"
+  },
+  "sedde/07-2.mp3": {
+   "text": "قَدُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/قَدْ__btn_8.mp3",
+    "elifba/damme/damme/okuma/دُ__btn_7.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "e6f2695ce14b4b7b118284ed073e94ee4023d50e5149c5ce7339909337360a70"
+  },
+  "seddesiz/07-2.mp3": {
+   "text": "قَدُ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/قَ__btn_28.mp3",
+    "elifba/damme/damme/okuma/دُ__btn_7.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "5328e06f659257485e6dd5cb9ba8dd7fa086885c3ea6db325b0b4eaecec81da3"
+  },
+  "sedde/08-0.mp3": {
+   "text": "عُذَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/عُذْ__btn_9.mp3",
+    "elifba/fetha/fetha/okuma/ذَ__btn_8.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "39933ca0b65f4bb7f437ce43bedeeef97f1c0683cd614688e6db85fe67869129"
+  },
+  "seddesiz/08-0.mp3": {
+   "text": "عُذَ",
+   "derivedFrom": [
+    "elifba/damme/damme/okuma/عُ__btn_12.mp3",
+    "elifba/fetha/fetha/okuma/ذَ__btn_8.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "27c78ab473db02efa48e92c0fbcafff16e53cb63130a019f64c1ab39c247082e"
+  },
+  "sedde/08-1.mp3": {
+   "text": "عُذِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/عُذْ__btn_9.mp3",
+    "elifba/kesra/kesra/okuma/ذِ__btn_8.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "a1212672b0cbd6605e37b6ca2dcefeac5b87d6ef819cc32d2e00b07a00031940"
+  },
+  "seddesiz/08-1.mp3": {
+   "text": "عُذِ",
+   "derivedFrom": [
+    "elifba/damme/damme/okuma/عُ__btn_12.mp3",
+    "elifba/kesra/kesra/okuma/ذِ__btn_8.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "486b0efe99d77ff8735c776e9f075fde4a4dd005aad050e61d8826113439865b"
+  },
+  "sedde/08-2.mp3": {
+   "text": "عُذُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/عُذْ__btn_9.mp3",
+    "elifba/damme/damme/okuma/ذُ__btn_8.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "db51f23d2f071a5dba56bbfb865a888a0759689ba7572dc0c6a798e5ce72209e"
+  },
+  "seddesiz/08-2.mp3": {
+   "text": "عُذُ",
+   "derivedFrom": [
+    "elifba/damme/damme/okuma/عُ__btn_12.mp3",
+    "elifba/damme/damme/okuma/ذُ__btn_8.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "00bf052fbd76e2afb04936577d6db8cc42d2975bb5966140cc914911986a57de"
+  },
+  "sedde/09-0.mp3": {
+   "text": "صِرَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/صِرْ__btn_10.mp3",
+    "elifba/fetha/fetha/okuma/رَ__btn_26.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "ae671036da2a47712ac10fba219967f39bbce31d5306ce3ea4ab4e296d3d0da2"
+  },
+  "seddesiz/09-0.mp3": {
+   "text": "صِرَ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/صِ__btn_25.mp3",
+    "elifba/fetha/fetha/okuma/رَ__btn_26.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "a31b0144c930ffabf1dbfdedc7d37040c3b160520d2cac8f66d2c235be6cb395"
+  },
+  "sedde/09-1.mp3": {
+   "text": "صِرِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/صِرْ__btn_10.mp3",
+    "elifba/kesra/kesra/okuma/رِ__btn_9.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "31bd5ad24dcf404e162fe4095f8987b4a8999fbbcdb6918a54522aab5ccc4c59"
+  },
+  "seddesiz/09-1.mp3": {
+   "text": "صِرِ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/صِ__btn_25.mp3",
+    "elifba/kesra/kesra/okuma/رِ__btn_9.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "4c3fd7fbe2c88f09fcb5fc6fed784ed9855d71c46ebd8b907058acb4029b0a03"
+  },
+  "sedde/09-2.mp3": {
+   "text": "صِرُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/صِرْ__btn_10.mp3",
+    "elifba/damme/damme/okuma/رُ__btn_22.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "424336645dc3793e0a2518759276ef201db3cfa61289f4c43b77ad1c41e1b7cf"
+  },
+  "seddesiz/09-2.mp3": {
+   "text": "صِرُ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/صِ__btn_25.mp3",
+    "elifba/damme/damme/okuma/رُ__btn_22.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "c17e1511faefd47abd8cee4d7cf1d6d222e55be3eb6e357b89cdd39095e69794"
+  },
+  "sedde/10-0.mp3": {
+   "text": "وَزَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/وَزْ__btn_11.mp3",
+    "elifba/fetha/fetha/okuma/زَ__btn_9.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "a795b172a55df1eb34efa045f391e5bd10e034e869673c1af57d6ce17afa0e9f"
+  },
+  "seddesiz/10-0.mp3": {
+   "text": "وَزَ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/وَ__btn_19.mp3",
+    "elifba/fetha/fetha/okuma/زَ__btn_9.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "055cb9af657a805ba390a914640b92d8b15713942ca606e1fd188285731f77c4"
+  },
+  "sedde/10-1.mp3": {
+   "text": "وَزِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/وَزْ__btn_11.mp3",
+    "elifba/kesra/kesra/okuma/زِ__btn_10.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "bed63f617ec8687b104dc6e0046bbb4cd819a93c6319f7c693b505476b155d32"
+  },
+  "seddesiz/10-1.mp3": {
+   "text": "وَزِ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/وَ__btn_19.mp3",
+    "elifba/kesra/kesra/okuma/زِ__btn_10.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "75d7081ef71cb6999f2c2b3bffcf17c6a459e81f44ed4cfc6201c9a84c32a17f"
+  },
+  "sedde/10-2.mp3": {
+   "text": "وَزُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/وَزْ__btn_11.mp3",
+    "elifba/damme/damme/okuma/زُ__btn_9.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "53da84bb50e4ee44b1d9d63267985ff5ecda2f434fd6a24df727730602712095"
+  },
+  "seddesiz/10-2.mp3": {
+   "text": "وَزُ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/وَ__btn_19.mp3",
+    "elifba/damme/damme/okuma/زُ__btn_9.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "a83c6a043838a3d474634299e673e087ad55c895fdbd62e74edb1c2a6401ce38"
+  },
+  "sedde/11-0.mp3": {
+   "text": "بِسَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/بِسْ__btn_12.mp3",
+    "elifba/fetha/fetha/okuma/سَ__btn_10.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "f25c0bfbab584d45b86154c530b5559bee7b13cbbc8994bc7ece95c0815b9644"
+  },
+  "seddesiz/11-0.mp3": {
+   "text": "بِسَ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/بِ__btn_2.mp3",
+    "elifba/fetha/fetha/okuma/سَ__btn_10.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "e70fe0570f25f389af914b1f323107a93bcffb450425483cccd82e56f3528df2"
+  },
+  "sedde/11-1.mp3": {
+   "text": "بِسِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/بِسْ__btn_12.mp3",
+    "elifba/kesra/kesra/okuma/سِ__btn_11.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "cbc8b44eed9c09e81238e367f40fc84ffcc1a8d5ec6d8c1b11bef748c5e16d34"
+  },
+  "seddesiz/11-1.mp3": {
+   "text": "بِسِ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/بِ__btn_2.mp3",
+    "elifba/kesra/kesra/okuma/سِ__btn_11.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "c1a3bf61b575a1fe6e520623c56deb627cd6d37a7558f66078441f471f3c07e7"
+  },
+  "sedde/11-2.mp3": {
+   "text": "بِسُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/بِسْ__btn_12.mp3",
+    "elifba/damme/damme/okuma/سُ__btn_10.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "a42e7ec6b51b70d347fc0014f5756016e78dd3bd02c51b456a482d0154ace1ff"
+  },
+  "seddesiz/11-2.mp3": {
+   "text": "بِسُ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/بِ__btn_2.mp3",
+    "elifba/damme/damme/okuma/سُ__btn_10.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "a67b9d8f4ae16bad39233ced003b19535fda159072a48c668283a741ba003571"
+  },
+  "sedde/12-0.mp3": {
+   "text": "خَشَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/خَشْ__btn_13.mp3",
+    "elifba/fetha/fetha/okuma/شَ__btn_11.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "cd2e6cf52e9ad483e90e2d7a8dfad638bd21cf9f8e63d9f3ff9e2212550f9ad7"
+  },
+  "seddesiz/12-0.mp3": {
+   "text": "خَشَ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/خَ__btn_25.mp3",
+    "elifba/fetha/fetha/okuma/شَ__btn_11.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "262a92b4033217276bc1b9251a19f0ec284e7120348a600219e246e3ab77516f"
+  },
+  "sedde/12-1.mp3": {
+   "text": "خَشِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/خَشْ__btn_13.mp3",
+    "elifba/kesra/kesra/okuma/شِ__btn_12.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "8aff423fbc2b3a665af0990cd50070ec49d47ea6d9a5bfc16f4daae0f9ee75e6"
+  },
+  "seddesiz/12-1.mp3": {
+   "text": "خَشِ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/خَ__btn_25.mp3",
+    "elifba/kesra/kesra/okuma/شِ__btn_12.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "87d204a1280f3a297406b7bfddc865a15111d642cf6a6fc7cf1fd780873f948a"
+  },
+  "sedde/12-2.mp3": {
+   "text": "خَشُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/خَشْ__btn_13.mp3",
+    "elifba/damme/damme/okuma/شُ__btn_11.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "3cc8a3c46412942238098c2835f136eac74927f9026d02c36657ec94a3eed2c5"
+  },
+  "seddesiz/12-2.mp3": {
+   "text": "خَشُ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/خَ__btn_25.mp3",
+    "elifba/damme/damme/okuma/شُ__btn_11.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "b2ac056b1686fd43398bf0fb67caad190643b3fc46ac446c46689223bd9b1982"
+  },
+  "sedde/13-0.mp3": {
+   "text": "فَصَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/فَصْ__btn_14.mp3",
+    "elifba/fetha/fetha/okuma/صَ__btn_30.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "d2256aca6d4b1387767455cd37ca9d0c464a14fbefbfe84cfd2157b4c8fec294"
+  },
+  "seddesiz/13-0.mp3": {
+   "text": "فَصَ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/فَ__btn_13.mp3",
+    "elifba/fetha/fetha/okuma/صَ__btn_30.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "8c428fc60d5cf5d47d3d8095d8eb5c26c91daabadcd8aec8d60e4bf3544992fd"
+  },
+  "sedde/13-1.mp3": {
+   "text": "فَصِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/فَصْ__btn_14.mp3",
+    "elifba/kesra/kesra/okuma/صِ__btn_25.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "d69040ad114d58519b11b11b529c89c86689b8b4a052dac2028bf1cabdd96fa2"
+  },
+  "seddesiz/13-1.mp3": {
+   "text": "فَصِ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/فَ__btn_13.mp3",
+    "elifba/kesra/kesra/okuma/صِ__btn_25.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "bd3e805f77494b45113920585a231375e49f2bbeedcd8c7d87e3ee8437b8f563"
+  },
+  "sedde/13-2.mp3": {
+   "text": "فَصُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/فَصْ__btn_14.mp3",
+    "elifba/damme/damme/okuma/صُ__btn_25.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "a194b135ba39209e8a4bd7e577ed740b396d597c4792d562ebf257ab0cd0264b"
+  },
+  "seddesiz/13-2.mp3": {
+   "text": "فَصُ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/فَ__btn_13.mp3",
+    "elifba/damme/damme/okuma/صُ__btn_25.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "7156847e70110a9c39f8b2ef7c7c660866a78411e9c8273547b49b035ee251c2"
+  },
+  "sedde/14-0.mp3": {
+   "text": "رِضَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/رِضْ__btn_15.mp3",
+    "elifba/fetha/fetha/okuma/ضَ__btn_31.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "1c43540fd0a3f3b582de5315c803aca713a414d652948ab05aaa3641fc2dedb6"
+  },
+  "seddesiz/14-0.mp3": {
+   "text": "رِضَ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/رِ__btn_9.mp3",
+    "elifba/fetha/fetha/okuma/ضَ__btn_31.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "2e046d0641db3143729004ba481069d1f670a2d3772082727fb97d040e05fbf6"
+  },
+  "sedde/14-1.mp3": {
+   "text": "رِضِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/رِضْ__btn_15.mp3",
+    "elifba/kesra/kesra/okuma/ضِ__btn_26.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "11da5d2d24393e2385aedabb09c4dc42c6b62c54dfa0020feb1c457ff30fd609"
+  },
+  "seddesiz/14-1.mp3": {
+   "text": "رِضِ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/رِ__btn_9.mp3",
+    "elifba/kesra/kesra/okuma/ضِ__btn_26.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "8223a6c972aed9b454374cc281c1dd7a3967ec909a0bd7f9f4661ebc8dacff76"
+  },
+  "sedde/14-2.mp3": {
+   "text": "رِضُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/رِضْ__btn_15.mp3",
+    "elifba/damme/damme/okuma/ضُ__btn_26.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "b95a3f0567243c3ed2df809e3bde96350127637f93a237d5af26ca23cc4afe8f"
+  },
+  "seddesiz/14-2.mp3": {
+   "text": "رِضُ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/رِ__btn_9.mp3",
+    "elifba/damme/damme/okuma/ضُ__btn_26.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "fb4124b788fc627e059b23ec2234731543f0c2ec0a0b88020fee342f9127277d"
+  },
+  "sedde/15-0.mp3": {
+   "text": "شَطَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/شَطْ__btn_16.mp3",
+    "elifba/fetha/fetha/okuma/طَ__btn_32.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "380b284b10865640482d17020009476985f6b6adf353c2ff0da05617b59b5c6e"
+  },
+  "seddesiz/15-0.mp3": {
+   "text": "شَطَ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/شَ__btn_11.mp3",
+    "elifba/fetha/fetha/okuma/طَ__btn_32.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "c6f5695642dcd230b9cd569a8d5064319d4cba927c38679db6a22eb0a225755a"
+  },
+  "sedde/15-1.mp3": {
+   "text": "شَطِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/شَطْ__btn_16.mp3",
+    "elifba/kesra/kesra/okuma/طِ__btn_27.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "24d36aeb5937e96c0555d5317af656336e24eedb3e4088311e313bba4a01dc2e"
+  },
+  "seddesiz/15-1.mp3": {
+   "text": "شَطِ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/شَ__btn_11.mp3",
+    "elifba/kesra/kesra/okuma/طِ__btn_27.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "6e222b6d4a40dd5170f8c7fec22177038b5b959aaa6efd5e9d8cd26ff8970662"
+  },
+  "sedde/15-2.mp3": {
+   "text": "شَطُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/شَطْ__btn_16.mp3",
+    "elifba/damme/damme/okuma/طُ__btn_27.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "062c72d9b49d0a32d67454af8bd30cd58c1683b39f3f0d491a6945d328e47892"
+  },
+  "seddesiz/15-2.mp3": {
+   "text": "شَطُ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/شَ__btn_11.mp3",
+    "elifba/damme/damme/okuma/طُ__btn_27.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "c847f143ffa7fd6a9a1a0cdd6efc59a7278511cc1627317cbf37fc20a441a50d"
+  },
+  "sedde/16-0.mp3": {
+   "text": "تُظَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/تُظْ__btn_17.mp3",
+    "elifba/fetha/fetha/okuma/ظَ__btn_33.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "9a1aaaf2c19d57a4a42be48e3df4a3ce7118cd7219b1b5f120dd4ef37ab73895"
+  },
+  "seddesiz/16-0.mp3": {
+   "text": "تُظَ",
+   "derivedFrom": [
+    "elifba/damme/damme/okuma/تُ__btn_3.mp3",
+    "elifba/fetha/fetha/okuma/ظَ__btn_33.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "e1ce0d9d553e0208828946a1f2a4e0dbeca7ce9f8b07e8d59cfd093426d02022"
+  },
+  "sedde/16-1.mp3": {
+   "text": "تُظِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/تُظْ__btn_17.mp3",
+    "elifba/kesra/kesra/okuma/ظِ__btn_28.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "14232dc7a7d7c2936a295420a34757a4278bbb532a56b72198c2a24bde669c3e"
+  },
+  "seddesiz/16-1.mp3": {
+   "text": "تُظِ",
+   "derivedFrom": [
+    "elifba/damme/damme/okuma/تُ__btn_3.mp3",
+    "elifba/kesra/kesra/okuma/ظِ__btn_28.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "ed38d8150230b582cd659de221f8c531f3ff2fd09312d1a9b444e00888d41eda"
+  },
+  "sedde/16-2.mp3": {
+   "text": "تُظُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/تُظْ__btn_17.mp3",
+    "elifba/damme/damme/okuma/ظُ__btn_28.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "daab4cfe58397b2648c749e22ac0adc6bc106d3520cbb40b0a0cd4d76555a3d0"
+  },
+  "seddesiz/16-2.mp3": {
+   "text": "تُظُ",
+   "derivedFrom": [
+    "elifba/damme/damme/okuma/تُ__btn_3.mp3",
+    "elifba/damme/damme/okuma/ظُ__btn_28.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "9a7918fa1bdb17bc500c4d6de1ef0abf640c4bb5a9968d5b4acbb79a846d4a2c"
+  },
+  "sedde/17-0.mp3": {
+   "text": "نَعَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/نَعْ__btn_18.mp3",
+    "elifba/fetha/fetha/okuma/عَ__btn_12.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "ee6d9874a080bc56951188369d9220553f238325533d65d3ed9d19f7d3079a07"
+  },
+  "seddesiz/17-0.mp3": {
+   "text": "نَعَ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/نَ__btn_17.mp3",
+    "elifba/fetha/fetha/okuma/عَ__btn_12.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "deb07ab83f0a41ca06c60ef409e989c9298bd3d4ed35247e4a624a317f926399"
+  },
+  "sedde/17-1.mp3": {
+   "text": "نَعِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/نَعْ__btn_18.mp3",
+    "elifba/kesra/kesra/okuma/عِ__btn_13.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "fbfe41e3f723cb6f8cb4ae04c70d0b89d0de6299cde705e4f9f04614560ef1cc"
+  },
+  "seddesiz/17-1.mp3": {
+   "text": "نَعِ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/نَ__btn_17.mp3",
+    "elifba/kesra/kesra/okuma/عِ__btn_13.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "839f52f0efb76e4fdc2d0afee3e3a4efa3a5b5d45f22f1dea882d2e43d00d814"
+  },
+  "sedde/17-2.mp3": {
+   "text": "نَعُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/نَعْ__btn_18.mp3",
+    "elifba/damme/damme/okuma/عُ__btn_12.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "ee2c8220e488f0241277861d986e623475f32be256e1b351d4fad1e50f00f75f"
+  },
+  "seddesiz/17-2.mp3": {
+   "text": "نَعُ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/نَ__btn_17.mp3",
+    "elifba/damme/damme/okuma/عُ__btn_12.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "db1cf4e0559137810117522af6599f9ad5c0c9e2a01d3d3280973e2e023c2349"
+  },
+  "sedde/18-0.mp3": {
+   "text": "مَغَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/مَغْ__btn_19.mp3",
+    "elifba/fetha/fetha/okuma/غَ__btn_27.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "50db5fbad4a5bd660dae945275af720813e600e2dd2f54bddb68f38c0fee9135"
+  },
+  "seddesiz/18-0.mp3": {
+   "text": "مَغَ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/مَ__btn_16.mp3",
+    "elifba/fetha/fetha/okuma/غَ__btn_27.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "5c791d62c563f23415276b470157a3c53dcfdb79d07a7e54d2a31db1b3c1fc14"
+  },
+  "sedde/18-1.mp3": {
+   "text": "مَغِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/مَغْ__btn_19.mp3",
+    "elifba/kesra/kesra/okuma/غِ__btn_23.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "775e7b5f9825dfb40953c87bbf7cd647dc081490fbf7f6c261990c48b0e993db"
+  },
+  "seddesiz/18-1.mp3": {
+   "text": "مَغِ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/مَ__btn_16.mp3",
+    "elifba/kesra/kesra/okuma/غِ__btn_23.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "6d3b172fd58ce5ee18c5e070fd1dea7524f0a5bec304d56aa934d4a15c81bd5a"
+  },
+  "sedde/18-2.mp3": {
+   "text": "مَغُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/مَغْ__btn_19.mp3",
+    "elifba/damme/damme/okuma/غُ__btn_23.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "16d0c382fa257e98755d94fe0046962b557345e21d8c2338e24602d90417fb65"
+  },
+  "seddesiz/18-2.mp3": {
+   "text": "مَغُ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/مَ__btn_16.mp3",
+    "elifba/damme/damme/okuma/غُ__btn_23.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "5d53cd0f346b603986b0b30192f339824c4e2ab3b5cc229ac147b2f2a0744c24"
+  },
+  "sedde/19-0.mp3": {
+   "text": "غُفَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/غُفْ__btn_20.mp3",
+    "elifba/fetha/fetha/okuma/فَ__btn_13.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "13f75d26f31c8e7c8142d5c7017edb44c4d442703f5ffb86f5beff96174abb15"
+  },
+  "seddesiz/19-0.mp3": {
+   "text": "غُفَ",
+   "derivedFrom": [
+    "elifba/damme/damme/okuma/غُ__btn_23.mp3",
+    "elifba/fetha/fetha/okuma/فَ__btn_13.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "a8313f3d93d47afc0557fa8c84d8a3b2bc2993560405a9419f36009147465d18"
+  },
+  "sedde/19-1.mp3": {
+   "text": "غُفِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/غُفْ__btn_20.mp3",
+    "elifba/kesra/kesra/okuma/فِ__btn_14.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "7053c06dcc61f6077bf1da65d14336b21f00f4e205d220b68c74d634fc5aafc4"
+  },
+  "seddesiz/19-1.mp3": {
+   "text": "غُفِ",
+   "derivedFrom": [
+    "elifba/damme/damme/okuma/غُ__btn_23.mp3",
+    "elifba/kesra/kesra/okuma/فِ__btn_14.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "e44c47c1353c9167f5448a2463923a8ccefd66673aa0ee832422c475610667b3"
+  },
+  "sedde/19-2.mp3": {
+   "text": "غُفُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/غُفْ__btn_20.mp3",
+    "elifba/damme/damme/okuma/فُ__btn_13.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "e4f6d34b095491a4dc46a24d6b915471751e6c1e7b7253eac3d63d16f11b9fef"
+  },
+  "seddesiz/19-2.mp3": {
+   "text": "غُفُ",
+   "derivedFrom": [
+    "elifba/damme/damme/okuma/غُ__btn_23.mp3",
+    "elifba/damme/damme/okuma/فُ__btn_13.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "a9deab45f8ad91f87e0ebf2c1886365c4bae2201c4917c62cf926bca0b8e8a20"
+  },
+  "sedde/20-0.mp3": {
+   "text": "فَقَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/فَقْ__btn_21.mp3",
+    "elifba/fetha/fetha/okuma/قَ__btn_28.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "a93e679319259793843ba0a66aa3b1a59d96fea0bdabb9c6d7b02030cc6204d0"
+  },
+  "seddesiz/20-0.mp3": {
+   "text": "فَقَ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/فَ__btn_13.mp3",
+    "elifba/fetha/fetha/okuma/قَ__btn_28.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "2cc27120931409895c2416dfcad0e9f332de538ebbbb2ef8d05962c83fe43c7d"
+  },
+  "sedde/20-1.mp3": {
+   "text": "فَقِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/فَقْ__btn_21.mp3",
+    "elifba/kesra/kesra/okuma/قِ__btn_24.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "d4db3ccdd581798baf68d6bd59932739541a58b72ec5e59cc33fe7024fb2b65f"
+  },
+  "seddesiz/20-1.mp3": {
+   "text": "فَقِ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/فَ__btn_13.mp3",
+    "elifba/kesra/kesra/okuma/قِ__btn_24.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "1c694be660e5c2026834cd47b7ddd186c015d8129f23b1c6437371394b629aef"
+  },
+  "sedde/20-2.mp3": {
+   "text": "فَقُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/فَقْ__btn_21.mp3",
+    "elifba/damme/damme/okuma/قُ__btn_24.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "91e8bac89804b2ca94f24142c4be0b61ac913c9d82ac2d5da745f64738ac350d"
+  },
+  "seddesiz/20-2.mp3": {
+   "text": "فَقُ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/فَ__btn_13.mp3",
+    "elifba/damme/damme/okuma/قُ__btn_24.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "fccca3dd087b1881e2a43a551acb03dcc0200db1d9e7457c5a1e97c3b14c8e82"
+  },
+  "sedde/21-0.mp3": {
+   "text": "رَكَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/رَكْ__btn_22.mp3",
+    "elifba/fetha/fetha/okuma/كَ__btn_14.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "80be0fff0d4c313b6e2ca77cf6ba8a26033fd24dd36809363c2f72d2adf306b4"
+  },
+  "seddesiz/21-0.mp3": {
+   "text": "رَكَ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/رَ__btn_26.mp3",
+    "elifba/fetha/fetha/okuma/كَ__btn_14.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "0753cf7ada386e33fa21da00dc2b602476bdd0c8b5d3363bc455ff414d64f910"
+  },
+  "sedde/21-1.mp3": {
+   "text": "رَكِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/رَكْ__btn_22.mp3",
+    "elifba/kesra/kesra/okuma/كِ__btn_15.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "e9bf3560bc9a1ac4ecf59073cc1d038b9f1d98c34a072bb2c27b3ea4bb3475d5"
+  },
+  "seddesiz/21-1.mp3": {
+   "text": "رَكِ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/رَ__btn_26.mp3",
+    "elifba/kesra/kesra/okuma/كِ__btn_15.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "de44baf61953a73c57bb30b5b4c54c712ecca15ff3194da2fb9cc69eddba2109"
+  },
+  "sedde/21-2.mp3": {
+   "text": "رَكُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/رَكْ__btn_22.mp3",
+    "elifba/damme/damme/okuma/كُ__btn_14.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "6821b2238230a92b5ce5ff5b7c6b43633d55984774ace6aab5bb8b379305a337"
+  },
+  "seddesiz/21-2.mp3": {
+   "text": "رَكُ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/رَ__btn_26.mp3",
+    "elifba/damme/damme/okuma/كُ__btn_14.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "bb637ca181742f347c955e7808a7e7f6108fb59961eb4f9a2637bb9aa014d33a"
+  },
+  "sedde/22-0.mp3": {
+   "text": "زُلَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/زُلْ__btn_23.mp3",
+    "elifba/fetha/fetha/okuma/لَ__btn_15.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "0b96a70347bd764c91baaa0127866ccb8b9fa068b2f359cda35ac019bf94789f"
+  },
+  "seddesiz/22-0.mp3": {
+   "text": "زُلَ",
+   "derivedFrom": [
+    "elifba/damme/damme/okuma/زُ__btn_9.mp3",
+    "elifba/fetha/fetha/okuma/لَ__btn_15.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "6c02bacdf0ad9645b35e74e8492da49cc77ddbc02aa6533497b4c700a894d62b"
+  },
+  "sedde/22-1.mp3": {
+   "text": "زُلِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/زُلْ__btn_23.mp3",
+    "elifba/kesra/kesra/okuma/لِ__btn_16.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "19f99f49a2ec0855b54f05790ed9977719fdde222c07bdf62d52782a11d45761"
+  },
+  "seddesiz/22-1.mp3": {
+   "text": "زُلِ",
+   "derivedFrom": [
+    "elifba/damme/damme/okuma/زُ__btn_9.mp3",
+    "elifba/kesra/kesra/okuma/لِ__btn_16.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "9c08fe9e5facb7403c0f8634711517a2d1279abc331bd7337403ebce3c7a740f"
+  },
+  "sedde/22-2.mp3": {
+   "text": "زُلُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/زُلْ__btn_23.mp3",
+    "elifba/damme/damme/okuma/لُ__btn_15.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "3a06196e2a1c8ca8f92eb9e63ad35a52d8e42bb677e42e6bb550892d7435cad9"
+  },
+  "seddesiz/22-2.mp3": {
+   "text": "زُلُ",
+   "derivedFrom": [
+    "elifba/damme/damme/okuma/زُ__btn_9.mp3",
+    "elifba/damme/damme/okuma/لُ__btn_15.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "8366514b5af8377c24aaf84e99fd2b4e8c6e4fafaa913fb0bd1184c1b31442bb"
+  },
+  "sedde/23-0.mp3": {
+   "text": "هُمَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/هُمْ__btn_24.mp3",
+    "elifba/fetha/fetha/okuma/مَ__btn_16.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "6c19e284cb09816040972faf400be5606f7d4559e084a87f44fad729713ac468"
+  },
+  "seddesiz/23-0.mp3": {
+   "text": "هُمَ",
+   "derivedFrom": [
+    "elifba/damme/damme/okuma/هُـ__btn_18.mp3",
+    "elifba/fetha/fetha/okuma/مَ__btn_16.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "b88be19f3cad76025f39d12f405d0804035e397e4d656d50fa4f459bf2cac4fc"
+  },
+  "sedde/23-1.mp3": {
+   "text": "هُمِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/هُمْ__btn_24.mp3",
+    "elifba/kesra/kesra/okuma/مِ__btn_17.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "7cb48dd259735a2251eacc5af19e6a03a62ef170c4d2ea6ced82f102180226b3"
+  },
+  "seddesiz/23-1.mp3": {
+   "text": "هُمِ",
+   "derivedFrom": [
+    "elifba/damme/damme/okuma/هُـ__btn_18.mp3",
+    "elifba/kesra/kesra/okuma/مِ__btn_17.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "3d0876592b9e5abab967ee545ff5f3daed3e691138234f05e4dc40dbe98051df"
+  },
+  "sedde/23-2.mp3": {
+   "text": "هُمُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/هُمْ__btn_24.mp3",
+    "elifba/damme/damme/okuma/مُ__btn_16.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "b4bf34a997f80c046c528fae1a596dd821cedaca3d627ee1bd943b2b3dd2709e"
+  },
+  "seddesiz/23-2.mp3": {
+   "text": "هُمُ",
+   "derivedFrom": [
+    "elifba/damme/damme/okuma/هُـ__btn_18.mp3",
+    "elifba/damme/damme/okuma/مُ__btn_16.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "7fc3c864d4aa493288aa779ee2c5bd1cac9b96f49adb563401cfee500d1c48b2"
+  },
+  "sedde/24-0.mp3": {
+   "text": "مَنَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/مَنْ__btn_25.mp3",
+    "elifba/fetha/fetha/okuma/نَ__btn_17.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "28c928b0a52cb465cbba6164002ae25203b4f0a0af5272136adb05d3919d5ad0"
+  },
+  "seddesiz/24-0.mp3": {
+   "text": "مَنَ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/مَ__btn_16.mp3",
+    "elifba/fetha/fetha/okuma/نَ__btn_17.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "8279f2794c45f3154f0698f9ce36b2aa965d2589f29c9dc9bd9505377c2e1a60"
+  },
+  "sedde/24-1.mp3": {
+   "text": "مَنِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/مَنْ__btn_25.mp3",
+    "elifba/kesra/kesra/okuma/نِ__btn_18.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "c4834b5669eff95dbe61c6bd77e9ca5d0b6277cf2d0f72cb4d156327299d50c6"
+  },
+  "seddesiz/24-1.mp3": {
+   "text": "مَنِ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/مَ__btn_16.mp3",
+    "elifba/kesra/kesra/okuma/نِ__btn_18.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "8408d5bc9ef0b95e37137df522a9f245eadaf8ad361e9d2db358b63c46412154"
+  },
+  "sedde/24-2.mp3": {
+   "text": "مَنُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/مَنْ__btn_25.mp3",
+    "elifba/damme/damme/okuma/نُ__btn_17.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "6e4f1df8b518a5ab6f1a78101a3dd1fd6b3e896263456c7fc769f4b05fac7261"
+  },
+  "seddesiz/24-2.mp3": {
+   "text": "مَنُ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/مَ__btn_16.mp3",
+    "elifba/damme/damme/okuma/نُ__btn_17.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "68168b65d262276c736be692afa955c654db913155c858bc598a66f4c9388b03"
+  },
+  "sedde/25-0.mp3": {
+   "text": "اَوَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/اَوْ__btn_27.mp3",
+    "elifba/fetha/fetha/okuma/وَ__btn_19.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "708f8b4289f6002ca6a54183c81cdd3dc05d8877f17b4cb194184d9770e3febe"
+  },
+  "seddesiz/25-0.mp3": {
+   "text": "اَوَ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/اَ__btn_1.mp3",
+    "elifba/fetha/fetha/okuma/وَ__btn_19.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "eea036b85fe0b0991a625adea81f4b1c262342d55343e6428f9856cee08b4522"
+  },
+  "sedde/25-1.mp3": {
+   "text": "اَوِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/اَوْ__btn_27.mp3",
+    "elifba/kesra/kesra/okuma/وِ__btn_20.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "3728df3fe51b9b0af73c10bff1c16c6f7ef49e70441668a57126ed45b6c8af93"
+  },
+  "seddesiz/25-1.mp3": {
+   "text": "اَوِ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/اَ__btn_1.mp3",
+    "elifba/kesra/kesra/okuma/وِ__btn_20.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "b3f9f58aec1e50add2141bee227a5b5ea27c9371c34b46bc8f8c29eae6c23ff2"
+  },
+  "sedde/25-2.mp3": {
+   "text": "اَوُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/اَوْ__btn_27.mp3",
+    "elifba/damme/damme/okuma/وُ__btn_19.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "a6b7809523fd000c9f5571346290ad450ea29c8280259a4cb1e91411ac7c8770"
+  },
+  "seddesiz/25-2.mp3": {
+   "text": "اَوُ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/اَ__btn_1.mp3",
+    "elifba/damme/damme/okuma/وُ__btn_19.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "7a71036a99a36957a20e092191f4375a4bbe1b6481be70d552cbdf62fe4f1c6b"
+  },
+  "sedde/26-0.mp3": {
+   "text": "صِهَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/صِهْ__btn_26.mp3",
+    "elifba/fetha/fetha/okuma/هَـ__btn_18.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "221125dc4522dbe9e03695c69a2ab9548b52ffaa58edfeb0680265d8b35251ee"
+  },
+  "seddesiz/26-0.mp3": {
+   "text": "صِهَ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/صِ__btn_25.mp3",
+    "elifba/fetha/fetha/okuma/هَـ__btn_18.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "547d6bb8740119219c89b50185ed6762216df20a4744e08d72266ef8a1f1fd55"
+  },
+  "sedde/26-1.mp3": {
+   "text": "صِهِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/صِهْ__btn_26.mp3",
+    "elifba/kesra/kesra/okuma/هِـ__btn_19.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "04c445788f6b64ddb218b589106a4267ce3df578d26a3e0a1a78f9985d8de1c4"
+  },
+  "seddesiz/26-1.mp3": {
+   "text": "صِهِ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/صِ__btn_25.mp3",
+    "elifba/kesra/kesra/okuma/هِـ__btn_19.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "6cb3c3dbdd7fd3884a41968a210c6d19a83bd1e0aca1e7dd097dcde0e34ee3a2"
+  },
+  "sedde/26-2.mp3": {
+   "text": "صِهُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/صِهْ__btn_26.mp3",
+    "elifba/damme/damme/okuma/هُـ__btn_18.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "132fb4b98e528c5ec4c7831f125afba563888c9de4c699a012f0dd2b332c1a1c"
+  },
+  "seddesiz/26-2.mp3": {
+   "text": "صِهُ",
+   "derivedFrom": [
+    "elifba/kesra/kesra/okuma/صِ__btn_25.mp3",
+    "elifba/damme/damme/okuma/هُـ__btn_18.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "e1edc77ca8ebc557e3280c769ce0d067e3d07904c467efff5d3c65416b6f121d"
+  },
+  "sedde/27-0.mp3": {
+   "text": "وَيَّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/وَىْ__btn_28.mp3",
+    "elifba/fetha/fetha/okuma/ىَ__btn_20.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "be6d53fc2fd696d14b47eae5b0efd0c9db928949566e04cbbd75a48c88b141cd"
+  },
+  "seddesiz/27-0.mp3": {
+   "text": "وَيَ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/وَ__btn_19.mp3",
+    "elifba/fetha/fetha/okuma/ىَ__btn_20.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "05c8eab8966c038fc8b766afe5029beae84886cb93cd5f893811d8b77060fe88"
+  },
+  "sedde/27-1.mp3": {
+   "text": "وَيِّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/وَىْ__btn_28.mp3",
+    "elifba/kesra/kesra/okuma/ىِ__btn_21.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "a20f38e729979c7eb9eb1e6a61f289b0342797ebc0e913f2e9631a3bd0fe6d68"
+  },
+  "seddesiz/27-1.mp3": {
+   "text": "وَيِ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/وَ__btn_19.mp3",
+    "elifba/kesra/kesra/okuma/ىِ__btn_21.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "26a36c876b51236eafdf042c026cfe620def88a63c56b1781ddbbf8830cca08d"
+  },
+  "sedde/27-2.mp3": {
+   "text": "وَيُّ",
+   "derivedFrom": [
+    "elifba/cezm/kavrama/okuma/وَىْ__btn_28.mp3",
+    "elifba/damme/damme/okuma/ىُ__btn_20.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "ab91f096682d91df5b702f0d4cef81f3876c3d2a56f2cc1f257cdca7c2a59d3c"
+  },
+  "seddesiz/27-2.mp3": {
+   "text": "وَيُ",
+   "derivedFrom": [
+    "elifba/fetha/fetha/okuma/وَ__btn_19.mp3",
+    "elifba/damme/damme/okuma/ىُ__btn_20.mp3"
+   ],
+   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
+   "sha256": "ff58ffde7385f7c62676b0fe133919d3498c188bbcc6f2b44760220f95a5ff56"
+  },
+  "sedde-ornek/0.mp3": {
+   "text": "تَبَّتْ",
+   "archiveFile": "elifba/sedde/uygulama/okuma/تَبَّتْ__btn_5.mp3",
+   "sha256": "320d0ae0d80ead952b23a701b43a4893d764a91e2beea56baf9a55e6203bf8f5"
+  },
+  "sedde-ornek/1.mp3": {
+   "text": "عَدَّ",
+   "archiveFile": "elifba/sedde/uygulama/okuma/عَدَّ__btn_2.mp3",
+   "sha256": "17ecc4956eb581e02af1d5fbc9f07c3610bacbb5990dd1f36ba3b20a9d97f2a7"
+  },
+  "sedde-ornek/2.mp3": {
+   "text": "مُسْتَقَرٌّ",
+   "archiveFile": "elifba/sedde/uygulama/okuma/مُسْتَقَرٌّ__btn_9.mp3",
+   "sha256": "c8b92118cc7af17866dd7e1d258fb951681fc7ba8bead19af905c7569594bbcc"
+  },
+  "sedde-ornek/3.mp3": {
+   "text": "تَطَّلِعُ",
+   "archiveFile": "elifba/sedde/uygulama/okuma/تَطَّلِعُ__btn_6.mp3",
+   "sha256": "00a835737ce7f97410d10f4b978db4b3c4f0e496a13b663a8e2c02ff2bb40daa"
+  },
+  "sedde-ornek/4.mp3": {
+   "text": "يُكَذِّبُ",
+   "archiveFile": "elifba/sedde/uygulama/okuma/يُكَذِّبُ__btn_8.mp3",
+   "sha256": "28ab4c4bdb4dc8cd5ef71b1420728c48bb7b4ea1201b10854ce852f7b1c44f64"
+  },
+  "sedde-ornek/5.mp3": {
+   "text": "كُلٌّ",
+   "archiveFile": "elifba/sedde/uygulama/okuma/كُلٌّ__btn_3.mp3",
+   "sha256": "86c52908292005b233c9c834f569f5ceaea221a70815837b93d397389fbfdc18"
+  },
+  "sedde-ornek/6.mp3": {
+   "text": "يَمُدُّهُمْ",
+   "archiveFile": "elifba/sedde/uygulama/okuma/يَمُدُّهُمْ__btn_7.mp3",
+   "sha256": "a0fda0133953776a6dd8d8616a67b334496cb4316b00051bd3fa77654b520628"
   }
  },
  "kelime": {
@@ -2060,5 +3607,690 @@
   "4": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/uygulama/btn_11.mp3",
   "5": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/kesranin-tenvini/uygulama/btn_1.mp3",
   "6": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha-tenvin/uygulama/btn_14.mp3"
+ },
+ "sedde": {
+  "0-0": [
+   "cezm/00.mp3",
+   "hece/00-0.mp3"
+  ],
+  "0-1": [
+   "cezm/00.mp3",
+   "hece/00-1.mp3"
+  ],
+  "0-2": [
+   "cezm/00.mp3",
+   "hece/00-2.mp3"
+  ],
+  "1-0": [
+   "cezm/01.mp3",
+   "hece/01-0.mp3"
+  ],
+  "1-1": [
+   "cezm/01.mp3",
+   "hece/01-1.mp3"
+  ],
+  "1-2": [
+   "cezm/01.mp3",
+   "hece/01-2.mp3"
+  ],
+  "2-0": [
+   "cezm/02.mp3",
+   "hece/02-0.mp3"
+  ],
+  "2-1": [
+   "cezm/02.mp3",
+   "hece/02-1.mp3"
+  ],
+  "2-2": [
+   "cezm/02.mp3",
+   "hece/02-2.mp3"
+  ],
+  "3-0": [
+   "cezm/03.mp3",
+   "hece/03-0.mp3"
+  ],
+  "3-1": [
+   "cezm/03.mp3",
+   "hece/03-1.mp3"
+  ],
+  "3-2": [
+   "cezm/03.mp3",
+   "hece/03-2.mp3"
+  ],
+  "4-0": [
+   "cezm/04.mp3",
+   "hece/04-0.mp3"
+  ],
+  "4-1": [
+   "cezm/04.mp3",
+   "hece/04-1.mp3"
+  ],
+  "4-2": [
+   "cezm/04.mp3",
+   "hece/04-2.mp3"
+  ],
+  "5-0": [
+   "cezm/05.mp3",
+   "hece/05-0.mp3"
+  ],
+  "5-1": [
+   "cezm/05.mp3",
+   "hece/05-1.mp3"
+  ],
+  "5-2": [
+   "cezm/05.mp3",
+   "hece/05-2.mp3"
+  ],
+  "6-0": [
+   "cezm/06.mp3",
+   "hece/06-0.mp3"
+  ],
+  "6-1": [
+   "cezm/06.mp3",
+   "hece/06-1.mp3"
+  ],
+  "6-2": [
+   "cezm/06.mp3",
+   "hece/06-2.mp3"
+  ],
+  "7-0": [
+   "cezm/07.mp3",
+   "hece/07-0.mp3"
+  ],
+  "7-1": [
+   "cezm/07.mp3",
+   "hece/07-1.mp3"
+  ],
+  "7-2": [
+   "cezm/07.mp3",
+   "hece/07-2.mp3"
+  ],
+  "8-0": [
+   "cezm/08.mp3",
+   "hece/08-0.mp3"
+  ],
+  "8-1": [
+   "cezm/08.mp3",
+   "hece/08-1.mp3"
+  ],
+  "8-2": [
+   "cezm/08.mp3",
+   "hece/08-2.mp3"
+  ],
+  "9-0": [
+   "cezm/09.mp3",
+   "hece/09-0.mp3"
+  ],
+  "9-1": [
+   "cezm/09.mp3",
+   "hece/09-1.mp3"
+  ],
+  "9-2": [
+   "cezm/09.mp3",
+   "hece/09-2.mp3"
+  ],
+  "10-0": [
+   "cezm/10.mp3",
+   "hece/10-0.mp3"
+  ],
+  "10-1": [
+   "cezm/10.mp3",
+   "hece/10-1.mp3"
+  ],
+  "10-2": [
+   "cezm/10.mp3",
+   "hece/10-2.mp3"
+  ],
+  "11-0": [
+   "cezm/11.mp3",
+   "hece/11-0.mp3"
+  ],
+  "11-1": [
+   "cezm/11.mp3",
+   "hece/11-1.mp3"
+  ],
+  "11-2": [
+   "cezm/11.mp3",
+   "hece/11-2.mp3"
+  ],
+  "12-0": [
+   "cezm/12.mp3",
+   "hece/12-0.mp3"
+  ],
+  "12-1": [
+   "cezm/12.mp3",
+   "hece/12-1.mp3"
+  ],
+  "12-2": [
+   "cezm/12.mp3",
+   "hece/12-2.mp3"
+  ],
+  "13-0": [
+   "cezm/13.mp3",
+   "hece/13-0.mp3"
+  ],
+  "13-1": [
+   "cezm/13.mp3",
+   "hece/13-1.mp3"
+  ],
+  "13-2": [
+   "cezm/13.mp3",
+   "hece/13-2.mp3"
+  ],
+  "14-0": [
+   "cezm/14.mp3",
+   "hece/14-0.mp3"
+  ],
+  "14-1": [
+   "cezm/14.mp3",
+   "hece/14-1.mp3"
+  ],
+  "14-2": [
+   "cezm/14.mp3",
+   "hece/14-2.mp3"
+  ],
+  "15-0": [
+   "cezm/15.mp3",
+   "hece/15-0.mp3"
+  ],
+  "15-1": [
+   "cezm/15.mp3",
+   "hece/15-1.mp3"
+  ],
+  "15-2": [
+   "cezm/15.mp3",
+   "hece/15-2.mp3"
+  ],
+  "16-0": [
+   "cezm/16.mp3",
+   "hece/16-0.mp3"
+  ],
+  "16-1": [
+   "cezm/16.mp3",
+   "hece/16-1.mp3"
+  ],
+  "16-2": [
+   "cezm/16.mp3",
+   "hece/16-2.mp3"
+  ],
+  "17-0": [
+   "cezm/17.mp3",
+   "hece/17-0.mp3"
+  ],
+  "17-1": [
+   "cezm/17.mp3",
+   "hece/17-1.mp3"
+  ],
+  "17-2": [
+   "cezm/17.mp3",
+   "hece/17-2.mp3"
+  ],
+  "18-0": [
+   "cezm/18.mp3",
+   "hece/18-0.mp3"
+  ],
+  "18-1": [
+   "cezm/18.mp3",
+   "hece/18-1.mp3"
+  ],
+  "18-2": [
+   "cezm/18.mp3",
+   "hece/18-2.mp3"
+  ],
+  "19-0": [
+   "cezm/19.mp3",
+   "hece/19-0.mp3"
+  ],
+  "19-1": [
+   "cezm/19.mp3",
+   "hece/19-1.mp3"
+  ],
+  "19-2": [
+   "cezm/19.mp3",
+   "hece/19-2.mp3"
+  ],
+  "20-0": [
+   "cezm/20.mp3",
+   "hece/20-0.mp3"
+  ],
+  "20-1": [
+   "cezm/20.mp3",
+   "hece/20-1.mp3"
+  ],
+  "20-2": [
+   "cezm/20.mp3",
+   "hece/20-2.mp3"
+  ],
+  "21-0": [
+   "cezm/21.mp3",
+   "hece/21-0.mp3"
+  ],
+  "21-1": [
+   "cezm/21.mp3",
+   "hece/21-1.mp3"
+  ],
+  "21-2": [
+   "cezm/21.mp3",
+   "hece/21-2.mp3"
+  ],
+  "22-0": [
+   "cezm/22.mp3",
+   "hece/22-0.mp3"
+  ],
+  "22-1": [
+   "cezm/22.mp3",
+   "hece/22-1.mp3"
+  ],
+  "22-2": [
+   "cezm/22.mp3",
+   "hece/22-2.mp3"
+  ],
+  "23-0": [
+   "cezm/23.mp3",
+   "hece/23-0.mp3"
+  ],
+  "23-1": [
+   "cezm/23.mp3",
+   "hece/23-1.mp3"
+  ],
+  "23-2": [
+   "cezm/23.mp3",
+   "hece/23-2.mp3"
+  ],
+  "24-0": [
+   "cezm/24.mp3",
+   "hece/24-0.mp3"
+  ],
+  "24-1": [
+   "cezm/24.mp3",
+   "hece/24-1.mp3"
+  ],
+  "24-2": [
+   "cezm/24.mp3",
+   "hece/24-2.mp3"
+  ],
+  "25-0": [
+   "cezm/25.mp3",
+   "hece/25-0.mp3"
+  ],
+  "25-1": [
+   "cezm/25.mp3",
+   "hece/25-1.mp3"
+  ],
+  "25-2": [
+   "cezm/25.mp3",
+   "hece/25-2.mp3"
+  ],
+  "26-0": [
+   "cezm/26.mp3",
+   "hece/26-0.mp3"
+  ],
+  "26-1": [
+   "cezm/26.mp3",
+   "hece/26-1.mp3"
+  ],
+  "26-2": [
+   "cezm/26.mp3",
+   "hece/26-2.mp3"
+  ],
+  "27-0": [
+   "cezm/27.mp3",
+   "hece/27-0.mp3"
+  ],
+  "27-1": [
+   "cezm/27.mp3",
+   "hece/27-1.mp3"
+  ],
+  "27-2": [
+   "cezm/27.mp3",
+   "hece/27-2.mp3"
+  ]
+ },
+ "seddesiz": {
+  "0-0": [
+   "hece/01-1.mp3",
+   "hece/00-0.mp3"
+  ],
+  "0-1": [
+   "hece/01-1.mp3",
+   "hece/00-1.mp3"
+  ],
+  "0-2": [
+   "hece/01-1.mp3",
+   "hece/00-2.mp3"
+  ],
+  "1-0": [
+   "hece/02-1.mp3",
+   "hece/01-0.mp3"
+  ],
+  "1-1": [
+   "hece/02-1.mp3",
+   "hece/01-1.mp3"
+  ],
+  "1-2": [
+   "hece/02-1.mp3",
+   "hece/01-2.mp3"
+  ],
+  "2-0": [
+   "hece/23-2.mp3",
+   "hece/02-0.mp3"
+  ],
+  "2-1": [
+   "hece/23-2.mp3",
+   "hece/02-1.mp3"
+  ],
+  "2-2": [
+   "hece/23-2.mp3",
+   "hece/02-2.mp3"
+  ],
+  "3-0": [
+   "hece/26-0.mp3",
+   "hece/03-0.mp3"
+  ],
+  "3-1": [
+   "hece/26-0.mp3",
+   "hece/03-1.mp3"
+  ],
+  "3-2": [
+   "hece/26-0.mp3",
+   "hece/03-2.mp3"
+  ],
+  "4-0": [
+   "hece/27-0.mp3",
+   "hece/04-0.mp3"
+  ],
+  "4-1": [
+   "hece/27-0.mp3",
+   "hece/04-1.mp3"
+  ],
+  "4-2": [
+   "hece/27-0.mp3",
+   "hece/04-2.mp3"
+  ],
+  "5-0": [
+   "hece/27-0.mp3",
+   "hece/05-0.mp3"
+  ],
+  "5-1": [
+   "hece/27-0.mp3",
+   "hece/05-1.mp3"
+  ],
+  "5-2": [
+   "hece/27-0.mp3",
+   "hece/05-2.mp3"
+  ],
+  "6-0": [
+   "hece/11-1.mp3",
+   "hece/06-0.mp3"
+  ],
+  "6-1": [
+   "hece/11-1.mp3",
+   "hece/06-1.mp3"
+  ],
+  "6-2": [
+   "hece/11-1.mp3",
+   "hece/06-2.mp3"
+  ],
+  "7-0": [
+   "hece/20-0.mp3",
+   "hece/07-0.mp3"
+  ],
+  "7-1": [
+   "hece/20-0.mp3",
+   "hece/07-1.mp3"
+  ],
+  "7-2": [
+   "hece/20-0.mp3",
+   "hece/07-2.mp3"
+  ],
+  "8-0": [
+   "hece/17-2.mp3",
+   "hece/08-0.mp3"
+  ],
+  "8-1": [
+   "hece/17-2.mp3",
+   "hece/08-1.mp3"
+  ],
+  "8-2": [
+   "hece/17-2.mp3",
+   "hece/08-2.mp3"
+  ],
+  "9-0": [
+   "hece/13-1.mp3",
+   "hece/09-0.mp3"
+  ],
+  "9-1": [
+   "hece/13-1.mp3",
+   "hece/09-1.mp3"
+  ],
+  "9-2": [
+   "hece/13-1.mp3",
+   "hece/09-2.mp3"
+  ],
+  "10-0": [
+   "hece/25-0.mp3",
+   "hece/10-0.mp3"
+  ],
+  "10-1": [
+   "hece/25-0.mp3",
+   "hece/10-1.mp3"
+  ],
+  "10-2": [
+   "hece/25-0.mp3",
+   "hece/10-2.mp3"
+  ],
+  "11-0": [
+   "hece/01-1.mp3",
+   "hece/11-0.mp3"
+  ],
+  "11-1": [
+   "hece/01-1.mp3",
+   "hece/11-1.mp3"
+  ],
+  "11-2": [
+   "hece/01-1.mp3",
+   "hece/11-2.mp3"
+  ],
+  "12-0": [
+   "hece/06-0.mp3",
+   "hece/12-0.mp3"
+  ],
+  "12-1": [
+   "hece/06-0.mp3",
+   "hece/12-1.mp3"
+  ],
+  "12-2": [
+   "hece/06-0.mp3",
+   "hece/12-2.mp3"
+  ],
+  "13-0": [
+   "hece/19-0.mp3",
+   "hece/13-0.mp3"
+  ],
+  "13-1": [
+   "hece/19-0.mp3",
+   "hece/13-1.mp3"
+  ],
+  "13-2": [
+   "hece/19-0.mp3",
+   "hece/13-2.mp3"
+  ],
+  "14-0": [
+   "hece/09-1.mp3",
+   "hece/14-0.mp3"
+  ],
+  "14-1": [
+   "hece/09-1.mp3",
+   "hece/14-1.mp3"
+  ],
+  "14-2": [
+   "hece/09-1.mp3",
+   "hece/14-2.mp3"
+  ],
+  "15-0": [
+   "hece/12-0.mp3",
+   "hece/15-0.mp3"
+  ],
+  "15-1": [
+   "hece/12-0.mp3",
+   "hece/15-1.mp3"
+  ],
+  "15-2": [
+   "hece/12-0.mp3",
+   "hece/15-2.mp3"
+  ],
+  "16-0": [
+   "hece/02-2.mp3",
+   "hece/16-0.mp3"
+  ],
+  "16-1": [
+   "hece/02-2.mp3",
+   "hece/16-1.mp3"
+  ],
+  "16-2": [
+   "hece/02-2.mp3",
+   "hece/16-2.mp3"
+  ],
+  "17-0": [
+   "hece/24-0.mp3",
+   "hece/17-0.mp3"
+  ],
+  "17-1": [
+   "hece/24-0.mp3",
+   "hece/17-1.mp3"
+  ],
+  "17-2": [
+   "hece/24-0.mp3",
+   "hece/17-2.mp3"
+  ],
+  "18-0": [
+   "hece/23-0.mp3",
+   "hece/18-0.mp3"
+  ],
+  "18-1": [
+   "hece/23-0.mp3",
+   "hece/18-1.mp3"
+  ],
+  "18-2": [
+   "hece/23-0.mp3",
+   "hece/18-2.mp3"
+  ],
+  "19-0": [
+   "hece/18-2.mp3",
+   "hece/19-0.mp3"
+  ],
+  "19-1": [
+   "hece/18-2.mp3",
+   "hece/19-1.mp3"
+  ],
+  "19-2": [
+   "hece/18-2.mp3",
+   "hece/19-2.mp3"
+  ],
+  "20-0": [
+   "hece/19-0.mp3",
+   "hece/20-0.mp3"
+  ],
+  "20-1": [
+   "hece/19-0.mp3",
+   "hece/20-1.mp3"
+  ],
+  "20-2": [
+   "hece/19-0.mp3",
+   "hece/20-2.mp3"
+  ],
+  "21-0": [
+   "hece/09-0.mp3",
+   "hece/21-0.mp3"
+  ],
+  "21-1": [
+   "hece/09-0.mp3",
+   "hece/21-1.mp3"
+  ],
+  "21-2": [
+   "hece/09-0.mp3",
+   "hece/21-2.mp3"
+  ],
+  "22-0": [
+   "hece/10-2.mp3",
+   "hece/22-0.mp3"
+  ],
+  "22-1": [
+   "hece/10-2.mp3",
+   "hece/22-1.mp3"
+  ],
+  "22-2": [
+   "hece/10-2.mp3",
+   "hece/22-2.mp3"
+  ],
+  "23-0": [
+   "hece/26-2.mp3",
+   "hece/23-0.mp3"
+  ],
+  "23-1": [
+   "hece/26-2.mp3",
+   "hece/23-1.mp3"
+  ],
+  "23-2": [
+   "hece/26-2.mp3",
+   "hece/23-2.mp3"
+  ],
+  "24-0": [
+   "hece/23-0.mp3",
+   "hece/24-0.mp3"
+  ],
+  "24-1": [
+   "hece/23-0.mp3",
+   "hece/24-1.mp3"
+  ],
+  "24-2": [
+   "hece/23-0.mp3",
+   "hece/24-2.mp3"
+  ],
+  "25-0": [
+   "hece/00-0.mp3",
+   "hece/25-0.mp3"
+  ],
+  "25-1": [
+   "hece/00-0.mp3",
+   "hece/25-1.mp3"
+  ],
+  "25-2": [
+   "hece/00-0.mp3",
+   "hece/25-2.mp3"
+  ],
+  "26-0": [
+   "hece/13-1.mp3",
+   "hece/26-0.mp3"
+  ],
+  "26-1": [
+   "hece/13-1.mp3",
+   "hece/26-1.mp3"
+  ],
+  "26-2": [
+   "hece/13-1.mp3",
+   "hece/26-2.mp3"
+  ],
+  "27-0": [
+   "hece/25-0.mp3",
+   "hece/27-0.mp3"
+  ],
+  "27-1": [
+   "hece/25-0.mp3",
+   "hece/27-1.mp3"
+  ],
+  "27-2": [
+   "hece/25-0.mp3",
+   "hece/27-2.mp3"
+  ]
+ },
+ "seddeOrnek": {
+  "0": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/sedde/uygulama/btn_5.mp3",
+  "1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/sedde/uygulama/btn_2.mp3",
+  "2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/sedde/uygulama/btn_9.mp3",
+  "3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/sedde/uygulama/btn_6.mp3",
+  "4": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/sedde/uygulama/btn_8.mp3",
+  "5": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/sedde/uygulama/btn_3.mp3",
+  "6": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/sedde/uygulama/btn_7.mp3"
  }
 }
