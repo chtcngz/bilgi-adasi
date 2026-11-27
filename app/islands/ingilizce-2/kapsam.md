@@ -101,7 +101,7 @@ ilgili durağın sonuna eklenir. Ünitelere ait olmayan baş sayfaların ve sond
 - s. 107 · Kesilecek sayfa (cut-outs): okul, kişiler ve yerler, günler. → okul:52
 - s. 129 · big = büyük → okul:56
 - s. 129 · clap = alkışlamak → okul:57, okul:114, okul:119, okul:126
-- s. 129 · day = gün → okul:58
+- s. 129 · day = gün → okul:58, okul:142, okul:144
 - s. 129 · excuse me = affedersiniz → okul:59
 - s. 129 · fine = iyi → okul:60
 - s. 129 · finish = bitirmek → okul:61, okul:120, okul:124
@@ -122,7 +122,7 @@ ilgili durağın sonuna eklenir. Ünitelere ait olmayan baş sayfaların ve sond
 - s. 129 · today = bugün → okul:76
 - s. 129 · together = birlikte → okul:77
 - s. 129 · wait = beklemek → okul:78, okul:111, okul:116, okul:123
-- s. 129 · week = hafta → okul:79
+- s. 129 · week = hafta → okul:79, okul:143, okul:145
 - s. 129 · what = ne → okul:80
 - s. 129 · where = nerede → okul:81
 - s. 129 · who = kim → okul:82

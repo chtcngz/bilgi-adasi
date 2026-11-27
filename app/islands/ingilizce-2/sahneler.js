@@ -109,5 +109,11 @@ const ingilizce2Sahneler = {
       sekil: [[682, 235, 108, 413]] },
     { en: 'Sunday', bul: 'It’s Sunday today. Find Sunday!', bu: 'No! It isn’t Sunday today.',
       sekil: [[790, 235, 102, 413]] }
+  ] },
+  gunHafta: { resim: 'assets/images/ingilizce/sahne/gun-hafta.webp', w: 1248, h: 832, yerler: [
+    { en: 'day', bul: 'Find “day”!', bu: 'No! This is a day.',
+      sekil: [[358, 150, 230, 350]] },
+    { en: 'week', bul: 'Find “week”!', bu: 'No! This is a week.',
+      sekil: [[600, 128, 460, 392]] }
   ] }
 };

@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.80.0 · 27.11.2026
+
+- **Gün ve hafta (day, week):** 1. adada (Okul Hayatı) Gizli Kelimeler'e yeni bir resim geldi: öğretmen tahtada “one day” (bir gün, tek takvim yaprağı) ile “one week”i (bir hafta, yedi yaprak) gösteriyor. Ses “Find “day”!” diyor ve cümle üstte yazıyor; çocuk tek yaprağa dokununca doğru, haftaya dokununca ses “No! This is a week.” diyor. Bir de “day” ve “week” için yeni tek resimler ve “Resme bak” soruları eklendi. Adaya 4 yeni soru geldi.
+
 ## 0.79.0 · 27.11.2026
 
 - **Gizli Kelimeler'de haftalık pano:** 1. adada (Okul Hayatı) yeni bir resim var: sınıftaki “OUR WEEK” panosu. Bu resimde hiçbir şey yazılmıyor, yalnızca ses var: ses “It’s Wednesday today. Find Wednesday!” diyor, çocuk panoda o güne dokunuyor. Başka bir güne dokunursa ses “No! It isn’t Sunday today.” (Hayır, bugün pazar değil) diyor ve günü yeniden söylüyor. Haftanın yedi günü için 7 yeni soru eklendi.
