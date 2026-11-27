@@ -67,5 +67,29 @@ const ingilizce2Sahneler = {
         [0, 8, 305, 8, 305, 262, 0, 245], [0, 412, 118, 200], [892, 505, 150, 132]] },
     { en: 'sports hall', bul: 'Find the sports hall!', bu: 'No! This is the sports hall.',
       sekil: [[380, 118, 650, 158], [0, 0, 1248, 832]] }
+  ] },
+  eylem1: { resim: 'assets/images/ingilizce/sahne/eylem-1.webp', w: 1248, h: 832, yerler: [
+    { en: 'wait', bul: 'Find “wait”!', bu: 'No! This is “wait”.',
+      sekil: [[0, 320, 185, 280]] },
+    { en: 'meet', bul: 'Find “meet”!', bu: 'No! This is “meet”.',
+      sekil: [[185, 325, 290, 388]] },
+    { en: 'jump', bul: 'Find “jump”!', bu: 'No! This is “jump”.',
+      sekil: [[480, 285, 215, 315]] },
+    { en: 'clap', bul: 'Find “clap”!', bu: 'No! This is “clap”.',
+      sekil: [[725, 360, 160, 340]] },
+    { en: 'start', bul: 'Find “start”!', bu: 'No! This is “start”.',
+      sekil: [[915, 470, 215, 240], [1150, 610, 65, 115]] }
+  ] },
+  eylem2: { resim: 'assets/images/ingilizce/sahne/eylem-2.webp', w: 1248, h: 832, yerler: [
+    { en: 'wait', bul: 'Find “wait”!', bu: 'No! This is “wait”.',
+      sekil: [[40, 300, 225, 380], [90, 195, 115, 105]] },
+    { en: 'sing', bul: 'Find “sing”!', bu: 'No! This is “sing”.',
+      sekil: [[280, 240, 180, 470]] },
+    { en: 'jump', bul: 'Find “jump”!', bu: 'No! This is “jump”.',
+      sekil: [[450, 270, 295, 390]] },
+    { en: 'clap', bul: 'Find “clap”!', bu: 'No! This is “clap”.',
+      sekil: [[748, 315, 155, 395]] },
+    { en: 'finish', bul: 'Find “finish”!', bu: 'No! This is “finish”.',
+      sekil: [[940, 320, 250, 400], [955, 195, 265, 100]] }
   ] }
 };

@@ -100,28 +100,28 @@ ilgili durağın sonuna eklenir. Ünitelere ait olmayan baş sayfaların ve sond
 - s. 26 · Oyun kutuları: Great job. → okul:55
 - s. 107 · Kesilecek sayfa (cut-outs): okul, kişiler ve yerler, günler. → okul:52
 - s. 129 · big = büyük → okul:56
-- s. 129 · clap = alkışlamak → okul:57
+- s. 129 · clap = alkışlamak → okul:57, okul:114, okul:119, okul:126
 - s. 129 · day = gün → okul:58
 - s. 129 · excuse me = affedersiniz → okul:59
 - s. 129 · fine = iyi → okul:60
-- s. 129 · finish = bitirmek → okul:61
+- s. 129 · finish = bitirmek → okul:61, okul:120, okul:124
 - s. 129 · friend = arkadaş → okul:62, okul:95
 - s. 129 · girl = kız çocuk → okul:63, okul:94, okul:97
 - s. 129 · hello = merhaba → okul:64
 - s. 129 · hi = selam → okul:65
 - s. 129 · how = nasıl → okul:66
-- s. 129 · jump = zıplamak → okul:67
+- s. 129 · jump = zıplamak → okul:67, okul:113, okul:118
 - s. 129 · kid = çocuk → okul:68, okul:98
-- s. 129 · meet = tanışmak → okul:69
+- s. 129 · meet = tanışmak → okul:69, okul:112, okul:121
 - s. 129 · name = isim → okul:70
 - s. 129 · people = insanlar → okul:71, okul:105
 - s. 129 · place = yer → okul:72
-- s. 129 · sing = şarkı söylemek → okul:73
-- s. 129 · start = başlamak → okul:74
+- s. 129 · sing = şarkı söylemek → okul:73, okul:117, okul:125
+- s. 129 · start = başlamak → okul:74, okul:115, okul:122
 - s. 129 · thank you = teşekkür ederim → okul:75
 - s. 129 · today = bugün → okul:76
 - s. 129 · together = birlikte → okul:77
-- s. 129 · wait = beklemek → okul:78
+- s. 129 · wait = beklemek → okul:78, okul:111, okul:116, okul:123
 - s. 129 · week = hafta → okul:79
 - s. 129 · what = ne → okul:80
 - s. 129 · where = nerede → okul:81

@@ -57,7 +57,9 @@
     'year-2', 'mr-aras', 'board-2-moon', 'black', 'white', 'coloured-pencil', 'exercise', 'colours', 'tablet', 'board', 'dark-night',
     'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen',
     'sixteen', 'seventeen', 'eighteen', 'nineteen', 'twenty', 'giraffe', 'tall-short-2', 'short-tall-3', 'son', 'lemon', 'old', 'all-right',
-    'nice', 'very'
+    'nice', 'very',
+    // action words (School Life): second pictures
+    'meet-3', 'start-2', 'wait-4', 'finish-2', 'sing-2', 'clap-2'
   ];
   const more = {};
   for (const name of names) {
