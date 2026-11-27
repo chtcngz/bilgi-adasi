@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.94.0 · 27.11.2026
+
+- **English, Selamlaşma istasyonu büyüdü:** 26 yeni soruyla istasyonda artık 42 kelime ve kalıp var. Yeni olanlar: bye-bye, see you later, see you soon, take care, Have a nice day!, friend, Welcome!, I am good, I am great, I am okay, And you?, thanks, Thank you very much!, I am sorry, yes, no. “Welcome!” (Hoş geldin) ile “You’re welcome!” (Rica ederim) farkını soran bir soru da var.
+- Selamlaşma’nın Keşif Kartı’na friend, welcome, yes ve no eklendi.
+
 ## 0.93.0 · 27.11.2026
 
 - **Yeni site: English for Kids.** Çocuklara İngilizce öğreten ada oyunu artık kendi adresinde: **…/bilgi-adasi/english/**. Oyuncular, ilerleme ve akvaryum Bilgi Adası ile ortak; aynı çocuk aynı oyuncuyla girer. Haritada yalnızca English Koyu var.

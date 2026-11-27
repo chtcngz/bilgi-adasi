@@ -22,6 +22,11 @@ sonra onu soran soru `sorular.js`’in sonuna eklenir ve `istasyonlar.js`’te b
 - goodbye = hoşça kal → ilk:6, ilk:20
 - bye = hoşça kal (kısaca) → ilk:7
 - see you / See you tomorrow! = görüşürüz / yarın görüşürüz → ilk:8, ilk:20
+- bye-bye = bay bay, hoşça kal → ilk:172
+- see you later = sonra görüşürüz → ilk:173, ilk:174
+- see you soon = yakında görüşürüz → ilk:175
+- take care = kendine iyi bak → ilk:176, ilk:177
+- Have a nice day! = İyi günler! → ilk:178, ilk:179
 
 ### Tanışma
 
@@ -35,14 +40,25 @@ sonra onu soran soru `sorular.js`’in sonuna eklenir ve `istasyonlar.js`’te b
 - fine / I’m fine, thank you. = iyi / İyiyim, teşekkür ederim. → ilk:16, ilk:32
 - How old are you? / I’m … years old. = Kaç yaşındasın? / … yaşındayım. → ilk:33, ilk:34
 - This is my friend … = Bu benim arkadaşım … (tanıştırma) → ilk:35
+- friend = arkadaş → ilk:180, ilk:181
+- Welcome! = Hoş geldin! (You’re welcome! ile karıştırmamak) → ilk:182, ilk:183, ilk:184
+- I am good. = İyiyim. → ilk:185, ilk:188
+- I am great! = Harikayım! → ilk:186, ilk:188
+- I am okay. = Fena değilim, iyiyim. → ilk:187, ilk:188
+- And you? = Ya sen? → ilk:189, ilk:190
 
 ### Nezaket sözcükleri
 
 - please = lütfen → ilk:9, ilk:25
 - thank you = teşekkür ederim → ilk:10, ilk:21
-- you’re welcome = rica ederim → ilk:11, ilk:22
+- you’re welcome = rica ederim → ilk:11, ilk:22, ilk:183
 - sorry = özür dilerim → ilk:12, ilk:23
 - excuse me = affedersiniz → ilk:13, ilk:24
+- thanks = teşekkürler → ilk:190, ilk:191
+- Thank you very much! = Çok teşekkür ederim! → ilk:192
+- I am sorry. = Özür dilerim. (Sorry! = Pardon!) → ilk:193
+- yes = evet; Yes, I am. → ilk:194, ilk:196
+- no = hayır; No, I am not. → ilk:195, ilk:197
 
 ## 2. Alphabet (Alfabe)
 
