@@ -5,9 +5,10 @@
 // In Harf Yağmuru letters rain from the clouds into the sea; in Hece Balonları syllables with
 // their harekes rise from the sea up into the clouds; in Şekil Yağmuru harekeli letters rain in their
 // joined shapes, each drop of a syllable in another one (at the start, in the middle, at the end); in Cezm
-// Balonları syllables with a cezm rise as balloons.
+// Balonları syllables with a cezm rise as balloons, in Tenvin Balonları letters with a tenvin, among the same
+// letters with the hareke alone.
 const elifListeningGame = (() => {
-  const { glyphs, names, readings, harekeler, syllable, twins, shape, cezm, cezmReadings, cezmAlike } = elifData;
+  const { glyphs, names, readings, harekeler, syllable, twins, shape, cezm, cezmReadings, cezmAlike, tenvin, tenvinler, tenvinReading } = elifData;
   const voice = elifVoice;
   const dialog = $('elif-rain');
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
@@ -108,6 +109,30 @@ const elifListeningGame = (() => {
         say: 'Cezm Balonları! Kaplumbağa cezimli bir hece okuyacak. O hecenin balonunu patlat. Başlamak için yeşil düğmeye bas.',
         intro: 'Kaplumbağa cezimli bir hece okuyacak: o hecenin balonunu patlat, hemen yeni hece gelsin. Her hece altı kez gelir. 24 heceyi bitirince ' +
           'yoluna devam edersin; hiç can kaybetmezsen üç yıldız! Canların biterse oyun baştan başlar.',
+        unit: 'hece', piece: 'balon patlat', pool: 'Oyundaki heceler' }
+    },
+    tenvin: {
+      rising: true, label: 'Tenvin Balonları', title: 'Tenvin <em>Balonları</em>',
+      // k < 84: letter * 3 + tenvin (بٍ, "Be iki esre"); from 84 on, the same letter with the hareke alone
+      // (84 + letter * 3 + hareke, بِ), only ever a balloon not to pop
+      text: k => k < 84 ? tenvin(Math.floor(k / 3), k % 3) : syllable(Math.floor((k - 84) / 3), k % 3),
+      sound: k => k < 84 ? tenvinReading(Math.floor(k / 3), k % 3) : readings[Math.floor((k - 84) / 3)][k % 3],
+      name: k => k < 84 ? names[Math.floor(k / 3)] + ' ' + tenvinler[k % 3].name.toLocaleLowerCase('tr') :
+        names[Math.floor((k - 84) / 3)] + ' ' + harekeler[k % 3].name.toLocaleLowerCase('tr'),
+      speak: (k, note, end) => k < 84 ? voice.tenvin(Math.floor(k / 3), k % 3, note, end) : voice.syllable(Math.floor((k - 84) / 3), k % 3, note, end),
+      group: k => Math.floor(k % 84 / 3), decoy: k => k >= 84,
+      // the same letter with the hareke alone (bi for bin), then its other tenvins
+      alike: k => [84 + k, ...[0, 1, 2].map(h => k - k % 3 + h).filter(j => j !== k)], alikeFrom: 1, alikeChance: 0.5,
+      preload: letters => voice.preload([...new Set(letters.map(k => Math.floor(k % 84 / 3)))], false, false, false, true),
+      t: { listen: 'Heceyi tekrar dinle', slots: 'Bölümün heceleri', first: '👆 Duyduğun hecenin balonunu patlat', fresh: '🔊 Yeni hece',
+        freshSay: 'Yeni hece. Dinle.', allDone: '24 hecenin hepsini patlattın.', whole: 'Hiç can kaybetmeden 24 balonun hepsini patlattın!',
+        partly: '24 hecenin hepsini patlattın ama ', recap: 'Patlattığın heceler · dokun, dinle', chip: ' hecesini dinle',
+        some: ' heceyi patlattın. ', none: 'Sesi dikkatle dinle, sonra o hecenin balonunu patlat. ',
+        say: 'Tenvin Balonları! Kaplumbağa tenvinli bir hece okuyacak. O hecenin balonunu patlat. Sonundaki n sesine dikkat et. ' +
+          'Başlamak için yeşil düğmeye bas.',
+        intro: 'Kaplumbağa tenvinli bir hece okuyacak: o hecenin balonunu patlat, hemen yeni hece gelsin. Balonların bazılarında tenvin yok, ' +
+          'yalnızca hareke var: onlara dikkat et! Her harf altı kez gelir, her tenvini iki kez. 24 heceyi bitirince yoluna devam edersin; ' +
+          'hiç can kaybetmezsen üç yıldız! Canların biterse oyun baştan başlar.',
         unit: 'hece', piece: 'balon patlat', pool: 'Oyundaki heceler' }
     }
   };
@@ -811,7 +836,7 @@ const elifListeningGame = (() => {
   function intro() {
     state = 'intro';
     const best = options.best();
-    const sample = shuffled(options.letters).slice(0, 3);
+    const sample = shuffled(options.letters.filter(i => !kind.decoy?.(i))).slice(0, 3);
     showCard('<div class="rain-card intro"><div class="rain-intro-art" aria-hidden="true">' + sample.map((i, n) =>
       '<span class="rain-drop t' + [0, 4, 1][n] + '"><span class="rain-drop-in">' + (kind.rising ? '<i class="rain-string"></i>' : '') +
       '<i class="rain-drop-skin"></i>' + glyph(i) + '</span></span>').join('') +
@@ -819,7 +844,7 @@ const elifListeningGame = (() => {
       '<p>' + kind.t.intro + '</p>' +
       '<ul class="rain-facts"><li><b>' + new Set(game.plan).size + '</b><span>' + kind.t.unit + '</span></li><li><b>' + ROUND + '</b><span>' + kind.t.piece + '</span></li>' +
       '<li><b>3</b><span>can</span></li></ul>' +
-      '<div class="rain-pool" aria-label="' + kind.t.pool + '">' + options.letters.map(i => '<b lang="ar" title="' + kind.name(i) + '">' + kind.text(i) + '</b>').join('') + '</div>' +
+      '<div class="rain-pool" aria-label="' + kind.t.pool + '">' + options.letters.filter(i => !kind.decoy?.(i)).map(i => '<b lang="ar" title="' + kind.name(i) + '">' + kind.text(i) + '</b>').join('') + '</div>' +
       (best.tamam ? '<p class="rain-record">✅ Bölümü tamamladın · 🏆 ' + best.rekor + ' puan</p>' :
         best.rekor ? '<p class="rain-record">🏆 Rekorun: ' + best.rekor + ' puan</p>' : '') +
       '<button type="button" class="rain-go" data-cue>▶ Başla</button></div>');
@@ -871,7 +896,8 @@ const elifListeningGame = (() => {
     then?.();
   });
 
-  // kind: 'harf' (Harf Yağmuru, the default), 'hece' (Hece Balonları), 'sekil' (Şekil Yağmuru) or 'cezm' (Cezm Balonları);
+  // kind: 'harf' (Harf Yağmuru, the default), 'hece' (Hece Balonları), 'sekil' (Şekil Yağmuru), 'cezm' (Cezm Balonları) or
+  // 'tenvin' (Tenvin Balonları);
   // letters: learned letters (syllables) to play with; recent: the newest cove's, asked more often;
   // best(): the player's { rekor, yildiz, tamam }; onResult({ score, stars, finished }) keeps them;
   // next(): optional, { label, go } of the step after a game played to the end.

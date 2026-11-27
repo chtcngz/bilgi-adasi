@@ -37,6 +37,16 @@ const haritaSanat = (() => {
     '<path d="M-1.5-18-9-4H-1.5Z" fill="#ffd863"/></g></g>';
   const moon = (x, y, s = 1) => '<g class="map-moon" transform="translate(' + x + ' ' + y + ') scale(' + s + ')"><circle r="17" fill="#fff6b8" opacity=".45"/>' +
     '<path d="M4-12A13 13 0 1 0 4 12A10 10 0 1 1 4-12Z" fill="#ffe38a" stroke="#c98a1f" stroke-width="1.6"/></g>';
+  const sun = (x, y, s = 1) => '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')"><g class="map-sun"><circle r="20" fill="#fff3b0" opacity=".5"/>' +
+    '<g class="map-sun-rays" stroke="#ffc93c" stroke-width="3" stroke-linecap="round">' + Array.from({ length: 8 }, (_, n) => {
+      const a = n * Math.PI / 4, c = Math.cos(a), d = Math.sin(a);
+      return '<path d="M' + r1(c * 15) + ' ' + r1(d * 15) + 'L' + r1(c * 21) + ' ' + r1(d * 21) + '"/>';
+    }).join('') + '</g><circle r="11" fill="#ffd863" stroke="#f2a93b" stroke-width="2"/></g></g>';
+  // A dolphin leaping out of the water, facing right (flip: left).
+  const dolphin = (x, y, s = 1, flip = false) => '<g transform="translate(' + x + ' ' + y + ') scale(' + (flip ? -s : s) + ' ' + s + ')"><g class="map-dolphin">' +
+    '<path d="M-2-7-5-13 3-9Z" fill="#4f84cf"/><path d="M-12 7C-8-6 4-10 12-4L18-2 12-1C4-4-5 0-10 9L-14 12-13 7-18 4Z" fill="#5b93dd" stroke="#2d5c9e" stroke-width="1.4" stroke-linejoin="round"/>' +
+    '<path d="M0-3C4-4 8-3 11-1" fill="none" stroke="#dff0ff" stroke-width="1.6" stroke-linecap="round"/><circle cx="9" cy="-4" r="1.1" fill="#1d3557"/></g>' +
+    '<path class="map-splash" d="M-16 14q4-4 8 0M8 14q4-4 8 0" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></g>';
   const gulls = (x, y, s = 1) => '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')"><g class="map-gulls" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">' +
     '<path d="M-10 0q5-6 10 0q5-6 10 0"/><path d="M8-14q4-5 8 0q4-5 8 0"/></g></g>';
   const cloud = (x, y, s = 1) => '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')"><ellipse rx="34" ry="12" cy="4"/><circle cx="-14" cy="-4" r="13"/>' +
@@ -56,5 +66,5 @@ const haritaSanat = (() => {
     '<path d="M-12-16v-12M-12-26c-3-6-8-8-12-6M-12-26c3-6 8-8 12-6"/></g>' +
     '<path d="M-34 2C-34-16 6-20 22-6c6 5 12 0 16-10 4 8 2 16-6 20C14 14-34 16-34 2Z" fill="#3a7fa8"/>' +
     '<path d="M-30 6C-20 12 6 12 18 6C6 14-24 14-30 6Z" fill="#c7e6f2"/><circle cx="-22" cy="-4" r="2.4" fill="#173f40"/></g></g>';
-  return { r1, curve, pathOf, along, palm, lighthouse, rainbow, boat, moon, gulls, cloud, twinkle, mosque, wave, waves, sea, compass, whale };
+  return { r1, curve, pathOf, along, palm, lighthouse, rainbow, boat, moon, sun, dolphin, gulls, cloud, twinkle, mosque, wave, waves, sea, compass, whale };
 })();

@@ -398,7 +398,7 @@ function startAdmin() {
     box.ozet = '🐢 –';
     if (!record) { box.append(el('p', 'adm-empty', 'Henüz oynamadı.')); return box; }
     const arr = part => Array.from({ length: 28 }, (_, i) => num(record[part]?.[i]));
-    const parts = { harf: arr('harf'), hareke: arr('hareke'), bitisik: arr('bitisik'), cezm: arr('cezm') };
+    const parts = { harf: arr('harf'), hareke: arr('hareke'), bitisik: arr('bitisik'), cezm: arr('cezm'), tenvin: arr('tenvin') };
     const count = part => parts[part].filter(n => n >= E.mastery).length;
     const game = name => record[name] && typeof record[name] === 'object' ? record[name] : {};
     const koylar = name => (game(name).koylar || []).filter(Boolean).length;
@@ -409,6 +409,9 @@ function startAdmin() {
         .map(([label, done]) => ({ label: name + ' · ' + label, done }))
       : E.coveTopic(k) === 'cezm'
       ? [['Cezm', () => coveDone('cezm', k)], ['Cezm Balonları', () => game('cezmbalon').koylar?.[k]], ['Cam Köprü', () => game('kopru').koylar?.[k]]]
+        .map(([label, done]) => ({ label: name + ' · ' + label, done }))
+      : E.coveTopic(k) === 'tenvin'
+      ? [['Tenvin', () => coveDone('tenvin', k)], ['Tenvin Balonları', () => game('tenvinbalon').koylar?.[k]], ['Cam Köprü', () => game('kopru').koylar?.[k]]]
         .map(([label, done]) => ({ label: name + ' · ' + label, done }))
       : [['Harfler', () => coveDone('harf', k)], ['Harf Yağmuru', () => game('yagmur').koylar?.[k]],
         ...(k === 0 ? [['Harekelerle tanış', () => record.tanisma === true]] : []),
@@ -423,18 +426,19 @@ function startAdmin() {
       stat(count('harf') + ' / 28', '🐚 harf'),
       stat(count('hareke') + ' / 28', '🦪 hareke'),
       stat(count('bitisik') + ' / 28', '🪸 bitişik'),
-      stat(count('cezm') + ' / 28', '⭐ cezm'));
+      stat(count('cezm') + ' / 28', '⭐ cezm'),
+      stat(count('tenvin') + ' / 28', '🐬 tenvin'));
     box.append(meter(doneSteps, steps.length), stats1);
     box.ozet = '🐢 ' + doneSteps + ' / ' + steps.length + ' adım';
     // Every letter: how many times it was answered right in each section (learned at E.mastery).
     const letters = E.glyphs.map((g, i) => {
       const cell = n => { const c = el('span', n >= E.mastery ? 'adm-chip ok' : n ? 'adm-chip half' : 'adm-chip', String(n)); return c; };
       const glyph = el('span', 'adm-ar', g);
-      return [glyph, E.names[i], cell(parts.harf[i]), cell(parts.hareke[i]), cell(parts.bitisik[i]), cell(parts.cezm[i])];
+      return [glyph, E.names[i], cell(parts.harf[i]), cell(parts.hareke[i]), cell(parts.bitisik[i]), cell(parts.cezm[i]), cell(parts.tenvin[i])];
     });
     box.append(fold('Harf harf durum', el('p', 'adm-small', 'Sayılar harfin o bölümde kaç kez doğru bilindiğini gösterir; ' + E.mastery + ' ve üstü öğrenildi sayılır.'),
-      table(['Harf', 'Adı', '🐚 Harf', '🦪 Hareke', '🪸 Bitişik', '⭐ Cezm'], letters, 'adm-compact')));
-    const games = [['yagmur', '🌧️ Harf Yağmuru'], ['balon', '🎈 Hece Balonları'], ['sekil', '☔ Şekil Yağmuru'], ['cezmbalon', '🎐 Cezm Balonları'], ['kopru', '🌉 Cam Köprü']]
+      table(['Harf', 'Adı', '🐚 Harf', '🦪 Hareke', '🪸 Bitişik', '⭐ Cezm', '🐬 Tenvin'], letters, 'adm-compact')));
+    const games = [['yagmur', '🌧️ Harf Yağmuru'], ['balon', '🎈 Hece Balonları'], ['sekil', '☔ Şekil Yağmuru'], ['cezmbalon', '🎐 Cezm Balonları'], ['tenvinbalon', '🪁 Tenvin Balonları'], ['kopru', '🌉 Cam Köprü']]
       .map(([id, name]) => {
         const g = game(id);
         return [name, String(num(g.rekor)), '★'.repeat(num(g.yildiz)) + '☆'.repeat(3 - Math.min(3, num(g.yildiz))),
