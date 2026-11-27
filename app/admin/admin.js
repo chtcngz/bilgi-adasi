@@ -405,17 +405,17 @@ function startAdmin() {
     // The step the child is on, in the island's path (islands/elif-ba/game.js).
     const coveDone = (part, k) => E.coveLetters(k).every(i => parts[part][i] >= E.mastery);
     const steps = E.coves.flatMap((name, k) => E.coveTopic(k) === 'bitisik'
-      ? [['Bitişik yazılış', () => coveDone('bitisik', k)], ['Şekil Yağmuru', () => game('sekil').koylar?.[k]], ['Cam Köprü', () => game('kopru').koylar?.[k]]]
+      ? [['Bitişik yazılış', () => coveDone('bitisik', k)], ['Şekil oyunları', () => game('sekil').koylar?.[k]], ['Cam Köprü', () => game('kopru').koylar?.[k]]]
         .map(([label, done]) => ({ label: name + ' · ' + label, done }))
       : E.coveTopic(k) === 'cezm'
-      ? [['Cezm', () => coveDone('cezm', k)], ['Cezm Balonları', () => game('cezmbalon').koylar?.[k]], ['Cam Köprü', () => game('kopru').koylar?.[k]]]
+      ? [['Cezm', () => coveDone('cezm', k)], ['Cezm oyunları', () => game('cezmbalon').koylar?.[k]], ['Cam Köprü', () => game('kopru').koylar?.[k]]]
         .map(([label, done]) => ({ label: name + ' · ' + label, done }))
       : E.coveTopic(k) === 'tenvin'
-      ? [['Tenvin', () => coveDone('tenvin', k)], ['Tenvin Balonları', () => game('tenvinbalon').koylar?.[k]], ['Cam Köprü', () => game('kopru').koylar?.[k]]]
+      ? [['Tenvin', () => coveDone('tenvin', k)], ['Tenvin oyunları', () => game('tenvinbalon').koylar?.[k]], ['Cam Köprü', () => game('kopru').koylar?.[k]]]
         .map(([label, done]) => ({ label: name + ' · ' + label, done }))
-      : [['Harfler', () => coveDone('harf', k)], ['Harf Yağmuru', () => game('yagmur').koylar?.[k]],
+      : [['Harfler', () => coveDone('harf', k)], ['Harf oyunları', () => game('yagmur').koylar?.[k]],
         ...(k === 0 ? [['Harekelerle tanış', () => record.tanisma === true]] : []),
-        ['Harekeler', () => coveDone('hareke', k)], ['Hece Balonları', () => game('balon').koylar?.[k]], ['Cam Köprü', () => game('kopru').koylar?.[k]]]
+        ['Harekeler', () => coveDone('hareke', k)], ['Hece oyunları', () => game('balon').koylar?.[k]], ['Cam Köprü', () => game('kopru').koylar?.[k]]]
         .map(([label, done]) => ({ label: name + ' · ' + label, done })));
     const next = steps.find(s => !s.done());
     const doneSteps = steps.filter(s => s.done()).length;
@@ -438,7 +438,8 @@ function startAdmin() {
     });
     box.append(fold('Harf harf durum', el('p', 'adm-small', 'Sayılar harfin o bölümde kaç kez doğru bilindiğini gösterir; ' + E.mastery + ' ve üstü öğrenildi sayılır.'),
       table(['Harf', 'Adı', '🐚 Harf', '🦪 Hareke', '🪸 Bitişik', '⭐ Cezm', '🐬 Tenvin'], letters, 'adm-compact')));
-    const games = [['yagmur', '🌧️ Harf Yağmuru'], ['balon', '🎈 Hece Balonları'], ['sekil', '☔ Şekil Yağmuru'], ['cezmbalon', '🎐 Cezm Balonları'], ['tenvinbalon', '🪁 Tenvin Balonları'], ['kopru', '🌉 Cam Köprü']]
+    const games = [['yagmur', '🌧️ Harf Yağmuru'], ['balon', '🎈 Hece Balonları'], ['sekil', '☔ Şekil Yağmuru'], ['cezmbalon', '🎐 Cezm Balonları'], ['tenvinbalon', '🪁 Tenvin Balonları'], ['yengec', '🦀 Yengeç Avı'], ['kabuk', '🐚 Kabuk Hafızası'], ['olta', '🎣 Balık Tutma'],
+      ['sepet', '🧺 Sepete Topla'], ['kopru', '🌉 Cam Köprü']]
       .map(([id, name]) => {
         const g = game(id);
         return [name, String(num(g.rekor)), '★'.repeat(num(g.yildiz)) + '☆'.repeat(3 - Math.min(3, num(g.yildiz))),

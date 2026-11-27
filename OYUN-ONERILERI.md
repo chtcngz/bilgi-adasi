@@ -7,7 +7,8 @@ Oynanabilir taslaklar **Deneme Odası**'nda duruyor: `app/deneme/` (yayında `�
 | 🐣 İlk Harf Albümüm | Deneme Odası’nda · yumurtalardan çıkan 28 sesli harf |
 | 🐢 Harf Büyüteci | Deneme Odası’nda · gösterilen harfin eşine dokunma |
 | 🐠 Akvaryum | **Oyunda** (0.16.0) |
-| 🐚 Kabuk Hafızası | Deneme Odası'nda |
+| 🐚 Kabuk Hafızası | **Oyunda** (0.82.0) · oyun adımlarında seçilebiliyor; taslağı Deneme Odası'nda da duruyor |
+| 🦀 Yengeç Avı, 🎣 Balık Tutma, 🧺 Sepete Topla | **Oyunda** (0.82.0) · oyun adımlarında balon ve yağmur oyunlarının yerine seçilebiliyor |
 | 🚂 Hece Treni | Deneme Odası'nda |
 | 🎩 Harekeyi Giydir | Yeni fikir, Deneme Odası'nda |
 | 📿 İnci Kolye | Yeni fikir, Deneme Odası'nda |
@@ -33,6 +34,16 @@ Kumsalda kapalı deniz kabukları var. Çocuk iki kabuk açıyor ve her açılan
 - Yapması en hızlı oyun bu.
 
 **Taslakta:** Üç seviye de var (4, 4 ve 5 çift). Hece seviyesinde aynı okunan iki hece aynı tahtaya gelmiyor.
+
+**Oyunda (0.82.0):** Her adacığın oyun adımında, adımın kendi yağmur ya da balon oyunu yerine seçilebiliyor (`games/kabuk.js`). Bir kabuk heceyi söylüyor 🔊, öteki yazısını gösteriyor; sesi ile yazısı eşleşince inci oluyor. İki tahta var (4 ve 6 çift), ikincisinde ilk tahtadakilerin en kolay karışanları da var (bin ile bi, be ile bi). Can yok; boşuna açılan kabuk sayısı yıldızları belirliyor.
+
+## 🦀 Yengeç Avı, 🎣 Balık Tutma, 🧺 Sepete Topla (0.82.0)
+
+Balon ve yağmur oyunlarına üç seçenek daha; üçü de oyun adımlarının seçme ekranında (`games/arcade.js` ortak kabuğu, `yengec.js`, `olta.js`, `sepet.js`).
+
+- **Yengeç Avı:** Kumdaki altı delikten tabelalı yengeçler çıkıp saklanıyor. Kaplumbağa bir hece söylüyor, çocuk o tabelayı tutan yengece dokunuyor. 16 tur, 3 can.
+- **Balık Tutma:** Kaplumbağa teknede oltayla bekliyor; altında harfli balıklar yüzüyor. Duyulan hecenin balığına dokununca olta inip balığı tekneye çekiyor; yanlış balık oltadan kaçıyor. 16 tur, 3 can.
+- **Sepete Topla:** Bir midye geliyor, kaplumbağa içindekini söylüyor; çocuk onu sürükleyip (ya da sepete dokunup) doğru sepete atıyor. Sepetler adacığın konusuna göre: harf adacıklarında harflerin sepetleri (midye yalnızca ses çıkarıyor), hece ve bitişik adacıklarında üstün, esre, ötre sepetleri, cezm adacıklarında cezimli ve cezimsiz (بِسْ ile بِسَ), tenvin adacıklarında tenvinli ve tenvinsiz (بٍ ile بِ). Yanlış sepette doğru sepet yeşil yanıyor. 16 midye, 3 can.
 
 ## 3. 🚂 Hece Treni: kelime okumaya köprü
 

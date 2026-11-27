@@ -76,7 +76,14 @@ app/                         Published site (GitHub Pages root)
 │   │   ├── style.css, koy.jpg
 │   │   └── games/           Section games
 │   │       ├── art.js       Turtle, hearts, speaker and stars shared by the games
+│   │       ├── kinds.js     What the listening games play with, by kind (harf, hece, sekil, cezm, tenvin): text, name, voice, look-alikes (elifKinds)
 │   │       ├── listening.*  Harf Yağmuru (letters), Hece Balonları (syllables), Şekil Yağmuru (joined shapes), Cezm and Tenvin Balonları; its .rain-* kit is shared
+│   │       ├── arcade.*     The games a game step can be played with instead (the picker in game.js): their shared top bar, turtle,
+│   │       │                cards and record (elifArcade), and the picker's look; each game registers itself:
+│   │       ├── yengec.js    🦀 Yengeç Avı: crabs with signs come out of holes in the sand
+│   │       ├── kabuk.js     🐚 Kabuk Hafızası: pairs of shells, the sound and the writing of an item
+│   │       ├── olta.js      🎣 Balık Tutma: fish with letters swim under the turtle's boat
+│   │       ├── sepet.js     🧺 Sepete Topla: mussels carried into baskets (by letter, hareke, cezm, tenvin)
 │   │       ├── bridge.*     Cam Köprü, the mixed game at the end of every cove
 │   ├── din-bilgisi/         Question island: sorular.js + game.js + kapsam.md
 │   ├── fen-bilimleri/       Question island: same pattern
@@ -254,7 +261,7 @@ To add a section:
 1. Remove the `soon` flag from the section's entry in `islands/elif-ba/data.js` (its bay on the map opens: give it a `say` that tells what is learned there and its id in `TOPICS`), add its steps to the `steps` list in `game.js`, and delete its line from `YAPILACAKLAR.md`. A new bay needs its sea colours in `seas` and its decorations in `bayArt` (`map.js`).
 2. Add the section's screen and rounds to `islands/elif-ba/game.js`.
 3. Put its recordings under `app/assets/audio/elif-ba/<bölüm>/` and register them in `kayitlar.js`.
-4. If it gets a game, add it under `islands/elif-ba/games/`. Listening games can reuse `listening.js` with a new `kind`; a new game can take its top bar, hearts and cards from the `.rain-*` classes of `listening.css` and its turtle from `art.js`, as `bridge.js` does.
+4. If it gets a game, add it under `islands/elif-ba/games/`. A game step (every one but Cam Köprü) opens a picker: the step's own listening game (`listening.js`) or one of the games of `arcade.js`, all with the same items; whichever is played to the end passes the step, and each keeps its own record (`yengec`, `kabuk`, `olta`, `sepet` in the player's record). A new section's items go into `games/kinds.js` as a new kind, and Sepete Topla (`sepet.js`) needs to know its baskets. A new game for the picker registers itself with `elifArcade.register` (the top of `arcade.js` says what it gives); a game of its own can take its top bar, hearts and cards from the `.rain-*` classes of `listening.css` and its turtle from `art.js`, as `bridge.js` does.
 
 **A new question island** (for example Türkçe, or Hayat Bilgisi for the 1st-3rd grades):
 1. Get the textbook the schools use this year and write `islands/<ada>/kapsam.md`: every point of the book, unit by unit, with its page.
