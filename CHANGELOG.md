@@ -9,7 +9,7 @@ Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında 
 
 ## 0.95.1 · 28.11.2026
 
-- **Elif Ba, işareti tanıtan kartlar sessizce işaret adı söylemiyor:** Cezm, Tenvin ve Şedde adımlarının kartlarında artık Türkçe işaret adı okunmuyor (“iki ötre”, “şedde”, “Sin cezm” gibi). Dersin başındaki tenvin işaretlerine dokununca Be harfiyle okunuşu geliyor (ben, bin, bun), şedde işaretine dokununca Be’nin şeddeli hecesi. ♪ düğmeleri de yalnızca heceleri okuyor: “bi, bis”, “be, ben”, “bis, se, bisse”. Cezimli harfe dokununca kurduğu hece okunuyor.
+- **Elif Ba, işareti tanıtan kartlarda işaret adları okunmuyor:** Cezm, Tenvin ve Şedde adımlarının kartlarında artık Türkçe işaret adı okunmuyor (“iki ötre”, “şedde”, “Sin cezm” gibi). Dersin başındaki tenvin işaretlerine dokununca Be harfiyle okunuşu geliyor (ben, bin, bun), şedde işaretine dokununca Be’nin şeddeli hecesi. ♪ düğmeleri de yalnızca heceleri okuyor: “bi, bis”, “be, ben”, “bis, se, bisse”. Cezimli harfe dokununca kurduğu hece okunuyor.
 - **Harflerin altındaki yazılar kaldırıldı:** Bu kartlarda harflerin ve işaretlerin altında yazan “üstün”, “iki üstün”, “şedde” gibi Türkçe yazılar artık yok.
 
 ## 0.95.0 · 27.11.2026
