@@ -69,24 +69,30 @@ const englishBalon = (() => {
       c.stage.innerHTML = '<div class="eb">' +
         '<div class="eb-ust"><span class="eb-maskot" aria-hidden="true">' + esc(c.maskot || '🦊') + '</span>' +
         '<span class="eb-sayi" aria-label="' + n + ' / ' + total + '">' + Array.from({ length: total }, (_, i) => '<i class="' + (i < n - 1 ? 'done' : i === n - 1 ? 'now' : '') + '"></i>').join('') + '</span></div>' +
-        // the story card: the scene, then the question on an orange ribbon
-        '<div class="eb-metin" id="eng1-prompt" tabindex="-1"><span class="eb-metin-simge" aria-hidden="true">📖</span><div>' +
-        (metin.durum ? '<p class="eb-durum">' + esc(metin.durum) + '</p>' : '') + '<h2 class="eb-soru"><span>' + esc(metin.soru) + '</span></h2></div></div>' +
+        // the story in a box of its own, the question under it as its own coral label
+        '<div class="eb-metin" id="eng1-prompt" tabindex="-1">' +
+        (metin.durum ? '<div class="eb-hikaye"><span class="eb-metin-simge" aria-hidden="true">📖</span><p class="eb-durum">' + esc(metin.durum) + '</p></div>' : '') +
+        '<h2 class="eb-soru"><span>' + esc(metin.soru) + '</span></h2></div>' +
         // the picture takes the room left between the story card and the cards (fit(), below), never more
         '<div class="eb-sahne-alan"><div class="eb-sahne"><img src="' + esc(RESIM(b.resim)) + '" alt="" draggable="false">' +
         '<div class="eb-balon" style="left:' + b.x + '%;top:' + b.y + '%;width:' + b.w + '%;height:' + b.h + '%"><span class="eb-soru-isareti" aria-hidden="true">?</span></div></div></div>' +
         '<div class="eb-dip"><div class="eb-kartlar" role="group" aria-label="Şıklar"></div><div class="eb-alt"></div></div></div>';
       const root = c.stage.querySelector('.eb'), zone = root.querySelector('.eb-balon'), cards = root.querySelector('.eb-kartlar'), alt = root.querySelector('.eb-alt');
       // The whole question fits the screen with no scrolling (a drag must never move the page): the picture is as large as the
-      // room between the story card and the cards allows, keeping its shape, so the bubble stays on it.
+      // room left by the top row, the story, the question and the cards allows, keeping its shape so the bubble stays on it.
+      // The picture does not stretch its own box: the story, the picture and the cards stay close together, and any room
+      // left over goes above and below them (balon-sorusu.css), never between them.
       const area = root.querySelector('.eb-sahne-alan'), scene = root.querySelector('.eb-sahne'), img = scene.querySelector('img');
+      const others = ['.eb-ust', '.eb-metin', '.eb-dip'].map(sel => root.querySelector(sel));
       const fit = () => {
         const ratio = img.naturalWidth && img.naturalHeight ? img.naturalWidth / img.naturalHeight : 1.5;
-        const w = Math.max(80, Math.min(area.clientWidth, area.clientHeight * ratio));
+        const cs = getComputedStyle(root), gap = parseFloat(cs.rowGap) || 0;
+        const room = root.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - others.reduce((sum, el) => sum + el.offsetHeight, 0) - gap * 3;
+        const w = Math.max(80, Math.min(root.clientWidth, Math.max(60, room) * ratio));
         scene.style.width = Math.floor(w) + 'px';
       };
       const watch = new ResizeObserver(fit);
-      watch.observe(area);
+      for (const el of [root, ...others]) watch.observe(el);
       img.addEventListener('load', fit);
       fit();
       cleanups.push(() => watch.disconnect());

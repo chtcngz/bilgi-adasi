@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.111.0 · 28.11.2026
+
+- **English, balon sorusunda hikâye ve soru ayrı:** Sahne cümlesi tek başına krem renkli bir kutuda ve daha büyük yazıyla; soru (“Maya, Leo’ya ne der?”) hemen altında ayrı, mercan renkli bir etikette.
+- **Öğeler birbirine yakın:** Hikâye, soru, resim ve şıklar arasındaki büyük boşluklar kalktı; aralarında küçük ve eşit boşluklar var. Şıklar ekranın en altına yapışmıyor, altlarında nefes payı kalıyor. Dar telefonlarda kart yazıları tek satırda.
+
 ## 0.110.1 · 28.11.2026
 
 - Birleştirilen kız sesi örneklerinde geçişlerin ses düzeyi dengelendi.

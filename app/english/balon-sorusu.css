@@ -18,9 +18,14 @@ dialog.soru-game:has(.eb) { display: flex; flex-direction: column; overflow: hid
 @media (max-width: 650px), (max-height: 500px) { dialog.soru-game:has(.eb) { height: var(--vvh, 100dvh); } }
 dialog.soru-game:has(.eb) .soru-close { position: absolute; top: max(10px, env(safe-area-inset-top)); right: 12px; float: none; z-index: 3; }
 .soru-game:has(.eb) .soru-stage { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
-.eb { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: clamp(6px, 1.6vh, 12px); user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
-.eb-ust, .eb-metin, .eb-dip { flex: 0 0 auto; }
-.eb-sahne-alan { flex: 1 1 auto; min-height: 90px; display: grid; place-items: center; }
+/* the top row stays at the top; the story, the question, the picture and the cards stay together in the middle, with a
+   breath under the cards (the room left over goes above and below them, not between them) */
+.eb { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: clamp(8px, 1.5vh, 12px); padding-bottom: clamp(10px, 2.4vh, 22px);
+  user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.eb-ust, .eb-metin, .eb-dip, .eb-sahne-alan { flex: 0 0 auto; }
+.eb-metin { margin-top: auto; }
+.eb-dip { margin-bottom: auto; }
+.eb-sahne-alan { display: flex; justify-content: center; min-height: 0; }
 .eb-ust { display: flex; align-items: center; gap: 10px; padding-right: 48px; }
 .eb-maskot { font-size: 30px; line-height: 1; }
 .eb-maskot.mutlu { animation: eb-zipla .6s ease-out; }
@@ -29,15 +34,15 @@ dialog.soru-game:has(.eb) .soru-close { position: absolute; top: max(10px, env(s
 .eb-sayi i { width: 22px; height: 8px; border-radius: 4px; background: #e3dccd; }
 .eb-sayi i.done { background: #51cf66; }
 .eb-sayi i.now { background: #ffb703; }
-/* the story card: soft corners, a warm paper colour, the question on an orange ribbon */
-.eb-metin { display: flex; gap: 10px; align-items: flex-start; padding: clamp(8px, 1.6vh, 12px) 14px; border-radius: 20px; outline: none;
-  background: linear-gradient(135deg, #fff9e8, #ffefcc); border: 2px solid #f5dca6; box-shadow: 0 3px 0 #efd193, 0 8px 18px rgba(160, 110, 30, .12);
-  font-family: 'Baloo 2', Nunito, sans-serif; }
+/* the story box: soft corners, a warm paper colour, larger letters; the question under it on its own coral label */
+.eb-metin { display: grid; gap: 8px; outline: none; font-family: 'Baloo 2', Nunito, sans-serif; }
+.eb-hikaye { display: flex; gap: 10px; align-items: center; padding: clamp(8px, 1.5vh, 12px) 14px; border-radius: 18px;
+  background: linear-gradient(135deg, #fff9e8, #ffefcc); border: 2px solid #f5dca6; box-shadow: 0 3px 0 #efd193, 0 8px 18px rgba(160, 110, 30, .1); }
 .eb-metin-simge { flex: none; font-size: 24px; line-height: 1.2; filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .15)); }
-.eb-durum { margin: 0; font: 500 clamp(15px, 4.1vw, 18px)/1.3 'Baloo 2', Nunito, sans-serif; color: #6b5a4e; }
-.eb-soru { margin: 4px 0 0; font: inherit; }
-.eb-soru span { display: inline-block; padding: 1px 14px; border-radius: 999px; background: linear-gradient(#ff9a4d, #f76707); color: #fff;
-  font: 800 clamp(18px, 5vw, 23px)/1.35 'Baloo 2', Nunito, sans-serif; text-shadow: 0 1px 0 rgba(150, 50, 0, .35); box-shadow: 0 3px 0 #d9480f; }
+.eb-durum { margin: 0; font: 500 clamp(17px, 4.7vw, 20px)/1.3 'Baloo 2', Nunito, sans-serif; color: #5b4a3e; }
+.eb-soru { margin: 0; text-align: center; font: inherit; }
+.eb-soru span { display: inline-block; padding: 3px 18px; border-radius: 16px; background: #ff7a6b; color: #fff;
+  font: 800 clamp(18px, 5vw, 22px)/1.35 'Baloo 2', Nunito, sans-serif; box-shadow: 0 3px 0 #e0574a, 0 6px 14px rgba(224, 87, 74, .18); }
 .eb-sahne { position: relative; max-width: 100%; border-radius: 20px; overflow: hidden; box-shadow: 0 6px 18px rgba(23, 63, 64, .16); background: #f3ead7; }
 .eb-sahne img { display: block; width: 100%; height: auto; pointer-events: none; }
 /* The drop zone waits in the three cards' colours, one after another (--r1 --r2 --r3, set by the game in the cards' order),
@@ -96,6 +101,6 @@ dialog.soru-game:has(.eb) .soru-close { position: absolute; top: max(10px, env(s
   .eb .eb-balon:not(.tutuluyor):not(.dogru) { animation: eb-dongu-sakin 12s ease-in-out infinite !important; }
 }
 /* a narrow phone: two cards on a row, the third under them */
-@media (max-width: 380px) { .eb-kart { min-width: 0; flex: 1 1 40%; font-size: 17px; } }
+@media (max-width: 380px) { .eb-kart { min-width: 0; flex: 1 1 40%; font-size: 16px; padding-inline: 10px; white-space: nowrap; } }
 /* a short screen: everything a little tighter, so the picture keeps its room */
 @media (max-height: 620px) { .eb-metin-simge { display: none; } .eb-ust { padding-right: 44px; } .eb-maskot { font-size: 24px; } }

@@ -237,10 +237,11 @@ A second site at `…/bilgi-adasi/english/` (`app/english/index.html`) teaches E
   colours in turn (`--r1`–`--r3`, 6 s; colours only on a device asking for less motion; the "?" takes the zone's
   `color`, which the zone's own animation turns: Safari does not update a child's animation that reads inherited variables), glows in the held card's colour
   while a card is dragged (`.tutuluyor`) and stands still once solved.
-  The question fills the game window exactly and never scrolls (a drag must not move the page): a story card on top (the
-  scene, then the question on an orange ribbon, in the rounded font Baloo 2, `assets/fonts/baloo-2/`, OFL; Fredoka has no
-  ş, ğ, İ), the picture in the room left (`fit()` keeps its shape so the bubble stays on it), the cards at the bottom; once
-  solved the cards give their place to the explanation and *Sonraki Soru*. Tap: the English is said (a recording if there is one, else the device's
+  The question fills the game window exactly and never scrolls (a drag must not move the page): the story in a cream box,
+  the question under it on its own coral label (both in the rounded font Baloo 2, `assets/fonts/baloo-2/`, OFL; Fredoka has
+  no ş, ğ, İ), the picture as large as the room left allows (`fit()`, keeping its shape so the bubble stays on it), the
+  cards; these stay close together (8–12 px) with a breath under the cards, and any room left over goes above and below
+  them. Once solved the cards give their place to the explanation and *Sonraki Soru*. Tap: the English is said (a recording if there is one, else the device's
   en-US voice at 0.75). Drag (Pointer Events: mouse, touch, pen; a copy follows the finger): dropped on or near the bubble it
   snaps in; right → the word stays in the bubble as a label, the others fade, stars and confetti, the word said again,
   *Sonraki Soru ▶*; wrong → it shakes and slides back. Only the first drop counts (`soru` in the progress). `tools/kapsam.js`
