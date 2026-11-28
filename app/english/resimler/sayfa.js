@@ -286,20 +286,35 @@
           etap.className = 'rs-etap';
           etap.open = true;
           etap.innerHTML = '<summary>' + esc((n + 1) + '. Etap · ' + g.ad) + ' <em>' + wordItems.length + ' kelime · ' + questionItems.length + ' soru</em></summary>';
-          const h1 = document.createElement('h3');
-          h1.innerHTML = '🖼️ ' + esc(b + '. Bölüm · ' + (n + 1) + '. Etap · Resimler') + ' <em>' + sayac(wordItems) + ' / ' + wordItems.length + ' seçili</em>';
-          etap.append(h1, ...shownWords.map(satir));
-          const h2 = document.createElement('h3');
-          h2.innerHTML = '❓ ' + esc(b + '. Bölüm · ' + (n + 1) + '. Etap · Soruları') + ' <em>' + (questionItems.length ? sayac(questionItems) + ' / ' + questionItems.length + ' seçili' : '') + '</em>';
-          etap.append(h2);
-          if (!questionItems.length) etap.append(Object.assign(document.createElement('p'), { className: 'rs-not rs-soru-yok', textContent: 'Bu etabın henüz sorusu yok.' }));
-          else etap.append(...shownQuestions.map(satir));
+          const base = ada.id + '/' + st.id + '/' + n;
+          etap.append(bolum(base + '/resimler', '🖼️ ' + b + '. Bölüm · ' + (n + 1) + '. Etap · Resimler',
+            wordItems.length + ' kelime · ' + sayac(wordItems) + ' / ' + wordItems.length + ' seçili', shownWords.map(satir)));
+          etap.append(bolum(base + '/sorular', '❓ ' + b + '. Bölüm · ' + (n + 1) + '. Etap · Soruları',
+            questionItems.length ? questionItems.length + ' soru · ' + sayac(questionItems) + ' / ' + questionItems.length + ' seçili' : 'soru yok',
+            questionItems.length ? shownQuestions.map(satir) : [Object.assign(document.createElement('p'), { className: 'rs-not rs-soru-yok', textContent: 'Bu etabın henüz sorusu yok.' })]));
           box.append(etap);
         });
         sec.append(box);
       }
       main.append(sec);
     }
+  }
+  // A section of an etap (its pictures, its questions) that opens and closes with the arrow of its heading. Open at first; a
+  // closed one stays closed after a reload (this browser only, localStorage).
+  const KAPALI = 'english-resimler-kapali';
+  let kapali = new Set();
+  try { kapali = new Set(JSON.parse(localStorage.getItem(KAPALI)) || []); } catch {}
+  function bolum(id, title, count, nodes) {
+    const box = document.createElement('details');
+    box.className = 'rs-bolum';
+    box.open = !kapali.has(id);
+    box.innerHTML = '<summary><span class="rs-ok" aria-hidden="true"></span><span class="rs-bolum-ad">' + esc(title) + '</span> <em>' + esc(count) + '</em></summary>';
+    box.append(...nodes);
+    box.addEventListener('toggle', () => {
+      if (box.open) kapali.delete(id); else kapali.add(id);
+      try { localStorage.setItem(KAPALI, JSON.stringify([...kapali])); } catch {}
+    });
+    return box;
   }
   function satir(it) {
     const key = it.key;

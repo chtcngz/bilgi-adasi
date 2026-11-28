@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.101.3 · 28.11.2026
+
+- **Resimler sayfası, açılır kapanır bölümler:** Her etabın “🖼️ … Resimler” ve “❓ … Soruları” başlıklarının başında bir ok var; başlığa dokununca bölüm açılıp kapanıyor. Kapalıyken de başlıkta kaç kelime ya da soru olduğu görünüyor. Kapattığın bölüm sayfa yenilenince de kapalı kalıyor.
+
 ## 0.101.2 · 28.11.2026
 
 - **Resimler sayfası (…/english/resimler/) etap etap:** Her etap iki bölüm: “🖼️ 1. Bölüm · 1. Etap · Resimler” (tanıtım kartlarının kelimeleri) ve “❓ 1. Bölüm · 1. Etap · Soruları” (o etabın soruları; sorusu olmayan etapta “Bu etabın henüz sorusu yok.”). Sorulara da kelimeler gibi 6 resim seçilebiliyor.

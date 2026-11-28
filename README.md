@@ -237,7 +237,8 @@ A second site at `…/bilgi-adasi/english/` (`app/english/index.html`) teaches E
   picture's speech bubble must say something else ("My name is …" → "My name is Leo."), `tools/baloncuk.py` paints the old text
   over with the bubble's colour and writes the new one in a hand-drawn font (Patrick Hand, not shipped).
 - **Resimler · English** (`app/english/resimler/`, not linked): bölüm › station › etap, and in every etap "🖼️ … Resimler" (its
-  words) and "❓ … Soruları" (the questions whose word is in the etap, or "Bu etabın henüz sorusu yok."). Every word and question
+  words) and "❓ … Soruları" (the questions whose word is in the etap, or "Bu etabın henüz sorusu yok."), each opening and
+  closing with the arrow of its heading (open at first; a closed one stays closed in this browser). Every word and question
   has up to six pictures (the first is the main one; ◀ ✕ ▶ order and remove them) and, beside them, the picture the game uses
   now ("Oyunda şu an"). The game's own files are tokens too (`dosya:english/hello`, `dosya:english/soru/welcome-leo-ev`). 🖼️ Tüm resimler opens every picture of the project (the drawings of
   kelime-resimleri.js, cizimler.js, resimler.js and the islands' resimler.js, the emoji of İngilizce Koyu's questions, the
