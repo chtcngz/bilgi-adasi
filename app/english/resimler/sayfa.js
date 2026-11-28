@@ -244,9 +244,10 @@
     yer: st.ad + ' · ' + (n + 1) + '. Etap', oyunda: (k?.kartlar || (k?.resim ? [{ resim: k.resim }] : [])).map(c => DOSYA + 'english/' + c.resim) });
   // the questions of an etap: those whose word (k[0]) is one of its words (as the game places them, app/english/koy.js)
   function etapSorulari(ada, st, n) {
-    const words = new Set(st.gruplar[n].kelimeler.map(w => w[0]));
+    const bare = t => String(t || '').toLocaleLowerCase('en').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
+    const words = new Set(st.gruplar[n].kelimeler.map(w => bare(w[0])));
     return (window.englishSorular?.[ada.id] || []).flatMap(stop => stop.sorular.map((q, i) => ({ q, id: stop.id + ':' + i })))
-      .filter(({ q }) => words.has(q.k?.[0])).map(({ q, id }, i) => ({ tur: 'soru', key: ada.id + '/' + id, ada, st, etap: n, no: i + 1,
+      .filter(({ q }) => words.has(bare(q.k?.[0]))).map(({ q, id }, i) => ({ tur: 'soru', key: ada.id + '/' + id, ada, st, etap: n, no: i + 1,
         ad: q.s, alt: 'Doğru: ' + q.a[0] + ' · Şıklar: ' + q.a.slice(1).join(' · '), yer: st.ad + ' · ' + (n + 1) + '. Etap · Soru ' + (i + 1),
         oyunda: q.balon?.resim ? [DOSYA + 'english/soru/' + q.balon.resim] : [] }));
   }

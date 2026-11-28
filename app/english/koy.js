@@ -40,9 +40,11 @@
   const kapak = g => kartlar(g)[0]?.resim;
   // the questions of an etap: the island's questions whose word (k[0]) is one of the etap's words, each with its id (ilk:0)
   function sorulari(ada, g) {
-    const words = new Set(g.kelimeler.map(w => w[0]));
+    // "Good morning!" answers the word "good morning": capitals and punctuation do not count
+    const bare = t => String(t || '').toLocaleLowerCase('en').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
+    const words = new Set(g.kelimeler.map(w => bare(w[0])));
     return (window.englishSorular?.[ada.id] || []).flatMap(stop => stop.sorular.map((q, n) => ({ ...q, id: ada.id + '/' + stop.id + ':' + n })))
-      .filter(q => q.balon && words.has(q.k?.[0]));
+      .filter(q => q.balon && words.has(bare(q.k?.[0])));
   }
 
   /* ---------- the bay ---------- */

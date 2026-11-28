@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.102.0 · 28.11.2026
+
+- **English, 3 yeni soru: Good morning!** Selamlaşma’nın 1. etabında Welcome! sorularından sonra üç soru daha geliyor: Maya ve Leo sabah okulun önünde karşılaşıyor (Maya, Leo’ya ne der?); Maya sabah uyanıyor, Leo sabah uyanıyor (annesi ne der?). Şıklar günün başka saatlerinin selamları: Good evening!, Good night!, Goodbye!. 1. etapta artık 6 soru var.
+
 ## 0.101.3 · 28.11.2026
 
 - **Resimler sayfası, açılır kapanır bölümler:** Her etabın “🖼️ … Resimler” ve “❓ … Soruları” başlıklarının başında bir ok var; başlığa dokununca bölüm açılıp kapanıyor. Kapalıyken de başlıkta kaç kelime ya da soru olduğu görünüyor. Kapattığın bölüm sayfa yenilenince de kapalı kalıyor.
