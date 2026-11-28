@@ -12,6 +12,8 @@ Haritada her birinin koyu bulutların altında, kilitli ve “Yakında” olarak
 ## Elif Ba sesleri
 
 - [ ] **Sesler sayfasındaki seçimler oyuna:** sahibi `…/sound/` sayfasında oyundaki iyi sesleri onaylayıp iyi olmayanların yerine yenilerini seçince ve listeyi gönderince, seçilen yeni sesler Elif Ba’ya işlenir (onaylananlar kalır)
+- [ ] **Seslendirilecekler:** `…/sound/` sayfasının 🎙 Seslendirilecekler sekmesindeki 30 okumaya (11 harf adı, 6 harekeli ve 6 tenvinli hece, 7 tenvin örnek kelimesi) yeni seslendirme
+- [ ] **Sesler sayfasının boş bölümleri:** Cezm, Şedde, Uzatma, Kelimeler, Mukattaa harfleri ve Türkçe sözler bölümlerinin ses örnekleri yeniden hazırlanır
 
 ## İngilizce Koyu (3. ve 4. sınıf)
 

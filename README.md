@@ -100,14 +100,17 @@ app/                         Published site (GitHub Pages root)
 │   │                        (ingilizce-2/sahneler.js: the pictures of 🔍 Gizli Kelimeler and the places to tap in them;
 │   │                        the pictures are assets/images/ingilizce/sahne/*.webp)
 │   └── sosyal-bilgiler/     Question island: same pattern
-├── sound/                   Sesler (…/sound/, not linked): the owner chooses Elif Ba's recordings. It opens on the sections
-│                            (harekesiz, harekeli, tenvin, cezm, şedde, uzatma, words, mukattaa, Turkish words); in a
-│                            section every reading is a row with the clips the game plays now on the left (read from
-│                            kayitlar.js and data.js: the girl's voice and the man's) and the new clips cut from
-│                            sound-samples/ on the right. The owner approves good game clips (✓) and picks new ones (⇄);
-│                            filters: approved, not approved, new picked; the choices stay in localStorage and are copied
-│                            as text. index.html, sayfa.js, sayfa.css; ses/<id>.mp3 and liste.js are written by
-│                            tools/ses_kes.py: do not edit them by hand
+├── sound/                   Sesler (…/sound/, not linked): the owner chooses Elif Ba's recordings. Three tabs: 📂 Bölümler
+│                            (the sections: only harekesiz, harekeli and tenvin have rows; cezm, şedde, uzatma, words,
+│                            mukattaa and Turkish words are titles marked "Ses dosyası örneği yok" until they are made
+│                            again), ✓ Seçilenler (the clips the owner chose, as cards to play: secimler.js) and
+│                            🎙 Seslendirilecekler (the readings with no suitable clip, to be recorded again). In a
+│                            section every reading is a row with the girl's clip the game plays now on the left (read from
+│                            kayitlar.js and data.js; the man's clips stay there and in the code, hidden: ERKEK_SESI in
+│                            sayfa.js) and the new clips cut from sound-samples/ on the right. A new choice (✓ approve,
+│                            ⇄ pick a new clip) stays in localStorage; "Seçimleri kopyala" copies the ones not in
+│                            secimler.js yet, and Claude adds them there. index.html, sayfa.js, sayfa.css, secimler.js;
+│                            ses/<id>.mp3 and liste.js are written by tools/ses_kes.py: do not edit them by hand
 ├── kontrol.html             Resim kontrolü: the owner picks İngilizce Koyu's pictures by hand and copies the choices (not linked)
 ├── admin/                   Yönetici sayfası: every player of every device, read from the cloud copy; signs in with
 │                            the admin's Google account (automatically when the browser is already signed in to it)
@@ -127,7 +130,7 @@ tools/                       Helper scripts (not published)
                              takes the music out (noisereduce) and lets each one end on its own decay
 sound-samples/               The owner's recordings (not published): original/ (Elifle Animasyonlu Elifba 1-3, Turkish narration
                              with Arabic readings) and kesimler.json, where each reading is in them (file, start, end),
-                             its name, writing and kind
+                             its name, writing and kind; only the readings the owner kept are listed (the six hemze ones)
 elifba-ses-onizleme/          The girl's voice as recorded (also uzatma, words …, not used yet) with a page to listen to them
 sources/                     Raw material (not published)
 └── elifba-sesleri/          Diyanet Elifba audio library, organized by lesson, plus katalog.json

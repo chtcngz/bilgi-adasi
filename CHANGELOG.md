@@ -7,6 +7,13 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.103.0 · 28.11.2026
+
+- **Sesler sayfası (…/sound/) sekmeli:** Üstte üç sekme var: 📂 Bölümler, ✓ Seçilenler ve 🎙 Seslendirilecekler. Seçilenler’de gönderdiğin 180 seçim (174 onaylı kız sesi, 6 yeni hemze sesi) kart kart duruyor; harekeli ve tenvinde her harf bir satır, üstün, esre ve ötre yan yana; her karta dokununca ses çalıyor, ▶▶ bölümün hepsini sırayla çalıyor. Bu seçimler artık kayıtlı (“✓ Kayıtlı”), başka cihazda da görünüyor.
+- **Seslendirilecekler:** Uygun sesi olmayan 30 okuma bir arada: 11 harf adı (be, ha, hı, dal, zel, ze, dad, tı, zı, ayn, gayn), 6 harekeli hece (üstün ve esre dad, tı’nın üçü, ötre he), 6 tenvinli hece (dad ve tı) ve 7 tenvin örnek kelimesi. Bunlara yeni seslendirme yapılacak.
+- **Yalnızca kız sesi:** Erkek sesleri ekranda gösterilmiyor (kodda duruyor, sonra kullanılabilir).
+- **Sadeleşti:** Yeni kayıtlardan seçilmeyen 259 ses silindi, yalnızca seçilen 6 hemze sesi kaldı. Harekesiz, Harekeli ve Tenvin kaldı; Cezm, Şedde, Uzatma, Kelimeler, Mukattaa harfleri ve Türkçe sözler yalnızca başlık olarak “Ses dosyası örneği yok” diye duruyor, yeniden hazırlanacak.
+
 ## 0.102.0 · 28.11.2026
 
 - **English, 3 yeni soru: Good morning!** Selamlaşma’nın 1. etabında Welcome! sorularından sonra üç soru daha geliyor: Maya ve Leo sabah okulun önünde karşılaşıyor (Maya, Leo’ya ne der?); Maya sabah uyanıyor, Leo sabah uyanıyor (annesi ne der?). Şıklar günün başka saatlerinin selamları: Good evening!, Good night!, Goodbye!. 1. etapta artık 6 soru var.
