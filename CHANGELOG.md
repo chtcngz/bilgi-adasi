@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.119.0 · 28.11.2026
+
+- **Elif Ba, Sesler sayfasında seçilen sesler oyunda (kız sesi):** Ze harfinin adı yeni kayıtla, kızın üstünlü “ze” okuyuşundan çalınıyor; Tı ve Zı harflerinin adı olarak üstünlü okunuşları (ta, za) çalınıyor. Hemzenin üç harekeli ve üç tenvinli okuması da oyunun kayıtlarına eklendi (oyun şimdilik bunları çalmıyor).
+- Sesler: Seçilenler’deki her kart oyunun kendi kaydını çalıyor; oyuna alınan yeni kayıtlar artık sağ sütunda listelenmiyor.
+
 ## 0.118.1 · 28.11.2026
 
 - English: “Nice to meet you, too.” sorusunun hikâyesi değişti: Leo, Maya’ya “Tanıştığımıza memnun oldum.” diyor; Maya ne der?

@@ -4,6 +4,8 @@
 
 Be, Te ve Se harflerinin adı olarak iki seste de o harfin üstünlü okunuşu çalınır (be, te, se; oyunun sahibinin kararı): `harf/01-03.mp3` `hece/01-03-0.mp3` kayıtlarının, `cocuk/harf/01-03.mp3` `cocuk/hece/01-03-0.mp3` kayıtlarının kopyasıdır.
 
+Oyunun sahibinin Sesler sayfasındaki (`…/sound/`) seçimleri (28.11.2026): Tı ve Zı harflerinin adı olarak kız sesinde o harfin üstünlü okunuşu çalınır (ta, za): `cocuk/harf/15.mp3` ve `16.mp3`, `cocuk/hece/15-0.mp3` ve `16-0.mp3` kayıtlarının kopyasıdır. Ze’nin adı (`cocuk/harf/10.mp3`) kızın üstünlü Ze okuyuşundan (`cocuk/hece/10-0.mp3`) kesildi (`tools/ses_adaylari.py`, Sesler sayfasında `aday-harf-10`). Hemzenin üç harekeli ve üç tenvinli okuması (`cocuk/hece/hemze-H.mp3`, `cocuk/tenvin/hemze-H.mp3`; H 0 üstün, 1 esre, 2 ötre) oyunun sahibinin kayıtlarından (`sound-samples/`, Elifle Animasyonlu Elifba) `tools/ses_kes.py` ile kesildi; oyun bunları şimdilik çalmıyor (Elif’in hecelerinde kendi kayıtları, اَ اِ اُ, çalınır).
+
 `cocuk/` klasöründeki kayıtlar oyunun sahibinin eklediği çocuk sesi kayıtlarıdır (`elifba-ses-onizleme/`): `harf/NN.mp3` harf adları (ve `hemze.mp3`), `hece/NN-H.mp3` üstün, esre, ötre ile okunuşlar, `yer/P.mp3` “başta / ortada / sonda”, `tenvin/NN-H.mp3` iki üstün, iki esre, iki ötre ile okunuşlar (ben, bin, bun …), `hareke/` üstün, esre, ötre, cezm, iki üstün, iki esre, iki ötre ve şedde adları. Ayarlarda **Kız çocuk sesi** seçiliyken (varsayılan) bunlar çalınır; çocuk sesinde kaydı olmayanlar (bitişik yazılış örnek kelimeleri, cezimli ve şeddeli heceler, cezm, tenvin ve şedde örnekleri) aşağıdaki Diyanet kayıtlarından erkek sesiyle çalınır. **Erkek sesi** seçilince hepsi Diyanet kayıtlarıdır.
 
 ## Erkek sesi (Diyanet)

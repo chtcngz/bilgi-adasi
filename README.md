@@ -112,7 +112,10 @@ app/                         Published site (GitHub Pages root)
 │                            ⇄ pick a new clip) stays in localStorage; "Seçimleri kopyala" copies the ones not in
 │                            secimler.js yet, and Claude adds them there (its ilkHal: letters recorded
 │                            again, whose rows show only the game's clip; ayni: a reading that plays another's chosen clip;
-│                            temizle: old local choices the page drops once, when secimler.js has taken them back). index.html, sayfa.js, sayfa.css, secimler.js;
+│                            temizle: old local choices the page drops once, when secimler.js has taken them back;
+│                            oyunda: new clips copied into the game's girl voice, assets/audio/elif-ba/cocuk/, which the
+│                            page no longer lists as new: their reading's game clip, in onay, is that one now).
+│                            index.html, sayfa.js, sayfa.css, secimler.js;
 │                            ses/<id>.mp3 and liste.js are written by tools/ses_kes.py: do not edit them by hand
 ├── kontrol.html             Resim kontrolü: the owner picks İngilizce Koyu's pictures by hand and copies the choices (not linked)
 ├── admin/                   Yönetici sayfası: every player of every device, read from the cloud copy; signs in with

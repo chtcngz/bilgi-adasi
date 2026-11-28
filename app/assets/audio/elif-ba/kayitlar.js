@@ -546,13 +546,13 @@ window.elifRecordings = {
       7: 'assets/audio/elif-ba/cocuk/harf/07.mp3?v=cocuk-1',
       8: 'assets/audio/elif-ba/cocuk/harf/08.mp3?v=cocuk-1',
       9: 'assets/audio/elif-ba/cocuk/harf/09.mp3?v=cocuk-1',
-      10: 'assets/audio/elif-ba/cocuk/harf/10.mp3?v=cocuk-1',
+      10: 'assets/audio/elif-ba/cocuk/harf/10.mp3?v=cocuk-2',
       11: 'assets/audio/elif-ba/cocuk/harf/11.mp3?v=cocuk-1',
       12: 'assets/audio/elif-ba/cocuk/harf/12.mp3?v=cocuk-1',
       13: 'assets/audio/elif-ba/cocuk/harf/13.mp3?v=cocuk-1',
       14: 'assets/audio/elif-ba/cocuk/harf/14.mp3?v=cocuk-1',
-      15: 'assets/audio/elif-ba/cocuk/harf/15.mp3?v=cocuk-1',
-      16: 'assets/audio/elif-ba/cocuk/harf/16.mp3?v=cocuk-1',
+      15: 'assets/audio/elif-ba/cocuk/harf/15.mp3?v=cocuk-2',
+      16: 'assets/audio/elif-ba/cocuk/harf/16.mp3?v=cocuk-2',
       17: 'assets/audio/elif-ba/cocuk/harf/17.mp3?v=cocuk-1',
       18: 'assets/audio/elif-ba/cocuk/harf/18.mp3?v=cocuk-1',
       19: 'assets/audio/elif-ba/cocuk/harf/19.mp3?v=cocuk-1',
@@ -650,7 +650,10 @@ window.elifRecordings = {
       '26-2': 'assets/audio/elif-ba/cocuk/hece/26-2.mp3?v=cocuk-1',
       '27-0': 'assets/audio/elif-ba/cocuk/hece/27-0.mp3?v=cocuk-1',
       '27-1': 'assets/audio/elif-ba/cocuk/hece/27-1.mp3?v=cocuk-1',
-      '27-2': 'assets/audio/elif-ba/cocuk/hece/27-2.mp3?v=cocuk-1'
+      '27-2': 'assets/audio/elif-ba/cocuk/hece/27-2.mp3?v=cocuk-1',
+      'hemze-0': 'assets/audio/elif-ba/cocuk/hece/hemze-0.mp3?v=cocuk-1',
+      'hemze-1': 'assets/audio/elif-ba/cocuk/hece/hemze-1.mp3?v=cocuk-1',
+      'hemze-2': 'assets/audio/elif-ba/cocuk/hece/hemze-2.mp3?v=cocuk-1'
     },
     yer: {
       1: 'assets/audio/elif-ba/cocuk/yer/1.mp3?v=cocuk-1',
@@ -741,7 +744,10 @@ window.elifRecordings = {
       '26-2': 'assets/audio/elif-ba/cocuk/tenvin/26-2.mp3?v=cocuk-1',
       '27-0': 'assets/audio/elif-ba/cocuk/tenvin/27-0.mp3?v=cocuk-1',
       '27-1': 'assets/audio/elif-ba/cocuk/tenvin/27-1.mp3?v=cocuk-1',
-      '27-2': 'assets/audio/elif-ba/cocuk/tenvin/27-2.mp3?v=cocuk-1'
+      '27-2': 'assets/audio/elif-ba/cocuk/tenvin/27-2.mp3?v=cocuk-1',
+      'hemze-0': 'assets/audio/elif-ba/cocuk/tenvin/hemze-0.mp3?v=cocuk-1',
+      'hemze-1': 'assets/audio/elif-ba/cocuk/tenvin/hemze-1.mp3?v=cocuk-1',
+      'hemze-2': 'assets/audio/elif-ba/cocuk/tenvin/hemze-2.mp3?v=cocuk-1'
     },
     // The harekes' names (0 üstün, 1 esre, 2 ötre), the cezm's, the tenvins' (iki üstün, iki esre, iki ötre) and the şedde's, for "Be üstün be".
     hareke: {
