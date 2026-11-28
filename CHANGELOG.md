@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.116.1 · 28.11.2026
+
+- Gönderilen ders kesitinden altı Dad okuması Yeni kayıtlar sütununa eklendi.
+
 ## 0.116.0 · 28.11.2026
 
 - **English, “Take care!” ve “Have a nice day!” için birer balon sorusu:** Leo yolculuğa çıkan babasına, Maya’nın annesi okula giden Maya’ya veda ediyor. Vedalaşma etabının her kelimesinin artık sorusu var (10 soru).
