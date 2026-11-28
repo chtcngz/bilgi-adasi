@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.106.0 · 28.11.2026
+
+- **English, 3 yeni soru: Hi! ve Hello!** Okulda Leo arkadaşlarını görüyor (Hi!); Leo sokakta Maya ile karşılaşıyor (Hello!); sınıfa yeni gelen Zoe öğrencileri selamlıyor (Hello!). Yeni karakter: Zoe. 1. etapta artık 18 soru var; her turda yedi kelimenin her birinden bir soru geliyor (7 soru).
+- **“?” balonu daha kolay fark ediliyor:** Bırakma alanı alttaki üç şıkkın renkleriyle sırayla, yumuşakça parlıyor ve hafifçe nefes alıyor. Bir şık sürüklenmeye başlayınca balon o şıkkın rengiyle sabit parlıyor; doğru cevap yerleşince animasyon tamamen duruyor.
+
 ## 0.105.0 · 28.11.2026
 
 - **English, 3 yeni soru: Good night!** Gece Leo uyumak için odasına gidiyor ve annesine ne der; gece Maya yatağına yatıyor, annesi odadan çıkarken ne der; gece Leo uyuyor, babası odadan çıkarken ne der. Şıklar: Good night!, Good morning!, Good afternoon!. 1. etapta artık 15 soru var; her turda beş kelimenin her birinden bir soru ve bir rastgele soru geliyor.

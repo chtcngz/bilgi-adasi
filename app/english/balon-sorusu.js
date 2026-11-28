@@ -78,6 +78,8 @@ const englishBalon = (() => {
       const mascot = root.querySelector('.eb-maskot');
       let solved = false, first = true;
       const colours = shuffled(COLOURS);
+      // the bubble glows in the cards' colours, in their order on the screen (balon-sorusu.css, eb-dongu)
+      colours.slice(0, 3).forEach((col, i) => zone.style.setProperty('--r' + (i + 1), col));
       shuffled(q.a).forEach((text, i) => {
         const card = document.createElement('button');
         card.type = 'button';
@@ -117,6 +119,9 @@ const englishBalon = (() => {
               Object.assign(ghost.style, { width: r.width + 'px', height: r.height + 'px' });
               c.stage.closest('dialog').append(ghost);
               card.classList.add('eb-bos');
+              // while a card is held the bubble stops its colours and glows in the held card's colour
+              zone.style.setProperty('--tut', card.style.getPropertyValue('--renk'));
+              zone.classList.add('tutuluyor');
             }
             ghost.style.transform = 'translate(' + (ev.clientX - start.dx) + 'px,' + (ev.clientY - start.dy) + 'px) scale(1.08) rotate(-3deg)';
             zone.classList.toggle('yakin', near(ev.clientX, ev.clientY));
@@ -126,7 +131,7 @@ const englishBalon = (() => {
             window.removeEventListener('pointerup', up);
             window.removeEventListener('pointercancel', cancel);
             ending = null;
-            zone.classList.remove('yakin');
+            zone.classList.remove('yakin', 'tutuluyor');
           };
           const up = ev => {
             if (ev.pointerId !== id) return;

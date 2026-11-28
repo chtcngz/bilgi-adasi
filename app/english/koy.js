@@ -40,7 +40,7 @@
   const kapak = g => kartlar(g)[0]?.resim;
   // "Good morning!" answers the word "good morning": capitals and punctuation do not count
   const bare = t => String(t || '').toLocaleLowerCase('en').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
-  const SORU = 6;   // questions in one round of an etap
+  const SORU = 7;   // questions in one round of an etap (Selamlaşma's 1. etap has 7 words: one of each)
   // the questions of an etap: the island's questions whose word (k[0]) is one of the etap's words, each with its id (ilk:0)
   function sorulari(ada, g) {
     const words = new Set(g.kelimeler.map(w => bare(w[0])));

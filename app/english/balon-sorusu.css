@@ -13,10 +13,30 @@
 .eb-soru { margin: 0; font-size: 22px; line-height: 1.25; font-weight: 900; color: #e8590c; }
 .eb-sahne { position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 6px 18px rgba(23, 63, 64, .16); background: #f3ead7; }
 .eb-sahne img { display: block; width: 100%; height: auto; pointer-events: none; }
-.eb-balon { position: absolute; display: grid; place-items: center; border-radius: 50%; transition: background-color .2s, box-shadow .2s; }
-.eb-soru-isareti { font: 900 clamp(26px, 7vw, 54px)/1 Nunito, sans-serif; color: #ef9739; animation: eb-nabiz 1.4s ease-in-out infinite; }
-.eb-balon.yakin { background: rgba(255, 183, 3, .22); box-shadow: 0 0 0 4px rgba(255, 183, 3, .7); }
-.eb-balon.dogru { background: rgba(81, 207, 102, .18); box-shadow: 0 0 0 4px rgba(47, 155, 127, .8); animation: eb-pop .5s ease-out; }
+/* The drop zone waits in the three cards' colours, one after another (--r1 --r2 --r3, set by the game in the cards' order),
+   with a soft glow and a slow breath (6 s for the three); a held card stops it in its own colour (--tut); a solved one is still. */
+.eb-balon { --r1: #ff8a5c; --r2: #5cb8ff; --r3: #b07cff; --tut: #ffb703;
+  position: absolute; display: grid; place-items: center; border-radius: 50%; animation: eb-dongu 6s ease-in-out infinite; }
+.eb-soru-isareti { font: 900 clamp(26px, 7vw, 54px)/1 Nunito, sans-serif; color: var(--r1); text-shadow: 0 0 6px #fff, 0 0 2px #fff; animation: eb-dongu-yazi 6s ease-in-out infinite; }
+@keyframes eb-dongu {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 4px var(--r1), 0 0 18px 4px color-mix(in srgb, var(--r1) 55%, transparent); background: color-mix(in srgb, var(--r1) 12%, transparent); }
+  16.6% { transform: scale(1.08); }
+  33.3% { transform: scale(1); box-shadow: 0 0 0 4px var(--r2), 0 0 18px 4px color-mix(in srgb, var(--r2) 55%, transparent); background: color-mix(in srgb, var(--r2) 12%, transparent); }
+  50% { transform: scale(1.08); }
+  66.6% { transform: scale(1); box-shadow: 0 0 0 4px var(--r3), 0 0 18px 4px color-mix(in srgb, var(--r3) 55%, transparent); background: color-mix(in srgb, var(--r3) 12%, transparent); }
+  83.3% { transform: scale(1.08); }
+}
+@keyframes eb-dongu-yazi { 0%, 100% { color: var(--r1); } 33.3% { color: var(--r2); } 66.6% { color: var(--r3); } }
+@keyframes eb-dongu-sakin {
+  0%, 100% { box-shadow: 0 0 0 4px var(--r1), 0 0 14px 3px color-mix(in srgb, var(--r1) 45%, transparent); }
+  33.3% { box-shadow: 0 0 0 4px var(--r2), 0 0 14px 3px color-mix(in srgb, var(--r2) 45%, transparent); }
+  66.6% { box-shadow: 0 0 0 4px var(--r3), 0 0 14px 3px color-mix(in srgb, var(--r3) 45%, transparent); }
+}
+.eb-balon.tutuluyor { animation: none; transform: scale(1.04); box-shadow: 0 0 0 4px var(--tut), 0 0 20px 6px color-mix(in srgb, var(--tut) 60%, transparent);
+  background: color-mix(in srgb, var(--tut) 16%, transparent); transition: transform .2s, box-shadow .2s; }
+.eb-balon.tutuluyor .eb-soru-isareti { animation: none; color: var(--tut); }
+.eb-balon.tutuluyor.yakin { transform: scale(1.1); box-shadow: 0 0 0 5px var(--tut), 0 0 30px 10px color-mix(in srgb, var(--tut) 75%, transparent); }
+.eb-balon.dogru { animation: eb-pop .5s ease-out both; background: rgba(81, 207, 102, .18); box-shadow: 0 0 0 4px rgba(47, 155, 127, .8); transform: none; }
 .eb-cevap { position: relative; z-index: 1; white-space: nowrap; padding: 3px 9px; border-radius: 12px; background: #fff; box-shadow: 0 2px 8px rgba(23, 63, 64, .22);
   font: 900 16px/1.1 Nunito, sans-serif; color: #2b8a3e; }
 .eb-kartlar { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
@@ -42,5 +62,9 @@
 @keyframes eb-zipla { 40% { transform: translateY(-8px) scale(1.15); } }
 @keyframes eb-titre { 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(5px); } }
 @keyframes eb-titre-yer { 20% { translate: -8px 0; } 40% { translate: 8px 0; } 60% { translate: -5px 0; } 80% { translate: 5px 0; } }
-@media (prefers-reduced-motion: reduce) { .eb *, .eb-surukle { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) {
+  .eb *, .eb-surukle { animation: none !important; }
+  /* a device that asks for less motion: no breath, the colours change very slowly */
+  .eb .eb-balon:not(.tutuluyor):not(.dogru) { animation: eb-dongu-sakin 12s ease-in-out infinite !important; }
+}
 @media (max-width: 380px) { .eb-kart { min-width: 0; flex: 1 1 100%; } }

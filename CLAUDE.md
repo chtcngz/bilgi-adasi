@@ -49,8 +49,9 @@ the owner says otherwise, work only on bölüm 1 (İlk Adımlar: Greetings, Alph
   right in the scene (Hi, Hello) and never a farewell (Goodbye, Bye, See you …)**: the wrong options are the time-of-day
   greetings that the scene's time clearly rules out (in an evening scene Good morning and Good afternoon; Good night and Good
   evening are never wrong options for each other, they are too close). A scene with no clock says the time in its Turkish story ("Öğleden sonra …",
-  "Akşam …"). A round of an etap asks at most 6 of its questions (one of every word first), in a new order every time.
-- The characters: the boy is **Leo**, 9 years old; the girl is **Maya**, 10. A picture whose bubble needs other words gets them
+  "Akşam …"). A round of an etap asks at most 7 of its questions (one of every word first), in a new order every time.
+- The characters: the boy is **Leo**, 9 years old; the girl is **Maya**, 10; **Zoe** is the girl new in their class (her name
+  was given by the owner for a greeting question). A picture whose bubble needs other words gets them
   with `tools/baloncuk.py` (the owner asks for the bubble's text; e.g. "My name is Leo.", "I’m 9 years old.").
 - The owner picks the pictures of the words and of the questions on `…/english/resimler/` (up to six each, first = main; grouped
   bölüm › station › etap › Resimler / Soruları); the choices and uploads are in Firestore `resimler/…`. "Resimleri oyuna işle"
