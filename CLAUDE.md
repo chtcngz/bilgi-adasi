@@ -38,6 +38,11 @@ the owner says otherwise, work only on bölüm 1 (İlk Adımlar: Greetings, Alph
 - **A question may use only the words of those lists.** The only extras allowed: English first names, and ages from 5 to 20, in
   questions and answers about names and ages.
 - Nobody plays the site yet (only the owner, testing), so questions may keep the stop id `ilk` when they are written again.
+- A station is cut into **etaps** of related words (the `gruplar` of `kelimeler.js`; Selamlaşma has 6). Tapping a station opens
+  its etaps as small round pictures; an etap shows its **tanıtım kartları** (a big picture, the English, the Turkish, 🔊 🐢), and
+  the next etap opens once its last card is reached (`app/english/koy.js`).
+- The characters: the boy is **Leo**, 9 years old; the girl is **Maya**, 10. A picture whose bubble needs other words gets them
+  with `tools/baloncuk.py` (the owner asks for the bubble's text; e.g. "My name is Leo.", "I’m 9 years old.").
 - The owner picks the words' pictures on `…/english/resimler/` (up to six per word, first = main); the choices and uploads are
   in Firestore `resimler/…`. "Resimleri oyuna işle" means: read them (public read) and bring them into the game.
 

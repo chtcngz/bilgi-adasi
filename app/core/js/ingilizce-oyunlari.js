@@ -1473,8 +1473,9 @@ const ingilizceOyunlari = (() => {
     root.querySelector('.ok-top').append(skip);
     const next = button('primary ok-next', '');
     alt.append(next);
-    const end = () => { if (!live.on) return; live.on = false; ingilizceSes.stop(); c.bitti(); };
-    skip.onclick = end;
+    // bitti(true) when the cards were skipped (⏭), bitti(false) when the last card was reached
+    const end = skipped => { if (!live.on) return; live.on = false; ingilizceSes.stop(); c.bitti(!!skipped); };
+    skip.onclick = () => end(true);
     // the word, then its meaning; a newer tap or the next word cuts in
     const say = async (w, slow = false) => {
       const mine = ++flow;
@@ -1492,8 +1493,10 @@ const ingilizceOyunlari = (() => {
       requestAnimationFrame(() => { me.style.left = dot.offsetLeft + dot.offsetWidth / 2 + 'px'; });
       bar.setAttribute('aria-label', (at + 1) + ' / ' + n);
       kart.innerHTML = '';
-      // a word with a big picture of its own (foto, assets/images/ingilizce/<foto>.webp) shows that instead of its small card
-      const pic = button('ok-resim' + (w.foto ? ' foto' : ''), w.foto ? '<img src="assets/images/ingilizce/' + esc(w.foto) + '.webp?v=2" alt="" draggable="false">' : resimKarti(w.emo), w.en + ', yeniden dinle');
+      // a word with a big picture of its own (foto: assets/images/ingilizce/<foto>.webp, or a whole path that starts with
+      // assets/) shows that instead of its small card
+      const src = w.foto && (w.foto.startsWith('assets/') ? w.foto : 'assets/images/ingilizce/' + w.foto + '.webp?v=2');
+      const pic = button('ok-resim' + (w.foto ? ' foto' : ''), w.foto ? '<img src="' + esc(src) + '" alt="" draggable="false">' : resimKarti(w.emo), w.en + ', yeniden dinle');
       pic.onclick = () => { pic.classList.remove('hop'); void pic.offsetWidth; pic.classList.add('hop'); say(w); };
       const en = el('p', 'ok-en', esc(w.en)); en.lang = 'en';
       const tr = el('p', 'ok-tr', esc(w.tr));
@@ -1509,7 +1512,7 @@ const ingilizceOyunlari = (() => {
     next.onclick = () => {
       if (!live.on) return;
       playCue('tap', { gain: 0.6 });
-      if (at < n - 1) { at++; show(); } else end();
+      if (at < n - 1) { at++; show(); } else end(false);
     };
     ingilizceSes.hazirla(words.map(w => w.en));
     show();

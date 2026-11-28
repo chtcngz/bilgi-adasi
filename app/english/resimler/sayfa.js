@@ -7,7 +7,7 @@
 // where they are used (this word, the uploads, every English station, every unit of İngilizce Koyu, the rest), with a search
 // over the picture's name and the words it is used for.
 // Cloud (Firestore, REST): resimler/secimler { json: {"english-1/selam/hello": ["[[y-hello-3]]", "👋"], …} } and
-// resimler/yuklenen/liste/{id} { ad, veri (a data: URL of the picture made 256×256 at most), zaman }. Anyone may read them;
+// resimler/yuklenen/liste/{id} { ad, veri (a data: URL of the picture, 1024 px at most), zaman }. Anyone may read them;
 // writing needs the admin's account (the Firestore rule: match /resimler/{doc=**} { allow read: if true; allow write: if isAdmin(); }).
 // Sign-in is the admin page's (admin/admin.js): Google Identity Services or Firebase e-mail and password.
 (() => {
@@ -397,20 +397,22 @@
   $('rs-kelime-ara').oninput = cizAna;
 
   /* ---------- uploads ---------- */
-  // A picture of the owner's: made 256×256 at most (WebP, PNG where the browser cannot), kept as a data: URL in the cloud.
+  // A picture of the owner's: made 1024 px at most on its longer side (WebP; JPEG where the browser cannot write WebP, as
+  // Safari), kept as a data: URL in the cloud (a Firestore document holds up to 1 MB).
   function kucult(file) {
     return new Promise((resolve, reject) => {
       const url = URL.createObjectURL(file);
       const img = new Image();
       img.onload = () => {
-        const scale = Math.min(1, 256 / Math.max(img.naturalWidth, img.naturalHeight));
+        const scale = Math.min(1, 1024 / Math.max(img.naturalWidth, img.naturalHeight));
         const c = document.createElement('canvas');
         c.width = Math.max(1, Math.round(img.naturalWidth * scale));
         c.height = Math.max(1, Math.round(img.naturalHeight * scale));
         c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
         URL.revokeObjectURL(url);
         let data = c.toDataURL('image/webp', 0.85);
-        if (!data.startsWith('data:image/webp')) data = c.toDataURL('image/png');
+        if (!data.startsWith('data:image/webp')) data = c.toDataURL('image/jpeg', 0.88);
+        if (data.length > 900000) data = c.toDataURL('image/jpeg', 0.7);
         resolve(data);
       };
       img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Resim okunamadı: ' + file.name)); };

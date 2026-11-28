@@ -19,12 +19,11 @@ Haritada her birinin koyu bulutların altında, kilitli ve “Yakında” olarak
 
 ## English for Kids (…/english/)
 
-1. bölüm (İlk Adımlar) hazır. Sıradaki bölümler, konu haritasındaki sırayla, her biri bir ada (`app/islands/english-<n>/`), her konusu bir istasyon. Sahibi söyleyene kadar yalnızca 1. bölüm üzerinde çalışılır.
+1. bölüm (İlk Adımlar): Selamlaşma istasyonunun 6 etabı ve tanıtım kartları hazır. Sıradaki bölümler, konu haritasındaki sırayla, her biri bir ada (`app/islands/english-<n>/`), her konusu bir istasyon. Sahibi söyleyene kadar yalnızca 1. bölüm üzerinde çalışılır.
 
 - [ ] **İlk Adımlar’ın soruları:** sahibi istediğinde, yalnızca istasyonların kelime listelerindeki kelimelerle
 - [ ] **Alfabe, Sayılar, Soru kelimeleri istasyonlarının kelime listeleri** (sahibinden)
-- [ ] **Resimlerin oyuna işlenmesi:** Resimler sayfasındaki seçimler ve yüklenen resimler oyuna
-- [ ] **Firestore kuralı:** `resimler` koleksiyonu için okuma/yazma kuralı (sahibi Firebase konsolunda ekler)
+- [ ] **Selamlaşma resimlerinin büyük hâlleri:** resimler 256 piksel yüklendi; 1024 pikselle yeniden yüklenince oyuna işlenecek (baloncuk yazıları da yeniden)
 - [ ] **2. bölüm, Temel Kavramlar:** Renkler, Şekiller, Zıt Kavramlar, Yönler
 - [ ] **3. bölüm, İnsan:** Aile, Vücut, Kişilik, Duygular, Kıyafetler
 - [ ] **4. bölüm, Okul:** Okuldaki İnsanlar, Okul Eşyaları, Okulun Bölümleri, Dersler, Sınıf Dili

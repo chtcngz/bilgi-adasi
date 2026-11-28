@@ -16,6 +16,7 @@ Sounds are loaded with `fetch`, so opening the file directly via `file://` leave
 app/                         Published site (GitHub Pages root)
 ├── index.html               All screens and the script/style load order
 ├── english/index.html       English for Kids (…/english/): the same game with only English Koyu (see "English for Kids")
+├── english/koy.js, koy.css  English Koyu: its islands, stations, etaps and tanıtım kartları
 ├── english/resimler/        Resimler · English: the owner picks the words' pictures (index.html, sayfa.js, sayfa.css; not linked)
 ├── core/                    Shared infrastructure for every island
 │   ├── js/
@@ -91,8 +92,8 @@ app/                         Published site (GitHub Pages root)
 │   │       ├── sepet.js     🧺 Sepete Topla: mussels carried into baskets (by letter, hareke, cezm, tenvin, şedde)
 │   │       ├── bridge.*     Cam Köprü, the mixed game at the end of every cove
 │   ├── din-bilgisi/         Question island: sorular.js + game.js + kapsam.md
-│   ├── english-1/           English for Kids, Ada 1 (İlk Adımlar): kelimeler.js (the stations' words), sorular.js (empty
-│   │                        until the owner asks), game.js, kapsam.md and resimler.js (letter tiles [[harf-a]] …, badges [[sira-4]] …)
+│   ├── english-1/           English for Kids, Ada 1 (İlk Adımlar): kelimeler.js (the stations' words, etaps and cards), sorular.js
+│   │                        (empty until the owner asks), kapsam.md and resimler.js (letter tiles [[harf-a]] …, badges [[sira-4]] …)
 │   ├── fen-bilimleri/       Question island: same pattern
 │   ├── ingilizce-2/ -3/ -4/ İngilizce Koyu, one question island per grade (each grade sees only its own); 2nd grade done, 3rd and 4th still empty
 │   │                        (ingilizce-2/sahneler.js: the pictures of 🔍 Gizli Kelimeler and the places to tap in them;
@@ -106,6 +107,7 @@ app/                         Published site (GitHub Pages root)
                              Nothing in the game links to it; open …/deneme/.
 tools/                       Helper scripts (not published)
 ├── kapsam.js                Checks every question island against its textbook checklist
+├── baloncuk.py              Rewrites the text of a picture's speech bubble (English for Kids)
 ├── make_sounds.py           → app/assets/audio/ui/*.wav
 ├── elif_sesleri.py          → app/assets/audio/elif-ba/ (harf, hece, kayitlar.js)
 ├── ingilizce_metinler.js    Every English line İngilizce Koyu says (question words and sentences, the games' lines)
@@ -201,17 +203,21 @@ A second site at `…/bilgi-adasi/english/` (`app/english/index.html`) teaches E
   step with `app/index.html`; it leaves out the other question islands (their dialogs, progress rows and scripts).
 - `<body data-koylar="eng1-card">`: `availableForPlayer` (core/js/profiles.js) hides every bay and card not listed, for every grade
   and for devAll too, so Çarpım Koyu and Elif Ba (still loaded, Ayarlar needs them) never show there.
-- **English Koyu** has one island per bölüm of the topic map, each a stop of `islands/english-<n>/sorular.js`, cut into one station
-  per topic and played as İngilizce Koyu's games. The owner gives every station's words (`kelimeler.js`, `window.englishAdalari`);
-  questions use only those words and are written only when the owner asks. Bölüm 1, İlk Adımlar, has its Selamlaşma words
-  (42) and no questions yet, so its island says "Yakında". `kapsam.md` lists the same words; `node tools/kapsam.js` checks it
-  once the bank has questions.
-- Progress is saved as `ingilizce-en1-<player id>` (the `ingilizce-` prefix is already in the cloud copy).
+- **English Koyu** (`app/english/koy.js`, `koy.css`) has one island per bölüm of the topic map and one station per topic, all from
+  the islands' `kelimeler.js` (`window.englishAdalari`). A station is cut into etaps (its `gruplar`); tapping it opens the etaps
+  as small round pictures on a zigzag path in the station's dialog (`#eng1-game`), and an etap shows its tanıtım kartları with
+  `ingilizceOyunlari.kesif` (a big picture from `assets/images/english/`, the English said, the Turkish meaning). The next etap
+  opens when the last card is reached (⏭ Atla goes back without finishing). A station without words stays locked ("Yakında").
+  Progress: `ingilizce-english-<player id>` → `{ etap: { "english-1/selam": 2 } }`. Bölüm 1, İlk Adımlar, has its Selamlaşma
+  station (42 words in 6 etaps); there are no questions yet (`sorular.js` is empty; questions only when the owner asks).
+- **The pictures** come from the owner's uploads on the picture page, brought into `assets/images/english/<word>.webp`. When a
+  picture's speech bubble must say something else ("My name is …" → "My name is Leo."), `tools/baloncuk.py` paints the old text
+  over with the bubble's colour and writes the new one in a hand-drawn font (Patrick Hand, not shipped).
 - **Resimler · English** (`app/english/resimler/`, not linked): every word by island › station › group with up to six pictures
   (the first is the main one; ◀ ✕ ▶ order and remove them). 🖼️ Tüm resimler opens every picture of the project (the drawings of
   kelime-resimleri.js, cizimler.js, resimler.js and the islands' resimler.js, the emoji of İngilizce Koyu's questions, the
   uploads) grouped by where they are used, with a search over the picture's name and the words it is used for. 📤 Yükle makes a
-  picture 256×256 at most and keeps it in the cloud. Choices: Firestore `resimler/secimler` (`json`: `{"english-1/selam/hello":
+  picture 1024 px at most (WebP, or JPEG on Safari) and keeps it in the cloud. Choices: Firestore `resimler/secimler` (`json`: `{"english-1/selam/hello":
   ["[[y-hello-3]]", …]}`); uploads: `resimler/yuklenen/liste/{id}` (`ad`, `veri` = a data: URL). Writing needs the admin's
   account (same sign-in as admin/); the owner adds this rule in the Firebase console:
   ```

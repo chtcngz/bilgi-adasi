@@ -7,6 +7,13 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.96.0 · 28.11.2026
+
+- **English, Selamlaşma istasyonu 6 etapta:** İstasyona dokununca altı etap, küçük yuvarlak resimler hâlinde bir patika üzerinde açılıyor: 1 Selamlaşma, 2 Vedalaşma, 3 Tanışma, 4 Hal hatır, 5 Arkadaş ve yaş, 6 Nezaket. Etaplar sırayla açılıyor; bir etabın son kartına gelince etap bitiyor (✓) ve sıradaki açılıyor.
+- **Tanıtım kartları:** Her etap kelimelerini büyük, baloncuklu resimlerle tanıtıyor: İngilizcesi yazıyor ve okunuyor, Türkçesi altında; 🔊 ve 🐢 ile yeniden dinlenebiliyor. 42 kelime, 43 kart.
+- **Leo ve Maya:** Kartlardaki çocukların adları belli: Leo 9 yaşında, Maya 10 yaşında. “My name is Leo.”, “My name is Maya.”, “I am Maya.”, “I’m 9 years old.”, “This is my friend Leo.” kartlarının baloncukları buna göre yazıldı. “I am sorry.”, “I am good!” ve “Thanks!” için de benzer resimlerin baloncukları değiştirildi.
+- **Resimler sayfası:** Yüklenen resimler artık 1024 piksele kadar saklanıyor (önce 256’ydı); kelimeler 6 etaba göre gruplu.
+
 ## 0.95.0 · 27.11.2026
 
 - **English, İlk Adımlar’ın soruları kaldırıldı:** Sorular, istasyonların kelime listelerine göre yeniden hazırlanacak; ada o zamana kadar haritada “Yakında” duruyor. Selamlaşma istasyonunun 42 kelimelik listesi saklandı.
