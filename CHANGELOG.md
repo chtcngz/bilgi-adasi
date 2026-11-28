@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.116.7 · 28.11.2026
+
+- Sesler: Dad’ın du ve din okumalarında kız sesi yeniden onaylandı. Tı’nın üç harekeli ve üç tenvinli okuması kız sesiyle onaylandı ve Seslendirilecekler listesinden çıktı.
+
 ## 0.116.6 · 28.11.2026
 
 - **English, ✕ düğmesi artık takılmıyor:** Bir sorudayken sağ üstteki ✕ ile çıkınca oyun donmuyor; pencere tamamen kapanıyor ve harita yeniden dokunulabilir oluyor.
