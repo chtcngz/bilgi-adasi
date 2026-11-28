@@ -186,7 +186,9 @@ const elifVoice = (() => {
       sequence([s === 0 ? { src: syllableClip(i, h), text: elifData.readings[i][h] } : s === 1 ? tenvinStep(i, h) :
         { src: clip('tenvinOrnek', p), text: reading }], note, after);
     },
-    // "Be üstün be, be esre bi, be ötre bu": the way the harekes are chanted in class.
+    // "Be, bi, bu": a letter's three syllables, with no mark names (the cards of the Harekeler and Bitişik steps).
+    syllables: (i, note, after) => sequence([0, 1, 2].map(k => ({ src: syllableClip(i, k), text: elifData.readings[i][k] })), note, after),
+    // "Be üstün be, be esre bi, be ötre bu": the way the harekes are chanted in class (Harekelerle tanış).
     chant(i, h, note) {
       const steps = [];
       for (const k of h === undefined ? [0, 1, 2] : [h]) {

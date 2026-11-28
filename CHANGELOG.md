@@ -7,6 +7,12 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.96.1 · 28.11.2026
+
+- **Elif Ba, işaret adımlarında Türkçe açıklama yok:** Harekeler, Cezm, Tenvin ve Şedde adımlarının başındaki 🐢💬 düğmesi ve yazılı açıklama kaldırıldı.
+- **Harekeler kartları:** Hecelerin altındaki “üstün, esre, ötre” yazıları kalktı. ♪ düğmesi artık işaret adı söylemiyor, yalnızca heceleri okuyor: “be, bi, bu”. Bitişik yazılış kartlarındaki ♪ de aynı.
+- **Kartların altındaki yazı satırı:** Bütün Elif Ba adımlarında bir karta dokununca en altta çıkan yazı (“Be iki ötre” gibi) artık çıkmıyor.
+
 ## 0.96.0 · 28.11.2026
 
 Deneme Odası’na (`…/deneme/`, oyundan bağlantı verilmiyor) ileride oyunlarda kullanılmak üzere beş yeni oyun fikri geldi; hepsi oynanabiliyor ve okuma bilmeyen çocuklar için sesli. Odada önde ve “✨ Yeni” işaretliler; her oyunun 🐢💬 düğmesi oyunun ne olduğunu söylüyor.

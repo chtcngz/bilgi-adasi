@@ -217,6 +217,7 @@
 .elif-section-head h2 small { display: block; font-size: 15px; font-weight: 850; text-transform: uppercase; letter-spacing: .05em; color: #5a6f6a; }
 #elif-section-count { font-weight: 850; padding: 6px 12px; border-radius: 20px; background: #f7ebca; color: #705127; }
 .elif-guide { display: flex; align-items: center; gap: 12px; margin: 8px 0 12px; font-weight: 650; }
+.elif-guide[hidden] { display: none; }
 .elif-guide span { flex: 1; font-size: 14px; color: #5a6f6a; }
 /* The turtle button says aloud what to do: the children cannot read yet. */
 .elif-howto { flex: none; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; border: 2px solid #b2d5c4; background: #fff; font-size: 18px; white-space: nowrap; box-shadow: 0 3px #b2d5c4; }

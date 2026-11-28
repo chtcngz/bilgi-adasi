@@ -49,7 +49,11 @@ game of Elif Ba Adası for them:
 - Nothing may need reading. Every instruction can be heard (`elifVoice.instruct`, the device's Turkish voice) from a
   🐢💬 (info) button. The introductions of games and sections (what the game or the section is about) are silent by
   default and said only when 🐢💬 is tapped; the instructions of a question are still said when they first come.
-  Written text may stay for the grown-ups.
+  Written text may stay for the grown-ups, except on the steps that teach the marks (below).
+- The steps that teach the marks (Harekeler, Cezm, Tenvin, Şedde) name no mark: no 🐢💬 introduction and no written one,
+  no Turkish words under the letters, and tapping a card or ♪ plays only Arabic letters and syllables (be, bi, bu; bi,
+  bis; be, ben; bis, se, bisse), never "üstün", "iki ötre", "cezm", "şedde". The note line under the cards stays empty.
+  (Harekelerle tanış, the lesson that first names the harekes, still says them.)
 - Choices are letters, sounds or pictures, never words. A place in a word is a picture of three boxes, right
   to left (`placeIcon`), not "Başta / Ortada / Sonda".
 - Buttons carry a symbol (▶ ↻ 🏁 ✓), not only a word; right and wrong are shown by colour, sound and the
