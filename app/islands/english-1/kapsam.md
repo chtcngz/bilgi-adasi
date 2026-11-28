@@ -28,12 +28,12 @@ sahibi istemeden yazılmaz. Bir kelimenin soruları yazılınca maddenin sonuna 
 
 ### Tanışma
 
-- name = isim, ad
+- name = isim, ad → ilk:29, ilk:31
 - friend = arkadaş
 - meet = tanışmak
-- What’s your name? = Adın ne?
-- My name is … = Benim adım …
-- I am … / I’m … = Ben …
+- What’s your name? = Adın ne? → ilk:32
+- My name is … = Benim adım … → ilk:30
+- I am … / I’m … = Ben … → ilk:28
 - Nice to meet you. = Tanıştığımıza memnun oldum.
 - Nice to meet you, too. = Ben de memnun oldum.
 - Welcome! = Hoş geldin! → ilk:0, ilk:1, ilk:2

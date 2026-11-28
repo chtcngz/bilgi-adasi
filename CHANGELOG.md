@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.117.0 · 28.11.2026
+
+- **English, Tanışma etabına beş balon sorusu:** Maya “I am Maya.” diyor; Leo “My name is Leo.” diyor; Leo, Maya’ya “What is your name?” diye soruyor; Maya ve Leo yakalarındaki isim kartını gösteriyor (kartta yazan isim: “name”).
+
 ## 0.116.9 · 28.11.2026
 
 - Sesler, Seçilenler: Seçilmemiş okumalar da yerinde görünüyor; boş, kırmızı kesik çizgili bir kutu olarak. Harekesiz ve örnek kelimelerde kutunun içinde harf soluk kırmızıyla yazılı. ▶▶ yalnızca seçilen sesleri çalıyor.
