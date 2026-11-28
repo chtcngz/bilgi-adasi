@@ -1,9 +1,9 @@
 // English, Ada 1 (İlk Adımlar): the words of every station, by the owner's lists. The questions may use only these words
-// (and, in name and age questions, English names and ages from 5 to 20). A station is cut into etaps (gruplar), each a
+// (and, in name and age questions, Turkish first names and ages from 5 to 20). A station is cut into etaps (gruplar), each a
 // handful of related words; the owner's site opens a station on its etaps (app/english/koy.js).
 // Each word: [English, Türkçe, kart?]. kart: { resim } the picture of its tanıtım kartı (assets/images/english/<resim>.webp,
 // chosen on app/english/resimler/), or { kartlar: [{ en, tr, resim }] } when the card says something more than the word
-// (the names and ages: the boy is Leo, 9; the girl is Maya, 10). The pictures chosen on the picture page are kept in the cloud
+// (the names and ages: the boy is Efe, 9; the girl is Ela, 10). The pictures chosen on the picture page are kept in the cloud
 // under "english-1/<station id>/<English>": the English of a word must not change, or its pictures are lost.
 (window.englishAdalari ||= []).push({
   id: 'english-1', ad: 'İlk Adımlar', simge: '👣', bolum: '1. Bölüm · First Steps',
@@ -22,9 +22,9 @@
       { ad: 'Tanışma', kelimeler: [
         ['name', 'isim, ad', { resim: 'name' }],
         ['What’s your name?', 'Adın ne?', { kartlar: [{ en: 'What is your name?', tr: 'Adın ne?', resim: 'whats-your-name' }] }],
-        ['My name is …', 'Benim adım …', { kartlar: [{ en: 'My name is Leo.', tr: 'Benim adım Leo.', resim: 'my-name-is-leo' },
-          { en: 'My name is Maya.', tr: 'Benim adım Maya.', resim: 'my-name-is-maya' }] }],
-        ['I am … / I’m …', 'Ben …', { kartlar: [{ en: 'I am Maya.', tr: 'Ben Maya.', resim: 'i-am-maya' }] }],
+        ['My name is …', 'Benim adım …', { kartlar: [{ en: 'My name is Efe.', tr: 'Benim adım Efe.', resim: 'my-name-is-leo' },
+          { en: 'My name is Ela.', tr: 'Benim adım Ela.', resim: 'my-name-is-maya' }] }],
+        ['I am … / I’m …', 'Ben …', { kartlar: [{ en: 'I am Ela.', tr: 'Ben Ela.', resim: 'i-am-maya' }] }],
         ['meet', 'tanışmak', { resim: 'meet' }], ['Nice to meet you.', 'Tanıştığımıza memnun oldum.', { resim: 'nice-to-meet-you' }],
         ['Nice to meet you, too.', 'Ben de memnun oldum.', { resim: 'nice-to-meet-you-too' }]] },
       { ad: 'Hal hatır', kelimeler: [
@@ -34,7 +34,7 @@
         ['I am okay.', 'Fena değilim, iyiyim.', { resim: 'i-am-okay' }], ['And you?', 'Ya sen?', { resim: 'and-you' }]] },
       { ad: 'Arkadaş ve yaş', kelimeler: [
         ['friend', 'arkadaş', { resim: 'friend' }],
-        ['This is my friend …', 'Bu benim arkadaşım …', { kartlar: [{ en: 'This is my friend Leo.', tr: 'Bu benim arkadaşım Leo.', resim: 'this-is-my-friend-leo' }] }],
+        ['This is my friend …', 'Bu benim arkadaşım …', { kartlar: [{ en: 'This is my friend Efe.', tr: 'Bu benim arkadaşım Efe.', resim: 'this-is-my-friend-leo' }] }],
         ['How old are you?', 'Kaç yaşındasın?', { resim: 'how-old-are-you' }],
         ['I’m … years old.', '… yaşındayım.', { kartlar: [{ en: 'I’m 9 years old.', tr: '9 yaşındayım.', resim: 'im-9-years-old' }] }],
         ['yes', 'evet', { resim: 'yes' }], ['no', 'hayır', { resim: 'no' }]] },

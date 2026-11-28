@@ -250,7 +250,7 @@ A second site at `…/bilgi-adasi/english/` (`app/english/index.html`) teaches E
   *Sonraki Soru ▶*; wrong → it shakes and slides back. Only the first drop counts (`soru` in the progress). `tools/kapsam.js`
   accepts `balon` and three options on the English islands, and a word of their checklist may wait for its questions.
 - **The pictures** come from the owner's uploads on the picture page, brought into `assets/images/english/<word>.webp`. When a
-  picture's speech bubble must say something else ("My name is …" → "My name is Leo."), `tools/baloncuk.py` paints the old text
+  picture's speech bubble must say something else ("My name is …" → "My name is Efe."), `tools/baloncuk.py` paints the old text
   over with the bubble's colour and writes the new one in a hand-drawn font (Patrick Hand, not shipped).
 - **Resimler · English** (`app/english/resimler/`, not linked): bölüm › station › etap, and in every etap "🖼️ … Resimler" (its
   words) and "❓ … Soruları" (the questions whose word is in the etap, or "Bu etabın henüz sorusu yok."), each opening and

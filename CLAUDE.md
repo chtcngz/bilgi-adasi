@@ -35,8 +35,8 @@ the owner says otherwise, work only on bölüm 1 (İlk Adımlar: Greetings, Alph
 
 - **Never write questions unless the owner asks for them.** The owner gives each station's word list; it lives in the island's
   `kelimeler.js` (and `kapsam.md`).
-- **A question may use only the words of those lists.** The only extras allowed: English first names, and ages from 5 to 20, in
-  questions and answers about names and ages.
+- **A question may use only the words of those lists.** The only extras allowed: Turkish first names (set by the owner: no foreign
+  names, in the text or in the pictures), and ages from 5 to 20, in questions and answers about names and ages.
 - Nobody plays the site yet (only the owner, testing), so questions may keep the stop id `ilk` when they are written again.
 - A station is cut into **etaps** of related words (the `gruplar` of `kelimeler.js`; Selamlaşma has 6). Tapping a station opens
   its etaps as small round pictures; an etap shows its **tanıtım kartları** (a big picture, the English, the Turkish, 🔊 🐢), and
@@ -50,9 +50,10 @@ the owner says otherwise, work only on bölüm 1 (İlk Adımlar: Greetings, Alph
   greetings that the scene's time clearly rules out (in an evening scene Good morning and Good afternoon; Good night and Good
   evening are never wrong options for each other, they are too close). A scene with no clock says the time in its Turkish story ("Öğleden sonra …",
   "Akşam …"). A round of an etap asks every question written for it (no limit), one of every word first, in a new order every time.
-- The characters: the boy is **Leo**, 9 years old; the girl is **Maya**, 10; **Zoe** is the girl new in their class (her name
-  was given by the owner for a greeting question). A picture whose bubble needs other words gets them
-  with `tools/baloncuk.py` (the owner asks for the bubble's text; e.g. "My name is Leo.", "I’m 9 years old.").
+- The characters (Turkish names, set by the owner): the boy is **Efe**, 9 years old; the girl is **Ela**, 10; **Zeynep** is the girl
+  new in their class. They were Leo, Maya and Zoe until 0.119.0; the picture files keep those names (`my-name-is-leo.webp`),
+  the children never see them. Classmates with a written name (a desk plate) get Turkish names too (Can, Elif). A picture whose bubble needs other words gets them
+  with `tools/baloncuk.py` (the owner asks for the bubble's text; e.g. "My name is Efe.", "I’m 9 years old.").
 - The owner picks the pictures of the words and of the questions on `…/english/resimler/` (up to six each, first = main; grouped
   bölüm › station › etap › Resimler / Soruları); the choices and uploads are in Firestore `resimler/…`. "Resimleri oyuna işle"
   means: read them (public read) and bring them into the game. A question's new picture needs its bubble measured again and its

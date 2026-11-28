@@ -3,7 +3,7 @@
 Kaynak: *English for Kids — Konu Haritası (8–12 yaş)*, 1. bölüm (İlk Adımlar), ve sahibinin istasyon kelime listeleri
 (`kelimeler.js`). Ders kitabı yoktur: her madde bir istasyonun kelimesi ya da kalıbıdır.
 
-**Kural:** Sorular yalnızca bu kelimeleri kullanır (isim ve yaş sorularında İngilizce isimler ve 5–20 arası yaşlar da olabilir) ve
+**Kural:** Sorular yalnızca bu kelimeleri kullanır (isim ve yaş sorularında Türkçe isimler ve 5–20 arası yaşlar da olabilir) ve
 sahibi istemeden yazılmaz. Bir kelimenin soruları yazılınca maddenin sonuna `→` ve onları soran soruların kimlikleri (`ilk:0` …) eklenir.
 `node tools/kapsam.js english-1` kimliklerin var olduğunu denetler; sorusu henüz istenmemiş kelimeleri ayrıca sayar.
 

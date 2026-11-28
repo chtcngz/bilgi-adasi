@@ -9,7 +9,7 @@
 // the first card dropped was the right one (sonuc); the child tries until it is right.
 const englishBalon = (() => {
   const esc = t => String(t ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
-  const RESIM = name => 'assets/images/english/soru/' + name + '.webp?v=1';
+  const RESIM = name => 'assets/images/english/soru/' + name + '.webp?v=2';
   const shuffled = list => { const r = [...list]; for (let i = r.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [r[i], r[j]] = [r[j], r[i]]; } return r; };
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
   const COLOURS = ['#ff8a5c', '#5cb8ff', '#b07cff', '#3fc28a', '#ffb703', '#ff6b9a'];
@@ -41,7 +41,7 @@ const englishBalon = (() => {
   }
   const sus = () => { window.speechSynthesis?.cancel(); if (typeof ingilizceSes !== 'undefined') ingilizceSes.stop(); };
 
-  // the question text in two parts: the scene ("Maya okuldan eve geldi. Annesi onu kapıda karşılıyor.") and the question
+  // the question text in two parts: the scene ("Ela okuldan eve geldi. Annesi onu kapıda karşılıyor.") and the question
   // asked of the child, its last sentence ("Annesi ne der?")
   function parcala(text) {
     const m = String(text).match(/^(.*[.!…])\s+([^.!…]+\?)$/);
