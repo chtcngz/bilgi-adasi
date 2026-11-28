@@ -98,6 +98,10 @@ app/                         Published site (GitHub Pages root)
 │   │                        (ingilizce-2/sahneler.js: the pictures of 🔍 Gizli Kelimeler and the places to tap in them;
 │   │                        the pictures are assets/images/ingilizce/sahne/*.webp)
 │   └── sosyal-bilgiler/     Question island: same pattern
+├── sound/                   Sesler (…/sound/): every Arabic reading cut from sound-samples/original/ (harekesiz, harekeli,
+│                            tenvin, cezm, şedde, uzatma, words, mukattaa), each with its writing and a ▶ button; the owner
+│                            ticks the ones to use and copies the choices (localStorage, not linked). ses/<id>.mp3 and
+│                            liste.js are written by tools/ses_kes.py: do not edit them by hand
 ├── kontrol.html             Resim kontrolü: the owner picks İngilizce Koyu's pictures by hand and copies the choices (not linked)
 ├── admin/                   Yönetici sayfası: every player of every device, read from the cloud copy; signs in with
 │                            the admin's Google account (automatically when the browser is already signed in to it)
@@ -111,7 +115,11 @@ tools/                       Helper scripts (not published)
 ├── make_sounds.py           → app/assets/audio/ui/*.wav
 ├── elif_sesleri.py          → app/assets/audio/elif-ba/ (harf, hece, kayitlar.js)
 ├── ingilizce_metinler.js    Every English line İngilizce Koyu says (question words and sentences, the games' lines)
-└── ingilizce_sesler.py      → app/assets/audio/ingilizce/: records those lines with Kokoro (needs the model, see the file)
+├── ingilizce_sesler.py      → app/assets/audio/ingilizce/: records those lines with Kokoro (needs the model, see the file)
+└── ses_kes.py               → app/sound/ses/ and liste.js: cuts the readings listed in sound-samples/kesimler.json
+sound-samples/               The owner's recordings (not published): original/ (Elifle Animasyonlu Elifba 1-3, Turkish narration
+                             with Arabic readings) and kesimler.json, where each reading is in them (file, start, end),
+                             its name, writing and kind
 elifba-ses-onizleme/          The girl's voice as recorded (also uzatma, words …, not used yet) with a page to listen to them
 sources/                     Raw material (not published)
 └── elifba-sesleri/          Diyanet Elifba audio library, organized by lesson, plus katalog.json

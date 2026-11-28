@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.97.0 · 28.11.2026
+
+- **Yeni sayfa: Sesler (`…/sound/`, oyundan bağlantı verilmiyor).** *Elifle Animasyonlu Elifba* kayıtlarındaki (3 dosya, 42 dakika) Arapça okunuşlar tek tek kesildi: 265 ses. Her birinin yanında Arapça yazılışı, adı (“iki ötre be”), okunuşu (“bün”) ve ▶ düğmesi var. Bölümler: harekesiz harf adları ve sesleri (46), harekeli (87: elif, hemze ve 27 harf üstün, esre, ötre ile), tenvin (87), cezm (4), şedde (6), uzatma (16), kelimeler (13: bihî, kâle, ellezî, errahmânu harf harf), mukattaa harfleri (6: Yâsîn, Ayn Sîn Kâf). Aynı okunuş birden çok yerde geçiyorsa `elif-1`, `elif-2` diye ayrılıyor.
+- **Seçme:** Her sesin ✓ kutusuyla kullanılacaklar işaretleniyor; seçimler tarayıcıda kalıyor, “☑ Seçtiklerim” yalnızca onları gösteriyor, “📋 Seçimleri kopyala” listeyi kopyalıyor. Her bölümün “▶ Sırayla çal” düğmesi bölümü baştan sona dinletiyor.
+
 ## 0.96.0 · 28.11.2026
 
 Deneme Odası’na (`…/deneme/`, oyundan bağlantı verilmiyor) ileride oyunlarda kullanılmak üzere beş yeni oyun fikri geldi; hepsi oynanabiliyor ve okuma bilmeyen çocuklar için sesli. Odada önde ve “✨ Yeni” işaretliler; her oyunun 🐢💬 düğmesi oyunun ne olduğunu söylüyor.

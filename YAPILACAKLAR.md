@@ -9,6 +9,10 @@ Haritada her birinin koyu bulutların altında, kilitli ve “Yakında” olarak
 - [ ] **Uzatma (med):** Med harfleriyle uzun okuma
 - [ ] **Kelime ve âyet:** Kısa surelerle cüze hazırlık
 
+## Elif Ba sesleri
+
+- [ ] **Sesler sayfasında seçilenler oyuna:** sahibi `…/sound/` sayfasında kullanılacak sesleri seçip listeyi gönderince, o sesler Elif Ba’ya işlenir
+
 ## İngilizce Koyu (3. ve 4. sınıf)
 
 2. sınıf koyu hazır. 3. ve 4. sınıf koyları haritada “Yakında” olarak duruyor; soru bankaları boş (`app/islands/ingilizce-3`, `-4`). Her sınıf kendi İngilizce ders kitabının ünitelerini görür; her adanın kendi `kapsam.md`’si olur. 2. sınıftaki gibi sorular `k` (İngilizce kelime) taşır: 🔊 ses ve 🎯 Yanlış Avı onunla çalışır.
