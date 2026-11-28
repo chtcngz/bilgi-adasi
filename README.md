@@ -300,10 +300,15 @@ when one is done. A panel beside the map (under it on phones) has the Sıradaki 
   (15, 10, 5 and 3 s a question), each with the tables 2-10 as its nine stations, then Girdap and Şimşek Adası (mixed,
   5 and 3 s), one station each. Only the next station opens; a station already done shows its last
   attempt. Finishing an island brings a fish.
-- **A question island's bay** has an island for every textbook unit, one for the extras and one for the mock exam (the
-  last two open once every unit has a star). A unit's stations cut its questions in the book's order into three to six
-  parts of about twenty; a round on a station asks ten of them. A station is done when its questions are learned, an
-  island when the whole unit is.
+- **A question island's bay** has an island for every textbook unit, one for the extras and one for the mock exam. A
+  unit's stations cut its questions in the book's order into three to six parts of about twenty; a round on a station
+  asks ten of them. A station is done once every question of it has been asked (answered, right or wrong). When every
+  station of an island is done, its last station, 🏁 **Son Tekrar**, opens: the island's questions whose last answer was
+  wrong, ten a round with no hearts, until each one is answered right. Then the island is finished (`bitti` in the
+  island's record, so a later mistake does not take it back) and brings its reward. **The units open in the book's
+  order:** the first at once, each next one when the one before it is finished; the extras and the mock exam once every
+  unit is finished. A unit already played in (before 0.124.0 every unit was open: a star or an answered question) stays
+  open, as does the mock exam once taken.
 
 - **İngilizce Koyu** uses the same engine with two options of `soruAdasi`. `ses: 'en-GB'`: a question's `k`
   (`[English, Turkish, emoji?]`) is said in the device's English voice: before the answer when it is not one of the options
@@ -321,7 +326,9 @@ when one is done. A panel beside the map (under it on phones) has the Sıradaki 
   🔍 Gizli Kelimeler (a big picture of a place, "Find the teacher!": the child taps her; a tap is right when the thing in
   front at that point is the word, the line being said is written above the picture letter by letter as long as its recording lasts, a wrong tap names what was touched, "No! This is a pupil.", and asks again; `g`
   questions are never asked in the mock exam; only Okul Hayatı has them for now); a question with `r` (a drawn dialogue with its speech bubbles, `assets/images/ingilizce/<r>.webp`, e.g. `diyalog/mr-elfy`) is always a Bilgi Kartı asked under that picture, and a dialogue stem keeps only its instruction (“Soruya doğru cevabı ver.”) since the bubble already holds the question; anything else is a Bilgi Kartı (the question itself, with a second
-  try). A miss in Sesli Hafıza is only memory, so a found pair counts as right. **Pictures (`k[2]`):** every word and every sentence has one, and it shows the thing itself (library 🏛️, not 📚); two words with different meanings never share one. A thing no emoji shows is drawn in `core/js/kelime-resimleri.js` and written `[[name]]` wherever an emoji would stand (k[2] and the texts: `[[desk]] sıra`); `rich()` and the games' `pic()` draw it. In a picture of a part or a person (tail, son) the one meant is in colour and the rest grey; a day is a week card with that day marked. A question's options carry pictures all or none, so a lone bare option does not give the answer away. Games start straight away (no title card); 
+  try). A miss in Sesli Hafıza is only memory, so a found pair counts as right. Its stations open one after another,
+  each when the one before it is done (every question asked); the stations a finished round opened before 0.124.0
+  (`bolum`, `istasyon` in the record, no longer written) stay open. Its 🏁 Son Tekrar is played as games too. **Pictures (`k[2]`):** every word and every sentence has one, and it shows the thing itself (library 🏛️, not 📚); two words with different meanings never share one. A thing no emoji shows is drawn in `core/js/kelime-resimleri.js` and written `[[name]]` wherever an emoji would stand (k[2] and the texts: `[[desk]] sıra`); `rich()` and the games' `pic()` draw it. In a picture of a part or a person (tail, son) the one meant is in colour and the rest grey; a day is a week card with that day marked. A question's options carry pictures all or none, so a lone bare option does not give the answer away. Games start straight away (no title card); 
   player's icon cheers as a mascot, and every line is awaited before the next. **Two voices, one line at a time:** every line goes through a flow (`konusmaci()`): a new tap drops the lines still waiting in an older one, so two lines never run into each other. After a right answer the answer comes first in the answer voice (am_michael, `<id>-b.mp3`, `window.ingilizceKayitlarB`), a pause, then the praise; moving on (Devam, the next game, the next question) silences every line of the question before; a dialogue (“How are you? I’m fine, thank you.”) is said by both voices, and a Bilgi Kartı asks only its question half. Sesli Hafıza: every sound card is a sea shell and every picture card a treasure chest (SVG in the code), so a pair is always one of each; closed cards breathe, a shell opens on a pearl with sound rings and notes, a chest throws its lid back and the picture jumps out of a golden glow; a found pair flies to the middle, grows and shines (copies of the cards, `ortada()`), a miss shakes and closes softly with the mascot surprised, and confetti comes only when the board is done. Both cards say their word, cards open one after another without waiting. The balloons, the train and the brush are moved frame by frame in JS (`frames`, `tween`), and base.css leaves `.og-head`/`.og-game` out of its reduced-motion rule: these movements are the game, and a device asking for less motion used to see no balloons at all. Sihirli Boyama paints only where the brush has gone (a mask path that grows along the brush's way). `ikinciSans: true` gives the classic
   question rounds a second try too. **The voice:** every English line (`tools/ingilizce_metinler.js`) is recorded with
   Kokoro (`tools/ingilizce_sesler.py`, voice af_heart, a normal and a slow 🐢 file; the answers also in am_michael) and played through the game's Web
@@ -340,9 +347,11 @@ Each bay is registered by its island (`kesifHaritasi.koy({...})`), which the map
 
 Every player, from preschool to the 4th grade, has an aquarium of their own. Each task the child gets done brings a reward, a fish or an
 ornament: an islet of Elif Ba Adası finished (its Cam Köprü crossed; the first three rewards are fish, then ornaments and
-fish take turns: `karisik` in `akvaryum.odul`; islets finished before 0.41.0 are rewarded the next time the map shows), an island of Çarpım Koyu (always a fish: `balik` in `akvaryum.odul`, once per island; islands finished before 0.43.0 are rewarded the next time the map shows), a round finished on a question island's stop that
-still has questions to learn, all the questions of a stop learned (once), a first mock exam or a new record, a
-Tekrar Kutusu round without a mistake. Every third reward is an ornament. A tank holds 12 fish and 6 ornaments; the
+fish take turns: `karisik` in `akvaryum.odul`; islets finished before 0.41.0 are rewarded the next time the map shows), an island of Çarpım Koyu (always a fish: `balik` in `akvaryum.odul`, once per island; islands finished before 0.43.0 are rewarded the next time the map shows), an island of a question
+island's bay finished, from its first station to its 🏁 Son Tekrar (once: `<kod>:<stop id>:tamam`), and the first mock
+exam of a bay (once: `<kod>:deneme`). Rounds, Tekrar Kutusu, Yanlış Avı and Balon Patlat bring nothing of their own; a
+round that finishes an island shows its reward, and a round left before its end is checked when the game closes. Every
+third reward is an ornament, on the first free slot of its size. A tank holds 12 fish and 6 ornaments; the
 next reward opens a new tank in the next theme (Mercan Koyu, Yeşil Vadi, Gece Mavisi, Gün Batımı Lagünü, then again).
 A tap on a fish lets the child give it a name, written above it from then on; a tap on the water sprinkles food: rings
 spread on the water, the flakes scatter and sink, swaying, and the nearest fish come over, bring their mouths to a flake,
@@ -355,8 +364,14 @@ syllables, then tenvins, then şedde syllables: only the latest section with let
 one rises and fades at the surface.
 
 Players who had played before the aquarium came get, once (`gecmis` in their record), the rewards of the tasks
-already done: every island of Çarpım Koyu finished, the rounds finished on each stop of a question island (counted
-from the right answers given there, nine to a round), every stop learned in full, and the mock exam if taken.
+already done: every island of Çarpım Koyu finished.
+
+**The 0.124.0 rule (`soruOdulleri`, `adaOdulu` in the record):** once per player, the rewards a question island gave
+before for rounds, Tekrar Kutusu, Yanlış Avı, Balon Patlat and later exam records are taken out of the tank (kept in
+`eski`, never shown), the islands already finished and the mock exam already taken get the reward they lack, and the
+tanks are filled again in the order the rewards came (`refill`: a fish into the first tank with fewer than 12, an
+ornament onto the first free slot of its size), so none is left with gaps. Fish keep their names. The next time the
+tank opens it says the new rule once (`duzen`).
 
 The fish are drawn on one canvas (`.ak-school`) from pictures made once per kind (each fish's SVG turned into a
 bitmap while the page is idle); an empty button over each fish is what a tap or the keyboard reaches. The water has

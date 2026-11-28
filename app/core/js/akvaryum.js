@@ -1,13 +1,16 @@
 // Akvaryum: every player's own tank, from preschool (Elif Ba Adası) to the 4th grade. Each task the child gets
-// done on an island (an island of Çarpım Koyu, a round of a question island's stop, an islet of Elif Ba …)
-// brings a reward: a fish or an ornament. A tank holds 12 fish and 6 ornaments; the next reward opens a new tank, in the
+// done on an island (an island of Çarpım Koyu, a question island finished from its first station to its 🏁 Son
+// Tekrar, an islet of Elif Ba …) brings a reward: a fish or an ornament. A tank holds 12 fish and 6 ornaments; the next reward opens a new tank, in the
 // next theme. A tap on a fish lets the child give it a name, written above it from then on.
 //
 // Saved per player in localStorage as akvaryum-<player id> (README: saved-data keys never change):
 //   { son: last item number, esya: [{ n, t: 'b' fish | 's' ornament, k: kind, a: tank, s: slot (ornaments),
 //     ad: name (fish), g: what earned it, z: when, yeni: 1 until seen }], gorev: { key: 1 },
-//     gecmis: 1 once the tasks done before the aquarium came were rewarded, gecmisSayi: how many came then (until shown) }
-// gorev remembers tasks that give a reward only once (an island of Çarpım Koyu, a stop learned in full).
+//     gecmis: 1 once the tasks done before the aquarium came were rewarded, gecmisSayi: how many came then (until shown),
+//     adaOdulu: 1 once the question islands' rewards were brought to the 0.124.0 rule (soruOdulleri), eski: the rewards
+//     taken out then (kept, never shown), duzen: 1 until the tank has said so }
+// gorev remembers tasks that give a reward only once (an island of Çarpım Koyu, a question island finished, the first
+// mock exam of a question island).
 //
 // Islands call akvaryum.odul({ anahtar, neden }) when a task is done and put akvaryum.kart(rewards) on their
 // result screen; its 🐠 button opens the tank on top of the game. The header's 🐠 button and the card in
@@ -38,6 +41,9 @@ const akvaryum = (() => {
       if (saved.gorev && typeof saved.gorev === 'object') Object.assign(record.gorev, saved.gorev);
       if (saved.gecmis) record.gecmis = 1;
       if (Number.isInteger(saved.gecmisSayi) && saved.gecmisSayi > 0) record.gecmisSayi = saved.gecmisSayi;
+      if (saved.adaOdulu) record.adaOdulu = 1;
+      if (saved.duzen) record.duzen = 1;
+      if (Array.isArray(saved.eski)) record.eski = saved.eski;
     }
     records.set(id, record);
     return record;
@@ -68,6 +74,9 @@ const akvaryum = (() => {
     const fresh = pool.filter(b => !owned.has(b.id));
     return pickOne(fresh.length && Math.random() < .75 ? fresh : pool).id;
   }
+  // the first slot of the tank without an ornament (the slots fill in order, but a tank filled again by soruOdulleri
+  // can have a gap)
+  const freeSlot = here => slots.findIndex((_, i) => !here.some(e => e.t === 's' && e.s === i));
   function chooseOrnament(record, here, slot) {
     const big = !!slots[slot].big;
     const owned = new Set(record.esya.filter(e => e.t === 's').map(e => e.k));
@@ -100,7 +109,7 @@ const akvaryum = (() => {
     const turn = karisik ? all >= 3 && (all - 3) % 2 === 0 : n % 3 === 2;
     const ornament = !balik && orn < V.SUS && (fish >= V.BALIK || turn);
     const item = { n: ++record.son, t: ornament ? 's' : 'b', a, g: String(neden).slice(0, 60), z: Date.now(), yeni: 1 };
-    if (ornament) { item.s = orn; item.k = chooseOrnament(record, here, orn); }
+    if (ornament) { item.s = freeSlot(here); item.k = chooseOrnament(record, here, item.s); }
     else { item.k = chooseFish(record, here); item.ad = ''; }
     record.esya.push(item);
     if (anahtar) record.gorev[anahtar] = 1;
@@ -109,9 +118,8 @@ const akvaryum = (() => {
 
   /* ---------- Tasks done before the aquarium came (0.38.0) ---------- */
   // Once per player, the tasks already done bring their rewards, so no child who had played before loses out:
-  // every island of Çarpım Koyu finished (a fish each); on a question island the rounds finished on each stop (counted from
-  // the right answers given there, nine to a round, at least one for a stop with a star), every stop learned
-  // in full and the mock exam if taken. What the aquarium already gave for a task is not given again.
+  // every island of Çarpım Koyu finished (a fish each). (The question islands' are given by soruOdulleri.) What the
+  // aquarium already gave for a task is not given again.
   function gecmis() {
     const record = load(activeProfile.id);
     if (record.gecmis) return;
@@ -125,22 +133,69 @@ const akvaryum = (() => {
     for (let i = 0; i < ISLANDS; i++) {
       if (islandStages(i).every(index => index < stagesDone)) give('carpim-ada:' + i, 'Çarpım Koyu · ' + islandName(i), true);
     }
-    for (const [kod, island] of Object.entries(window.soruAdalari || {})) {
-      const sum = island.summary(activeProfile.id);
-      if (!sum.any) continue;
-      const had = neden => record.esya.filter(e => e.g === neden).length;
-      for (const stop of sum.duraklar) {
-        const neden = sum.ad + ' · ' + stop.ad;
-        if (stop.yildiz) {
-          const rounds = Math.max(1, Math.floor(stop.dogru / 9)) - had(neden);
-          for (let r = 0; r < rounds; r++) give(null, neden);
-        }
-        if (stop.soru && stop.ogrenilen === stop.soru) give(kod + ':' + stop.id + ':tamam', neden + ' bitti');
-      }
-      if (sum.denemeSayi > 0 && !had(sum.ad + ' · Deneme Sınavı')) give(null, sum.ad + ' · Deneme Sınavı');
-    }
     if (given) record.gecmisSayi = given;
     save();
+  }
+
+  /* ---------- The question islands' rewards under the 0.124.0 rule ---------- */
+  // Since 0.124.0 a question island (Din Bilgisi, Fen Bilimleri, Sosyal Bilgiler, İngilizce) brings a reward only when
+  // one of its islands is finished (its stations done and its 🏁 Son Tekrar passed), and once for the first mock exam.
+  // Once per player, what it gave before for a round, a Tekrar Kutusu round, Yanlış Avı, Balon Patlat or a new exam
+  // record is taken out (kept in eski), the islands already finished and the exam already taken get the reward they
+  // lack, and the tanks are filled again in the order the rewards came, so none is left with gaps.
+  function soruOdulleri() {
+    const record = load(activeProfile.id);
+    if (record.adaOdulu) return;
+    record.adaOdulu = 1;
+    const islands = Object.entries(window.soruAdalari || {}).map(([kod, island]) => ({ kod, sum: island.summary(activeProfile.id) }));
+    const cut = text => String(text).slice(0, 60);
+    const keep = [], gone = [];
+    for (const e of record.esya) {
+      const own = islands.find(({ sum }) => String(e.g).startsWith(sum.ad + ' · '));
+      if (!own) { keep.push(e); continue; }
+      const { kod, sum } = own;
+      if (sum.duraklar.some(stop => e.g === cut(sum.ad + ' · ' + stop.ad + ' bitti'))) keep.push(e);
+      else if (e.g === cut(sum.ad + ' · Deneme Sınavı') && !record.gorev[kod + ':deneme']) { record.gorev[kod + ':deneme'] = 1; keep.push(e); }
+      else gone.push(e);
+    }
+    if (gone.length) {
+      record.esya = keep;
+      record.eski = [...(record.eski || []), ...gone.map(({ yeni, ...e }) => e)];
+      record.duzen = 1;
+      refill(record);
+    }
+    let given = 0;
+    for (const { kod, sum } of islands) {
+      for (const stop of sum.duraklar) {
+        if (stop.bitti && grant(record, kod + ':' + stop.id + ':tamam', sum.ad + ' · ' + stop.ad + ' bitti')) given++;
+      }
+      if (sum.denemeSayi > 0 && grant(record, kod + ':deneme', sum.ad + ' · Deneme Sınavı')) given++;
+    }
+    if (given) record.gecmisSayi = (record.gecmisSayi || 0) + given;
+    save();
+  }
+  // Puts every item into the first tank with room for it, in the order they came: a fish where the tank has fewer than
+  // 12, an ornament on a free slot of its size (big ornaments stand on the big slots).
+  function refill(record) {
+    const tanks = [];
+    for (const e of record.esya) {
+      const big = e.t === 's' && !!V.tur(e.k).big;
+      for (let a = 0; ; a++) {
+        const t = tanks[a] ||= { fish: 0, used: new Set() };
+        if (e.t === 'b') {
+          if (t.fish >= V.BALIK) continue;
+          t.fish++;
+          e.a = a;
+          break;
+        }
+        const s = slots.findIndex((slot, i) => !!slot.big === big && !t.used.has(i));
+        if (s < 0) continue;
+        t.used.add(s);
+        e.a = a;
+        e.s = s;
+        break;
+      }
+    }
   }
 
   /* ---------- The reward card on an island's result screen ---------- */
@@ -176,7 +231,7 @@ const akvaryum = (() => {
     return [...document.querySelectorAll('[data-akvaryum]')].some(card => availableForPlayer(card));
   }
   function refresh() {
-    if (activeProfile) gecmis();
+    if (activeProfile) { gecmis(); soruOdulleri(); }
     const button = $('aquarium-button'), card = $('aquarium-card');
     const show = available();
     if (button) button.hidden = !show;
@@ -1057,16 +1112,19 @@ const akvaryum = (() => {
       W = 0;
       measure();
       build(a);
-      const before = record.gecmisSayi;
-      if (before) {
+      const before = record.gecmisSayi, rule = record.duzen;
+      if (before || rule) {
         delete record.gecmisSayi;
+        delete record.duzen;
         save();
       }
       if (!welcome(a)) {
         if (!record.esya.length) sayLine('Henüz balığın yok. Adalarda bir görevi bitir, ilk balığın gelsin! 🐠', true, 0, true);
         else sayLine('Bir balığa dokun, ona isim ver. Suya dokun, yem at. 🐠', false, 3400, true);
       }
-      if (before) sayLine('🎁 Daha önce bitirdiğin görevler için akvaryumuna ' + before + ' ödül geldi! Balıklarına dokun, isim ver.', false, 7000);
+      if (rule) sayLine('🏝️ Yeni kural: Bir adayı baştan sona, 🏁 Son Tekrar’ına kadar bitirince akvaryumuna bir ödül gelir. Akvaryumun buna göre yenilendi.' +
+        (before ? ' Bitirdiğin adalar için ' + before + ' ödül geldi!' : ''), false, 9000);
+      else if (before) sayLine('🎁 Daha önce bitirdiğin görevler için akvaryumuna ' + before + ' ödül geldi! Balıklarına dokun, isim ver.', false, 7000);
       last = performance.now();
       frameId = requestAnimationFrame(frame);
     }));

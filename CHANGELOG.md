@@ -7,6 +7,14 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.124.0 · 28.11.2026
+
+- **Fen Bilimleri, Sosyal Bilgiler, Din Bilgisi ve İngilizce koylarında ödül artık adanın sonunda:** Akvaryuma yeni balık ya da süs her turda değil, bir ada baştan sona bitince geliyor. Deneme Sınavı yalnızca ilk girişte bir ödül veriyor; Tekrar Kutusu, Yanlış Avı ve Balon Patlat turları ödül vermiyor.
+- **Bir durak, her sorusu bir kez sorulunca biter:** Durağın soruları doğru ya da yanlış, en az bir kez cevaplanınca durak tamamlanıyor; duraktaki işarette o zamana kadar sorulan soru sayısı yazıyor. İngilizce Koyu’nda sıradaki istasyon bu durak bitince açılıyor.
+- **🏁 Son Tekrar:** Adanın bütün durakları bitince yolun sonunda Son Tekrar açılıyor. Adada yanlış cevaplanmış sorular, kalpsiz, 10’ar 10’ar yeniden soruluyor; her biri doğru bilinene kadar tekrar geliyor. Son Tekrar bitince ada bitiyor, akvaryuma ödül geliyor ve sıradaki ada açılıyor. Hiç yanlış kalmadıysa ada son durakla birlikte bitiyor.
+- **Adalar sırayla açılıyor:** Bir ünite adası, önceki ada bitmeden açılmıyor; Ekstra ve Deneme Sınavı bütün üniteler bitince açılıyor. Çocuğun daha önce oynadığı adalar (ve girdiği Deneme Sınavı) açık kalıyor.
+- **Eski ödüller yeni kurala göre düzenlendi:** Bu koylardan turlar, Tekrar Kutusu, Yanlış Avı, Balon Patlat ve deneme rekorları için gelen ödüller akvaryumdan çıkarıldı (silinmedi, kayıtta saklanıyor); bitmiş adalar ve ilk deneme sınavı için ödüller kalıyor, eksikse geliyor. Akvaryumlar kalan ödüllerle boşluksuz yeniden dolduruldu, balıkların isimleri duruyor. Akvaryum ilk açılışta yeni kuralı bir kez söylüyor.
+
 ## 0.123.0 · 28.11.2026
 
 - **Sesler sayfası (…/sound/) dört bölümde:** Sayfa dört kutucukla açılıyor: 1. Harekeli, harekesiz ve tenvin; 2. Cezm; 3. Şedde; 4. Uzatma. Bir bölüme girince üstte ✓ Seçilenler, 🎙 Seslendirilecekler ve bölümün kısımları var; “‹ Bölümler” ana sayfaya dönüyor.
