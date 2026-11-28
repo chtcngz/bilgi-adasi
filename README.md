@@ -229,8 +229,8 @@ A second site at `…/bilgi-adasi/english/` (`app/english/index.html`) teaches E
   opens when the last card is reached (⏭ Atla goes back without finishing). A station without words stays locked ("Yakında").
   Progress: `ingilizce-english-<player id>` → `{ etap: { "english-1/selam": 2 } }`. Bölüm 1, İlk Adımlar, has its Selamlaşma
   station (42 words in 6 etaps); questions only when the owner asks (so far eighteen balon soruları in etap 1: three each for “Welcome!”,
-  “good morning”, “good afternoon”, “good evening” and “good night”, one for “hi”, two for “hello”). A round asks at most 7 of an etap's questions (`SORU` in koy.js): one
-  of every word first, then others at random, in a new order every time. A question goes to the etap whose word is its answer, without capitals and punctuation (“Good morning!” → good morning).
+  “good morning”, “good afternoon”, “good evening” and “good night”, one for “hi”, two for “hello”). A round asks every question of the etap: one
+  of every word first, then the others, in a new order every time. A question goes to the etap whose word is its answer, without capitals and punctuation (“Good morning!” → good morning).
 - **Balon sorusu** (`app/english/balon-sorusu.js`, `.css`, `englishBalon.oyna`): the etap's questions, after its cards. A picture
   (`assets/images/english/soru/`, its bubble emptied) with a drop zone over the bubble (`balon: { resim, x, y, w, h }` in % of
   the picture) and three cards (`a`, the first right). The zone waits glowing and breathing in the three cards'

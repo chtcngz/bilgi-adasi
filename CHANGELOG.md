@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.116.0 · 28.11.2026
+
+- **English, “Take care!” ve “Have a nice day!” için birer balon sorusu:** Leo yolculuğa çıkan babasına, Maya’nın annesi okula giden Maya’ya veda ediyor. Vedalaşma etabının her kelimesinin artık sorusu var (10 soru).
+- **Her turda etabın bütün soruları:** Bir etaba kaç soru eklendiyse turda o kadar soru geliyor; önce her kelimeden bir soru, sonra kalanlar, sıra her seferinde farklı. (Önceden en çok 7 soru geliyordu.)
+
 ## 0.115.0 · 28.11.2026
 
 - **English, “See you later!” ve “See you soon!” için birer balon sorusu:** Leo okul koridorunda Maya’ya veda ediyor; tatile giden Maya, Zoe’ye veda ediyor.

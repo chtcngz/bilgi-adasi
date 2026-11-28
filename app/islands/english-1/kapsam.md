@@ -23,8 +23,8 @@ sahibi istemeden yazılmaz. Bir kelimenin soruları yazılınca maddenin sonuna 
 - see you later = sonra görüşürüz → ilk:24
 - see you soon = yakında görüşürüz → ilk:25
 - see you tomorrow = yarın görüşürüz → ilk:22
-- take care = kendine iyi bak
-- Have a nice day! = İyi günler!
+- take care = kendine iyi bak → ilk:26
+- Have a nice day! = İyi günler! → ilk:27
 
 ### Tanışma
 
