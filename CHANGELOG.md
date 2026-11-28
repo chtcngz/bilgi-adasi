@@ -7,10 +7,15 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
-## 0.119.0 · 28.11.2026
+## 0.120.0 · 28.11.2026
 
 - **Elif Ba, Sesler sayfasında seçilen sesler oyunda (kız sesi):** Ze harfinin adı yeni kayıtla, kızın üstünlü “ze” okuyuşundan çalınıyor; Tı ve Zı harflerinin adı olarak üstünlü okunuşları (ta, za) çalınıyor. Hemzenin üç harekeli ve üç tenvinli okuması da oyunun kayıtlarına eklendi (oyun şimdilik bunları çalmıyor).
 - Sesler: Seçilenler’deki her kart oyunun kendi kaydını çalıyor; oyuna alınan yeni kayıtlar artık sağ sütunda listelenmiyor.
+
+## 0.119.0 · 28.11.2026
+
+- **English, karakterlerin isimleri Türkçe:** Leo artık **Efe**, Maya **Ela**, Zoe **Zeynep**. Bütün hikâyeler, şıklar ve açıklamalar yeni isimlerle (Efe’ye, Ela’nın, Zeynep’e …).
+- **Resimlerdeki isimler de değişti:** Tanıtım kartlarının balonları (“I am Ela.”, “My name is Efe.”, “My name is Ela.”, “This is my friend Efe.”), yaka kartları (ELA, EFE) ve sınıftaki sıra levhaları (Ela, Can, Elif).
 
 ## 0.118.1 · 28.11.2026
 
