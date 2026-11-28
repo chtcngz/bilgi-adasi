@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.113.0 · 28.11.2026
+
+- **English, “Bye!” için iki balon sorusu:** Leo parkta Maya’ya, Maya kapıda Zoe’ye veda ediyor.
+
 ## 0.112.0 · 28.11.2026
 
 - **English, Vedalaşma etabına ilk balon soruları:** “Goodbye!” için iki resimli soru eklendi. Birinde Leo öğretmenine, ötekinde Maya babaannesine veda ediyor.
