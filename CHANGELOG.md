@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.114.0 · 28.11.2026
+
+- **English, “See you tomorrow!” ve “See you!” için birer balon sorusu:** Maya okul kapısında Leo’ya, Leo da Zoe’ye veda ediyor.
+
 ## 0.113.0 · 28.11.2026
 
 - **English, “Bye!” için iki balon sorusu:** Leo parkta Maya’ya, Maya kapıda Zoe’ye veda ediyor.

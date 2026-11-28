@@ -19,10 +19,10 @@ sahibi istemeden yazılmaz. Bir kelimenin soruları yazılınca maddenin sonuna 
 - good night = iyi geceler → ilk:12, ilk:13, ilk:14
 - goodbye = hoşça kal → ilk:18, ilk:19
 - bye / bye-bye = hoşça kal / bay bay → ilk:20, ilk:21
-- see you = görüşürüz
+- see you = görüşürüz → ilk:23
 - see you later = sonra görüşürüz
 - see you soon = yakında görüşürüz
-- see you tomorrow = yarın görüşürüz
+- see you tomorrow = yarın görüşürüz → ilk:22
 - take care = kendine iyi bak
 - Have a nice day! = İyi günler!
 
