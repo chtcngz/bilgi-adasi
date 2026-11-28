@@ -48,8 +48,10 @@ the owner says otherwise, work only on bölüm 1 (İlk Adımlar: Greetings, Alph
   clearly wrong in the scene (not another right greeting).
 - The characters: the boy is **Leo**, 9 years old; the girl is **Maya**, 10. A picture whose bubble needs other words gets them
   with `tools/baloncuk.py` (the owner asks for the bubble's text; e.g. "My name is Leo.", "I’m 9 years old.").
-- The owner picks the words' pictures on `…/english/resimler/` (up to six per word, first = main); the choices and uploads are
-  in Firestore `resimler/…`. "Resimleri oyuna işle" means: read them (public read) and bring them into the game.
+- The owner picks the pictures of the words and of the questions on `…/english/resimler/` (up to six each, first = main; grouped
+  bölüm › station › etap › Resimler / Soruları); the choices and uploads are in Firestore `resimler/…`. "Resimleri oyuna işle"
+  means: read them (public read) and bring them into the game. A question's new picture needs its bubble measured again and its
+  "?" (and any writing that gives the answer away) painted out.
 
 ## Elif Ba: the children cannot read yet (set by the owner)
 

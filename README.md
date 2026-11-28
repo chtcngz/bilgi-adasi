@@ -236,12 +236,14 @@ A second site at `…/bilgi-adasi/english/` (`app/english/index.html`) teaches E
 - **The pictures** come from the owner's uploads on the picture page, brought into `assets/images/english/<word>.webp`. When a
   picture's speech bubble must say something else ("My name is …" → "My name is Leo."), `tools/baloncuk.py` paints the old text
   over with the bubble's colour and writes the new one in a hand-drawn font (Patrick Hand, not shipped).
-- **Resimler · English** (`app/english/resimler/`, not linked): every word by island › station › group with up to six pictures
-  (the first is the main one; ◀ ✕ ▶ order and remove them). 🖼️ Tüm resimler opens every picture of the project (the drawings of
+- **Resimler · English** (`app/english/resimler/`, not linked): bölüm › station › etap, and in every etap "🖼️ … Resimler" (its
+  words) and "❓ … Soruları" (the questions whose word is in the etap, or "Bu etabın henüz sorusu yok."). Every word and question
+  has up to six pictures (the first is the main one; ◀ ✕ ▶ order and remove them) and, beside them, the picture the game uses
+  now ("Oyunda şu an"). The game's own files are tokens too (`dosya:english/hello`, `dosya:english/soru/welcome-leo-ev`). 🖼️ Tüm resimler opens every picture of the project (the drawings of
   kelime-resimleri.js, cizimler.js, resimler.js and the islands' resimler.js, the emoji of İngilizce Koyu's questions, the
   uploads) grouped by where they are used, with a search over the picture's name and the words it is used for. 📤 Yükle makes a
   picture 1024 px at most (WebP, or JPEG on Safari) and keeps it in the cloud. Choices: Firestore `resimler/secimler` (`json`: `{"english-1/selam/hello":
-  ["[[y-hello-3]]", …]}`); uploads: `resimler/yuklenen/liste/{id}` (`ad`, `veri` = a data: URL). Writing needs the admin's
+  ["[[u-…]]", …], "english-1/ilk:0": […]}`, a word by its English, a question by its id); uploads: `resimler/yuklenen/liste/{id}` (`ad`, `veri` = a data: URL). Writing needs the admin's
   account (same sign-in as admin/); the owner adds this rule in the Firebase console:
   ```
   match /resimler/{doc=**} {

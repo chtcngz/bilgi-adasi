@@ -40,16 +40,28 @@ main { padding: 8px 16px 120px; max-width: 980px; margin: 0 auto; }
 .rs-istasyon > summary { cursor: pointer; padding: 8px 0; font-size: 18px; font-weight: 900; list-style-position: inside; }
 .rs-istasyon > summary small { color: var(--soft); font-weight: 700; font-size: 13px; margin-left: 4px; }
 .rs-istasyon > summary em { display: block; font-style: normal; color: var(--pick); font-size: 13px; font-weight: 800; margin-left: 22px; }
-.rs-istasyon h3 { margin: 14px 0 6px; font-size: 15px; color: var(--soft); text-transform: uppercase; letter-spacing: .5px; }
+.rs-etap { margin: 10px 0; padding: 2px 10px 8px; border: 2px solid #efe3c8; border-radius: 16px; background: #fffdf8; }
+.rs-etap > summary { cursor: pointer; padding: 8px 0; font-size: 17px; font-weight: 900; }
+.rs-etap > summary em, .rs-etap h3 em { font-style: normal; font-weight: 800; font-size: 12px; color: var(--soft); margin-left: 6px; }
+.rs-etap h3 { margin: 14px 0 6px; font-size: 14px; color: #8a5a1f; letter-spacing: .3px; }
+.rs-soru-yok { margin: 4px 0 8px; font-style: italic; }
 
-.rs-satir { display: grid; grid-template-columns: minmax(150px, 1fr) auto; grid-template-areas: "kelime arac" "yuvalar yuvalar"; gap: 8px 10px; padding: 10px 12px;
+.rs-satir { display: grid; grid-template-columns: auto minmax(150px, 1fr) auto; grid-template-areas: "kelime kelime arac" "oyunda yuvalar yuvalar"; gap: 8px 12px; padding: 10px 12px;
   margin: 8px 0; border: 2px solid var(--line); border-radius: 16px; background: var(--card); }
 .rs-kelime { grid-area: kelime; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
 .rs-kelime b { font-size: 19px; font-weight: 900; }
 .rs-kelime span { color: var(--soft); }
 .rs-kelime small { color: #9aa9a6; font-size: 12px; font-weight: 700; }
+.rs-satir.soru { background: #fbfaff; border-color: #ddd6f3; }
+.rs-kelime b.rs-soru-metni { font-size: 16px; font-weight: 800; }
+.rs-satir.soru .rs-kelime span { font-size: 13px; }
+.rs-oyunda { grid-area: oyunda; display: grid; align-content: start; gap: 4px; width: 112px; }
+.rs-oyunda small { font-size: 11px; font-weight: 800; color: var(--soft); text-transform: uppercase; letter-spacing: .4px; }
+.rs-oyunda-resimler { display: grid; gap: 4px; }
+.rs-oyunda .rs-resim { aspect-ratio: 3 / 2; padding: 0; border-radius: 10px; overflow: hidden; border: 2px solid #cfe9df; background: #fff; }
+.rs-oyunda .rs-resim img { object-fit: cover; }
 .rs-satir-arac { grid-area: arac; display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; align-items: start; }
-.rs-yuvalar { grid-area: yuvalar; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+.rs-yuvalar { grid-area: yuvalar; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; align-content: start; }
 .rs-yuva { position: relative; aspect-ratio: 1; border-radius: 16px; border: 2px dashed #d8cdb8; background: #fffdf8; display: grid; }
 .rs-yuva.dolu { border: 2px solid var(--line); background: #fff3bf; }
 .rs-yuva.ana { border-color: var(--pick); box-shadow: 0 0 0 3px #b2f2d4; }
@@ -89,7 +101,9 @@ dialog#rs-havuz::backdrop { background: #163e42a8; }
 .rs-hucre-sil { position: absolute; top: -6px; left: -6px; width: 26px; height: 26px; padding: 0; border-radius: 50%; border: 1px solid var(--line); background: #fff; font-size: 13px; }
 
 @media (max-width: 560px) {
-  .rs-satir { grid-template-columns: 1fr; grid-template-areas: "kelime" "yuvalar" "arac"; }
+  .rs-satir { grid-template-columns: 1fr; grid-template-areas: "kelime" "oyunda" "yuvalar" "arac"; }
+  .rs-oyunda { width: auto; grid-template-columns: auto 1fr; align-items: center; }
+  .rs-oyunda-resimler { grid-template-columns: repeat(auto-fill, 76px); }
   .rs-satir-arac { justify-content: flex-start; }
   .rs-yuvalar { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .rs-izgara { grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); }

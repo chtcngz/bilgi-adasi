@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.101.2 · 28.11.2026
+
+- **Resimler sayfası (…/english/resimler/) etap etap:** Her etap iki bölüm: “🖼️ 1. Bölüm · 1. Etap · Resimler” (tanıtım kartlarının kelimeleri) ve “❓ 1. Bölüm · 1. Etap · Soruları” (o etabın soruları; sorusu olmayan etapta “Bu etabın henüz sorusu yok.”). Sorulara da kelimeler gibi 6 resim seçilebiliyor.
+- **Oyunda şu an:** Her kelimenin ve sorunun yanında oyunun şu an kullandığı resim görünüyor. “Tüm resimler” penceresinde soru resimleri ve oyundaki kart resimleri de seçilebiliyor.
+
 ## 0.101.1 · 28.11.2026
 
 - **English, takılı kalan kart düzeltildi:** Balon sorusunda bir kart balondan uzağa bırakılınca (ya da telefon sürüklemeyi kesince) kartın kopyası ekranda takılı kalıyor, sonraki soruda yeni şıkların üstüne biniyordu. Artık kart yumuşakça yerine dönüyor; her yeni soruda ekran tamamen temizleniyor ve yalnızca o sorunun 3 şıkkı görünüyor. Bir kart yerine dönerken ikinci bir kart sürüklenemiyor.

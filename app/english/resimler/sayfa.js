@@ -1,12 +1,14 @@
 // Resimler · English (english/resimler/index.html): the owner chooses the pictures of English for Kids' words.
 //
-// Words: every island's kelimeler.js (window.englishAdalari), shown island › station › group › word. A word has up to six
-// pictures (MAX), the first one its main picture; a picture is a token as the game writes it: an emoji, a drawing
-// [[name]] (core/js/kelime-resimleri.js, cizimler.js, resimler.js, the island's resimler.js) or an upload [[u-<id>]].
+// Items: every island's words (kelimeler.js, window.englishAdalari) and questions (sorular.js, window.englishSorular), shown
+// bölüm › station › etap › "Resimler" (the etap's words) and "Soruları" (the questions whose word is in the etap). An item has
+// up to six pictures (MAX), the first one its main picture, and beside them the picture the game uses now ("Oyunda şu an").
+// A picture is a token: an emoji, a drawing [[name]] (core/js/kelime-resimleri.js, cizimler.js, resimler.js, the island's
+// resimler.js), an upload [[u-<id>]], or one of the game's own files dosya:english/<name> (assets/images/english/<name>.webp).
 // Pool (🖼️ Tüm resimler): every drawing, the emoji of İngilizce Koyu's questions and a few more, and the uploads, grouped by
 // where they are used (this word, the uploads, every English station, every unit of İngilizce Koyu, the rest), with a search
 // over the picture's name and the words it is used for.
-// Cloud (Firestore, REST): resimler/secimler { json: {"english-1/selam/hello": ["[[y-hello-3]]", "👋"], …} } and
+// Cloud (Firestore, REST): resimler/secimler { json: {"english-1/selam/hello": ["[[u-…]]", …], "english-1/ilk:0": […], …} } and
 // resimler/yuklenen/liste/{id} { ad, veri (a data: URL of the picture, 1024 px at most), zaman }. Anyone may read them;
 // writing needs the admin's account (the Firestore rule: match /resimler/{doc=**} { allow read: if true; allow write: if isAdmin(); }).
 // Sign-in is the admin page's (admin/admin.js): Google Identity Services or Firebase e-mail and password.
@@ -190,8 +192,12 @@
   const seg = new Intl.Segmenter();
   const emojiler = text => [...seg.segment(String(text || '').replace(/\[\[[a-z0-9-]+\]\]/g, ' '))].map(s => s.segment).filter(g => /\p{Extended_Pictographic}/u.test(g));
   const tokenler = pic => [...(String(pic || '').match(/\[\[[a-z0-9-]+\]\]/g) || []), ...emojiler(pic)];
-  const adi = tok => tok.startsWith('[[u-') ? (yuklenen.get(tok.slice(4, -2))?.ad || 'yüklenen') : tok.startsWith('[[') ? tok.slice(2, -2) : tok;
+  // the game's own picture files are tokens too: "dosya:english/hello" is assets/images/english/hello.webp
+  const DOSYA = 'dosya:';
+  const dosyaSrc = tok => 'assets/images/' + tok.slice(DOSYA.length) + '.webp?v=2';
+  const adi = tok => tok.startsWith(DOSYA) ? tok.split('/').pop() : tok.startsWith('[[u-') ? (yuklenen.get(tok.slice(4, -2))?.ad || 'yüklenen') : tok.startsWith('[[') ? tok.slice(2, -2) : tok;
   function resim(tok) {
+    if (tok.startsWith(DOSYA)) return '<img loading="lazy" src="' + esc(dosyaSrc(tok)) + '" alt="">';
     if (tok.startsWith('[[u-')) {
       const u = yuklenen.get(tok.slice(4, -2));
       return u ? '<img src="' + esc(u.veri) + '" alt="">' : '<span class="rs-yok">?</span>';
@@ -211,8 +217,10 @@
   function kullanim() {
     const yer = new Map();
     const ekle = (tok, label) => { if (!yer.has(tok)) yer.set(tok, []); yer.get(tok).push(label); };
-    for (const ada of adalar) for (const st of ada.istasyonlar) for (const g of st.gruplar) for (const [en, tr] of g.kelimeler)
-      for (const tok of secim[anahtar(ada, st, en)] || []) ekle(tok, 'English · ' + st.ad + ': ' + en + ' (' + tr + ')');
+    for (const it of ogeler()) {
+      for (const tok of secim[it.key] || []) ekle(tok, 'English · ' + it.yer + ': ' + it.ad);
+      for (const tok of it.oyunda) ekle(tok, 'English (oyunda) · ' + it.yer + ': ' + it.ad);
+    }
     for (const stop of ing2) for (const q of stop.sorular) if (q.k?.[2]) for (const tok of tokenler(q.k[2])) ekle(tok, 'İngilizce Koyu · ' + stop.ad + ': ' + q.k[0] + ' (' + q.k[1] + ')');
     return yer;
   }
@@ -225,45 +233,83 @@
     return [...set];
   }
 
-  /* ---------- the words ---------- */
+  /* ---------- the words and the questions ---------- */
+  // An item is a word (its tanıtım kartı) or a question, each with its own picks in the cloud:
+  //   word      key "english-1/selam/hello"   (its English must not change)
+  //   question  key "english-1/ilk:0"         (the question's id)
+  // oyunda: the picture(s) the game uses now, as tokens of its own files (shown beside the slots, read only).
   const anahtar = (ada, st, en) => ada.id + '/' + st.id + '/' + en;
-  let acik = null;   // { ada, st, en, tr } of the word the pool was opened for
+  const bolumNo = ada => (String(ada.bolum || '').match(/^(\d+)\./) || [, adalar.indexOf(ada) + 1])[1];
+  const kelimeOgesi = (ada, st, n, [en, tr, k]) => ({ tur: 'kelime', key: anahtar(ada, st, en), ada, st, etap: n, ad: en, alt: tr,
+    yer: st.ad + ' · ' + (n + 1) + '. Etap', oyunda: (k?.kartlar || (k?.resim ? [{ resim: k.resim }] : [])).map(c => DOSYA + 'english/' + c.resim) });
+  // the questions of an etap: those whose word (k[0]) is one of its words (as the game places them, app/english/koy.js)
+  function etapSorulari(ada, st, n) {
+    const words = new Set(st.gruplar[n].kelimeler.map(w => w[0]));
+    return (window.englishSorular?.[ada.id] || []).flatMap(stop => stop.sorular.map((q, i) => ({ q, id: stop.id + ':' + i })))
+      .filter(({ q }) => words.has(q.k?.[0])).map(({ q, id }, i) => ({ tur: 'soru', key: ada.id + '/' + id, ada, st, etap: n, no: i + 1,
+        ad: q.s, alt: 'Doğru: ' + q.a[0] + ' · Şıklar: ' + q.a.slice(1).join(' · '), yer: st.ad + ' · ' + (n + 1) + '. Etap · Soru ' + (i + 1),
+        oyunda: q.balon?.resim ? [DOSYA + 'english/soru/' + q.balon.resim] : [] }));
+  }
+  function ogeler() {
+    const list = [];
+    for (const ada of adalar) for (const st of ada.istasyonlar) st.gruplar.forEach((g, n) => {
+      list.push(...g.kelimeler.map(w => kelimeOgesi(ada, st, n, w)), ...etapSorulari(ada, st, n));
+    });
+    return list;
+  }
+  let acik = null;   // the item (word or question) the pool or the upload was opened for
+  const sayac = items => items.filter(it => (secim[it.key] || []).length).length;
   function cizAna() {
     const q = low($('rs-kelime-ara').value.trim());
+    const match = it => !q || low(it.ad).includes(q) || low(it.alt).includes(q);
     const main = $('rs-ana');
     main.innerHTML = '';
     if (!adalar.length) { main.innerHTML = '<p class="rs-not">Kelime listesi yok.</p>'; return; }
     for (const ada of adalar) {
+      const b = bolumNo(ada);
       const sec = document.createElement('section');
       sec.className = 'rs-ada';
-      sec.innerHTML = '<h2><span aria-hidden="true">' + esc(ada.simge) + '</span> ' + esc(ada.ad) + ' <small>' + esc(ada.bolum || '') + '</small></h2>';
+      sec.innerHTML = '<h2><span aria-hidden="true">' + esc(ada.simge) + '</span> ' + esc(b + '. Bölüm · ' + ada.ad) + '</h2>';
       for (const st of ada.istasyonlar) {
-        const words = st.gruplar.flatMap(g => g.kelimeler);
-        const done = words.filter(([en]) => (secim[anahtar(ada, st, en)] || []).length).length;
+        const words = st.gruplar.flatMap((g, n) => g.kelimeler.map(w => kelimeOgesi(ada, st, n, w)));
+        const questions = st.gruplar.flatMap((g, n) => etapSorulari(ada, st, n));
         const box = document.createElement('details');
         box.className = 'rs-istasyon';
         box.open = words.length > 0;
         box.innerHTML = '<summary><span aria-hidden="true">' + esc(st.simge) + '</span> ' + esc(st.ad) + ' <small>' + esc(st.baslik || '') + '</small>' +
-          '<em>' + (words.length ? done + ' / ' + words.length + ' kelimenin resmi var' : 'kelime listesi henüz yok') + '</em></summary>';
-        for (const g of st.gruplar) {
-          const rows = g.kelimeler.filter(([en, tr]) => !q || low(en).includes(q) || low(tr).includes(q));
-          if (!rows.length) continue;
-          const h = document.createElement('h3');
-          h.textContent = g.ad;
-          box.append(h);
-          for (const [en, tr] of rows) box.append(satir(ada, st, en, tr));
-        }
+          '<em>' + (words.length ? words.length + ' kelime · ' + questions.length + ' soru · ' + sayac(words) + ' kelimenin ve ' + sayac(questions) + ' sorunun seçilmiş resmi var' : 'kelime listesi henüz yok') + '</em></summary>';
+        st.gruplar.forEach((g, n) => {
+          const wordItems = g.kelimeler.map(w => kelimeOgesi(ada, st, n, w)), questionItems = etapSorulari(ada, st, n);
+          const shownWords = wordItems.filter(match), shownQuestions = questionItems.filter(match);
+          if (q && !shownWords.length && !shownQuestions.length) return;
+          const etap = document.createElement('details');
+          etap.className = 'rs-etap';
+          etap.open = true;
+          etap.innerHTML = '<summary>' + esc((n + 1) + '. Etap · ' + g.ad) + ' <em>' + wordItems.length + ' kelime · ' + questionItems.length + ' soru</em></summary>';
+          const h1 = document.createElement('h3');
+          h1.innerHTML = '🖼️ ' + esc(b + '. Bölüm · ' + (n + 1) + '. Etap · Resimler') + ' <em>' + sayac(wordItems) + ' / ' + wordItems.length + ' seçili</em>';
+          etap.append(h1, ...shownWords.map(satir));
+          const h2 = document.createElement('h3');
+          h2.innerHTML = '❓ ' + esc(b + '. Bölüm · ' + (n + 1) + '. Etap · Soruları') + ' <em>' + (questionItems.length ? sayac(questionItems) + ' / ' + questionItems.length + ' seçili' : '') + '</em>';
+          etap.append(h2);
+          if (!questionItems.length) etap.append(Object.assign(document.createElement('p'), { className: 'rs-not rs-soru-yok', textContent: 'Bu etabın henüz sorusu yok.' }));
+          else etap.append(...shownQuestions.map(satir));
+          box.append(etap);
+        });
         sec.append(box);
       }
       main.append(sec);
     }
   }
-  function satir(ada, st, en, tr) {
-    const key = anahtar(ada, st, en);
+  function satir(it) {
+    const key = it.key;
     const list = secim[key] || [];
     const row = document.createElement('div');
-    row.className = 'rs-satir';
-    row.innerHTML = '<div class="rs-kelime"><b>' + esc(en) + '</b><span>' + esc(tr) + '</span><small>' + list.length + ' / ' + MAX + '</small></div><div class="rs-yuvalar"></div><div class="rs-satir-arac"></div>';
+    row.className = 'rs-satir' + (it.tur === 'soru' ? ' soru' : '');
+    row.innerHTML = '<div class="rs-kelime">' + (it.tur === 'soru' ? '<b class="rs-soru-metni">' + esc(it.no + ') ' + it.ad) + '</b>' : '<b>' + esc(it.ad) + '</b>') +
+      '<span>' + esc(it.alt) + '</span><small>' + list.length + ' / ' + MAX + '</small></div>' +
+      '<div class="rs-oyunda"><small>Oyunda şu an</small><div class="rs-oyunda-resimler">' + (it.oyunda.length ? it.oyunda.map(t => '<div class="rs-resim" title="' + esc(adi(t)) + '">' + resim(t) + '</div>').join('') : '<span class="rs-not">—</span>') + '</div></div>' +
+      '<div class="rs-yuvalar"></div><div class="rs-satir-arac"></div>';
     const slots = row.querySelector('.rs-yuvalar');
     for (let i = 0; i < MAX; i++) {
       const tok = list[i];
@@ -276,7 +322,7 @@
         slot.querySelectorAll('button').forEach(b => { b.onclick = () => oynat(key, i, b.dataset.a); });
       } else {
         slot.innerHTML = '<button type="button" class="rs-bos" aria-label="Resim ekle">＋</button>';
-        slot.querySelector('button').onclick = () => havuzAc(ada, st, en, tr);
+        slot.querySelector('button').onclick = () => havuzAc(it);
       }
       slots.append(slot);
     }
@@ -285,12 +331,12 @@
     all.type = 'button';
     all.className = 'rs-btn';
     all.textContent = '🖼️ Tüm resimler';
-    all.onclick = () => havuzAc(ada, st, en, tr);
+    all.onclick = () => havuzAc(it);
     const up = document.createElement('button');
     up.type = 'button';
     up.className = 'rs-btn';
     up.textContent = '📤 Yükle';
-    up.onclick = () => { if (!yazabilir()) return; acik = { ada, st, en, tr }; $('rs-yukle').click(); };
+    up.onclick = () => { if (!yazabilir()) return; acik = it; $('rs-yukle').click(); };
     tools.append(all, up);
     return row;
   }
@@ -307,10 +353,10 @@
     kaydet();
     cizAna();
   }
-  // tapping a picture in the pool: added to the open word, or taken off it when it is already there
+  // tapping a picture in the pool: added to the open item, or taken off it when it is already there
   function sec(tok) {
     if (!acik || !yazabilir()) return;
-    const key = anahtar(acik.ada, acik.st, acik.en);
+    const key = acik.key;
     const list = secim[key] || [];
     const at = list.indexOf(tok);
     if (at >= 0) list.splice(at, 1);
@@ -325,12 +371,12 @@
   /* ---------- the pool ---------- */
   function havuzBaslik(extra = '') {
     if (!acik) { $('rs-havuz-kelime').textContent = ''; return; }
-    const n = (secim[anahtar(acik.ada, acik.st, acik.en)] || []).length;
-    $('rs-havuz-kelime').innerHTML = esc(acik.st.simge + ' ' + acik.st.ad) + ' › <b>' + esc(acik.en) + '</b> (' + esc(acik.tr) + ') · ' + n + ' / ' + MAX + ' resim' +
+    const n = (secim[acik.key] || []).length;
+    $('rs-havuz-kelime').innerHTML = esc(acik.st.simge + ' ' + acik.yer) + ' › <b>' + esc(acik.tur === 'soru' ? acik.ad : acik.ad + ' (' + acik.alt + ')') + '</b> · ' + n + ' / ' + MAX + ' resim' +
       (extra ? ' <span class="rs-uyari-kucuk">' + esc(extra) + '</span>' : '');
   }
-  function havuzAc(ada, st, en, tr) {
-    acik = { ada, st, en, tr };
+  function havuzAc(it) {
+    acik = it;
     $('rs-bul').value = '';
     if (!$('rs-havuz').open) $('rs-havuz').showModal();
     cizHavuz();
@@ -340,17 +386,21 @@
     havuzBaslik();
     const yer = kullanim();
     const q = low($('rs-bul').value.trim());
-    const mine = acik ? secim[anahtar(acik.ada, acik.st, acik.en)] || [] : [];
+    const mine = acik ? secim[acik.key] || [] : [];
     const groups = [];
     const placed = new Set();
     const put = (title, toks) => { const list = toks.filter(t => !placed.has(t)); list.forEach(t => placed.add(t)); groups.push([title, list]); };
-    put('Bu kelimenin resimleri', mine);
+    const items = ogeler();
+    put(acik?.tur === 'soru' ? 'Bu sorunun resimleri' : 'Bu kelimenin resimleri', [...(acik?.oyunda || []), ...mine]);
     put('📤 Yüklediklerin', [...yuklenen.keys()].map(id => '[[u-' + id + ']]'));
-    const stations = adalar.flatMap(ada => ada.istasyonlar.map(st => [ada, st]));
-    if (acik) stations.sort((a, b) => (b[1] === acik.st) - (a[1] === acik.st));
-    for (const [ada, st] of stations) {
-      const toks = st.gruplar.flatMap(g => g.kelimeler).flatMap(([en]) => secim[anahtar(ada, st, en)] || []);
-      put('English · ' + ada.ad + ' · ' + st.simge + ' ' + st.ad, [...new Set(toks)]);
+    put('❓ Soru resimleri (oyunda)', [...new Set(items.filter(it => it.tur === 'soru').flatMap(it => it.oyunda))]);
+    // every etap's word pictures (the game's and the chosen ones), the open item's etap first
+    const etaps = [];
+    for (const ada of adalar) for (const st of ada.istasyonlar) st.gruplar.forEach((g, n) => etaps.push({ ada, st, n, g }));
+    if (acik) etaps.sort((a, b) => (b.st === acik.st && b.n === acik.etap) - (a.st === acik.st && a.n === acik.etap));
+    for (const e of etaps) {
+      const its = items.filter(it => it.tur === 'kelime' && it.st === e.st && it.etap === e.n);
+      put('🖼️ ' + bolumNo(e.ada) + '. Bölüm · ' + (e.n + 1) + '. Etap · ' + e.g.ad, [...new Set(its.flatMap(it => [...it.oyunda, ...(secim[it.key] || [])]))]);
     }
     for (const stop of ing2) put('İngilizce Koyu (2. sınıf) · ' + stop.simge + ' ' + stop.ad, [...new Set(stop.sorular.flatMap(qq => tokenler(qq.k?.[2])))]);
     const all = hepsi();
@@ -376,8 +426,8 @@
         cell.className = 'rs-hucre' + (mine.includes(tok) ? ' secili' : '');
         const where = yer.get(tok) || [];
         cell.title = adi(tok) + (where.length ? '\n' + where.slice(0, 6).join('\n') + (where.length > 6 ? '\n…' : '') : '');
-        // under an emoji, the word it is used for; under a drawing, its name (without the y- of the owner's sheets)
-        const label = tok.startsWith('[[') ? adi(tok).replace(/^y-/, '') : (where[0] || '').split(': ').pop().replace(/ \(.*$/, '');
+        // under an emoji, the word it is used for; under a drawing or a file, its name (without the y- of the owner's sheets)
+        const label = tok.startsWith('[[') || tok.startsWith(DOSYA) ? adi(tok).replace(/^y-/, '') : (where[0] || '').split(': ').pop().replace(/ \(.*$/, '');
         cell.innerHTML = '<button type="button" class="rs-hucre-sec"><span class="rs-resim">' + resim(tok) + '</span><small>' + esc(label) + '</small></button>' +
           (mine.includes(tok) ? '<i class="rs-tik" aria-hidden="true">✓</i>' : '') +
           (tok.startsWith('[[u-') ? '<button type="button" class="rs-hucre-sil" aria-label="Yüklenen resmi sil" title="Sil">🗑</button>' : '');
@@ -419,7 +469,7 @@
       img.src = url;
     });
   }
-  async function yukleDosyalar(files, word) {
+  async function yukleDosyalar(files, item) {
     if (!files.length || !yazabilir()) return;
     for (const file of files) {
       durum('📤 Yükleniyor: ' + file.name);
@@ -433,8 +483,8 @@
         if (r.status === 403) { kuralUyarisi(true); throw new Error('Yükleme izni yok'); }
         if (!r.ok) throw new Error('Yüklenemedi (' + r.status + ')');
         yuklenen.set(id, { ad, veri });
-        if (word) {
-          const key = anahtar(word.ada, word.st, word.en);
+        if (item) {
+          const key = item.key;
           const list = secim[key] || [];
           if (list.length < MAX) { list.push('[[u-' + id + ']]'); secim[key] = list; kaydet(); }
         }
@@ -449,7 +499,7 @@
   async function yuklenenSil(id) {
     if (!yazabilir()) return;
     const u = yuklenen.get(id);
-    if (!confirm('“' + (u?.ad || 'resim') + '” silinsin mi? Seçildiği bütün kelimelerden de çıkar.')) return;
+    if (!confirm('“' + (u?.ad || 'resim') + '” silinsin mi? Seçildiği bütün kelimelerden ve sorulardan da çıkar.')) return;
     try {
       const r = await istek('resimler/yuklenen/liste/' + id, { method: 'DELETE' });
       if (r.status === 403) { kuralUyarisi(true); throw new Error('Silme izni yok'); }
