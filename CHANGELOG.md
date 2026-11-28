@@ -7,6 +7,12 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.101.0 · 28.11.2026
+
+- **English, ilk sorular: Balon sorusu.** Selamlaşma istasyonunun 1. etabında tanıtım kartlarından sonra üç soru geliyor: Leo eve dönüyor, Leo sınıfa giriyor, Maya eve dönüyor; annesi ya da öğretmeni onları karşılarken ne der?
+- **Nasıl oynanıyor:** Resimdeki konuşma balonunda bir “?” var, altında üç renkli İngilizce kart. Karta dokununca İngilizcesi okunuyor; doğru kartı parmakla (ya da fareyle) balona sürükleyince mıknatıs gibi balona oturuyor. Doğruysa kelime balonda kalıyor, yıldızlar ve konfeti çıkıyor, kelime bir kez daha okunuyor ve “Sonraki Soru ▶” beliriyor. Yanlışsa kart titreyip yerine dönüyor. Üç soru da bilinince etap bitiyor.
+- Resimlerde cevabı ele veren “Welcome” levhaları silindi.
+
 ## 0.100.0 · 28.11.2026
 
 - **Sesler sayfası (`…/sound/`) artık oyundaki seslerle yan yana:** Sayfa bölüm kutucuklarıyla açılıyor: Harekesiz, Harekeli, Tenvin, Cezm, Şedde, Uzatma, Kelimeler, Mukattaa harfleri ve Türkçe sözler. Her kutucukta oyunda ve yeni kayıtlarda kaç ses olduğu, kaçının onaylandığı ve kaçının beklediği görünüyor.

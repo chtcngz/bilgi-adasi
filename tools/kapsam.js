@@ -79,6 +79,9 @@ for (const name of islands) {
   // An island whose bank is still empty (a bay that says "Yakında") is checked once its first question comes.
   if (Array.isArray(bank) && !bank.length) { console.log('– ' + name + ': henüz soru yok (haritada “Yakında”); ilk soruyla birlikte kapsam.md de denetlenir.'); continue; }
   const ids = new Map();
+  // English for Kids (english-*): the checklist is the stations' word lists; a word may wait for its questions (the owner asks for them)
+  const english = name.startsWith('english-');
+  let waiting = 0;
   const scenes = loadScenes(path.join(islandsDir, name, 'sahneler.js'));
   if (bank) {
     if (!Array.isArray(bank) || !bank.length) problem('Soru bankası boş.');
@@ -96,7 +99,11 @@ for (const name of islands) {
         const id = stop.id + ':' + n;
         ids.set(id, q);
         const at = id + ' (' + String(q.s || '').slice(0, 40) + '…)';
-        for (const key of Object.keys(q)) if (!['s', 'm', 'a', 'b', 'y', 'k', 'd', 'g', 'r'].includes(key)) problem(at + ': bilinmeyen alan "' + key + '".');
+        for (const key of Object.keys(q)) if (!['s', 'm', 'a', 'b', 'y', 'k', 'd', 'g', 'r', ...(english ? ['balon'] : [])].includes(key)) problem(at + ': bilinmeyen alan "' + key + '".');
+        // English for Kids: a balon sorusu has its picture and the bubble's place in % of it, and three options
+        if (q.balon !== undefined && !(q.balon && typeof q.balon.resim === 'string' && /^[a-z0-9-]+$/.test(q.balon.resim) &&
+          fs.existsSync(path.join(__dirname, '..', 'app', 'assets', 'images', 'english', 'soru', q.balon.resim + '.webp')) &&
+          ['x', 'y', 'w', 'h'].every(f => typeof q.balon[f] === 'number' && q.balon[f] >= 0 && q.balon[f] <= 100))) problem(at + ': balon, { resim (assets/images/english/soru/ içinde bir .webp), x, y, w, h (yüzde) } olmalı.');
         // r: the question is asked with a picture of its own, app/assets/images/ingilizce/<r>.webp (a dialogue drawn with its speech bubbles)
         if (q.r !== undefined && !(typeof q.r === 'string' && /^[a-z0-9/-]+$/.test(q.r) && fs.existsSync(path.join(__dirname, '..', 'app', 'assets', 'images', 'ingilizce', q.r + '.webp')))) problem(at + ': r, assets/images/ingilizce/ altında bir .webp resmi olmalı.');
         // g: a 🔍 Gizli Kelimeler question, played on a picture of sahneler.js that has a place for its word
@@ -107,8 +114,9 @@ for (const name of islands) {
         if (!isText(q.s)) problem(at + ': soru kökü (s) eksik.');
         if (!isText(q.b)) problem(at + ': açıklama (b) eksik.');
         if (q.m !== undefined && !isText(q.m)) problem(at + ': metin (m) boş.');
-        if (!Array.isArray(q.a) || q.a.length !== 4 || !q.a.every(isText)) problem(at + ': dört seçenek olmalı.');
-        else if (new Set(q.a.map(x => x.trim().toLocaleLowerCase('tr'))).size !== 4) problem(at + ': aynı seçenek iki kez yazılmış.');
+        const options = q.balon ? 3 : 4;
+        if (!Array.isArray(q.a) || q.a.length !== options || !q.a.every(isText)) problem(at + ': ' + (options === 3 ? 'üç' : 'dört') + ' seçenek olmalı.');
+        else if (new Set(q.a.map(x => x.trim().toLocaleLowerCase('tr'))).size !== options) problem(at + ': aynı seçenek iki kez yazılmış.');
         for (const text of [q.s, q.m, q.b, ...(q.a || [])]) if (typeof text === 'string' && !balanced(text)) problem(at + ': kapanmamış *altı çizili* yazı.');
         if (q.y !== undefined && !(Number.isInteger(q.y) && q.y >= firstExamYear && q.y <= thisYear)) problem(at + ': sınav yılı (y) ' + firstExamYear + '-' + thisYear + ' arasında olmalı.');
       });
@@ -130,6 +138,7 @@ for (const name of islands) {
       // The ids follow the last arrow, so the text itself may contain arrows (taş → kömürlü ütü).
       const cut = item[1].lastIndexOf('→');
       const refs = cut < 0 ? [] : item[1].slice(cut + 1).split(',').map(x => x.trim()).filter(Boolean);
+      if (english && cut < 0) { waiting++; return; }
       if (!refs.length || !refs.every(id => /^[\w-]+:\d+$/.test(id))) {
         problem(at + ': bu bilgiyi soran soru yok (satır “→ durak:sıra” ile bitmeli) → ' + item[1].trim().slice(0, 90));
         return;
@@ -201,7 +210,7 @@ for (const name of islands) {
 
   const loose = [...ids.keys()].filter(id => !used.has(id));
   console.log((errors.length ? '✗ ' : '✓ ') + name + ': ' + ids.size + ' soru, kitaptan ' + points + ' madde' +
-    (points ? ', maddelere bağlı ' + used.size + ' soru' : ''));
+    (points ? ', maddelere bağlı ' + used.size + ' soru' : '') + (waiting ? ', sorusu henüz istenmemiş ' + waiting + ' kelime' : ''));
   for (const text of errors) console.log('    ' + text);
   if (detail && loose.length) {
     console.log('    Hiçbir maddeye bağlı olmayan ' + loose.length + ' soru (sınav ekstraları ya da aynı bilgiyi yeniden soranlar):');

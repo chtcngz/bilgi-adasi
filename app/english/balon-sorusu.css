@@ -1,0 +1,44 @@
+/* Balon sorusu (app/english/balon-sorusu.js): a picture with an empty speech bubble and three cards to drag into it. */
+.eb { display: grid; gap: 12px; padding-bottom: 12px; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.eb-ust { display: flex; align-items: center; gap: 10px; padding-right: 48px; }
+.eb-maskot { font-size: 30px; line-height: 1; }
+.eb-maskot.mutlu { animation: eb-zipla .6s ease-out; }
+.eb-maskot.uzgun { animation: eb-titre .4s; }
+.eb-sayi { display: flex; gap: 6px; }
+.eb-sayi i { width: 22px; height: 8px; border-radius: 4px; background: #e3dccd; }
+.eb-sayi i.done { background: #51cf66; }
+.eb-sayi i.now { background: #ffb703; }
+.eb-soru { margin: 0; font-size: clamp(20px, 5vw, 26px); line-height: 1.3; font-weight: 900; color: #173f40; outline: none; }
+.eb-sahne { position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 6px 18px rgba(23, 63, 64, .16); background: #f3ead7; }
+.eb-sahne img { display: block; width: 100%; height: auto; pointer-events: none; }
+.eb-balon { position: absolute; display: grid; place-items: center; border-radius: 50%; transition: background-color .2s, box-shadow .2s; }
+.eb-soru-isareti { font: 900 clamp(26px, 7vw, 54px)/1 Nunito, sans-serif; color: #ef9739; animation: eb-nabiz 1.4s ease-in-out infinite; }
+.eb-balon.yakin { background: rgba(255, 183, 3, .22); box-shadow: 0 0 0 4px rgba(255, 183, 3, .7); }
+.eb-balon.dogru { background: rgba(81, 207, 102, .18); box-shadow: 0 0 0 4px rgba(47, 155, 127, .8); animation: eb-pop .5s ease-out; }
+.eb-cevap { position: relative; z-index: 1; white-space: nowrap; padding: 3px 9px; border-radius: 12px; background: #fff; box-shadow: 0 2px 8px rgba(23, 63, 64, .22);
+  font: 900 16px/1.1 Nunito, sans-serif; color: #2b8a3e; }
+.eb-kartlar { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.eb-kart { touch-action: none; min-width: 120px; padding: 14px 18px; border: 0; border-radius: 18px; background: var(--renk); color: #fff;
+  font: 900 clamp(18px, 4.6vw, 22px)/1.1 Nunito, sans-serif; letter-spacing: .2px; text-shadow: 0 1px 0 rgba(0, 0, 0, .18);
+  box-shadow: 0 5px 0 rgba(0, 0, 0, .18), 0 8px 16px rgba(0, 0, 0, .12); cursor: grab; transition: opacity .25s, transform .15s; }
+.eb-kart:active { cursor: grabbing; }
+.eb-kart:focus-visible { outline: 4px solid #173f40; outline-offset: 3px; }
+.eb-kart.eb-bos { opacity: .25; box-shadow: none; }
+.eb-kart.eb-dokun { animation: eb-dokun .35s ease-out; }
+.eb-kart.eb-titre { animation: eb-titre .4s; }
+.eb-kart.eb-pasif { opacity: .35; filter: grayscale(.6); cursor: default; }
+.eb-kart.eb-secildi { box-shadow: 0 0 0 4px #2f9b7f, 0 5px 0 rgba(0, 0, 0, .18); cursor: default; }
+.eb-surukle { position: fixed; left: 0; top: 0; z-index: 1000; margin: 0; pointer-events: none; display: grid; place-items: center; box-shadow: 0 14px 26px rgba(0, 0, 0, .28); }
+.eb-surukle.eb-titre { animation: eb-titre-yer .4s; }
+.eb-alt { display: grid; gap: 10px; justify-items: center; }
+.eb-alt:empty { display: none; }
+.eb-aciklama { margin: 0; text-align: center; font-size: 15px; font-weight: 700; color: #5d7471; animation: en-in .35s ease-out; }
+.eb-sonraki { width: min(100%, 360px); animation: en-in .35s ease-out; }
+@keyframes eb-nabiz { 50% { transform: scale(1.15); } }
+@keyframes eb-pop { 0% { transform: scale(.85); } 60% { transform: scale(1.08); } 100% { transform: none; } }
+@keyframes eb-dokun { 40% { transform: scale(1.1); } }
+@keyframes eb-zipla { 40% { transform: translateY(-8px) scale(1.15); } }
+@keyframes eb-titre { 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(5px); } }
+@keyframes eb-titre-yer { 20% { translate: -8px 0; } 40% { translate: 8px 0; } 60% { translate: -5px 0; } 80% { translate: 5px 0; } }
+@media (prefers-reduced-motion: reduce) { .eb *, .eb-surukle { animation: none !important; } }
+@media (max-width: 380px) { .eb-kart { min-width: 0; flex: 1 1 100%; } }

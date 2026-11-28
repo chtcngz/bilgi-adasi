@@ -4,8 +4,8 @@ Kaynak: *English for Kids — Konu Haritası (8–12 yaş)*, 1. bölüm (İlk Ad
 (`kelimeler.js`). Ders kitabı yoktur: her madde bir istasyonun kelimesi ya da kalıbıdır.
 
 **Kural:** Sorular yalnızca bu kelimeleri kullanır (isim ve yaş sorularında İngilizce isimler ve 5–20 arası yaşlar da olabilir) ve
-sahibi istemeden yazılmaz. Sorular yazılınca her maddenin sonuna `→` ve onu soran soruların kimlikleri (`ilk:0` …) eklenir;
-`node tools/kapsam.js english-1` soru bankası boş olduğu sürece adayı atlar, ilk soruyla birlikte bu listeyi denetler.
+sahibi istemeden yazılmaz. Bir kelimenin soruları yazılınca maddenin sonuna `→` ve onları soran soruların kimlikleri (`ilk:0` …) eklenir.
+`node tools/kapsam.js english-1` kimliklerin var olduğunu denetler; sorusu henüz istenmemiş kelimeleri ayrıca sayar.
 
 ## 1. Selamlaşma (Greetings)
 
@@ -36,7 +36,7 @@ sahibi istemeden yazılmaz. Sorular yazılınca her maddenin sonuna `→` ve onu
 - I am … / I’m … = Ben …
 - Nice to meet you. = Tanıştığımıza memnun oldum.
 - Nice to meet you, too. = Ben de memnun oldum.
-- Welcome! = Hoş geldin!
+- Welcome! = Hoş geldin! → ilk:0, ilk:1, ilk:2
 - How are you? = Nasılsın?
 - I am fine, thank you. = İyiyim, teşekkür ederim.
 - I am good. = İyiyim.

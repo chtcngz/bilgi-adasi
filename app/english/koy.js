@@ -3,8 +3,11 @@
 // a station per topic. A station is cut into etaps (its gruplar). Tapping a station opens its etaps as small round pictures on a
 // path (the station's dialog, #eng1-game); tapping an etap shows its tanıtım kartları one by one (ingilizceOyunlari.kesif:
 // a big picture, the English said, the Turkish meaning). An etap is done once its last card is reached; the next one opens then.
-// A station without words yet stays locked ("Yakında"). There are no questions yet: they are written only when the owner asks.
-// Progress: localStorage 'ingilizce-english-' + player id → { etap: { 'english-1/selam': 2 } } (etaps done, in order).
+// When the etap has questions (the island's sorular.js, window.englishSorular: those whose k[0] is one of the etap's words),
+// they come after the cards (englishBalon, app/english/balon-sorusu.js) and the etap is done once they are all answered.
+// A station without words yet stays locked ("Yakında"). Questions are written only when the owner asks.
+// Progress: localStorage 'ingilizce-english-' + player id → { etap: { 'english-1/selam': 2 } (etaps done, in order),
+// soru: { 'english-1/ilk:0': { d, y } } (first tries right and wrong) }.
 (() => {
   const adalar = window.englishAdalari || [];
   const $ = id => document.getElementById(id);
@@ -12,15 +15,16 @@
   const esc = t => String(t ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
   const RESIM = name => 'assets/images/english/' + name + '.webp?v=1';
   const KEY = id => 'ingilizce-english-' + id;
-  let progress = { etap: {} };
+  let progress = { etap: {}, soru: {} };
   let cancel = null;
 
   /* ---------- progress ---------- */
   function load() {
     let saved = null;
     try { saved = JSON.parse(localStorage.getItem(KEY(activeProfile.id))); } catch {}
-    progress = { etap: {} };
+    progress = { etap: {}, soru: {} };
     for (const [k, n] of Object.entries(saved?.etap || {})) if (Number.isInteger(n) && n > 0) progress.etap[k] = n;
+    for (const [k, row] of Object.entries(saved?.soru || {})) if (row && typeof row === 'object') progress.soru[k] = { d: Number(row.d) || 0, y: Number(row.y) || 0 };
   }
   function save() {
     try { localStorage.setItem(KEY(activeProfile.id), JSON.stringify(progress)); } catch { storageFailed = true; }
@@ -34,6 +38,12 @@
   // the cards of an etap: a word's own cards, or one card of the word with its picture
   const kartlar = g => g.kelimeler.flatMap(([en, tr, k]) => (k?.kartlar || [{ en, tr, resim: k?.resim }]).filter(c => c.resim));
   const kapak = g => kartlar(g)[0]?.resim;
+  // the questions of an etap: the island's questions whose word (k[0]) is one of the etap's words, each with its id (ilk:0)
+  function sorulari(ada, g) {
+    const words = new Set(g.kelimeler.map(w => w[0]));
+    return (window.englishSorular?.[ada.id] || []).flatMap(stop => stop.sorular.map((q, n) => ({ ...q, id: ada.id + '/' + stop.id + ':' + n })))
+      .filter(q => q.balon && words.has(q.k?.[0]));
+  }
 
   /* ---------- the bay ---------- */
   const stationNow = ada => ada.istasyonlar.findIndex(st => ready(st) && !finished(ada, st));
@@ -116,17 +126,26 @@
 
   /* ---------- an etap: its tanıtım kartları ---------- */
   function openEtap(ada, st, n) {
-    const g = etaplar(st)[n];
+    const g = etaplar(st)[n], questions = sorulari(ada, g);
+    const finish = () => {
+      cancel = null;
+      const first = done(ada, st) === n;
+      if (first) { progress.etap[stKey(ada, st)] = n + 1; save(); }
+      openStation(ada, st, first ? n : -1);
+    };
     cancel = ingilizceOyunlari.kesif({
       stage, maskot: activeProfile?.icon, baslik: (n + 1) + '. Etap · ' + g.ad,
       kelimeler: kartlar(g).map(c => ({ en: c.en, tr: c.tr, foto: RESIM(c.resim) })),
-      son: n < etaplar(st).length - 1 ? '✓ Etabı bitir' : '🏁 Bitir',
+      son: questions.length ? 'Sorulara geç ❓' : n < etaplar(st).length - 1 ? '✓ Etabı bitir' : '🏁 Bitir',
       bitti: skipped => {
         cancel = null;
-        // only the last card reached counts; skipping (⏭) goes back to the etaps without finishing it
-        const first = !skipped && done(ada, st) === n;
-        if (first) { progress.etap[stKey(ada, st)] = n + 1; save(); }
-        openStation(ada, st, first ? n : -1);
+        // skipping the cards (⏭) goes to the questions when there are any, else back to the etaps without finishing it
+        if (!questions.length) { if (skipped) openStation(ada, st); else finish(); return; }
+        cancel = englishBalon.oyna({
+          stage, sorular: questions, maskot: activeProfile?.icon,
+          sonuc: (q, right) => { const row = progress.soru[q.id] ||= { d: 0, y: 0 }; row[right ? 'd' : 'y']++; save(); },
+          bitti: finish
+        });
       }
     });
   }

@@ -17,6 +17,7 @@ app/                         Published site (GitHub Pages root)
 ├── index.html               All screens and the script/style load order
 ├── english/index.html       English for Kids (…/english/): the same game with only English Koyu (see "English for Kids")
 ├── english/koy.js, koy.css  English Koyu: its islands, stations, etaps and tanıtım kartları
+├── english/balon-sorusu.*   Balon sorusu: drag the right English card into the picture's speech bubble
 ├── english/resimler/        Resimler · English: the owner picks the words' pictures (index.html, sayfa.js, sayfa.css; not linked)
 ├── core/                    Shared infrastructure for every island
 │   ├── js/
@@ -224,7 +225,14 @@ A second site at `…/bilgi-adasi/english/` (`app/english/index.html`) teaches E
   `ingilizceOyunlari.kesif` (a big picture from `assets/images/english/`, the English said, the Turkish meaning). The next etap
   opens when the last card is reached (⏭ Atla goes back without finishing). A station without words stays locked ("Yakında").
   Progress: `ingilizce-english-<player id>` → `{ etap: { "english-1/selam": 2 } }`. Bölüm 1, İlk Adımlar, has its Selamlaşma
-  station (42 words in 6 etaps); there are no questions yet (`sorular.js` is empty; questions only when the owner asks).
+  station (42 words in 6 etaps); questions only when the owner asks (so far three balon soruları for “Welcome!”).
+- **Balon sorusu** (`app/english/balon-sorusu.js`, `.css`, `englishBalon.oyna`): the etap's questions, after its cards. A picture
+  (`assets/images/english/soru/`, its bubble emptied) with a drop zone over the bubble (`balon: { resim, x, y, w, h }` in % of
+  the picture) and three cards (`a`, the first right). Tap: the English is said (a recording if there is one, else the device's
+  en-US voice at 0.75). Drag (Pointer Events: mouse, touch, pen; a copy follows the finger): dropped on or near the bubble it
+  snaps in; right → the word stays in the bubble as a label, the others fade, stars and confetti, the word said again,
+  *Sonraki Soru ▶*; wrong → it shakes and slides back. Only the first drop counts (`soru` in the progress). `tools/kapsam.js`
+  accepts `balon` and three options on the English islands, and a word of their checklist may wait for its questions.
 - **The pictures** come from the owner's uploads on the picture page, brought into `assets/images/english/<word>.webp`. When a
   picture's speech bubble must say something else ("My name is …" → "My name is Leo."), `tools/baloncuk.py` paints the old text
   over with the bubble's colour and writes the new one in a hand-drawn font (Patrick Hand, not shipped).

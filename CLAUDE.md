@@ -41,6 +41,11 @@ the owner says otherwise, work only on bölüm 1 (İlk Adımlar: Greetings, Alph
 - A station is cut into **etaps** of related words (the `gruplar` of `kelimeler.js`; Selamlaşma has 6). Tapping a station opens
   its etaps as small round pictures; an etap shows its **tanıtım kartları** (a big picture, the English, the Turkish, 🔊 🐢), and
   the next etap opens once its last card is reached (`app/english/koy.js`).
+- **Balon sorusu** (`app/english/balon-sorusu.js`): a picture whose speech bubble is empty and three English cards to drag into
+  it; tapping a card says it. A question belongs to the etap of its word (`k[0]`) and comes after that etap's cards. Its picture
+  goes to `assets/images/english/soru/` with the bubble's "?" painted out (the game draws the "?"), and any writing in the
+  picture that gives the answer away (a "Welcome" sign) is painted out too. Wrong options are words of the list that are
+  clearly wrong in the scene (not another right greeting).
 - The characters: the boy is **Leo**, 9 years old; the girl is **Maya**, 10. A picture whose bubble needs other words gets them
   with `tools/baloncuk.py` (the owner asks for the bubble's text; e.g. "My name is Leo.", "I’m 9 years old.").
 - The owner picks the words' pictures on `…/english/resimler/` (up to six per word, first = main); the choices and uploads are
