@@ -7,6 +7,12 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.100.0 · 28.11.2026
+
+- **Sesler sayfası (`…/sound/`) artık oyundaki seslerle yan yana:** Sayfa bölüm kutucuklarıyla açılıyor: Harekesiz, Harekeli, Tenvin, Cezm, Şedde, Uzatma, Kelimeler, Mukattaa harfleri ve Türkçe sözler. Her kutucukta oyunda ve yeni kayıtlarda kaç ses olduğu, kaçının onaylandığı ve kaçının beklediği görünüyor.
+- **İki sütun:** Bir bölüme girince her okunuş bir satır: solda oyunun şu an çaldığı kayıtlar (kız sesi ve erkek sesi; oyunda çalan “çalan” diye işaretli), sağda aynı okunuşun yeni kesilen kayıtları. ▶▶ satırdaki bütün sesleri art arda çalıyor, böylece karşılaştırmak kolay.
+- **Onay ve seçim:** Oyundaki iyi sesler ✓ Onayla ile onaylanıyor; iyi olmayanların yerine sağdan ⇄ Bunu kullan ile yenisi seçiliyor. Filtreler: Tümü, ✓ Onaylananlar, ✗ Onaylanmayanlar, ⇄ Yenisi seçilenler. Seçimler tarayıcıda kalıyor (önceden seçilen yeni sesler de); 📋 Seçimleri kopyala hepsini bölüm bölüm listeliyor.
+
 ## 0.99.1 · 28.11.2026
 
 - **Sesler sayfası (`…/sound/`), arka plandaki müzik temizlendi:** 265 sesin hepsinde kaydın altındaki müzik çıkarıldı. Her sesin hemen yanında, kimsenin konuşmadığı yerlerde yalnızca müzik duyuluyor; o müzik örnek alınıp sesten süzüldü. Hecelerin arasında ve sesin başında, sonunda artık tam sessizlik var.

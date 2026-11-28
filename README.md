@@ -99,10 +99,14 @@ app/                         Published site (GitHub Pages root)
 │   │                        (ingilizce-2/sahneler.js: the pictures of 🔍 Gizli Kelimeler and the places to tap in them;
 │   │                        the pictures are assets/images/ingilizce/sahne/*.webp)
 │   └── sosyal-bilgiler/     Question island: same pattern
-├── sound/                   Sesler (…/sound/): every Arabic reading cut from sound-samples/original/ (harekesiz, harekeli,
-│                            tenvin, cezm, şedde, uzatma, words, mukattaa), each with its writing and a ▶ button; the owner
-│                            ticks the ones to use and copies the choices (localStorage, not linked). ses/<id>.mp3 and
-│                            liste.js are written by tools/ses_kes.py: do not edit them by hand
+├── sound/                   Sesler (…/sound/, not linked): the owner chooses Elif Ba's recordings. It opens on the sections
+│                            (harekesiz, harekeli, tenvin, cezm, şedde, uzatma, words, mukattaa, Turkish words); in a
+│                            section every reading is a row with the clips the game plays now on the left (read from
+│                            kayitlar.js and data.js: the girl's voice and the man's) and the new clips cut from
+│                            sound-samples/ on the right. The owner approves good game clips (✓) and picks new ones (⇄);
+│                            filters: approved, not approved, new picked; the choices stay in localStorage and are copied
+│                            as text. index.html, sayfa.js, sayfa.css; ses/<id>.mp3 and liste.js are written by
+│                            tools/ses_kes.py: do not edit them by hand
 ├── kontrol.html             Resim kontrolü: the owner picks İngilizce Koyu's pictures by hand and copies the choices (not linked)
 ├── admin/                   Yönetici sayfası: every player of every device, read from the cloud copy; signs in with
 │                            the admin's Google account (automatically when the browser is already signed in to it)
@@ -136,7 +140,7 @@ sources/                     Raw material (not published)
 - **Load order matters** because the files are plain scripts: `core/js/app.js` → `sounds` → `fx` → islands and core helpers → `core/js/settings.js` (last).
 - **One look for back and close buttons** (`core/css/base.css`): a button that goes back to a place with a name is `.btn-back` (a pill with a chevron badge: *Keşif Limanı*, *Yol*); a button that leaves a game, a round or a map level is `.btn-round` (a round icon button, × by default, ‹ with `.is-back`; it has no text, so it needs an `aria-label`). Islands only place them (float, position); they do not restyle them.
 - **Cache busting:** every `<link>`/`<script>` address in `index.html` ends in `?v=…`. When you change a file, bump its number
-  (in `english/index.html` too when it loads the file).
+  (in `english/index.html` too when it loads the file, and in `sound/index.html` for `kayitlar.js` and `data.js`).
   `islands/ingilizce-*/sira.js` is rewritten by `node tools/kapsam.js` whenever kapsam.md changes: bump its number too.
 - **İngilizce Koyu: six islands × four weeks.** Each theme is an island and each island four stations, *Hafta 1-4*, in the
   book's order; a week opens when the round of the one before has been finished (`progress.bolum`, or when every question

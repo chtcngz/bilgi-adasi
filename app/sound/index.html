@@ -1,253 +1,39 @@
 <!doctype html>
-<!-- Sesler (…/bilgi-adasi/sound/): the owner's page for choosing recordings. Not linked from the game.
-     Every Arabic reading cut from the recordings in sound-samples/original/ (tools/ses_kes.py → ses/<id>.mp3 and liste.js),
-     grouped by kind (harekesiz, harekeli, tenvin, cezm …), each with its writing, its name and a ▶ button. The owner ticks the
-     ones to use; the choices stay in this browser (localStorage) and "Seçimleri kopyala" copies them as text to paste to Claude. -->
+<!-- Sesler (…/bilgi-adasi/sound/): the owner's page for choosing Elif Ba's recordings. Not linked from the game.
+     It opens on the sections (harekesiz, harekeli, tenvin, cezm, şedde …); in a section every reading is a row with, on the
+     left, the clips the game plays now (assets/audio/elif-ba/kayitlar.js: the girl's voice and the man's) and, on the right,
+     the clips cut from the owner's recordings (sound-samples/ → tools/ses_kes.py → sound/ses/<id>.mp3, sound/liste.js).
+     The owner approves the game clips that are good (✓) and picks a new clip for the ones that are not (⇄); the choices stay
+     in this browser (localStorage) and "Seçimleri kopyala" copies them as text to paste to Claude.
+     <base href="../"> makes every path resolve to app/, as the game's own. -->
 <html lang="tr">
 <head>
 <meta charset="utf-8">
+<base href="../">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Sesler · Elif Ba</title>
-<style>
-  :root { --bg: #fffdf6; --ink: #173f40; --soft: #5d7471; --line: #e6dccb; --pick: #2f9b7f; --play: #185d4d; }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; }
-  button { font: inherit; color: inherit; cursor: pointer; touch-action: manipulation; }
-  button:focus-visible, input:focus-visible { outline: 3px solid #a85c16; outline-offset: 2px; }
-  header { position: sticky; top: 0; z-index: 5; padding: 10px 16px; background: #fff8e6; border-bottom: 2px solid var(--line); }
-  h1 { margin: 0; font-size: 20px; }
-  h1 small { font-weight: 400; color: var(--soft); font-size: 14px; }
-  .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 8px; }
-  .bar input[type=search] { flex: 1 1 180px; min-width: 0; padding: 9px 12px; border: 2px solid var(--line); border-radius: 12px; font-size: 16px; }
-  .btn { padding: 8px 12px; border: 2px solid var(--line); border-radius: 12px; background: #fff; font-weight: 600; white-space: nowrap; }
-  .btn.ana { background: var(--pick); border-color: var(--pick); color: #fff; }
-  .btn[aria-pressed=true] { background: #e3f4ec; border-color: var(--pick); }
-  nav { display: flex; gap: 6px; overflow-x: auto; padding: 8px 0 2px; scrollbar-width: thin; }
-  nav a { flex: none; padding: 5px 10px; border-radius: 999px; background: #fff; border: 1px solid var(--line); color: var(--ink); text-decoration: none; font-size: 14px; }
-  nav a b { color: var(--soft); font-weight: 400; }
-  main { padding: 6px 16px 120px; max-width: 1000px; margin: 0 auto; }
-  section { scroll-margin-top: 200px; }
-  .kat { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin: 26px 0 4px; }
-  .kat h2 { margin: 0; font-size: 19px; }
-  .kat .btn { padding: 4px 10px; font-size: 14px; }
-  .aciklama { margin: 0 0 10px; color: var(--soft); font-size: 14px; }
-  .grup { margin: 12px 0 4px; font-size: 14px; color: var(--soft); font-weight: 700; }
-  .liste { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 8px; }
-  .ses { display: grid; grid-template-columns: auto minmax(48px, auto) 1fr auto; align-items: center; gap: 4px 10px; padding: 8px 10px; border: 2px solid var(--line); border-radius: 14px; background: #fff; }
-  .ses.secili { border-color: var(--pick); background: #f0faf5; }
-  .ses.caliyor { box-shadow: 0 0 0 3px #f2c14e; }
-  .oynat { width: 46px; height: 46px; border: 0; border-radius: 50%; background: var(--play); color: #fff; font-size: 18px; display: grid; place-items: center; }
-  .ses.caliyor .oynat { background: #a85c16; }
-  .yazi { min-width: 0; }
-  .yazi b { display: block; font-size: 16px; }
-  .yazi span { color: var(--soft); font-size: 13px; }
-  .ar { font: normal 34px/1.3 "Traditional Arabic", "Noto Naskh Arabic", "Geeza Pro", "Times New Roman", serif; direction: rtl; text-align: center; white-space: nowrap; color: #8a5a1c; }
-  .sec { width: 42px; height: 42px; border: 2px solid var(--line); border-radius: 12px; background: #fff; font-size: 20px; color: #d9dfdc; }
-  .ses.secili .sec { background: var(--pick); border-color: var(--pick); color: #fff; }
-  .kimlik { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 8px; font-size: 11px; color: #9aa9a6; }
-  .bos { color: var(--soft); padding: 20px 0; }
-  #durum { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); max-width: 92vw; padding: 8px 14px; border-radius: 12px; background: #173f40; color: #fff; font-size: 14px; }
-  #durum:empty { display: none; }
-  #kopya { width: 100%; min-height: 160px; margin-top: 8px; font: 13px/1.4 ui-monospace, monospace; }
-  @media (max-width: 560px) {
-    header { padding: 8px 10px; }
-    main { padding: 4px 10px 120px; }
-    .liste { grid-template-columns: 1fr; }
-  }
-</style>
+<link rel="stylesheet" href="sound/sayfa.css?v=1">
 </head>
 <body>
-<header>
-  <h1>🔊 Sesler <small>· Elifle Animasyonlu Elifba kayıtlarından</small></h1>
-  <div class="bar">
-    <input id="ara" type="search" placeholder="🔍 Ara (be, iki ötre, cezm …)" autocomplete="off" aria-label="Ses ara">
-    <button type="button" id="yalniz" class="btn" aria-pressed="false">☑ Seçtiklerim</button>
-    <button type="button" id="kopyala" class="btn ana">📋 Seçimleri kopyala (0)</button>
+<header class="ust">
+  <div class="ust-satir">
+    <button type="button" id="geri" class="btn geri" hidden>‹ Bölümler</button>
+    <h1 id="baslik">🔊 Sesler</h1>
+    <button type="button" id="kopyala" class="btn ana">📋 Seçimleri kopyala</button>
   </div>
-  <nav id="gezinti" aria-label="Bölümler"></nav>
+  <div id="arac" class="arac" hidden>
+    <div id="filtreler" class="filtreler" role="group" aria-label="Filtre"></div>
+    <input id="ara" type="search" placeholder="🔍 Ara (be, iki ötre …)" autocomplete="off" aria-label="Ara">
+  </div>
+  <div id="sutunlar" class="sutunlar" hidden><span>🎮 Oyunda</span><span>✨ Yeni kayıtlar</span></div>
   <textarea id="kopya" hidden readonly aria-label="Seçimler"></textarea>
 </header>
 <main id="ana"></main>
 <div id="durum" role="status"></div>
-<script src="liste.js?v=2"></script>
-<script>
-(() => {
-  const $ = id => document.getElementById(id);
-  const KEY = 'bilgi-adasi-ses-secimleri';
-  const { kategoriler, sesler } = window.sesListesi || { kategoriler: [], sesler: [] };
-  const low = t => String(t).toLocaleLowerCase('tr');
-  let secim = new Set();
-  try { secim = new Set(JSON.parse(localStorage.getItem(KEY)) || []); } catch {}
-  const kaydet = () => { try { localStorage.setItem(KEY, JSON.stringify([...secim])); } catch {} };
-  const dakika = s => Math.floor(s / 60) + ':' + (s % 60).toFixed(1).padStart(4, '0');
-  // bump with every new cut of the clips (tools/ses_kes.py), so no browser plays the old ones from its cache
-  const SES_V = 2;
-
-  /* ---------- playing ---------- */
-  let calan = null;          // { audio, card }
-  let sira = null;           // the queue of "Sırayla çal"
-  function dur() {
-    if (calan) { calan.audio.pause(); calan.card.classList.remove('caliyor'); calan.card.querySelector('.oynat').textContent = '▶'; }
-    calan = null;
-  }
-  function cal(ses, card, sonra) {
-    dur();
-    const audio = new Audio('ses/' + ses.id + '.mp3?v=' + SES_V);
-    calan = { audio, card };
-    card.classList.add('caliyor');
-    card.querySelector('.oynat').textContent = '■';
-    const bitti = () => { if (calan?.audio === audio) { dur(); sonra?.(); } };
-    audio.onended = bitti;
-    audio.play().catch(() => { if (calan?.audio === audio) { dur(); $('durum').textContent = 'Ses açılamadı: ' + ses.id; } });
-  }
-  function sirayla(liste) {
-    sira = liste.slice();
-    const ilerle = () => {
-      if (!sira?.length) { sira = null; return; }
-      const ses = sira.shift();
-      const card = document.querySelector('[data-id="' + ses.id + '"]');
-      if (!card) return ilerle();
-      card.scrollIntoView({ block: 'nearest' });
-      cal(ses, card, () => setTimeout(() => sira && ilerle(), 350));
-    };
-    ilerle();
-  }
-
-  /* ---------- the list ---------- */
-  function kart(ses) {
-    const card = document.createElement('div');
-    card.className = 'ses' + (secim.has(ses.id) ? ' secili' : '');
-    card.dataset.id = ses.id;
-    const oynat = document.createElement('button');
-    oynat.type = 'button';
-    oynat.className = 'oynat';
-    oynat.textContent = '▶';
-    oynat.setAttribute('aria-label', ses.ad + ' dinle');
-    oynat.onclick = () => { sira = null; calan?.card === card ? dur() : cal(ses, card); };
-    const ar = document.createElement('span');
-    ar.className = 'ar';
-    ar.lang = 'ar';
-    ar.textContent = ses.ar || '';
-    const yazi = document.createElement('div');
-    yazi.className = 'yazi';
-    const ad = document.createElement('b');
-    ad.textContent = ses.ad;
-    yazi.append(ad);
-    if (ses.okunus) {
-      const ok = document.createElement('span');
-      ok.textContent = '“' + ses.okunus + '”' + (ses.not ? ' · ' + ses.not : '');
-      yazi.append(ok);
-    }
-    const sec = document.createElement('button');
-    sec.type = 'button';
-    sec.className = 'sec';
-    sec.textContent = '✓';
-    sec.setAttribute('aria-label', ses.ad + ' seç');
-    sec.setAttribute('aria-pressed', secim.has(ses.id));
-    sec.onclick = () => {
-      secim.has(ses.id) ? secim.delete(ses.id) : secim.add(ses.id);
-      kaydet();
-      card.classList.toggle('secili', secim.has(ses.id));
-      sec.setAttribute('aria-pressed', secim.has(ses.id));
-      sayac();
-    };
-    const kimlik = document.createElement('div');
-    kimlik.className = 'kimlik';
-    kimlik.innerHTML = '<span></span><span></span>';
-    kimlik.children[0].textContent = ses.id;
-    kimlik.children[1].textContent = ses.dosya + '. kayıt · ' + dakika(ses.bas);
-    card.append(oynat, ar, yazi, sec, kimlik);
-    return card;
-  }
-  function uyar(ses, q) {
-    return !q || [ses.id, ses.ad, ses.okunus, ses.ar, ses.not].some(t => t && low(t).includes(q));
-  }
-  function ciz() {
-    const q = low($('ara').value.trim());
-    const yalniz = $('yalniz').getAttribute('aria-pressed') === 'true';
-    const ana = $('ana');
-    ana.replaceChildren();
-    $('gezinti').replaceChildren();
-    let toplam = 0;
-    for (const kat of kategoriler) {
-      const liste = sesler.filter(s => s.kat === kat.id && uyar(s, q) && (!yalniz || secim.has(s.id)));
-      if (!liste.length) continue;
-      toplam += liste.length;
-      const sec = document.createElement('section');
-      sec.id = 'k-' + kat.id;
-      const bas = document.createElement('div');
-      bas.className = 'kat';
-      const h2 = document.createElement('h2');
-      h2.textContent = kat.ad + ' (' + liste.length + ')';
-      const hepsi = document.createElement('button');
-      hepsi.type = 'button';
-      hepsi.className = 'btn';
-      hepsi.textContent = '▶ Sırayla çal';
-      hepsi.onclick = () => sirayla(liste);
-      bas.append(h2, hepsi);
-      sec.append(bas);
-      if (kat.aciklama) {
-        const p = document.createElement('p');
-        p.className = 'aciklama';
-        p.textContent = kat.aciklama;
-        sec.append(p);
-      }
-      let grup = null, kutu = null;
-      for (const ses of liste) {
-        if (!kutu || ses.grup !== grup) {
-          grup = ses.grup;
-          if (grup) {
-            const g = document.createElement('div');
-            g.className = 'grup';
-            g.textContent = grup;
-            sec.append(g);
-          }
-          kutu = document.createElement('div');
-          kutu.className = 'liste';
-          sec.append(kutu);
-        }
-        kutu.append(kart(ses));
-      }
-      ana.append(sec);
-      const a = document.createElement('a');
-      a.href = '#k-' + kat.id;
-      a.innerHTML = '<span></span> <b></b>';
-      a.children[0].textContent = kat.kisa || kat.ad;
-      a.children[1].textContent = liste.length;
-      $('gezinti').append(a);
-    }
-    if (!toplam) ana.innerHTML = '<p class="bos">' + (yalniz ? 'Henüz seçilen ses yok.' : 'Bulunamadı.') + '</p>';
-  }
-  function sayac() { $('kopyala').textContent = '📋 Seçimleri kopyala (' + secim.size + ')'; }
-
-  /* ---------- copying the choices ---------- */
-  $('kopyala').onclick = async () => {
-    const secilen = sesler.filter(s => secim.has(s.id));
-    if (!secilen.length) { $('durum').textContent = 'Önce ✓ ile ses seç.'; setTimeout(() => $('durum').textContent = '', 2500); return; }
-    const metin = 'Seçilen sesler (' + secilen.length + '):\n' +
-      secilen.map(s => s.id + ' · ' + s.ad + (s.ar ? ' (' + s.ar + ')' : '')).join('\n');
-    try {
-      await navigator.clipboard.writeText(metin);
-      $('durum').textContent = '✓ Kopyalandı: ' + secilen.length + ' ses';
-      setTimeout(() => $('durum').textContent = '', 2500);
-    } catch {
-      // no clipboard permission: show the text, selected, to copy by hand
-      const box = $('kopya');
-      box.hidden = false;
-      box.value = metin;
-      box.select();
-    }
-  };
-  $('ara').oninput = ciz;
-  $('yalniz').onclick = () => {
-    const on = $('yalniz').getAttribute('aria-pressed') !== 'true';
-    $('yalniz').setAttribute('aria-pressed', on);
-    ciz();
-  };
-  sayac();
-  ciz();
-})();
-</script>
+<script src="assets/audio/elif-ba/kayitlar.js?v=12"></script>
+<script src="islands/elif-ba/data.js?v=12"></script>
+<script src="sound/liste.js?v=3"></script>
+<script src="sound/sayfa.js?v=1"></script>
 </body>
 </html>

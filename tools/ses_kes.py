@@ -3,8 +3,9 @@
 
 The recordings are sound-samples/original/Elifle Animasyonlu Elifba <n>.mp3 (Turkish narration, songs and Arabic readings,
 with music under the voice). sound-samples/kesimler.json lists every reading to keep: its id (the file name), its name, its
-writing, its Turkish reading, its kind (kategori) and where it is (dosya: the recording's number, bas/son: start and end in
-seconds). The times were found by transcribing the recordings with Whisper (large-v3-turbo) and cutting at the quiet gaps
+writing, its Turkish reading, its kind (kategori), for the readings of one letter the letter (harf: 0 elif … 27 ye as in
+islands/elif-ba/data.js, or 'hemze') and its hareke (h: 0-2), which set it beside the game's clip of the same reading on the
+page, and where it is (dosya: the recording's number, bas/son: start and end in seconds). The times were found by transcribing the recordings with Whisper (large-v3-turbo) and cutting at the quiet gaps
 around each reading; correct a cut by changing its times in kesimler.json and running this again.
 
 Every reading is cleaned before it is written:
@@ -16,8 +17,8 @@ Every reading is cleaned before it is written:
 - a 15 ms fade in, 40 ms of silence before and 150 ms after, so a phone neither clips the start nor cuts the tail;
 - every reading has the same loudness (the voiced part at -18 dBFS RMS, peaks under -1 dBFS).
 
-Writes app/sound/ses/<id>.mp3 (mono, 64 kb/s) and app/sound/liste.js (window.sesListesi). Then bump SES_V and liste.js?v=
-in app/sound/index.html, so no browser plays the old clips from its cache.
+Writes app/sound/ses/<id>.mp3 (mono, 64 kb/s) and app/sound/liste.js (window.sesListesi). Then bump SES_V in app/sound/sayfa.js and
+liste.js?v= in app/sound/index.html, so no browser plays the old clips from its cache.
 Needs ffmpeg and: pip install numpy scipy noisereduce
     python3 tools/ses_kes.py            # cuts every reading
 """

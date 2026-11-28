@@ -11,7 +11,7 @@ Haritada her birinin koyu bulutların altında, kilitli ve “Yakında” olarak
 
 ## Elif Ba sesleri
 
-- [ ] **Sesler sayfasında seçilenler oyuna:** sahibi `…/sound/` sayfasında kullanılacak sesleri seçip listeyi gönderince, o sesler Elif Ba’ya işlenir
+- [ ] **Sesler sayfasındaki seçimler oyuna:** sahibi `…/sound/` sayfasında oyundaki iyi sesleri onaylayıp iyi olmayanların yerine yenilerini seçince ve listeyi gönderince, seçilen yeni sesler Elif Ba’ya işlenir (onaylananlar kalır)
 
 ## İngilizce Koyu (3. ve 4. sınıf)
 
