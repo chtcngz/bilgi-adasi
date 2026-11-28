@@ -17,7 +17,7 @@ sahibi istemeden yazılmaz. Bir kelimenin soruları yazılınca maddenin sonuna 
 - good afternoon = tünaydın, iyi öğleden sonralar → ilk:6, ilk:7, ilk:8
 - good evening = iyi akşamlar → ilk:9, ilk:10, ilk:11
 - good night = iyi geceler → ilk:12, ilk:13, ilk:14
-- goodbye = hoşça kal
+- goodbye = hoşça kal → ilk:18, ilk:19
 - bye / bye-bye = hoşça kal / bay bay
 - see you = görüşürüz
 - see you later = sonra görüşürüz

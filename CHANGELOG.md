@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.112.0 · 28.11.2026
+
+- **English, Vedalaşma etabına ilk balon soruları:** “Goodbye!” için iki resimli soru eklendi. Birinde Leo öğretmenine, ötekinde Maya babaannesine veda ediyor.
+
 ## 0.111.1 · 28.11.2026
 
 - Sesler sayfasında seçimler kaydedildi. Dad, Tı, Ayn ve Gayn yorumlarına göre yeni örnekler hazırlandı. Zı için üstünlü kayıt seçildi.
