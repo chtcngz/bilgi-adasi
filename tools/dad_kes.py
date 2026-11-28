@@ -1,0 +1,122 @@
+"""Cut the four Dad readings and build the two derivatives for the review page.
+Set MDX_INST3_MODEL to the UVR-MDX-NET-Inst_3 ONNX file.
+Pass the owner's 11.87-second excerpt, or use the matching source lesson in the repo.
+"""
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+
+import numpy as np
+import onnxruntime as ort
+from scipy.ndimage import gaussian_filter
+from scipy.signal import stft, istft, butter, sosfiltfilt
+
+ffmpeg = os.environ.get("FFMPEG", "ffmpeg")
+rate = 44100
+sound = Path("app/sound")
+source = Path(sys.argv[1]) if len(sys.argv) > 1 else next(Path("sound-samples/original").glob("*3.mp3"))
+offset = 0 if len(sys.argv) > 1 else 14.942
+raw = subprocess.check_output([ffmpeg, "-v", "error", "-i", str(source), "-ss", str(offset),
+                               "-t", "11.86", "-ac", "2", "-ar", str(rate), "-f", "f32le", "-"])
+# UVR-MDX-NET-Inst_3 estimates the stereo instrumental track. Subtract it
+# before folding down to mono; the model expects unscaled complex STFT bins.
+stereo = np.frombuffer(raw, dtype="<f4").reshape(-1, 2).T
+model = ort.InferenceSession(os.environ["MDX_INST3_MODEL"], providers=["CPUExecutionProvider"])
+bins, frames, hop, fft = 3072, 256, 1024, 6144
+params = dict(fs=rate, nperseg=fft, noverlap=fft-hop, nfft=fft)
+spec = stft(stereo, **params)[2]
+margin = 32
+stride = frames - 2*margin
+padded = np.pad(spec[:, :bins], ((0,0), (0,0), (margin,frames)))
+vocal = np.zeros_like(spec)
+for pos in range(0, spec.shape[-1], stride):
+    block = padded[:, :, pos:pos+frames] * (fft/2)
+    features = np.stack((block.real,block.imag), axis=1).reshape(1,4,bins,frames).astype("float32")
+    predict = lambda v: model.run(None, {"input": v})[0].reshape(2,2,bins,frames)
+    instrument = (predict(features) - predict(-features)) * .5
+    residual = block - 1.022*(instrument[:,0] + 1j*instrument[:,1])
+    count = min(stride, spec.shape[-1]-pos)
+    vocal[:, :bins, pos:pos+count] = residual[:, :, margin:margin+count] / (fft/2)
+x = istft(vocal.mean(axis=0), **params)[1][:stereo.shape[1]]
+x = sosfiltfilt(butter(2, 65, fs=rate, btype="highpass", output="sos"), x)
+# Estimate backing music from gaps immediately around each utterance.
+def clean(start, stop, gaps):
+    transform = dict(fs=rate, nperseg=1024, noverlap=768)
+    def spectrum(data):
+        return stft(data, **transform)[2]
+    def cut(a,b):
+        return x[round(a*rate):round(b*rate)]
+    voice = spectrum(cut(start,stop))
+    background = np.concatenate([abs(spectrum(cut(a,b))) for a,b in gaps], axis=1)
+    floor = np.percentile(background, 80, axis=1)[:, None]
+    mask = np.clip(1 - (floor / (abs(voice)+1e-9))**1.5, .10, 1)
+    return istft(voice*gaussian_filter(mask,(.65,.85)), **transform)[1][:round((stop-start)*rate)]
+
+di = clean(3.132,3.605,[(2.84,3.12),(3.64,3.84)])
+dan = clean(6.196,6.804,[(5.99,6.18),(6.82,7.10)])
+dun = clean(9.207,9.905,[(8.93,9.19),(9.90,9.99)])
+def isolate_voiced(take):
+    # These voiced segments have a dominant fundamental between 200 and 350 Hz.
+    # Follow its harmonics to reject moving accompaniment left by subtraction.
+    window, hop, fft = 1536, 128, 8192
+    params = dict(fs=rate, nperseg=window, noverlap=window-hop, nfft=fft)
+    freq, _, spec = stft(take, **params)
+    band = np.flatnonzero((freq >= 190) & (freq <= 360))
+    peak = band[np.argmax(abs(spec[band]), axis=0)]
+    pitch = freq[peak]
+    harmonic = np.rint(freq[:, None] / pitch)
+    distance = abs(freq[:, None] - harmonic*pitch)
+    width = 31 + np.minimum(harmonic*3.2, 85)
+    mask = np.exp(-.5*(distance/width)**2) * (harmonic >= 1)
+    return istft(spec*mask, **params)[1][:len(take)]
+
+
+# Start with the actual voiced closure, after the exposed bass note.
+du = isolate_voiced(dun[round((9.377-9.207)*rate):round((9.558-9.207)*rate)])
+# Stretch the sustained vowel by overlapping successive phase-matched
+# grains. Keep the consonant intact and begin the decay after the sustain.
+overlap = round(.016*rate)
+hop = round(.020*rate)
+grain_len = overlap + hop
+vowel = du[round(.067*rate):]
+du = du[:round(.067*rate)+grain_len]
+for pos in np.linspace(0, len(vowel)-grain_len-round(.005*rate), 15):
+    start = round(pos)
+    region = vowel[start:start+grain_len+round(.005*rate)]
+    windows = np.lib.stride_tricks.sliding_window_view(region[:overlap+round(.005*rate)], overlap)
+    shift = np.argmax((windows @ du[-overlap:]) / (np.linalg.norm(windows,axis=1)+1e-9))
+    grain = region[shift:shift+grain_len]
+    mix = np.sin(np.linspace(0,np.pi/2,overlap))**2
+    du = np.concatenate([du[:-overlap],du[-overlap:]*(1-mix)+grain[:overlap]*mix,grain[overlap:]])
+n = round(.16*rate)
+du[-n:] *= np.cos(np.linspace(0,np.pi/2,n))**2
+
+# Isolate the i and nasal separately, dropping the music-only lead and tail.
+left = isolate_voiced(di[round((3.307-3.132)*rate):round((3.485-3.132)*rate)])
+right = isolate_voiced(dan[round((6.493-6.196)*rate):round((6.766-6.196)*rate)])
+n = round(.032*rate)
+windows = np.lib.stride_tricks.sliding_window_view(right[:n+round(.006*rate)], n)
+phase = np.argmax((windows @ left[-n:]) / (np.linalg.norm(windows,axis=1)+1e-9))
+right = right[phase:]
+fade = np.linspace(0,np.pi/2,n)
+joined = left[-n:]*np.cos(fade)**2 + right[:n]*np.sin(fade)**2
+# Attenuate only the upper-frequency residue in the middle of the join.
+smooth = sosfiltfilt(butter(2, 3400, fs=rate, output="sos"), joined)
+joined += .35*np.sin(2*fade)**2*(smooth-joined)
+din = np.concatenate([left[:-n], joined, right[n:]])
+items = []
+for kind,h,name,data in [('harekeli',2,'du',du), ('tenvin',1,'din',din)]:
+    ident = 'elifle-dad-'+name+'-v3'
+    data = data.copy()
+    data[:220] *= np.linspace(0,1,220)
+    data[-650:] *= np.linspace(1,0,650)
+    data *= min(.86/max(abs(data)),.115/np.sqrt(np.mean(data**2)))
+    data = np.pad(data,(1323,3528))
+    subprocess.run([ffmpeg,'-v','error','-y','-f','f32le','-ar',str(rate),'-ac','1','-i','-',
+                    '-c:a','libmp3lame','-b:a','96k',str(sound/'ses'/(ident+'.mp3'))],
+                   input=data.astype('<f4').tobytes(),check=True)
+    note = {'du':'Dun kaydından · yumuşak bitiş','din':'Di ve dan kaydındaki n'}.get(name,'Gönderdiğin kayıttan')
+    items.append(dict(id=ident,kat=kind,harf=14,h=h,ad='Yeni kayıt · '+name,kaynak=note,incele=True))
+(sound/'dad.js').write_text('// Generated by tools/dad_kes.py\nwindow.dadKayitlari = '+json.dumps(items,ensure_ascii=False,indent=2)+';\n',encoding='utf8')

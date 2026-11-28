@@ -7,10 +7,30 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
-## 0.116.1 · 28.11.2026
+## 0.116.6 · 28.11.2026
 
 - **English, ✕ düğmesi artık takılmıyor:** Bir sorudayken sağ üstteki ✕ ile çıkınca oyun donmuyor; pencere tamamen kapanıyor ve harita yeniden dokunulabilir oluyor.
 - **Balon sorusunda dengeli boşluklar:** Hikâye ve soru, kaplumbağalı ilerleme çubuğunun hemen altında; hikâye, resim ve şıklar arasında eşit, küçük aralıklar var. Uzun telefon ve tablet ekranlarında üç şık alt alta, geniş düğmeler olarak diziliyor; yazılar ve düğmeler ekran boyuna göre biraz büyüyor.
+
+## 0.116.5 · 28.11.2026
+
+- Dad için du ve din örnekleri seçildi; ikisi de Seslendirilecekler listesinden çıktı.
+
+## 0.116.4 · 28.11.2026
+
+- Du örneğinde ünlü uzatıldı. Din örneğinde i ile n arasındaki geçiş yumuşatıldı.
+
+## 0.116.3 · 28.11.2026
+
+- Dad için da, di, dan ve dun sol sütundan seçildi. Du ve din örnekleri stereo kayıttan müzik ayrılarak yeniden hazırlandı.
+
+## 0.116.2 · 28.11.2026
+
+- Dad’ın du ve din örneklerinde müzik kalıntıları azaltıldı. Du sesinin sonu daha uzun ve yumuşak sönüyor.
+
+## 0.116.1 · 28.11.2026
+
+- Gönderilen ders kesitinden altı Dad okuması Yeni kayıtlar sütununa eklendi.
 
 ## 0.116.0 · 28.11.2026
 

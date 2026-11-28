@@ -15,15 +15,16 @@
   const $ = id => document.getElementById(id);
   const ONAY = 'bilgi-adasi-ses-onaylar', SECIM = 'bilgi-adasi-ses-secimleri';
   // bump with every new cut of the new clips (tools/ses_kes.py), so no browser plays old ones from its cache
-  const SES_V = 3;
+  const SES_V = 4;
   // the man's clips are kept for later; true shows them again beside the girl's
   const ERKEK_SESI = false;
   const G = window.elifRecordings || {};
   const C = G.cocuk || {};
   const D = elifData;     // a top-level const of data.js, not a window property
-  const yeni = [...(window.sesListesi?.sesler || []), ...(window.sesAdaylari || [])];
+  const yeni = [...(window.dadKayitlari || []), ...(window.sesListesi?.sesler || []), ...(window.sesAdaylari || [])];
   const KAYIT = window.sesSecimleri || { onay: [], yeni: [] };
-  const kayitliOnay = new Set(KAYIT.onay), kayitliYeni = new Set(KAYIT.yeni);
+  const solKayit = new Set(KAYIT.solKayit || []);
+  const kayitliOnay = new Set([...KAYIT.onay, ...solKayit]), kayitliYeni = new Set(KAYIT.yeni);
   const low = t => String(t ?? '').toLocaleLowerCase('tr');
   const load = key => { try { return new Set(JSON.parse(localStorage.getItem(key)) || []); } catch { return new Set(); } };
   const onay = load(ONAY), secim = load(SECIM);
@@ -45,7 +46,12 @@
     out.bos = girl ? '' : man ? 'kız sesi yok' : 'oyunda yok';
     return out;
   }
-  const yeniler = (kat, harf, h) => yeni.filter(s => s.kat === kat && s.harf === harf && (h === undefined || s.h === h));
+  function yeniler(kat, harf, h) {
+    const kind = kat === 'harekeli' ? 'hece' : kat;
+    if (solKayit.has('cocuk:' + kind + ':' + harf + '-' + h)) return [];
+    const eslesen = yeni.filter(s => s.kat === kat && s.harf === harf && (h === undefined || s.h === h));
+    return eslesen.some(s => s.incele) ? eslesen.filter(s => s.incele || secildi(s.id)) : eslesen;
+  }
   const HEMZE = ['ءَ', 'ءِ', 'ءُ'], HEMZE_T = ['ءً', 'ءٍ', 'ءٌ'];
 
   function harekesiz() {
@@ -97,10 +103,11 @@
   const onayli = r => r.oyun.some(k => onaylandi(k.id));
   const yenili = r => r.yeni.some(s => secildi(s.id));
   const secili = r => onayli(r) || yenili(r);
+  const bekliyor = r => !secili(r) || r.yeni.some(s => s.incele && !secildi(s.id));
   const FILTRELER = [
     { id: 'hepsi', ad: 'Tümü', uyar: () => true },
     { id: 'secili', ad: '✓ Seçilenler', uyar: secili },
-    { id: 'bekleyen', ad: '🎙 Seslendirilecekler', uyar: r => !secili(r) }
+    { id: 'bekleyen', ad: '🎙 Seslendirilecekler', uyar: bekliyor }
   ];
   let filtre = 'hepsi';
   const say = (rows, f) => rows.filter(f).length;
@@ -222,16 +229,17 @@
         secDugmesi('s-yeni', kayitliYeni.has(n.id), () => secim.has(n.id), ['⇄ Bunu kullan', '⇄ Seçildi', '⇄ Kayıtlı'], () => secim.has(n.id) ? secim.delete(n.id) : secim.add(n.id))));
       sag.append(yorumAlani(n, r));
     }
-    govde.append(sol, sag);
+    govde.append(sol);
+    if (!r.oyun.some(k => solKayit.has(k.id))) govde.append(sag);
     s.append(bas, govde);
     const durumCiz = () => {
       s.classList.toggle('onayli', onayli(r));
       s.classList.toggle('yenili', yenili(r));
-      s.classList.toggle('bekliyor', !secili(r));
+      s.classList.toggle('bekliyor', bekliyor(r));
       rozetler.replaceChildren();
       if (onayli(r)) rozetler.append(el('span', 'rozet r-ok', '✓ onaylı'));
       if (yenili(r)) rozetler.append(el('span', 'rozet r-yeni', '⇄ yenisi'));
-      if (!secili(r)) rozetler.append(el('span', 'rozet r-bekle', '🎙 seslendirilecek'));
+      if (bekliyor(r)) rozetler.append(el('span', 'rozet r-bekle', '🎙 seslendirilecek'));
     };
     s.addEventListener('degisti', () => { durumCiz(); filtreCiz(); sekmeCiz(); });
     durumCiz();
@@ -258,7 +266,7 @@
   const SEKMELER = [
     { id: '', ikon: '📂', ad: 'Bölümler' },
     { id: 'secilenler', ikon: '✓', ad: 'Seçilenler', sayi: () => say(tumu(), secili) },
-    { id: 'seslendirilecek', ikon: '🎙', ad: 'Seslendirilecekler', sayi: () => say(tumu(), r => !secili(r)) }
+    { id: 'seslendirilecek', ikon: '🎙', ad: 'Seslendirilecekler', sayi: () => say(tumu(), bekliyor) }
   ];
   let sekme = '', bolum = null;
   function sekmeCiz() {
@@ -348,7 +356,7 @@
   // 🎙 Seslendirilecekler: every reading without a chosen clip, as a row with what the game plays now
   function seslendirilecekler() {
     const ana = $('ana');
-    const rowsAll = DOLU.map(b => [b, b.rows.filter(r => !secili(r))]).filter(([, rows]) => rows.length);
+    const rowsAll = DOLU.map(b => [b, b.rows.filter(bekliyor)]).filter(([, rows]) => rows.length);
     if (!rowsAll.length) return ana.append(el('p', 'yok', 'Seslendirilecek ses kalmadı.'));
     ana.append(el('p', 'yol', 'Yeni örneği sağdan dinle. İki kaydı art arda dinlemek için satırdaki ▶▶ düğmesini kullan.'));
     for (const [b, rows] of rowsAll) {
