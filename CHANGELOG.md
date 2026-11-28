@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.109.0 · 28.11.2026
+
+- Seslendirilecekler bölümüne kızın kendi kayıtlarından 30 dinleme örneği eklendi. Her örnek sağdaki Yeni kayıtlar sütunundan dinlenip seçilebilir.
+
 ## 0.108.0 · 28.11.2026
 
 - **English, balon sorusunun yeni ekranı:** Sahne cümlesi ve soru, yumuşak köşeli, krem renkli bir hikâye kartının içinde; yazılar yuvarlak hatlı, sevimli bir yazı tipiyle (Baloo 2). Soru (“Annesi ne der?”) turuncu bir şerit üzerinde öne çıkıyor.

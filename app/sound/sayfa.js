@@ -21,7 +21,7 @@
   const G = window.elifRecordings || {};
   const C = G.cocuk || {};
   const D = elifData;     // a top-level const of data.js, not a window property
-  const yeni = (window.sesListesi || { sesler: [] }).sesler;
+  const yeni = [...(window.sesListesi?.sesler || []), ...(window.sesAdaylari || [])];
   const KAYIT = window.sesSecimleri || { onay: [], yeni: [] };
   const kayitliOnay = new Set(KAYIT.onay), kayitliYeni = new Set(KAYIT.yeni);
   const low = t => String(t ?? '').toLocaleLowerCase('tr');
@@ -75,7 +75,7 @@
         rows.push({ grup: 'Hemze', h, ad: TK[h] + ' hemze', ar: HEMZE_T[h], okunus: D.tenvinReading(0, h), oyun: oyun('tenvin', 'hemze-' + h), yeni: yeniler('tenvin', 'hemze', h) });
     });
     D.tenvinExamples.forEach((x, p) =>
-      rows.push({ grup: 'Tenvin örnek kelimeleri', kume: 'Tenvin örnek kelimeleri', ad: 'örnek kelime', ar: x.word, okunus: x.reading, oyun: oyun('tenvinOrnek', p), yeni: [] }));
+      rows.push({ grup: 'Tenvin örnek kelimeleri', kume: 'Tenvin örnek kelimeleri', ad: 'örnek kelime', ar: x.word, okunus: x.reading, oyun: oyun('tenvinOrnek', p), yeni: yeniler('ornek', p) }));
     return rows;
   }
   // the sections; those without rows are made again later and are only titles for now
@@ -194,7 +194,7 @@
         secDugmesi('s-ok', kayitliOnay.has(k.id), () => onay.has(k.id), ['✓ Onayla', '✓ Onaylı', '✓ Kayıtlı'], () => onay.has(k.id) ? onay.delete(k.id) : onay.add(k.id))));
     if (!r.yeni.length) sag.append(el('div', 'bos', '— yeni kayıt yok'));
     for (const n of r.yeni)
-      sag.append(klip(yeniSrc(n), n.ad + (n.okunus && n.okunus !== n.ad ? ' “' + n.okunus + '”' : ''), n.id + ' · ' + n.dosya + '. kayıt ' + dakika(n.bas), n.not || '',
+      sag.append(klip(yeniSrc(n), n.ad + (n.okunus && n.okunus !== n.ad ? ' “' + n.okunus + '”' : ''), n.kaynak || n.id + ' · ' + n.dosya + '. kayıt ' + dakika(n.bas), n.not || '',
         secDugmesi('s-yeni', kayitliYeni.has(n.id), () => secim.has(n.id), ['⇄ Bunu kullan', '⇄ Seçildi', '⇄ Kayıtlı'], () => secim.has(n.id) ? secim.delete(n.id) : secim.add(n.id))));
     govde.append(sol, sag);
     s.append(bas, govde);
@@ -324,7 +324,7 @@
     const ana = $('ana');
     const rowsAll = DOLU.map(b => [b, b.rows.filter(r => !secili(r))]).filter(([, rows]) => rows.length);
     if (!rowsAll.length) return ana.append(el('p', 'yok', 'Seslendirilecek ses kalmadı.'));
-    ana.append(el('p', 'yol', 'Bunların uygun sesi yok: yeni seslendirme yapılacak. Solda oyunda şu an çalan kız sesi.'));
+    ana.append(el('p', 'yol', 'Yeni örneği sağdan dinle. İki kaydı art arda dinlemek için satırdaki ▶▶ düğmesini kullan.'));
     for (const [b, rows] of rowsAll) {
       const h = el('h2', 'grup');
       h.append(b.ad + ' ', el('span', 'sayi', String(rows.length)));
