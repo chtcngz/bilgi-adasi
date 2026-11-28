@@ -572,9 +572,9 @@
     first.setAttribute('aria-label', syllableName(before.i, before.h) + ', dinle');
     first.onclick = () => { select(first); $('elif-note').textContent = syllableName(before.i, before.h); voice.syllable(before.i, before.h, $('elif-note')); };
     const silent = el('button', 'elif-syllable sakin', glyphHtml(sakin));
-    silent.setAttribute('aria-label', (i ? names[i] : 'Hemze') + ' cezm');
-    // the letter with a cezm has no sound of its own: its name is said, then "cezm"
-    silent.onclick = () => { select(silent); $('elif-note').textContent = (i ? names[i] : 'Hemze') + ' cezm'; voice.say((i ? names[i] : 'Hemze') + ' cezm', $('elif-note')); };
+    silent.setAttribute('aria-label', (i ? names[i] : 'Hemze') + ' cezm, heceyi dinle');
+    // the letter with a cezm has no sound of its own: it is heard in the syllable it closes
+    silent.onclick = () => { select(silent); $('elif-note').textContent = cezmName(i); voice.cezm(i, $('elif-note')); };
     const whole = el('button', 'elif-syllable whole', glyphHtml(text));
     whole.setAttribute('aria-label', cezmName(i) + ': heceyi dinle');
     whole.onclick = () => { select(whole); $('elif-note').textContent = cezmName(i); voice.cezm(i, $('elif-note')); };
@@ -629,19 +629,19 @@
     for (const h of [0, 1, 2]) {
       const column = el('div', 'elif-tenvin-col');
       column.dir = 'ltr';
-      const plain = el('button', 'elif-syllable plain', glyphHtml(syllable(i, h)) + '<span>' + hareke(h) + '</span>');
+      const plain = el('button', 'elif-syllable plain', glyphHtml(syllable(i, h)));
       plain.setAttribute('aria-label', syllableName(i, h) + ', dinle');
       plain.onclick = () => { select(plain); $('elif-note').textContent = syllableName(i, h); voice.syllable(i, h, $('elif-note')); };
-      const withTenvin = el('button', 'elif-syllable whole', glyphHtml(tenvin(i, h)) + '<span>' + tenvinMark(h) + '</span>');
+      const withTenvin = el('button', 'elif-syllable whole', glyphHtml(tenvin(i, h)));
       withTenvin.setAttribute('aria-label', tenvinName(i, h) + ', dinle');
-      withTenvin.onclick = () => { select(withTenvin); $('elif-note').textContent = tenvinName(i, h); voice.tenvinChant(i, h, $('elif-note')); };
+      withTenvin.onclick = () => { select(withTenvin); $('elif-note').textContent = tenvinName(i, h); voice.tenvin(i, h, $('elif-note')); };
       column.append(plain, el('span', 'elif-tenvin-sign', '⬇'), withTenvin);
       row.append(column);
     }
     card.append(head, row);
     return card;
   }
-  // At the top of a tenvin cove: the three tenvin marks, each said when tapped, and one of Diyanet's words
+  // At the top of a tenvin cove: the three tenvin marks (tapped, Be with it: ben, bin, bun) and one of Diyanet's words
   // ending in a tenvin in three steps: its last letter with the hareke, with the tenvin, and the word
   // (بُ ← بٌ ← كُتُبٌ), each heard on its own.
   function tenvinLesson(k) {
@@ -656,9 +656,9 @@
       button.classList.add('selected');
     };
     for (const h of [0, 1, 2]) {
-      const mark = el('button', 'elif-syllable mark', '<b lang="ar" dir="rtl">◌' + tenvinler[h].mark + '</b><span>' + tenvinMark(h) + '</span>');
-      mark.setAttribute('aria-label', tenvinler[h].name + ', dinle');
-      mark.onclick = () => { select(mark); $('elif-note').textContent = tenvinler[h].name; voice.tenvinName(h, $('elif-note')); };
+      const mark = el('button', 'elif-syllable mark', '<b lang="ar" dir="rtl">◌' + tenvinler[h].mark + '</b>');
+      mark.setAttribute('aria-label', tenvinler[h].name + ': Be ile dinle');
+      mark.onclick = () => { select(mark); $('elif-note').textContent = tenvinName(1, h); voice.tenvin(1, h, $('elif-note')); };
       marks.append(mark);
     }
     head.prepend(marks);
@@ -710,33 +710,31 @@
     const row = el('div', 'elif-syllable-row');
     row.dir = 'rtl';
     for (const h of [0, 1, 2]) {
-      const b = button('', sedde(i, h), seddeName(i, h), () => voice.sedde(i, h, $('elif-note')));
-      b.insertAdjacentHTML('beforeend', '<span>' + hareke(h) + '</span>');
-      row.append(b);
+      row.append(button('', sedde(i, h), seddeName(i, h), () => voice.sedde(i, h, $('elif-note'))));
     }
     card.append(head, making, row);
     return card;
   }
-  // At the top of a şedde cove: the şedde mark, said when tapped, and one of Diyanet's words with a şedde, its letter
+  // At the top of a şedde cove: the şedde mark (tapped, Be's şedde syllable) and one of Diyanet's words with a şedde, its letter
   // coloured, heard when tapped.
   function seddeLesson(k) {
     const p = (k - 4 * LETTER_COVES) % seddeExamples.length;
     const card = el('div', 'elif-cezm-lesson elif-sedde-lesson');
     const head = el('div', 'elif-syllables-head', '<strong>Şedde</strong>');
-    const mark = el('button', 'elif-syllable mark', '<b lang="ar" dir="rtl">◌' + SEDDE + '</b><span>şedde</span>');
-    mark.setAttribute('aria-label', 'Şedde, dinle');
+    const mark = el('button', 'elif-syllable mark', '<b lang="ar" dir="rtl">◌' + SEDDE + '</b>');
+    mark.setAttribute('aria-label', 'Şedde: Be ile dinle');
     const select = button => {
       for (const other of $('elif-cards').querySelectorAll('.selected')) other.classList.remove('selected');
       button.classList.add('selected');
     };
-    mark.onclick = () => { select(mark); $('elif-note').textContent = 'Şedde'; voice.markName('sedde', $('elif-note')); };
+    mark.onclick = () => { select(mark); $('elif-note').textContent = seddeName(1, 0); voice.sedde(1, 0, $('elif-note')); };
     head.prepend(mark);
     const sample = el('button', 'elif-word elif-sedde-word', '<b lang="ar" dir="rtl">' + markedWord(seddeExamples[p].word) + '</b>');
     sample.setAttribute('aria-label', 'Şeddeli kelime, dinle');
     sample.onclick = () => { select(sample); $('elif-note').textContent = 'Şeddeli harf kırmızı.'; voice.seddeExample(p, $('elif-note')); };
     const play = el('button', 'elif-chant', '♪');
-    play.setAttribute('aria-label', 'Şeddeyi ve kelimeyi dinle');
-    play.onclick = () => { select(sample); voice.markName('sedde', $('elif-note'), () => voice.seddeExample(p, $('elif-note'))); };
+    play.setAttribute('aria-label', 'Kelimeyi dinle');
+    play.onclick = () => { select(sample); voice.seddeExample(p, $('elif-note')); };
     head.append(play);
     card.append(head, sample);
     return card;
