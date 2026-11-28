@@ -234,7 +234,8 @@ A second site at `…/bilgi-adasi/english/` (`app/english/index.html`) teaches E
 - **Balon sorusu** (`app/english/balon-sorusu.js`, `.css`, `englishBalon.oyna`): the etap's questions, after its cards. A picture
   (`assets/images/english/soru/`, its bubble emptied) with a drop zone over the bubble (`balon: { resim, x, y, w, h }` in % of
   the picture) and three cards (`a`, the first right). The zone waits glowing and breathing in the three cards'
-  colours in turn (`--r1`–`--r3`, 6 s; colours only on a device asking for less motion), glows in the held card's colour
+  colours in turn (`--r1`–`--r3`, 6 s; colours only on a device asking for less motion; the "?" takes the zone's
+  `color`, which the zone's own animation turns: Safari does not update a child's animation that reads inherited variables), glows in the held card's colour
   while a card is dragged (`.tutuluyor`) and stands still once solved. Tap: the English is said (a recording if there is one, else the device's
   en-US voice at 0.75). Drag (Pointer Events: mouse, touch, pen; a copy follows the finger): dropped on or near the bubble it
   snaps in; right → the word stays in the bubble as a label, the others fade, stars and confetti, the word said again,

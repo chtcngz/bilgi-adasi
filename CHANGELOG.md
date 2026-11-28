@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.107.1 · 28.11.2026
+
+- **English, “?” işareti de renk değiştiriyor:** Balon sorusunda “?” balonunun halkası renk değiştirirken içindeki “?” işareti iPhone ve iPad’de hep aynı renkte kalıyordu. Artık “?” işareti de halkayla aynı anda, aynı renge dönüyor.
+
 ## 0.107.0 · 28.11.2026
 
 - **Sesler sayfası (…/sound/) sekmeli:** Üstte üç sekme var: 📂 Bölümler, ✓ Seçilenler ve 🎙 Seslendirilecekler. Seçilenler’de gönderdiğin 180 seçim (174 onaylı kız sesi, 6 yeni hemze sesi) kart kart duruyor; harekeli ve tenvinde her harf bir satır, üstün, esre ve ötre yan yana; her karta dokununca ses çalıyor, ▶▶ bölümün hepsini sırayla çalıyor. Bu seçimler artık kayıtlı (“✓ Kayıtlı”), başka cihazda da görünüyor.
