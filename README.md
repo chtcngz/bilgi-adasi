@@ -240,8 +240,8 @@ A second site at `…/bilgi-adasi/english/` (`app/english/index.html`) teaches E
   The question fills the game window exactly and never scrolls (a drag must not move the page): the story in a cream box,
   the question under it on its own coral label (both in the rounded font Baloo 2, `assets/fonts/baloo-2/`, OFL; Fredoka has
   no ş, ğ, İ), the picture as large as the room left allows (`fit()`, keeping its shape so the bubble stays on it), the
-  cards; these stay close together (8–12 px) with a breath under the cards, and any room left over goes above and below
-  them. Once solved the cards give their place to the explanation and *Sonraki Soru*. Tap: the English is said (a recording if there is one, else the device's
+  cards; these follow one another with one even gap (10–16 px) right under the progress bar, and any room left over goes
+  under the cards. On a tall upright screen (at least 760 px high, at most 900 px wide) the cards stand one under the other as wide buttons. Once solved the cards give their place to the explanation and *Sonraki Soru*. Tap: the English is said (a recording if there is one, else the device's
   en-US voice at 0.75). Drag (Pointer Events: mouse, touch, pen; a copy follows the finger): dropped on or near the bubble it
   snaps in; right → the word stays in the bubble as a label, the others fade, stars and confetti, the word said again,
   *Sonraki Soru ▶*; wrong → it shakes and slides back. Only the first drop counts (`soru` in the progress). `tools/kapsam.js`
