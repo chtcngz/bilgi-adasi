@@ -7,12 +7,33 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
-## 0.103.0 · 28.11.2026
+## 0.107.0 · 28.11.2026
 
 - **Sesler sayfası (…/sound/) sekmeli:** Üstte üç sekme var: 📂 Bölümler, ✓ Seçilenler ve 🎙 Seslendirilecekler. Seçilenler’de gönderdiğin 180 seçim (174 onaylı kız sesi, 6 yeni hemze sesi) kart kart duruyor; harekeli ve tenvinde her harf bir satır, üstün, esre ve ötre yan yana; her karta dokununca ses çalıyor, ▶▶ bölümün hepsini sırayla çalıyor. Bu seçimler artık kayıtlı (“✓ Kayıtlı”), başka cihazda da görünüyor.
 - **Seslendirilecekler:** Uygun sesi olmayan 30 okuma bir arada: 11 harf adı (be, ha, hı, dal, zel, ze, dad, tı, zı, ayn, gayn), 6 harekeli hece (üstün ve esre dad, tı’nın üçü, ötre he), 6 tenvinli hece (dad ve tı) ve 7 tenvin örnek kelimesi. Bunlara yeni seslendirme yapılacak.
 - **Yalnızca kız sesi:** Erkek sesleri ekranda gösterilmiyor (kodda duruyor, sonra kullanılabilir).
 - **Sadeleşti:** Yeni kayıtlardan seçilmeyen 259 ses silindi, yalnızca seçilen 6 hemze sesi kaldı. Harekesiz, Harekeli ve Tenvin kaldı; Cezm, Şedde, Uzatma, Kelimeler, Mukattaa harfleri ve Türkçe sözler yalnızca başlık olarak “Ses dosyası örneği yok” diye duruyor, yeniden hazırlanacak.
+
+## 0.106.0 · 28.11.2026
+
+- **English, 3 yeni soru: Hi! ve Hello!** Okulda Leo arkadaşlarını görüyor (Hi!); Leo sokakta Maya ile karşılaşıyor (Hello!); sınıfa yeni gelen Zoe öğrencileri selamlıyor (Hello!). Yeni karakter: Zoe. 1. etapta artık 18 soru var; her turda yedi kelimenin her birinden bir soru geliyor (7 soru).
+- **“?” balonu daha kolay fark ediliyor:** Bırakma alanı alttaki üç şıkkın renkleriyle sırayla, yumuşakça parlıyor ve hafifçe nefes alıyor. Bir şık sürüklenmeye başlayınca balon o şıkkın rengiyle sabit parlıyor; doğru cevap yerleşince animasyon tamamen duruyor.
+
+## 0.105.0 · 28.11.2026
+
+- **English, 3 yeni soru: Good night!** Gece Leo uyumak için odasına gidiyor ve annesine ne der; gece Maya yatağına yatıyor, annesi odadan çıkarken ne der; gece Leo uyuyor, babası odadan çıkarken ne der. Şıklar: Good night!, Good morning!, Good afternoon!. 1. etapta artık 15 soru var; her turda beş kelimenin her birinden bir soru ve bir rastgele soru geliyor.
+
+## 0.104.0 · 28.11.2026
+
+- **English, 3 yeni soru: Good evening!** Akşam Leo büyükannesini ziyarete gidiyor; akşam Maya ve Leo sokakta karşılaşıyor; akşam Maya’nın babası işten eve geliyor. Şıklar: Good evening!, Good afternoon!, Good morning!. 1. etapta artık 12 soru var.
+- **Her turda 6 soru:** Bir etabın soruları çoğaldığı için her girişte 6 soru geliyor: her kelimeden (Welcome!, Good morning!, Good afternoon!, Good evening!) en az bir soru, kalanı rastgele; sıra her seferinde farklı. Çocuk turları tekrarladıkça bütün soruları görüyor.
+- Resimlerde yanlış yazılmış İngilizce bir tahta ve büyükannenin paspasındaki “Welcome” yazısı silindi.
+
+## 0.103.0 · 28.11.2026
+
+- **English, 3 yeni soru: Good afternoon!** Öğleden sonra beden eğitimi dersinde öğretmen Maya ve Leo’yu selamlıyor; öğle yemeğinden sonra Leo ve Maya okul kapısında karşılaşıyor; öğleden sonra Maya parkta Leo’yu görüyor. Şıklar: Good afternoon!, Good evening!, Good night!. 1. etapta artık 9 soru var.
+- **Sorular karışık geliyor:** Bir etabın soruları her seferinde farklı sırayla geliyor; çocuk aynı cevabı art arda üç kez vermiyor.
+- Okul kapısındaki resimde sabahı çağrıştıran “A New Day A New Opportunity” levhasının yazısı silindi.
 
 ## 0.102.0 · 28.11.2026
 

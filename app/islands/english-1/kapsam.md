@@ -11,12 +11,12 @@ sahibi istemeden yazılmaz. Bir kelimenin soruları yazılınca maddenin sonuna 
 
 ### Selamlaşma ve vedalaşma
 
-- hello = merhaba
-- hi = selam
+- hello = merhaba → ilk:16, ilk:17
+- hi = selam → ilk:15
 - good morning = günaydın → ilk:3, ilk:4, ilk:5
-- good afternoon = tünaydın, iyi öğleden sonralar
-- good evening = iyi akşamlar
-- good night = iyi geceler
+- good afternoon = tünaydın, iyi öğleden sonralar → ilk:6, ilk:7, ilk:8
+- good evening = iyi akşamlar → ilk:9, ilk:10, ilk:11
+- good night = iyi geceler → ilk:12, ilk:13, ilk:14
 - goodbye = hoşça kal
 - bye / bye-bye = hoşça kal / bay bay
 - see you = görüşürüz

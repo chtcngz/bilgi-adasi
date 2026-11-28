@@ -38,10 +38,11 @@
   // the cards of an etap: a word's own cards, or one card of the word with its picture
   const kartlar = g => g.kelimeler.flatMap(([en, tr, k]) => (k?.kartlar || [{ en, tr, resim: k?.resim }]).filter(c => c.resim));
   const kapak = g => kartlar(g)[0]?.resim;
+  // "Good morning!" answers the word "good morning": capitals and punctuation do not count
+  const bare = t => String(t || '').toLocaleLowerCase('en').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
+  const SORU = 7;   // questions in one round of an etap (Selamlaşma's 1. etap has 7 words: one of each)
   // the questions of an etap: the island's questions whose word (k[0]) is one of the etap's words, each with its id (ilk:0)
   function sorulari(ada, g) {
-    // "Good morning!" answers the word "good morning": capitals and punctuation do not count
-    const bare = t => String(t || '').toLocaleLowerCase('en').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
     const words = new Set(g.kelimeler.map(w => bare(w[0])));
     return (window.englishSorular?.[ada.id] || []).flatMap(stop => stop.sorular.map((q, n) => ({ ...q, id: ada.id + '/' + stop.id + ':' + n })))
       .filter(q => q.balon && words.has(bare(q.k?.[0])));
@@ -143,8 +144,16 @@
         cancel = null;
         // skipping the cards (⏭) goes to the questions when there are any, else back to the etaps without finishing it
         if (!questions.length) { if (skipped) openStation(ada, st); else finish(); return; }
+        // a round asks at most SORU questions of the etap: one of every word first, then the others at random, all in a new
+        // order every time (the same answer does not come three times in a row, and over the rounds the child sees them all)
+        const mix = list => { const r = [...list]; for (let i = r.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [r[i], r[j]] = [r[j], r[i]]; } return r; };
+        const byWord = new Map();
+        for (const q of mix(questions)) { const w = bare(q.k?.[0]); if (!byWord.has(w)) byWord.set(w, []); byWord.get(w).push(q); }
+        const firsts = [...byWord.values()].map(list => list[0]);
+        const rest = mix(questions.filter(q => !firsts.includes(q)));
+        const mixed = mix([...mix(firsts).slice(0, SORU), ...rest].slice(0, SORU));
         cancel = englishBalon.oyna({
-          stage, sorular: questions, maskot: activeProfile?.icon,
+          stage, sorular: mixed, maskot: activeProfile?.icon,
           sonuc: (q, right) => { const row = progress.soru[q.id] ||= { d: 0, y: 0 }; row[right ? 'd' : 'y']++; save(); },
           bitti: finish
         });

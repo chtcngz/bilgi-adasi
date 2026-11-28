@@ -228,11 +228,14 @@ A second site at `…/bilgi-adasi/english/` (`app/english/index.html`) teaches E
   `ingilizceOyunlari.kesif` (a big picture from `assets/images/english/`, the English said, the Turkish meaning). The next etap
   opens when the last card is reached (⏭ Atla goes back without finishing). A station without words stays locked ("Yakında").
   Progress: `ingilizce-english-<player id>` → `{ etap: { "english-1/selam": 2 } }`. Bölüm 1, İlk Adımlar, has its Selamlaşma
-  station (42 words in 6 etaps); questions only when the owner asks (so far six balon soruları in etap 1: three for “Welcome!”, three for
-  “good morning”). A question goes to the etap whose word is its answer, without capitals and punctuation (“Good morning!” → good morning).
+  station (42 words in 6 etaps); questions only when the owner asks (so far eighteen balon soruları in etap 1: three each for “Welcome!”,
+  “good morning”, “good afternoon”, “good evening” and “good night”, one for “hi”, two for “hello”). A round asks at most 7 of an etap's questions (`SORU` in koy.js): one
+  of every word first, then others at random, in a new order every time. A question goes to the etap whose word is its answer, without capitals and punctuation (“Good morning!” → good morning).
 - **Balon sorusu** (`app/english/balon-sorusu.js`, `.css`, `englishBalon.oyna`): the etap's questions, after its cards. A picture
   (`assets/images/english/soru/`, its bubble emptied) with a drop zone over the bubble (`balon: { resim, x, y, w, h }` in % of
-  the picture) and three cards (`a`, the first right). Tap: the English is said (a recording if there is one, else the device's
+  the picture) and three cards (`a`, the first right). The zone waits glowing and breathing in the three cards'
+  colours in turn (`--r1`–`--r3`, 6 s; colours only on a device asking for less motion), glows in the held card's colour
+  while a card is dragged (`.tutuluyor`) and stands still once solved. Tap: the English is said (a recording if there is one, else the device's
   en-US voice at 0.75). Drag (Pointer Events: mouse, touch, pen; a copy follows the finger): dropped on or near the bubble it
   snaps in; right → the word stays in the bubble as a label, the others fade, stars and confetti, the word said again,
   *Sonraki Soru ▶*; wrong → it shakes and slides back. Only the first drop counts (`soru` in the progress). `tools/kapsam.js`
