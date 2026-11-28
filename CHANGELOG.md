@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.105.0 · 28.11.2026
+
+- **English, 3 yeni soru: Good night!** Gece Leo uyumak için odasına gidiyor ve annesine ne der; gece Maya yatağına yatıyor, annesi odadan çıkarken ne der; gece Leo uyuyor, babası odadan çıkarken ne der. Şıklar: Good night!, Good morning!, Good afternoon!. 1. etapta artık 15 soru var; her turda beş kelimenin her birinden bir soru ve bir rastgele soru geliyor.
+
 ## 0.104.0 · 28.11.2026
 
 - **English, 3 yeni soru: Good evening!** Akşam Leo büyükannesini ziyarete gidiyor; akşam Maya ve Leo sokakta karşılaşıyor; akşam Maya’nın babası işten eve geliyor. Şıklar: Good evening!, Good afternoon!, Good morning!. 1. etapta artık 12 soru var.
