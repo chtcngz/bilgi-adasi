@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.111.1 · 28.11.2026
+
+- Sesler sayfasında seçimler kaydedildi. Dad, Tı, Ayn ve Gayn yorumlarına göre yeni örnekler hazırlandı. Zı için üstünlü kayıt seçildi.
+
 ## 0.111.0 · 28.11.2026
 
 - **English, balon sorusunda hikâye ve soru ayrı:** Sahne cümlesi tek başına krem renkli bir kutuda ve daha büyük yazıyla; soru (“Maya, Leo’ya ne der?”) hemen altında ayrı, mercan renkli bir etikette.

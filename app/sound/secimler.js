@@ -4,6 +4,7 @@
 // yeni: the new clips chosen (⇄), ids of sound/liste.js (sound/ses/<id>.mp3). Add a later choice here when the owner sends it.
 window.sesSecimleri = {
   onay: [
+    'cocuk:harf:1', 'cocuk:harf:5', 'cocuk:harf:6', 'cocuk:harf:7', 'cocuk:harf:8', 'cocuk:hece:26-2', 'cocuk:tenvin:14-1',
     'cocuk:harf:0', 'cocuk:harf:hemze', 'cocuk:harf:2', 'cocuk:harf:3', 'cocuk:harf:4', 'cocuk:harf:9',
     'cocuk:harf:11', 'cocuk:harf:12', 'cocuk:harf:13', 'cocuk:harf:19', 'cocuk:harf:20', 'cocuk:harf:21',
     'cocuk:harf:22', 'cocuk:harf:23', 'cocuk:harf:24', 'cocuk:harf:25', 'cocuk:harf:26', 'cocuk:harf:27',
@@ -38,6 +39,7 @@ window.sesSecimleri = {
     'cocuk:tenvin:27-0', 'cocuk:tenvin:27-1', 'cocuk:tenvin:27-2'
   ],
   yeni: [
+    'aday-harf-10', 'aday-tenvin-14-0', 'aday-harf-16-r2',
     'ustun-hemze', 'esre-hemze', 'otre-hemze', 'iki-ustun-hemze', 'iki-esre-hemze', 'iki-otre-hemze'
   ]
 };

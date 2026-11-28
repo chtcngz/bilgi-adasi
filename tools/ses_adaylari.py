@@ -6,11 +6,13 @@ FFMPEG can also point to an ffmpeg executable.
 import json
 import os
 import subprocess
+import shutil
 from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
 from scipy.ndimage import uniform_filter1d
+from scipy.signal import butter, sosfiltfilt
 
 RATE = 24000
 FFMPEG = os.environ.get("FFMPEG", "ffmpeg")
@@ -61,17 +63,20 @@ def join(left, right):
     return np.concatenate([left[:-n], mixed*np.clip(gain, 1, 1.65), right[n:]])
 
 
-def write(kind, key, samples, note, h=None):
+def write(kind, key, samples, note, h=None, *, revised=False, direct=None):
     suffix = "" if h is None else f"-{h}"
-    ident = f"aday-{kind}-{key}{suffix}"
-    x = samples.copy()
-    x *= min(.86 / max(abs(x)), .12 / np.sqrt(np.mean(x*x)))
-    x[:96] *= np.linspace(0, 1, 96)
-    x[-360:] *= np.linspace(1, 0, 360)
-    x = np.pad(x, (720, 2160))
-    subprocess.run([FFMPEG, "-v", "error", "-y", "-f", "f32le", "-ar", str(RATE),
-                    "-ac", "1", "-i", "-", "-c:a", "libmp3lame", "-b:a", "96k",
-                    str(SOUND / "ses" / (ident + ".mp3"))], input=x.astype("<f4").tobytes(), check=True)
+    ident = f"aday-{kind}-{key}{suffix}" + ("-r2" if revised else "")
+    if direct is not None:
+        shutil.copyfile(direct, SOUND / "ses" / (ident + ".mp3"))
+    else:
+        x = samples.copy()
+        x *= min(.86 / max(abs(x)), .12 / np.sqrt(np.mean(x*x)))
+        x[:96] *= np.linspace(0, 1, 96)
+        x[-360:] *= np.linspace(1, 0, 360)
+        x = np.pad(x, (720, 2160))
+        subprocess.run([FFMPEG, "-v", "error", "-y", "-f", "f32le", "-ar", str(RATE),
+                        "-ac", "1", "-i", "-", "-c:a", "libmp3lame", "-b:a", "96k",
+                        str(SOUND / "ses" / (ident + ".mp3"))], input=x.astype("<f4").tobytes(), check=True)
     item = dict(id=ident, kat=kind, harf=key, ad="Kız sesi · yeni örnek", kaynak=note)
     if h is not None:
         item["h"] = h
@@ -84,8 +89,31 @@ def ms(x):
 
 # Keep the original name ending, including the l, d or n, and use a separate
 # take of the same Arabic consonant for the onset. Cuts are in trimmed audio.
-names = {6:(165,190), 7:(150,57), 8:(186,100), 14:(162,150),
-         15:(88,94), 16:(148,84), 17:(170,138), 18:(115,155)}
+def clearer_take(x):
+    # Gently restore presence where the recording has little upper-mid energy.
+    band = butter(2, [1200, 4100], btype="bandpass", fs=RATE, output="sos")
+    presence = sosfiltfilt(band, x)
+    ratio = uniform_filter1d(presence**2, ms(35)) / (uniform_filter1d(x**2, ms(35)) + 1e-8)
+    return x + presence*np.clip(.48 - 2*ratio, 0, .48)
+
+
+def emphatic_ta(x, vowel_ms, closure_ms):
+    # The Diyanet takes have a short release before the vowel. Some start
+    # with a voiced closure. Preserve the girl's vowel and final n in one take.
+    # Keep the attack and last 12 ms of aspiration, removing the prolonged hiss.
+    attack = x[ms(10):ms(25)]
+    body = join(attack, x[ms(vowel_ms-12):])
+    if closure_ms:
+        closure = syllable(14, 2)[ms(14):ms(14+closure_ms)]
+        body = join(closure * .55, body)
+    return body
+
+
+names = {6:(165,190), 7:(150,57), 8:(186,100)}
+for i in (14,17,18):
+    write("harf", i, clearer_take(clip("harf", i)), "Tek parça harf adı · açıklık düzenlemesi", revised=True)
+write("harf", 15, emphatic_ta(clip("harf",15),70,0), "Diyanet örneğine göre kısa atak", revised=True)
+write("harf", 16, None, "Seçilen üstünlü Zı kaydı", revised=True, direct=VOICE / "hece/16-0.mp3")
 for i, (out_ms, in_ms) in names.items():
     start = syllable(i, 2 if i == 14 else 0)
     write("harf", i, join(start[:ms(out_ms)], clip("harf", i)[ms(in_ms):]),
@@ -106,25 +134,35 @@ def before_n(x):
     return (lo+int(np.argmax(drops)))*120+frame//2
 
 
-for i, vowels in ((14,(0,1)), (15,(0,1,2)), (26,(2,))):
-    for h in vowels:
-        take = nasal(i,h)
-        x = take[:before_n(take)]
-        if i == 14:
-            # The initial closure and release come from the approved ضُ.
-            x = join(syllable(14,2)[:ms(130)], x[ms(130):])
-        write("harekeli", i, x, "Aynı harfin tenvin kaydından kısa hece"
-              if i != 14 else "Onaylı ضُ başlangıcı ve aynı harfin harekesi", h)
+# Keep the selected double-fatha candidate reproducible, including its original cut.
+donor = nasal(13, 0)
+stem = join(syllable(14, 2)[:ms(130)], syllable(14, 0)[ms(130):])
+selected_dad = join(stem[:int(.82*len(stem))], donor[before_n(donor)-ms(35):])
+write("tenvin", 14, selected_dad, "Aynı harfin hecesi ve onaylı Sad kaydından tenvin sonu", 0)
+donor = nasal(13, 1)
+stem = join(syllable(14, 2)[:ms(130)], syllable(14, 1)[ms(130):])
+write("tenvin", 14, join(stem[:int(.82*len(stem))], donor[before_n(donor)-ms(35):]),
+      "Aynı harfin hecesi ve onaylı Sad kaydından tenvin sonu", 1)
+write("tenvin", 14, clearer_take(nasal(14,2)), "Tek parça iki ötre Dad", 2, revised=True)
 
-for i in (14,15):
+for h, take in enumerate((selected_dad, nasal(14,1))):
+    vowel = take[:before_n(take)].copy()
+    fade = ms(75)
+    vowel[-fade:] *= np.cos(np.linspace(0, np.pi/2, fade))**2
+    write("harekeli", 14, vowel, "Seçilen tenvinden yumuşak bitiş", h, revised=True)
+
+# Vowel onset measured from each girl's take. Voiced lead-ins follow the
+# corresponding Diyanet reference (single and double fatha, kasra, damma).
+for kind, source, onsets, closures in [
+    ("harekeli", syllable, (75,109,87), (0,88,77)),
+    ("tenvin", nasal, (80,87,86), (65,30,73)),
+]:
     for h in range(3):
-        donor = nasal(13,h)
-        end = before_n(donor)
-        stem = syllable(i,h)
-        if i == 14 and h != 2:
-            stem = join(syllable(14,2)[:ms(130)], stem[ms(130):])
-        write("tenvin", i, join(stem[:int(.82*len(stem))], donor[end-ms(35):]),
-              "Aynı harfin hecesi ve onaylı Sad kaydından tenvin sonu", h)
+        write(kind, 15, emphatic_ta(source(15,h), onsets[h], closures[h]),
+              "Kısa ve belirgin Tı başlangıcı", h, revised=True)
+
+take = nasal(26,2)
+write("harekeli", 26, take[:before_n(take)], "Aynı harfin tenvin kaydından kısa hece", 2)
 
 # Each word ends with the approved tanwin of its actual last consonant.
 # Shorten the first syllables at their vowel tails for connected reading.
