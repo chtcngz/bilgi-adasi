@@ -98,8 +98,10 @@ app/                         Published site (GitHub Pages root)
 ├── admin/                   Yönetici sayfası: every player of every device, read from the cloud copy; signs in with
 │                            the admin's Google account (automatically when the browser is already signed in to it)
 │                            or Firebase e-mail and password. Nothing links to it; open …/admin/.
-└── deneme/                  Deneme Odası: playable drafts of proposed Elif Ba games (OYUN-ONERILERI.md).
-                             Nothing in the game links to it; open …/deneme/.
+└── deneme/                  Deneme Odası: playable drafts of proposed Elif Ba games (OYUN-ONERILERI.md); a draft that
+                             goes into the game is taken out. Nothing in the game links to it; open …/deneme/.
+                             ses/: Hece Treni's words and ses/uzun/NN-H.mp3, Diyanet's long (med) syllables for the
+                             Uzatma draft (sources in ses/uzun/kaynak.json).
 tools/                       Helper scripts (not published)
 ├── kapsam.js                Checks every question island against its textbook checklist
 ├── make_sounds.py           → app/assets/audio/ui/*.wav

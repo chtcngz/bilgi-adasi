@@ -7,6 +7,17 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.93.0 · 28.11.2026
+
+Deneme Odası’na (`…/deneme/`, oyundan bağlantı verilmiyor) ileride oyunlarda kullanılmak üzere beş yeni oyun fikri geldi; hepsi oynanabiliyor ve okuma bilmeyen çocuklar için sesli. Odada önde ve “✨ Yeni” işaretliler; her oyunun 🐢💬 düğmesi oyunun ne olduğunu söylüyor.
+
+- **🍬 Kısa mı Uzun mu?** Yakında açılacak Uzatma Koyu için: kaplumbağa kısa (بَ) ya da uzun (بَا) bir hece okuyor, çocuk kısa ya da uzun sakız şeritli kartı seçiyor. Uzun heceler Diyanet Elifba’nın uzatma derslerinden alındı (84 kayıt).
+- **🐘 Fil mi Kuş mu?** Kalın harfler (خ ر غ ق ص ض ط ظ) file, ince harfler kuşa veriliyor; yanlışta iki hayvan kalın ve ince ikizi (sa, se) yan yana söylüyor.
+- **🦜 Papağan:** Çocuk kaplumbağayı dinleyip mikrofona kendisi söylüyor; papağan iki sesi de tekrar ediyor. Kayıt hiçbir yere gönderilmiyor, saklanmıyor.
+- **🐬 Yunus Şarkısı:** Yunuslar harfleri sırayla söylüyor, çocuk aynı sırayla dokunuyor; şarkı 2 harften 5 harfe uzuyor.
+- **🔦 Fenerle Ara:** Karanlık denizde parmakla fener gezdirip duyulan harfi buluyor; aralarında noktadaş eşleri var.
+- **Kabuk Hafızası** oyuna girdiği için (0.83.0) Deneme Odası’ndan çıkarıldı.
+
 ## 0.92.0 · 27.11.2026
 
 - **Dinle ve Bul'da doğru kelime aşağıdan yükseliyor:** Doğru resme dokununca kelimenin resmi ve altında İngilizce yazısı ekranın altından yaylanarak ortaya çıkıyor, etrafında yıldızlar patlıyor. Erkek sesi kelimeyi ancak kart ortaya oturunca söylüyor, ardından övgü geliyor.
