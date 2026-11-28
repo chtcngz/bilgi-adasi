@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.116.8 · 28.11.2026
+
+- Sesler: Dad’ın bütün okumaları (harekesiz, harekeli ve tenvinli) seçimlerden çıkarıldı ve ilk halleriyle Seslendirilecekler listesine alındı; yalnızca oyundaki kız sesi görünüyor.
+
 ## 0.116.7 · 28.11.2026
 
 - Sesler: Dad’ın du ve din okumalarında kız sesi yeniden onaylandı. Tı’nın üç harekeli ve üç tenvinli okuması kız sesiyle onaylandı ve Seslendirilecekler listesinden çıktı.

@@ -24,6 +24,7 @@
   const yeni = [...(window.dadKayitlari || []), ...(window.sesListesi?.sesler || []), ...(window.sesAdaylari || [])];
   const KAYIT = window.sesSecimleri || { onay: [], yeni: [] };
   const solKayit = new Set(KAYIT.solKayit || []);
+  const ilkHal = new Set(KAYIT.ilkHal || []);   // letters recorded again: their rows show only the game's clip
   const kayitliOnay = new Set([...KAYIT.onay, ...solKayit]), kayitliYeni = new Set(KAYIT.yeni);
   const low = t => String(t ?? '').toLocaleLowerCase('tr');
   const load = key => { try { return new Set(JSON.parse(localStorage.getItem(key)) || []); } catch { return new Set(); } };
@@ -48,7 +49,7 @@
   }
   function yeniler(kat, harf, h) {
     const kind = kat === 'harekeli' ? 'hece' : kat;
-    if (solKayit.has('cocuk:' + kind + ':' + harf + '-' + h)) return [];
+    if (ilkHal.has(harf) || solKayit.has('cocuk:' + kind + ':' + harf + '-' + h)) return [];
     const eslesen = yeni.filter(s => s.kat === kat && s.harf === harf && (h === undefined || s.h === h));
     return eslesen.some(s => s.incele) ? eslesen.filter(s => s.incele || secildi(s.id)) : eslesen;
   }

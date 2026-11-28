@@ -109,7 +109,8 @@ app/                         Published site (GitHub Pages root)
 │                            kayitlar.js and data.js; the man's clips stay there and in the code, hidden: ERKEK_SESI in
 │                            sayfa.js) and the new clips cut from sound-samples/ on the right. A new choice (✓ approve,
 │                            ⇄ pick a new clip) stays in localStorage; "Seçimleri kopyala" copies the ones not in
-│                            secimler.js yet, and Claude adds them there. index.html, sayfa.js, sayfa.css, secimler.js;
+│                            secimler.js yet, and Claude adds them there (its ilkHal: letters recorded
+│                            again, whose rows show only the game's clip). index.html, sayfa.js, sayfa.css, secimler.js;
 │                            ses/<id>.mp3 and liste.js are written by tools/ses_kes.py: do not edit them by hand
 ├── kontrol.html             Resim kontrolü: the owner picks İngilizce Koyu's pictures by hand and copies the choices (not linked)
 ├── admin/                   Yönetici sayfası: every player of every device, read from the cloud copy; signs in with
