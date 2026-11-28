@@ -13,18 +13,20 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 @font-face { font-family: 'Baloo 2'; font-style: normal; font-weight: 800; font-display: swap; src: url('../assets/fonts/baloo-2/baloo-2-latin-ext-800-normal.woff2') format('woff2');
   unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
-/* the window: exactly the visible screen on a phone (quiz.css), at most the screen's height on a computer; nothing scrolls */
-dialog.soru-game:has(.eb) { display: flex; flex-direction: column; overflow: hidden; overscroll-behavior: none; height: min(calc(var(--vvh, 100dvh) - 32px), 900px); }
-@media (max-width: 650px), (max-height: 500px) { dialog.soru-game:has(.eb) { height: var(--vvh, 100dvh); } }
+/* the window: exactly the visible screen on a phone (quiz.css), at most the screen's height on a computer; nothing scrolls.
+   Only while it is open ([open]): a closed window that still had display: flex stayed on the page over the map (✕ froze the site). */
+dialog.soru-game[open]:has(.eb) { display: flex; flex-direction: column; overflow: hidden; overscroll-behavior: none; height: min(calc(var(--vvh, 100dvh) - 32px), 900px); }
+@media (max-width: 650px), (max-height: 500px) { dialog.soru-game[open]:has(.eb) { height: var(--vvh, 100dvh); } }
 dialog.soru-game:has(.eb) .soru-close { position: absolute; top: max(10px, env(safe-area-inset-top)); right: 12px; float: none; z-index: 3; }
 .soru-game:has(.eb) .soru-stage { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
-/* the top row stays at the top; the story, the question, the picture and the cards stay together in the middle, with a
-   breath under the cards (the room left over goes above and below them, not between them) */
-.eb { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: clamp(8px, 1.5vh, 12px); padding-bottom: clamp(10px, 2.4vh, 22px);
+/* the top row, the story, the question, the picture and the cards follow one another with one even gap (a little larger on
+   a tall screen); the story sits right under the progress bar and the room left over goes under the cards, where the
+   explanation and the next button come once the question is solved */
+.eb { --eb-ara: clamp(10px, 1.8vh, 16px); flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: var(--eb-ara); padding-bottom: clamp(10px, 2.4vh, 22px);
   user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
 .eb-ust, .eb-metin, .eb-dip, .eb-sahne-alan { flex: 0 0 auto; }
-.eb-metin { margin-top: auto; }
-.eb-dip { margin-bottom: auto; }
+.eb-metin { margin-top: calc(var(--eb-ara) * .25); }
+.eb-dip { margin-bottom: auto; padding-top: calc(var(--eb-ara) * .25); }
 .eb-sahne-alan { display: flex; justify-content: center; min-height: 0; }
 .eb-ust { display: flex; align-items: center; gap: 10px; padding-right: 48px; }
 .eb-maskot { font-size: 30px; line-height: 1; }
@@ -39,10 +41,10 @@ dialog.soru-game:has(.eb) .soru-close { position: absolute; top: max(10px, env(s
 .eb-hikaye { display: flex; gap: 10px; align-items: center; padding: clamp(8px, 1.5vh, 12px) 14px; border-radius: 18px;
   background: linear-gradient(135deg, #fff9e8, #ffefcc); border: 2px solid #f5dca6; box-shadow: 0 3px 0 #efd193, 0 8px 18px rgba(160, 110, 30, .1); }
 .eb-metin-simge { flex: none; font-size: 24px; line-height: 1.2; filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .15)); }
-.eb-durum { margin: 0; font: 500 clamp(17px, 4.7vw, 20px)/1.3 'Baloo 2', Nunito, sans-serif; color: #5b4a3e; }
+.eb-durum { margin: 0; font: 500 clamp(17px, min(4.7vw, 2.5vh), 21px)/1.3 'Baloo 2', Nunito, sans-serif; color: #5b4a3e; }
 .eb-soru { margin: 0; text-align: center; font: inherit; }
 .eb-soru span { display: inline-block; padding: 3px 18px; border-radius: 16px; background: #ff7a6b; color: #fff;
-  font: 800 clamp(18px, 5vw, 22px)/1.35 'Baloo 2', Nunito, sans-serif; box-shadow: 0 3px 0 #e0574a, 0 6px 14px rgba(224, 87, 74, .18); }
+  font: 800 clamp(18px, min(5vw, 2.7vh), 23px)/1.35 'Baloo 2', Nunito, sans-serif; box-shadow: 0 3px 0 #e0574a, 0 6px 14px rgba(224, 87, 74, .18); }
 .eb-sahne { position: relative; max-width: 100%; border-radius: 20px; overflow: hidden; box-shadow: 0 6px 18px rgba(23, 63, 64, .16); background: #f3ead7; }
 .eb-sahne img { display: block; width: 100%; height: auto; pointer-events: none; }
 /* The drop zone waits in the three cards' colours, one after another (--r1 --r2 --r3, set by the game in the cards' order),
@@ -70,8 +72,8 @@ dialog.soru-game:has(.eb) .soru-close { position: absolute; top: max(10px, env(s
 .eb-cevap { position: relative; z-index: 1; white-space: nowrap; padding: 3px 9px; border-radius: 12px; background: #fff; box-shadow: 0 2px 8px rgba(23, 63, 64, .22);
   font: 900 16px/1.1 Nunito, sans-serif; color: #2b8a3e; }
 .eb-kartlar { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(6px, 1.4vh, 10px) 8px; }
-.eb-kart { touch-action: none; min-width: 108px; min-height: 46px; padding: clamp(8px, 1.6vh, 13px) 16px; border: 0; border-radius: 18px; background: var(--renk); color: #fff;
-  font: 900 clamp(18px, 4.6vw, 22px)/1.1 Nunito, sans-serif; letter-spacing: .2px; text-shadow: 0 1px 0 rgba(0, 0, 0, .18);
+.eb-kart { touch-action: none; min-width: 108px; min-height: clamp(46px, 6.4vh, 60px); padding: clamp(8px, 1.6vh, 13px) 16px; border: 0; border-radius: 18px; background: var(--renk); color: #fff;
+  font: 900 clamp(18px, min(4.6vw, 2.7vh), 23px)/1.1 Nunito, sans-serif; letter-spacing: .2px; text-shadow: 0 1px 0 rgba(0, 0, 0, .18);
   box-shadow: 0 5px 0 rgba(0, 0, 0, .18), 0 8px 16px rgba(0, 0, 0, .12); cursor: grab; transition: opacity .25s, transform .15s; }
 .eb-kart:active { cursor: grabbing; }
 .eb-kart:focus-visible { outline: 4px solid #173f40; outline-offset: 3px; }
@@ -104,3 +106,11 @@ dialog.soru-game:has(.eb) .soru-close { position: absolute; top: max(10px, env(s
 @media (max-width: 380px) { .eb-kart { min-width: 0; flex: 1 1 40%; font-size: 16px; padding-inline: 10px; white-space: nowrap; } }
 /* a short screen: everything a little tighter, so the picture keeps its room */
 @media (max-height: 620px) { .eb-metin-simge { display: none; } .eb-ust { padding-right: 44px; } .eb-maskot { font-size: 24px; } }
+/* a tall phone or tablet held upright: the cards stand one under the other, as wide buttons, and fill the room under the
+   picture that would otherwise stay empty (the picture is as wide as the window and cannot grow taller) */
+@media (min-height: 760px) and (max-width: 900px) {
+  .eb-kartlar { flex-direction: column; align-items: center; gap: var(--eb-ara); }
+  .eb-kart { flex: none; width: min(100%, 380px); min-height: clamp(52px, 6.6vh, 62px); font-size: clamp(18px, 2.5vh, 22px); }
+  .eb-aciklama { font-size: 16px; }
+  .eb-sonraki { width: min(100%, 380px); min-height: 56px; }
+}

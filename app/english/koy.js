@@ -165,6 +165,7 @@
   dialog.addEventListener('close', () => {
     cancel?.();
     cancel = null;
+    stage.innerHTML = '';   // nothing of the question or the cards stays behind the closed window
     if (typeof ingilizceSes !== 'undefined') ingilizceSes.stop();
     for (const canvas of dialog.querySelectorAll('.fx-confetti')) canvas.remove();
     kesifHaritasi.yenile();

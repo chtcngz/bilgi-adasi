@@ -81,7 +81,7 @@ const englishBalon = (() => {
       // The whole question fits the screen with no scrolling (a drag must never move the page): the picture is as large as the
       // room left by the top row, the story, the question and the cards allows, keeping its shape so the bubble stays on it.
       // The picture does not stretch its own box: the story, the picture and the cards stay close together, and any room
-      // left over goes above and below them (balon-sorusu.css), never between them.
+      // left over goes under the cards (balon-sorusu.css), never between them.
       const area = root.querySelector('.eb-sahne-alan'), scene = root.querySelector('.eb-sahne'), img = scene.querySelector('img');
       const others = ['.eb-ust', '.eb-metin', '.eb-dip'].map(sel => root.querySelector(sel));
       const fit = () => {

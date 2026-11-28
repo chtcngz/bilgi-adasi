@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.116.1 · 28.11.2026
+
+- **English, ✕ düğmesi artık takılmıyor:** Bir sorudayken sağ üstteki ✕ ile çıkınca oyun donmuyor; pencere tamamen kapanıyor ve harita yeniden dokunulabilir oluyor.
+- **Balon sorusunda dengeli boşluklar:** Hikâye ve soru, kaplumbağalı ilerleme çubuğunun hemen altında; hikâye, resim ve şıklar arasında eşit, küçük aralıklar var. Uzun telefon ve tablet ekranlarında üç şık alt alta, geniş düğmeler olarak diziliyor; yazılar ve düğmeler ekran boyuna göre biraz büyüyor.
+
 ## 0.116.0 · 28.11.2026
 
 - **English, “Take care!” ve “Have a nice day!” için birer balon sorusu:** Leo yolculuğa çıkan babasına, Maya’nın annesi okula giden Maya’ya veda ediyor. Vedalaşma etabının her kelimesinin artık sorusu var (10 soru).
