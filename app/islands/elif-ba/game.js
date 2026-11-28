@@ -415,12 +415,16 @@
     const letters = coveLetters(cove);
     voice.preload(letters, false, part === 'bitisik', part === 'cezm' || part === 'sedde', part === 'tenvin', part === 'sedde');
     // The guide is said aloud only when its turtle (info) button is tapped; the written words are for the grown-ups.
+    // The sections of the marks (Harekeler, Cezm, Tenvin, Şedde) have none (set by the owner): no mark is named there.
     const guide = guides[part];
     $('elif-guide').innerHTML = '';
-    const tell = el('button', 'elif-howto', '<span aria-hidden="true">🐢💬</span>');
-    tell.setAttribute('aria-label', 'Ne yapacağımı söyle');
-    tell.onclick = () => voice.instruct(guide);
-    $('elif-guide').append(tell, el('span', '', guide));
+    $('elif-guide').hidden = !guide;
+    if (guide) {
+      const tell = el('button', 'elif-howto', '<span aria-hidden="true">🐢💬</span>');
+      tell.setAttribute('aria-label', 'Ne yapacağımı söyle');
+      tell.onclick = () => voice.instruct(guide);
+      $('elif-guide').append(tell, el('span', '', guide));
+    }
     $('elif-cards').className = 'elif-cards ' + ({ harf: 'letters', hareke: 'syllables', bitisik: 'shapes', cezm: 'cezms', tenvin: 'tenvins', sedde: 'seddes' })[part];
     $('elif-cards').replaceChildren(...(part === 'cezm' ? [cezmLesson(cove)] : part === 'tenvin' ? [tenvinLesson(cove)] : part === 'sedde' ? [seddeLesson(cove)] : []),
       ...letters.map(i => part === 'harf' ? letterCard(i) : part === 'hareke' ? syllableCard(i) : part === 'cezm' ? cezmCard(i) :
@@ -430,17 +434,16 @@
   }
   const guides = {
     harf: 'Harflere dokun, adlarını dinle. Hazır olunca aşağıdaki yeşil oyna düğmesine bas.',
-    hareke: 'Hecelere dokun, okunuşlarını dinle. Nota düğmesi üç harekeyi sırayla okur. Hazır olunca yeşil oyna düğmesine bas.',
     bitisik: 'Harfler kelimede yan yana gelince birbirine bağlanır ve şekilleri biraz değişir. Harekeleri değişmez. Kelimeler sağdan sola, ' +
       'hece hece okunur. Şekillere ve kelimelere dokun, dinle. Kırmızı harf, öğrendiğin harf. Hazır olunca yeşil oyna düğmesine bas.',
-    cezm: 'Harfin üstündeki küçük yuvarlağa cezm denir. Cezimli harfin harekesi yoktur; kendinden önceki harfle birlikte okunur. ' +
-      'Be esre bi, sin cezm bis. Hecelere dokun, dinle. Hazır olunca yeşil oyna düğmesine bas.',
-    tenvin: 'Harfin üstünde ya da altında iki hareke olursa buna tenvin denir. Tenvin harfin sesine bir n ekler. Be üstün be, be iki üstün ben. ' +
-      'Be esre bi, be iki esre bin. Be ötre bu, be iki ötre bun. İki üstünden sonra gelen elif okunmaz. Hecelere dokun, dinle. Hazır olunca yeşil oyna düğmesine bas.',
-    sedde: 'Harfin üstündeki küçük dişli işarete şedde denir. Şeddeli harf iki kez okunur: önce kendinden önceki harfle birlikte, cezimli gibi, ' +
-      'sonra kendi harekesiyle. Bis, se: bisse. Şeddesiz olsa bise olurdu. Hecelere dokun, dinle. Hazır olunca yeşil oyna düğmesine bas.'
   };
   const told = new Set(); // the bays whose name was said in this visit
+  // A card's ♪ reads its boxes one by one in a steady rhythm (voice.recite); the box being read lights up. `boxes[n]`
+  // is the box (or the boxes) of the n-th thing read; -1 puts them all out.
+  const lighter = boxes => n => {
+    for (const box of boxes.flat()) box.classList.remove('say');
+    if (n >= 0) for (const box of [boxes[n]].flat()) box?.classList.add('say');
+  };
   function letterCard(i) {
     const button = el('button', 'elif-tile tone-' + i % 4);
     button.innerHTML = glyphHtml(glyphs[i]) + '<strong>' + names[i] + '</strong><small aria-hidden="true">' +
@@ -449,7 +452,6 @@
     button.onclick = () => {
       for (const other of $('elif-cards').querySelectorAll('.selected')) other.classList.remove('selected');
       button.classList.add('selected');
-      $('elif-note').textContent = names[i];
       voice.letter(i, $('elif-note'));
     };
     return button;
@@ -460,18 +462,19 @@
       '<small aria-hidden="true">' + (mastered('hareke', i) ? '🦪' : '') + '</small>');
     const chant = el('button', 'elif-chant', '♪');
     chant.setAttribute('aria-label', names[i] + ' üstün, esre, ötre okunuşunu dinle');
-    chant.onclick = () => { $('elif-note').textContent = [0, 1, 2].map(h => syllableName(i, h)).join(' · '); voice.chant(i, undefined, $('elif-note')); };
+    const boxes = [];
+    chant.onclick = () => voice.syllables(i, $('elif-note'), null, lighter(boxes));
     head.append(chant);
     const row = el('div', 'elif-syllable-row');
     for (const h of [0, 1, 2]) {
-      const button = el('button', 'elif-syllable', glyphHtml(syllable(i, h)) + '<span>' + hareke(h) + '</span>');
+      const button = el('button', 'elif-syllable', glyphHtml(syllable(i, h)));
       button.setAttribute('aria-label', syllableName(i, h) + ', dinle');
       button.onclick = () => {
         for (const other of $('elif-cards').querySelectorAll('.selected')) other.classList.remove('selected');
         button.classList.add('selected');
-        $('elif-note').textContent = syllableName(i, h);
         voice.syllable(i, h, $('elif-note'));
       };
+      boxes.push(button);
       row.append(button);
     }
     card.append(head, row);
@@ -510,7 +513,8 @@
       '<small aria-hidden="true">' + (mastered('bitisik', i) ? '🪸' : '') + '</small>');
     const listen = el('button', 'elif-chant', '♪');
     listen.setAttribute('aria-label', names[i] + ' üstün, esre, ötre okunuşunu dinle');
-    listen.onclick = () => { $('elif-note').textContent = [0, 1, 2].map(h => syllableName(i, h)).join(' · '); voice.chant(i, undefined, $('elif-note')); };
+    const byHareke = [[], [], []];
+    listen.onclick = () => voice.syllables(i, $('elif-note'), null, lighter(byHareke));
     head.append(listen);
     const row = el('div', 'elif-shape-row');
     row.dir = 'rtl';
@@ -526,14 +530,14 @@
       for (const h of [0, 1, 2]) {
         const form = el('button', 'elif-syllable', glyphHtml(shape(i, f, h)));
         form.setAttribute('aria-label', syllableName(i, h) + ', ' + inWord[f] + ', dinle');
-        form.onclick = () => { select(form); $('elif-note').textContent = syllableName(i, h) + ' ' + inWord[f]; voice.shape(i, h, f, $('elif-note')); };
+        form.onclick = () => { select(form); voice.shape(i, h, f, $('elif-note')); };
+        byHareke[h].push(form);
         forms.append(form);
       }
       const sample = el('button', 'elif-word', wordHtml(i, f));
       sample.setAttribute('aria-label', names[i] + ' ' + inWord[f] + ': örnek kelimeyi dinle');
       sample.onclick = () => {
         select(sample);
-        $('elif-note').textContent = 'Kelime sağdan sola, hece hece okunuyor.';
         const parts = [...sample.querySelectorAll('.elif-word-letter')];
         voice.word(i, f, $('elif-note'), null, n => parts.forEach((part, m) => part.classList.toggle('say', m === n)));
       };
@@ -545,7 +549,7 @@
       // Said aloud, too: the letter does not join the one after it.
       const sentence = names[i] + ' kendinden sonraki harfe bağlanmaz.';
       const apart = el('button', 'elif-apart', '<span aria-hidden="true">🔊</span> ' + glyphHtml(syllable(i, 0) + syllable(1, 0)) + '<span>' + sentence + '</span>');
-      apart.onclick = () => { $('elif-note').textContent = sentence; voice.instruct(sentence); };
+      apart.onclick = () => { voice.instruct(sentence); };
       card.append(apart);
     }
     return card;
@@ -560,7 +564,7 @@
       '<small aria-hidden="true">' + (mastered('cezm', i) ? '⭐' : '') + '</small>');
     const chant = el('button', 'elif-chant', '♪');
     chant.setAttribute('aria-label', cezmName(i) + ': okunuşunu dinle');
-    chant.onclick = () => { $('elif-note').textContent = cezmName(i); voice.cezmChant(i, $('elif-note')); };
+    chant.onclick = () => voice.cezmChant(i, $('elif-note'), null, lighter([first, [silent, whole]]));
     head.append(chant);
     const row = el('div', 'elif-cezm-row');
     row.dir = 'rtl';
@@ -570,14 +574,14 @@
     };
     const first = el('button', 'elif-syllable', glyphHtml(syllable(before.i, before.h)));
     first.setAttribute('aria-label', syllableName(before.i, before.h) + ', dinle');
-    first.onclick = () => { select(first); $('elif-note').textContent = syllableName(before.i, before.h); voice.syllable(before.i, before.h, $('elif-note')); };
+    first.onclick = () => { select(first); voice.syllable(before.i, before.h, $('elif-note')); };
     const silent = el('button', 'elif-syllable sakin', glyphHtml(sakin));
     silent.setAttribute('aria-label', (i ? names[i] : 'Hemze') + ' cezm, heceyi dinle');
     // the letter with a cezm has no sound of its own: it is heard in the syllable it closes
-    silent.onclick = () => { select(silent); $('elif-note').textContent = cezmName(i); voice.cezm(i, $('elif-note')); };
+    silent.onclick = () => { select(silent); voice.cezm(i, $('elif-note')); };
     const whole = el('button', 'elif-syllable whole', glyphHtml(text));
     whole.setAttribute('aria-label', cezmName(i) + ': heceyi dinle');
-    whole.onclick = () => { select(whole); $('elif-note').textContent = cezmName(i); voice.cezm(i, $('elif-note')); };
+    whole.onclick = () => { select(whole); voice.cezm(i, $('elif-note')); };
     row.append(first, el('span', 'elif-cezm-sign', '+'), silent, el('span', 'elif-cezm-sign', '='), whole);
     card.append(head, row);
     return card;
@@ -603,8 +607,9 @@
       button.onclick = () => hear(n);
       return button;
     });
-    // the three one after another
-    play.onclick = () => hear(0, () => hear(1, () => hear(2)));
+    // the three one after another, each lit while it is said
+    play.onclick = () => voice.recite([voice.steps.cezmExample(p, 0), voice.NEXT, voice.steps.cezmExample(p, 1), voice.NEXT, voice.steps.cezmExample(p, 2)],
+      lighter(buttons), $('elif-note'));
     head.append(play);
     buttons.forEach((button, n) => { if (n) row.append(el('span', 'elif-cezm-sign', '⬅')); row.append(button); });
     card.append(head, row);
@@ -618,7 +623,8 @@
       '<small aria-hidden="true">' + (mastered('tenvin', i) ? '🐬' : '') + '</small>');
     const chant = el('button', 'elif-chant', '♪');
     chant.setAttribute('aria-label', names[i] + ' iki üstün, iki esre, iki ötre okunuşunu dinle');
-    chant.onclick = () => { $('elif-note').textContent = [0, 1, 2].map(h => tenvinName(i, h)).join(' · '); voice.tenvinChant(i, undefined, $('elif-note')); };
+    const boxes = [];
+    chant.onclick = () => voice.tenvinChant(i, undefined, $('elif-note'), null, lighter(boxes));
     head.append(chant);
     const row = el('div', 'elif-tenvin-row');
     row.dir = 'rtl';
@@ -631,10 +637,11 @@
       column.dir = 'ltr';
       const plain = el('button', 'elif-syllable plain', glyphHtml(syllable(i, h)));
       plain.setAttribute('aria-label', syllableName(i, h) + ', dinle');
-      plain.onclick = () => { select(plain); $('elif-note').textContent = syllableName(i, h); voice.syllable(i, h, $('elif-note')); };
+      plain.onclick = () => { select(plain); voice.syllable(i, h, $('elif-note')); };
       const withTenvin = el('button', 'elif-syllable whole', glyphHtml(tenvin(i, h)));
       withTenvin.setAttribute('aria-label', tenvinName(i, h) + ', dinle');
-      withTenvin.onclick = () => { select(withTenvin); $('elif-note').textContent = tenvinName(i, h); voice.tenvin(i, h, $('elif-note')); };
+      withTenvin.onclick = () => { select(withTenvin); voice.tenvin(i, h, $('elif-note')); };
+      boxes.push(plain, withTenvin);
       column.append(plain, el('span', 'elif-tenvin-sign', '⬇'), withTenvin);
       row.append(column);
     }
@@ -658,7 +665,7 @@
     for (const h of [0, 1, 2]) {
       const mark = el('button', 'elif-syllable mark', '<b lang="ar" dir="rtl">◌' + tenvinler[h].mark + '</b>');
       mark.setAttribute('aria-label', tenvinler[h].name + ': Be ile dinle');
-      mark.onclick = () => { select(mark); $('elif-note').textContent = tenvinName(1, h); voice.tenvin(1, h, $('elif-note')); };
+      mark.onclick = () => { select(mark); voice.tenvin(1, h, $('elif-note')); };
       marks.append(mark);
     }
     head.prepend(marks);
@@ -676,7 +683,8 @@
       button.onclick = () => hear(n);
       return button;
     });
-    play.onclick = () => hear(0, () => hear(1, () => hear(2)));
+    play.onclick = () => voice.recite([voice.steps.syllable(example.i, example.h), voice.NEXT, voice.steps.tenvin(example.i, example.h), voice.NEXT,
+      voice.steps.tenvinWord(p)], lighter(buttons), $('elif-note'));
     head.append(play);
     buttons.forEach((button, n) => { if (n) row.append(el('span', 'elif-cezm-sign', '⬅')); row.append(button); });
     card.append(head, row);
@@ -690,7 +698,13 @@
       '<small aria-hidden="true">' + (mastered('sedde', i) ? '🐙' : '') + '</small>');
     const chant = el('button', 'elif-chant', '♪');
     chant.setAttribute('aria-label', seddeName(i, 0) + ': nasıl okunduğunu dinle');
-    chant.onclick = () => { $('elif-note').textContent = seddeName(i, 0); voice.seddeChant(i, 0, $('elif-note')); };
+    // the şedde syllable made (bis … se … bisse), then with the other two harekes
+    chant.onclick = () => {
+      const [closing, part] = voice.steps.seddeParts(i, 0);
+      const [first, second, whole] = making.querySelectorAll('.elif-syllable');
+      voice.recite([closing, voice.PAIR, part, voice.PAIR, voice.steps.sedde(i, 0), voice.NEXT, voice.steps.sedde(i, 1), voice.NEXT, voice.steps.sedde(i, 2)],
+        lighter([first, second, [whole, row.children[0]], row.children[1], row.children[2]]), $('elif-note'));
+    };
     head.append(chant);
     const select = button => {
       for (const other of $('elif-cards').querySelectorAll('.selected')) other.classList.remove('selected');
@@ -699,7 +713,7 @@
     const button = (cls, text, label, hear) => {
       const b = el('button', 'elif-syllable ' + cls, glyphHtml(text));
       b.setAttribute('aria-label', label + ', dinle');
-      b.onclick = () => { select(b); $('elif-note').textContent = label; hear(); };
+      b.onclick = () => { select(b); hear(); };
       return b;
     };
     const making = el('div', 'elif-cezm-row');
@@ -727,11 +741,11 @@
       for (const other of $('elif-cards').querySelectorAll('.selected')) other.classList.remove('selected');
       button.classList.add('selected');
     };
-    mark.onclick = () => { select(mark); $('elif-note').textContent = seddeName(1, 0); voice.sedde(1, 0, $('elif-note')); };
+    mark.onclick = () => { select(mark); voice.sedde(1, 0, $('elif-note')); };
     head.prepend(mark);
     const sample = el('button', 'elif-word elif-sedde-word', '<b lang="ar" dir="rtl">' + markedWord(seddeExamples[p].word) + '</b>');
     sample.setAttribute('aria-label', 'Şeddeli kelime, dinle');
-    sample.onclick = () => { select(sample); $('elif-note').textContent = 'Şeddeli harf kırmızı.'; voice.seddeExample(p, $('elif-note')); };
+    sample.onclick = () => { select(sample); voice.seddeExample(p, $('elif-note')); };
     const play = el('button', 'elif-chant', '♪');
     play.setAttribute('aria-label', 'Kelimeyi dinle');
     play.onclick = () => { select(sample); voice.seddeExample(p, $('elif-note')); };

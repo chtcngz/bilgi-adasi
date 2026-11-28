@@ -7,10 +7,25 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
-## 0.97.0 · 28.11.2026
+## 0.98.0 · 28.11.2026
 
 - **Yeni sayfa: Sesler (`…/sound/`, oyundan bağlantı verilmiyor).** *Elifle Animasyonlu Elifba* kayıtlarındaki (3 dosya, 42 dakika) Arapça okunuşlar tek tek kesildi: 265 ses. Her birinin yanında Arapça yazılışı, adı (“iki ötre be”), okunuşu (“bün”) ve ▶ düğmesi var. Bölümler: harekesiz harf adları ve sesleri (46), harekeli (87: elif, hemze ve 27 harf üstün, esre, ötre ile), tenvin (87), cezm (4), şedde (6), uzatma (16), kelimeler (13: bihî, kâle, ellezî, errahmânu harf harf), mukattaa harfleri (6: Yâsîn, Ayn Sîn Kâf). Aynı okunuş birden çok yerde geçiyorsa `elif-1`, `elif-2` diye ayrılıyor.
 - **Seçme:** Her sesin ✓ kutusuyla kullanılacaklar işaretleniyor; seçimler tarayıcıda kalıyor, “☑ Seçtiklerim” yalnızca onları gösteriyor, “📋 Seçimleri kopyala” listeyi kopyalıyor. Her bölümün “▶ Sırayla çal” düğmesi bölümü baştan sona dinletiyor.
+
+## 0.97.1 · 28.11.2026
+
+- **Elif Ba, Be, Te ve Se harflerinin adı:** Bu üç harfin adı söylendiğinde artık üstünlü okunuşları çalınıyor: be, te, se. Kız çocuk sesinde de erkek sesinde de aynı; harf kartlarında, Harf Yağmuru’nda, sorularda, akvaryum baloncuklarında ve harf adının okunduğu her yerde.
+
+## 0.97.0 · 28.11.2026
+
+- **Elif Ba kartlarında ahenkli okuma:** Kartların sağ üstündeki ♪ düğmesi artık kutuları hızla art arda saymıyor. Kutuları sırayla, okuduğu kutuyu sarıya yakarak ve bir ritimle okuyor. Bir ikilinin içinde kısa bir ara var (“e … en”), ikililerin arasında daha uzun bir ara (“e … en  ·  i … in  ·  u … un”).
+- Bütün kartlarda böyle: Harekeler (be … bi … bu), Bitişik yazılış (hecenin başta, ortada ve sondaki üç şekli birlikte yanıyor), Cezm (bi … bis), Tenvin (be … ben), Şedde (bis … se … bisse, sonra bissi ve bissu) ve Cezm ile Tenvin adımlarının başındaki üç adımlı ders kartları.
+
+## 0.96.1 · 28.11.2026
+
+- **Elif Ba, işaret adımlarında Türkçe açıklama yok:** Harekeler, Cezm, Tenvin ve Şedde adımlarının başındaki 🐢💬 düğmesi ve yazılı açıklama kaldırıldı.
+- **Harekeler kartları:** Hecelerin altındaki “üstün, esre, ötre” yazıları kalktı. ♪ düğmesi artık işaret adı söylemiyor, yalnızca heceleri okuyor: “be, bi, bu”. Bitişik yazılış kartlarındaki ♪ de aynı.
+- **Kartların altındaki yazı satırı:** Bütün Elif Ba adımlarında bir karta dokununca en altta çıkan yazı (“Be iki ötre” gibi) artık çıkmıyor.
 
 ## 0.96.0 · 28.11.2026
 

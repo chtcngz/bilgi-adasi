@@ -2,9 +2,9 @@
 window.elifRecordings = {
   harf: {
     0: 'assets/audio/elif-ba/harf/00.mp3?v=diyanet-1',
-    1: 'assets/audio/elif-ba/harf/01.mp3?v=diyanet-1',
-    2: 'assets/audio/elif-ba/harf/02.mp3?v=diyanet-1',
-    3: 'assets/audio/elif-ba/harf/03.mp3?v=diyanet-1',
+    1: 'assets/audio/elif-ba/harf/01.mp3?v=diyanet-2',
+    2: 'assets/audio/elif-ba/harf/02.mp3?v=diyanet-2',
+    3: 'assets/audio/elif-ba/harf/03.mp3?v=diyanet-2',
     4: 'assets/audio/elif-ba/harf/04.mp3?v=diyanet-1',
     5: 'assets/audio/elif-ba/harf/05.mp3?v=diyanet-1',
     6: 'assets/audio/elif-ba/harf/06.mp3?v=diyanet-1',
@@ -537,9 +537,9 @@ window.elifRecordings = {
   cocuk: {
     harf: {
       0: 'assets/audio/elif-ba/cocuk/harf/00.mp3?v=cocuk-1',
-      1: 'assets/audio/elif-ba/cocuk/harf/01.mp3?v=cocuk-1',
-      2: 'assets/audio/elif-ba/cocuk/harf/02.mp3?v=cocuk-1',
-      3: 'assets/audio/elif-ba/cocuk/harf/03.mp3?v=cocuk-1',
+      1: 'assets/audio/elif-ba/cocuk/harf/01.mp3?v=cocuk-2',
+      2: 'assets/audio/elif-ba/cocuk/harf/02.mp3?v=cocuk-2',
+      3: 'assets/audio/elif-ba/cocuk/harf/03.mp3?v=cocuk-2',
       4: 'assets/audio/elif-ba/cocuk/harf/04.mp3?v=cocuk-1',
       5: 'assets/audio/elif-ba/cocuk/harf/05.mp3?v=cocuk-1',
       6: 'assets/audio/elif-ba/cocuk/harf/06.mp3?v=cocuk-1',
