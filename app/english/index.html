@@ -1,0 +1,135 @@
+<!doctype html>
+<!-- English for Kids (…/bilgi-adasi/english/): Bilgi Adası with only English Koyu. <base href="../"> makes every path below
+     resolve to app/, so the code, sounds, pictures and players are Bilgi Adası’s own. Keep it in step with app/index.html. -->
+<html lang="tr"><head><meta charset="utf-8"><base href="../"><meta name="viewport" content="width=device-width,initial-scale=1"><title>English · Bilgi Adası</title><meta name="surum" content="__SURUM__"><link rel="stylesheet" href="core/css/base.css?v=10"><link rel="stylesheet" href="core/css/harita.css?v=6"><link rel="stylesheet" href="islands/elif-ba/style.css?v=22"><link rel="stylesheet" href="islands/elif-ba/games/listening.css?v=6"><link rel="stylesheet" href="islands/elif-ba/games/bridge.css?v=1"><link rel="stylesheet" href="islands/elif-ba/games/arcade.css?v=2"><link rel="stylesheet" href="core/css/quiz.css?v=7"><link rel="stylesheet" href="core/css/ingilizce-oyunlari.css?v=19"><link rel="stylesheet" href="core/css/akvaryum.css?v=4"><style>.brand-sub{font-size:.6em;font-weight:800;letter-spacing:0;color:#6b8580}@media(max-width:500px){.brand-sub{display:none}}</style></head><body data-koylar="eng1-card">
+<header><div class="brand"><span class="brand-icon">🇬🇧</span> English <small class="brand-sub">· Bilgi Adası</small></div><div class="head-right"><button id="player" aria-haspopup="dialog">Oyuncu seç</button><button id="aquarium-button" aria-haspopup="dialog" hidden></button><button id="settings-button" aria-label="Ayarlar" title="Ayarlar" aria-haspopup="dialog" hidden>⚙</button><div id="game-tools" hidden><button id="open-stats" aria-haspopup="dialog">İstatistikler</button><span id="stars">⭐ 0 yıldız</span><button id="sound" aria-label="Sesi aç" aria-pressed="false">♫</button></div></div></header>
+<main>
+<section id="catalog" hidden aria-labelledby="catalog-title">
+  <div class="harbor-heading">
+    <span id="catalog-grade" class="grade"></span>
+    <h1 id="catalog-title" tabindex="-1">Keşif <em>Limanı</em></h1>
+    <p id="catalog-greeting" class="greeting"></p>
+  </div>
+  <button id="aquarium-card" class="ak-card" aria-haspopup="dialog" hidden></button>
+  <div id="kesif" class="kesif" hidden><div id="kesif-map" class="kh-map"></div><div id="kesif-panel" class="kh-panel" hidden></div></div>
+  <div class="game-grid" id="game-grid">
+    <button id="elif-card" class="catalog-card" data-grades="Okul öncesi" data-akvaryum hidden>
+      <img src="islands/elif-ba/koy.jpg" width="1536" height="1024" alt="">
+      <span class="catalog-caption"><span><small>Kur’an harfleri</small><strong>Elif Ba Adası</strong></span><span class="card-arrow" aria-hidden="true">▶</span></span>
+    </button>
+  </div>
+  <p id="empty-catalog" hidden>Bu yaş aralığında henüz oyun eklenmemiş.</p>
+  <!-- The bays of Keşif Haritası (core/js/harita.js): which grades see each one, and that it fills the aquarium. -->
+  <div hidden>
+    <span id="multiplication-card" data-koy data-akvaryum data-grades="2. sınıf|3. sınıf|4. sınıf"></span>
+    <span id="eng1-card" data-koy data-akvaryum data-grades="Okul öncesi|1. sınıf|2. sınıf|3. sınıf|4. sınıf"></span>
+  </div>
+</section>
+<section id="elif-view" hidden aria-labelledby="elif-title">
+  <nav class="elif-nav"><button id="elif-back" class="btn-back">Keşif Limanı</button><span id="elif-shells"></span></nav>
+  <div id="elif-hub">
+    <div class="elif-hero"><div><h1 id="elif-title" tabindex="-1">Elif Ba <em>Adası</em></h1><p>Minik kaplumbağayla Kur’an harflerini tanı, sesinden bul ve okumayı öğren.</p></div></div>
+    <button id="elif-next-step" class="elif-action elif-next-step" hidden></button>
+    <p id="elif-done" class="elif-done" hidden>🎉 Yolun sonuna geldin! Yeni koylar yakında.</p>
+    <p id="elif-hub-note" class="elif-hub-note" role="status"></p>
+    <button id="elif-aquarium-open" class="elif-aquarium-card"></button>
+    <h2 class="elif-h">Yolculuk</h2>
+    <div id="elif-map" class="elif-map"></div>
+  </div>
+  <div id="elif-section" hidden>
+    <div class="elif-section-head"><button id="elif-up" class="btn-back" aria-label="Yola dön">Yol</button><h2 id="elif-section-title" tabindex="-1"></h2><span id="elif-section-count"></span></div>
+    <p id="elif-guide" class="elif-guide" data-cue></p>
+    <div id="elif-cards" class="elif-cards" data-cue></div>
+    <p id="elif-note" role="status"></p>
+    <div class="elif-toolbar"><button id="elif-play" class="elif-action">▶ Oyna</button></div>
+  </div>
+</section>
+<dialog id="eng1-game" class="soru-game" aria-labelledby="eng1-prompt"><button id="eng1-close" class="soru-close btn-round" aria-label="Haritaya dön"></button><div id="eng1-stage" class="soru-stage"></div></dialog>
+<dialog id="elif-game" aria-labelledby="elif-prompt"><button id="elif-close" class="btn-round" aria-label="Adacığa dön"></button><div id="elif-stage" data-cue></div></dialog>
+<dialog id="elif-rain" aria-label="Harf Yağmuru"></dialog>
+
+<dialog id="elif-bridge" aria-label="Cam Köprü"></dialog><dialog id="elif-arcade" aria-label="Oyun"></dialog><dialog id="elif-pick" aria-labelledby="elif-pick-title"></dialog>
+<dialog id="akvaryum" aria-label="Akvaryum"></dialog>
+</main>
+<dialog id="game" aria-labelledby="gameTitle"><button id="close" class="btn-round" aria-label="Haritaya dön"></button><button class="secondary" id="switch-game">Oyuncu değiştir</button><div id="stage"></div></dialog><dialog id="stats" aria-labelledby="stats-title">
+  <div class="stats-heading"><h2 id="stats-title">İstatistikler</h2><button id="close-stats" aria-label="İstatistikleri kapat">×</button></div>
+  <div id="stats-content"></div>
+</dialog>
+<dialog id="profiles" aria-labelledby="profiles-title">
+  <div class="welcome" aria-hidden="true"><span class="welcome-boat">⛵</span><span class="welcome-sun">☀️</span></div>
+  <p class="welcome-eyebrow">English Koyu’na hoş geldin! Welcome!</p>
+  <h2 id="profiles-title">Kim keşfe çıkıyor?</h2>
+  <div id="players"></div>
+  <button type="button" id="add-player"><span aria-hidden="true">＋</span> Yeni oyuncu ekle</button>
+  <form id="register" hidden>
+    <label>Oyuncunun adı<input id="player-name" required maxlength="32" autocomplete="off"></label>
+    <fieldset class="grades"><legend>Sınıf</legend><div id="grade-choices"></div></fieldset>
+    <fieldset><legend>Oyuncu ikonu</legend><div id="icons"></div></fieldset>
+    <button class="primary" data-cue>Kaydet ve keşfet</button>
+    <button type="button" class="secondary" id="cancel-register">Vazgeç</button>
+  </form>
+  <form id="join" hidden>
+    <p class="join-hint">Başka bir cihazda oynayan oyuncunun kodunu yaz: oyuncu bütün ilerlemesiyle bu cihaza da gelir. Kod, o cihazda <b>Ayarlar → Oyuncu</b> bölümünde yazar.</p>
+    <label>Oyuncu kodu<input id="join-code" required maxlength="12" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="ABCD-EFGH"></label>
+    <p id="join-note" class="set-note" role="status"></p>
+    <button class="primary" data-cue><span aria-hidden="true">⬇</span> Oyuncuyu getir</button>
+    <button type="button" class="secondary" id="cancel-join">Vazgeç</button>
+  </form>
+  <button type="button" id="join-player" class="join-link"><span aria-hidden="true">🔑</span> Oyuncu kodum var</button>
+  <p class="app-version"></p>
+</dialog>
+<dialog id="settings" aria-labelledby="settings-title">
+  <div class="stats-heading"><h2 id="settings-title">Ayarlar</h2><button id="close-settings" aria-label="Ayarları kapat">×</button></div>
+  <div class="set-tabs" role="tablist" aria-label="Ayar bölümleri">
+    <button role="tab" id="tab-player" aria-controls="panel-player" aria-selected="true"><span aria-hidden="true">🧒</span> Oyuncu</button>
+    <button role="tab" id="tab-sound" aria-controls="panel-sound" aria-selected="false" tabindex="-1"><span aria-hidden="true">🔊</span> Ses</button>
+    <button role="tab" id="tab-progress" aria-controls="panel-progress" aria-selected="false" tabindex="-1"><span aria-hidden="true">🗺️</span> İlerleme</button>
+  </div>
+  <div id="panel-player" class="set-panel" role="tabpanel" aria-labelledby="tab-player"><form id="edit-player">
+    <div class="set-who"><span id="edit-face" class="player-face" aria-hidden="true"></span><div><strong id="edit-title"></strong><small>Oyuncu bilgilerini düzenle</small></div></div>
+    <label class="set-field">Ad<input id="edit-name" name="name" required maxlength="32" autocomplete="off"></label>
+    <fieldset class="grades"><legend>Sınıf</legend><div id="edit-grades" class="grade-choices"></div></fieldset>
+    <fieldset><legend>İkon</legend><div id="edit-icons" class="icon-choices"></div></fieldset>
+    <button class="primary">Değişiklikleri kaydet</button>
+    <p id="edit-note" class="set-note" role="status"></p>
+    <div class="set-code"><div><strong>🔑 Oyuncu kodu</strong><small>Başka bir cihazda “Oyuncu kodum var” deyip bu kodu yazınca bu oyuncu bütün ilerlemesiyle oraya da gelir. Kodu yalnızca güvendiğin kişilerle paylaş.</small></div><div class="set-code-row"><code id="edit-code"></code><button type="button" class="secondary" id="copy-code"><span aria-hidden="true">📋</span> Kopyala</button></div></div>
+    <div class="danger-zone"><div><strong>Oyuncuyu sil</strong><small>Bu oyuncunun bütün ilerlemesi ve istatistikleri bu cihazdan ve buluttan (yönetici sayfasından) silinir. Onaylamak için kutuya <b>SİL</b> yaz.</small></div><div class="danger-confirm"><input id="delete-confirm" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="10" placeholder="SİL" aria-label="Onaylamak için SİL yaz"><button type="button" class="danger" id="delete-player" disabled>Sil</button></div></div>
+  </form></div>
+  <div id="panel-sound" class="set-panel" role="tabpanel" aria-labelledby="tab-sound" hidden>
+    <label class="switch-row"><span><strong>Ses efektleri</strong><small>Doğru, yanlış, geri sayım ve kutlama sesleri</small></span><input type="checkbox" id="sound-switch" role="switch"><i aria-hidden="true"></i></label>
+    <div class="sound-tests"><span>Sesleri dene</span>
+      <button type="button" data-cue data-try="correct">✓ Doğru</button>
+      <button type="button" data-cue data-try="retry">↺ Yanlış</button>
+      <button type="button" data-cue data-try="tick-1">⏱ Süre</button>
+      <button type="button" data-cue data-try="island">⭐ Ada</button>
+    </div>
+    <fieldset id="elif-voice" class="voice-choice" hidden><legend>Elif Ba sesleri</legend>
+      <label><input type="radio" name="elif-voice" value="cocuk"><span><strong>👧 Kız çocuk sesi</strong><small>Harf adları ve heceler çocuk sesiyle; çocuk sesinde olmayanlar erkek sesiyle</small></span></label>
+      <label><input type="radio" name="elif-voice" value="kayit"><span><strong>👨 Erkek sesi</strong><small>Bütün kayıtlar erkek sesiyle</small></span></label>
+      <label><input type="radio" name="elif-voice" value="turkce"><span><strong>Türkçe okunuş</strong><small>Harf adları ve heceler, cihazın Türkçe sesiyle</small></span></label>
+      <small id="elif-voice-credit" class="set-note"></small>
+    </fieldset>
+    <p class="set-note">Telefonun sessiz modu açıksa ses duyulmayabilir.</p>
+  </div>
+  <div id="panel-progress" class="set-panel" role="tabpanel" aria-labelledby="tab-progress" hidden>
+    <section id="carpim-progress">
+      <div class="set-who"><span class="player-face" aria-hidden="true">🏝️</span><div><strong>Çarpım Koyu</strong><small id="carpim-summary"></small></div></div>
+      <p class="set-hint">Yeniden başlamak istediğin tabloya dokun.</p>
+      <div id="reset-map" class="reset-map"></div>
+      <p id="reset-info" class="set-note" role="status"></p>
+      <button type="button" class="danger wide" id="reset-go" disabled>Buradan yeniden başla</button>
+    </section>
+    <section id="elif-progress">
+      <div class="set-who"><span class="player-face" aria-hidden="true">🐚</span><div><strong>Elif Ba Adası</strong><small id="elif-summary"></small></div></div>
+      <button type="button" class="danger wide" id="elif-reset">Elif Ba ilerlemesini sıfırla</button>
+    </section>
+    <section id="eng1-progress">
+      <div class="set-who"><span class="player-face" aria-hidden="true">🇬🇧</span><div><strong>English Koyu</strong><small id="eng1-summary"></small></div></div>
+      <ul id="eng1-units" class="soru-units"></ul>
+      <button type="button" class="danger wide" id="eng1-reset">English ilerlemesini sıfırla</button>
+    </section>
+    <p id="no-progress" class="set-note" hidden>Bu oyuncunun sınıfı için sıfırlanacak ilerleme yok.</p>
+  </div>
+  <p class="app-version"></p>
+</dialog><script src="core/js/app.js?v=2"></script><script src="core/js/bulut-ayar.js?v=4"></script><script src="core/js/sync.js?v=7"></script><script src="core/js/sounds.js?v=13"></script><script src="core/js/fx.js?v=2"></script><script src="core/js/harita-sanat.js?v=3"></script><script src="core/js/akvaryum-veri.js?v=1"></script><script src="core/js/akvaryum-sanat.js?v=2"></script><script src="core/js/akvaryum.js?v=6"></script><script src="core/js/harita.js?v=3"></script><script src="islands/carpim/game.js?v=6"></script><script src="core/js/stats.js?v=5"></script><script src="core/js/profiles.js?v=8"></script><script src="islands/elif-ba/data.js?v=12"></script><script src="assets/audio/elif-ba/kayitlar.js?v=11"></script><script src="islands/elif-ba/voice.js?v=12"></script><script src="islands/elif-ba/games/art.js?v=1"></script><script src="islands/elif-ba/games/kinds.js?v=2"></script><script src="islands/elif-ba/games/listening.js?v=15"></script><script src="islands/elif-ba/games/bridge.js?v=11"></script><script src="islands/elif-ba/games/arcade.js?v=1"></script><script src="islands/elif-ba/games/yengec.js?v=1"></script><script src="islands/elif-ba/games/kabuk.js?v=1"></script><script src="islands/elif-ba/games/olta.js?v=1"></script><script src="islands/elif-ba/games/sepet.js?v=3"></script>
+<script src="islands/elif-ba/map.js?v=10"></script><script src="islands/elif-ba/game.js?v=26"></script><script src="assets/audio/ingilizce/kayitlar.js?v=3"></script><script src="core/js/kelime-resimleri.js?v=19"></script><script src="core/js/cizimler.js?v=15"></script><script src="core/js/resimler.js?v=20"></script><script src="core/js/ingilizce-oyunlari.js?v=23"></script><script src="core/js/quiz.js?v=20"></script><script src="islands/english-1/resimler.js?v=1"></script><script src="islands/english-1/sorular.js?v=3"></script><script src="islands/english-1/game.js?v=2"></script><script src="core/js/settings.js?v=28"></script></body></html>

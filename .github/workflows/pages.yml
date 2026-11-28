@@ -26,8 +26,8 @@ jobs:
             exit 1
           fi
           stamp="$version · $(TZ=Europe/Istanbul date +'%d.%m.%Y %H:%M')"
-          sed -i "s|__SURUM__|$stamp|" app/index.html
-          grep -o '<meta name="surum"[^>]*>' app/index.html
+          sed -i "s|__SURUM__|$stamp|" app/index.html app/english/index.html
+          grep -o '<meta name="surum"[^>]*>' app/index.html app/english/index.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: app

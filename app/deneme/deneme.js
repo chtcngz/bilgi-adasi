@@ -128,12 +128,12 @@
 
   /* ---------- Oyun listesi ---------- */
   // Oyuna girenler denemeden çıkarıldı: Akvaryum (0.16.0), Harf Bukalemunu (0.32.0), Kabuk Hafızası (0.83.0). Nokta Ustası,
-  // Taş Atlama ve Kumda Yaz denendi, bırakıldı. `fresh`: 0.93.0'da gelen yeni fikirler, odada önde ve “Yeni” işaretli.
+  // Taş Atlama ve Kumda Yaz denendi, bırakıldı. `fresh`: 0.96.0'da gelen yeni fikirler, odada önde ve “Yeni” işaretli.
   // `intro` oyunun ne olduğu: Elif Ba'daki gibi kendiliğinden söylenmez, yalnızca 🐢💬 düğmesine dokununca söylenir.
   const games = [
     {
       id: 'uzat', icon: '🍬', title: 'Kısa mı Uzun mu?', fresh: true, where: 'Uzatma (med)',
-      intro: 'Kısa mı uzun mu oyunu. Üstünden sonra elif, esreden sonra ye, ötreden sonra vav gelince hece uzun okunur. Dinle, kısa mı uzun mu bul.',
+      intro: 'Kısa mı uzun mu oyunu. Harften sonra elif, ye ya da vav gelince hece uzun okunur. Dinle, kısa mı uzun mu bul.',
       idea: ['Kaplumbağa bir hece okuyor: ya kısa (بَ) ya uzun (بَا). Çocuk iki karttan birine dokunuyor: kısa kartın altında kısa, uzun kartın altında uzun bir sakız şeridi var. Okumayı bilmeyen çocuk da şeritten anlıyor; harfleri gördükçe uzatan elifi, ye’yi ve vav’ı tanıyor.',
         'Doğru kartta şerit ses boyunca uzuyor (ses uzadıkça sakız uzar). Yanlışta önce dokunulan, sonra doğru hece okunuyor; iki ses arka arkaya duyulunca fark belli oluyor.',
         'Haritada “Yakında” duran Uzatma Koyu’nun ilk oyunu olabilir. Kayıtlar hazır: Diyanet Elifba’nın Fetha’nın, Kesra’nın ve Damme’nin Uzatılması derslerinden 84 uzun hece (بَا بِي بُو …) bayt bayt alındı (deneme/ses/uzun/). Kısa heceler oyundaki aynı Diyanet sesi.',

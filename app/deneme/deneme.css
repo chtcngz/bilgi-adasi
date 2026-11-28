@@ -171,7 +171,7 @@ main#lab { width: min(94%, 920px); margin: 18px auto 60px; }
 @media (prefers-reduced-motion: no-preference) { .tap-hint::after { animation: tap-finger 1.1s ease-in-out infinite; } }
 @keyframes tap-finger { 50% { transform: translateY(-6px); } }
 
-/* ---------- Yeni fikirler (0.93.0) ---------- */
+/* ---------- Yeni fikirler (0.96.0) ---------- */
 .lab-card.is-fresh { border-color: #f0c869; box-shadow: 0 3px 0 #f0d58f; }
 .lab-card.is-fresh .lab-card-text small { color: #b06d00; }
 .lab-info { flex: none; margin-left: auto; font-size: 1.4rem; padding-inline: 10px; white-space: nowrap; }

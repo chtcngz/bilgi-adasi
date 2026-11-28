@@ -159,34 +159,25 @@ const elifVoice = (() => {
     // "Be. Kelimenin başında": a harekeli letter's shape at a place in the word.
     shape: (i, h, f, note, after) => sequence([syllableStep(i, h), ...(f ? [{ src: placeClip(f), text: placeText[f] }] : [])], note, after),
     cezm: (i, note, after) => sequence([{ src: cezmClip(i), text: elifData.cezmReadings[i] }], note, after),
-    // "Be esre bi, sin cezm bis": a cezm syllable the way it is chanted in class.
+    // "Bi, bis": the harekeli letter, then the syllable the letter with the cezm closes (no mark names are said).
     cezmChant(i, note, after) {
       const { before } = elifData.cezm(i);
-      sequence([...named(before.i, before.h), { src: syllableClip(before.i, before.h), text: elifData.readings[before.i][before.h] },
-        ...named(i, 'cezm'), { src: cezmClip(i), text: elifData.cezmReadings[i] }], note, after);
+      sequence([{ src: syllableClip(before.i, before.h), text: elifData.readings[before.i][before.h] },
+        { src: cezmClip(i), text: elifData.cezmReadings[i] }], note, after);
     },
     cezmExample: (p, s, note, after) => sequence([{ src: exampleClip(p, s), text: elifData.cezmExampleReadings[p][s] }], note, after),
     tenvin: (i, h, note, after) => sequence([tenvinStep(i, h)], note, after),
-    // "Be iki üstün ben": a tenvin the way it is chanted in class; without h, all three in turn.
+    // "Be, ben": the letter with the hareke, then with the tenvin (no mark names are said); without h, all three in turn.
     tenvinChant(i, h, note, after) {
-      sequence([...(h === undefined ? [0, 1, 2] : [h])].flatMap(k => [...named(i, 'tenvin-' + k), tenvinStep(i, k)]), note, after);
-    },
-    // A mark's name on its own ("iki esre"), in the girl's voice when she has it.
-    tenvinName(h, note, after) {
-      const markClip = mode === 'cocuk' && child.hareke['tenvin-' + h];
-      sequence([markClip ? { src: markClip, text: markText('tenvin-' + h) } : { text: markText('tenvin-' + h) }], note, after);
+      sequence([...(h === undefined ? [0, 1, 2] : [h])].flatMap(k => [{ src: syllableClip(i, k), text: elifData.readings[i][k] }, tenvinStep(i, k)]),
+        note, after);
     },
     sedde: (i, h, note, after) => sequence([seddeStep(i, h)], note, after),
     seddesiz: (i, h, note, after) => sequence([seddesizStep(i, h)], note, after),
-    // "Sin şedde: bis, se, bisse": how the şedde syllable is made, then the syllable.
+    // "Bis, se, bisse": how the şedde syllable is made, then the syllable (no mark names are said).
     seddeChant(i, h, note, after) {
-      sequence([...named(i, 'sedde'), { src: manClip('cezm', i), text: elifData.cezmReadings[i] },
+      sequence([{ src: manClip('cezm', i), text: elifData.cezmReadings[i] },
         { src: manClip('hece', i + '-' + h), text: elifData.readings[i][h] }, seddeStep(i, h)], note, after);
-    },
-    // A mark's name on its own (h: 'sedde', 'cezm' or a hareke), in the girl's voice when she has it.
-    markName(h, note, after) {
-      const markClip = mode === 'cocuk' && child.hareke[h];
-      sequence([markClip ? { src: markClip, text: markText(h) } : { text: markText(h) }], note, after);
     },
     seddeExample: (p, note, after) => sequence([{ src: clip('seddeOrnek', p), text: elifData.seddeExamples[p].reading }], note, after),
     // The three steps at the top of tenvin cove p (s: 0 the last letter with its hareke, 1 with its tenvin, 2 the word).

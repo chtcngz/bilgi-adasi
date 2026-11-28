@@ -7,7 +7,7 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
-## 0.93.0 · 28.11.2026
+## 0.96.0 · 28.11.2026
 
 Deneme Odası’na (`…/deneme/`, oyundan bağlantı verilmiyor) ileride oyunlarda kullanılmak üzere beş yeni oyun fikri geldi; hepsi oynanabiliyor ve okuma bilmeyen çocuklar için sesli. Odada önde ve “✨ Yeni” işaretliler; her oyunun 🐢💬 düğmesi oyunun ne olduğunu söylüyor.
 
@@ -17,6 +17,28 @@ Deneme Odası’na (`…/deneme/`, oyundan bağlantı verilmiyor) ileride oyunla
 - **🐬 Yunus Şarkısı:** Yunuslar harfleri sırayla söylüyor, çocuk aynı sırayla dokunuyor; şarkı 2 harften 5 harfe uzuyor.
 - **🔦 Fenerle Ara:** Karanlık denizde parmakla fener gezdirip duyulan harfi buluyor; aralarında noktadaş eşleri var.
 - **Kabuk Hafızası** oyuna girdiği için (0.83.0) Deneme Odası’ndan çıkarıldı.
+
+## 0.95.1 · 28.11.2026
+
+- **Elif Ba, işareti tanıtan kartlarda işaret adları okunmuyor:** Cezm, Tenvin ve Şedde adımlarının kartlarında artık Türkçe işaret adı okunmuyor (“iki ötre”, “şedde”, “Sin cezm” gibi). Dersin başındaki tenvin işaretlerine dokununca Be harfiyle okunuşu geliyor (ben, bin, bun), şedde işaretine dokununca Be’nin şeddeli hecesi. ♪ düğmeleri de yalnızca heceleri okuyor: “bi, bis”, “be, ben”, “bis, se, bisse”. Cezimli harfe dokununca kurduğu hece okunuyor.
+- **Harflerin altındaki yazılar kaldırıldı:** Bu kartlarda harflerin ve işaretlerin altında yazan “üstün”, “iki üstün”, “şedde” gibi Türkçe yazılar artık yok.
+
+## 0.95.0 · 27.11.2026
+
+- **English, İlk Adımlar’ın soruları kaldırıldı:** Sorular, istasyonların kelime listelerine göre yeniden hazırlanacak; ada o zamana kadar haritada “Yakında” duruyor. Selamlaşma istasyonunun 42 kelimelik listesi saklandı.
+- **Yeni sayfa: Resimler (…/english/resimler/).** Kelimeler ada ve istasyona göre sıralı; her kelimeye en fazla 6 resim seçilebiliyor (ilk resim ana resim). 🖼️ Tüm resimler projedeki bütün resimleri gruplar hâlinde ve 🔍 Bul aramasıyla açıyor; 📤 Yükle ile yeni resim eklenebiliyor. Seçimler yönetici hesabıyla buluta kaydediliyor.
+
+## 0.94.0 · 27.11.2026
+
+- **English, Selamlaşma istasyonu büyüdü:** 26 yeni soruyla istasyonda artık 42 kelime ve kalıp var. Yeni olanlar: bye-bye, see you later, see you soon, take care, Have a nice day!, friend, Welcome!, I am good, I am great, I am okay, And you?, thanks, Thank you very much!, I am sorry, yes, no. “Welcome!” (Hoş geldin) ile “You’re welcome!” (Rica ederim) farkını soran bir soru da var.
+- Selamlaşma’nın Keşif Kartı’na friend, welcome, yes ve no eklendi.
+
+## 0.93.0 · 27.11.2026
+
+- **Yeni site: English for Kids.** Çocuklara İngilizce öğreten ada oyunu artık kendi adresinde: **…/bilgi-adasi/english/**. Oyuncular, ilerleme ve akvaryum Bilgi Adası ile ortak; aynı çocuk aynı oyuncuyla girer. Haritada yalnızca English Koyu var.
+- **İlk ada: İlk Adımlar.** Konu haritasının 1. bölümü, dört istasyon ve 172 soru: 👋 **Selamlaşma** (selamlaşma ve vedalaşma, tanışma, nezaket sözcükleri), 🔤 **Alfabe** (26 harf ve okunuşları, her harfe bir örnek kelime, heceleme), 🔢 **Sayılar** (1–20, first–tenth), ❓ **Soru kelimeleri** (who, what, where, when, why, how). Her istasyon önce kelimelerini resim ve sesle tanıtır, sonra İngilizce Koyu’nun oyunlarıyla oynanır; adanın sonunda 20 soruluk deneme ve 🎯 Yanlış Avı var.
+- **Harf ve sıra resimleri:** Alfabe için her harfin büyük ve küçük hâlini gösteren renkli harf kartları, 4th–10th için kurdeleli sıra rozetleri çizildi.
+- Diğer bölümler (renkler, aile, okul …) haritada sırayla eklenecek.
 
 ## 0.92.0 · 27.11.2026
 

@@ -6,15 +6,15 @@ Oyuna giren bir taslak Deneme Odası’ndan çıkarılır; burada “Oyunda” d
 
 | Öneri | Durum |
 |---|---|
-| 🍬 Kısa mı Uzun mu? | Yeni fikir (0.93.0), Deneme Odası’nda · Uzatma (med) |
-| 🐘 Fil mi Kuş mu? | Yeni fikir (0.93.0), Deneme Odası’nda · kalın ve ince harfler |
-| 🦜 Papağan | Yeni fikir (0.93.0), Deneme Odası’nda · çocuk kendisi söylüyor |
-| 🐬 Yunus Şarkısı | Yeni fikir (0.93.0), Deneme Odası’nda · sıra hafızası |
-| 🔦 Fenerle Ara | Yeni fikir (0.93.0), Deneme Odası’nda · karanlıkta harf arama |
+| 🍬 Kısa mı Uzun mu? | Yeni fikir (0.96.0), Deneme Odası’nda · Uzatma (med) |
+| 🐘 Fil mi Kuş mu? | Yeni fikir (0.96.0), Deneme Odası’nda · kalın ve ince harfler |
+| 🦜 Papağan | Yeni fikir (0.96.0), Deneme Odası’nda · çocuk kendisi söylüyor |
+| 🐬 Yunus Şarkısı | Yeni fikir (0.96.0), Deneme Odası’nda · sıra hafızası |
+| 🔦 Fenerle Ara | Yeni fikir (0.96.0), Deneme Odası’nda · karanlıkta harf arama |
 | 🐣 İlk Harf Albümüm | Deneme Odası’nda · yumurtalardan çıkan 28 sesli harf |
 | 🐢 Harf Büyüteci | Deneme Odası’nda · gösterilen harfin eşine dokunma |
 | 🐠 Akvaryum | **Oyunda** (0.16.0) |
-| 🐚 Kabuk Hafızası | **Oyunda** (0.83.0) · oyun adımlarında seçilebiliyor; taslağı Deneme Odası’ndan çıkarıldı (0.93.0) |
+| 🐚 Kabuk Hafızası | **Oyunda** (0.83.0) · oyun adımlarında seçilebiliyor; taslağı Deneme Odası’ndan çıkarıldı (0.96.0) |
 | 🦀 Yengeç Avı, 🎣 Balık Tutma, 🧺 Sepete Topla | **Oyunda** (0.83.0) · oyun adımlarında balon ve yağmur oyunlarının yerine seçilebiliyor |
 | 🚂 Hece Treni | Deneme Odası'nda · tren düzeni İngilizce Koyu’nda 🚂 Kelime Treni olarak oyunda, Elif Ba için hâlâ taslak |
 | 🎩 Harekeyi Giydir | Yeni fikir, Deneme Odası'nda |
@@ -40,7 +40,7 @@ Kumsalda kapalı deniz kabukları var. Çocuk iki kabuk açıyor ve her açılan
 - Okul öncesi çocuklar bu oyunu çok sever. Can kaybı yok, bu yüzden rahatlatıcı bir mola olur.
 - Yapması en hızlı oyun bu.
 
-**Taslak:** Üç seviyesiyle (4, 4 ve 5 çift) Deneme Odası’ndaydı; oyuna girdiği için 0.93.0’da çıkarıldı.
+**Taslak:** Üç seviyesiyle (4, 4 ve 5 çift) Deneme Odası’ndaydı; oyuna girdiği için 0.96.0’da çıkarıldı.
 
 **Oyunda (0.83.0):** Her adacığın oyun adımında, adımın kendi yağmur ya da balon oyunu yerine seçilebiliyor (`games/kabuk.js`). Bir kabuk heceyi söylüyor 🔊, öteki yazısını gösteriyor; sesi ile yazısı eşleşince inci oluyor. İki tahta var (4 ve 6 çift), ikincisinde ilk tahtadakilerin en kolay karışanları da var (bin ile bi, be ile bi). Can yok; boşuna açılan kabuk sayısı yıldızları belirliyor.
 
