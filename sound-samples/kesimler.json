@@ -254,7 +254,7 @@
   {"id": "uzatma-ve", "ad": "vav sesi", "ar": "و", "okunus": "ve", "kat": "uzatma", "grup": "Uzatma harfleri: elif, ye, vav", "dosya": 3, "bas": 367.62, "son": 368.13},
   {"id": "uzatma-vav", "ad": "vav", "ar": "و", "okunus": "vav", "kat": "uzatma", "grup": "Uzatma harfleri: elif, ye, vav", "dosya": 3, "bas": 368.35, "son": 368.87},
   {"id": "uzatma-me", "ad": "üstün mim", "ar": "مَ", "okunus": "me", "kat": "uzatma", "grup": "Harekesiz elif önceki harfi uzatır", "dosya": 3, "bas": 386.69, "son": 387.13},
-  {"id": "uzatma-ma", "ad": "mim üstün elif", "ar": "مَا", "okunus": "mâ", "kat": "uzatma", "grup": "Harekesiz elif önceki harfi uzatır", "dosya": 3, "bas": 387.27, "son": 388.26},
+  {"id": "uzatma-ma", "ad": "mim üstün elif", "ar": "مَا", "okunus": "mâ", "kat": "uzatma", "grup": "Harekesiz elif önceki harfi uzatır", "dosya": 3, "bas": 387.27, "son": 388.0},
   {"id": "uzatma-ra", "ad": "üstün ra, ra üstün elif", "ar": "رَ رَا", "okunus": "ra, râ", "kat": "uzatma", "grup": "Harekesiz elif önceki harfi uzatır", "dosya": 3, "bas": 388.66, "son": 389.62},
   {"id": "kelime-bi", "ad": "esre be", "ar": "بِ", "okunus": "bi", "kat": "kelime", "grup": "بِهِ bihî", "dosya": 3, "bas": 456.05, "son": 456.75},
   {"id": "kelime-hi", "ad": "esre he", "ar": "هِ", "okunus": "hi", "kat": "kelime", "grup": "بِهِ bihî", "dosya": 3, "bas": 460.6, "son": 461.0},

@@ -7,12 +7,18 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.99.1 · 28.11.2026
+
+- **Sesler sayfası (`…/sound/`), arka plandaki müzik temizlendi:** 265 sesin hepsinde kaydın altındaki müzik çıkarıldı. Her sesin hemen yanında, kimsenin konuşmadığı yerlerde yalnızca müzik duyuluyor; o müzik örnek alınıp sesten süzüldü. Hecelerin arasında ve sesin başında, sonunda artık tam sessizlik var.
+- **Sesler yarıda kesilmiyor:** Sesin sonu artık doğal sönümüne kadar sürüyor, yumuşakça kısılarak bitiyor ve ardında kısa bir sessizlik kalıyor. Arkasından hemen Türkçe kelime gelen seslerde kesim aynı yerde kalıyor ama sonu yumuşak bitiyor. Bütün seslerin ses yüksekliği de eşitlendi.
+
 ## 0.99.0 · 28.11.2026
 
 - **English, Selamlaşma istasyonu 6 etapta:** İstasyona dokununca altı etap, küçük yuvarlak resimler hâlinde bir patika üzerinde açılıyor: 1 Selamlaşma, 2 Vedalaşma, 3 Tanışma, 4 Hal hatır, 5 Arkadaş ve yaş, 6 Nezaket. Etaplar sırayla açılıyor; bir etabın son kartına gelince etap bitiyor (✓) ve sıradaki açılıyor.
 - **Tanıtım kartları:** Her etap kelimelerini büyük, baloncuklu resimlerle tanıtıyor: İngilizcesi yazıyor ve okunuyor, Türkçesi altında; 🔊 ve 🐢 ile yeniden dinlenebiliyor. 42 kelime, 43 kart.
 - **Leo ve Maya:** Kartlardaki çocukların adları belli: Leo 9 yaşında, Maya 10 yaşında. “My name is Leo.”, “My name is Maya.”, “I am Maya.”, “I’m 9 years old.”, “This is my friend Leo.” kartlarının baloncukları buna göre yazıldı. “I am sorry.”, “I am good!” ve “Thanks!” için de benzer resimlerin baloncukları değiştirildi.
 - **Resimler sayfası:** Yüklenen resimler artık 1024 piksele kadar saklanıyor (önce 256’ydı); kelimeler 6 etaba göre gruplu.
+
 ## 0.98.0 · 28.11.2026
 
 - **Yeni sayfa: Sesler (`…/sound/`, oyundan bağlantı verilmiyor).** *Elifle Animasyonlu Elifba* kayıtlarındaki (3 dosya, 42 dakika) Arapça okunuşlar tek tek kesildi: 265 ses. Her birinin yanında Arapça yazılışı, adı (“iki ötre be”), okunuşu (“bün”) ve ▶ düğmesi var. Bölümler: harekesiz harf adları ve sesleri (46), harekeli (87: elif, hemze ve 27 harf üstün, esre, ötre ile), tenvin (87), cezm (4), şedde (6), uzatma (16), kelimeler (13: bihî, kâle, ellezî, errahmânu harf harf), mukattaa harfleri (6: Yâsîn, Ayn Sîn Kâf). Aynı okunuş birden çok yerde geçiyorsa `elif-1`, `elif-2` diye ayrılıyor.

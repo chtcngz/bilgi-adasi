@@ -70,7 +70,7 @@
 </header>
 <main id="ana"></main>
 <div id="durum" role="status"></div>
-<script src="liste.js?v=1"></script>
+<script src="liste.js?v=2"></script>
 <script>
 (() => {
   const $ = id => document.getElementById(id);
@@ -81,6 +81,8 @@
   try { secim = new Set(JSON.parse(localStorage.getItem(KEY)) || []); } catch {}
   const kaydet = () => { try { localStorage.setItem(KEY, JSON.stringify([...secim])); } catch {} };
   const dakika = s => Math.floor(s / 60) + ':' + (s % 60).toFixed(1).padStart(4, '0');
+  // bump with every new cut of the clips (tools/ses_kes.py), so no browser plays the old ones from its cache
+  const SES_V = 2;
 
   /* ---------- playing ---------- */
   let calan = null;          // { audio, card }
@@ -91,7 +93,7 @@
   }
   function cal(ses, card, sonra) {
     dur();
-    const audio = new Audio('ses/' + ses.id + '.mp3');
+    const audio = new Audio('ses/' + ses.id + '.mp3?v=' + SES_V);
     calan = { audio, card };
     card.classList.add('caliyor');
     card.querySelector('.oynat').textContent = '■';

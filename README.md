@@ -118,7 +118,8 @@ tools/                       Helper scripts (not published)
 ├── elif_sesleri.py          → app/assets/audio/elif-ba/ (harf, hece, kayitlar.js)
 ├── ingilizce_metinler.js    Every English line İngilizce Koyu says (question words and sentences, the games' lines)
 ├── ingilizce_sesler.py      → app/assets/audio/ingilizce/: records those lines with Kokoro (needs the model, see the file)
-└── ses_kes.py               → app/sound/ses/ and liste.js: cuts the readings listed in sound-samples/kesimler.json
+└── ses_kes.py               → app/sound/ses/ and liste.js: cuts the readings listed in sound-samples/kesimler.json,
+                             takes the music out (noisereduce) and lets each one end on its own decay
 sound-samples/               The owner's recordings (not published): original/ (Elifle Animasyonlu Elifba 1-3, Turkish narration
                              with Arabic readings) and kesimler.json, where each reading is in them (file, start, end),
                              its name, writing and kind
