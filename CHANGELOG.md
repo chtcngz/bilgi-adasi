@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.116.4 · 28.11.2026
+
+- Du örneğinde ünlü uzatıldı. Din örneğinde i ile n arasındaki geçiş yumuşatıldı.
+
 ## 0.116.3 · 28.11.2026
 
 - Dad için da, di, dan ve dun sol sütundan seçildi. Du ve din örnekleri stereo kayıttan müzik ayrılarak yeniden hazırlandı.

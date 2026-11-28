@@ -75,31 +75,40 @@ def isolate_voiced(take):
 
 # Start with the actual voiced closure, after the exposed bass note.
 du = isolate_voiced(dun[round((9.377-9.207)*rate):round((9.558-9.207)*rate)])
-# Extend the u before its nasal transition. Align a short piece of sustained
-# vowel by phase so the decay has room without bringing back the final n.
-overlap = round(.012*rate)
-segment = du[-round(.049*rate):]
-windows = np.lib.stride_tricks.sliding_window_view(segment[:overlap+round(.004*rate)], overlap)
-shift = np.argmax((windows @ du[-overlap:]) / (np.linalg.norm(windows, axis=1)+1e-9))
-grain = segment[shift:]
-mix = np.linspace(0,1,overlap)
-for _ in range(2):
+# Stretch the sustained vowel by overlapping successive phase-matched
+# grains. Keep the consonant intact and begin the decay after the sustain.
+overlap = round(.016*rate)
+hop = round(.020*rate)
+grain_len = overlap + hop
+vowel = du[round(.067*rate):]
+du = du[:round(.067*rate)+grain_len]
+for pos in np.linspace(0, len(vowel)-grain_len-round(.005*rate), 15):
+    start = round(pos)
+    region = vowel[start:start+grain_len+round(.005*rate)]
+    windows = np.lib.stride_tricks.sliding_window_view(region[:overlap+round(.005*rate)], overlap)
+    shift = np.argmax((windows @ du[-overlap:]) / (np.linalg.norm(windows,axis=1)+1e-9))
+    grain = region[shift:shift+grain_len]
+    mix = np.sin(np.linspace(0,np.pi/2,overlap))**2
     du = np.concatenate([du[:-overlap],du[-overlap:]*(1-mix)+grain[:overlap]*mix,grain[overlap:]])
-n = round(.15*rate)
+n = round(.16*rate)
 du[-n:] *= np.cos(np.linspace(0,np.pi/2,n))**2
 
 # Isolate the i and nasal separately, dropping the music-only lead and tail.
 left = isolate_voiced(di[round((3.307-3.132)*rate):round((3.485-3.132)*rate)])
 right = isolate_voiced(dan[round((6.493-6.196)*rate):round((6.766-6.196)*rate)])
-n = round(.025*rate)
+n = round(.032*rate)
 windows = np.lib.stride_tricks.sliding_window_view(right[:n+round(.006*rate)], n)
 phase = np.argmax((windows @ left[-n:]) / (np.linalg.norm(windows,axis=1)+1e-9))
 right = right[phase:]
 fade = np.linspace(0,np.pi/2,n)
-din = np.concatenate([left[:-n],left[-n:]*np.cos(fade)**2+right[:n]*np.sin(fade)**2,right[n:]])
+joined = left[-n:]*np.cos(fade)**2 + right[:n]*np.sin(fade)**2
+# Attenuate only the upper-frequency residue in the middle of the join.
+smooth = sosfiltfilt(butter(2, 3400, fs=rate, output="sos"), joined)
+joined += .35*np.sin(2*fade)**2*(smooth-joined)
+din = np.concatenate([left[:-n], joined, right[n:]])
 items = []
 for kind,h,name,data in [('harekeli',2,'du',du), ('tenvin',1,'din',din)]:
-    ident = 'elifle-dad-'+name+'-v2'
+    ident = 'elifle-dad-'+name+'-v3'
     data = data.copy()
     data[:220] *= np.linspace(0,1,220)
     data[-650:] *= np.linspace(1,0,650)
