@@ -41,18 +41,36 @@ const englishBalon = (() => {
   }
   const sus = () => { window.speechSynthesis?.cancel(); if (typeof ingilizceSes !== 'undefined') ingilizceSes.stop(); };
 
+  // the question text in two parts: the scene ("Maya okuldan eve geldi. Annesi onu kapıda karşılıyor.") and the question
+  // asked of the child, its last sentence ("Annesi ne der?")
+  function parcala(text) {
+    const m = String(text).match(/^(.*[.!…])\s+([^.!…]+\?)$/);
+    return m ? { durum: m[1], soru: m[2] } : { durum: '', soru: String(text) };
+  }
+  // every copy of a card left on the screen (a drag the browser cut short, a question left in the middle of an animation)
+  function temizle() {
+    for (const g of document.querySelectorAll('.eb-surukle')) { g.getAnimations().forEach(a => a.cancel()); g.remove(); }
+  }
+
   /* ---------- a row of questions ---------- */
   function oyna(c) {
     const live = { on: true };
-    let at = 0;
+    let at = 0, token = 0;
+    const cleanups = [];   // a question's pending drag, ended when the next question comes or the round closes
     const next = () => { if (!live.on) return; if (at < c.sorular.length) soru(c.sorular[at++]); else c.bitti(); };
     function soru(q) {
-      const total = c.sorular.length, n = at;
+      // a new question starts clean: no copy of an old card, no animation and no drag of the question before
+      while (cleanups.length) cleanups.pop()();
+      temizle();
+      const mine = ++token, stale = () => mine !== token || !live.on;
+      let busy = false;
+      const total = c.sorular.length, n = at, metin = parcala(q.s);
       const b = q.balon;
       c.stage.innerHTML = '<div class="eb">' +
         '<div class="eb-ust"><span class="eb-maskot" aria-hidden="true">' + esc(c.maskot || '🦊') + '</span>' +
         '<span class="eb-sayi" aria-label="' + n + ' / ' + total + '">' + Array.from({ length: total }, (_, i) => '<i class="' + (i < n - 1 ? 'done' : i === n - 1 ? 'now' : '') + '"></i>').join('') + '</span></div>' +
-        '<h2 class="eb-soru" id="eng1-prompt" tabindex="-1">' + esc(q.s) + '</h2>' +
+        '<div class="eb-metin" id="eng1-prompt" tabindex="-1">' + (metin.durum ? '<p class="eb-durum">' + esc(metin.durum) + '</p>' : '') +
+        '<h2 class="eb-soru">' + esc(metin.soru) + '</h2></div>' +
         '<div class="eb-sahne"><img src="' + esc(RESIM(b.resim)) + '" alt="" draggable="false">' +
         '<div class="eb-balon" style="left:' + b.x + '%;top:' + b.y + '%;width:' + b.w + '%;height:' + b.h + '%"><span class="eb-soru-isareti" aria-hidden="true">?</span></div></div>' +
         '<div class="eb-kartlar" role="group" aria-label="Şıklar"></div><div class="eb-alt"></div></div>';
@@ -77,51 +95,61 @@ const englishBalon = (() => {
         const r = zone.getBoundingClientRect(), m = Math.max(40, r.width * 0.35);
         return x > r.left - m && x < r.right + m && y > r.top - m && y < r.bottom + m;
       };
+      // A drag is followed on the whole window (not only on the card), so the finger leaving the card, a lost pointer capture or
+      // a touch the browser hands elsewhere still ends it; only one drag at a time, and none while a card is flying.
+      let ending = null;
       function drag(card, text) {
-        let start = null, moved = false, ghost = null;
         card.addEventListener('pointerdown', e => {
-          if (solved || card.disabled || (e.pointerType === 'mouse' && e.button !== 0)) return;
+          if (solved || busy || ending || card.disabled || stale() || (e.pointerType === 'mouse' && e.button !== 0)) return;
           e.preventDefault();
-          card.setPointerCapture(e.pointerId);
-          const r = card.getBoundingClientRect();
-          start = { x: e.clientX, y: e.clientY, dx: e.clientX - r.left, dy: e.clientY - r.top, r };
-          moved = false;
+          try { card.setPointerCapture(e.pointerId); } catch {}
+          const id = e.pointerId, r = card.getBoundingClientRect();
+          const start = { x: e.clientX, y: e.clientY, dx: e.clientX - r.left, dy: e.clientY - r.top };
+          let moved = false, ghost = null;
+          const move = ev => {
+            if (ev.pointerId !== id) return;
+            if (!moved && Math.hypot(ev.clientX - start.x, ev.clientY - start.y) < 8) return;
+            if (!moved) {
+              moved = true;
+              // a copy follows the finger above everything; the card stays as an empty place
+              ghost = card.cloneNode(true);
+              ghost.classList.add('eb-surukle');
+              Object.assign(ghost.style, { width: r.width + 'px', height: r.height + 'px' });
+              c.stage.closest('dialog').append(ghost);
+              card.classList.add('eb-bos');
+            }
+            ghost.style.transform = 'translate(' + (ev.clientX - start.dx) + 'px,' + (ev.clientY - start.dy) + 'px) scale(1.08) rotate(-3deg)';
+            zone.classList.toggle('yakin', near(ev.clientX, ev.clientY));
+          };
+          const off = () => {
+            window.removeEventListener('pointermove', move);
+            window.removeEventListener('pointerup', up);
+            window.removeEventListener('pointercancel', cancel);
+            ending = null;
+            zone.classList.remove('yakin');
+          };
+          const up = ev => {
+            if (ev.pointerId !== id) return;
+            off();
+            if (!moved) return tap(card, text);
+            if (near(ev.clientX, ev.clientY)) drop(card, ghost, text); else back(card, ghost);
+          };
+          // the browser cut the drag short (a scroll, a call, the finger left the screen): the card goes home
+          const cancel = ev => { if (ev.pointerId !== id) return; off(); if (moved) back(card, ghost); };
+          ending = () => { off(); if (moved) back(card, ghost); };
+          window.addEventListener('pointermove', move);
+          window.addEventListener('pointerup', up);
+          window.addEventListener('pointercancel', cancel);
         });
-        card.addEventListener('pointermove', e => {
-          if (!start) return;
-          if (!moved && Math.hypot(e.clientX - start.x, e.clientY - start.y) < 8) return;
-          if (!moved) {
-            moved = true;
-            // a copy follows the finger above everything; the card stays as an empty place
-            ghost = card.cloneNode(true);
-            ghost.classList.add('eb-surukle');
-            Object.assign(ghost.style, { width: start.r.width + 'px', height: start.r.height + 'px' });
-            c.stage.closest('dialog').append(ghost);
-            card.classList.add('eb-bos');
-          }
-          ghost.style.transform = 'translate(' + (e.clientX - start.dx) + 'px,' + (e.clientY - start.dy) + 'px) scale(1.08) rotate(-3deg)';
-          zone.classList.toggle('yakin', near(e.clientX, e.clientY));
-        });
-        const up = e => {
-          if (!start) return;
-          const s = start;
-          start = null;
-          zone.classList.remove('yakin');
-          if (!moved) { tap(card, text); return; }
-          if (near(e.clientX, e.clientY)) drop(card, ghost, text);
-          else back(card, ghost, s.r);
-          ghost = null;
-        };
-        card.addEventListener('pointerup', up);
-        card.addEventListener('pointercancel', e => { if (start && moved) { back(card, ghost, start.r); ghost = null; } start = null; zone.classList.remove('yakin'); });
         // the keyboard: Enter or Space puts the card in the bubble
         card.addEventListener('keydown', e => {
           if (e.key !== 'Enter' && e.key !== ' ') return;
           e.preventDefault();
-          if (!solved && !card.disabled) drop(card, null, text);
+          if (!solved && !busy && !card.disabled) drop(card, null, text);
         });
         card.addEventListener('click', e => e.preventDefault());
       }
+      cleanups.push(() => ending?.());
       function tap(card, text) {
         playCue('tap', { gain: 0.5 });
         card.classList.remove('eb-dokun');
@@ -135,7 +163,19 @@ const englishBalon = (() => {
         return node.animate([{ transform: 'translate(' + from.x + 'px,' + from.y + 'px) scale(' + (from.s || 1) + ')' },
           { transform: 'translate(' + to.x + 'px,' + to.y + 'px) scale(' + (to.s || 1) + ')' }], { duration: ms, easing: 'cubic-bezier(.3,1.3,.5,1)', fill: 'forwards' }).finished.catch(() => {});
       }
+      // a card dropped away from the bubble slides back to its place
+      async function back(card, ghost) {
+        busy = true;
+        if (ghost) {
+          const g = ghost.getBoundingClientRect(), home = card.getBoundingClientRect();
+          await fly(ghost, { x: g.left, y: g.top, s: 1.08 }, { x: home.left, y: home.top, s: 1 }, 300);
+          ghost.remove();
+        }
+        card.classList.remove('eb-bos');
+        busy = false;
+      }
       async function drop(card, ghost, text) {
+        busy = true;
         const z = zone.getBoundingClientRect();
         const right = text === q.a[0];
         if (ghost) {
@@ -143,6 +183,7 @@ const englishBalon = (() => {
           const g = ghost.getBoundingClientRect();
           await fly(ghost, { x: g.left, y: g.top, s: 1.08 }, { x: z.left + z.width / 2 - g.width / 2, y: z.top + z.height / 2 - g.height / 2, s: 0.9 }, 220);
         }
+        if (stale()) { ghost?.remove(); return; }
         if (right) {
           ghost?.remove();
           card.classList.remove('eb-bos');
@@ -154,6 +195,7 @@ const englishBalon = (() => {
           if (ghost) {
             ghost.classList.add('eb-titre');
             await new Promise(r => setTimeout(r, calm.matches ? 0 : 420));
+            if (stale()) { ghost.remove(); return; }
             const g = ghost.getBoundingClientRect(), home = card.getBoundingClientRect();
             await fly(ghost, { x: g.left, y: g.top, s: 0.9 }, { x: home.left, y: home.top, s: 1 }, 380);
             ghost.remove();
@@ -161,6 +203,7 @@ const englishBalon = (() => {
           } else {
             card.classList.remove('eb-titre'); void card.offsetWidth; card.classList.add('eb-titre');
           }
+          busy = false;
         }
       }
       function win(card, text) {
@@ -191,10 +234,10 @@ const englishBalon = (() => {
         alt.append(info, go);
         setTimeout(() => go.focus({ preventScroll: true }), 200);
       }
-      root.querySelector('.eb-soru').focus({ preventScroll: true });
+      root.querySelector('.eb-metin').focus({ preventScroll: true });
     }
     next();
-    return () => { live.on = false; sus(); for (const g of document.querySelectorAll('.eb-surukle')) g.remove(); };
+    return () => { live.on = false; token++; while (cleanups.length) cleanups.pop()(); sus(); temizle(); };
   }
   return { oyna, say };
 })();

@@ -7,6 +7,12 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.101.1 · 28.11.2026
+
+- **English, takılı kalan kart düzeltildi:** Balon sorusunda bir kart balondan uzağa bırakılınca (ya da telefon sürüklemeyi kesince) kartın kopyası ekranda takılı kalıyor, sonraki soruda yeni şıkların üstüne biniyordu. Artık kart yumuşakça yerine dönüyor; her yeni soruda ekran tamamen temizleniyor ve yalnızca o sorunun 3 şıkkı görünüyor. Bir kart yerine dönerken ikinci bir kart sürüklenemiyor.
+- **Soru metni iki parça:** Sahneyi anlatan cümle (“Maya okuldan eve geldi. Annesi onu kapıda karşılıyor.”) orta boyda ve yumuşak kahverengi-gri; asıl soru (“Annesi ne der?”) altında daha büyük, kalın ve turuncu.
+- **Tanıtım kartlarının resimleri keskin:** Selamlaşma’nın 43 kartı yeniden yüklenen büyük resimlerle (1024 piksel) değiştirildi; telefonda artık pikseller görünmüyor. Leo ve Maya’nın baloncuk yazıları da büyük resimlerden yeniden yazıldı.
+
 ## 0.101.0 · 28.11.2026
 
 - **English, ilk sorular: Balon sorusu.** Selamlaşma istasyonunun 1. etabında tanıtım kartlarından sonra üç soru geliyor: Leo eve dönüyor, Leo sınıfa giriyor, Maya eve dönüyor; annesi ya da öğretmeni onları karşılarken ne der?

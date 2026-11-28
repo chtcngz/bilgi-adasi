@@ -27,7 +27,6 @@ Haritada her birinin koyu bulutların altında, kilitli ve “Yakında” olarak
 
 - [ ] **İlk Adımlar’ın soruları:** sahibi istediğinde, yalnızca istasyonların kelime listelerindeki kelimelerle
 - [ ] **Alfabe, Sayılar, Soru kelimeleri istasyonlarının kelime listeleri** (sahibinden)
-- [ ] **Selamlaşma resimlerinin büyük hâlleri:** resimler 256 piksel yüklendi; 1024 pikselle yeniden yüklenince oyuna işlenecek (baloncuk yazıları da yeniden)
 - [ ] **2. bölüm, Temel Kavramlar:** Renkler, Şekiller, Zıt Kavramlar, Yönler
 - [ ] **3. bölüm, İnsan:** Aile, Vücut, Kişilik, Duygular, Kıyafetler
 - [ ] **4. bölüm, Okul:** Okuldaki İnsanlar, Okul Eşyaları, Okulun Bölümleri, Dersler, Sınıf Dili

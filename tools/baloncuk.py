@@ -9,9 +9,11 @@ from scipy import ndimage
 
 FONT = sys.argv[6]  # a hand-drawn font, e.g. Patrick Hand (npm pack @fontsource/patrick-hand → files/patrick-hand-latin-400-normal.woff)
 src, out, sx, sy, text = sys.argv[1], sys.argv[2], int(sys.argv[3]), int(sys.argv[4]), sys.argv[5]
-S = 4
 im0 = Image.open(src).convert('RGB')
 W, H = im0.size
+# small pictures are worked on four times larger, so the new text is smooth
+S = 4 if W < 600 else 1
+F = W * S / 256   # the working picture's scale against a 256 px one: outline and margins grow with it
 im = im0.resize((W * S, H * S), Image.LANCZOS)
 a = np.asarray(im).astype(int)
 seed = (sy * S, sx * S)
@@ -23,7 +25,7 @@ if comp[0].any() or comp[-1].any() or comp[:, 0].any() or comp[:, -1].any():
     sys.exit('bubble leaks to the border: ' + src)
 inside = ndimage.binary_fill_holes(comp)
 # keep clear of the outline
-inner = ndimage.binary_erosion(inside, iterations=3 * S)
+inner = ndimage.binary_erosion(inside, iterations=max(1, round(3 * F)))
 holes = inside & ~comp
 lum = a.mean(2)
 ink = holes & (lum < bg.mean() - 60)
@@ -34,7 +36,7 @@ if ink.sum() > 20:
 else:
     colour = (40, 50, 70)
 # paint the inside with the bubble's colour (a slight erosion keeps the outline untouched)
-paint = ndimage.binary_erosion(inside, iterations=S)
+paint = ndimage.binary_erosion(inside, iterations=max(1, round(F)))
 b = a.copy()
 b[paint] = bg
 canvas = Image.fromarray(b.astype('uint8'))
@@ -52,7 +54,7 @@ def layouts():
         for j in range(i + 1, len(words)):
             yield [' '.join(words[:i]), ' '.join(words[i:j]), ' '.join(words[j:])]
 best = None
-for size in range(40 * S, 6 * S, -S):
+for size in range(int(H * S * 0.24), 6 * S, -1):
     font = ImageFont.truetype(FONT, size)
     for lines in layouts():
         gap = int(size * 0.02)

@@ -13,7 +13,7 @@
   const $ = id => document.getElementById(id);
   const dialog = $('eng1-game'), stage = $('eng1-stage');
   const esc = t => String(t ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
-  const RESIM = name => 'assets/images/english/' + name + '.webp?v=1';
+  const RESIM = name => 'assets/images/english/' + name + '.webp?v=2';
   const KEY = id => 'ingilizce-english-' + id;
   let progress = { etap: {}, soru: {} };
   let cancel = null;

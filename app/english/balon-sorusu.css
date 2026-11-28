@@ -8,7 +8,9 @@
 .eb-sayi i { width: 22px; height: 8px; border-radius: 4px; background: #e3dccd; }
 .eb-sayi i.done { background: #51cf66; }
 .eb-sayi i.now { background: #ffb703; }
-.eb-soru { margin: 0; font-size: clamp(20px, 5vw, 26px); line-height: 1.3; font-weight: 900; color: #173f40; outline: none; }
+.eb-metin { display: grid; gap: 4px; outline: none; }
+.eb-durum { margin: 0; font-size: 17px; line-height: 1.4; font-weight: 600; color: #6b5a4e; }
+.eb-soru { margin: 0; font-size: 22px; line-height: 1.25; font-weight: 900; color: #e8590c; }
 .eb-sahne { position: relative; border-radius: 20px; overflow: hidden; box-shadow: 0 6px 18px rgba(23, 63, 64, .16); background: #f3ead7; }
 .eb-sahne img { display: block; width: 100%; height: auto; pointer-events: none; }
 .eb-balon { position: absolute; display: grid; place-items: center; border-radius: 50%; transition: background-color .2s, box-shadow .2s; }
