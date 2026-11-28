@@ -113,7 +113,10 @@ app/                         Published site (GitHub Pages root)
 │                            ⇄ pick a new clip) stays in localStorage; "Seçimleri kopyala" copies the ones not in
 │                            secimler.js yet, and Claude adds them there (its ilkHal: letters recorded
 │                            again, whose rows show only the game's clip; ayni: a reading that plays another's chosen clip;
-│                            temizle: old local choices the page drops once, when secimler.js has taken them back). index.html, sayfa.js, sayfa.css, secimler.js;
+│                            temizle: old local choices the page drops once, when secimler.js has taken them back;
+│                            oyunda: new clips copied into the game's girl voice, assets/audio/elif-ba/cocuk/, which the
+│                            page no longer lists as new: their reading's game clip, in onay, is that one now).
+│                            index.html, sayfa.js, sayfa.css, secimler.js;
 │                            ses/<id>.mp3 and liste.js are written by tools/ses_kes.py: do not edit them by hand
 ├── kontrol.html             Resim kontrolü: the owner picks İngilizce Koyu's pictures by hand and copies the choices (not linked)
 ├── admin/                   Yönetici sayfası: every player of every device, read from the cloud copy; signs in with
@@ -188,7 +191,7 @@ sources/                     Raw material (not published)
   `cihazKimligi` (`core/js/bulut-ayar.js`): nobody gives it, and it never changes while the device keeps its account. The
   admin page names every device by it and filters by it (*Cihaz:* chips, or a device in the players' table; the choice
   stays in the address as `#cihaz=K7Q-X2M,…`), and the game shows it at the bottom of Settings, to tell which tablet is
-  which. The admin page hides the documents such copies sent before 0.44.1 (version *geliştirme*) behind a *göster* link. Deleting a player (Settings → Oyuncu, confirmed by typing SİL) sends the change at once, so the player leaves the admin page; when a device has no players left, its document is deleted. The Firestore rules (set in the Firebase console) let a device write only its own document and only the admin account read them:
+  which. The admin page hides the documents such copies sent before 0.44.1 (version *geliştirme*) behind a *göster* link. Deleting a player (Settings → Oyuncu, confirmed by typing SİL) sends the change at once, so the admin page no longer lists the player on this device; when a device has no players left, its document is deleted. The Firestore rules (set in the Firebase console) let a device write only its own document and only the admin account read them:
   ```
   match /cihazlar/{uid}/{doc=**} {
     allow read: if isAdmin() || (request.auth != null && request.auth.uid == uid);
@@ -208,8 +211,17 @@ sources/                     Raw material (not published)
   the device where the player last played wins. A newer copy that lacks a key this device keeps (an
   island, the aquarium) is not taken: this device's copy goes up as the newest instead, and no key is ever removed by a
   copy from the cloud. The code is the only key to the document (anyone signed in who knows
-  it may read and write it, nobody but the admin may list them), so it is shown only in Settings. Deleting a player
-  deletes their document too; another device that still has the player sends it again when they play there. The admin
+  it may read and write it, nobody but the admin may list them), so it is shown only in Settings. **Deleting a player** takes them off
+  this device only: their document stays, so their progress on the other devices stays and the code brings them back
+  (here too). If their last changes had not gone up yet (deleted within seconds, or offline), `sync.js` keeps that last
+  copy (`birak` in its state) and sends it, unless the cloud has a newer copy by then. The box *Her yerden sil* deletes
+  them everywhere: their document becomes a tombstone (`{ silindi, cihaz, son }`, written over it rather than deleted, so the other
+  devices can tell a deleted player from a missing copy), the code no longer
+  loads anyone (*Bu kodun oyuncusu her yerden silinmiş.*), and every other device drops the player, keys and all, the
+  next time the page opens there online (tazele), unless the player is being played there just then. No device sends a
+  tombstoned player's document again, and while tazele reads the documents at page open no player's document is sent,
+  so a copy that is behind cannot overwrite a newer one or a tombstone first. A device that keeps the page open and plays
+  the player before reloading can still send them again: tazele runs only when the page opens. The admin
   page lists a player found on several devices once, naming every device.
   Google sign-in on the admin page needs Google turned on in Firebase (Authentication → Sign-in method), and the
   site's address (`https://chtcngz.github.io`) under *Authorized JavaScript origins* of that Web client in Google

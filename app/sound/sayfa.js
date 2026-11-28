@@ -8,7 +8,8 @@
 // assets/audio/elif-ba/kayitlar.js, with elifData from islands/elif-ba/data.js for the writing), on the right the new clips
 // cut from the owner's recordings (window.sesListesi, sound/liste.js) of the same letter and hareke.
 // The man's clips (Diyanet, elifRecordings.harf …) stay in kayitlar.js and in oyun() below, but are not shown (ERKEK_SESI).
-// Choices: those the owner sent are window.sesSecimleri (sound/secimler.js), shown as "Kayıtlı" and not changed here;
+// Choices: those the owner sent are window.sesSecimleri (sound/secimler.js), shown as "Kayıtlı" and not changed here (a new
+// clip copied into the game, in its oyunda, is no longer listed: the game's clip on the left is that one now);
 // a new one stays in this browser (localStorage): a game clip approved (✓ Onayla) is 'cocuk:hece:1-0' in
 // bilgi-adasi-ses-onaylar, a new clip chosen (⇄ Bunu kullan) is its id in bilgi-adasi-ses-secimleri, and
 // "Seçimleri kopyala" copies the ones not saved yet.
@@ -22,8 +23,10 @@
   const G = window.elifRecordings || {};
   const C = G.cocuk || {};
   const D = elifData;     // a top-level const of data.js, not a window property
-  const yeni = [...(window.dadKayitlari || []), ...(window.sesListesi?.sesler || []), ...(window.sesAdaylari || [])];
   const KAYIT = window.sesSecimleri || { onay: [], yeni: [] };
+  // the new clips, but for those copied into the game (KAYIT.oyunda): the game's clip is now the same one
+  const oyunda = new Set(KAYIT.oyunda || []);
+  const yeni = [...(window.dadKayitlari || []), ...(window.sesListesi?.sesler || []), ...(window.sesAdaylari || [])].filter(s => !oyunda.has(s.id));
   const solKayit = new Set(KAYIT.solKayit || []);
   const ilkHal = new Set(KAYIT.ilkHal || []);   // letters recorded again: their rows show only the game's clip
   const kayitliOnay = new Set([...KAYIT.onay, ...solKayit]), kayitliYeni = new Set(KAYIT.yeni);

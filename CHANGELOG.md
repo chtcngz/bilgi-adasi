@@ -7,11 +7,20 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
-## 0.120.0 · 28.11.2026
+## 0.122.0 · 28.11.2026
 
 - **Elif Ba, şeddeli heceler artık bölünmeden okunuyor:** Şeddeli heceler “bis … se” gibi iki ayrı kelime gibi duyuluyordu: cezimli hece son harfini uzatıp söndürüyor, ikinci hece o harfi yeniden başlatıyordu; be, dal, kaf gibi harflerde cezimli hecenin sonundaki yankı da araya giriyordu (“kad-ə de”). Şimdi iki kayıt şeddeli harfin içinde birleşiyor: harf tek, uzun ve kesintisiz okunuyor (bisse, kadde, menne); mim ve nun gunneyle daha uzun. 84 şeddeli hecenin hepsi yeniden yapıldı.
 - **Şeddesizler de aynı sesle:** Karşılaştırma için okunan şeddesiz heceler (bise, kade) aynı ünlüden, harf kısa okunarak yapıldı; şeddeli ile şeddesiz yalnızca harfin uzunluğuyla ayrılıyor.
 - **Cezm ve Şedde adacıklarında yalnızca erkek sesi:** Ayarlarda kız çocuk sesi seçili olsa da Cezm ve Şedde adacıklarında (kartlar, ♪, turlar, oyunlar, Cam Köprü) bütün heceler erkek sesiyle okunuyor; “bi … bis” ve “bis, se, bisse” artık iki farklı sesle değil. Haritada ve öteki adacıklarda seçilen ses geçerli.
+## 0.121.0 · 28.11.2026
+
+- **Oyuncu silmek artık yalnızca bu cihazdan siler:** Ayarlar → Oyuncu → Oyuncuyu sil, oyuncuyu ve ilerlemesini yalnızca bu cihazdan (bu tarayıcıdan) siler. Oyuncunun başka cihazlardaki ilerlemesi ve buluttaki kopyası kalır; oyuncu koduyla istenen cihaza yeniden getirilebilir. Silmeden hemen önce yapılan ve buluta henüz gitmemiş değişiklikler de (internet yokken bile, bağlanınca) buluta gönderilir.
+- **“Her yerden sil” kutusu:** İşaretlenirse oyuncu bu cihazdan, buluttan ve açıldığı bütün öteki cihazlardan silinir (o cihazlarda oyun internete bağlıyken açılınca). Oyuncu kodu artık çalışmaz: kod yazılınca “Bu kodun oyuncusu her yerden silinmiş.” der.
+
+## 0.120.0 · 28.11.2026
+
+- **Elif Ba, Sesler sayfasında seçilen sesler oyunda (kız sesi):** Ze harfinin adı yeni kayıtla, kızın üstünlü “ze” okuyuşundan çalınıyor; Tı ve Zı harflerinin adı olarak üstünlü okunuşları (ta, za) çalınıyor. Hemzenin üç harekeli ve üç tenvinli okuması da oyunun kayıtlarına eklendi (oyun şimdilik bunları çalmıyor).
+- Sesler: Seçilenler’deki her kart oyunun kendi kaydını çalıyor; oyuna alınan yeni kayıtlar artık sağ sütunda listelenmiyor.
 
 ## 0.119.0 · 28.11.2026
 

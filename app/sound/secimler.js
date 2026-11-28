@@ -2,6 +2,8 @@
 // in its ✓ Seçilenler tab, marks them "kayıtlı" in the sections and lists every reading without one under 🎙 Seslendirilecekler.
 // onay: the game's clips approved (✓), as the page names them (cocuk:<kind>:<key> in elifRecordings.cocuk);
 // yeni: the new clips chosen (⇄), ids of sound/liste.js (sound/ses/<id>.mp3). Add a later choice here when the owner sends it.
+// oyunda: new clips copied into the game (assets/audio/elif-ba/cocuk/); their reading's game clip is now the same one, so
+// it moves to onay and the page no longer lists the copy among the new clips.
 window.sesSecimleri = {
   // ilkHal: letters recorded again from the start (Dad, 28.11.2026): every reading of them (harekesiz, harekeli, tenvin) is
   // under 🎙 Seslendirilecekler with only the game's own clip; their new clips stay in the code, hidden.
@@ -18,7 +20,14 @@ window.sesSecimleri = {
       'aday-harf-16-r2'
     ] }
   ],
+  // 28.11.2026: the chosen new clips are the game's own (Ze; the hemze's three harekeli and three tenvinli readings)
+  oyunda: [
+    'aday-harf-10',
+    'ustun-hemze', 'esre-hemze', 'otre-hemze', 'iki-ustun-hemze', 'iki-esre-hemze', 'iki-otre-hemze'
+  ],
   onay: [
+    'cocuk:harf:10', 'cocuk:hece:hemze-0', 'cocuk:hece:hemze-1', 'cocuk:hece:hemze-2',
+    'cocuk:tenvin:hemze-0', 'cocuk:tenvin:hemze-1', 'cocuk:tenvin:hemze-2',
     'cocuk:harf:1', 'cocuk:harf:5', 'cocuk:harf:6', 'cocuk:harf:7', 'cocuk:harf:8', 'cocuk:hece:26-2',
     'cocuk:harf:0', 'cocuk:harf:hemze', 'cocuk:harf:2', 'cocuk:harf:3', 'cocuk:harf:4', 'cocuk:harf:9',
     'cocuk:harf:11', 'cocuk:harf:12', 'cocuk:harf:13', 'cocuk:harf:19', 'cocuk:harf:20', 'cocuk:harf:21',
@@ -55,8 +64,5 @@ window.sesSecimleri = {
     'cocuk:tenvin:25-1', 'cocuk:tenvin:25-2', 'cocuk:tenvin:26-0', 'cocuk:tenvin:26-1', 'cocuk:tenvin:26-2',
     'cocuk:tenvin:27-0', 'cocuk:tenvin:27-1', 'cocuk:tenvin:27-2'
   ],
-  yeni: [
-    'aday-harf-10',
-    'ustun-hemze', 'esre-hemze', 'otre-hemze', 'iki-ustun-hemze', 'iki-esre-hemze', 'iki-otre-hemze'
-  ]
+  yeni: []
 };

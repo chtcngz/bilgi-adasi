@@ -102,10 +102,20 @@ const versionText = (() => {
   // Deleting asks for a typed word, so a child tapping around cannot do it by accident.
   const confirmWord = 'SİL';
   const confirmed = () => $('delete-confirm').value.trim().toLocaleUpperCase('tr-TR') === confirmWord;
+  // Deleting takes the player off this device only; the box deletes them everywhere (every device and the cloud).
+  function syncEverywhere() {
+    const everywhere = $('delete-everywhere').checked;
+    $('delete-here-note').hidden = everywhere;
+    $('delete-all-note').hidden = !everywhere;
+    $('delete-player').textContent = everywhere ? 'Her yerden sil' : 'Sil';
+  }
   function disarmDelete() {
     $('delete-confirm').value = '';
     $('delete-player').disabled = true;
+    $('delete-everywhere').checked = false;
+    syncEverywhere();
   }
+  $('delete-everywhere').onchange = syncEverywhere;
   $('delete-confirm').oninput = () => { $('delete-player').disabled = !confirmed(); };
   // The field sits inside the edit form: Enter there deletes (once the word is right) instead of saving.
   $('delete-confirm').onkeydown = e => {
@@ -116,20 +126,10 @@ const versionText = (() => {
   $('delete-player').onclick = () => {
     if (!confirmed()) return;
     const profile = activeProfile;
-    profiles.splice(profiles.indexOf(profile), 1);
-    sessionProgress.delete(profile.id);
-    try {
-      // Every key of this player ends in its id (carpim-adasi-oyuncu-, elif-ba-v2-, elif-ba-hiz-, din-bilgisi- …).
-      const keys = [];
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.endsWith('-' + profile.id)) keys.push(key);
-      }
-      for (const key of keys) localStorage.removeItem(key);
-    } catch {}
-    saveProfiles();
-    // The cloud copy changes now, not a few seconds later, so the admin page drops the player too.
-    bulut.oyuncuSilindi(profile.id, profile.kod);
+    // The cloud copy changes now, not a few seconds later, so the admin page drops the player from this device too.
+    // Only here, the player's own document stays (their progress on the other devices, the code); everywhere, it goes.
+    bulut.oyuncuSilindi(profile, $('delete-everywhere').checked);
+    removePlayer(profile);
     window.speechSynthesis?.cancel();
     activeProfile = null;
     for (const view of ['catalog', 'elif-view', 'game-tools', 'settings-button', 'aquarium-button']) $(view).hidden = true;
