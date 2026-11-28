@@ -143,8 +143,11 @@
         cancel = null;
         // skipping the cards (⏭) goes to the questions when there are any, else back to the etaps without finishing it
         if (!questions.length) { if (skipped) openStation(ada, st); else finish(); return; }
+        // the etap's questions in a new order every time, so the same answer does not come three times in a row
+        const mixed = [...questions];
+        for (let i = mixed.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [mixed[i], mixed[j]] = [mixed[j], mixed[i]]; }
         cancel = englishBalon.oyna({
-          stage, sorular: questions, maskot: activeProfile?.icon,
+          stage, sorular: mixed, maskot: activeProfile?.icon,
           sonuc: (q, right) => { const row = progress.soru[q.id] ||= { d: 0, y: 0 }; row[right ? 'd' : 'y']++; save(); },
           bitti: finish
         });

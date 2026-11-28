@@ -7,6 +7,12 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.103.0 · 28.11.2026
+
+- **English, 3 yeni soru: Good afternoon!** Öğleden sonra beden eğitimi dersinde öğretmen Maya ve Leo’yu selamlıyor; öğle yemeğinden sonra Leo ve Maya okul kapısında karşılaşıyor; öğleden sonra Maya parkta Leo’yu görüyor. Şıklar: Good afternoon!, Good evening!, Good night!. 1. etapta artık 9 soru var.
+- **Sorular karışık geliyor:** Bir etabın soruları her seferinde farklı sırayla geliyor; çocuk aynı cevabı art arda üç kez vermiyor.
+- Okul kapısındaki resimde sabahı çağrıştıran “A New Day A New Opportunity” levhasının yazısı silindi.
+
 ## 0.102.0 · 28.11.2026
 
 - **English, 3 yeni soru: Good morning!** Selamlaşma’nın 1. etabında Welcome! sorularından sonra üç soru daha geliyor: Maya ve Leo sabah okulun önünde karşılaşıyor (Maya, Leo’ya ne der?); Maya sabah uyanıyor, Leo sabah uyanıyor (annesi ne der?). Şıklar günün başka saatlerinin selamları: Good evening!, Good night!, Goodbye!. 1. etapta artık 6 soru var.

@@ -45,7 +45,10 @@ the owner says otherwise, work only on bölüm 1 (İlk Adımlar: Greetings, Alph
   it; tapping a card says it. A question belongs to the etap of its word (`k[0]`) and comes after that etap's cards. Its picture
   goes to `assets/images/english/soru/` with the bubble's "?" painted out (the game draws the "?"), and any writing in the
   picture that gives the answer away (a "Welcome" sign) is painted out too. Wrong options are words of the list that are
-  clearly wrong in the scene (not another right greeting).
+  clearly wrong in the scene. **In a greeting question (set by the owner) a wrong option is never another greeting that could
+  be right (Good morning, Hi, Hello …) and never a farewell (Goodbye, Bye, See you …)**: the time-of-day greetings that do not
+  fit (Good evening, Good night …) are the wrong options. A scene with no clock says the time in its Turkish story
+  ("Öğleden sonra …"). An etap's questions come in a new order every time.
 - The characters: the boy is **Leo**, 9 years old; the girl is **Maya**, 10. A picture whose bubble needs other words gets them
   with `tools/baloncuk.py` (the owner asks for the bubble's text; e.g. "My name is Leo.", "I’m 9 years old.").
 - The owner picks the pictures of the words and of the questions on `…/english/resimler/` (up to six each, first = main; grouped

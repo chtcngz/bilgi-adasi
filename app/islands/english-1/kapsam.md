@@ -14,7 +14,7 @@ sahibi istemeden yazılmaz. Bir kelimenin soruları yazılınca maddenin sonuna 
 - hello = merhaba
 - hi = selam
 - good morning = günaydın → ilk:3, ilk:4, ilk:5
-- good afternoon = tünaydın, iyi öğleden sonralar
+- good afternoon = tünaydın, iyi öğleden sonralar → ilk:6, ilk:7, ilk:8
 - good evening = iyi akşamlar
 - good night = iyi geceler
 - goodbye = hoşça kal
