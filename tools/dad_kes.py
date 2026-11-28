@@ -37,13 +37,40 @@ da = clean(1.705,2.066,[(1.55,1.69),(2.08,2.38)])
 di = clean(3.132,3.605,[(2.84,3.12),(3.64,3.84)])
 dan = clean(6.196,6.804,[(5.99,6.18),(6.82,7.10)])
 dun = clean(9.207,9.905,[(8.93,9.19),(9.90,9.99)])
-# The nasal starts around 9.58 s. Ease the last 65 ms of the vowel to silence.
-du = dun[:round((9.576-9.207)*rate)].copy()
-n = round(.065*rate)
+def isolate_voiced(take):
+    # These voiced segments have a dominant fundamental between 200 and 350 Hz.
+    # Follow its harmonics to reject moving accompaniment left by subtraction.
+    window, hop, fft = 1536, 128, 8192
+    params = dict(fs=rate, nperseg=window, noverlap=window-hop, nfft=fft)
+    freq, _, spec = stft(take, **params)
+    band = np.flatnonzero((freq >= 190) & (freq <= 360))
+    peak = band[np.argmax(abs(spec[band]), axis=0)]
+    pitch = freq[peak]
+    harmonic = np.rint(freq[:, None] / pitch)
+    distance = abs(freq[:, None] - harmonic*pitch)
+    width = 31 + np.minimum(harmonic*3.2, 85)
+    mask = np.exp(-.5*(distance/width)**2) * (harmonic >= 1)
+    return istft(spec*mask, **params)[1][:len(take)]
+
+
+# Start with the actual voiced closure, after the exposed bass note.
+du = isolate_voiced(dun[round((9.282-9.207)*rate):round((9.558-9.207)*rate)])
+# Extend the u before its nasal transition. Align a short piece of sustained
+# vowel by phase so the decay has room without bringing back the final n.
+overlap = round(.012*rate)
+segment = du[-round(.049*rate):]
+windows = np.lib.stride_tricks.sliding_window_view(segment[:overlap+round(.004*rate)], overlap)
+shift = np.argmax((windows @ du[-overlap:]) / (np.linalg.norm(windows, axis=1)+1e-9))
+grain = segment[shift:]
+mix = np.linspace(0,1,overlap)
+for _ in range(2):
+    du = np.concatenate([du[:-overlap],du[-overlap:]*(1-mix)+grain[:overlap]*mix,grain[overlap:]])
+n = round(.15*rate)
 du[-n:] *= np.cos(np.linspace(0,np.pi/2,n))**2
-# Join the sustained i to the onset of dan's nasal, matching waveform phase.
-left = di[:round((3.485-3.132)*rate)]
-right = dan[round((6.493-6.196)*rate):]
+
+# Isolate the i and nasal separately, dropping the music-only lead and tail.
+left = isolate_voiced(di[round((3.222-3.132)*rate):round((3.485-3.132)*rate)])
+right = isolate_voiced(dan[round((6.493-6.196)*rate):round((6.766-6.196)*rate)])
 n = round(.025*rate)
 windows = np.lib.stride_tricks.sliding_window_view(right[:n+round(.006*rate)], n)
 phase = np.argmax((windows @ left[-n:]) / (np.linalg.norm(windows,axis=1)+1e-9))
