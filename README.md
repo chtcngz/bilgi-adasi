@@ -46,7 +46,7 @@ app/                         Published site (GitHub Pages root)
 │       ├── ingilizce-oyunlari.css  The .og-* look of İngilizce Koyu's mini games
 │       └── akvaryum.css     The tank, the reward card, the header button and the card in Keşif Limanı
 ├── assets/                  All media in one place
-│   ├── fonts/               Nunito + license
+│   ├── fonts/               Nunito + license; baloo-2/ (English for Kids' story card)
 │   ├── images/              Shared images (ada-atlasi.jpg)
 │   └── audio/
 │       ├── ui/              Effect sounds (tools/make_sounds.py generates them)
@@ -236,7 +236,11 @@ A second site at `…/bilgi-adasi/english/` (`app/english/index.html`) teaches E
   the picture) and three cards (`a`, the first right). The zone waits glowing and breathing in the three cards'
   colours in turn (`--r1`–`--r3`, 6 s; colours only on a device asking for less motion; the "?" takes the zone's
   `color`, which the zone's own animation turns: Safari does not update a child's animation that reads inherited variables), glows in the held card's colour
-  while a card is dragged (`.tutuluyor`) and stands still once solved. Tap: the English is said (a recording if there is one, else the device's
+  while a card is dragged (`.tutuluyor`) and stands still once solved.
+  The question fills the game window exactly and never scrolls (a drag must not move the page): a story card on top (the
+  scene, then the question on an orange ribbon, in the rounded font Baloo 2, `assets/fonts/baloo-2/`, OFL; Fredoka has no
+  ş, ğ, İ), the picture in the room left (`fit()` keeps its shape so the bubble stays on it), the cards at the bottom; once
+  solved the cards give their place to the explanation and *Sonraki Soru*. Tap: the English is said (a recording if there is one, else the device's
   en-US voice at 0.75). Drag (Pointer Events: mouse, touch, pen; a copy follows the finger): dropped on or near the bubble it
   snaps in; right → the word stays in the bubble as a label, the others fade, stars and confetti, the word said again,
   *Sonraki Soru ▶*; wrong → it shakes and slides back. Only the first drop counts (`soru` in the progress). `tools/kapsam.js`

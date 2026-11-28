@@ -69,12 +69,27 @@ const englishBalon = (() => {
       c.stage.innerHTML = '<div class="eb">' +
         '<div class="eb-ust"><span class="eb-maskot" aria-hidden="true">' + esc(c.maskot || '🦊') + '</span>' +
         '<span class="eb-sayi" aria-label="' + n + ' / ' + total + '">' + Array.from({ length: total }, (_, i) => '<i class="' + (i < n - 1 ? 'done' : i === n - 1 ? 'now' : '') + '"></i>').join('') + '</span></div>' +
-        '<div class="eb-metin" id="eng1-prompt" tabindex="-1">' + (metin.durum ? '<p class="eb-durum">' + esc(metin.durum) + '</p>' : '') +
-        '<h2 class="eb-soru">' + esc(metin.soru) + '</h2></div>' +
-        '<div class="eb-sahne"><img src="' + esc(RESIM(b.resim)) + '" alt="" draggable="false">' +
-        '<div class="eb-balon" style="left:' + b.x + '%;top:' + b.y + '%;width:' + b.w + '%;height:' + b.h + '%"><span class="eb-soru-isareti" aria-hidden="true">?</span></div></div>' +
-        '<div class="eb-kartlar" role="group" aria-label="Şıklar"></div><div class="eb-alt"></div></div>';
+        // the story card: the scene, then the question on an orange ribbon
+        '<div class="eb-metin" id="eng1-prompt" tabindex="-1"><span class="eb-metin-simge" aria-hidden="true">📖</span><div>' +
+        (metin.durum ? '<p class="eb-durum">' + esc(metin.durum) + '</p>' : '') + '<h2 class="eb-soru"><span>' + esc(metin.soru) + '</span></h2></div></div>' +
+        // the picture takes the room left between the story card and the cards (fit(), below), never more
+        '<div class="eb-sahne-alan"><div class="eb-sahne"><img src="' + esc(RESIM(b.resim)) + '" alt="" draggable="false">' +
+        '<div class="eb-balon" style="left:' + b.x + '%;top:' + b.y + '%;width:' + b.w + '%;height:' + b.h + '%"><span class="eb-soru-isareti" aria-hidden="true">?</span></div></div></div>' +
+        '<div class="eb-dip"><div class="eb-kartlar" role="group" aria-label="Şıklar"></div><div class="eb-alt"></div></div></div>';
       const root = c.stage.querySelector('.eb'), zone = root.querySelector('.eb-balon'), cards = root.querySelector('.eb-kartlar'), alt = root.querySelector('.eb-alt');
+      // The whole question fits the screen with no scrolling (a drag must never move the page): the picture is as large as the
+      // room between the story card and the cards allows, keeping its shape, so the bubble stays on it.
+      const area = root.querySelector('.eb-sahne-alan'), scene = root.querySelector('.eb-sahne'), img = scene.querySelector('img');
+      const fit = () => {
+        const ratio = img.naturalWidth && img.naturalHeight ? img.naturalWidth / img.naturalHeight : 1.5;
+        const w = Math.max(80, Math.min(area.clientWidth, area.clientHeight * ratio));
+        scene.style.width = Math.floor(w) + 'px';
+      };
+      const watch = new ResizeObserver(fit);
+      watch.observe(area);
+      img.addEventListener('load', fit);
+      fit();
+      cleanups.push(() => watch.disconnect());
       const mascot = root.querySelector('.eb-maskot');
       let solved = false, first = true;
       const colours = shuffled(COLOURS);
@@ -223,6 +238,8 @@ const englishBalon = (() => {
           if (word.offsetWidth <= wide * 0.9) break;
         }
         for (const other of cards.children) { other.disabled = true; other.classList.add(other === card ? 'eb-secildi' : 'eb-pasif'); }
+        // the answer is in the bubble now: the cards give their place to the explanation and the next button (no scrolling)
+        root.classList.add('cozuldu');
         mascot.classList.remove('mutlu', 'uzgun'); void mascot.offsetWidth; mascot.classList.add('mutlu');
         playCue('correct');
         fx.burst(zone, { count: 14, symbols: ['★', '✦', '⭐'], spread: 110 });

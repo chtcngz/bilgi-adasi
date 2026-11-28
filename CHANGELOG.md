@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.108.0 · 28.11.2026
+
+- **English, balon sorusunun yeni ekranı:** Sahne cümlesi ve soru, yumuşak köşeli, krem renkli bir hikâye kartının içinde; yazılar yuvarlak hatlı, sevimli bir yazı tipiyle (Baloo 2). Soru (“Annesi ne der?”) turuncu bir şerit üzerinde öne çıkıyor.
+- **Ekran hiç kaymıyor:** Hikâye kartı, resim ve üç şık her telefon ekranına birlikte sığıyor; resim kalan alana göre büyüyüp küçülüyor, şıkları ekran dışına itmiyor. Doğru cevaptan sonra açıklama ve “Sonraki Soru” düğmesi şıkların yerine geçiyor; sürükle-bırak sırasında sayfa oynamıyor.
+
 ## 0.107.1 · 28.11.2026
 
 - **English, “?” işareti de renk değiştiriyor:** Balon sorusunda “?” balonunun halkası renk değiştirirken içindeki “?” işareti iPhone ve iPad’de hep aynı renkte kalıyordu. Artık “?” işareti de halkayla aynı anda, aynı renge dönüyor.
