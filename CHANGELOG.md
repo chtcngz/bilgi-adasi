@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.116.10 · 28.11.2026
+
+- Sesler: Harekesiz tı ve zı, üstünlü tı (ta) ve üstünlü zı (za) ile aynı sesi çalıyor.
+- Dad’ın üç harekeli ve üç tenvinli okuması bu cihazda önceden verilmiş onaylardan da temizlendi; Seslendirilecekler’de görünüyor ve Seçilenler’de boş kırmızı kutu.
+
 ## 0.116.9 · 28.11.2026
 
 - Sesler, Seçilenler: Seçilmemiş okumalar da yerinde görünüyor; boş, kırmızı kesik çizgili bir kutu olarak. Harekesiz ve örnek kelimelerde kutunun içinde harf soluk kırmızıyla yazılı. ▶▶ yalnızca seçilen sesleri çalıyor.
