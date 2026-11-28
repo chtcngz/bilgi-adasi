@@ -34,8 +34,8 @@ sahibi istemeden yazılmaz. Bir kelimenin soruları yazılınca maddenin sonuna 
 - What’s your name? = Adın ne? → ilk:32
 - My name is … = Benim adım … → ilk:30
 - I am … / I’m … = Ben … → ilk:28
-- Nice to meet you. = Tanıştığımıza memnun oldum.
-- Nice to meet you, too. = Ben de memnun oldum.
+- Nice to meet you. = Tanıştığımıza memnun oldum. → ilk:33
+- Nice to meet you, too. = Ben de memnun oldum. → ilk:34
 - Welcome! = Hoş geldin! → ilk:0, ilk:1, ilk:2
 - How are you? = Nasılsın?
 - I am fine, thank you. = İyiyim, teşekkür ederim.
