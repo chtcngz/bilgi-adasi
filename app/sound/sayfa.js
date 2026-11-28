@@ -31,6 +31,13 @@
   const load = key => { try { return new Set(JSON.parse(localStorage.getItem(key)) || []); } catch { return new Set(); } };
   const onay = load(ONAY), secim = load(SECIM);
   const kaydet = () => { try { localStorage.setItem(ONAY, JSON.stringify([...onay])); localStorage.setItem(SECIM, JSON.stringify([...secim])); } catch {} };
+  // choices this browser kept that secimler.js has since taken back (KAYIT.temizle): dropped once per etiket
+  try {
+    const TEMIZ = 'bilgi-adasi-ses-temizlik', yapilan = new Set(JSON.parse(localStorage.getItem(TEMIZ)) || []);
+    const sirada = (KAYIT.temizle || []).filter(t => !yapilan.has(t.etiket));
+    for (const t of sirada) { for (const id of t.idler) { onay.delete(id); secim.delete(id); } yapilan.add(t.etiket); }
+    if (sirada.length) { kaydet(); localStorage.setItem(TEMIZ, JSON.stringify([...yapilan])); }
+  } catch {}
   const onaylandi = id => kayitliOnay.has(id) || onay.has(id);
   const secildi = id => kayitliYeni.has(id) || secim.has(id);
   const dakika = s => Math.floor(s / 60) + ':' + (s % 60).toFixed(1).padStart(4, '0');
@@ -46,6 +53,7 @@
     if (girl) out.push({ id: 'cocuk:' + kind + ':' + key, ses: 'Kız sesi', src: girl, calan: true, dosya: 'cocuk/' + file(girl).replace(/^cocuk\//, '') });
     if (man && ERKEK_SESI) out.push({ id: 'kayit:' + kind + ':' + key, ses: 'Erkek sesi', src: man, calan: !girl, dosya: file(man) });
     out.bos = girl ? '' : man ? 'kız sesi yok' : 'oyunda yok';
+    out.anahtar = kind + ':' + key;   // the reading, as secimler.js's ayni names it
     return out;
   }
   function yeniler(kat, harf, h) {
@@ -100,10 +108,16 @@
   ];
   for (const b of BOLUMLER) b.rows = b.satirlar ? b.satirlar() : [];
   const DOLU = BOLUMLER.filter(b => b.rows.length);
+  // a reading that plays the clip chosen for another (KAYIT.ayni, e.g. harekesiz tı = üstün tı) has no clips of its own here
+  const SATIR = new Map(DOLU.flatMap(b => b.rows).map(r => [r.oyun.anahtar, r]));
+  for (const [kim, kimin] of Object.entries(KAYIT.ayni || {})) {
+    const r = SATIR.get(kim), hedef = SATIR.get(kimin);
+    if (r && hedef) { r.ayni = hedef; r.yeni = []; }
+  }
 
   /* ---------- states ---------- */
-  const onayli = r => r.oyun.some(k => onaylandi(k.id));
-  const yenili = r => r.yeni.some(s => secildi(s.id));
+  const onayli = r => r.ayni ? onayli(r.ayni) : r.oyun.some(k => onaylandi(k.id));
+  const yenili = r => r.ayni ? yenili(r.ayni) : r.yeni.some(s => secildi(s.id));
   const secili = r => onayli(r) || yenili(r);
   const bekliyor = r => !secili(r) || r.yeni.some(s => s.incele && !secildi(s.id));
   const FILTRELER = [
@@ -221,8 +235,12 @@
     bas.append(arabic(r.ar), ad, rozetler, hepsiDugmesi(r.ad, () => s));
     const govde = el('div', 'satir-govde');
     const sol = el('div', 'taraf'), sag = el('div', 'taraf');
-    if (!r.oyun.length) sol.append(el('div', 'bos', '— ' + r.oyun.bos));
-    for (const k of r.oyun)
+    const ayniSes = r.ayni && secilenSes(r);
+    if (r.ayni) sol.append(ayniSes
+      ? klip(ayniSes.src, 'Kız sesi · ' + r.ayni.ad + ' ile aynı', ayniSes.dosya, '', secDugmesi('s-ok', true, () => true, ['', '', '✓ Kayıtlı'], () => {}))
+      : el('div', 'bos', '— ' + r.ayni.ad + ' ile aynı olacak; onun sesi seçilmedi'));
+    else if (!r.oyun.length) sol.append(el('div', 'bos', '— ' + r.oyun.bos));
+    if (!r.ayni) for (const k of r.oyun)
       sol.append(klip(k.src, k.ses, k.dosya, k.calan ? 'çalan' : '',
         secDugmesi('s-ok', kayitliOnay.has(k.id), () => onay.has(k.id), ['✓ Onayla', '✓ Onaylı', '✓ Kayıtlı'], () => onay.has(k.id) ? onay.delete(k.id) : onay.add(k.id))));
     if (!r.yeni.length) sag.append(el('div', 'bos', '— yeni kayıt yok'));
@@ -232,13 +250,14 @@
       sag.append(yorumAlani(n, r));
     }
     govde.append(sol);
-    if (!r.oyun.some(k => solKayit.has(k.id))) govde.append(sag);
+    if (!r.ayni && !r.oyun.some(k => solKayit.has(k.id))) govde.append(sag);
     s.append(bas, govde);
     const durumCiz = () => {
       s.classList.toggle('onayli', onayli(r));
       s.classList.toggle('yenili', yenili(r));
       s.classList.toggle('bekliyor', bekliyor(r));
       rozetler.replaceChildren();
+      if (r.ayni) rozetler.append(el('span', 'rozet r-ok', '= ' + r.ayni.ad));
       if (onayli(r)) rozetler.append(el('span', 'rozet r-ok', '✓ onaylı'));
       if (yenili(r)) rozetler.append(el('span', 'rozet r-yeni', '⇄ yenisi'));
       if (bekliyor(r)) rozetler.append(el('span', 'rozet r-bekle', '🎙 seslendirilecek'));
@@ -247,19 +266,27 @@
     durumCiz();
     return s;
   }
-  // a chosen reading as a small card that plays its clip: the new clip when one is chosen, else the approved game clip
-  function kart(r) {
+  // the clip a chosen reading plays: the new clip when one is chosen, else the approved game clip; a reading that is the
+  // same as another (r.ayni) plays that one's
+  function secilenSes(r) {
+    if (r.ayni) return secilenSes(r.ayni);
     const n = r.yeni.find(x => secildi(x.id)), k = r.oyun.find(x => onaylandi(x.id));
-    const src = n ? yeniSrc(n) : k.src;
+    if (n) return { src: yeniSrc(n), yeni: true, dosya: n.id, ad: 'yeni kayıt (' + n.id + ')' };
+    return k ? { src: k.src, dosya: k.dosya, ad: 'kız sesi (' + k.dosya + ')' } : null;
+  }
+  // a chosen reading as a small card that plays its clip
+  function kart(r) {
+    const ses = secilenSes(r), src = ses.src;
     const b = el('button', 'kart');
     b.type = 'button';
     b.dataset.src = src;
-    b.title = r.ad + (n ? ' · yeni kayıt (' + n.id + ')' : ' · kız sesi (' + k.dosya + ')');
+    b.title = r.ad + (r.ayni ? ' · ' + r.ayni.ad + ' ile aynı' : '') + ' · ' + ses.ad;
     b.setAttribute('aria-label', r.ad + ' dinle');
     const yazi = el('span', 'kart-yazi');
     yazi.append(arabic(r.ar), el('small', '', r.okunus || r.ad));
     b.append(el('span', 'oynat', '▶'), yazi);
-    if (n) b.append(el('span', 'etiket', 'yeni'));
+    if (r.ayni) b.append(el('span', 'etiket', '= ' + r.ayni.okunus));
+    else if (ses.yeni) b.append(el('span', 'etiket', 'yeni'));
     b.onclick = () => { sira = null; calan?.el === b ? dur() : cal(src, b); };
     return b;
   }
@@ -440,6 +467,7 @@
     for (const b of DOLU) {
       const parcalar = [];
       for (const r of b.rows) {
+        if (r.ayni) continue;
         const parca = [];
         for (const k of r.oyun) if (onay.has(k.id) && !kayitliOnay.has(k.id)) { parca.push('✓ ' + k.ses.toLocaleLowerCase('tr') + ' (' + k.dosya + ')'); a++; }
         for (const n of r.yeni) if (secim.has(n.id) && !kayitliYeni.has(n.id)) { parca.push('⇄ ' + n.id); y++; }

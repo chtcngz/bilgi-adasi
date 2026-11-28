@@ -11,6 +11,11 @@ Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında 
 
 - **English, Tanışma etabına beş balon sorusu:** Maya “I am Maya.” diyor; Leo “My name is Leo.” diyor; Leo, Maya’ya “What is your name?” diye soruyor; Maya ve Leo yakalarındaki isim kartını gösteriyor (kartta yazan isim: “name”).
 
+## 0.116.10 · 28.11.2026
+
+- Sesler: Harekesiz tı ve zı, üstünlü tı (ta) ve üstünlü zı (za) ile aynı sesi çalıyor.
+- Dad’ın üç harekeli ve üç tenvinli okuması bu cihazda önceden verilmiş onaylardan da temizlendi; Seslendirilecekler’de görünüyor ve Seçilenler’de boş kırmızı kutu.
+
 ## 0.116.9 · 28.11.2026
 
 - Sesler, Seçilenler: Seçilmemiş okumalar da yerinde görünüyor; boş, kırmızı kesik çizgili bir kutu olarak. Harekesiz ve örnek kelimelerde kutunun içinde harf soluk kırmızıyla yazılı. ▶▶ yalnızca seçilen sesleri çalıyor.

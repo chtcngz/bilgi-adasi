@@ -7,6 +7,17 @@ window.sesSecimleri = {
   // under 🎙 Seslendirilecekler with only the game's own clip; their new clips stay in the code, hidden.
   ilkHal: [14],
   solKayit: [],
+  // ayni: a reading that plays the clip chosen for another one (28.11.2026: harekesiz tı and zı = üstün tı and üstün zı)
+  ayni: { 'harf:15': 'hece:15-0', 'harf:16': 'hece:16-0' },
+  // temizle: choices a browser may still keep (localStorage) from before this file took them back; the page drops them
+  // once per etiket, so that the readings show as written here. A choice made again later stays.
+  temizle: [
+    { etiket: 'dad-tı-zı-28.11', idler: [
+      'cocuk:harf:14', 'cocuk:hece:14-0', 'cocuk:hece:14-1', 'cocuk:hece:14-2', 'cocuk:tenvin:14-0', 'cocuk:tenvin:14-1',
+      'cocuk:tenvin:14-2', 'elifle-dad-du-v3', 'elifle-dad-din-v3', 'cocuk:harf:15', 'cocuk:harf:16', 'aday-harf-15-r2',
+      'aday-harf-16-r2'
+    ] }
+  ],
   onay: [
     'cocuk:harf:1', 'cocuk:harf:5', 'cocuk:harf:6', 'cocuk:harf:7', 'cocuk:harf:8', 'cocuk:hece:26-2',
     'cocuk:harf:0', 'cocuk:harf:hemze', 'cocuk:harf:2', 'cocuk:harf:3', 'cocuk:harf:4', 'cocuk:harf:9',
@@ -45,7 +56,7 @@ window.sesSecimleri = {
     'cocuk:tenvin:27-0', 'cocuk:tenvin:27-1', 'cocuk:tenvin:27-2'
   ],
   yeni: [
-    'aday-harf-10', 'aday-harf-16-r2',
+    'aday-harf-10',
     'ustun-hemze', 'esre-hemze', 'otre-hemze', 'iki-ustun-hemze', 'iki-esre-hemze', 'iki-otre-hemze'
   ]
 };
