@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.97.1 · 28.11.2026
+
+- **Elif Ba, Be, Te ve Se harflerinin adı:** Bu üç harfin adı söylendiğinde artık üstünlü okunuşları çalınıyor: be, te, se. Kız çocuk sesinde de erkek sesinde de aynı; harf kartlarında, Harf Yağmuru’nda, sorularda, akvaryum baloncuklarında ve harf adının okunduğu her yerde.
+
 ## 0.97.0 · 28.11.2026
 
 - **Elif Ba kartlarında ahenkli okuma:** Kartların sağ üstündeki ♪ düğmesi artık kutuları hızla art arda saymıyor. Kutuları sırayla, okuduğu kutuyu sarıya yakarak ve bir ritimle okuyor. Bir ikilinin içinde kısa bir ara var (“e … en”), ikililerin arasında daha uzun bir ara (“e … en  ·  i … in  ·  u … un”).
