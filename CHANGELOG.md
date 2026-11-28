@@ -7,6 +7,13 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.123.0 · 28.11.2026
+
+- **Sesler sayfası (…/sound/) dört bölümde:** Sayfa dört kutucukla açılıyor: 1. Harekeli, harekesiz ve tenvin; 2. Cezm; 3. Şedde; 4. Uzatma. Bir bölüme girince üstte ✓ Seçilenler, 🎙 Seslendirilecekler ve bölümün kısımları var; “‹ Bölümler” ana sayfaya dönüyor.
+- **1. bölüm:** Şimdiye kadarki Seçilenler (194) ve Seslendirilecekler (16) bu bölümün içinde; kısımları Harekesiz, Harekeli ve Tenvin.
+- **Cezm ve Şedde bölümleri oyundaki seslerle:** Cezm’de 28 cezimli hece ve Diyanet’in 5 örneği (cezimsiz, cezimli, kelime: 15 ses); Şedde’de 84 şeddeli hece, karşılaştırma için okunan 84 şeddesiz hece ve 7 örnek kelime. Hepsi oyunda çalan erkek sesiyle solda; sağda yeni kayıt şimdilik boş. Hiçbiri henüz seçilmedi, hepsi Seslendirilecekler’de; ✓ Onayla ile beğenilen seçilebilir.
+- Uzatma bölümü şimdilik yalnızca başlık (“Ses dosyası örneği yok”). Kelimeler, Mukattaa harfleri ve Türkçe sözler başlıkları kaldırıldı.
+
 ## 0.122.0 · 28.11.2026
 
 - **Elif Ba, şeddeli heceler artık bölünmeden okunuyor:** Şeddeli heceler “bis … se” gibi iki ayrı kelime gibi duyuluyordu: cezimli hece son harfini uzatıp söndürüyor, ikinci hece o harfi yeniden başlatıyordu; be, dal, kaf gibi harflerde cezimli hecenin sonundaki yankı da araya giriyordu (“kad-ə de”). Şimdi iki kayıt şeddeli harfin içinde birleşiyor: harf tek, uzun ve kesintisiz okunuyor (bisse, kadde, menne); mim ve nun gunneyle daha uzun. 84 şeddeli hecenin hepsi yeniden yapıldı.

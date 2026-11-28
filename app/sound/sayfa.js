@@ -1,18 +1,20 @@
 // Sesler (sound/index.html): the Elif Ba clips the owner keeps, and the readings that still need a voice.
 //
-// Three tabs: 📂 Bölümler (the sections), ✓ Seçilenler (every reading with a chosen clip, to listen to; the others are
-// empty red slots) and 🎙 Seslendirilecekler (the readings with none: they get new recordings). Only Harekesiz, Harekeli
-// and Tenvin have rows; the other sections (Cezm, Şedde, Uzatma, Kelimeler, Mukattaa, Türkçe sözler) are only titles until
-// they are made again.
-// In a section every reading is a row: on the left the girl's clip the game plays now (window.elifRecordings.cocuk,
-// assets/audio/elif-ba/kayitlar.js, with elifData from islands/elif-ba/data.js for the writing), on the right the new clips
-// cut from the owner's recordings (window.sesListesi, sound/liste.js) of the same letter and hareke.
-// The man's clips (Diyanet, elifRecordings.harf …) stay in kayitlar.js and in oyun() below, but are not shown (ERKEK_SESI).
+// Four sections (bölümler), opened from tiles: 1 Harekeli, harekesiz ve tenvin; 2 Cezm; 3 Şedde; 4 Uzatma (no clips
+// yet, only a title). Inside a section: ✓ Seçilenler (every reading of it with a chosen clip, to listen to; the others
+// are empty red slots), 🎙 Seslendirilecekler (the readings with none: they get new recordings) and its parts
+// (kısımlar: Harekesiz, Harekeli, Tenvin; Cezimli heceler, Cezm örnekleri; Şeddeli, Şeddesiz heceler, Şedde örnekleri),
+// every reading a row with filters and a search. Addresses: #cezm, #cezm/seslendirilecek, #cezm/cezimli.
+// In a row, on the left the clip the game plays now, on the right the new clips cut from the owner's recordings
+// (window.sesListesi, sound/liste.js) of the same letter and hareke. Section 1 shows the girl's clips
+// (window.elifRecordings.cocuk, assets/audio/elif-ba/kayitlar.js, with elifData from islands/elif-ba/data.js for the
+// writing); the man's clips (Diyanet, elifRecordings.harf …) stay in kayitlar.js and in oyun() below, but are not shown
+// there (ERKEK_SESI). The Cezm and Şedde islets play only the man's clips, so those sections show his (erkek: true).
 // Choices: those the owner sent are window.sesSecimleri (sound/secimler.js), shown as "Kayıtlı" and not changed here (a new
 // clip copied into the game, in its oyunda, is no longer listed: the game's clip on the left is that one now);
-// a new one stays in this browser (localStorage): a game clip approved (✓ Onayla) is 'cocuk:hece:1-0' in
-// bilgi-adasi-ses-onaylar, a new clip chosen (⇄ Bunu kullan) is its id in bilgi-adasi-ses-secimleri, and
-// "Seçimleri kopyala" copies the ones not saved yet.
+// a new one stays in this browser (localStorage): a game clip approved (✓ Onayla) is 'cocuk:hece:1-0' (the man's:
+// 'kayit:cezm:11') in bilgi-adasi-ses-onaylar, a new clip chosen (⇄ Bunu kullan) is its id in bilgi-adasi-ses-secimleri,
+// and "Seçimleri kopyala" copies the ones not saved yet.
 (() => {
   const $ = id => document.getElementById(id);
   const ONAY = 'bilgi-adasi-ses-onaylar', SECIM = 'bilgi-adasi-ses-secimleri';
@@ -49,19 +51,21 @@
   const name = i => low(D.names[i]);
   const HK = ['üstün', 'esre', 'ötre'], TK = ['iki üstün', 'iki esre', 'iki ötre'];
   const file = src => src.replace(/^assets\/audio\/elif-ba\//, '').replace(/\.mp3.*$/, '');
-  // the game's clips of a reading: the girl's (the one the game plays when she has it) and, when ERKEK_SESI, the man's
-  function oyun(kind, key) {
+  // the game's clips of a reading: the girl's (the one the game plays when she has it) and, when ERKEK_SESI, the man's;
+  // erkek: a reading of the Cezm and Şedde islets, which play only the man's clip
+  function oyun(kind, key, erkek) {
     const out = [];
-    const girl = C[kind]?.[key], man = G[kind]?.[key];
+    const girl = erkek ? null : C[kind]?.[key], man = G[kind]?.[key];
     if (girl) out.push({ id: 'cocuk:' + kind + ':' + key, ses: 'Kız sesi', src: girl, calan: true, dosya: 'cocuk/' + file(girl).replace(/^cocuk\//, '') });
-    if (man && ERKEK_SESI) out.push({ id: 'kayit:' + kind + ':' + key, ses: 'Erkek sesi', src: man, calan: !girl, dosya: file(man) });
-    out.bos = girl ? '' : man ? 'kız sesi yok' : 'oyunda yok';
+    if (man && (ERKEK_SESI || erkek)) out.push({ id: 'kayit:' + kind + ':' + key, ses: 'Erkek sesi', src: man, calan: !girl, dosya: file(man) });
+    out.bos = out.length ? '' : man ? 'kız sesi yok' : 'oyunda yok';
     out.anahtar = kind + ':' + key;   // the reading, as secimler.js's ayni names it
     return out;
   }
+  const BIRINCI = ['harf', 'harekeli', 'tenvin'];   // the kinds of section 1, where ilkHal and solKayit apply
   function yeniler(kat, harf, h) {
     const kind = kat === 'harekeli' ? 'hece' : kat;
-    if (ilkHal.has(harf) || solKayit.has('cocuk:' + kind + ':' + harf + '-' + h)) return [];
+    if (BIRINCI.includes(kat) && (ilkHal.has(harf) || solKayit.has('cocuk:' + kind + ':' + harf + '-' + h))) return [];
     const eslesen = yeni.filter(s => s.kat === kat && s.harf === harf && (h === undefined || s.h === h));
     return eslesen.some(s => s.incele) ? eslesen.filter(s => s.incele || secildi(s.id)) : eslesen;
   }
@@ -97,20 +101,52 @@
       rows.push({ grup: 'Tenvin örnek kelimeleri', kume: 'Tenvin örnek kelimeleri', ad: 'örnek kelime', ar: x.word, okunus: x.reading, oyun: oyun('tenvinOrnek', p), yeni: yeniler('ornek', p) }));
     return rows;
   }
-  // the sections; those without rows are made again later and are only titles for now
+  // Cezm and Şedde: the clips the game's islets play, all in the man's voice. In Elif's place the hemze (ئْ, ئَّ).
+  const harfAdi = i => i ? name(i) : 'hemze';
+  function cezimli() {
+    return D.glyphs.map((g, i) => ({ ad: 'cezimli ' + harfAdi(i), ar: D.cezm(i).text, okunus: D.cezmReadings[i],
+      oyun: oyun('cezm', i, true), yeni: yeniler('cezm', i) }));
+  }
+  // Diyanet's five examples, each in three steps: the letters without the cezm, with it, and the word they begin
+  const ADIM = ['cezimsiz', 'cezimli', 'kelime'];
+  function cezmOrnek() {
+    return D.cezmExamples.flatMap((x, p) => x.map((ar, s) => ({ grup: (p + 1) + '. örnek', h: s, ad: (p + 1) + '. örnek, ' + ADIM[s],
+      ar, okunus: D.cezmExampleReadings[p][s], oyun: oyun('cezmOrnek', p + '-' + s, true), yeni: yeniler('cezm-ornek', p, s) })));
+  }
+  // every letter's şedde syllable (bisse), and the same letters without the şedde that the game sets beside it (bise)
+  function seddeli(sizmi) {
+    const rows = [];
+    D.glyphs.forEach((g, i) => {
+      for (let h = 0; h < 3; h++) rows.push({
+        grup: i ? D.names[i] : 'Hemze', h, ad: (sizmi ? 'şeddesiz ' : 'şeddeli ') + HK[h] + ' ' + harfAdi(i),
+        ar: sizmi ? D.seddesiz(i, h) : D.sedde(i, h), okunus: sizmi ? D.seddesizReading(i, h) : D.seddeReading(i, h),
+        oyun: oyun(sizmi ? 'seddesiz' : 'sedde', i + '-' + h, true), yeni: yeniler(sizmi ? 'seddesiz' : 'sedde', i, h)
+      });
+    });
+    return rows;
+  }
+  function seddeOrnek() {
+    return D.seddeExamples.map((x, p) => ({ ad: 'örnek kelime', ar: x.word.replace(/[{}]/g, ''), okunus: x.reading,
+      oyun: oyun('seddeOrnek', p, true), yeni: yeniler('sedde-ornek', p) }));
+  }
+  // The four sections and their parts (kısımlar). A section without parts (Uzatma) is only a title for now.
   const BOLUMLER = [
-    { id: 'harekesiz', ad: 'Harekesiz', ornek: 'ا ب ت', aciklama: 'Harflerin adları ve sesleri', satirlar: harekesiz },
-    { id: 'harekeli', ad: 'Harekeli', ornek: 'بَ بِ بُ', aciklama: 'Üstün, esre, ötre', satirlar: harekeli, sutun: HK },
-    { id: 'tenvin', ad: 'Tenvin', ornek: 'بًا بٍ بٌ', aciklama: 'İki üstün, iki esre, iki ötre', satirlar: tenvin, sutun: TK },
-    { id: 'cezm', ad: 'Cezm', ornek: 'بِسْ' },
-    { id: 'sedde', ad: 'Şedde', ornek: 'بِسَّ' },
-    { id: 'uzatma', ad: 'Uzatma (med)', ornek: 'بَا' },
-    { id: 'kelime', ad: 'Kelimeler', ornek: 'قَالَ' },
-    { id: 'mukattaa', ad: 'Mukattaa harfleri', ornek: 'يٰسٓ' },
-    { id: 'turkce', ad: 'Türkçe sözler', ornek: '' }
+    { id: 'harekeler', no: 1, ad: 'Harekeli, harekesiz ve tenvin', ornek: 'ب بَ بًا', aciklama: 'Harf adları; üstün, esre, ötre; iki üstün, iki esre, iki ötre', ses: 'kız sesi', kisimlar: [
+      { id: 'harekesiz', ad: 'Harekesiz', satirlar: harekesiz },
+      { id: 'harekeli', ad: 'Harekeli', satirlar: harekeli, sutun: HK },
+      { id: 'tenvin', ad: 'Tenvin', satirlar: tenvin, sutun: TK }] },
+    { id: 'cezm', no: 2, ad: 'Cezm', ornek: 'بِسْ', aciklama: 'Cezimli heceler ve Diyanet’in beş örneği', ses: 'erkek sesi', kisimlar: [
+      { id: 'cezimli', ad: 'Cezimli heceler', satirlar: cezimli },
+      { id: 'cezm-ornek', ad: 'Cezm örnekleri', satirlar: cezmOrnek, sutun: ADIM, yazili: true }] },
+    { id: 'sedde', no: 3, ad: 'Şedde', ornek: 'بِسَّ', aciklama: 'Şeddeli ve şeddesiz heceler, örnek kelimeler', ses: 'erkek sesi', kisimlar: [
+      { id: 'seddeli', ad: 'Şeddeli heceler', satirlar: () => seddeli(false), sutun: HK },
+      { id: 'seddesiz', ad: 'Şeddesiz heceler', satirlar: () => seddeli(true), sutun: HK },
+      { id: 'sedde-ornek', ad: 'Şedde örnekleri', satirlar: seddeOrnek }] },
+    { id: 'uzatma', no: 4, ad: 'Uzatma (med)', ornek: 'بَا', kisimlar: [] }
   ];
-  for (const b of BOLUMLER) b.rows = b.satirlar ? b.satirlar() : [];
-  const DOLU = BOLUMLER.filter(b => b.rows.length);
+  const DOLU = BOLUMLER.flatMap(b => b.kisimlar);   // every part, each with its rows
+  for (const b of BOLUMLER) for (const k of b.kisimlar) { k.bolum = b; k.rows = k.satirlar(); }
+  for (const b of BOLUMLER) b.rows = b.kisimlar.flatMap(k => k.rows);
   // a reading that plays the clip chosen for another (KAYIT.ayni, e.g. harekesiz tı = üstün tı) has no clips of its own here
   const SATIR = new Map(DOLU.flatMap(b => b.rows).map(r => [r.oyun.anahtar, r]));
   for (const [kim, kimin] of Object.entries(KAYIT.ayni || {})) {
@@ -130,7 +166,6 @@
   ];
   let filtre = 'hepsi';
   const say = (rows, f) => rows.filter(f).length;
-  const tumu = () => DOLU.flatMap(b => b.rows);
 
   /* ---------- playing ---------- */
   let calan = null, sira = null;
@@ -275,7 +310,7 @@
     if (r.ayni) return secilenSes(r.ayni);
     const n = r.yeni.find(x => secildi(x.id)), k = r.oyun.find(x => onaylandi(x.id));
     if (n) return { src: yeniSrc(n), yeni: true, dosya: n.id, ad: 'yeni kayıt (' + n.id + ')' };
-    return k ? { src: k.src, dosya: k.dosya, ad: 'kız sesi (' + k.dosya + ')' } : null;
+    return k ? { src: k.src, dosya: k.dosya, ad: k.ses.toLocaleLowerCase('tr') + ' (' + k.dosya + ')' } : null;
   }
   // a chosen reading as a small card that plays its clip
   function kart(r) {
@@ -295,7 +330,8 @@
   }
 
   // a reading with no chosen clip: an empty red slot, no sound. In the letter grids the row and the column name it; in a
-  // plain grid (Harekesiz, the example words) its writing stays, faint, so that the gap can be told apart.
+  // plain grid (Harekesiz, the example words) and in the cezm examples' table (yazili) its writing stays, faint, so that
+  // the gap can be told apart.
   function eksikKart(r, yazili) {
     const b = el('span', 'kart kart-eksik');
     b.title = r.ad + ' · seçilen ses yok';
@@ -308,49 +344,53 @@
   }
 
   /* ---------- the tabs ---------- */
-  const SEKMELER = [
-    { id: '', ikon: '📂', ad: 'Bölümler' },
-    { id: 'secilenler', ikon: '✓', ad: 'Seçilenler', sayi: () => say(tumu(), secili) },
-    { id: 'seslendirilecek', ikon: '🎙', ad: 'Seslendirilecekler', sayi: () => say(tumu(), bekliyor) }
+  // In a section: its chosen clips, the readings to record again, then its parts (kısımlar), each a list of rows.
+  const GORUNUMLER = [
+    { id: 'secilenler', ikon: '✓', ad: 'Seçilenler', sayi: b => say(b.rows, secili) },
+    { id: 'seslendirilecek', ikon: '🎙', ad: 'Seslendirilecekler', sayi: b => say(b.rows, bekliyor) }
   ];
-  let sekme = '', bolum = null;
+  let bolum = null, gorunum = '', kisim = null;
   function sekmeCiz() {
     const box = $('sekmeler');
     box.replaceChildren();
-    for (const t of SEKMELER) {
-      const b = el('button', 'sekme');
+    box.hidden = !bolum?.rows.length;
+    if (box.hidden) return;
+    const sekmeler = [...GORUNUMLER.map(g => ({ ...g, sayi: g.sayi(bolum) })),
+      ...bolum.kisimlar.map(k => ({ id: k.id, ikon: '📂', ad: k.ad, sayi: k.rows.length, kisim: true }))];
+    for (const t of sekmeler) {
+      const b = el('button', 'sekme' + (t.kisim ? ' kisim' : ''));
       b.type = 'button';
-      b.append(el('span', 'ikon', t.ikon + ' '), t.ad);
+      b.append(el('span', 'ikon', t.ikon + ' '), t.ad, ' ', el('b', '', String(t.sayi)));
       b.setAttribute('role', 'tab');
-      b.setAttribute('aria-selected', t.id === sekme);
-      if (t.sayi) b.append(' ', el('b', '', String(t.sayi())));
-      b.onclick = () => { location.hash = t.id; };
+      b.setAttribute('aria-selected', t.id === gorunum);
+      b.onclick = () => { location.hash = bolum.id + '/' + t.id; };
       box.append(b);
     }
   }
 
+  // the four sections as tiles; Uzatma has no clips yet and is only a title
   function bolumler() {
     const ana = $('ana');
     const yol = el('p', 'yol');
-    yol.innerHTML = '<b>✓ Seçilenler:</b> gönderdiğin seçimler (kayıtlı), dinleyebilirsin. ' +
-      '<b>🎙 Seslendirilecekler:</b> uygun sesi olmayanlar; bunlara yeni seslendirme yapılacak. ' +
-      'Bir bölüme girince solda oyunda çalan kız sesi, sağda yeni kayıtlar.';
+    yol.innerHTML = 'Bir bölüme girince: <b>✓ Seçilenler</b> (gönderdiğin seçimler, dinleyebilirsin), ' +
+      '<b>🎙 Seslendirilecekler</b> (uygun sesi olmayanlar; bunlara yeni seslendirme yapılacak) ve bölümün kısımları. ' +
+      'Her satırda solda oyunda çalan ses, sağda yeni kayıtlar. Cezm ve şeddede oyun erkek sesini çalıyor; yeni kayıtları henüz yok.';
     ana.append(yol);
     const grid = el('div', 'kutular');
     for (const b of BOLUMLER) {
       const dolu = b.rows.length > 0;
       const k = el(dolu ? 'button' : 'div', 'kutu' + (dolu ? '' : ' bos-kutu'));
       if (b.ornek) k.append(arabic(b.ornek));
-      k.append(el('strong', '', b.ad));
+      k.append(el('strong', '', b.no + '. ' + b.ad));
       if (dolu) {
         const n = say(b.rows, secili);
         k.type = 'button';
-        k.append(el('span', 'sayi', b.aciklama));
+        k.append(el('span', 'sayi', b.aciklama), el('span', 'sayi', '🎮 Oyunda ' + b.ses));
         const c = el('div', 'cubuk');
         const ok = el('i', 'c-ok'); ok.style.width = (100 * n / b.rows.length) + '%';
         c.append(ok);
         const il = el('span', 'ilerleme');
-        il.append(el('span', '', '✓ ' + n + ' seçili'), el('span', '', '🎙 ' + (b.rows.length - n) + ' seslendirilecek'));
+        il.append(el('span', '', '✓ ' + n + ' seçili'), el('span', '', '🎙 ' + say(b.rows, bekliyor) + ' seslendirilecek'));
         k.append(c, il);
         k.onclick = () => { location.hash = b.id; };
       } else k.append(el('span', 'sayi', '🔇 Ses dosyası örneği yok'));
@@ -359,11 +399,11 @@
     ana.append(grid);
   }
 
-  // ✓ Seçilenler: a section's letters as cards; harekeli and tenvin one line a letter, a column a hareke
+  // ✓ Seçilenler: a section's parts as cards; a part by letter and hareke one line a letter, a column a hareke
   function secilenler() {
     const ana = $('ana');
-    // every reading of the section is in its place: a chosen one as a card to play, a missing one as an empty red slot
-    for (const b of DOLU) {
+    // every reading of the part is in its place: a chosen one as a card to play, a missing one as an empty red slot
+    for (const b of bolum.kisimlar) {
       const sayi = b.rows.filter(secili).length;
       const blok = el('section', 'blok');
       const h = el('h2', 'grup');
@@ -378,7 +418,7 @@
           t.append(el('span', 'harf-adi', g));
           for (let hh = 0; hh < 3; hh++) {
             const r = harfli.find(x => x.grup === g && x.h === hh);
-            t.append(!r ? el('span', 'kart-yok') : secili(r) ? kart(r) : eksikKart(r, false));
+            t.append(!r ? el('span', 'kart-yok') : secili(r) ? kart(r) : eksikKart(r, !!b.yazili));
           }
         }
         blok.append(t);
@@ -397,12 +437,14 @@
     }
   }
 
-  // 🎙 Seslendirilecekler: every reading without a chosen clip, as a row with what the game plays now
+  // 🎙 Seslendirilecekler: every reading of the section without a chosen clip, as a row with what the game plays now
   function seslendirilecekler() {
     const ana = $('ana');
-    const rowsAll = DOLU.map(b => [b, b.rows.filter(bekliyor)]).filter(([, rows]) => rows.length);
+    const rowsAll = bolum.kisimlar.map(b => [b, b.rows.filter(bekliyor)]).filter(([, rows]) => rows.length);
     if (!rowsAll.length) return ana.append(el('p', 'yok', 'Seslendirilecek ses kalmadı.'));
-    ana.append(el('p', 'yol', 'Yeni örneği sağdan dinle. İki kaydı art arda dinlemek için satırdaki ▶▶ düğmesini kullan.'));
+    ana.append(el('p', 'yol', bolum.rows.some(r => r.yeni.length)
+      ? 'Yeni örneği sağdan dinle. İki kaydı art arda dinlemek için satırdaki ▶▶ düğmesini kullan.'
+      : 'Solda oyunda çalan ' + bolum.ses + '. Bu bölümün yeni kayıtları henüz yok; hazırlanınca sağda görünecek.'));
     for (const [b, rows] of rowsAll) {
       const h = el('h2', 'grup');
       h.append(b.ad + ' ', el('span', 'sayi', String(rows.length)));
@@ -417,48 +459,61 @@
   }
 
   function filtreCiz() {
-    if (!bolum?.rows.length) return;
+    if (!kisim) return;
     const box = $('filtreler');
     box.replaceChildren();
     for (const f of FILTRELER) {
       const b = el('button', 'filtre');
       b.type = 'button';
       b.setAttribute('aria-pressed', f.id === filtre);
-      b.append(f.ad + ' ', el('b', '', String(say(bolum.rows, f.uyar))));
+      b.append(f.ad + ' ', el('b', '', String(say(kisim.rows, f.uyar))));
       b.onclick = () => { filtre = f.id; filtreCiz(); listeCiz(); };
       box.append(b);
     }
   }
+  // a part: every reading a row, filtered and searched
   function listeCiz() {
     dur(); sira = null;
     const ana = $('ana');
     ana.replaceChildren();
-    if (!bolum.rows.length) return ana.append(el('p', 'yok', '🔇 Bu bölümün ses dosyası örneği yok.'));
     const q = low($('ara').value.trim());
     const f = FILTRELER.find(x => x.id === filtre);
-    const rows = bolum.rows.filter(r => f.uyar(r) && (!q || [r.ad, r.okunus, r.ar, r.grup, ...r.yeni.map(s => s.id)].some(t => low(t).includes(q))));
+    const rows = kisim.rows.filter(r => f.uyar(r) && (!q || [r.ad, r.okunus, r.ar, r.grup, ...r.yeni.map(s => s.id)].some(t => low(t).includes(q))));
     let grup;
     for (const r of rows) {
       if (r.grup && r.grup !== grup) { grup = r.grup; ana.append(el('h2', 'grup', grup)); }
       ana.append(satir(r));
     }
-    if (!rows.length) ana.append(el('p', 'yok', filtre === 'secili' ? 'Bu bölümde henüz seçilen ses yok.' : filtre === 'bekleyen' ? 'Bu bölümde seslendirilecek ses kalmadı.' : 'Bulunamadı.'));
+    if (!rows.length) ana.append(el('p', 'yok', filtre === 'secili' ? 'Bu kısımda henüz seçilen ses yok.' : filtre === 'bekleyen' ? 'Bu kısımda seslendirilecek ses kalmadı.' : 'Bulunamadı.'));
+  }
+  // #cezm (its chosen clips), #cezm/seslendirilecek, #cezm/cezimli (a part). The addresses from before the sections
+  // (#secilenler, #harekeli …) open the same view in section 1, or the part where it is now.
+  function adres() {
+    const [a, b] = location.hash.slice(1).split('/');
+    const bul = id => BOLUMLER.find(x => x.id === id && x.rows.length);
+    const kisimdan = id => DOLU.find(k => k.id === id);
+    let bl = bul(a), g = b || 'secilenler';
+    if (!bl && kisimdan(a)) { bl = kisimdan(a).bolum; g = a; }
+    else if (!bl && GORUNUMLER.some(x => x.id === a)) { bl = BOLUMLER[0]; g = a; }
+    if (bl && !GORUNUMLER.some(x => x.id === g) && !bl.kisimlar.some(k => k.id === g)) g = 'secilenler';
+    return { bl: bl || null, g: bl ? g : '' };
   }
   function goster() {
     dur(); sira = null;
-    const hash = location.hash.slice(1);
-    bolum = BOLUMLER.find(b => b.id === hash) || null;
-    sekme = bolum ? '' : SEKMELER.some(t => t.id === hash) ? hash : '';
-    const t = SEKMELER.find(x => x.id === sekme);
-    $('arac').hidden = !bolum?.rows.length;
-    $('sutunlar').hidden = !(bolum?.rows.length || sekme === 'seslendirilecek');
-    $('baslik').textContent = bolum ? bolum.ad : sekme ? t.ikon + ' ' + t.ad : '🔊 Sesler';
-    document.title = (bolum ? bolum.ad + ' · ' : sekme ? t.ad + ' · ' : '') + 'Sesler · Elif Ba';
+    ({ bl: bolum, g: gorunum } = adres());
+    kisim = bolum?.kisimlar.find(k => k.id === gorunum) || null;
+    $('geri').hidden = !bolum;
+    $('arac').hidden = !kisim;
+    $('sutunlar').hidden = !(kisim || gorunum === 'seslendirilecek');
+    if (bolum) $('sutunlar').firstElementChild.textContent = '🎮 Oyunda (' + bolum.ses + ')';
+    const g = GORUNUMLER.find(x => x.id === gorunum), alt = kisim ? kisim.ad : g?.ad;
+    $('baslik').textContent = bolum ? bolum.no + '. ' + bolum.ad : '🔊 Sesler';
+    document.title = (bolum ? alt + ' · ' + bolum.ad + ' · ' : '') + 'Sesler · Elif Ba';
     sekmeCiz();
     $('ana').replaceChildren();
-    if (bolum) { filtreCiz(); listeCiz(); }
-    else if (sekme === 'secilenler') secilenler();
-    else if (sekme === 'seslendirilecek') seslendirilecekler();
+    if (kisim) { filtreCiz(); listeCiz(); }
+    else if (gorunum === 'secilenler') secilenler();
+    else if (gorunum === 'seslendirilecek') seslendirilecekler();
     else bolumler();
     scrollTo(0, 0);
   }
@@ -480,7 +535,7 @@
         }
         if (parca.length) parcalar.push('- ' + r.ad + (r.ar ? ' (' + r.ar + ')' : '') + ': ' + parca.join(', '));
       }
-      if (parcalar.length) satirlar.push('', b.ad + ':', ...parcalar);
+      if (parcalar.length) satirlar.push('', b.bolum.no + '. ' + b.bolum.ad + ' · ' + b.ad + ':', ...parcalar);
     }
     if (!a && !y && !j) return bildir('Kopyalanacak yeni seçim veya yorum yok.');
     const metin = 'Elif Ba sesleri: ' + a + ' onay, ' + y + ' yeni seçim, ' + j + ' yorum (kayıtlı ' + (kayitliOnay.size + kayitliYeni.size) + ' seçime ek)\n' + satirlar.join('\n');
@@ -494,6 +549,7 @@
       box.select();
     }
   };
+  $('geri').onclick = () => { location.hash = ''; };
   $('ara').oninput = () => listeCiz();
   addEventListener('hashchange', goster);
   goster();

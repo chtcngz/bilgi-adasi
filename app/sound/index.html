@@ -1,10 +1,11 @@
 <!doctype html>
 <!-- Sesler (…/bilgi-adasi/sound/): the owner's page for choosing Elif Ba's recordings. Not linked from the game.
-     Three tabs: 📂 Bölümler (the sections; only Harekesiz, Harekeli and Tenvin have rows, the others are titles until they
-     are made again), ✓ Seçilenler (the clips the owner chose, sound/secimler.js) and 🎙 Seslendirilecekler (the readings
-     with no suitable clip, to be recorded again). In a section every reading is a row with, on the left, the girl's clip the
-     game plays now (assets/audio/elif-ba/kayitlar.js; the man's clips stay there but are not shown) and, on the right, the
-     new clips cut from the owner's recordings (sound-samples/ → tools/ses_kes.py → sound/ses/<id>.mp3, sound/liste.js).
+     Four sections, opened from tiles: 1 Harekeli, harekesiz ve tenvin; 2 Cezm; 3 Şedde; 4 Uzatma (only a title until
+     its clips are made). Inside a section: ✓ Seçilenler (the clips the owner chose, sound/secimler.js), 🎙 Seslendirilecekler
+     (the readings with no suitable clip, to be recorded again) and its parts, every reading a row with, on the left, the
+     clip the game plays now (assets/audio/elif-ba/kayitlar.js: the girl's in section 1, where the man's clips stay but are
+     not shown; the man's in Cezm and Şedde, whose islets play only his) and, on the right, the new clips cut from the
+     owner's recordings (sound-samples/ → tools/ses_kes.py → sound/ses/<id>.mp3, sound/liste.js).
      A new choice (✓ Onayla, ⇄ Bunu kullan) stays in this browser (localStorage); "Seçimleri kopyala" copies the ones not
      in secimler.js yet, as text to paste to Claude. <base href="../"> makes every path resolve to app/, as the game's own. -->
 <html lang="tr">
@@ -14,15 +15,16 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Sesler · Elif Ba</title>
-<link rel="stylesheet" href="sound/sayfa.css?v=4">
+<link rel="stylesheet" href="sound/sayfa.css?v=5">
 </head>
 <body>
 <header class="ust">
   <div class="ust-satir">
+    <button type="button" id="geri" class="btn geri" hidden>‹ Bölümler</button>
     <h1 id="baslik">🔊 Sesler</h1>
-    <button type="button" id="kopyala" class="btn ana">📋 Seçim ve yorumları kopyala</button>
+    <button type="button" id="kopyala" class="btn ana">📋 <span class="uzun">Seçim ve yorumları </span>kopyala</button>
   </div>
-  <nav id="sekmeler" class="sekmeler" role="tablist" aria-label="Sekmeler"></nav>
+  <nav id="sekmeler" class="sekmeler" role="tablist" aria-label="Sekmeler" hidden></nav>
   <div id="arac" class="arac" hidden>
     <div id="filtreler" class="filtreler" role="group" aria-label="Filtre"></div>
     <input id="ara" type="search" placeholder="🔍 Ara (be, iki ötre …)" autocomplete="off" aria-label="Ara">
@@ -38,6 +40,6 @@
 <script src="sound/secimler.js?v=8"></script>
 <script src="sound/adaylar.js?v=2"></script>
 <script src="sound/dad.js?v=3"></script>
-<script src="sound/sayfa.js?v=12"></script>
+<script src="sound/sayfa.js?v=13"></script>
 </body>
 </html>

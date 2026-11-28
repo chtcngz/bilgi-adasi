@@ -11,8 +11,9 @@ Haritada her birinin koyu bulutların altında, kilitli ve “Yakında” olarak
 
 ## Elif Ba sesleri
 
-- [ ] **Seslendirilecekler:** `…/sound/` sayfasının 🎙 Seslendirilecekler sekmesindeki 16 okumaya (Dad, Ayn ve Gayn’ın adı, Dad’ın 3 harekeli ve 3 tenvinli hecesi, 7 tenvin örnek kelimesi) yeni seslendirme; sahibi seçip gönderince seçilenler Elif Ba’ya işlenir
-- [ ] **Sesler sayfasının boş bölümleri:** Cezm, Şedde, Uzatma, Kelimeler, Mukattaa harfleri ve Türkçe sözler bölümlerinin ses örnekleri yeniden hazırlanır
+- [ ] **Seslendirilecekler:** `…/sound/` sayfasının 1. bölümünde (Harekeli, harekesiz ve tenvin) 🎙 Seslendirilecekler sekmesindeki 16 okumaya (Dad, Ayn ve Gayn’ın adı, Dad’ın 3 harekeli ve 3 tenvinli hecesi, 7 tenvin örnek kelimesi) yeni seslendirme; sahibi seçip gönderince seçilenler Elif Ba’ya işlenir
+- [ ] **Cezm ve Şedde sesleri:** `…/sound/` sayfasının Cezm (28 cezimli hece, 5 örneğin 15 adımı) ve Şedde (84 şeddeli, 84 şeddesiz hece, 7 örnek kelime) bölümlerinde oyunun şimdiki erkek sesleri duruyor; bunlar iyileştirilecek, yeni kayıtlar sağ sütuna gelecek
+- [ ] **Uzatma sesleri:** `…/sound/` sayfasının Uzatma bölümünün ses örnekleri hazırlanır
 
 ## İngilizce Koyu (3. ve 4. sınıf)
 

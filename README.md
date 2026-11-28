@@ -101,15 +101,17 @@ app/                         Published site (GitHub Pages root)
 │   │                        (ingilizce-2/sahneler.js: the pictures of 🔍 Gizli Kelimeler and the places to tap in them;
 │   │                        the pictures are assets/images/ingilizce/sahne/*.webp)
 │   └── sosyal-bilgiler/     Question island: same pattern
-├── sound/                   Sesler (…/sound/, not linked): the owner chooses Elif Ba's recordings. Three tabs: 📂 Bölümler
-│                            (the sections: only harekesiz, harekeli and tenvin have rows; cezm, şedde, uzatma, words,
-│                            mukattaa and Turkish words are titles marked "Ses dosyası örneği yok" until they are made
-│                            again), ✓ Seçilenler (the clips the owner chose, as cards to play: secimler.js; a reading with none is an
-│                            empty red slot) and
-│                            🎙 Seslendirilecekler (the readings with no suitable clip, to be recorded again). In a
-│                            section every reading is a row with the girl's clip the game plays now on the left (read from
-│                            kayitlar.js and data.js; the man's clips stay there and in the code, hidden: ERKEK_SESI in
-│                            sayfa.js) and the new clips cut from sound-samples/ on the right. A new choice (✓ approve,
+├── sound/                   Sesler (…/sound/, not linked): the owner chooses Elif Ba's recordings. Four sections, opened
+│                            from tiles: 1 Harekeli, harekesiz ve tenvin; 2 Cezm; 3 Şedde; 4 Uzatma (a title marked "Ses
+│                            dosyası örneği yok" until its clips are made). Inside a section: ✓ Seçilenler (the clips the
+│                            owner chose, as cards to play: secimler.js; a reading with none is an empty red slot),
+│                            🎙 Seslendirilecekler (the readings with no suitable clip, to be recorded again) and its parts
+│                            (Harekesiz, Harekeli, Tenvin; Cezimli heceler, Cezm örnekleri; Şeddeli, Şeddesiz heceler, Şedde
+│                            örnekleri), every reading a row (#cezm, #cezm/seslendirilecek, #cezm/cezimli). In a row, on
+│                            the left the clip the game plays now (read from kayitlar.js and data.js): in section 1 the
+│                            girl's (the man's clips stay there and in the code, hidden: ERKEK_SESI in sayfa.js), in Cezm
+│                            and Şedde the man's, as their islets play only his; on the right the new clips cut from
+│                            sound-samples/ (none yet for Cezm and Şedde). A new choice (✓ approve,
 │                            ⇄ pick a new clip) stays in localStorage; "Seçimleri kopyala" copies the ones not in
 │                            secimler.js yet, and Claude adds them there (its ilkHal: letters recorded
 │                            again, whose rows show only the game's clip; ayni: a reading that plays another's chosen clip;

@@ -11,7 +11,8 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 /* ---------- header ---------- */
 .ust { position: sticky; top: 0; z-index: 5; padding: 10px 16px 0; background: #fff8e6; border-bottom: 2px solid var(--line); }
 .ust-satir { display: flex; align-items: center; gap: 10px; padding-bottom: 10px; }
-.ust h1 { flex: 1; margin: 0; font-size: 20px; min-width: 0; }
+.ust h1 { flex: 1; margin: 0; font-size: 20px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.btn.geri { color: var(--ink); }
 .btn { padding: 8px 12px; border: 2px solid var(--line); border-radius: 12px; background: #fff; font-weight: 600; white-space: nowrap; }
 .btn.ana { background: var(--ok); border-color: var(--ok); color: #fff; }
 .sekmeler { display: flex; gap: 6px; padding-bottom: 10px; overflow-x: auto; scrollbar-width: none; }
@@ -19,6 +20,8 @@ button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid 
 .sekme b { font-weight: 600; color: var(--soft); }
 .sekme[aria-selected=true] { background: var(--ink); border-color: var(--ink); color: #fff; }
 .sekme[aria-selected=true] b { color: #cfe0dc; }
+.sekme.kisim { font-weight: 600; background: #faf6ee; }
+.sekme.kisim[aria-selected=true] { background: var(--ink); }
 .arac { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding-bottom: 10px; }
 .arac input { flex: 1 1 160px; min-width: 0; padding: 8px 12px; border: 2px solid var(--line); border-radius: 12px; font-size: 16px; }
 .filtreler { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -116,6 +119,7 @@ main { max-width: 1100px; margin: 0 auto; padding: 12px 16px 120px; }
   .ust { padding: 8px 10px 0; }
   .ust h1 { font-size: 17px; }
   .btn { padding: 7px 9px; font-size: 14px; }
+  .btn .uzun { display: none; }
   .filtreler { flex-wrap: nowrap; overflow-x: auto; max-width: 100%; scrollbar-width: none; }
   .filtre { flex: none; }
   main { padding: 10px 8px 120px; }
