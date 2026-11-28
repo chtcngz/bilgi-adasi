@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.97.0 · 28.11.2026
+
+- **Elif Ba kartlarında ahenkli okuma:** Kartların sağ üstündeki ♪ düğmesi artık kutuları hızla art arda saymıyor. Kutuları sırayla, okuduğu kutuyu sarıya yakarak ve bir ritimle okuyor. Bir ikilinin içinde kısa bir ara var (“e … en”), ikililerin arasında daha uzun bir ara (“e … en  ·  i … in  ·  u … un”).
+- Bütün kartlarda böyle: Harekeler (be … bi … bu), Bitişik yazılış (hecenin başta, ortada ve sondaki üç şekli birlikte yanıyor), Cezm (bi … bis), Tenvin (be … ben), Şedde (bis … se … bisse, sonra bissi ve bissu) ve Cezm ile Tenvin adımlarının başındaki üç adımlı ders kartları.
+
 ## 0.96.1 · 28.11.2026
 
 - **Elif Ba, işaret adımlarında Türkçe açıklama yok:** Harekeler, Cezm, Tenvin ve Şedde adımlarının başındaki 🐢💬 düğmesi ve yazılı açıklama kaldırıldı.

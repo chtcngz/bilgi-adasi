@@ -254,6 +254,9 @@
 .elif-syllable { display: grid; justify-items: center; padding: 2px 4px 8px; border-radius: 16px; border: 2px solid var(--rim, #b2d5c4); background: white; color: var(--ink, #174e48); }
 .elif-syllable b { font-size: clamp(44px, 6vw, 64px); line-height: 1.5; }
 .elif-syllable span { font-weight: 850; font-size: 15px; opacity: .85; }
+/* A card read by its ♪ (voice.recite): the box being read lights up. */
+.elif-syllable { transition: background-color .25s, border-color .25s, transform .25s, box-shadow .25s; }
+.elif-syllable.say { background: #ffe9a6; border-color: #e0a630; transform: scale(1.06); box-shadow: 0 0 0 4px #ffd35c88; }
 #elif-note { min-height: 24px; font-weight: 750; text-align: center; }
 
 /* Bitişik yazılış cards: the letter's syllables, then at each place (right to left) its three harekeli shapes and an example word */

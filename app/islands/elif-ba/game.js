@@ -438,6 +438,12 @@
       'hece hece okunur. Şekillere ve kelimelere dokun, dinle. Kırmızı harf, öğrendiğin harf. Hazır olunca yeşil oyna düğmesine bas.',
   };
   const told = new Set(); // the bays whose name was said in this visit
+  // A card's ♪ reads its boxes one by one in a steady rhythm (voice.recite); the box being read lights up. `boxes[n]`
+  // is the box (or the boxes) of the n-th thing read; -1 puts them all out.
+  const lighter = boxes => n => {
+    for (const box of boxes.flat()) box.classList.remove('say');
+    if (n >= 0) for (const box of [boxes[n]].flat()) box?.classList.add('say');
+  };
   function letterCard(i) {
     const button = el('button', 'elif-tile tone-' + i % 4);
     button.innerHTML = glyphHtml(glyphs[i]) + '<strong>' + names[i] + '</strong><small aria-hidden="true">' +
@@ -456,7 +462,8 @@
       '<small aria-hidden="true">' + (mastered('hareke', i) ? '🦪' : '') + '</small>');
     const chant = el('button', 'elif-chant', '♪');
     chant.setAttribute('aria-label', names[i] + ' üstün, esre, ötre okunuşunu dinle');
-    chant.onclick = () => voice.syllables(i, $('elif-note'));
+    const boxes = [];
+    chant.onclick = () => voice.syllables(i, $('elif-note'), null, lighter(boxes));
     head.append(chant);
     const row = el('div', 'elif-syllable-row');
     for (const h of [0, 1, 2]) {
@@ -467,6 +474,7 @@
         button.classList.add('selected');
         voice.syllable(i, h, $('elif-note'));
       };
+      boxes.push(button);
       row.append(button);
     }
     card.append(head, row);
@@ -505,7 +513,8 @@
       '<small aria-hidden="true">' + (mastered('bitisik', i) ? '🪸' : '') + '</small>');
     const listen = el('button', 'elif-chant', '♪');
     listen.setAttribute('aria-label', names[i] + ' üstün, esre, ötre okunuşunu dinle');
-    listen.onclick = () => voice.syllables(i, $('elif-note'));
+    const byHareke = [[], [], []];
+    listen.onclick = () => voice.syllables(i, $('elif-note'), null, lighter(byHareke));
     head.append(listen);
     const row = el('div', 'elif-shape-row');
     row.dir = 'rtl';
@@ -522,6 +531,7 @@
         const form = el('button', 'elif-syllable', glyphHtml(shape(i, f, h)));
         form.setAttribute('aria-label', syllableName(i, h) + ', ' + inWord[f] + ', dinle');
         form.onclick = () => { select(form); voice.shape(i, h, f, $('elif-note')); };
+        byHareke[h].push(form);
         forms.append(form);
       }
       const sample = el('button', 'elif-word', wordHtml(i, f));
@@ -554,7 +564,7 @@
       '<small aria-hidden="true">' + (mastered('cezm', i) ? '⭐' : '') + '</small>');
     const chant = el('button', 'elif-chant', '♪');
     chant.setAttribute('aria-label', cezmName(i) + ': okunuşunu dinle');
-    chant.onclick = () => { voice.cezmChant(i, $('elif-note')); };
+    chant.onclick = () => voice.cezmChant(i, $('elif-note'), null, lighter([first, [silent, whole]]));
     head.append(chant);
     const row = el('div', 'elif-cezm-row');
     row.dir = 'rtl';
@@ -597,8 +607,9 @@
       button.onclick = () => hear(n);
       return button;
     });
-    // the three one after another
-    play.onclick = () => hear(0, () => hear(1, () => hear(2)));
+    // the three one after another, each lit while it is said
+    play.onclick = () => voice.recite([voice.steps.cezmExample(p, 0), voice.NEXT, voice.steps.cezmExample(p, 1), voice.NEXT, voice.steps.cezmExample(p, 2)],
+      lighter(buttons), $('elif-note'));
     head.append(play);
     buttons.forEach((button, n) => { if (n) row.append(el('span', 'elif-cezm-sign', '⬅')); row.append(button); });
     card.append(head, row);
@@ -612,7 +623,8 @@
       '<small aria-hidden="true">' + (mastered('tenvin', i) ? '🐬' : '') + '</small>');
     const chant = el('button', 'elif-chant', '♪');
     chant.setAttribute('aria-label', names[i] + ' iki üstün, iki esre, iki ötre okunuşunu dinle');
-    chant.onclick = () => { voice.tenvinChant(i, undefined, $('elif-note')); };
+    const boxes = [];
+    chant.onclick = () => voice.tenvinChant(i, undefined, $('elif-note'), null, lighter(boxes));
     head.append(chant);
     const row = el('div', 'elif-tenvin-row');
     row.dir = 'rtl';
@@ -629,6 +641,7 @@
       const withTenvin = el('button', 'elif-syllable whole', glyphHtml(tenvin(i, h)));
       withTenvin.setAttribute('aria-label', tenvinName(i, h) + ', dinle');
       withTenvin.onclick = () => { select(withTenvin); voice.tenvin(i, h, $('elif-note')); };
+      boxes.push(plain, withTenvin);
       column.append(plain, el('span', 'elif-tenvin-sign', '⬇'), withTenvin);
       row.append(column);
     }
@@ -670,7 +683,8 @@
       button.onclick = () => hear(n);
       return button;
     });
-    play.onclick = () => hear(0, () => hear(1, () => hear(2)));
+    play.onclick = () => voice.recite([voice.steps.syllable(example.i, example.h), voice.NEXT, voice.steps.tenvin(example.i, example.h), voice.NEXT,
+      voice.steps.tenvinWord(p)], lighter(buttons), $('elif-note'));
     head.append(play);
     buttons.forEach((button, n) => { if (n) row.append(el('span', 'elif-cezm-sign', '⬅')); row.append(button); });
     card.append(head, row);
@@ -684,7 +698,13 @@
       '<small aria-hidden="true">' + (mastered('sedde', i) ? '🐙' : '') + '</small>');
     const chant = el('button', 'elif-chant', '♪');
     chant.setAttribute('aria-label', seddeName(i, 0) + ': nasıl okunduğunu dinle');
-    chant.onclick = () => { voice.seddeChant(i, 0, $('elif-note')); };
+    // the şedde syllable made (bis … se … bisse), then with the other two harekes
+    chant.onclick = () => {
+      const [closing, part] = voice.steps.seddeParts(i, 0);
+      const [first, second, whole] = making.querySelectorAll('.elif-syllable');
+      voice.recite([closing, voice.PAIR, part, voice.PAIR, voice.steps.sedde(i, 0), voice.NEXT, voice.steps.sedde(i, 1), voice.NEXT, voice.steps.sedde(i, 2)],
+        lighter([first, second, [whole, row.children[0]], row.children[1], row.children[2]]), $('elif-note'));
+    };
     head.append(chant);
     const select = button => {
       for (const other of $('elif-cards').querySelectorAll('.selected')) other.classList.remove('selected');
