@@ -50,7 +50,15 @@ def join(left, right):
     score = (windows @ tail) / (np.linalg.norm(windows, axis=1) + 1e-9)
     right = right[int(np.argmax(score)):]
     fade = np.linspace(0, 1, n)
-    return np.concatenate([left[:-n], tail*(1-fade) + right[:n]*fade, right[n:]])
+    head = right[:n]
+    mixed = tail*(1-fade) + head*fade
+    # A linear fade dips between independent takes. Follow the input power
+    # envelope over the overlap, accounting for their measured correlation.
+    a, b = np.mean(tail**2), np.mean(head**2)
+    target = (1-fade)*a + fade*b
+    power = (1-fade)**2*a + fade**2*b + 2*fade*(1-fade)*np.mean(tail*head)
+    gain = np.sqrt((target + 1e-10) / np.maximum(power + 1e-10, 1e-10))
+    return np.concatenate([left[:-n], mixed*np.clip(gain, 1, 1.65), right[n:]])
 
 
 def write(kind, key, samples, note, h=None):

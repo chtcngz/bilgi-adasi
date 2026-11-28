@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.110.1 · 28.11.2026
+
+- Birleştirilen kız sesi örneklerinde geçişlerin ses düzeyi dengelendi.
+
 ## 0.110.0 · 28.11.2026
 
 - Yeni ses kayıtlarına yorum yazılabiliyor. Yorumlar tarayıcıda saklanıyor ve ilgili kayıtla birlikte kopyalanabiliyor.

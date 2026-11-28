@@ -15,7 +15,7 @@
   const $ = id => document.getElementById(id);
   const ONAY = 'bilgi-adasi-ses-onaylar', SECIM = 'bilgi-adasi-ses-secimleri';
   // bump with every new cut of the new clips (tools/ses_kes.py), so no browser plays old ones from its cache
-  const SES_V = 2;
+  const SES_V = 3;
   // the man's clips are kept for later; true shows them again beside the girl's
   const ERKEK_SESI = false;
   const G = window.elifRecordings || {};
