@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.118.1 · 28.11.2026
+
+- English: “Nice to meet you, too.” sorusunun hikâyesi değişti: Leo, Maya’ya “Tanıştığımıza memnun oldum.” diyor; Maya ne der?
+
 ## 0.118.0 · 28.11.2026
 
 - **English, “Nice to meet you.” ve “Nice to meet you, too.” için birer balon sorusu:** Leo ve Maya yeni tanışıyor; Leo “Nice to meet you.”, Maya “Nice to meet you, too.” diyor.
