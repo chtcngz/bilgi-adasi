@@ -7,6 +7,12 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.104.0 · 28.11.2026
+
+- **English, 3 yeni soru: Good evening!** Akşam Leo büyükannesini ziyarete gidiyor; akşam Maya ve Leo sokakta karşılaşıyor; akşam Maya’nın babası işten eve geliyor. Şıklar: Good evening!, Good afternoon!, Good morning!. 1. etapta artık 12 soru var.
+- **Her turda 6 soru:** Bir etabın soruları çoğaldığı için her girişte 6 soru geliyor: her kelimeden (Welcome!, Good morning!, Good afternoon!, Good evening!) en az bir soru, kalanı rastgele; sıra her seferinde farklı. Çocuk turları tekrarladıkça bütün soruları görüyor.
+- Resimlerde yanlış yazılmış İngilizce bir tahta ve büyükannenin paspasındaki “Welcome” yazısı silindi.
+
 ## 0.103.0 · 28.11.2026
 
 - **English, 3 yeni soru: Good afternoon!** Öğleden sonra beden eğitimi dersinde öğretmen Maya ve Leo’yu selamlıyor; öğle yemeğinden sonra Leo ve Maya okul kapısında karşılaşıyor; öğleden sonra Maya parkta Leo’yu görüyor. Şıklar: Good afternoon!, Good evening!, Good night!. 1. etapta artık 9 soru var.
