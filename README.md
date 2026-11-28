@@ -103,7 +103,8 @@ app/                         Published site (GitHub Pages root)
 ├── sound/                   Sesler (…/sound/, not linked): the owner chooses Elif Ba's recordings. Three tabs: 📂 Bölümler
 │                            (the sections: only harekesiz, harekeli and tenvin have rows; cezm, şedde, uzatma, words,
 │                            mukattaa and Turkish words are titles marked "Ses dosyası örneği yok" until they are made
-│                            again), ✓ Seçilenler (the clips the owner chose, as cards to play: secimler.js) and
+│                            again), ✓ Seçilenler (the clips the owner chose, as cards to play: secimler.js; a reading with none is an
+│                            empty red slot) and
 │                            🎙 Seslendirilecekler (the readings with no suitable clip, to be recorded again). In a
 │                            section every reading is a row with the girl's clip the game plays now on the left (read from
 │                            kayitlar.js and data.js; the man's clips stay there and in the code, hidden: ERKEK_SESI in

@@ -1,8 +1,9 @@
 // Sesler (sound/index.html): the Elif Ba clips the owner keeps, and the readings that still need a voice.
 //
-// Three tabs: 📂 Bölümler (the sections), ✓ Seçilenler (every reading with a chosen clip, to listen to) and
-// 🎙 Seslendirilecekler (the readings with none: they get new recordings). Only Harekesiz, Harekeli and Tenvin have rows;
-// the other sections (Cezm, Şedde, Uzatma, Kelimeler, Mukattaa, Türkçe sözler) are only titles until they are made again.
+// Three tabs: 📂 Bölümler (the sections), ✓ Seçilenler (every reading with a chosen clip, to listen to; the others are
+// empty red slots) and 🎙 Seslendirilecekler (the readings with none: they get new recordings). Only Harekesiz, Harekeli
+// and Tenvin have rows; the other sections (Cezm, Şedde, Uzatma, Kelimeler, Mukattaa, Türkçe sözler) are only titles until
+// they are made again.
 // In a section every reading is a row: on the left the girl's clip the game plays now (window.elifRecordings.cocuk,
 // assets/audio/elif-ba/kayitlar.js, with elifData from islands/elif-ba/data.js for the writing), on the right the new clips
 // cut from the owner's recordings (window.sesListesi, sound/liste.js) of the same letter and hareke.
@@ -263,6 +264,19 @@
     return b;
   }
 
+  // a reading with no chosen clip: an empty red slot, no sound. In the letter grids the row and the column name it; in a
+  // plain grid (Harekesiz, the example words) its writing stays, faint, so that the gap can be told apart.
+  function eksikKart(r, yazili) {
+    const b = el('span', 'kart kart-eksik');
+    b.title = r.ad + ' · seçilen ses yok';
+    b.setAttribute('aria-label', r.ad + ': seçilen ses yok');
+    const yazi = el('span', 'kart-yazi');
+    yazi.append(arabic(r.ar), el('small', '', r.okunus || r.ad));
+    if (!yazili) yazi.style.visibility = 'hidden';   // kept, unseen, so the slot is as tall as a card
+    b.append(yazi);
+    return b;
+  }
+
   /* ---------- the tabs ---------- */
   const SEKMELER = [
     { id: '', ikon: '📂', ad: 'Bölümler' },
@@ -318,14 +332,14 @@
   // ✓ Seçilenler: a section's letters as cards; harekeli and tenvin one line a letter, a column a hareke
   function secilenler() {
     const ana = $('ana');
+    // every reading of the section is in its place: a chosen one as a card to play, a missing one as an empty red slot
     for (const b of DOLU) {
-      const rows = b.rows.filter(secili);
-      if (!rows.length) continue;
+      const sayi = b.rows.filter(secili).length;
       const blok = el('section', 'blok');
       const h = el('h2', 'grup');
-      h.append(b.ad + ' ', el('span', 'sayi', rows.length + ' / ' + b.rows.length), hepsiDugmesi(b.ad, () => blok));
+      h.append(b.ad + ' ', el('span', 'sayi', sayi + ' / ' + b.rows.length), hepsiDugmesi(b.ad, () => blok));
       blok.append(h);
-      const harfli = rows.filter(r => r.h !== undefined && !r.kume), diger = rows.filter(r => r.h === undefined || r.kume);
+      const harfli = b.rows.filter(r => r.h !== undefined && !r.kume), diger = b.rows.filter(r => r.h === undefined || r.kume);
       if (harfli.length) {
         const t = el('div', 'harfler');
         t.append(el('span', 'harfler-bas'), ...b.sutun.map(s => el('span', 'harfler-bas', s)));
@@ -334,7 +348,7 @@
           t.append(el('span', 'harf-adi', g));
           for (let hh = 0; hh < 3; hh++) {
             const r = harfli.find(x => x.grup === g && x.h === hh);
-            t.append(r ? kart(r) : el('span', 'kart-yok'));
+            t.append(!r ? el('span', 'kart-yok') : secili(r) ? kart(r) : eksikKart(r, false));
           }
         }
         blok.append(t);
@@ -347,11 +361,10 @@
           grid = el('div', 'kartlar');
           blok.append(grid);
         }
-        grid.append(kart(r));
+        grid.append(secili(r) ? kart(r) : eksikKart(r, true));
       }
       ana.append(blok);
     }
-    if (!ana.children.length) ana.append(el('p', 'yok', 'Henüz seçilen ses yok.'));
   }
 
   // 🎙 Seslendirilecekler: every reading without a chosen clip, as a row with what the game plays now

@@ -102,6 +102,10 @@ main { max-width: 1100px; margin: 0 auto; padding: 12px 16px 120px; }
 .kart-yazi small { color: var(--soft); font-size: 12px; overflow-wrap: anywhere; }
 .kart .etiket { position: absolute; top: 3px; right: 4px; margin: 0; background: #e3edf8; color: var(--new); }
 .kart-yok { border: 2px dashed #efe6d6; border-radius: 14px; }
+.kart.kart-eksik { --eksik: #d23c3c; justify-content: center; border: 2px dashed var(--eksik); background: #fdeaea; }
+.kart-eksik .kart-yazi { text-align: center; opacity: .7; }
+.kart-eksik .kart-yazi .ar, .kart-eksik .kart-yazi small { color: var(--eksik); }
+.kart.kart-eksik:hover { border-color: var(--eksik); }
 .yok { color: var(--soft); padding: 30px 0; text-align: center; }
 
 #durum { position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); max-width: 92vw; padding: 8px 14px; border-radius: 12px; background: #173f40; color: #fff; font-size: 14px; z-index: 9; }

@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.116.9 · 28.11.2026
+
+- Sesler, Seçilenler: Seçilmemiş okumalar da yerinde görünüyor; boş, kırmızı kesik çizgili bir kutu olarak. Harekesiz ve örnek kelimelerde kutunun içinde harf soluk kırmızıyla yazılı. ▶▶ yalnızca seçilen sesleri çalıyor.
+
 ## 0.116.8 · 28.11.2026
 
 - Sesler: Dad’ın bütün okumaları (harekesiz, harekeli ve tenvinli) seçimlerden çıkarıldı ve ilk halleriyle Seslendirilecekler listesine alındı; yalnızca oyundaki kız sesi görünüyor.
