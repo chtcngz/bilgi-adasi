@@ -1,15 +1,22 @@
 # Elif Ba Adası · Oyun önerileri
 
-Oynanabilir taslaklar **Deneme Odası**'nda duruyor: `app/deneme/` (yayında `…/deneme/` adresi). Oyunun hiçbir ekranı bu sayfaya bağlantı vermez. Deneme Odası profil, yıldız ya da ilerleme kullanmaz, hiçbir şey saklamaz. Bir oyun doğrudan da açılabilir: `deneme/#kabuk`, `#tren`, `#giydir`, `#kolye`, `#album`, `#buyutec`.
+Oynanabilir taslaklar **Deneme Odası**'nda duruyor: `app/deneme/` (yayında `…/deneme/` adresi). Oyunun hiçbir ekranı bu sayfaya bağlantı vermez. Deneme Odası profil, yıldız ya da ilerleme kullanmaz, hiçbir şey saklamaz. Bir oyun doğrudan da açılabilir: `deneme/#uzat`, `#kalin`, `#papagan`, `#yunus`, `#fener`, `#tren`, `#giydir`, `#kolye`, `#album`, `#buyutec`.
+
+Oyuna giren bir taslak Deneme Odası’ndan çıkarılır; burada “Oyunda” diye kalır. Odadaki yeni fikirler önde ve “✨ Yeni” işaretli; her oyunun 🐢💬 düğmesi oyunun ne olduğunu sesli söylüyor, 💡 Öneri kutusu büyükler için.
 
 | Öneri | Durum |
 |---|---|
+| 🍬 Kısa mı Uzun mu? | Yeni fikir (0.96.0), Deneme Odası’nda · Uzatma (med) |
+| 🐘 Fil mi Kuş mu? | Yeni fikir (0.96.0), Deneme Odası’nda · kalın ve ince harfler |
+| 🦜 Papağan | Yeni fikir (0.96.0), Deneme Odası’nda · çocuk kendisi söylüyor |
+| 🐬 Yunus Şarkısı | Yeni fikir (0.96.0), Deneme Odası’nda · sıra hafızası |
+| 🔦 Fenerle Ara | Yeni fikir (0.96.0), Deneme Odası’nda · karanlıkta harf arama |
 | 🐣 İlk Harf Albümüm | Deneme Odası’nda · yumurtalardan çıkan 28 sesli harf |
 | 🐢 Harf Büyüteci | Deneme Odası’nda · gösterilen harfin eşine dokunma |
 | 🐠 Akvaryum | **Oyunda** (0.16.0) |
-| 🐚 Kabuk Hafızası | **Oyunda** (0.83.0) · oyun adımlarında seçilebiliyor; taslağı Deneme Odası'nda da duruyor |
+| 🐚 Kabuk Hafızası | **Oyunda** (0.83.0) · oyun adımlarında seçilebiliyor; taslağı Deneme Odası’ndan çıkarıldı (0.96.0) |
 | 🦀 Yengeç Avı, 🎣 Balık Tutma, 🧺 Sepete Topla | **Oyunda** (0.83.0) · oyun adımlarında balon ve yağmur oyunlarının yerine seçilebiliyor |
-| 🚂 Hece Treni | Deneme Odası'nda |
+| 🚂 Hece Treni | Deneme Odası'nda · tren düzeni İngilizce Koyu’nda 🚂 Kelime Treni olarak oyunda, Elif Ba için hâlâ taslak |
 | 🎩 Harekeyi Giydir | Yeni fikir, Deneme Odası'nda |
 | 📿 İnci Kolye | Yeni fikir, Deneme Odası'nda |
 | 🦎 Harf Bukalemunu | **Oyunda** (0.32.0) · Bitişik yazılış turunda “Harf avı” sorusu |
@@ -33,7 +40,7 @@ Kumsalda kapalı deniz kabukları var. Çocuk iki kabuk açıyor ve her açılan
 - Okul öncesi çocuklar bu oyunu çok sever. Can kaybı yok, bu yüzden rahatlatıcı bir mola olur.
 - Yapması en hızlı oyun bu.
 
-**Taslakta:** Üç seviye de var (4, 4 ve 5 çift). Hece seviyesinde aynı okunan iki hece aynı tahtaya gelmiyor.
+**Taslak:** Üç seviyesiyle (4, 4 ve 5 çift) Deneme Odası’ndaydı; oyuna girdiği için 0.96.0’da çıkarıldı.
 
 **Oyunda (0.83.0):** Her adacığın oyun adımında, adımın kendi yağmur ya da balon oyunu yerine seçilebiliyor (`games/kabuk.js`). Bir kabuk heceyi söylüyor 🔊, öteki yazısını gösteriyor; sesi ile yazısı eşleşince inci oluyor. İki tahta var (4 ve 6 çift), ikincisinde ilk tahtadakilerin en kolay karışanları da var (bin ile bi, be ile bi). Can yok; boşuna açılan kabuk sayısı yıldızları belirliyor.
 
@@ -104,3 +111,54 @@ Her koyun dört harfi, Elif Ba sırasıyla bir inci kolyeye diziliyor. İpin ba�
 - Yeni kayıt gerekmiyor. Her koyun Harfler adımının sonuna ya da Cam Köprü'den önceye küçük bir bulmaca olarak eklenebilir.
 
 **Taslakta:** Yedi koyun yedi kolyesi, 28 harfin hepsi.
+
+## 🍬 Kısa mı Uzun mu? (yeni fikir, Uzatma)
+
+Kaplumbağa bir hece okuyor: ya kısa (بَ) ya uzun (بَا). Çocuk iki karttan birine dokunuyor: kısa kartın altında kısa, uzun kartın altında uzun pembe bir sakız şeridi var. Okumayı bilmeyen çocuk şeritten anlıyor; harfleri gördükçe uzatan elifi, ye’yi ve vav’ı da tanıyor.
+
+- Haritada “Yakında” duran Uzatma Koyu’nun ilk oyunu olabilir. Doğru kartta şerit ses boyunca sağdan sola uzuyor. Yanlışta önce dokunulan, sonra doğru hece okunuyor; iki ses arka arkaya duyulunca fark belli oluyor, doğru kart yeşil parlıyor.
+- **Kayıtlar hazır:** Diyanet Elifba’nın Fetha’nın, Kesra’nın ve Damme’nin Uzatılması derslerinden 28 harfin üç uzun hecesi, 84 kayıt (بَا, بِي, بُو …) bayt bayt `app/deneme/ses/uzun/NN-H.mp3` olarak alındı (H: 0 üstün, 1 esre, 2 ötre; kaynakları aynı klasördeki `kaynak.json`). Kısa heceler oyundaki aynı Diyanet sesi, böylece iki ses yalnızca uzunlukta ayrılıyor. Uzatma Koyu yapılınca bu kayıtlar `assets/audio/elif-ba/` altına taşınır.
+- Diyanet uzun esreyi dikey esreyle yazıyor (ب۪ى); bu işaret (U+06EA) yaygın telefon yazı tiplerinde harfi bozduğu için taslakta düz yazılış (بِي) kullanılıyor.
+
+**Taslakta:** 10 tur; her turda başka bir harf, üç hareke sırayla, yarısı kısa yarısı uzun.
+
+## 🐘 Fil mi Kuş mu? (yeni fikir, kalın ve ince harfler)
+
+Diyanet Elifba harfleri ince ve kalın diye iki gruba ayırıyor (uzatma derslerinde ayrı satırlarda okutuluyor): خ ر غ ق ص ض ط ظ kalın okunur (sa, ta, kı), ötekiler ince (se, te, ki). Çocuklar en çok bu ikilileri karıştırıyor: س ile ص, ت ile ط, ك ile ق.
+
+- Kaplumbağa bir hece okuyor ve heceyi gösteriyor. Kalın sesse file 🐘, ince sesse kuşa 🐤 veriliyor. Şıklar resim; yazı okumak gerekmiyor.
+- Yanlışta doğru hayvan heceyi söylüyor, öteki hayvan da onun ikizini (صَ “sa”, سَ “se”): çocuk kalın ve ince sesi yan yana duyuyor. Doğru hayvana yine de dokunmak gerekiyor.
+- Yeni kayıt gerekmiyor. Harekeler adımına ya da Uzatma Koyu’na oyun olarak eklenebilir.
+- Elif, Ha ve Ayn ince sayılıyor ama Türk kulağına “a” gibi geldiğinden taslakta sorulmuyor; Ra esreyle (ri) ince olduğundan yalnızca üstün ve ötreyle geliyor.
+
+**Taslakta:** 12 tur, yarısı kalın yarısı ince.
+
+## 🦜 Papağan (yeni fikir, söyle ve dinle)
+
+Bütün oyunlar duyduğunu bulmayı çalıştırıyor; Elif Ba’nın amacı ise sesli okumak. Bu oyunda çocuk kendisi söylüyor: kaplumbağayı dinliyor, 🎤 düğmesine dokunup söylüyor, sonra papağan önce kaplumbağanın, sonra çocuğun sesini tekrar ediyor.
+
+- Puan ya da yanlış yok; çocuk kendi sesini öğretmeninkiyle yan yana duyup karşılaştırıyor. Konuşurken papağanın yanındaki ses çubukları kıpırdıyor.
+- Kayıt cihazdan çıkmıyor, hiçbir yere gönderilmiyor, saklanmıyor; oyundan çıkınca mikrofon kapanıyor. İzin verilmezse 🎤 düğmesi 🚫 oluyor, kaplumbağa yine dinlenebiliyor.
+- Harf (ا), hece (بَ) ve uzun hece (بَا) sekmeleri var; sekmelerde yazı yok, harf var. Aynı oyun İngilizce Koyu’nda kelimeleri söylemek için de kullanılabilir.
+
+**Taslakta:** Her sekmede 8 kart; kayıt 2,6 saniyede kendiliğinden duruyor (ya da 🎤’e yeniden dokununca).
+
+## 🐬 Yunus Şarkısı (yeni fikir, sıra hafızası)
+
+Dört yunusun başında bir koyun dört harfi var. Yunuslar sırayla zıplayıp harflerini söylüyor; çocuk aynı sırayla yunuslara dokunuyor. Şarkı her seferinde bir harf uzuyor.
+
+- Sesleri sırayla akılda tutmak kelime okumanın temeli: هَلَكَ okunurken üç hece sırayla akılda kalmalı. Oyun bunu harflerle çalıştırıyor.
+- Yanlışta doğru yunus parlayıp zıplıyor, şarkı baştan bir daha söyleniyor; can yok.
+- Yeni kayıt gerekmiyor. Harekeli hecelerle de oynanabilir; İngilizce Koyu’nda kelimelerle de olur.
+
+**Taslakta:** Rastgele bir koyun harfleriyle 2, 3, 4 ve 5 harflik dört şarkı.
+
+## 🔦 Fenerle Ara (yeni fikir)
+
+Ekran gece denizi gibi karanlık; harfler kumun üstüne saklanmış. Çocuk parmağını gezdirdikçe fener ışığı onu izliyor, ışığın altındaki harfler görünüyor. Kaplumbağa bir harf söylüyor, çocuk onu bulunca dokunuyor.
+
+- Karanlıkta rastgele dokunmak işe yaramıyor: ilk dokunuş yalnızca ışık tutuyor, harf ancak dokunmadan önce görünüyorsa seçilebiliyor.
+- Aralarında hep noktadaş eşleri var (ب ت ث); harfi noktasından da tanımak gerekiyor. Yanlış harf adını söylüyor; doğru bulununca deniz aydınlanıyor.
+- Yeni kayıt gerekmiyor. Bitişik yazılışta şekillerle, İngilizce Koyu’nda resimlerle (karanlık odada “Find the ball!”) de oynanabilir.
+
+**Taslakta:** 8 tur, her turda 6 harf.

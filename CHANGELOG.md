@@ -7,12 +7,47 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
-## 0.96.0 · 28.11.2026
+## 0.99.0 · 28.11.2026
 
 - **English, Selamlaşma istasyonu 6 etapta:** İstasyona dokununca altı etap, küçük yuvarlak resimler hâlinde bir patika üzerinde açılıyor: 1 Selamlaşma, 2 Vedalaşma, 3 Tanışma, 4 Hal hatır, 5 Arkadaş ve yaş, 6 Nezaket. Etaplar sırayla açılıyor; bir etabın son kartına gelince etap bitiyor (✓) ve sıradaki açılıyor.
 - **Tanıtım kartları:** Her etap kelimelerini büyük, baloncuklu resimlerle tanıtıyor: İngilizcesi yazıyor ve okunuyor, Türkçesi altında; 🔊 ve 🐢 ile yeniden dinlenebiliyor. 42 kelime, 43 kart.
 - **Leo ve Maya:** Kartlardaki çocukların adları belli: Leo 9 yaşında, Maya 10 yaşında. “My name is Leo.”, “My name is Maya.”, “I am Maya.”, “I’m 9 years old.”, “This is my friend Leo.” kartlarının baloncukları buna göre yazıldı. “I am sorry.”, “I am good!” ve “Thanks!” için de benzer resimlerin baloncukları değiştirildi.
 - **Resimler sayfası:** Yüklenen resimler artık 1024 piksele kadar saklanıyor (önce 256’ydı); kelimeler 6 etaba göre gruplu.
+## 0.98.0 · 28.11.2026
+
+- **Yeni sayfa: Sesler (`…/sound/`, oyundan bağlantı verilmiyor).** *Elifle Animasyonlu Elifba* kayıtlarındaki (3 dosya, 42 dakika) Arapça okunuşlar tek tek kesildi: 265 ses. Her birinin yanında Arapça yazılışı, adı (“iki ötre be”), okunuşu (“bün”) ve ▶ düğmesi var. Bölümler: harekesiz harf adları ve sesleri (46), harekeli (87: elif, hemze ve 27 harf üstün, esre, ötre ile), tenvin (87), cezm (4), şedde (6), uzatma (16), kelimeler (13: bihî, kâle, ellezî, errahmânu harf harf), mukattaa harfleri (6: Yâsîn, Ayn Sîn Kâf). Aynı okunuş birden çok yerde geçiyorsa `elif-1`, `elif-2` diye ayrılıyor.
+- **Seçme:** Her sesin ✓ kutusuyla kullanılacaklar işaretleniyor; seçimler tarayıcıda kalıyor, “☑ Seçtiklerim” yalnızca onları gösteriyor, “📋 Seçimleri kopyala” listeyi kopyalıyor. Her bölümün “▶ Sırayla çal” düğmesi bölümü baştan sona dinletiyor.
+
+## 0.97.1 · 28.11.2026
+
+- **Elif Ba, Be, Te ve Se harflerinin adı:** Bu üç harfin adı söylendiğinde artık üstünlü okunuşları çalınıyor: be, te, se. Kız çocuk sesinde de erkek sesinde de aynı; harf kartlarında, Harf Yağmuru’nda, sorularda, akvaryum baloncuklarında ve harf adının okunduğu her yerde.
+
+## 0.97.0 · 28.11.2026
+
+- **Elif Ba kartlarında ahenkli okuma:** Kartların sağ üstündeki ♪ düğmesi artık kutuları hızla art arda saymıyor. Kutuları sırayla, okuduğu kutuyu sarıya yakarak ve bir ritimle okuyor. Bir ikilinin içinde kısa bir ara var (“e … en”), ikililerin arasında daha uzun bir ara (“e … en  ·  i … in  ·  u … un”).
+- Bütün kartlarda böyle: Harekeler (be … bi … bu), Bitişik yazılış (hecenin başta, ortada ve sondaki üç şekli birlikte yanıyor), Cezm (bi … bis), Tenvin (be … ben), Şedde (bis … se … bisse, sonra bissi ve bissu) ve Cezm ile Tenvin adımlarının başındaki üç adımlı ders kartları.
+
+## 0.96.1 · 28.11.2026
+
+- **Elif Ba, işaret adımlarında Türkçe açıklama yok:** Harekeler, Cezm, Tenvin ve Şedde adımlarının başındaki 🐢💬 düğmesi ve yazılı açıklama kaldırıldı.
+- **Harekeler kartları:** Hecelerin altındaki “üstün, esre, ötre” yazıları kalktı. ♪ düğmesi artık işaret adı söylemiyor, yalnızca heceleri okuyor: “be, bi, bu”. Bitişik yazılış kartlarındaki ♪ de aynı.
+- **Kartların altındaki yazı satırı:** Bütün Elif Ba adımlarında bir karta dokununca en altta çıkan yazı (“Be iki ötre” gibi) artık çıkmıyor.
+
+## 0.96.0 · 28.11.2026
+
+Deneme Odası’na (`…/deneme/`, oyundan bağlantı verilmiyor) ileride oyunlarda kullanılmak üzere beş yeni oyun fikri geldi; hepsi oynanabiliyor ve okuma bilmeyen çocuklar için sesli. Odada önde ve “✨ Yeni” işaretliler; her oyunun 🐢💬 düğmesi oyunun ne olduğunu söylüyor.
+
+- **🍬 Kısa mı Uzun mu?** Yakında açılacak Uzatma Koyu için: kaplumbağa kısa (بَ) ya da uzun (بَا) bir hece okuyor, çocuk kısa ya da uzun sakız şeritli kartı seçiyor. Uzun heceler Diyanet Elifba’nın uzatma derslerinden alındı (84 kayıt).
+- **🐘 Fil mi Kuş mu?** Kalın harfler (خ ر غ ق ص ض ط ظ) file, ince harfler kuşa veriliyor; yanlışta iki hayvan kalın ve ince ikizi (sa, se) yan yana söylüyor.
+- **🦜 Papağan:** Çocuk kaplumbağayı dinleyip mikrofona kendisi söylüyor; papağan iki sesi de tekrar ediyor. Kayıt hiçbir yere gönderilmiyor, saklanmıyor.
+- **🐬 Yunus Şarkısı:** Yunuslar harfleri sırayla söylüyor, çocuk aynı sırayla dokunuyor; şarkı 2 harften 5 harfe uzuyor.
+- **🔦 Fenerle Ara:** Karanlık denizde parmakla fener gezdirip duyulan harfi buluyor; aralarında noktadaş eşleri var.
+- **Kabuk Hafızası** oyuna girdiği için (0.83.0) Deneme Odası’ndan çıkarıldı.
+
+## 0.95.1 · 28.11.2026
+
+- **Elif Ba, işareti tanıtan kartlarda işaret adları okunmuyor:** Cezm, Tenvin ve Şedde adımlarının kartlarında artık Türkçe işaret adı okunmuyor (“iki ötre”, “şedde”, “Sin cezm” gibi). Dersin başındaki tenvin işaretlerine dokununca Be harfiyle okunuşu geliyor (ben, bin, bun), şedde işaretine dokununca Be’nin şeddeli hecesi. ♪ düğmeleri de yalnızca heceleri okuyor: “bi, bis”, “be, ben”, “bis, se, bisse”. Cezimli harfe dokununca kurduğu hece okunuyor.
+- **Harflerin altındaki yazılar kaldırıldı:** Bu kartlarda harflerin ve işaretlerin altında yazan “üstün”, “iki üstün”, “şedde” gibi Türkçe yazılar artık yok.
 
 ## 0.95.0 · 27.11.2026
 

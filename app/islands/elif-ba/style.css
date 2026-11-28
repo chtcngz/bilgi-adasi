@@ -217,6 +217,7 @@
 .elif-section-head h2 small { display: block; font-size: 15px; font-weight: 850; text-transform: uppercase; letter-spacing: .05em; color: #5a6f6a; }
 #elif-section-count { font-weight: 850; padding: 6px 12px; border-radius: 20px; background: #f7ebca; color: #705127; }
 .elif-guide { display: flex; align-items: center; gap: 12px; margin: 8px 0 12px; font-weight: 650; }
+.elif-guide[hidden] { display: none; }
 .elif-guide span { flex: 1; font-size: 14px; color: #5a6f6a; }
 /* The turtle button says aloud what to do: the children cannot read yet. */
 .elif-howto { flex: none; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; border: 2px solid #b2d5c4; background: #fff; font-size: 18px; white-space: nowrap; box-shadow: 0 3px #b2d5c4; }
@@ -253,6 +254,9 @@
 .elif-syllable { display: grid; justify-items: center; padding: 2px 4px 8px; border-radius: 16px; border: 2px solid var(--rim, #b2d5c4); background: white; color: var(--ink, #174e48); }
 .elif-syllable b { font-size: clamp(44px, 6vw, 64px); line-height: 1.5; }
 .elif-syllable span { font-weight: 850; font-size: 15px; opacity: .85; }
+/* A card read by its ♪ (voice.recite): the box being read lights up. */
+.elif-syllable { transition: background-color .25s, border-color .25s, transform .25s, box-shadow .25s; }
+.elif-syllable.say { background: #ffe9a6; border-color: #e0a630; transform: scale(1.06); box-shadow: 0 0 0 4px #ffd35c88; }
 #elif-note { min-height: 24px; font-weight: 750; text-align: center; }
 
 /* Bitişik yazılış cards: the letter's syllables, then at each place (right to left) its three harekeli shapes and an example word */

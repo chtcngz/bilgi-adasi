@@ -21,9 +21,14 @@ const elifVoice = (() => {
   // A recorded clip in the chosen voice: the girl's when she has it, else the man's; none for 'turkce'.
   const clip = (kind, key) => mode === 'turkce' ? null : (mode === 'cocuk' && child[kind]?.[key]) || recorded[kind]?.[key] || null;
   const context = () => (typeof playCue === 'function' && playCue.context?.()) || null;
+  const calm = matchMedia('(prefers-reduced-motion: reduce)');
 
+  // The card boxes lit while they are read (recite): put out when another reading starts or this one ends.
+  let lit = null;
   function stop() {
     run++;
+    lit?.(-1);
+    lit = null;
     window.speechSynthesis?.cancel();
     if (source) { source.onended = null; try { source.stop(); } catch {} source = null; }
     if (element) { element.pause(); element = null; }
@@ -61,6 +66,8 @@ const elifVoice = (() => {
       const step = steps[i];
       const done = () => { if (mine === run) next(i + 1); };
       if (step.run) { step.run(); return done(); }
+      // a pause, for the rhythm of a card read box by box
+      if (step.wait) { setTimeout(done, calm.matches ? Math.min(step.wait, 300) : step.wait); return; }
       const say = () => {
         if (mine !== run) return;
         const tr = turkishVoice();
@@ -141,6 +148,31 @@ const elifVoice = (() => {
   // clips, and the parts they are made of in the same voice, so the two are heard alike but for the şedde.
   const manClip = (kind, key) => mode === 'turkce' ? null : recorded[kind]?.[key] || null;
   const seddeStep = (i, h) => ({ src: clip('sedde', i + '-' + h), text: elifData.seddeReading(i, h) });
+  // Reading a card box by box, in a steady rhythm: a short breath inside a pair (be … ben), a longer one between
+  // pairs. `items` are steps and pauses (ms); before the n-th step light(n) lights its box, light(-1) puts it out.
+  const PAIR = 350, NEXT = 900;
+  function recite(items, light, note, after) {
+    let n = 0;
+    const list = [];
+    for (const item of items) {
+      if (typeof item === 'number') { list.push({ wait: item }); continue; }
+      const k = n++;
+      list.push({ run: () => { lit = light || null; light?.(k); } }, item);
+    }
+    sequence(list, note, heard => { lit?.(-1); lit = null; after?.(heard); });
+  }
+  const syllableOf = (i, h) => ({ src: syllableClip(i, h), text: elifData.readings[i][h] });
+  // The steps a card can be read with (recite).
+  const steps = {
+    syllable: syllableOf,
+    tenvin: tenvinStep,
+    cezm: i => ({ src: cezmClip(i), text: elifData.cezmReadings[i] }),
+    sedde: seddeStep,
+    // the parts of a şedde syllable, in the man's voice like the syllable they make
+    seddeParts: (i, h) => [{ src: manClip('cezm', i), text: elifData.cezmReadings[i] }, { src: manClip('hece', i + '-' + h), text: elifData.readings[i][h] }],
+    cezmExample: (p, s) => ({ src: exampleClip(p, s), text: elifData.cezmExampleReadings[p][s] }),
+    tenvinWord: p => ({ src: clip('tenvinOrnek', p), text: elifData.tenvinExamples[p].reading })
+  };
   const seddesizStep = (i, h) => ({ src: clip('seddesiz', i + '-' + h), text: elifData.seddesizReading(i, h) });
 
   return {
@@ -159,34 +191,24 @@ const elifVoice = (() => {
     // "Be. Kelimenin başında": a harekeli letter's shape at a place in the word.
     shape: (i, h, f, note, after) => sequence([syllableStep(i, h), ...(f ? [{ src: placeClip(f), text: placeText[f] }] : [])], note, after),
     cezm: (i, note, after) => sequence([{ src: cezmClip(i), text: elifData.cezmReadings[i] }], note, after),
-    // "Be esre bi, sin cezm bis": a cezm syllable the way it is chanted in class.
-    cezmChant(i, note, after) {
+    // "Bi … bis": the harekeli letter, then the syllable the letter with the cezm closes (no mark names are said).
+    cezmChant(i, note, after, light) {
       const { before } = elifData.cezm(i);
-      sequence([...named(before.i, before.h), { src: syllableClip(before.i, before.h), text: elifData.readings[before.i][before.h] },
-        ...named(i, 'cezm'), { src: cezmClip(i), text: elifData.cezmReadings[i] }], note, after);
+      recite([syllableOf(before.i, before.h), PAIR, steps.cezm(i)], light, note, after);
     },
     cezmExample: (p, s, note, after) => sequence([{ src: exampleClip(p, s), text: elifData.cezmExampleReadings[p][s] }], note, after),
     tenvin: (i, h, note, after) => sequence([tenvinStep(i, h)], note, after),
-    // "Be iki üstün ben": a tenvin the way it is chanted in class; without h, all three in turn.
-    tenvinChant(i, h, note, after) {
-      sequence([...(h === undefined ? [0, 1, 2] : [h])].flatMap(k => [...named(i, 'tenvin-' + k), tenvinStep(i, k)]), note, after);
-    },
-    // A mark's name on its own ("iki esre"), in the girl's voice when she has it.
-    tenvinName(h, note, after) {
-      const markClip = mode === 'cocuk' && child.hareke['tenvin-' + h];
-      sequence([markClip ? { src: markClip, text: markText('tenvin-' + h) } : { text: markText('tenvin-' + h) }], note, after);
+    // "Be … ben": the letter with the hareke, then with the tenvin (no mark names are said); without h, all three
+    // pairs in turn, a pause between them.
+    tenvinChant(i, h, note, after, light) {
+      recite((h === undefined ? [0, 1, 2] : [h]).flatMap((k, n) => [...(n ? [NEXT] : []), syllableOf(i, k), PAIR, tenvinStep(i, k)]), light, note, after);
     },
     sedde: (i, h, note, after) => sequence([seddeStep(i, h)], note, after),
     seddesiz: (i, h, note, after) => sequence([seddesizStep(i, h)], note, after),
-    // "Sin şedde: bis, se, bisse": how the şedde syllable is made, then the syllable.
-    seddeChant(i, h, note, after) {
-      sequence([...named(i, 'sedde'), { src: manClip('cezm', i), text: elifData.cezmReadings[i] },
-        { src: manClip('hece', i + '-' + h), text: elifData.readings[i][h] }, seddeStep(i, h)], note, after);
-    },
-    // A mark's name on its own (h: 'sedde', 'cezm' or a hareke), in the girl's voice when she has it.
-    markName(h, note, after) {
-      const markClip = mode === 'cocuk' && child.hareke[h];
-      sequence([markClip ? { src: markClip, text: markText(h) } : { text: markText(h) }], note, after);
+    // "Bis … se … bisse": how the şedde syllable is made, then the syllable (no mark names are said).
+    seddeChant(i, h, note, after, light) {
+      const [closing, syllable] = steps.seddeParts(i, h);
+      recite([closing, PAIR, syllable, PAIR, seddeStep(i, h)], light, note, after);
     },
     seddeExample: (p, note, after) => sequence([{ src: clip('seddeOrnek', p), text: elifData.seddeExamples[p].reading }], note, after),
     // The three steps at the top of tenvin cove p (s: 0 the last letter with its hareke, 1 with its tenvin, 2 the word).
@@ -195,7 +217,11 @@ const elifVoice = (() => {
       sequence([s === 0 ? { src: syllableClip(i, h), text: elifData.readings[i][h] } : s === 1 ? tenvinStep(i, h) :
         { src: clip('tenvinOrnek', p), text: reading }], note, after);
     },
-    // "Be üstün be, be esre bi, be ötre bu": the way the harekes are chanted in class.
+    // "Be … bi … bu": a letter's three syllables, with no mark names (the cards of the Harekeler and Bitişik steps).
+    syllables: (i, note, after, light) => recite([syllableOf(i, 0), NEXT, syllableOf(i, 1), NEXT, syllableOf(i, 2)], light, note, after),
+    // A card read box by box: steps (voice.steps) and pauses (voice.PAIR inside a pair, voice.NEXT between pairs).
+    recite, steps, PAIR, NEXT,
+    // "Be üstün be, be esre bi, be ötre bu": the way the harekes are chanted in class (Harekelerle tanış).
     chant(i, h, note) {
       const steps = [];
       for (const k of h === undefined ? [0, 1, 2] : [h]) {

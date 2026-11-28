@@ -1,9 +1,9 @@
 {
  "harf": {
   "0": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_1.mp3",
-  "1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_2.mp3",
-  "2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_3.mp3",
-  "3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_4.mp3",
+  "1": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_2.mp3",
+  "2": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_3.mp3",
+  "3": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/fetha/fetha/btn_4.mp3",
   "4": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_5.mp3",
   "5": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_6.mp3",
   "6": "https://kuran.diyanet.gov.tr/elifba/data/sound/elifba/harfler/harfler/btn_7.mp3",
@@ -183,9 +183,10 @@
    "sha256": "305165dc573a33268ed16ac04d2456f061330cf7461dd07b8839a16ff39aabc3"
   },
   "harf/01.mp3": {
-   "text": "ب",
-   "archiveFile": "elifba/harfler/harfler/okuma/ب__btn_2.mp3",
-   "sha256": "dc18fc74ab2644b9c1ba7232b41a809ada86be1857499c5f2ab393e04c846c40"
+   "text": "بَ",
+   "archiveFile": "elifba/fetha/fetha/okuma/بَ__btn_2.mp3",
+   "sha256": "25ff821c853ad58281f669020f412462da278a384e917700b5dfdd3b93b85147",
+   "note": "Be, Te ve Se harflerinin adı olarak üstünlü okunuşları (be, te, se) kullanılıyor (oyunun sahibinin kararı)."
   },
   "hece/01-0.mp3": {
    "text": "بَ",
@@ -203,9 +204,10 @@
    "sha256": "ea6ba2b57e39b65dca598a00e3b90335337053d95f0ad41284c81774c61236a1"
   },
   "harf/02.mp3": {
-   "text": "ت",
-   "archiveFile": "elifba/harfler/harfler/okuma/ت__btn_3.mp3",
-   "sha256": "7fb9005331f738bcdcce143dd6884171c9a40960b4ac65871902e72e2617eaad"
+   "text": "تَ",
+   "archiveFile": "elifba/fetha/fetha/okuma/تَ__btn_3.mp3",
+   "sha256": "9587f989e374ed9ef471d78b69136b78fbb522cf7fd928774fda3d3870daa227",
+   "note": "Be, Te ve Se harflerinin adı olarak üstünlü okunuşları (be, te, se) kullanılıyor (oyunun sahibinin kararı)."
   },
   "hece/02-0.mp3": {
    "text": "تَ",
@@ -223,9 +225,10 @@
    "sha256": "4e1212d48310ccc4004a331ede8c5f21d7ccba0396ae491357e90f9a2c1676d6"
   },
   "harf/03.mp3": {
-   "text": "ث",
-   "archiveFile": "elifba/harfler/harfler/okuma/ث__btn_4.mp3",
-   "sha256": "51480985c03eb6bd82214d97cd50a28e165787d953f742161d04d8c5d1fef885"
+   "text": "ثَ",
+   "archiveFile": "elifba/fetha/fetha/okuma/ثَ__btn_4.mp3",
+   "sha256": "f9280694500b860e9c71b8fa1eb83e2f1a16f5a412b3556eec6de52f23f5023d",
+   "note": "Be, Te ve Se harflerinin adı olarak üstünlü okunuşları (be, te, se) kullanılıyor (oyunun sahibinin kararı)."
   },
   "hece/03-0.mp3": {
    "text": "ثَ",

@@ -99,19 +99,29 @@ app/                         Published site (GitHub Pages root)
 │   │                        (ingilizce-2/sahneler.js: the pictures of 🔍 Gizli Kelimeler and the places to tap in them;
 │   │                        the pictures are assets/images/ingilizce/sahne/*.webp)
 │   └── sosyal-bilgiler/     Question island: same pattern
+├── sound/                   Sesler (…/sound/): every Arabic reading cut from sound-samples/original/ (harekesiz, harekeli,
+│                            tenvin, cezm, şedde, uzatma, words, mukattaa), each with its writing and a ▶ button; the owner
+│                            ticks the ones to use and copies the choices (localStorage, not linked). ses/<id>.mp3 and
+│                            liste.js are written by tools/ses_kes.py: do not edit them by hand
 ├── kontrol.html             Resim kontrolü: the owner picks İngilizce Koyu's pictures by hand and copies the choices (not linked)
 ├── admin/                   Yönetici sayfası: every player of every device, read from the cloud copy; signs in with
 │                            the admin's Google account (automatically when the browser is already signed in to it)
 │                            or Firebase e-mail and password. Nothing links to it; open …/admin/.
-└── deneme/                  Deneme Odası: playable drafts of proposed Elif Ba games (OYUN-ONERILERI.md).
-                             Nothing in the game links to it; open …/deneme/.
+└── deneme/                  Deneme Odası: playable drafts of proposed Elif Ba games (OYUN-ONERILERI.md); a draft that
+                             goes into the game is taken out. Nothing in the game links to it; open …/deneme/.
+                             ses/: Hece Treni's words and ses/uzun/NN-H.mp3, Diyanet's long (med) syllables for the
+                             Uzatma draft (sources in ses/uzun/kaynak.json).
 tools/                       Helper scripts (not published)
 ├── kapsam.js                Checks every question island against its textbook checklist
 ├── baloncuk.py              Rewrites the text of a picture's speech bubble (English for Kids)
 ├── make_sounds.py           → app/assets/audio/ui/*.wav
 ├── elif_sesleri.py          → app/assets/audio/elif-ba/ (harf, hece, kayitlar.js)
 ├── ingilizce_metinler.js    Every English line İngilizce Koyu says (question words and sentences, the games' lines)
-└── ingilizce_sesler.py      → app/assets/audio/ingilizce/: records those lines with Kokoro (needs the model, see the file)
+├── ingilizce_sesler.py      → app/assets/audio/ingilizce/: records those lines with Kokoro (needs the model, see the file)
+└── ses_kes.py               → app/sound/ses/ and liste.js: cuts the readings listed in sound-samples/kesimler.json
+sound-samples/               The owner's recordings (not published): original/ (Elifle Animasyonlu Elifba 1-3, Turkish narration
+                             with Arabic readings) and kesimler.json, where each reading is in them (file, start, end),
+                             its name, writing and kind
 elifba-ses-onizleme/          The girl's voice as recorded (also uzatma, words …, not used yet) with a page to listen to them
 sources/                     Raw material (not published)
 └── elifba-sesleri/          Diyanet Elifba audio library, organized by lesson, plus katalog.json
@@ -310,7 +320,7 @@ island that gives rewards (catalog cards and bays marked `data-akvaryum` in `ind
 
 ## Adding something new
 
-**Elif Ba is for children who cannot read yet.** Every instruction can be heard from a 🐢💬 button (`elifVoice.instruct`); the introductions of games and sections are said only when it is tapped, a question's instructions also when they first come; choices are letters, sounds or pictures, never words (see `CLAUDE.md`).
+**Elif Ba is for children who cannot read yet.** Every instruction can be heard from a 🐢💬 button (`elifVoice.instruct`); the introductions of games and sections are said only when it is tapped, a question's instructions also when they first come; choices are letters, sounds or pictures, never words. The steps that teach the marks (Harekeler, Cezm, Tenvin, Şedde) name no mark at all: no 🐢💬 introduction, no Turkish words under the letters, and their cards and ♪ buttons play only syllables (`voice.syllables`, `cezmChant`, `tenvinChant`, `seddeChant`); see `CLAUDE.md`.
 
 **A new Elif Ba section** (Uzatma, Âyet …):
 Elif Ba is a single path (the `steps` list in `game.js`). The first seven coves (`LETTER_COVES` in `data.js`) teach the letters, four each: Harfler → Harf Yağmuru → Harekeler → Hece Balonları → Cam Köprü; the first cove also has Harekelerle tanış before Harekeler. From the eighth cove on (`coveTopic(k)` is `bitisik`), the same groups of four come again for bitişik yazılış: Bitişik yazılış → Şekil Yağmuru → Cam Köprü, with the panes in the harekeli letters' joined shapes (ـبَـ). There are seven of them, Martı Adacığı (ا ب ت ث) to Gökkuşağı Adacığı (ن و ه ي). The children know the harekes by then, so nothing in these coves is shown without one: the example words of all 28 letters in `data.js` are fully harekeli three-letter words with no cezm, şedde or tenvin (كَتَبَ), read syllable by syllable from the syllables' own recordings (Diyanet's harekesiz example words and their recordings in `kelime/` are no longer used). From the fifteenth cove on (`cezm`), the groups of four come a third time: Cezm → Cezm Balonları → Cam Köprü, Dalga Adacığı to Ay Işığı Adacığı, with Diyanet's cezm syllable of each letter (`cezm(i)` in `data.js`: بِسْ for sin). From the twenty-second on (`tenvin`), they come a fourth time: Tenvin → Tenvin Balonları → Cam Köprü, Şafak Adacığı to Güneş Adacığı, every letter with iki üstün, iki esre and iki ötre (`tenvin(i, h)` in `data.js`: بًا بٍ بٌ, read ben, bin, bun), each beside the same letter with the hareke alone (بَ). From the twenty-ninth on (`sedde`), a fifth time: Şedde → Şedde Balonları → Cam Köprü, İkiz Adacığı to Hazine Adacığı, every letter's şedde syllable with each hareke (`sedde(i, h)` in `data.js`: بِسَّ, bis-se), built on the letter's cezm syllable (in Elif's place the hemze, as in the cezm), so the path has 35 coves. A tenvin cove's round, balloons and bridge always set the tenvin beside the hareke alone (bin beside bi), a şedde cove's the şedde syllable beside the same letters without it (`seddesiz`, bise beside bisse): hearing the difference is the point. Diyanet has no recording of a letter's şedde syllable, so `sedde/` and `seddesiz/` are made of two of the game's Diyanet clips each (see `KAYNAKLAR.md`). Cam Köprü only ever shows harekeli letters: syllables in a letter cove, joined harekeli shapes in a bitişik cove, cezm syllables (and nothing else) in a cezm cove. In a letter cove's bridge no row is about the letter of either of the two rows before, and no hareke is asked three rows running. `coveTopic(k)` gives a cove's section from `TOPICS`; a new section of seven coves adds its id there. Cam Köprü is the cove's mixed (Karma) game and crosses over to the next cove. Only the next step can be opened, and from the second cove on every round mixes in letters from the earlier coves.

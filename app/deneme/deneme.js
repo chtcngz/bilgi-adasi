@@ -1,8 +1,9 @@
 // Deneme Odası: Elif Ba Adası için önerilen oyunların ilk, oynanabilir taslakları.
 // Oyuncu profili, yıldız ya da ilerleme kullanmaz, hiçbir şey saklamaz. Harf ve hece sesleri oyunun
-// kayıtlarından (elifVoice), Hece Treni'nin kelime kayıtları deneme/ses/ klasöründen gelir.
+// kayıtlarından (elifVoice), Hece Treni'nin kelime kayıtları ve uzun (medli) heceler deneme/ses/ klasöründen gelir.
+// Oyuna giren bir taslak buradan çıkarılır (OYUN-ONERILERI.md).
 (() => {
-  const { glyphs, names, harekeler, syllable, sameSound, coves, coveLetters, LETTER_COVES } = elifData;
+  const { glyphs, names, harekeler, syllable, coves, coveLetters, LETTER_COVES } = elifData;
   const V = elifVoice;
   const lab = $('lab');
   const turtleSvg = id => elifArt.turtle(id);
@@ -18,6 +19,13 @@
   const later = [];
   const wait = (ms, fn) => { const t = setTimeout(fn, ms); later.push(t); return t; };
   function clearLater() { while (later.length) clearTimeout(later.pop()); }
+  // What a game must undo when it is left (the Papağan's microphone).
+  const leaving = [];
+  const onLeave = fn => leaving.push(fn);
+  function leave() {
+    stopAll(); clearLater();
+    while (leaving.length) try { leaving.pop()(); } catch {}
+  }
 
   /* ---------- Ses: oyunun kayıtları ve deneme/ses/ ---------- */
   const cache = new Map();
@@ -62,11 +70,23 @@
   const sayLetter = (i, then) => { stopClip(); V.letter(i, null, guarded(then)); };
   const saySyllable = (i, h, then) => { stopClip(); V.syllable(i, h, null, guarded(then)); };
   const sayText = (text, then) => { stopClip(); V.say(text, null, guarded(then)); };
+  // A spoken instruction, in the device's Turkish voice: the children cannot read yet.
+  const instruct = (text, then) => { stopClip(); V.instruct(text, guarded(then, 2600 + text.length * 120)); };
 
   const clips = {
     kelime: ['خَلَقَ', 'فَتَحَ', 'دَخَلَ', 'شَجَرَ', 'جَعَلَ', 'تَرَكَ', 'ثَمَرَ', 'بَلَغَ', 'نَزَلَ', 'كَسَبَ']
   };
   const wordClip = w => 'deneme/ses/kelime-' + clips.kelime.indexOf(w) + '.mp3';
+  // Uzatma (med): Diyanet's long syllables from the lessons Fetha'nın, Kesra'nın and Damme'nin Uzatılması
+  // (deneme/ses/uzun/NN-H.mp3, sources in kaynak.json there). The short syllable they are compared with is the man's
+  // clip of the game (Diyanet's, too), so the two are heard in the same voice and differ only in length.
+  const longClip = (i, h) => 'deneme/ses/uzun/' + String(i).padStart(2, '0') + '-' + h + '.mp3';
+  const shortClip = (i, h) => window.elifRecordings?.hece?.[i + '-' + h] || null;
+  // An elif after the üstün, a ye after the esre, a vav after the ötre (بَا بِي بُو). Diyanet writes the long esre with a
+  // vertical esre (ب۪ى), but that mark (U+06EA) breaks the letter in common phone fonts, so the plain spelling is used.
+  const longText = (i, h) => h === 0 ? (i === 0 ? 'ءَا' : glyphs[i] + 'َا') : h === 1 ? glyphs[i] + 'ِي' : glyphs[i] + 'ُو';
+  const sayShort = (i, h, then) => shortClip(i, h) ? playClip(shortClip(i, h), then) : saySyllable(i, h, then);
+  const sayLong = (i, h, then) => playClip(longClip(i, h), then);
 
 
   /* ---------- Ortak parçalar ---------- */
@@ -103,18 +123,58 @@
     playCue('victory');
     fx.confetti(document.body, { count: 110 });
   }
+  const replayOf = id => () => openGame(games.find(g => g.id === id));
 
 
   /* ---------- Oyun listesi ---------- */
-  // Akvaryum 0.16.0'da oyuna girdi; Nokta Ustası, Harf Bukalemunu, Taş Atlama ve Kumda Yaz denemeden çıkarıldı.
+  // Oyuna girenler denemeden çıkarıldı: Akvaryum (0.16.0), Harf Bukalemunu (0.32.0), Kabuk Hafızası (0.83.0). Nokta Ustası,
+  // Taş Atlama ve Kumda Yaz denendi, bırakıldı. `fresh`: 0.96.0'da gelen yeni fikirler, odada önde ve “Yeni” işaretli.
+  // `intro` oyunun ne olduğu: Elif Ba'daki gibi kendiliğinden söylenmez, yalnızca 🐢💬 düğmesine dokununca söylenir.
   const games = [
     {
-      id: 'kabuk', icon: '🐚', title: 'Kabuk Hafızası', tag: 'Küçükler için en kolayı', where: 'Mola oyunu',
-      lead: 'Kapalı kabukları aç, sesini dinle, aynı iki harfi bul ve inci yap.',
-      idea: ['Kumsalda kapalı deniz kabukları var. Çocuk iki kabuk açıyor ve her açılan kabuk sesini çıkarıyor. Aynı iki harfi bulunca kabuklar inci oluyor.',
-        'Zorluk adım adım artabilir: önce harf ile aynı harfi, sonra harf ile 🔊 sesini, en sonda harekeli hece ile okunuşunu eşleştirmek.',
-        'Okul öncesi çocuklar bu oyunu çok sever. Can kaybı yok, bu yüzden rahatlatıcı bir mola olur.', 'Yapması en hızlı oyun bu.'],
-      start: startShells
+      id: 'uzat', icon: '🍬', title: 'Kısa mı Uzun mu?', fresh: true, where: 'Uzatma (med)',
+      intro: 'Kısa mı uzun mu oyunu. Harften sonra elif, ye ya da vav gelince hece uzun okunur. Dinle, kısa mı uzun mu bul.',
+      idea: ['Kaplumbağa bir hece okuyor: ya kısa (بَ) ya uzun (بَا). Çocuk iki karttan birine dokunuyor: kısa kartın altında kısa, uzun kartın altında uzun bir sakız şeridi var. Okumayı bilmeyen çocuk da şeritten anlıyor; harfleri gördükçe uzatan elifi, ye’yi ve vav’ı tanıyor.',
+        'Doğru kartta şerit ses boyunca uzuyor (ses uzadıkça sakız uzar). Yanlışta önce dokunulan, sonra doğru hece okunuyor; iki ses arka arkaya duyulunca fark belli oluyor.',
+        'Haritada “Yakında” duran Uzatma Koyu’nun ilk oyunu olabilir. Kayıtlar hazır: Diyanet Elifba’nın Fetha’nın, Kesra’nın ve Damme’nin Uzatılması derslerinden 84 uzun hece (بَا بِي بُو …) bayt bayt alındı (deneme/ses/uzun/). Kısa heceler oyundaki aynı Diyanet sesi.',
+        'Taslakta 10 tur; her turda başka bir harf, üç hareke sırayla, yarısı kısa yarısı uzun.'],
+      start: startLong
+    },
+    {
+      id: 'kalin', icon: '🐘', title: 'Fil mi Kuş mu?', fresh: true, where: 'Harekeler · Uzatma',
+      intro: 'Fil mi kuş mu oyunu. Bazı harfler kalın okunur: Hı, Ra, Gayn, Kaf, Sad, Dad, Tı ve Zı. Kalın sesi file, ince sesi kuşa ver.',
+      idea: ['Diyanet Elifba harfleri ince ve kalın diye iki gruba ayırıyor: خ ر غ ق ص ض ط ظ kalın okunur (sa, ta, kı), ötekiler ince (se, te, ki). Çocuklar en çok bu ikilileri karıştırıyor: س ile ص, ت ile ط, ك ile ق.',
+        'Kaplumbağa bir hece okuyor ve heceyi gösteriyor. Kalın sesse file 🐘, ince sesse kuşa 🐤 veriliyor. Şıklar resim; yazı okumak gerekmiyor.',
+        'Yanlışta fil kalın heceyi, kuş onun ince ikizini söylüyor (صَ “sa”, سَ “se”): çocuk iki sesi yan yana duyuyor.',
+        'Yeni kayıt gerekmiyor. Harekeler adımına ya da Uzatma Koyu’na (Diyanet ince ve kalın harfleri uzatma derslerinde ayrı okutuyor) oyun olarak eklenebilir. Elif, Ha ve Ayn ince ama Türk kulağına “a” gibi geldiğinden taslakta sorulmuyor; Ra esreyle (ri) ince olduğundan yalnızca üstün ve ötreyle geliyor.'],
+      start: startThick
+    },
+    {
+      id: 'papagan', icon: '🦜', title: 'Papağan', fresh: true, where: 'Bütün bölümler · İngilizce Koyu',
+      intro: 'Papağan oyunu. Önce kaplumbağayı dinle, sonra mikrofona dokun ve sen de söyle. Papağan iki sesi de tekrar eder.',
+      idea: ['Bütün oyunlar duyduğunu bulmayı çalıştırıyor; Elif Ba’nın amacı ise sesli okumak. Bu oyunda çocuk kendisi söylüyor: kaplumbağayı dinliyor, 🎤 düğmesine dokunup söylüyor, sonra papağan önce kaplumbağanın, sonra çocuğun sesini tekrar ediyor.',
+        'Puan ya da yanlış yok; çocuk kendi sesini öğretmeninkiyle yan yana duyup karşılaştırıyor. Çocuklar kendi seslerini dinlemeye bayılır. Konuşurken papağanın yanında ses çubukları kıpırdıyor.',
+        'Kayıt cihazdan çıkmıyor, hiçbir yere gönderilmiyor ve saklanmıyor. Mikrofon izni verilmezse 🎤 düğmesi 🚫 oluyor, kaplumbağa yine dinlenebiliyor.',
+        'Harf, hece ve uzun hece için üç sekme var. Aynı oyun İngilizce Koyu’nda kelimeleri söylemek için de kullanılabilir.'],
+      start: startParrot
+    },
+    {
+      id: 'yunus', icon: '🐬', title: 'Yunus Şarkısı', fresh: true, where: 'Harfler · mola oyunu',
+      intro: 'Yunus şarkısı. Yunuslar harfleri sırayla söyler, sen de aynı sırayla dokun. Şarkı her seferinde uzar.',
+      idea: ['Dört yunusun başında bir koyun dört harfi var. Yunuslar sırayla zıplayıp harflerini söylüyor; çocuk aynı sırayla yunuslara dokunuyor. Şarkı 2 harfle başlıyor, her seferinde bir harf uzuyor (2, 3, 4, 5).',
+        'Sesleri sırayla aklında tutmak kelime okumanın temeli: هَلَكَ okunurken üç hece sırayla akılda kalmalı. Oyun bunu harflerle, oyun gibi çalıştırıyor.',
+        'Yanlışta doğru yunus parlayıp zıplıyor, şarkı baştan bir daha söyleniyor; can yok.',
+        'Yeni kayıt gerekmiyor. Her koyun harfleriyle ya da harekeli hecelerle oynanabilir; İngilizce Koyu’nda kelimelerle de olur.'],
+      start: startDolphins
+    },
+    {
+      id: 'fener', icon: '🔦', title: 'Fenerle Ara', fresh: true, where: 'Harfler · Bitişik yazılış',
+      intro: 'Fenerle ara. Gece denizin dibinde harfler saklandı. Parmağını gezdir, fenerle ara, duyduğun harfi bul.',
+      idea: ['Ekran gece denizi gibi karanlık; harfler kumun üstüne saklanmış. Çocuk parmağını gezdirdikçe bir fener ışığı onu izliyor ve ışığın altındaki harfler görünüyor. Kaplumbağa bir harf söylüyor, çocuk onu bulunca dokunuyor.',
+        'Karanlıkta rastgele dokunmak işe yaramıyor: ilk dokunuş yalnızca ışık tutuyor, harf ancak görünürken seçilebiliyor. Bu yüzden çocuk harflere tek tek bakıyor.',
+        'Aralarında hep noktadaş eşleri var (ب ت ث): harfi yalnızca şeklinden değil noktasından da tanımak gerekiyor. Yanlış harf adını söylüyor; doğru bulununca deniz aydınlanıyor.',
+        'Yeni kayıt gerekmiyor. Bitişik yazılışta şekillerle, İngilizce Koyu’nda resimlerle (karanlık odada “Find the ball!”) de oynanabilir.'],
+      start: startTorch
     },
     {
       id: 'tren', icon: '🚂', title: 'Hece Treni', tag: 'Kelime okumaya köprü', where: 'Cezm · Kelime ve âyet',
@@ -149,15 +209,18 @@
 
   /* ---------- Ana sayfa ---------- */
   function showHub() {
-    stopAll(); clearLater();
+    leave();
     document.title = 'Deneme Odası · Bilgi Adası';
     lab.className = 'lab-hub';
     lab.innerHTML = '<div class="lab-intro"><h1>Deneme <em>Odası</em></h1></div>';
     const grid = el('div', 'lab-grid');
-    for (const game of [...games.slice(4), ...games.slice(0, 4)]) {
-      const card = el('button', 'lab-card');
+    // The new ideas first, then the preschool drafts, then the older ideas.
+    const ordered = [...games.filter(g => g.fresh), ...games.filter(g => !g.fresh && !g.idea), ...games.filter(g => !g.fresh && g.idea)];
+    for (const game of ordered) {
+      const card = el('button', 'lab-card' + (game.fresh ? ' is-fresh' : ''));
       card.innerHTML = '<span class="lab-card-icon" aria-hidden="true">' + game.icon +
-        '</span><span class="lab-card-text"><strong>' + game.title + '</strong></span><span class="lab-go" aria-hidden="true">▶</span>';
+        '</span><span class="lab-card-text">' + (game.fresh ? '<small>✨ Yeni</small>' : '') + '<strong>' + game.title + '</strong>' +
+        (game.where ? '<em>' + game.where + '</em>' : '') + '</span><span class="lab-go" aria-hidden="true">▶</span>';
       card.onclick = () => openGame(game);
       grid.append(card);
     }
@@ -166,7 +229,7 @@
   }
 
   function openGame(game) {
-    stopAll(); clearLater();
+    leave();
     document.title = game.title + ' · Deneme Odası';
     lab.className = 'lab-play lab-' + game.id;
     lab.replaceChildren();
@@ -174,6 +237,12 @@
     const back = pictureButton('Odaya dön', '🏠', 'lab-back');
     back.onclick = showHub;
     bar.append(back, el('h1', '', game.icon + ' ' + game.title));
+    if (game.intro) {
+      // What the game is about is said only when asked (🐢💬), as in Elif Ba Adası.
+      const info = pictureButton('Bu oyun ne?', '🐢💬', 'lab-info');
+      info.onclick = () => instruct(game.intro);
+      bar.append(info);
+    }
     const screen = el('div', 'lab-screen');
     lab.append(bar);
     if (game.idea) {
@@ -186,101 +255,7 @@
   }
 
   /* =========================================================
-     1. Kabuk Hafızası
-     ========================================================= */
-  function startShells(screen) {
-    const levels = [
-      { name: 'Harf · Harf', hint: 'Aynı iki harfi bul.', pairs: 4 },
-      { name: 'Harf · 🔊 Ses', hint: 'Harfi ve onun sesini bul.', pairs: 4 },
-      { name: 'Hece · 🔊 Ses', hint: 'Harekeli heceyi ve okunuşunu bul.', pairs: 5 }
-    ];
-    let level = 0;
-    const g = guide('kabuk');
-    const tabs = el('div', 'lab-tabs');
-    const beach = el('div', 'shell-beach');
-    const note = el('p', 'lab-note');
-    screen.append(g.box, tabs, beach, note);
-    levels.forEach((lv, k) => {
-      const b = el('button', '', (k + 1) + '. ' + lv.name);
-      b.onclick = () => { level = k; build(); };
-      tabs.append(b);
-    });
-    let open = [], found = 0, cards = [], moves = 0;
-    function build() {
-      clearLater(); stopAll();
-      Array.from(tabs.children).forEach((b, k) => b.classList.toggle('on', k === level));
-      const lv = levels[level];
-      // Seçilen öğeler: harf indeksi ya da (harf, hareke). Aynı okunan heceler aynı tahtada olmaz.
-      let items = [];
-      if (level < 2) items = shuffled([...Array(28).keys()]).slice(0, lv.pairs).map(i => ({ i }));
-      else {
-        for (const i of shuffled([...Array(28).keys()])) {
-          const h = Math.floor(Math.random() * 3);
-          if (items.some(o => o.i === i || sameSound(o.i, o.h, i, h))) continue;
-          items.push({ i, h });
-          if (items.length === lv.pairs) break;
-        }
-      }
-      const face = it => it.h === undefined ? glyphs[it.i] : syllable(it.i, it.h);
-      cards = shuffled(items.flatMap((it, key) => [
-        { key, it, show: face(it) },
-        { key, it, show: level === 0 ? face(it) : null }
-      ]));
-      open = []; found = 0; moves = 0;
-      beach.innerHTML = '';
-      beach.style.setProperty('--cols', cards.length > 8 ? 5 : 4);
-      cards.forEach((c, n) => {
-        const b = el('button', 'shell');
-        b.type = 'button';
-        b.dataset.cue = '';
-        b.innerHTML = '<span class="shell-back" aria-hidden="true"></span><span class="shell-face">' +
-          (c.show ? ar(c.show) : '<span class="shell-sound">' + elifArt.speaker + '</span>') + '</span>';
-        b.setAttribute('aria-label', 'Kapalı kabuk ' + (n + 1));
-        b.onclick = () => flip(c, b);
-        c.node = b;
-        beach.append(b);
-      });
-      g.mood();
-      g.set(lv.hint + ' Bir kabuğa dokun.', null);
-      note.textContent = 'Can yok, acele yok. Kabuklar açılınca sesini çıkarır.';
-    }
-    const speak = (c, then) => c.it.h === undefined ? sayLetter(c.it.i, then) : saySyllable(c.it.i, c.it.h, then);
-    function flip(c, b) {
-      if (c.done) { speak(c); return; }
-      if (open.includes(c) || open.length === 2) return;
-      open.push(c);
-      b.classList.add('open');
-      playCue('pop');
-      speak(c);
-      if (open.length < 2) return;
-      moves++;
-      const [a, d] = open;
-      if (a.key === d.key) {
-        wait(700, () => {
-          for (const x of open) { x.done = true; x.node.classList.add('pearl'); }
-          open = [];
-          found++;
-          playCue('correct');
-          g.mood('happy');
-          fx.burst(d.node, { count: 10, symbols: ['✦', '•', '○'] });
-          g.set('İnci oldu! ' + (a.it.h === undefined ? '<b>' + names[a.it.i] + '</b>' : '<b>' + names[a.it.i] + ' ' + hareke(a.it.h) + '</b>'), () => speak(a));
-          if (found === cards.length / 2) wait(900, () => {
-            g.set(moves + ' denemede bütün kabukları inci yaptın!', null);
-            finale(screen, 'Bütün kabuklar inci oldu!', build);
-          });
-        });
-      } else {
-        wait(1500, () => {
-          for (const x of open) x.node.classList.remove('open');
-          open = [];
-        });
-      }
-    }
-    build();
-  }
-
-  /* =========================================================
-     2. Hece Treni
+     Hece Treni
      ========================================================= */
   // Bir kelimeyi harf + hareke hecelerine böler.
   function syllables(word) {
@@ -350,7 +325,7 @@
           wait(1800, () => {
             n++;
             if (n < words.length) draw();
-            else { steps.mark(words.length); finale(screen, 'Beş treni de yola çıkardın!', () => openGame(games[1])); }
+            else { steps.mark(words.length); finale(screen, 'Beş treni de yola çıkardın!', replayOf('tren')); }
           });
         });
       });
@@ -359,7 +334,7 @@
   }
 
   /* =========================================================
-     3. Harekeyi Giydir
+     Harekeyi Giydir
      ========================================================= */
   function startDress(screen) {
     const ROUNDS = 8;
@@ -410,7 +385,7 @@
           wait(900, () => {
             round++;
             if (round < ROUNDS) draw();
-            else { steps.mark(ROUNDS); finale(screen, 'Bütün harfleri giydirdin!', () => openGame(games[2])); }
+            else { steps.mark(ROUNDS); finale(screen, 'Bütün harfleri giydirdin!', replayOf('giydir')); }
           });
         });
       } else {
@@ -429,7 +404,7 @@
   }
 
   /* =========================================================
-     4. İnci Kolye
+     İnci Kolye
      ========================================================= */
   function startNecklace(screen) {
     const g = guide('kolye');
@@ -489,7 +464,7 @@
         wait(1200, () => {
           k++;
           if (k < LETTER_COVES) draw();
-          else { steps.mark(LETTER_COVES); finale(screen, 'Yedi koyun kolyesi tamam: 28 harf sırayla!', () => openGame(games[3])); }
+          else { steps.mark(LETTER_COVES); finale(screen, 'Yedi koyun kolyesi tamam: 28 harf sırayla!', replayOf('kolye')); }
         });
       }));
     }
@@ -600,7 +575,7 @@
             if (++round < rounds.length) return draw();
             steps.mark(round);
             board.remove();
-            finale(screen, '🌟', () => openGame(games.find(g => g.id === 'buyutec')));
+            finale(screen, '🌟', replayOf('buyutec'));
           });
         };
         if (correct) card.dataset.match = '';
@@ -611,7 +586,519 @@
     draw();
   }
 
-  // Unknown or retired links open the room.
+  /* =========================================================
+     Yeni: Kısa mı Uzun mu? (Uzatma)
+     ========================================================= */
+  // The heard syllable is short (بَ) or long (بَا); the child taps the card with the short or the long band of chewing gum.
+  function startLong(screen) {
+    const ROUNDS = 10;
+    const g = guide('uzat');
+    const steps = dotsRow(ROUNDS);
+    const pair = el('div', 'long-pair');
+    pair.dir = 'rtl';
+    screen.append(g.box, steps.row, pair);
+    // Every round another letter and the three harekes in turn; half of them short, half long.
+    const lengths = shuffled(Array.from({ length: ROUNDS }, (_, n) => n % 2 === 1));
+    const order = shuffled([...Array(28).keys()]).slice(0, ROUNDS).map((i, n) => ({ i, h: n % 3, long: lengths[n] }));
+    let round = 0, busy = false, told = false, cards = [];
+    const play = (long, then) => { const { i, h } = order[round]; (long ? sayLong : sayShort)(i, h, then); };
+    // While a card's syllable is heard its band grows: short and quick, or long and slow.
+    function sing(card, long, then) {
+      card.classList.remove('sing'); void card.offsetWidth; card.classList.add('sing');
+      g.talk(true);
+      play(long, () => { g.talk(false); then?.(); });
+    }
+    const ask = () => { if (!busy) { g.talk(true); play(order[round].long, () => g.talk(false)); } };
+    function draw() {
+      busy = false;
+      steps.mark(round);
+      const { i, h } = order[round];
+      pair.replaceChildren();
+      cards = [false, true].map(long => {
+        const card = el('button', 'long-card ' + (long ? 'is-long' : 'is-short'),
+          ar(long ? longText(i, h) : syllable(i, h)) + '<span class="long-band" aria-hidden="true"><i></i></span>');
+        card.type = 'button'; card.dataset.cue = '';
+        card.setAttribute('aria-label', long ? 'Uzun' : 'Kısa');
+        card.onclick = () => choose(long, card);
+        pair.append(card);
+        return card;
+      });
+      g.mood();
+      g.set('Kısa mı, uzun mu? Dinle ve doğru karta dokun.', ask);
+      if (told) wait(350, ask);
+      else { told = true; wait(300, () => instruct('Dinle. Kısa mı, uzun mu? Doğru karta dokun.', ask)); }
+    }
+    function choose(long, card) {
+      if (busy) return;
+      const target = order[round];
+      const right = cards[target.long ? 1 : 0];
+      if (long === target.long) {
+        busy = true;
+        card.classList.remove('wrong');
+        card.classList.add('right');
+        g.mood('happy');
+        g.set('Harika! ' + ar(target.long ? longText(target.i, target.h) : syllable(target.i, target.h), 'small'), null);
+        sing(card, long, () => {
+          playCue('correct');
+          fx.burst(card, { count: 12 });
+          wait(700, () => {
+            round++;
+            if (round < ROUNDS) draw();
+            else { steps.mark(ROUNDS); finale(screen, '🍬 🌟', replayOf('uzat')); }
+          });
+        });
+        return;
+      }
+      // Wrong: the tapped card is read, then the right one glows and is read; it still has to be tapped.
+      busy = true;
+      playCue('oops'); g.mood('sad'); fx.bump(card, 'lab-shake');
+      card.classList.add('wrong');
+      sing(card, long, () => wait(250, () => {
+        right.classList.add('hint');
+        sing(right, target.long, () => { busy = false; });
+      }));
+    }
+    draw();
+  }
+
+  /* =========================================================
+     Yeni: Fil mi Kuş mu? (kalın ve ince harfler)
+     ========================================================= */
+  // Diyanet's Elifba sorts the letters into thin and thick ones (the headings lesson_groups.thin_letters and
+  // thick_letters of its Uzatma lessons): خ ر غ ق ص ض ط ظ are read thick. Ra is thin with an esre (ri), so it only
+  // comes with an üstün or an ötre. Elif, Ha and Ayn are thin but sound like "a" to a Turkish ear: left out here.
+  const THICK = [6, 9, 18, 20, 13, 14, 15, 16];
+  const THIN = [1, 2, 3, 4, 7, 8, 10, 11, 12, 19, 21, 22, 23, 24, 25, 26, 27];
+  // A thick letter and the thin one it is most often mixed up with (sa / se, da / de, ta / te, za / ze, ka / ke).
+  const TWIN = { 13: 11, 14: 7, 15: 2, 16: 10, 20: 21 };
+  for (const [a, b] of Object.entries(TWIN)) TWIN[b] = Number(a);
+  const isThick = i => THICK.includes(i);
+  function startThick(screen) {
+    const ROUNDS = 12;
+    const g = guide('kalin');
+    const steps = dotsRow(ROUNDS);
+    const card = el('button', 'thick-card');
+    card.type = 'button'; card.dataset.cue = '';
+    card.setAttribute('aria-label', 'Heceyi dinle');
+    const homes = el('div', 'thick-homes');
+    const home = thick => {
+      const b = el('button', 'thick-home ' + (thick ? 'is-thick' : 'is-thin'),
+        '<span class="thick-animal" aria-hidden="true">' + (thick ? '🐘' : '🐤') + '</span><span class="thick-say"></span>');
+      b.type = 'button'; b.dataset.cue = '';
+      b.setAttribute('aria-label', thick ? 'Kalın: fil' : 'İnce: kuş');
+      b.onclick = () => choose(thick, b);
+      return b;
+    };
+    const fil = home(true), kus = home(false);
+    homes.append(fil, kus);
+    screen.append(g.box, steps.row, card, homes);
+    const order = shuffled([...shuffled(THICK).slice(0, ROUNDS / 2), ...shuffled(THIN).slice(0, ROUNDS / 2)])
+      .map(i => ({ i, h: i === 9 ? pick([0, 2]) : pick([0, 1, 2]) }));
+    let round = 0, busy = false, told = false;
+    const target = () => order[round];
+    const ask = () => { if (!busy) { g.talk(true); sayShort(target().i, target().h, () => g.talk(false)); } };
+    card.onclick = ask;
+    function clear() {
+      for (const b of [fil, kus]) { b.classList.remove('hint', 'wrong', 'right', 'sing'); b.querySelector('.thick-say').innerHTML = ''; }
+    }
+    function draw() {
+      busy = false;
+      steps.mark(round);
+      clear();
+      card.className = 'thick-card';
+      card.innerHTML = ar(syllable(target().i, target().h));
+      g.mood();
+      g.set('Kalın mı, ince mi? Kalın sesi file 🐘, ince sesi kuşa 🐤 ver.', ask);
+      if (told) wait(350, ask);
+      else { told = true; wait(300, () => instruct('Dinle. Kalın mı, ince mi? Kalın sesi file, ince sesi kuşa ver.', ask)); }
+    }
+    // An animal says a syllable, holding it written above its head.
+    function say(b, i, h, then) {
+      b.querySelector('.thick-say').innerHTML = ar(syllable(i, h));
+      b.classList.remove('sing'); void b.offsetWidth; b.classList.add('sing');
+      sayShort(i, h, then);
+    }
+    function choose(thick, b) {
+      if (busy) return;
+      const { i, h } = target();
+      if (thick === isThick(i)) {
+        busy = true;
+        clear();
+        b.classList.add('right');
+        card.classList.add(thick ? 'to-thick' : 'to-thin');
+        playCue('key');
+        g.mood('happy');
+        say(b, i, h, () => {
+          playCue('correct');
+          fx.burst(b, { count: 10 });
+          wait(700, () => {
+            round++;
+            if (round < ROUNDS) draw();
+            else { steps.mark(ROUNDS); finale(screen, '🐘 🐤 🌟', replayOf('kalin')); }
+          });
+        });
+        return;
+      }
+      // Wrong: the right animal says the syllable; with a twin of the other kind the other animal then says it,
+      // so the thick and the thin sound are heard side by side (sa, se). The right animal still has to be tapped.
+      busy = true;
+      playCue('oops'); g.mood('sad'); fx.bump(b, 'lab-shake');
+      b.classList.add('wrong');
+      const right = isThick(i) ? fil : kus;
+      wait(300, () => say(right, i, h, () => {
+        right.classList.add('hint');
+        const twin = TWIN[i];
+        if (twin === undefined) { busy = false; return; }
+        wait(300, () => say(b, twin, h, () => { busy = false; }));
+      }));
+    }
+    draw();
+  }
+
+  /* =========================================================
+     Yeni: Papağan (söyle ve dinle)
+     ========================================================= */
+  // The child says what the turtle said into the microphone; the parrot plays the turtle's voice and then the
+  // child's. Nothing is scored, sent or kept: the recording lives in memory until the next one or until the game is left.
+  function startParrot(screen) {
+    const COUNT = 8;
+    const kinds = [
+      { label: 'ا', item: i => ({ i }) },
+      { label: 'بَ', item: (i, n) => ({ i, h: n % 3 }) },
+      { label: 'بَا', item: (i, n) => ({ i, h: n % 3, long: true }) }
+    ];
+    let kind = 1, items = [], at = 0, told = false;
+    const g = guide('papagan');
+    const tabs = el('div', 'lab-tabs');
+    const steps = dotsRow(COUNT);
+    const stage = el('div', 'parrot-stage');
+    const show = el('button', 'parrot-card');
+    show.type = 'button'; show.dataset.cue = '';
+    show.setAttribute('aria-label', 'Kaplumbağayı dinle');
+    const bird = el('div', 'parrot-bird', '<span aria-hidden="true">🦜</span><i class="parrot-level" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></i>');
+    stage.append(show, bird);
+    const controls = el('div', 'parrot-controls');
+    const teacher = pictureButton('Kaplumbağayı dinle', '🐢🔊', 'parrot-teacher');
+    const micButton = pictureButton('Mikrofona söyle', '🎤', 'parrot-mic');
+    const mine = pictureButton('Kendi sesini dinle', '🦜🔊', 'parrot-mine');
+    const next = pictureButton('Sonraki', '▶', 'parrot-next');
+    controls.append(teacher, micButton, mine, next);
+    screen.append(g.box, tabs, steps.row, stage, controls);
+    kinds.forEach((k, n) => {
+      const b = el('button', '', ar(k.label));
+      b.type = 'button';
+      b.onclick = () => { kind = n; build(); };
+      tabs.append(b);
+    });
+
+    const canRecord = !!(navigator.mediaDevices?.getUserMedia && window.MediaRecorder);
+    let stream = null, recorder = null, recording = false, childClip = null, meterStop = null;
+    onLeave(() => {
+      if (recorder && recorder.state !== 'inactive') { recorder.onstop = null; try { recorder.stop(); } catch {} }
+      meterStop?.();
+      stream?.getTracks().forEach(t => t.stop());
+      stream = null;
+      forget();
+    });
+    function forget() { if (childClip) { cache.delete(childClip); URL.revokeObjectURL(childClip); childClip = null; } }
+    function noMic() {
+      micButton.innerHTML = '🚫';
+      micButton.disabled = true;
+      micButton.classList.remove('tap-hint');
+      instruct('Mikrofon açılmadı.');
+    }
+    // The bars beside the parrot move with the child's voice while it records.
+    function meter() {
+      const ctx = playCue.context?.();
+      if (!ctx || !stream) return () => {};
+      let raf = 0, node, analyser;
+      try {
+        node = ctx.createMediaStreamSource(stream);
+        analyser = ctx.createAnalyser();
+        analyser.fftSize = 256;
+        node.connect(analyser);
+        // Some browsers only fill an analyser that leads to the speakers: through a silent gain.
+        const mute = ctx.createGain();
+        mute.gain.value = 0;
+        analyser.connect(mute).connect(ctx.destination);
+      } catch { return () => {}; }
+      const data = new Uint8Array(analyser.fftSize);
+      const bars = [...bird.querySelectorAll('.parrot-level b')];
+      const tick = () => {
+        analyser.getByteTimeDomainData(data);
+        let peak = 0;
+        for (const v of data) peak = Math.max(peak, Math.abs(v - 128));
+        const level = Math.min(1, peak / 60);
+        bars.forEach((bar, n) => bar.style.setProperty('--h', Math.max(.12, level * (1 - Math.abs(n - 2) * .22)).toFixed(2)));
+        raf = requestAnimationFrame(tick);
+      };
+      tick();
+      return () => { cancelAnimationFrame(raf); try { node.disconnect(); } catch {} bars.forEach(bar => bar.style.removeProperty('--h')); };
+    }
+
+    const item = () => items[at];
+    const text = it => it.h === undefined ? glyphs[it.i] : it.long ? longText(it.i, it.h) : syllable(it.i, it.h);
+    function sayTeacher(then) {
+      const it = item();
+      teacher.classList.add('playing');
+      const end = () => { teacher.classList.remove('playing'); g.talk(false); then?.(); };
+      g.talk(true);
+      if (it.h === undefined) sayLetter(it.i, end); else if (it.long) sayLong(it.i, it.h, end); else sayShort(it.i, it.h, end);
+    }
+    function sayChild(then) {
+      if (!childClip) return then?.();
+      bird.classList.add('talk');
+      playClip(childClip, () => { bird.classList.remove('talk'); then?.(); });
+    }
+    function hint(button) {
+      for (const b of [teacher, micButton, mine, next]) b.classList.toggle('tap-hint', b === button);
+    }
+    function build() {
+      leaveRecording();
+      Array.from(tabs.children).forEach((b, n) => b.classList.toggle('on', n === kind));
+      items = shuffled([...Array(28).keys()]).slice(0, COUNT).map((i, n) => kinds[kind].item(i, n));
+      at = 0;
+      draw();
+    }
+    function draw() {
+      stopAll(); clearLater();
+      forget();
+      steps.mark(at);
+      show.innerHTML = ar(text(item()));
+      if (!canRecord) { micButton.innerHTML = '🚫'; micButton.disabled = true; }
+      mine.disabled = true;
+      // Without a microphone the next card is always open.
+      next.disabled = !micButton.disabled;
+      hint(micButton.disabled ? next : micButton);
+      g.mood();
+      g.set('Dinle, sonra 🎤 dokun ve sen de söyle. Papağan ikinizi de tekrar edecek.', () => sayTeacher());
+      if (told) wait(300, () => sayTeacher());
+      else { told = true; wait(300, () => instruct('Dinle, sonra mikrofona dokun ve sen de söyle. Papağan ikinizi de tekrar edecek.', () => sayTeacher())); }
+    }
+    function leaveRecording() {
+      if (recorder && recorder.state !== 'inactive') { recorder.onstop = null; try { recorder.stop(); } catch {} }
+      recording = false;
+      micButton.classList.remove('rec');
+      meterStop?.(); meterStop = null;
+    }
+    async function record() {
+      if (recording) { recorder?.stop(); return; }
+      stopAll();
+      if (!stream) {
+        try { stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } }); }
+        catch { noMic(); next.disabled = false; hint(next); return; }
+      }
+      const chunks = [];
+      try { recorder = new MediaRecorder(stream); } catch { noMic(); next.disabled = false; hint(next); return; }
+      recorder.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
+      recorder.onstop = () => {
+        leaveRecording();
+        if (!chunks.length) return;
+        forget();
+        childClip = URL.createObjectURL(new Blob(chunks, { type: chunks[0].type || recorder.mimeType || 'audio/webm' }));
+        mine.disabled = false;
+        // The parrot repeats both: first the turtle, then the child.
+        hint(null);
+        wait(250, () => sayTeacher(() => wait(250, () => sayChild(() => { next.disabled = false; hint(next); }))));
+      };
+      recorder.start();
+      recording = true;
+      playCue('tap');
+      micButton.classList.add('rec');
+      hint(null);
+      meterStop = meter();
+      wait(2600, () => { if (recording) recorder.stop(); });
+    }
+    teacher.onclick = () => sayTeacher();
+    show.onclick = () => sayTeacher();
+    mine.onclick = () => sayChild();
+    micButton.onclick = record;
+    next.onclick = () => {
+      leaveRecording();
+      at++;
+      if (at < COUNT) { playCue('key'); draw(); }
+      else { steps.mark(COUNT); finale(screen, '🦜 🌟', () => { screen.querySelector('.lab-finale')?.remove(); build(); }); }
+    };
+    build();
+  }
+
+  /* =========================================================
+     Yeni: Yunus Şarkısı (sıra hafızası)
+     ========================================================= */
+  // The four dolphins of a cove sing a tune of its letters, one after the other; the child taps them in the same order.
+  // The tune gets one letter longer every time (2, 3, 4, 5). A mistake shows the right dolphin and sings the tune again.
+  function startDolphins(screen) {
+    const LENGTHS = [2, 3, 4, 5];
+    const g = guide('yunus');
+    const steps = dotsRow(LENGTHS.length);
+    const sea = el('div', 'dolphin-sea');
+    sea.dir = 'rtl';
+    screen.append(g.box, steps.row, sea);
+    const letters = shuffled(coveLetters(Math.floor(Math.random() * LETTER_COVES)));
+    const pods = letters.map((i, n) => {
+      const b = el('button', 'dolphin tone-' + n, '<span class="dolphin-body" aria-hidden="true">🐬</span><span class="dolphin-letter">' + ar(glyphs[i]) + '</span>');
+      b.type = 'button'; b.dataset.cue = '';
+      b.setAttribute('aria-label', names[i]);
+      b.onclick = () => tap(n);
+      sea.append(b);
+      return b;
+    });
+    let level = 0, tune = [], at = 0, listening = false, told = false;
+    const jump = n => { const b = pods[n]; b.classList.remove('jump'); void b.offsetWidth; b.classList.add('jump'); };
+    function sing(n, then) {
+      if (n >= tune.length) return then?.();
+      jump(tune[n]);
+      sayLetter(letters[tune[n]], () => wait(220, () => sing(n + 1, then)));
+    }
+    function play() {
+      listening = false;
+      sea.classList.add('singing');
+      g.talk(true);
+      sing(0, () => { g.talk(false); sea.classList.remove('singing'); listening = true; at = 0; });
+    }
+    function newTune() {
+      tune = [];
+      while (tune.length < LENGTHS[level]) {
+        const n = Math.floor(Math.random() * pods.length);
+        if (n !== tune.at(-1)) tune.push(n);
+      }
+    }
+    function start() {
+      steps.mark(level);
+      newTune();
+      g.mood();
+      g.set('Yunusları dinle, sonra aynı sırayla dokun.', () => { if (listening) play(); });
+      if (told) wait(500, play);
+      else { told = true; wait(300, () => instruct('Yunuslar şarkı söylüyor. Dinle, sonra aynı sırayla yunuslara dokun.', play)); }
+    }
+    function tap(n) {
+      if (!listening) return;
+      jump(n);
+      if (n === tune[at]) {
+        sayLetter(letters[n]);
+        at++;
+        if (at < tune.length) return;
+        listening = false;
+        g.mood('happy');
+        wait(700, () => {
+          playCue('correct');
+          fx.burst(sea, { count: 12, symbols: ['♪', '♫', '✦'] });
+          wait(900, () => {
+            level++;
+            if (level < LENGTHS.length) start();
+            else { steps.mark(LENGTHS.length); finale(screen, '🐬 🎶 🌟', replayOf('yunus')); }
+          });
+        });
+        return;
+      }
+      // Wrong: the dolphin that should have sung glows and sings, then the whole tune again.
+      listening = false;
+      playCue('oops'); g.mood('sad'); fx.bump(pods[n], 'lab-shake');
+      const right = pods[tune[at]];
+      wait(400, () => {
+        right.classList.add('hint');
+        jump(tune[at]);
+        sayLetter(letters[tune[at]], () => wait(700, () => { right.classList.remove('hint'); g.mood(); play(); }));
+      });
+    }
+    start();
+  }
+
+  /* =========================================================
+     Yeni: Fenerle Ara
+     ========================================================= */
+  // Letters hide on the dark sea floor; the light follows the finger. A letter can only be chosen while it is lit
+  // before the tap, so tapping blindly in the dark only lights the spot.
+  function startTorch(screen) {
+    const ROUNDS = 8, SHOWN = 6, R = 80;
+    const g = guide('fener');
+    const steps = dotsRow(ROUNDS);
+    const night = el('div', 'torch-night');
+    const floor = el('div', 'torch-floor');
+    const dark = el('div', 'torch-dark');
+    night.append(floor, dark);
+    screen.append(g.box, steps.row, night);
+    const targets = shuffled([...Array(28).keys()]).slice(0, ROUNDS);
+    let round = 0, busy = false, told = false, spots = [];
+    let light = { x: -999, y: -999 }, litBefore = new Set();
+    const place = (x, y) => {
+      light = { x, y };
+      night.style.setProperty('--x', x + 'px');
+      night.style.setProperty('--y', y + 'px');
+    };
+    const local = e => { const r = night.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+    const centre = b => { const r = b.getBoundingClientRect(), n = night.getBoundingClientRect(); return [r.left + r.width / 2 - n.left, r.top + r.height / 2 - n.top]; };
+    const lit = b => { const [x, y] = centre(b); return Math.hypot(x - light.x, y - light.y) < R * .85; };
+    night.addEventListener('pointermove', e => place(...local(e)));
+    night.addEventListener('pointerdown', e => {
+      litBefore = new Set(spots.filter(s => lit(s.node)).map(s => s.node));
+      place(...local(e));
+    });
+    const target = () => targets[round];
+    const ask = () => { if (!busy) { g.talk(true); sayLetter(target(), () => g.talk(false)); } };
+    function draw() {
+      busy = false;
+      steps.mark(round);
+      // The dark comes back at once, so the new letters are not seen while it fades in.
+      dark.style.transition = 'none';
+      night.classList.remove('dawn');
+      void dark.offsetWidth;
+      dark.style.transition = '';
+      floor.replaceChildren();
+      // The letter, its look-alikes and other letters, on a 4 × 3 grid of cells with a little jitter.
+      const t = target();
+      const shown = [t, ...shuffled(elifData.twins(t))];
+      for (const i of shuffled([...Array(28).keys()])) if (shown.length < SHOWN && !shown.includes(i)) shown.push(i);
+      const cells = shuffled([...Array(12).keys()]).slice(0, SHOWN);
+      spots = shuffled(shown).map((i, n) => {
+        const c = cells[n];
+        const x = 12.5 + (c % 4) * 25 + (Math.random() - .5) * 10;
+        const y = 17 + Math.floor(c / 4) * 33 + (Math.random() - .5) * 12;
+        const node = el('button', 'torch-letter', ar(glyphs[i]));
+        node.type = 'button'; node.dataset.cue = '';
+        node.setAttribute('aria-label', 'Saklı harf');
+        node.style.left = x + '%';
+        node.style.top = y + '%';
+        node.style.setProperty('--turn', ((Math.random() - .5) * 24).toFixed(1) + 'deg');
+        // A click without a pointer (the keyboard) needs no light.
+        node.onclick = e => choose(i, node, e.detail === 0);
+        floor.append(node);
+        return { i, node };
+      });
+      g.mood();
+      g.set('Feneri gezdir, duyduğun harfi bul ve dokun.', ask);
+      if (told) wait(400, ask);
+      else { told = true; wait(300, () => instruct('Karanlıkta harfler saklandı. Parmağını gezdir, fenerle ara. Duyduğun harfi bulunca dokun.', ask)); }
+    }
+    function choose(i, node, keyboard) {
+      if (busy || !(keyboard || litBefore.has(node))) return;
+      litBefore.clear();
+      if (i === target()) {
+        busy = true;
+        node.classList.add('right');
+        night.classList.add('dawn');
+        g.mood('happy');
+        playCue('correct');
+        fx.burst(node, { count: 12 });
+        sayLetter(i, () => wait(900, () => {
+          round++;
+          if (round < ROUNDS) draw();
+          else { steps.mark(ROUNDS); finale(screen, '🔦 🌟', replayOf('fener')); }
+        }));
+        return;
+      }
+      // Wrong: the letter says its own name, then the one to find is said again.
+      busy = true;
+      playCue('oops'); g.mood('sad'); fx.bump(node, 'lab-shake');
+      node.classList.add('wrong');
+      sayLetter(i, () => wait(300, () => { node.classList.remove('wrong'); busy = false; g.mood(); ask(); }));
+    }
+    // Before the first touch the light waits in the middle.
+    requestAnimationFrame(() => { const r = night.getBoundingClientRect(); place(r.width / 2, r.height / 2); });
+    draw();
+  }
+
+  // Unknown or retired links (#kabuk) open the room.
   const direct = games.find(g => '#' + g.id === location.hash);
   if (direct) openGame(direct); else showHub();
   addEventListener('hashchange', () => { const g = games.find(x => '#' + x.id === location.hash); if (g) openGame(g); else showHub(); });
