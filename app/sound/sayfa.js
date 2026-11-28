@@ -23,7 +23,8 @@
   const D = elifData;     // a top-level const of data.js, not a window property
   const yeni = [...(window.dadKayitlari || []), ...(window.sesListesi?.sesler || []), ...(window.sesAdaylari || [])];
   const KAYIT = window.sesSecimleri || { onay: [], yeni: [] };
-  const kayitliOnay = new Set(KAYIT.onay), kayitliYeni = new Set(KAYIT.yeni);
+  const solKayit = new Set(KAYIT.solKayit || []);
+  const kayitliOnay = new Set([...KAYIT.onay, ...solKayit]), kayitliYeni = new Set(KAYIT.yeni);
   const low = t => String(t ?? '').toLocaleLowerCase('tr');
   const load = key => { try { return new Set(JSON.parse(localStorage.getItem(key)) || []); } catch { return new Set(); } };
   const onay = load(ONAY), secim = load(SECIM);
@@ -46,6 +47,8 @@
     return out;
   }
   function yeniler(kat, harf, h) {
+    const kind = kat === 'harekeli' ? 'hece' : kat;
+    if (solKayit.has('cocuk:' + kind + ':' + harf + '-' + h)) return [];
     const eslesen = yeni.filter(s => s.kat === kat && s.harf === harf && (h === undefined || s.h === h));
     return eslesen.some(s => s.incele) ? eslesen.filter(s => s.incele || secildi(s.id)) : eslesen;
   }
@@ -226,7 +229,8 @@
         secDugmesi('s-yeni', kayitliYeni.has(n.id), () => secim.has(n.id), ['⇄ Bunu kullan', '⇄ Seçildi', '⇄ Kayıtlı'], () => secim.has(n.id) ? secim.delete(n.id) : secim.add(n.id))));
       sag.append(yorumAlani(n, r));
     }
-    govde.append(sol, sag);
+    govde.append(sol);
+    if (!r.oyun.some(k => solKayit.has(k.id))) govde.append(sag);
     s.append(bas, govde);
     const durumCiz = () => {
       s.classList.toggle('onayli', onayli(r));
