@@ -20,8 +20,8 @@ sahibi istemeden yazılmaz. Bir kelimenin soruları yazılınca maddenin sonuna 
 - goodbye = hoşça kal → ilk:18, ilk:19
 - bye / bye-bye = hoşça kal / bay bay → ilk:20, ilk:21
 - see you = görüşürüz → ilk:23
-- see you later = sonra görüşürüz
-- see you soon = yakında görüşürüz
+- see you later = sonra görüşürüz → ilk:24
+- see you soon = yakında görüşürüz → ilk:25
 - see you tomorrow = yarın görüşürüz → ilk:22
 - take care = kendine iyi bak
 - Have a nice day! = İyi günler!
