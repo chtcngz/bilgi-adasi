@@ -178,6 +178,30 @@
     ciz();
     return b;
   }
+  const yorumTaslaklari = new Map();
+  const yorumAnahtari = id => 'bilgi-adasi-ses-yorum:' + id;
+  function yorumOku(id) {
+    if (yorumTaslaklari.has(id)) return yorumTaslaklari.get(id);
+    try { return localStorage.getItem(yorumAnahtari(id)) || ''; } catch { return ''; }
+  }
+  function yorumAlani(n, r) {
+    const label = el('label', 'yorum', 'Kayıt yorumu');
+    const input = el('textarea');
+    input.rows = 2;
+    input.placeholder = 'Bu kayıtta ne değişsin?';
+    input.setAttribute('aria-label', r.ad + ' ' + r.ar + ' · ' + n.id + ' için yorum');
+    input.value = yorumOku(n.id);
+    input.oninput = () => {
+      yorumTaslaklari.set(n.id, input.value);
+      try {
+        if (input.value) localStorage.setItem(yorumAnahtari(n.id), input.value);
+        else localStorage.removeItem(yorumAnahtari(n.id));
+        yorumTaslaklari.delete(n.id);
+      } catch { bildir('Yorum bu cihazda saklanamadı. Sayfayı kapatmadan kopyala.'); }
+    };
+    label.append(input);
+    return label;
+  }
   function satir(r) {
     const s = el('div', 'satir');
     const bas = el('div', 'satir-bas');
@@ -193,9 +217,11 @@
       sol.append(klip(k.src, k.ses, k.dosya, k.calan ? 'çalan' : '',
         secDugmesi('s-ok', kayitliOnay.has(k.id), () => onay.has(k.id), ['✓ Onayla', '✓ Onaylı', '✓ Kayıtlı'], () => onay.has(k.id) ? onay.delete(k.id) : onay.add(k.id))));
     if (!r.yeni.length) sag.append(el('div', 'bos', '— yeni kayıt yok'));
-    for (const n of r.yeni)
+    for (const n of r.yeni) {
       sag.append(klip(yeniSrc(n), n.ad + (n.okunus && n.okunus !== n.ad ? ' “' + n.okunus + '”' : ''), n.kaynak || n.id + ' · ' + n.dosya + '. kayıt ' + dakika(n.bas), n.not || '',
         secDugmesi('s-yeni', kayitliYeni.has(n.id), () => secim.has(n.id), ['⇄ Bunu kullan', '⇄ Seçildi', '⇄ Kayıtlı'], () => secim.has(n.id) ? secim.delete(n.id) : secim.add(n.id))));
+      sag.append(yorumAlani(n, r));
+    }
     govde.append(sol, sag);
     s.append(bas, govde);
     const durumCiz = () => {
@@ -388,22 +414,26 @@
   /* ---------- copying the choices not saved yet ---------- */
   $('kopyala').onclick = async () => {
     const satirlar = [];
-    let a = 0, y = 0;
+    let a = 0, y = 0, j = 0;
     for (const b of DOLU) {
       const parcalar = [];
       for (const r of b.rows) {
         const parca = [];
         for (const k of r.oyun) if (onay.has(k.id) && !kayitliOnay.has(k.id)) { parca.push('✓ ' + k.ses.toLocaleLowerCase('tr') + ' (' + k.dosya + ')'); a++; }
         for (const n of r.yeni) if (secim.has(n.id) && !kayitliYeni.has(n.id)) { parca.push('⇄ ' + n.id); y++; }
+        for (const n of r.yeni) {
+          const yorum = yorumOku(n.id).trim();
+          if (yorum) { parca.push('Yorum (' + n.id + '): ' + yorum); j++; }
+        }
         if (parca.length) parcalar.push('- ' + r.ad + (r.ar ? ' (' + r.ar + ')' : '') + ': ' + parca.join(', '));
       }
       if (parcalar.length) satirlar.push('', b.ad + ':', ...parcalar);
     }
-    if (!a && !y) return bildir('Kayıtlı seçimlerin dışında yeni seçim yok.');
-    const metin = 'Elif Ba sesleri: ' + a + ' onay, ' + y + ' yeni seçim (kayıtlı ' + (kayitliOnay.size + kayitliYeni.size) + ' seçime ek)\n' + satirlar.join('\n');
+    if (!a && !y && !j) return bildir('Kopyalanacak yeni seçim veya yorum yok.');
+    const metin = 'Elif Ba sesleri: ' + a + ' onay, ' + y + ' yeni seçim, ' + j + ' yorum (kayıtlı ' + (kayitliOnay.size + kayitliYeni.size) + ' seçime ek)\n' + satirlar.join('\n');
     try {
       await navigator.clipboard.writeText(metin);
-      bildir('✓ Kopyalandı: ' + a + ' onay, ' + y + ' yeni seçim');
+      bildir('✓ Kopyalandı: ' + a + ' onay, ' + y + ' yeni seçim, ' + j + ' yorum');
     } catch {
       const box = $('kopya');
       box.hidden = false;

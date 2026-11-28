@@ -7,6 +7,10 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.110.0 · 28.11.2026
+
+- Yeni ses kayıtlarına yorum yazılabiliyor. Yorumlar tarayıcıda saklanıyor ve ilgili kayıtla birlikte kopyalanabiliyor.
+
 ## 0.109.0 · 28.11.2026
 
 - Seslendirilecekler bölümüne kızın kendi kayıtlarından 30 dinleme örneği eklendi. Her örnek sağdaki Yeni kayıtlar sütunundan dinlenip seçilebilir.
