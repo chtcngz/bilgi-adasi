@@ -54,6 +54,22 @@ function saveProfiles() {
   try { localStorage.setItem(profileKey, JSON.stringify(profiles)); return true; }
   catch { storageFailed = true; return false; }
 }
+// Takes a player off this device: every key of theirs (each ends in the player's id: carpim-adasi-oyuncu-, elif-ba-v2-,
+// elif-ba-hiz-, din-bilgisi- …), then the player off the list. The cloud copy is told first (bulut.oyuncuSilindi).
+function removePlayer(profile) {
+  const at = profiles.indexOf(profile);
+  if (at >= 0) profiles.splice(at, 1);
+  sessionProgress.delete(profile.id);
+  try {
+    const keys = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.endsWith('-' + profile.id)) keys.push(key);
+    }
+    for (const key of keys) localStorage.removeItem(key);
+  } catch {}
+  saveProfiles();
+}
 function showPlayerButton() {
   $('player').textContent = activeProfile.icon + ' ' + activeProfile.name;
   $('player').title = activeProfile.name + ' · Oyuncu değiştir';
@@ -179,6 +195,7 @@ $('join').onsubmit = async e => {
     $('join-note').textContent = '✗ ' + ({
       kod: 'Kod 8 harf ve rakamdan oluşur, örneğin ABCD-EFGH.',
       yok: 'Bu kodla bir oyuncu bulunamadı. Kodu kontrol et.',
+      silindi: 'Bu kodun oyuncusu her yerden silinmiş.',
       internet: 'İnternet bağlantısı yok. Bağlanınca yeniden dene.',
       izin: 'Bulut bu kodu okumaya izin vermedi. Yöneticiye haber ver.',
       kapali: 'Bu kopyada bulut kapalı.'
@@ -235,17 +252,25 @@ if (profiles.some(p => !p.kod)) {
   saveProfiles();
 }
 openProfiles();
-// A player played on another device since: their progress comes from the cloud before they are chosen here.
-bulut.tazele(id => !sessionProgress.has(id)).then(updated => {
-  if (!updated.length) return;
-  for (const found of updated) {
+// A player played on another device since: their progress comes from the cloud before they are chosen here. A player
+// deleted everywhere on another device (Settings → Her yerden sil) leaves this device too.
+bulut.tazele(id => !sessionProgress.has(id)).then(({ guncel, silinen }) => {
+  if (!guncel.length && !silinen.length) return;
+  for (const found of guncel) {
     const p = profiles.find(q => q.id === found.id);
     if (!p) continue;
     if (found.name) p.name = String(found.name).slice(0, 32);
     if (grades.includes(found.grade)) p.grade = found.grade;
     if (avatars.some(a => a[0] === found.icon)) p.icon = found.icon;
   }
+  for (const gone of silinen) {
+    const p = profiles.find(q => q.id === gone.id);
+    if (p && p !== activeProfile) removePlayer(p);
+  }
   saveProfiles();
   if (activeProfile) showPlayerButton();
-  else if ($('profiles').open) drawPlayers();
+  else if ($('profiles').open) {
+    drawPlayers();
+    if (!profiles.length && $('register').hidden && $('join').hidden) showSheet('register');
+  }
 });

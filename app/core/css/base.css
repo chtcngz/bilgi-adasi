@@ -502,6 +502,9 @@ dialog[open]::backdrop { animation: fade .25s; backdrop-filter: blur(3px); }
 .danger-zone { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; padding: 12px 14px; border: 2px solid #f3d6d7; border-radius: 16px; background: #fffafa; }
 .danger-zone .danger { flex: none; }
 .danger-zone:has(.danger-confirm) { flex-wrap: wrap; }
+.danger-check { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; color: #a3343f; font-weight: 800; cursor: pointer; }
+.danger-check input { flex: none; width: 22px; height: 22px; margin: 0; accent-color: #b3404c; cursor: pointer; }
+.danger-check input:focus-visible { outline: 3px solid #ef9739; outline-offset: 2px; }
 .danger-confirm { display: flex; gap: 8px; width: 100%; }
 .danger-confirm input { flex: 1; min-width: 0; min-height: 44px; padding: 8px 12px; border: 2px solid #e8b9bd; border-radius: 14px; font: inherit; font-weight: 850; letter-spacing: .08em; }
 .danger-confirm input:focus-visible { outline: 3px solid #ef9739; outline-offset: 1px; }

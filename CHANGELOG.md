@@ -7,6 +7,11 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.121.0 · 28.11.2026
+
+- **Oyuncu silmek artık yalnızca bu cihazdan siler:** Ayarlar → Oyuncu → Oyuncuyu sil, oyuncuyu ve ilerlemesini yalnızca bu cihazdan (bu tarayıcıdan) siler. Oyuncunun başka cihazlardaki ilerlemesi ve buluttaki kopyası kalır; oyuncu koduyla istenen cihaza yeniden getirilebilir. Silmeden hemen önce yapılan ve buluta henüz gitmemiş değişiklikler de (internet yokken bile, bağlanınca) buluta gönderilir.
+- **“Her yerden sil” kutusu:** İşaretlenirse oyuncu bu cihazdan, buluttan ve açıldığı bütün öteki cihazlardan silinir (o cihazlarda oyun internete bağlıyken açılınca). Oyuncu kodu artık çalışmaz: kod yazılınca “Bu kodun oyuncusu her yerden silinmiş.” der.
+
 ## 0.120.0 · 28.11.2026
 
 - **Elif Ba, Sesler sayfasında seçilen sesler oyunda (kız sesi):** Ze harfinin adı yeni kayıtla, kızın üstünlü “ze” okuyuşundan çalınıyor; Tı ve Zı harflerinin adı olarak üstünlü okunuşları (ta, za) çalınıyor. Hemzenin üç harekeli ve üç tenvinli okuması da oyunun kayıtlarına eklendi (oyun şimdilik bunları çalmıyor).
