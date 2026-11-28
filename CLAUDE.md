@@ -77,6 +77,25 @@ game of Elif Ba Adası for them:
 - Buttons carry a symbol (▶ ↻ 🏁 ✓), not only a word; right and wrong are shown by colour, sound and the
   right answer being played.
 
+## Islands: Son Tekrar, order and rewards (set by the owner)
+
+Every question island, and every new island or bay added to Keşif Haritası, works this way (`soruAdasi` in
+`core/js/quiz.js` already does it for every bay it builds; an island with its own engine must do the same):
+
+- **A station is done once every question of it has been asked** (answered, right or wrong). Where stations open one
+  after another, the next one opens then.
+- **🏁 Son Tekrar:** when every station of an island is done, the island's last station opens: the island's questions
+  still answered wrong, asked again until each one is answered right. Only then is the island finished.
+- **Islands open in order:** the next island opens only when the one before it is finished; the extras and the mock
+  exam once every unit is finished. Never lock what a child has already played in: a change that adds a lock keeps
+  the islands (and exams) already started open.
+- **Rewards only for a finished island:** one fish or ornament when an island is finished (its Son Tekrar passed), and
+  once for the first mock exam. Rounds, stations, Tekrar Kutusu and the games on the wrong answers give none. When the
+  rule for rewards changes, bring the rewards children already have to the new rule too (as `soruOdulleri` in
+  `core/js/akvaryum.js` did): take out what the new rule would not give (keep it in the record, do not delete it), add
+  what it would, refill the tanks, keep the fish's names.
+- Elif Ba Adası, Çarpım Koyu and English for Kids keep their own flow unless the owner says otherwise.
+
 ## Question style
 
 - Turkish, for 9-10 year olds. The first option is the correct one (the game shuffles them). Keep the
