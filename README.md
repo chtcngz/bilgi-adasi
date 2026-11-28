@@ -60,8 +60,9 @@ app/                         Published site (GitHub Pages root)
 │           ├── cezm-ornek/P-S.mp3   Diyanet's five cezm examples (S: 0 without the cezm, 1 with it, 2 the word)
 │           ├── tenvin/NN-H.mp3      Letter NN with a tenvin (H: 0 iki üstün, 1 iki esre, 2 iki ötre)
 │           ├── tenvin-ornek/P.mp3   The word at the top of tenvin islet P (كُتُبٌ …)
-│           ├── sedde/NN-H.mp3       Letter NN's şedde syllable, made of its cezm syllable and its syllable (بِسْ + سَ = بِسَّ)
-│           ├── seddesiz/NN-H.mp3    The same letters without the şedde, made the same way (بِ + سَ = بِسَ)
+│           ├── sedde/NN-H.mp3       Letter NN's şedde syllable, made of its cezm syllable and its syllable (بِسْ + سَ = بِسَّ),
+│           │                        joined inside the doubled letter so it is one long letter (tools/sedde_sesleri.py)
+│           ├── seddesiz/NN-H.mp3    The same letters without the şedde, made the same way with the letter said once (بِسَ)
 │           ├── sedde-ornek/P.mp3    The word at the top of şedde islet P (تَبَّتْ …)
 │           ├── yer/P.mp3            "Kelimenin başında / ortasında / sonunda"
 │           ├── cocuk/               The girl's voice (Settings → Elif Ba sesleri, the default): harf/NN.mp3 (+ hemze),
@@ -77,7 +78,7 @@ app/                         Published site (GitHub Pages root)
 │   │                        2-9 once, shuffled on every start
 │   ├── elif-ba/             Elif Ba Adası
 │   │   ├── data.js          Letters, readings, harekes, joined shapes and example words, coves (islets), bays, look-alike letters, section list
-│   │   ├── voice.js         Recording / Turkish speech playback (elifVoice)
+│   │   ├── voice.js         Recording / Turkish speech playback (elifVoice); the Cezm and Şedde islets only in the man's voice
 │   │   ├── map.js           The map in three levels: bays → a bay's islets → an islet's steps; the turtle walks and sails (elifMap)
 │   │   ├── game.js          Hub, Harfler, Harekeler, Bitişik yazılış, Cezm, Tenvin and Şedde sections, rounds
 │   │   ├── style.css, koy.jpg
@@ -129,6 +130,8 @@ tools/                       Helper scripts (not published)
 ├── elif_sesleri.py          → app/assets/audio/elif-ba/ (harf, hece, kayitlar.js)
 ├── ingilizce_metinler.js    Every English line İngilizce Koyu says (question words and sentences, the games' lines)
 ├── ingilizce_sesler.py      → app/assets/audio/ingilizce/: records those lines with Kokoro (needs the model, see the file)
+├── sedde_sesleri.py        → app/assets/audio/elif-ba/sedde/ and seddesiz/: each şedde syllable joined inside its doubled
+│                            letter from the man's cezm syllable and syllable (bis + se = bisse, unbroken), and kaynak.json
 └── ses_kes.py               → app/sound/ses/ and liste.js: cuts the readings listed in sound-samples/kesimler.json,
                              takes the music out (noisereduce) and lets each one end on its own decay
 sound-samples/               The owner's recordings (not published): original/ (Elifle Animasyonlu Elifba 1-3, Turkish narration

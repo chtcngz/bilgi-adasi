@@ -7,6 +7,12 @@ Sürüm numarası `ANA.ÖZELLİK.DÜZELTME` biçimindedir ve `VERSION` dosyasın
 
 Yayınlanan sürüm, oyunun giriş ekranının ve Ayarlar penceresinin altında görünür.
 
+## 0.120.0 · 28.11.2026
+
+- **Elif Ba, şeddeli heceler artık bölünmeden okunuyor:** Şeddeli heceler “bis … se” gibi iki ayrı kelime gibi duyuluyordu: cezimli hece son harfini uzatıp söndürüyor, ikinci hece o harfi yeniden başlatıyordu; be, dal, kaf gibi harflerde cezimli hecenin sonundaki yankı da araya giriyordu (“kad-ə de”). Şimdi iki kayıt şeddeli harfin içinde birleşiyor: harf tek, uzun ve kesintisiz okunuyor (bisse, kadde, menne); mim ve nun gunneyle daha uzun. 84 şeddeli hecenin hepsi yeniden yapıldı.
+- **Şeddesizler de aynı sesle:** Karşılaştırma için okunan şeddesiz heceler (bise, kade) aynı ünlüden, harf kısa okunarak yapıldı; şeddeli ile şeddesiz yalnızca harfin uzunluğuyla ayrılıyor.
+- **Cezm ve Şedde adacıklarında yalnızca erkek sesi:** Ayarlarda kız çocuk sesi seçili olsa da Cezm ve Şedde adacıklarında (kartlar, ♪, turlar, oyunlar, Cam Köprü) bütün heceler erkek sesiyle okunuyor; “bi … bis” ve “bis, se, bisse” artık iki farklı sesle değil. Haritada ve öteki adacıklarda seçilen ses geçerli.
+
 ## 0.119.0 · 28.11.2026
 
 - **English, karakterlerin isimleri Türkçe:** Leo artık **Efe**, Maya **Ela**, Zoe **Zeynep**. Bütün hikâyeler, şıklar ve açıklamalar yeni isimlerle (Efe’ye, Ela’nın, Zeynep’e …).

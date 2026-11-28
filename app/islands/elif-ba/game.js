@@ -202,8 +202,12 @@
       (corals ? ' · 🪸 ' + masteredCount('bitisik') + '/28' : '') + (stars ? ' · ⭐ ' + masteredCount('cezm') + '/28' : '') +
       (dolphins ? ' · 🐬 ' + masteredCount('tenvin') + '/28' : '') + (octopuses ? ' · 🐙 ' + masteredCount('sedde') + '/28' : '');
   }
+  // The Cezm and Şedde islets are heard only in the man's voice (set by the owner); the map and the other islets
+  // follow the voice chosen in Settings.
+  const manOnlyCove = k => coveTopic(k) === 'cezm' || coveTopic(k) === 'sedde';
   function showHub() {
     voice.stop();
+    voice.onlyMan(false);
     section = null;
     $('elif-hub').hidden = false;
     $('elif-section').hidden = true;
@@ -397,6 +401,7 @@
   /* ---------- A section: coves and letter cards ---------- */
   function openSection(id, at) {
     section = id;
+    voice.onlyMan(manOnlyCove(at));
     const info = sections.find(s => s.id === id);
     $('elif-hub').hidden = true;
     $('elif-section').hidden = false;
@@ -884,6 +889,7 @@
     const step = steps.find(s => s.game === id && s.cove === k);
     if (!stepOpen(step)) return;
     voice.stop();
+    voice.onlyMan(manOnlyCove(k));
     const recordId = choice === 'base' ? id : choice;
     // Crossing Cam Köprü finishes the islet: its reward comes on the bridge's result card (as html).
     const result = ({ score, stars, finished }) => {

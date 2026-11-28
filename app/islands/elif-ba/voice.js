@@ -2,6 +2,8 @@
 // otherwise the device's Turkish speech voice reading the Turkish names and syllables.
 // Three choices in Settings: 'cocuk' (the girl's voice, the default; a clip she has not recorded
 // is played in the man's voice), 'kayit' (every clip in the man's voice) and 'turkce' (the device's voice).
+// The Cezm and Şedde islets are heard only in the man's voice (set by the owner): there `onlyMan(true)` keeps
+// the girl's clips out whatever the setting, so a syllable and the cezm or şedde made of it sound alike.
 //
 // Clips play through the same Web Audio context as the game's sound cues (sounds.js
 // unlocks it on every touch and sets the phone's audio session), decoded once into
@@ -17,9 +19,12 @@ const elifVoice = (() => {
   let source = null, element = null;
   let run = 0; // every new request cancels the sequence that was playing
   let mode = 'cocuk';
+  let manOnly = false;
   try { const saved = localStorage.getItem('elif-ses'); if (MODES.includes(saved)) mode = saved; } catch {}
-  // A recorded clip in the chosen voice: the girl's when she has it, else the man's; none for 'turkce'.
-  const clip = (kind, key) => mode === 'turkce' ? null : (mode === 'cocuk' && child[kind]?.[key]) || recorded[kind]?.[key] || null;
+  // A recorded clip in the chosen voice: the girl's when she has it (and the islet is not a man's-voice one), else
+  // the man's; none for 'turkce'.
+  const girl = () => mode === 'cocuk' && !manOnly;
+  const clip = (kind, key) => mode === 'turkce' ? null : (girl() && child[kind]?.[key]) || recorded[kind]?.[key] || null;
   const context = () => (typeof playCue === 'function' && playCue.context?.()) || null;
   const calm = matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -128,8 +133,8 @@ const elifVoice = (() => {
   function named(i, h) {
     const hemze = (h === 'cezm' || h === 'sedde') && i === 0;
     const name = hemze ? 'Hemze' : elifData.names[i];
-    const nameClip = mode === 'cocuk' && child.harf[hemze ? 'hemze' : i];
-    const markClip = mode === 'cocuk' && child.hareke[h];
+    const nameClip = girl() && child.harf[hemze ? 'hemze' : i];
+    const markClip = girl() && child.hareke[h];
     if (nameClip && markClip) return [{ src: nameClip, text: name }, { src: markClip, text: markText(h) }];
     return [{ text: name + ' ' + markText(h) }];
   }
@@ -240,7 +245,7 @@ const elifVoice = (() => {
       }
       if (tenvin) for (const i of letters) for (const h of [0, 1, 2]) if (tenvinClip(i, h)) decode(tenvinClip(i, h));
       if (joined) for (const f of [1, 2, 3]) if (placeClip(f)) decode(placeClip(f));
-      if (mode === 'cocuk' && !namesOnly) for (const src of Object.values(child.hareke)) decode(src);
+      if (girl() && !namesOnly) for (const src of Object.values(child.hareke)) decode(src);
       if (cezm) for (const i of letters) {
         const { before } = elifData.cezm(i);
         for (const src of [cezmClip(i), syllableClip(before.i, before.h)]) if (src) decode(src);
@@ -254,6 +259,15 @@ const elifVoice = (() => {
     hasRecordings: () => Object.keys(recorded.harf).length + Object.keys(recorded.hece).length > 0,
     credit: () => [mode === 'cocuk' ? recorded.cocukCredit : '', recorded.credit].filter(Boolean).join(' '),
     mode: () => mode,
+    // The Cezm and Şedde islets: only the man's recordings (game.js turns it on there and off on the map).
+    onlyMan(on) { manOnly = !!on; },
+    // Settings: how the chosen voice sounds ("be üstün be"), wherever Settings was opened from.
+    sample() {
+      const keep = manOnly;
+      manOnly = false;
+      this.chant(1, 0);
+      manOnly = keep;
+    },
     setMode(next) {
       mode = MODES.includes(next) ? next : 'cocuk';
       try { localStorage.setItem('elif-ses', mode); } catch {}

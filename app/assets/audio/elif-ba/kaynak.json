@@ -1836,17 +1836,17 @@
     "elifba/cezm/kavrama/okuma/بِئْ__btn_1.mp3",
     "elifba/fetha/fetha/okuma/اَ__btn_1.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "34ec8871c68870cb7fbebb96a3946b7fccc9e8cdad203c41d9b4bc6d37f2d325"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "3e2ef8278db4e2f694fb04e062936d43262f1c122e5f67345070ccb8811a50af"
   },
   "seddesiz/00-0.mp3": {
    "text": "بِئَ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/بِ__btn_2.mp3",
+    "elifba/cezm/kavrama/okuma/بِئْ__btn_1.mp3",
     "elifba/fetha/fetha/okuma/اَ__btn_1.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "de4f2a85247aee565d73f862e1a77e9042f57ca194cbb726c0dd5bf925c515e6"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "5e39c39ce74c82a2b52c89f550507680af57ed897144e14e0b86f847ec95b127"
   },
   "sedde/00-1.mp3": {
    "text": "بِئِّ",
@@ -1854,17 +1854,17 @@
     "elifba/cezm/kavrama/okuma/بِئْ__btn_1.mp3",
     "elifba/kesra/kesra/okuma/اِ__btn_1.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "00d3e23b21a8cd48e709b22186110d307e157ebdb9181dd540d6f035b94fc15a"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "5386b4eeaddb7a7b7be9874a103fd4d6dc446ed3501ca470e04af580d6504746"
   },
   "seddesiz/00-1.mp3": {
    "text": "بِئِ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/بِ__btn_2.mp3",
+    "elifba/cezm/kavrama/okuma/بِئْ__btn_1.mp3",
     "elifba/kesra/kesra/okuma/اِ__btn_1.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "46223916811a05910e40042931110fd339435899b3de3bae19fa80fcaaf7a517"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "85e8ff3f28adde4c157bf5db27724be0b042a4034ef4e993a481d70833e070e3"
   },
   "sedde/00-2.mp3": {
    "text": "بِئُّ",
@@ -1872,17 +1872,17 @@
     "elifba/cezm/kavrama/okuma/بِئْ__btn_1.mp3",
     "elifba/damme/damme/okuma/اُ__btn_1.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "41e35edcd9a120464c806f36ab3b9286bec3667ba68ff64c3a5ecf8008b6eb52"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "8ad881ebc86936549c568e5dc4dc94e13e133c6c97b9e5e00544af1d2d8220bc"
   },
   "seddesiz/00-2.mp3": {
    "text": "بِئُ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/بِ__btn_2.mp3",
+    "elifba/cezm/kavrama/okuma/بِئْ__btn_1.mp3",
     "elifba/damme/damme/okuma/اُ__btn_1.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "0d620d4135ff0fdeab327b7161f20308302f57619751cf3f66c4ca9fc8afcb24"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "e9ca67da18840606c4faf31c023e1729ba6cb350c66288ec25f2c1c7597beb85"
   },
   "sedde/01-0.mp3": {
    "text": "تِبَّ",
@@ -1890,17 +1890,17 @@
     "elifba/cezm/kavrama/okuma/تِبْ__btn_2.mp3",
     "elifba/fetha/fetha/okuma/بَ__btn_2.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "e838ef5b12afc604f6ca327a735d44cded068c544c707d76a4d90259740a93d3"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "93151db3f71010418ec719eebec67ea884b4c155e833d74013d4baa39c7b9265"
   },
   "seddesiz/01-0.mp3": {
    "text": "تِبَ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/تِ__btn_3.mp3",
+    "elifba/cezm/kavrama/okuma/تِبْ__btn_2.mp3",
     "elifba/fetha/fetha/okuma/بَ__btn_2.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "551517c3a024db442ac52897774d7252758ac5dd69a610854e40acb097dbeb45"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "3dc8a87f91464cf8d198bac180ed9933b8d4338ec46b33e5b2c50defe415e444"
   },
   "sedde/01-1.mp3": {
    "text": "تِبِّ",
@@ -1908,17 +1908,17 @@
     "elifba/cezm/kavrama/okuma/تِبْ__btn_2.mp3",
     "elifba/kesra/kesra/okuma/بِ__btn_2.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "7ad6758b5b3f04e9e85eeedab4dea42273555c758efe5a52e275dc3d317e0eea"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "0fb3fac89102f7e960424c54201fe09133da9f900f24054f7d5a8d124bb6dae1"
   },
   "seddesiz/01-1.mp3": {
    "text": "تِبِ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/تِ__btn_3.mp3",
+    "elifba/cezm/kavrama/okuma/تِبْ__btn_2.mp3",
     "elifba/kesra/kesra/okuma/بِ__btn_2.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "ede897d5fd7fee9e55be64f8fc60da0d945be046b9b16c1c873d9bc5c5021881"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "9b68ddbbc1db729e6b49116bbe8dabb40ac4e48abbccfc0d293e61b361b8b4d9"
   },
   "sedde/01-2.mp3": {
    "text": "تِبُّ",
@@ -1926,17 +1926,17 @@
     "elifba/cezm/kavrama/okuma/تِبْ__btn_2.mp3",
     "elifba/damme/damme/okuma/بُ__btn_2.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "885fe828577a108a925b05247563a9576ef5ff945a8dd04dd60622a665cdc900"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "c5f19540585faff58b5c84f547d495dd0512d88e1ad7a446a84419cc8e5e1a85"
   },
   "seddesiz/01-2.mp3": {
    "text": "تِبُ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/تِ__btn_3.mp3",
+    "elifba/cezm/kavrama/okuma/تِبْ__btn_2.mp3",
     "elifba/damme/damme/okuma/بُ__btn_2.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "fac84ac40b5fa1479b2630cea677e095c33c88d9f810066660a31d2fcf8c75ea"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "868c68d6b3510b4727fd9139b1dbec65053b0776c93905f2fc13934eef711026"
   },
   "sedde/02-0.mp3": {
    "text": "مُتَّ",
@@ -1944,17 +1944,17 @@
     "elifba/cezm/kavrama/okuma/مُتْ__btn_3.mp3",
     "elifba/fetha/fetha/okuma/تَ__btn_3.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "63f3e87ff9d54df3048d5e1353550e32e235cf998af600e1a8f8cb4f982fcedd"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "4534436d521d73438bc7367ebd0703f4afceaf886c366571430b219d602dd6bb"
   },
   "seddesiz/02-0.mp3": {
    "text": "مُتَ",
    "derivedFrom": [
-    "elifba/damme/damme/okuma/مُ__btn_16.mp3",
+    "elifba/cezm/kavrama/okuma/مُتْ__btn_3.mp3",
     "elifba/fetha/fetha/okuma/تَ__btn_3.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "7aabacb0d355a45590c0f5eace9623f0d1c8961c58aa16172027d85fe4fd0e1f"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "185c1ab32cae8f25942326a2dc60c418c283be8b4529d72dee852ff12388c550"
   },
   "sedde/02-1.mp3": {
    "text": "مُتِّ",
@@ -1962,17 +1962,17 @@
     "elifba/cezm/kavrama/okuma/مُتْ__btn_3.mp3",
     "elifba/kesra/kesra/okuma/تِ__btn_3.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "a89581cf1c33c95bafe00169313bfb86bdeff28a7d43f24bd7f8f19b736c56b4"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "3e2c93b55de15963765e8a52bb35d4b631398937a6601155836e37d0c5a69e71"
   },
   "seddesiz/02-1.mp3": {
    "text": "مُتِ",
    "derivedFrom": [
-    "elifba/damme/damme/okuma/مُ__btn_16.mp3",
+    "elifba/cezm/kavrama/okuma/مُتْ__btn_3.mp3",
     "elifba/kesra/kesra/okuma/تِ__btn_3.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "ae57727160b4a74dea9211f8995ffe378ee955a815412e199f9d719d65a6a068"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "a0a677cc46ef38d06d1eca840c0ef47012498596b858643c3815a442fab6654c"
   },
   "sedde/02-2.mp3": {
    "text": "مُتُّ",
@@ -1980,17 +1980,17 @@
     "elifba/cezm/kavrama/okuma/مُتْ__btn_3.mp3",
     "elifba/damme/damme/okuma/تُ__btn_3.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "2e492890d7b7dca3f561084c09339b2c32ac9c5efcea2924bd6c8c628a8d4e12"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "6e778bbc1c48a3a17c3b97af50f455ed09170d1c7968acf9f023b9c47e342fd8"
   },
   "seddesiz/02-2.mp3": {
    "text": "مُتُ",
    "derivedFrom": [
-    "elifba/damme/damme/okuma/مُ__btn_16.mp3",
+    "elifba/cezm/kavrama/okuma/مُتْ__btn_3.mp3",
     "elifba/damme/damme/okuma/تُ__btn_3.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "e4e98a5dd0ef218024fcdf42eca6810d57d51eb435b85a3b62488ce521683c38"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "4b31aa18a4a6a6b03919d0adb5e49e2e176e2787daedc05c97147d35afa7a44f"
   },
   "sedde/03-0.mp3": {
    "text": "هَثَّ",
@@ -1998,17 +1998,17 @@
     "elifba/cezm/kavrama/okuma/هَثْ__btn_4.mp3",
     "elifba/fetha/fetha/okuma/ثَ__btn_4.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "368d7ee1cff3617bbe8de2f9780051e068859fac822a9c7169c146fa56e813bf"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "187fe7ea3e3bbec6cb9c34c7a8f6986e9a3f8dc6d37e7f9377bc5c602bd6c2bc"
   },
   "seddesiz/03-0.mp3": {
    "text": "هَثَ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/هَـ__btn_18.mp3",
+    "elifba/cezm/kavrama/okuma/هَثْ__btn_4.mp3",
     "elifba/fetha/fetha/okuma/ثَ__btn_4.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "7e5ef25ab0983886dcb0cc67449fb2b410c031757d13506abe05141f48395786"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "5f43443af5b3de3810ac563889b85714e4325cdbb430bf2d527bb4fc6993aaca"
   },
   "sedde/03-1.mp3": {
    "text": "هَثِّ",
@@ -2016,17 +2016,17 @@
     "elifba/cezm/kavrama/okuma/هَثْ__btn_4.mp3",
     "elifba/kesra/kesra/okuma/ثِ__btn_4.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "88109f454adb3bd386a41e3f56db8a5df31e0668612bdcdd1a75326c2c30c7bc"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "28d543f1b2c17ed0532d4165498e02222637eb89474b595e00cda93f5a5f4225"
   },
   "seddesiz/03-1.mp3": {
    "text": "هَثِ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/هَـ__btn_18.mp3",
+    "elifba/cezm/kavrama/okuma/هَثْ__btn_4.mp3",
     "elifba/kesra/kesra/okuma/ثِ__btn_4.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "9960d412c6e914d7c5e1c51805c8c1c3fd9931b85d6beb3e801480c413f8608d"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "5866349ded204eedcbbb248577ac1d140d865aa553827db570446dbe8f83e1fb"
   },
   "sedde/03-2.mp3": {
    "text": "هَثُّ",
@@ -2034,17 +2034,17 @@
     "elifba/cezm/kavrama/okuma/هَثْ__btn_4.mp3",
     "elifba/damme/damme/okuma/ثُ__btn_4.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "ecfa0ea7e19aaa94cce8d67168a5cff32e0ebce9c5c38e88e36449f8d5d0f9c6"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "ee3041163652ce22ddf9ec7409ee0da82d5d56f70a438af028818d38225d341e"
   },
   "seddesiz/03-2.mp3": {
    "text": "هَثُ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/هَـ__btn_18.mp3",
+    "elifba/cezm/kavrama/okuma/هَثْ__btn_4.mp3",
     "elifba/damme/damme/okuma/ثُ__btn_4.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "9410223b58ed89999f366ad21c915c9839aee64243e10a1d9626548d0473ec11"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "6d5ca4dc01a2e4c2bd3d283b9f758f30a3b9855f74f91955170f39fa5702b53f"
   },
   "sedde/04-0.mp3": {
    "text": "يَجَّ",
@@ -2052,17 +2052,17 @@
     "elifba/cezm/kavrama/okuma/يَجْ__btn_5.mp3",
     "elifba/fetha/fetha/okuma/جَ__btn_5.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "0b28c2b4ab4c735cbe574b65a795d6fd1abb499e9dd1cc22380e86b36bbf5490"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "4330cb5c1f291d0e8f06db4e8c7c0f0eca0d9d267122b9834c25ba876b901fac"
   },
   "seddesiz/04-0.mp3": {
    "text": "يَجَ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/ىَ__btn_20.mp3",
+    "elifba/cezm/kavrama/okuma/يَجْ__btn_5.mp3",
     "elifba/fetha/fetha/okuma/جَ__btn_5.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "4a99be2050c5d0f9e7e9693c50cdae2a1d9d7adc4254648f9415e50bf4362155"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "4675a479a6bd583137d0e5c8e93453d2016601fc68d00be1d9cd48e3857f3924"
   },
   "sedde/04-1.mp3": {
    "text": "يَجِّ",
@@ -2070,17 +2070,17 @@
     "elifba/cezm/kavrama/okuma/يَجْ__btn_5.mp3",
     "elifba/kesra/kesra/okuma/جِ__btn_5.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "0d9f184fc637ddec20fa05a91fdcf92127cf3d3f8fab73f647ab798897ba485c"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "c6b4088609192f0ee5ca1dc4e67c24b12f73b2b7270e6a4cab7cfa3c4ccedda7"
   },
   "seddesiz/04-1.mp3": {
    "text": "يَجِ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/ىَ__btn_20.mp3",
+    "elifba/cezm/kavrama/okuma/يَجْ__btn_5.mp3",
     "elifba/kesra/kesra/okuma/جِ__btn_5.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "5d7163435d817dcef3611bc7ffe85d3ac3aa76659239668934ee52a291b50cf6"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "4e627ef8b78fd20e54a4301814d254940d5312593569a3b2e7d32680963dc895"
   },
   "sedde/04-2.mp3": {
    "text": "يَجُّ",
@@ -2088,17 +2088,17 @@
     "elifba/cezm/kavrama/okuma/يَجْ__btn_5.mp3",
     "elifba/damme/damme/okuma/جُ__btn_5.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "2802736aa514029338db51fcb89e1413ff85235829f97b125ae8cce83c2f28ed"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "8e48d5cd13b1f37f2e4c0e856f1640cd693fa65432b1016fe1cabe74918aa7a8"
   },
   "seddesiz/04-2.mp3": {
    "text": "يَجُ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/ىَ__btn_20.mp3",
+    "elifba/cezm/kavrama/okuma/يَجْ__btn_5.mp3",
     "elifba/damme/damme/okuma/جُ__btn_5.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "7842f45259c0e493545fadf2845e18f07e82886321b201df0bc291dbbd9b629b"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "167094e3a22ba5f0034d504bb6bce7112747600fa1406462ff4674cb40019907"
   },
   "sedde/05-0.mp3": {
    "text": "يَحَّ",
@@ -2106,17 +2106,17 @@
     "elifba/cezm/kavrama/okuma/يَحْ__btn_6.mp3",
     "elifba/fetha/fetha/okuma/حَ__btn_6.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "ae94bd6e68bec652db21830ff46918d913ebc2fc748a2f5b2064de6784ebca0c"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "7d5f12152a20c7f2eb012306d7a0f60d3e476cb2a6037dc8c0bed41fd84ab019"
   },
   "seddesiz/05-0.mp3": {
    "text": "يَحَ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/ىَ__btn_20.mp3",
+    "elifba/cezm/kavrama/okuma/يَحْ__btn_6.mp3",
     "elifba/fetha/fetha/okuma/حَ__btn_6.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "458a17f719ce62ce5c526df6beae6de60c2127f05f6aeac572f334acaab7fe63"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "c17c42c44b8a740a2ae43cd6ef44eacf81df6568b28d521f3bcdb1218a922173"
   },
   "sedde/05-1.mp3": {
    "text": "يَحِّ",
@@ -2124,17 +2124,17 @@
     "elifba/cezm/kavrama/okuma/يَحْ__btn_6.mp3",
     "elifba/kesra/kesra/okuma/حِ__btn_6.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "12cb28cd45d853cf3b14123fb24763b705ed0537cc7e7998ff6b6004139fe0ae"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "276c2ba927234e620986e48b8a02030586e27f10bf31ca649c6d0588d061580c"
   },
   "seddesiz/05-1.mp3": {
    "text": "يَحِ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/ىَ__btn_20.mp3",
+    "elifba/cezm/kavrama/okuma/يَحْ__btn_6.mp3",
     "elifba/kesra/kesra/okuma/حِ__btn_6.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "bfd2f1a08b2768b8498152c579cfd8cfba96845d1bd9c912beb86c4d24ed3bdd"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "c8c91e553e507ff86e0c6446b8ede653f6fd38c0a5a59fe0420a91bdafd977d8"
   },
   "sedde/05-2.mp3": {
    "text": "يَحُّ",
@@ -2142,17 +2142,17 @@
     "elifba/cezm/kavrama/okuma/يَحْ__btn_6.mp3",
     "elifba/damme/damme/okuma/حُ__btn_6.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "68f2bda46b8460a1dfe83d273dfbce673dbab1b1ef36f10dbb2259da8ca9f57d"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "ca20c18542f28e2749d9055f74f71220e51532c2beb60484a29c445f39992c18"
   },
   "seddesiz/05-2.mp3": {
    "text": "يَحُ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/ىَ__btn_20.mp3",
+    "elifba/cezm/kavrama/okuma/يَحْ__btn_6.mp3",
     "elifba/damme/damme/okuma/حُ__btn_6.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "339533ee542d269d4465a1e05d3950ab00addf9ece7f8fd594f6ffd15a5c1557"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "161caa38878d96301d2d5e79fa5fd845c35ba647091c61e64b45e8270790e259"
   },
   "sedde/06-0.mp3": {
    "text": "سِخَّ",
@@ -2160,17 +2160,17 @@
     "elifba/cezm/kavrama/okuma/سِخْ__btn_7.mp3",
     "elifba/fetha/fetha/okuma/خَ__btn_25.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "503e48d9ce1d05db094edcbe7f0f9dbb7e1077c74a2a17fdee3569b49f40c71d"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "4e0897056eabeddff8e25bb9b79cb068b86902935293c71e77d8430e534c0f9c"
   },
   "seddesiz/06-0.mp3": {
    "text": "سِخَ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/سِ__btn_11.mp3",
+    "elifba/cezm/kavrama/okuma/سِخْ__btn_7.mp3",
     "elifba/fetha/fetha/okuma/خَ__btn_25.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "6c134168d756e3a16a54eae86eb2a76ee4b6f805240b806c03ba46e2d629fd5b"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "2b3a8dbfb61cb22c8a83a4b89f534fc5b6a4c56878732c202f95f82392eeb796"
   },
   "sedde/06-1.mp3": {
    "text": "سِخِّ",
@@ -2178,17 +2178,17 @@
     "elifba/cezm/kavrama/okuma/سِخْ__btn_7.mp3",
     "elifba/kesra/kesra/okuma/خِ__btn_22.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "ee228a2fb4a909b2beec965e73afe563c4d2dcf2a21ffdde5a7177b2db47e0ad"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "8fd2bc137342ec27a84e8b3991f6d503619155e15ce2b241439fd410ab6f964b"
   },
   "seddesiz/06-1.mp3": {
    "text": "سِخِ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/سِ__btn_11.mp3",
+    "elifba/cezm/kavrama/okuma/سِخْ__btn_7.mp3",
     "elifba/kesra/kesra/okuma/خِ__btn_22.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "b4990789bed35dc5d146176d6cf5298125ebc493c4d75a465609ff8647b07647"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "642df2024f0b50cb2cc8a9cea2a8ff08deb8186869f44c1c557dd119b691cf94"
   },
   "sedde/06-2.mp3": {
    "text": "سِخُّ",
@@ -2196,17 +2196,17 @@
     "elifba/cezm/kavrama/okuma/سِخْ__btn_7.mp3",
     "elifba/damme/damme/okuma/خُ__btn_21.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "9603d700c8beae2afe302752f5e4529e8204ed7b969e60b2e2eef91cf11ccd16"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "0b984874f018da0c4a722cc6caa6e430ce19f588b54e51ec94a49f29eeea728b"
   },
   "seddesiz/06-2.mp3": {
    "text": "سِخُ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/سِ__btn_11.mp3",
+    "elifba/cezm/kavrama/okuma/سِخْ__btn_7.mp3",
     "elifba/damme/damme/okuma/خُ__btn_21.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "130317c1bef6f7d474d3c9ffa001f9f967f85443673967ee01482d79a196dc70"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "ae54791e15c778bb1d6097b1b4a12bc8388c75a253b601efd32b41445e44d5ed"
   },
   "sedde/07-0.mp3": {
    "text": "قَدَّ",
@@ -2214,17 +2214,17 @@
     "elifba/cezm/kavrama/okuma/قَدْ__btn_8.mp3",
     "elifba/fetha/fetha/okuma/دَ__btn_7.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "e6a214ef776ded2a0ffef247e86b21294dac4a07f307b7a2fbfb3c5375c9f023"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "ebfd26670b476cb35188f6b76d50f4b85eaad578237abd5aa2211d92ad9aeb10"
   },
   "seddesiz/07-0.mp3": {
    "text": "قَدَ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/قَ__btn_28.mp3",
+    "elifba/cezm/kavrama/okuma/قَدْ__btn_8.mp3",
     "elifba/fetha/fetha/okuma/دَ__btn_7.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "8b7816319a09b3b340b703b5018202637b7a181ec6b827512a70776678c58c62"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "2f597d295154acd21517955962fc7c3408d73603faecb83f19cb2233a2f81171"
   },
   "sedde/07-1.mp3": {
    "text": "قَدِّ",
@@ -2232,17 +2232,17 @@
     "elifba/cezm/kavrama/okuma/قَدْ__btn_8.mp3",
     "elifba/kesra/kesra/okuma/دِ__btn_7.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "afe20acdbfd7189cfb70b3431034224d4bd11f3b248a72265b9ce7f91c146994"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "7e19b38527e7ef3180c306838a02bb3d1dbe5e84dcd0f8815e69d6113a518a1d"
   },
   "seddesiz/07-1.mp3": {
    "text": "قَدِ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/قَ__btn_28.mp3",
+    "elifba/cezm/kavrama/okuma/قَدْ__btn_8.mp3",
     "elifba/kesra/kesra/okuma/دِ__btn_7.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "100972ce7f07847669e57a9062e99e3be1a585c520e706f3f8124da77144c594"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "3146079fac978ac61ab3aa5a942426266e9ea471626d1a0d374c47e7175f30bd"
   },
   "sedde/07-2.mp3": {
    "text": "قَدُّ",
@@ -2250,17 +2250,17 @@
     "elifba/cezm/kavrama/okuma/قَدْ__btn_8.mp3",
     "elifba/damme/damme/okuma/دُ__btn_7.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "e6f2695ce14b4b7b118284ed073e94ee4023d50e5149c5ce7339909337360a70"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "dbd83f9e485da584ceb63a73290741ed654ec9da9085da366ee18150c41c48ce"
   },
   "seddesiz/07-2.mp3": {
    "text": "قَدُ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/قَ__btn_28.mp3",
+    "elifba/cezm/kavrama/okuma/قَدْ__btn_8.mp3",
     "elifba/damme/damme/okuma/دُ__btn_7.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "5328e06f659257485e6dd5cb9ba8dd7fa086885c3ea6db325b0b4eaecec81da3"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "2f24352c6385facf7a9889b82a425aaa7aa9d9e06d74ab71f08669f15a468182"
   },
   "sedde/08-0.mp3": {
    "text": "عُذَّ",
@@ -2268,17 +2268,17 @@
     "elifba/cezm/kavrama/okuma/عُذْ__btn_9.mp3",
     "elifba/fetha/fetha/okuma/ذَ__btn_8.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "39933ca0b65f4bb7f437ce43bedeeef97f1c0683cd614688e6db85fe67869129"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "826ed501ce74ff26f5422ebda6b1f732534be9c7c4d5c4d28d0caf98d1b1f712"
   },
   "seddesiz/08-0.mp3": {
    "text": "عُذَ",
    "derivedFrom": [
-    "elifba/damme/damme/okuma/عُ__btn_12.mp3",
+    "elifba/cezm/kavrama/okuma/عُذْ__btn_9.mp3",
     "elifba/fetha/fetha/okuma/ذَ__btn_8.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "27c78ab473db02efa48e92c0fbcafff16e53cb63130a019f64c1ab39c247082e"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "1230833558fe4f4bf2c2f76b8ffab09da28e075b1b17f3739c3e6f74c02c1c52"
   },
   "sedde/08-1.mp3": {
    "text": "عُذِّ",
@@ -2286,17 +2286,17 @@
     "elifba/cezm/kavrama/okuma/عُذْ__btn_9.mp3",
     "elifba/kesra/kesra/okuma/ذِ__btn_8.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "a1212672b0cbd6605e37b6ca2dcefeac5b87d6ef819cc32d2e00b07a00031940"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "f2b28f3f1b0e49f8bad1491f5b29b63c667840ad75be6edca05d0fbc48bd8c04"
   },
   "seddesiz/08-1.mp3": {
    "text": "عُذِ",
    "derivedFrom": [
-    "elifba/damme/damme/okuma/عُ__btn_12.mp3",
+    "elifba/cezm/kavrama/okuma/عُذْ__btn_9.mp3",
     "elifba/kesra/kesra/okuma/ذِ__btn_8.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "486b0efe99d77ff8735c776e9f075fde4a4dd005aad050e61d8826113439865b"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "6f2e23f5e7c08059bda4d2b405c72c7e5fdc9adefec69d0c8e83bea2c5291404"
   },
   "sedde/08-2.mp3": {
    "text": "عُذُّ",
@@ -2304,17 +2304,17 @@
     "elifba/cezm/kavrama/okuma/عُذْ__btn_9.mp3",
     "elifba/damme/damme/okuma/ذُ__btn_8.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "db51f23d2f071a5dba56bbfb865a888a0759689ba7572dc0c6a798e5ce72209e"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "a53e37726ca0a17bc6a549024ca723649fa4fa51cd6499f56a942fa61eba67ff"
   },
   "seddesiz/08-2.mp3": {
    "text": "عُذُ",
    "derivedFrom": [
-    "elifba/damme/damme/okuma/عُ__btn_12.mp3",
+    "elifba/cezm/kavrama/okuma/عُذْ__btn_9.mp3",
     "elifba/damme/damme/okuma/ذُ__btn_8.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "00bf052fbd76e2afb04936577d6db8cc42d2975bb5966140cc914911986a57de"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "35729861f3f1ba68263e87414442b0eaa0d0c661e461fb3c12f0ccfb38378b02"
   },
   "sedde/09-0.mp3": {
    "text": "صِرَّ",
@@ -2322,17 +2322,17 @@
     "elifba/cezm/kavrama/okuma/صِرْ__btn_10.mp3",
     "elifba/fetha/fetha/okuma/رَ__btn_26.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "ae671036da2a47712ac10fba219967f39bbce31d5306ce3ea4ab4e296d3d0da2"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "2f4adec22f27690beb7a3b1d80142e98fa11218c6af3d478c07b2424504c8edd"
   },
   "seddesiz/09-0.mp3": {
    "text": "صِرَ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/صِ__btn_25.mp3",
+    "elifba/cezm/kavrama/okuma/صِرْ__btn_10.mp3",
     "elifba/fetha/fetha/okuma/رَ__btn_26.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "a31b0144c930ffabf1dbfdedc7d37040c3b160520d2cac8f66d2c235be6cb395"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "d727d9f67333f1f4728c59cdf1d923449434eea94dfe185688a8b4c3b6a56464"
   },
   "sedde/09-1.mp3": {
    "text": "صِرِّ",
@@ -2340,17 +2340,17 @@
     "elifba/cezm/kavrama/okuma/صِرْ__btn_10.mp3",
     "elifba/kesra/kesra/okuma/رِ__btn_9.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "31bd5ad24dcf404e162fe4095f8987b4a8999fbbcdb6918a54522aab5ccc4c59"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "e00fee20529c32bde2ab9002e3885eb28e73bbc487c152adff98f16208cfc685"
   },
   "seddesiz/09-1.mp3": {
    "text": "صِرِ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/صِ__btn_25.mp3",
+    "elifba/cezm/kavrama/okuma/صِرْ__btn_10.mp3",
     "elifba/kesra/kesra/okuma/رِ__btn_9.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "4c3fd7fbe2c88f09fcb5fc6fed784ed9855d71c46ebd8b907058acb4029b0a03"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "c2640b3fa5a0201c196a1b69b7549d2b6d635f5791fb6847da13247fa33d58f6"
   },
   "sedde/09-2.mp3": {
    "text": "صِرُّ",
@@ -2358,17 +2358,17 @@
     "elifba/cezm/kavrama/okuma/صِرْ__btn_10.mp3",
     "elifba/damme/damme/okuma/رُ__btn_22.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "424336645dc3793e0a2518759276ef201db3cfa61289f4c43b77ad1c41e1b7cf"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "5a44a71a0506ec7440f4ffe99e2a8579e7a1a888cf74b5b32abeeafdf0198a94"
   },
   "seddesiz/09-2.mp3": {
    "text": "صِرُ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/صِ__btn_25.mp3",
+    "elifba/cezm/kavrama/okuma/صِرْ__btn_10.mp3",
     "elifba/damme/damme/okuma/رُ__btn_22.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "c17e1511faefd47abd8cee4d7cf1d6d222e55be3eb6e357b89cdd39095e69794"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "a44e05297c4c8a7f625234d9cc3f81e26db364909ff37e79b76dad21ee637834"
   },
   "sedde/10-0.mp3": {
    "text": "وَزَّ",
@@ -2376,17 +2376,17 @@
     "elifba/cezm/kavrama/okuma/وَزْ__btn_11.mp3",
     "elifba/fetha/fetha/okuma/زَ__btn_9.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "a795b172a55df1eb34efa045f391e5bd10e034e869673c1af57d6ce17afa0e9f"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "e660e1d3d1dff8cc002c5bf796d8bb08a0e37d7dcb10da425e9bf07ba84ac8d2"
   },
   "seddesiz/10-0.mp3": {
    "text": "وَزَ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/وَ__btn_19.mp3",
+    "elifba/cezm/kavrama/okuma/وَزْ__btn_11.mp3",
     "elifba/fetha/fetha/okuma/زَ__btn_9.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "055cb9af657a805ba390a914640b92d8b15713942ca606e1fd188285731f77c4"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "7982408dcc635353034bd4784d387cdb9a3de14c123fc96573ab64f28fceadec"
   },
   "sedde/10-1.mp3": {
    "text": "وَزِّ",
@@ -2394,17 +2394,17 @@
     "elifba/cezm/kavrama/okuma/وَزْ__btn_11.mp3",
     "elifba/kesra/kesra/okuma/زِ__btn_10.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "bed63f617ec8687b104dc6e0046bbb4cd819a93c6319f7c693b505476b155d32"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "8d73c7771b2a715a0644d4f62e9117160d08654ad514323cc36657e4c9176bf6"
   },
   "seddesiz/10-1.mp3": {
    "text": "وَزِ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/وَ__btn_19.mp3",
+    "elifba/cezm/kavrama/okuma/وَزْ__btn_11.mp3",
     "elifba/kesra/kesra/okuma/زِ__btn_10.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "75d7081ef71cb6999f2c2b3bffcf17c6a459e81f44ed4cfc6201c9a84c32a17f"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "fb0088bdeb7eeb2bd2181a193519540f102435baf9b1e10fd8f36e37c0e093c9"
   },
   "sedde/10-2.mp3": {
    "text": "وَزُّ",
@@ -2412,17 +2412,17 @@
     "elifba/cezm/kavrama/okuma/وَزْ__btn_11.mp3",
     "elifba/damme/damme/okuma/زُ__btn_9.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "53da84bb50e4ee44b1d9d63267985ff5ecda2f434fd6a24df727730602712095"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "9eaeb8cbe12790b53bc88ea522c7f6c1eb59ecb54834c444fd9f3a6ca03e6d39"
   },
   "seddesiz/10-2.mp3": {
    "text": "وَزُ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/وَ__btn_19.mp3",
+    "elifba/cezm/kavrama/okuma/وَزْ__btn_11.mp3",
     "elifba/damme/damme/okuma/زُ__btn_9.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "a83c6a043838a3d474634299e673e087ad55c895fdbd62e74edb1c2a6401ce38"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "262b408e2a17097db84bcb88ff9f54e1c805f4a48039f379446a635bdab9cbb8"
   },
   "sedde/11-0.mp3": {
    "text": "بِسَّ",
@@ -2430,17 +2430,17 @@
     "elifba/cezm/kavrama/okuma/بِسْ__btn_12.mp3",
     "elifba/fetha/fetha/okuma/سَ__btn_10.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "f25c0bfbab584d45b86154c530b5559bee7b13cbbc8994bc7ece95c0815b9644"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "1906281c84c9f5bd1d52ee541287c15f049b180896664d798f1f221cb08d3ce2"
   },
   "seddesiz/11-0.mp3": {
    "text": "بِسَ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/بِ__btn_2.mp3",
+    "elifba/cezm/kavrama/okuma/بِسْ__btn_12.mp3",
     "elifba/fetha/fetha/okuma/سَ__btn_10.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "e70fe0570f25f389af914b1f323107a93bcffb450425483cccd82e56f3528df2"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "b90d1059938ffc1a3ff70413853246f1201e3318ef777a9255424d39055ebcde"
   },
   "sedde/11-1.mp3": {
    "text": "بِسِّ",
@@ -2448,17 +2448,17 @@
     "elifba/cezm/kavrama/okuma/بِسْ__btn_12.mp3",
     "elifba/kesra/kesra/okuma/سِ__btn_11.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "cbc8b44eed9c09e81238e367f40fc84ffcc1a8d5ec6d8c1b11bef748c5e16d34"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "4d6d84b31bdbe2f07cf36dd575e17059c51567900517aa7a8cd581e660e142ca"
   },
   "seddesiz/11-1.mp3": {
    "text": "بِسِ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/بِ__btn_2.mp3",
+    "elifba/cezm/kavrama/okuma/بِسْ__btn_12.mp3",
     "elifba/kesra/kesra/okuma/سِ__btn_11.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "c1a3bf61b575a1fe6e520623c56deb627cd6d37a7558f66078441f471f3c07e7"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "a3769de04cb5bb7b96b101c3671c7693cb6e2c12b85ab7c219a5e865be00154f"
   },
   "sedde/11-2.mp3": {
    "text": "بِسُّ",
@@ -2466,17 +2466,17 @@
     "elifba/cezm/kavrama/okuma/بِسْ__btn_12.mp3",
     "elifba/damme/damme/okuma/سُ__btn_10.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "a42e7ec6b51b70d347fc0014f5756016e78dd3bd02c51b456a482d0154ace1ff"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "4d6c9e6995d598ca65dac0bbeae5a55ba913b38327f2f5d28220d35ca671b181"
   },
   "seddesiz/11-2.mp3": {
    "text": "بِسُ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/بِ__btn_2.mp3",
+    "elifba/cezm/kavrama/okuma/بِسْ__btn_12.mp3",
     "elifba/damme/damme/okuma/سُ__btn_10.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "a67b9d8f4ae16bad39233ced003b19535fda159072a48c668283a741ba003571"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "1995bb2f7f724d1d787ebd7e7d92040b81d642af5e4720fded555d70447accaf"
   },
   "sedde/12-0.mp3": {
    "text": "خَشَّ",
@@ -2484,17 +2484,17 @@
     "elifba/cezm/kavrama/okuma/خَشْ__btn_13.mp3",
     "elifba/fetha/fetha/okuma/شَ__btn_11.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "cd2e6cf52e9ad483e90e2d7a8dfad638bd21cf9f8e63d9f3ff9e2212550f9ad7"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "371a0a9c4c2fc8d0fe0b0a662caa317981e49b1ee9bb3244c31a85845cd5e808"
   },
   "seddesiz/12-0.mp3": {
    "text": "خَشَ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/خَ__btn_25.mp3",
+    "elifba/cezm/kavrama/okuma/خَشْ__btn_13.mp3",
     "elifba/fetha/fetha/okuma/شَ__btn_11.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "262a92b4033217276bc1b9251a19f0ec284e7120348a600219e246e3ab77516f"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "fda145470f76333e6d18f3918a728dd09023aa6db230b85a5447153612ae6c6a"
   },
   "sedde/12-1.mp3": {
    "text": "خَشِّ",
@@ -2502,17 +2502,17 @@
     "elifba/cezm/kavrama/okuma/خَشْ__btn_13.mp3",
     "elifba/kesra/kesra/okuma/شِ__btn_12.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "8aff423fbc2b3a665af0990cd50070ec49d47ea6d9a5bfc16f4daae0f9ee75e6"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "a92fd6fa7324c3f7cab97119bb9b3ce373352efefe5a6ebcf70cddcc7f9028c8"
   },
   "seddesiz/12-1.mp3": {
    "text": "خَشِ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/خَ__btn_25.mp3",
+    "elifba/cezm/kavrama/okuma/خَشْ__btn_13.mp3",
     "elifba/kesra/kesra/okuma/شِ__btn_12.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "87d204a1280f3a297406b7bfddc865a15111d642cf6a6fc7cf1fd780873f948a"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "80100ae4840d508f933dfc9e090a1345d1b135b4ffb347b8ef8f0c6991121d25"
   },
   "sedde/12-2.mp3": {
    "text": "خَشُّ",
@@ -2520,17 +2520,17 @@
     "elifba/cezm/kavrama/okuma/خَشْ__btn_13.mp3",
     "elifba/damme/damme/okuma/شُ__btn_11.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "3cc8a3c46412942238098c2835f136eac74927f9026d02c36657ec94a3eed2c5"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "bdac53853e316e99bcf9ca18d4cc4e8b626dae45fc91b7c995c089112ff65ec1"
   },
   "seddesiz/12-2.mp3": {
    "text": "خَشُ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/خَ__btn_25.mp3",
+    "elifba/cezm/kavrama/okuma/خَشْ__btn_13.mp3",
     "elifba/damme/damme/okuma/شُ__btn_11.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "b2ac056b1686fd43398bf0fb67caad190643b3fc46ac446c46689223bd9b1982"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "397d4481e8f5ebecfe6f6fa92173df487f49896577a1c07df7ce52a8c5f33cd7"
   },
   "sedde/13-0.mp3": {
    "text": "فَصَّ",
@@ -2538,17 +2538,17 @@
     "elifba/cezm/kavrama/okuma/فَصْ__btn_14.mp3",
     "elifba/fetha/fetha/okuma/صَ__btn_30.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "d2256aca6d4b1387767455cd37ca9d0c464a14fbefbfe84cfd2157b4c8fec294"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "d92094ee1e45192c20010f9e4f767b3c242b1e0a6c7be61f85ee633c4d7e27e9"
   },
   "seddesiz/13-0.mp3": {
    "text": "فَصَ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/فَ__btn_13.mp3",
+    "elifba/cezm/kavrama/okuma/فَصْ__btn_14.mp3",
     "elifba/fetha/fetha/okuma/صَ__btn_30.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "8c428fc60d5cf5d47d3d8095d8eb5c26c91daabadcd8aec8d60e4bf3544992fd"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "6434151a27dcb842ccd39419d6c0647aa1b1429b2337b185b66a041a61bd05f2"
   },
   "sedde/13-1.mp3": {
    "text": "فَصِّ",
@@ -2556,17 +2556,17 @@
     "elifba/cezm/kavrama/okuma/فَصْ__btn_14.mp3",
     "elifba/kesra/kesra/okuma/صِ__btn_25.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "d69040ad114d58519b11b11b529c89c86689b8b4a052dac2028bf1cabdd96fa2"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "e5278c540f574410111f48d2f835e27b531b1c559877ceab3db524bf5dbac8f8"
   },
   "seddesiz/13-1.mp3": {
    "text": "فَصِ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/فَ__btn_13.mp3",
+    "elifba/cezm/kavrama/okuma/فَصْ__btn_14.mp3",
     "elifba/kesra/kesra/okuma/صِ__btn_25.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "bd3e805f77494b45113920585a231375e49f2bbeedcd8c7d87e3ee8437b8f563"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "5bb6d3424af8dd30cf868e690b7d1cafa6e8424f8e361a5e86ee0b33ff60fb33"
   },
   "sedde/13-2.mp3": {
    "text": "فَصُّ",
@@ -2574,17 +2574,17 @@
     "elifba/cezm/kavrama/okuma/فَصْ__btn_14.mp3",
     "elifba/damme/damme/okuma/صُ__btn_25.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "a194b135ba39209e8a4bd7e577ed740b396d597c4792d562ebf257ab0cd0264b"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "3ad6c0fe3bc1395d35cdd227b8a5591a23cc6b46fba5adbb79dde63d09deed8d"
   },
   "seddesiz/13-2.mp3": {
    "text": "فَصُ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/فَ__btn_13.mp3",
+    "elifba/cezm/kavrama/okuma/فَصْ__btn_14.mp3",
     "elifba/damme/damme/okuma/صُ__btn_25.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "7156847e70110a9c39f8b2ef7c7c660866a78411e9c8273547b49b035ee251c2"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "5f80f53cfd4f05ccb9bd720ac1c9e315fb1e6655b9c0105708e471c2868451e8"
   },
   "sedde/14-0.mp3": {
    "text": "رِضَّ",
@@ -2592,17 +2592,17 @@
     "elifba/cezm/kavrama/okuma/رِضْ__btn_15.mp3",
     "elifba/fetha/fetha/okuma/ضَ__btn_31.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "1c43540fd0a3f3b582de5315c803aca713a414d652948ab05aaa3641fc2dedb6"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "2112c6b48d1f1dda1142fce52a5c4c60e12da2229a359fbbebd31b5e94fd50ea"
   },
   "seddesiz/14-0.mp3": {
    "text": "رِضَ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/رِ__btn_9.mp3",
+    "elifba/cezm/kavrama/okuma/رِضْ__btn_15.mp3",
     "elifba/fetha/fetha/okuma/ضَ__btn_31.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "2e046d0641db3143729004ba481069d1f670a2d3772082727fb97d040e05fbf6"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "5b4f0fad2b71e3e1d797119f4d89d107fe1866999b2dc05b31be23c4d30a2ea8"
   },
   "sedde/14-1.mp3": {
    "text": "رِضِّ",
@@ -2610,17 +2610,17 @@
     "elifba/cezm/kavrama/okuma/رِضْ__btn_15.mp3",
     "elifba/kesra/kesra/okuma/ضِ__btn_26.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "11da5d2d24393e2385aedabb09c4dc42c6b62c54dfa0020feb1c457ff30fd609"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "f33dd0c9b9dfd0d96dbc1327ea6ef0fa2e941ac0ef5916ca5c266f5403384f1c"
   },
   "seddesiz/14-1.mp3": {
    "text": "رِضِ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/رِ__btn_9.mp3",
+    "elifba/cezm/kavrama/okuma/رِضْ__btn_15.mp3",
     "elifba/kesra/kesra/okuma/ضِ__btn_26.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "8223a6c972aed9b454374cc281c1dd7a3967ec909a0bd7f9f4661ebc8dacff76"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "6de16c129bbde5ea778d049a8a6cac047127f011d26230c325e9cac40665a20f"
   },
   "sedde/14-2.mp3": {
    "text": "رِضُّ",
@@ -2628,17 +2628,17 @@
     "elifba/cezm/kavrama/okuma/رِضْ__btn_15.mp3",
     "elifba/damme/damme/okuma/ضُ__btn_26.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "b95a3f0567243c3ed2df809e3bde96350127637f93a237d5af26ca23cc4afe8f"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "902e9cf61ffcec4f222a6d333786ffafb88ac21038dc3742712fc2e2b0350401"
   },
   "seddesiz/14-2.mp3": {
    "text": "رِضُ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/رِ__btn_9.mp3",
+    "elifba/cezm/kavrama/okuma/رِضْ__btn_15.mp3",
     "elifba/damme/damme/okuma/ضُ__btn_26.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "fb4124b788fc627e059b23ec2234731543f0c2ec0a0b88020fee342f9127277d"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "d7b14dcad2731a8d94d1054ce62d23c5e3106b18b18ae4ac08151325c8e504b2"
   },
   "sedde/15-0.mp3": {
    "text": "شَطَّ",
@@ -2646,17 +2646,17 @@
     "elifba/cezm/kavrama/okuma/شَطْ__btn_16.mp3",
     "elifba/fetha/fetha/okuma/طَ__btn_32.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "380b284b10865640482d17020009476985f6b6adf353c2ff0da05617b59b5c6e"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "87b056f187210f198d98d16af26c25d21562ea8f6c47ce4f50ecdaa16600a071"
   },
   "seddesiz/15-0.mp3": {
    "text": "شَطَ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/شَ__btn_11.mp3",
+    "elifba/cezm/kavrama/okuma/شَطْ__btn_16.mp3",
     "elifba/fetha/fetha/okuma/طَ__btn_32.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "c6f5695642dcd230b9cd569a8d5064319d4cba927c38679db6a22eb0a225755a"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "331919439c8dea534d4a047dcee8e9286081ed705e8c3c021c9f89cff403553f"
   },
   "sedde/15-1.mp3": {
    "text": "شَطِّ",
@@ -2664,17 +2664,17 @@
     "elifba/cezm/kavrama/okuma/شَطْ__btn_16.mp3",
     "elifba/kesra/kesra/okuma/طِ__btn_27.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "24d36aeb5937e96c0555d5317af656336e24eedb3e4088311e313bba4a01dc2e"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "3b3a4dcd5ac944377613e5cf22dbdccad97d9f362aced9663b4ebac1e3fbe8af"
   },
   "seddesiz/15-1.mp3": {
    "text": "شَطِ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/شَ__btn_11.mp3",
+    "elifba/cezm/kavrama/okuma/شَطْ__btn_16.mp3",
     "elifba/kesra/kesra/okuma/طِ__btn_27.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "6e222b6d4a40dd5170f8c7fec22177038b5b959aaa6efd5e9d8cd26ff8970662"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "a730c5b1bd8b5dabe1fc9db094cc14ed98dc9b05cf2fc28c5c2f12101738d865"
   },
   "sedde/15-2.mp3": {
    "text": "شَطُّ",
@@ -2682,17 +2682,17 @@
     "elifba/cezm/kavrama/okuma/شَطْ__btn_16.mp3",
     "elifba/damme/damme/okuma/طُ__btn_27.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "062c72d9b49d0a32d67454af8bd30cd58c1683b39f3f0d491a6945d328e47892"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "830a4d7c5700c90962e9f0abe90934d97b682819233789c74e6c6249f4053070"
   },
   "seddesiz/15-2.mp3": {
    "text": "شَطُ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/شَ__btn_11.mp3",
+    "elifba/cezm/kavrama/okuma/شَطْ__btn_16.mp3",
     "elifba/damme/damme/okuma/طُ__btn_27.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "c847f143ffa7fd6a9a1a0cdd6efc59a7278511cc1627317cbf37fc20a441a50d"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "f0756efd2820c1a9553ddda24f07f14c506aedab1322baadaac3243d4d48bdb3"
   },
   "sedde/16-0.mp3": {
    "text": "تُظَّ",
@@ -2700,17 +2700,17 @@
     "elifba/cezm/kavrama/okuma/تُظْ__btn_17.mp3",
     "elifba/fetha/fetha/okuma/ظَ__btn_33.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "9a1aaaf2c19d57a4a42be48e3df4a3ce7118cd7219b1b5f120dd4ef37ab73895"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "2fcfc1d3080dfdfcac19cca6f034b6a422615be93b9a19efc20da54dd22d399b"
   },
   "seddesiz/16-0.mp3": {
    "text": "تُظَ",
    "derivedFrom": [
-    "elifba/damme/damme/okuma/تُ__btn_3.mp3",
+    "elifba/cezm/kavrama/okuma/تُظْ__btn_17.mp3",
     "elifba/fetha/fetha/okuma/ظَ__btn_33.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "e1ce0d9d553e0208828946a1f2a4e0dbeca7ce9f8b07e8d59cfd093426d02022"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "2c1894233ace998edcca17e17c1c587fe521aa21366e80e5aabe0b8b59806673"
   },
   "sedde/16-1.mp3": {
    "text": "تُظِّ",
@@ -2718,17 +2718,17 @@
     "elifba/cezm/kavrama/okuma/تُظْ__btn_17.mp3",
     "elifba/kesra/kesra/okuma/ظِ__btn_28.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "14232dc7a7d7c2936a295420a34757a4278bbb532a56b72198c2a24bde669c3e"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "1991f5ca0c773d4569b8ae6494f05ce5f481da440afaa5d623375b170e988d05"
   },
   "seddesiz/16-1.mp3": {
    "text": "تُظِ",
    "derivedFrom": [
-    "elifba/damme/damme/okuma/تُ__btn_3.mp3",
+    "elifba/cezm/kavrama/okuma/تُظْ__btn_17.mp3",
     "elifba/kesra/kesra/okuma/ظِ__btn_28.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "ed38d8150230b582cd659de221f8c531f3ff2fd09312d1a9b444e00888d41eda"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "3e79a272a3551de6e4c0edf828aa03260a526576d776dadebb4c08028cb1b848"
   },
   "sedde/16-2.mp3": {
    "text": "تُظُّ",
@@ -2736,17 +2736,17 @@
     "elifba/cezm/kavrama/okuma/تُظْ__btn_17.mp3",
     "elifba/damme/damme/okuma/ظُ__btn_28.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "daab4cfe58397b2648c749e22ac0adc6bc106d3520cbb40b0a0cd4d76555a3d0"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "59fd76d85c01e35924faf6c8d2901ae4d6e98fcfcb56fe7b6e49dd470e2c3f8f"
   },
   "seddesiz/16-2.mp3": {
    "text": "تُظُ",
    "derivedFrom": [
-    "elifba/damme/damme/okuma/تُ__btn_3.mp3",
+    "elifba/cezm/kavrama/okuma/تُظْ__btn_17.mp3",
     "elifba/damme/damme/okuma/ظُ__btn_28.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "9a7918fa1bdb17bc500c4d6de1ef0abf640c4bb5a9968d5b4acbb79a846d4a2c"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "643575d9323456d6c4de99f68bd266570a7e669b2246c29e82e26161e168ffdf"
   },
   "sedde/17-0.mp3": {
    "text": "نَعَّ",
@@ -2754,17 +2754,17 @@
     "elifba/cezm/kavrama/okuma/نَعْ__btn_18.mp3",
     "elifba/fetha/fetha/okuma/عَ__btn_12.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "ee6d9874a080bc56951188369d9220553f238325533d65d3ed9d19f7d3079a07"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "3a4a12a9a9e606e5a94daa5c75d06c719728e015a4b8fbb16c57b9796cb490e5"
   },
   "seddesiz/17-0.mp3": {
    "text": "نَعَ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/نَ__btn_17.mp3",
+    "elifba/cezm/kavrama/okuma/نَعْ__btn_18.mp3",
     "elifba/fetha/fetha/okuma/عَ__btn_12.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "deb07ab83f0a41ca06c60ef409e989c9298bd3d4ed35247e4a624a317f926399"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "84ca713b3411fc157d0824142ba42ed3bc3fca9a1a2ac5687325423ebcc269af"
   },
   "sedde/17-1.mp3": {
    "text": "نَعِّ",
@@ -2772,17 +2772,17 @@
     "elifba/cezm/kavrama/okuma/نَعْ__btn_18.mp3",
     "elifba/kesra/kesra/okuma/عِ__btn_13.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "fbfe41e3f723cb6f8cb4ae04c70d0b89d0de6299cde705e4f9f04614560ef1cc"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "d5bdbaaa14c0ad7284708ef9437a585eebc8d049615ec12803bc43e704134a06"
   },
   "seddesiz/17-1.mp3": {
    "text": "نَعِ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/نَ__btn_17.mp3",
+    "elifba/cezm/kavrama/okuma/نَعْ__btn_18.mp3",
     "elifba/kesra/kesra/okuma/عِ__btn_13.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "839f52f0efb76e4fdc2d0afee3e3a4efa3a5b5d45f22f1dea882d2e43d00d814"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "d63d117cb56dceeb4b9c4cb88c022f7c5a98e98028769af0cebdaf111b1cc954"
   },
   "sedde/17-2.mp3": {
    "text": "نَعُّ",
@@ -2790,17 +2790,17 @@
     "elifba/cezm/kavrama/okuma/نَعْ__btn_18.mp3",
     "elifba/damme/damme/okuma/عُ__btn_12.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "ee2c8220e488f0241277861d986e623475f32be256e1b351d4fad1e50f00f75f"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "a94aa7656b1e42f6d6e176c73558b06a5d544d2c31799d4e356e7c06c4aad555"
   },
   "seddesiz/17-2.mp3": {
    "text": "نَعُ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/نَ__btn_17.mp3",
+    "elifba/cezm/kavrama/okuma/نَعْ__btn_18.mp3",
     "elifba/damme/damme/okuma/عُ__btn_12.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "db1cf4e0559137810117522af6599f9ad5c0c9e2a01d3d3280973e2e023c2349"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "f9fb9f941ca1923c4ff999d603f9c04d3addac819e7054b1eeefb7d788fe6154"
   },
   "sedde/18-0.mp3": {
    "text": "مَغَّ",
@@ -2808,17 +2808,17 @@
     "elifba/cezm/kavrama/okuma/مَغْ__btn_19.mp3",
     "elifba/fetha/fetha/okuma/غَ__btn_27.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "50db5fbad4a5bd660dae945275af720813e600e2dd2f54bddb68f38c0fee9135"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "534b5b4040e7a22f5702e144b13666f40d86e1ae48493dd3449ba07e65241cd4"
   },
   "seddesiz/18-0.mp3": {
    "text": "مَغَ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/مَ__btn_16.mp3",
+    "elifba/cezm/kavrama/okuma/مَغْ__btn_19.mp3",
     "elifba/fetha/fetha/okuma/غَ__btn_27.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "5c791d62c563f23415276b470157a3c53dcfdb79d07a7e54d2a31db1b3c1fc14"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "dab09abbc5e6c62698c51448afb56d6a0b753fbbd478956d54d15998e019f7a4"
   },
   "sedde/18-1.mp3": {
    "text": "مَغِّ",
@@ -2826,17 +2826,17 @@
     "elifba/cezm/kavrama/okuma/مَغْ__btn_19.mp3",
     "elifba/kesra/kesra/okuma/غِ__btn_23.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "775e7b5f9825dfb40953c87bbf7cd647dc081490fbf7f6c261990c48b0e993db"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "8c93001e5dd4466b7b01dfe9f428e50821d3e74a449ffdd142a39be479e2bec9"
   },
   "seddesiz/18-1.mp3": {
    "text": "مَغِ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/مَ__btn_16.mp3",
+    "elifba/cezm/kavrama/okuma/مَغْ__btn_19.mp3",
     "elifba/kesra/kesra/okuma/غِ__btn_23.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "6d3b172fd58ce5ee18c5e070fd1dea7524f0a5bec304d56aa934d4a15c81bd5a"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "f35efaffa9b04c74b70fb5e7aa903dd7313a4c089bc326883cd3b2362cd559e1"
   },
   "sedde/18-2.mp3": {
    "text": "مَغُّ",
@@ -2844,17 +2844,17 @@
     "elifba/cezm/kavrama/okuma/مَغْ__btn_19.mp3",
     "elifba/damme/damme/okuma/غُ__btn_23.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "16d0c382fa257e98755d94fe0046962b557345e21d8c2338e24602d90417fb65"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "a79e84be8e167bfc5a19be55bb3a4570d7be6fab6dcc6e9fa194e6cd4618350f"
   },
   "seddesiz/18-2.mp3": {
    "text": "مَغُ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/مَ__btn_16.mp3",
+    "elifba/cezm/kavrama/okuma/مَغْ__btn_19.mp3",
     "elifba/damme/damme/okuma/غُ__btn_23.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "5d53cd0f346b603986b0b30192f339824c4e2ab3b5cc229ac147b2f2a0744c24"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "4a1e25deaf105316587e172a9f21e748229c712dd8b7ccad7d22ae9aff88a133"
   },
   "sedde/19-0.mp3": {
    "text": "غُفَّ",
@@ -2862,17 +2862,17 @@
     "elifba/cezm/kavrama/okuma/غُفْ__btn_20.mp3",
     "elifba/fetha/fetha/okuma/فَ__btn_13.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "13f75d26f31c8e7c8142d5c7017edb44c4d442703f5ffb86f5beff96174abb15"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "8c2789475f7a0c82bdcb11e39102d8d7bbbbc3ec5edcb183eb5bac66c44c1125"
   },
   "seddesiz/19-0.mp3": {
    "text": "غُفَ",
    "derivedFrom": [
-    "elifba/damme/damme/okuma/غُ__btn_23.mp3",
+    "elifba/cezm/kavrama/okuma/غُفْ__btn_20.mp3",
     "elifba/fetha/fetha/okuma/فَ__btn_13.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "a8313f3d93d47afc0557fa8c84d8a3b2bc2993560405a9419f36009147465d18"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "1fb50f9d3d4f5643725fda8c06ab35e73325d0af2e8b73e14d89b9e98b876a7e"
   },
   "sedde/19-1.mp3": {
    "text": "غُفِّ",
@@ -2880,17 +2880,17 @@
     "elifba/cezm/kavrama/okuma/غُفْ__btn_20.mp3",
     "elifba/kesra/kesra/okuma/فِ__btn_14.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "7053c06dcc61f6077bf1da65d14336b21f00f4e205d220b68c74d634fc5aafc4"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "35e6f211094431b68953b5d1f8b597d9119fbcd373486f0b2066ae12d6f5d7fe"
   },
   "seddesiz/19-1.mp3": {
    "text": "غُفِ",
    "derivedFrom": [
-    "elifba/damme/damme/okuma/غُ__btn_23.mp3",
+    "elifba/cezm/kavrama/okuma/غُفْ__btn_20.mp3",
     "elifba/kesra/kesra/okuma/فِ__btn_14.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "e44c47c1353c9167f5448a2463923a8ccefd66673aa0ee832422c475610667b3"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "8c084878001486596d87bca6fe94811e2b314f605e0a3eefa030ff183c8c5cca"
   },
   "sedde/19-2.mp3": {
    "text": "غُفُّ",
@@ -2898,17 +2898,17 @@
     "elifba/cezm/kavrama/okuma/غُفْ__btn_20.mp3",
     "elifba/damme/damme/okuma/فُ__btn_13.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "e4f6d34b095491a4dc46a24d6b915471751e6c1e7b7253eac3d63d16f11b9fef"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "7cf74d2fa99f2d9901f3f7b97114c67b88e1f22ba73e3a486531e740f67079da"
   },
   "seddesiz/19-2.mp3": {
    "text": "غُفُ",
    "derivedFrom": [
-    "elifba/damme/damme/okuma/غُ__btn_23.mp3",
+    "elifba/cezm/kavrama/okuma/غُفْ__btn_20.mp3",
     "elifba/damme/damme/okuma/فُ__btn_13.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "a9deab45f8ad91f87e0ebf2c1886365c4bae2201c4917c62cf926bca0b8e8a20"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "4f73ba83afcd0d902e9ab20a7306d891e1cf9af1f2d08a392e102f4d1dcbb6f1"
   },
   "sedde/20-0.mp3": {
    "text": "فَقَّ",
@@ -2916,17 +2916,17 @@
     "elifba/cezm/kavrama/okuma/فَقْ__btn_21.mp3",
     "elifba/fetha/fetha/okuma/قَ__btn_28.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "a93e679319259793843ba0a66aa3b1a59d96fea0bdabb9c6d7b02030cc6204d0"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "60fb97b063d139facdc0ce7cb4f8aaf617f4cb3e3796a6802fb43411d05931b6"
   },
   "seddesiz/20-0.mp3": {
    "text": "فَقَ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/فَ__btn_13.mp3",
+    "elifba/cezm/kavrama/okuma/فَقْ__btn_21.mp3",
     "elifba/fetha/fetha/okuma/قَ__btn_28.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "2cc27120931409895c2416dfcad0e9f332de538ebbbb2ef8d05962c83fe43c7d"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "af34dc401d38bf812ffba842bb51f3b9eece5f174a49555611548e552edfeaf7"
   },
   "sedde/20-1.mp3": {
    "text": "فَقِّ",
@@ -2934,17 +2934,17 @@
     "elifba/cezm/kavrama/okuma/فَقْ__btn_21.mp3",
     "elifba/kesra/kesra/okuma/قِ__btn_24.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "d4db3ccdd581798baf68d6bd59932739541a58b72ec5e59cc33fe7024fb2b65f"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "a1d9322aa5aba14c505494cbd63fa89084893ef1a18576ccd83babe20299539c"
   },
   "seddesiz/20-1.mp3": {
    "text": "فَقِ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/فَ__btn_13.mp3",
+    "elifba/cezm/kavrama/okuma/فَقْ__btn_21.mp3",
     "elifba/kesra/kesra/okuma/قِ__btn_24.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "1c694be660e5c2026834cd47b7ddd186c015d8129f23b1c6437371394b629aef"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "b7e5023096b64c0f89efbc9b9cf868ea6a236c29860e571ec94431d2550b5666"
   },
   "sedde/20-2.mp3": {
    "text": "فَقُّ",
@@ -2952,17 +2952,17 @@
     "elifba/cezm/kavrama/okuma/فَقْ__btn_21.mp3",
     "elifba/damme/damme/okuma/قُ__btn_24.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "91e8bac89804b2ca94f24142c4be0b61ac913c9d82ac2d5da745f64738ac350d"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "ab7cc11471a5892d61cf1735684917f39f5a6a909aab747502832eac94705d1e"
   },
   "seddesiz/20-2.mp3": {
    "text": "فَقُ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/فَ__btn_13.mp3",
+    "elifba/cezm/kavrama/okuma/فَقْ__btn_21.mp3",
     "elifba/damme/damme/okuma/قُ__btn_24.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "fccca3dd087b1881e2a43a551acb03dcc0200db1d9e7457c5a1e97c3b14c8e82"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "9c010211f060bacd029a221d7c3a850bec369072ed2953a6fee599d37cf06ea7"
   },
   "sedde/21-0.mp3": {
    "text": "رَكَّ",
@@ -2970,17 +2970,17 @@
     "elifba/cezm/kavrama/okuma/رَكْ__btn_22.mp3",
     "elifba/fetha/fetha/okuma/كَ__btn_14.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "80be0fff0d4c313b6e2ca77cf6ba8a26033fd24dd36809363c2f72d2adf306b4"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "23097a07e95a0e18bc2971beecf92695c93a05b22f545d14837c77375acaa642"
   },
   "seddesiz/21-0.mp3": {
    "text": "رَكَ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/رَ__btn_26.mp3",
+    "elifba/cezm/kavrama/okuma/رَكْ__btn_22.mp3",
     "elifba/fetha/fetha/okuma/كَ__btn_14.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "0753cf7ada386e33fa21da00dc2b602476bdd0c8b5d3363bc455ff414d64f910"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "761446bf034cb34527dfa8f6244402ff0ba73998724a87aa2a3534a5177e972a"
   },
   "sedde/21-1.mp3": {
    "text": "رَكِّ",
@@ -2988,17 +2988,17 @@
     "elifba/cezm/kavrama/okuma/رَكْ__btn_22.mp3",
     "elifba/kesra/kesra/okuma/كِ__btn_15.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "e9bf3560bc9a1ac4ecf59073cc1d038b9f1d98c34a072bb2c27b3ea4bb3475d5"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "4aaf413f94ae3db1f2ff2b2fa8439aee5ac3a4a02a36da94250dc42ba401dd73"
   },
   "seddesiz/21-1.mp3": {
    "text": "رَكِ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/رَ__btn_26.mp3",
+    "elifba/cezm/kavrama/okuma/رَكْ__btn_22.mp3",
     "elifba/kesra/kesra/okuma/كِ__btn_15.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "de44baf61953a73c57bb30b5b4c54c712ecca15ff3194da2fb9cc69eddba2109"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "da1cc1b03710c7b1888d7d6169096dfff9d75b9a498ffa48cb2f3930da190de8"
   },
   "sedde/21-2.mp3": {
    "text": "رَكُّ",
@@ -3006,17 +3006,17 @@
     "elifba/cezm/kavrama/okuma/رَكْ__btn_22.mp3",
     "elifba/damme/damme/okuma/كُ__btn_14.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "6821b2238230a92b5ce5ff5b7c6b43633d55984774ace6aab5bb8b379305a337"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "4ae465db5ea97b972f5d5d8db119063389ee28739f11073c4c97f63582bf7139"
   },
   "seddesiz/21-2.mp3": {
    "text": "رَكُ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/رَ__btn_26.mp3",
+    "elifba/cezm/kavrama/okuma/رَكْ__btn_22.mp3",
     "elifba/damme/damme/okuma/كُ__btn_14.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "bb637ca181742f347c955e7808a7e7f6108fb59961eb4f9a2637bb9aa014d33a"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "b76b021c02e5c51e4864e83e339fe50b0adaaf6988b387ad3704b5dbae181319"
   },
   "sedde/22-0.mp3": {
    "text": "زُلَّ",
@@ -3024,17 +3024,17 @@
     "elifba/cezm/kavrama/okuma/زُلْ__btn_23.mp3",
     "elifba/fetha/fetha/okuma/لَ__btn_15.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "0b96a70347bd764c91baaa0127866ccb8b9fa068b2f359cda35ac019bf94789f"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "911349537e0ba4411204a845bb82abbed9cb31f888e723b096739d1426bebecf"
   },
   "seddesiz/22-0.mp3": {
    "text": "زُلَ",
    "derivedFrom": [
-    "elifba/damme/damme/okuma/زُ__btn_9.mp3",
+    "elifba/cezm/kavrama/okuma/زُلْ__btn_23.mp3",
     "elifba/fetha/fetha/okuma/لَ__btn_15.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "6c02bacdf0ad9645b35e74e8492da49cc77ddbc02aa6533497b4c700a894d62b"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "e1f78e783671b487dbd5c62eced82fc1b9d8da7ac613e4e245ecdecedaa3ca64"
   },
   "sedde/22-1.mp3": {
    "text": "زُلِّ",
@@ -3042,17 +3042,17 @@
     "elifba/cezm/kavrama/okuma/زُلْ__btn_23.mp3",
     "elifba/kesra/kesra/okuma/لِ__btn_16.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "19f99f49a2ec0855b54f05790ed9977719fdde222c07bdf62d52782a11d45761"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "ab7e2cf03d4485b755b3d5cf10f16c40f5100bed4afdb8da96f4ffaf83228db9"
   },
   "seddesiz/22-1.mp3": {
    "text": "زُلِ",
    "derivedFrom": [
-    "elifba/damme/damme/okuma/زُ__btn_9.mp3",
+    "elifba/cezm/kavrama/okuma/زُلْ__btn_23.mp3",
     "elifba/kesra/kesra/okuma/لِ__btn_16.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "9c08fe9e5facb7403c0f8634711517a2d1279abc331bd7337403ebce3c7a740f"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "24e7d6bfac63e97193185ec7896192c6b7ab615798277deddd67d9da431183df"
   },
   "sedde/22-2.mp3": {
    "text": "زُلُّ",
@@ -3060,17 +3060,17 @@
     "elifba/cezm/kavrama/okuma/زُلْ__btn_23.mp3",
     "elifba/damme/damme/okuma/لُ__btn_15.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "3a06196e2a1c8ca8f92eb9e63ad35a52d8e42bb677e42e6bb550892d7435cad9"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "2e7801872bff811d4338df27b8efd1e223861d23bad305502d9ab3f01d5157e8"
   },
   "seddesiz/22-2.mp3": {
    "text": "زُلُ",
    "derivedFrom": [
-    "elifba/damme/damme/okuma/زُ__btn_9.mp3",
+    "elifba/cezm/kavrama/okuma/زُلْ__btn_23.mp3",
     "elifba/damme/damme/okuma/لُ__btn_15.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "8366514b5af8377c24aaf84e99fd2b4e8c6e4fafaa913fb0bd1184c1b31442bb"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "92503e1cab564ec1022c8e74b0368f7e77c1c01fe726b0a25caa724af618a564"
   },
   "sedde/23-0.mp3": {
    "text": "هُمَّ",
@@ -3078,17 +3078,17 @@
     "elifba/cezm/kavrama/okuma/هُمْ__btn_24.mp3",
     "elifba/fetha/fetha/okuma/مَ__btn_16.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "6c19e284cb09816040972faf400be5606f7d4559e084a87f44fad729713ac468"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "b3f09b687dc5e6f043a5b896d3b4619e2f9ed542af7c78365607c9fc96373a0d"
   },
   "seddesiz/23-0.mp3": {
    "text": "هُمَ",
    "derivedFrom": [
-    "elifba/damme/damme/okuma/هُـ__btn_18.mp3",
+    "elifba/cezm/kavrama/okuma/هُمْ__btn_24.mp3",
     "elifba/fetha/fetha/okuma/مَ__btn_16.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "b88be19f3cad76025f39d12f405d0804035e397e4d656d50fa4f459bf2cac4fc"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "9387a90e700f911d79efc849308efcc0a4d0c5d7fea5d2b76dddc603bb2944a5"
   },
   "sedde/23-1.mp3": {
    "text": "هُمِّ",
@@ -3096,17 +3096,17 @@
     "elifba/cezm/kavrama/okuma/هُمْ__btn_24.mp3",
     "elifba/kesra/kesra/okuma/مِ__btn_17.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "7cb48dd259735a2251eacc5af19e6a03a62ef170c4d2ea6ced82f102180226b3"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "e27aacb88d752cd43b1090565a4b7d1f96ba955678f5e257e63c4e1d01e81044"
   },
   "seddesiz/23-1.mp3": {
    "text": "هُمِ",
    "derivedFrom": [
-    "elifba/damme/damme/okuma/هُـ__btn_18.mp3",
+    "elifba/cezm/kavrama/okuma/هُمْ__btn_24.mp3",
     "elifba/kesra/kesra/okuma/مِ__btn_17.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "3d0876592b9e5abab967ee545ff5f3daed3e691138234f05e4dc40dbe98051df"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "bcb1715e1eea57ac45b7a4ae661ded0b10e6697d72e0ce6462e188844563b27b"
   },
   "sedde/23-2.mp3": {
    "text": "هُمُّ",
@@ -3114,17 +3114,17 @@
     "elifba/cezm/kavrama/okuma/هُمْ__btn_24.mp3",
     "elifba/damme/damme/okuma/مُ__btn_16.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "b4bf34a997f80c046c528fae1a596dd821cedaca3d627ee1bd943b2b3dd2709e"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "2fbf35dc68388ec7985df477fc6f04dcab640a26f0d593537836dca83e3d4955"
   },
   "seddesiz/23-2.mp3": {
    "text": "هُمُ",
    "derivedFrom": [
-    "elifba/damme/damme/okuma/هُـ__btn_18.mp3",
+    "elifba/cezm/kavrama/okuma/هُمْ__btn_24.mp3",
     "elifba/damme/damme/okuma/مُ__btn_16.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "7fc3c864d4aa493288aa779ee2c5bd1cac9b96f49adb563401cfee500d1c48b2"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "b44faced3b70b55688c6dd0276899bb35c5c30b1c7af8f2ca8a780a68f63140d"
   },
   "sedde/24-0.mp3": {
    "text": "مَنَّ",
@@ -3132,17 +3132,17 @@
     "elifba/cezm/kavrama/okuma/مَنْ__btn_25.mp3",
     "elifba/fetha/fetha/okuma/نَ__btn_17.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "28c928b0a52cb465cbba6164002ae25203b4f0a0af5272136adb05d3919d5ad0"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "0c269f14c7aed56dae005a2a9a3e8268754566248dc7a4e7d59aa019ed52beed"
   },
   "seddesiz/24-0.mp3": {
    "text": "مَنَ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/مَ__btn_16.mp3",
+    "elifba/cezm/kavrama/okuma/مَنْ__btn_25.mp3",
     "elifba/fetha/fetha/okuma/نَ__btn_17.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "8279f2794c45f3154f0698f9ce36b2aa965d2589f29c9dc9bd9505377c2e1a60"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "d1ac360d40024e22150d7c3737bceed12395b5a9edbb5164f3adaadc8ce2200c"
   },
   "sedde/24-1.mp3": {
    "text": "مَنِّ",
@@ -3150,17 +3150,17 @@
     "elifba/cezm/kavrama/okuma/مَنْ__btn_25.mp3",
     "elifba/kesra/kesra/okuma/نِ__btn_18.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "c4834b5669eff95dbe61c6bd77e9ca5d0b6277cf2d0f72cb4d156327299d50c6"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "62ea31ff930c962dcb93684d3a63e5b761f8c61592439b68e2069f990942762c"
   },
   "seddesiz/24-1.mp3": {
    "text": "مَنِ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/مَ__btn_16.mp3",
+    "elifba/cezm/kavrama/okuma/مَنْ__btn_25.mp3",
     "elifba/kesra/kesra/okuma/نِ__btn_18.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "8408d5bc9ef0b95e37137df522a9f245eadaf8ad361e9d2db358b63c46412154"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "38c3ba9b1a155ed2476757f24bab51a8d4473d033e4032cf436f4e7a7a90dfcc"
   },
   "sedde/24-2.mp3": {
    "text": "مَنُّ",
@@ -3168,17 +3168,17 @@
     "elifba/cezm/kavrama/okuma/مَنْ__btn_25.mp3",
     "elifba/damme/damme/okuma/نُ__btn_17.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "6e4f1df8b518a5ab6f1a78101a3dd1fd6b3e896263456c7fc769f4b05fac7261"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "0758ebf87c247da46ce6522ee9f8788ede433e9eafeec89b1e6e915bd28b4e99"
   },
   "seddesiz/24-2.mp3": {
    "text": "مَنُ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/مَ__btn_16.mp3",
+    "elifba/cezm/kavrama/okuma/مَنْ__btn_25.mp3",
     "elifba/damme/damme/okuma/نُ__btn_17.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "68168b65d262276c736be692afa955c654db913155c858bc598a66f4c9388b03"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "18fa4257b19a0168ca8c9bcb87d948d004857723927a2f2bc9df9a0e824e782f"
   },
   "sedde/25-0.mp3": {
    "text": "اَوَّ",
@@ -3186,17 +3186,17 @@
     "elifba/cezm/kavrama/okuma/اَوْ__btn_27.mp3",
     "elifba/fetha/fetha/okuma/وَ__btn_19.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "708f8b4289f6002ca6a54183c81cdd3dc05d8877f17b4cb194184d9770e3febe"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "7e378cb904ef54a76205f32022aeb799827bf1ed95186a3ef9ccb16c124a535d"
   },
   "seddesiz/25-0.mp3": {
    "text": "اَوَ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/اَ__btn_1.mp3",
+    "elifba/cezm/kavrama/okuma/اَوْ__btn_27.mp3",
     "elifba/fetha/fetha/okuma/وَ__btn_19.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "eea036b85fe0b0991a625adea81f4b1c262342d55343e6428f9856cee08b4522"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "9f86e79b09d17a2479f26a88385c25aff4f856923812f2df6a7154d9210398f8"
   },
   "sedde/25-1.mp3": {
    "text": "اَوِّ",
@@ -3204,17 +3204,17 @@
     "elifba/cezm/kavrama/okuma/اَوْ__btn_27.mp3",
     "elifba/kesra/kesra/okuma/وِ__btn_20.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "3728df3fe51b9b0af73c10bff1c16c6f7ef49e70441668a57126ed45b6c8af93"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "2ba55c6ad1731de6a569827f90d178e5180ce04f2ebb861184b6c0ae951b2882"
   },
   "seddesiz/25-1.mp3": {
    "text": "اَوِ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/اَ__btn_1.mp3",
+    "elifba/cezm/kavrama/okuma/اَوْ__btn_27.mp3",
     "elifba/kesra/kesra/okuma/وِ__btn_20.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "b3f9f58aec1e50add2141bee227a5b5ea27c9371c34b46bc8f8c29eae6c23ff2"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "70fc1aea944c22e5b89ac0ed8f30ab1b08084b95aee7501acac69f8d6b0a3b1c"
   },
   "sedde/25-2.mp3": {
    "text": "اَوُّ",
@@ -3222,17 +3222,17 @@
     "elifba/cezm/kavrama/okuma/اَوْ__btn_27.mp3",
     "elifba/damme/damme/okuma/وُ__btn_19.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "a6b7809523fd000c9f5571346290ad450ea29c8280259a4cb1e91411ac7c8770"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "466c5deb6dbe88eed57875f79aaf49715b5653ca370e4a69faa3765fe86178fe"
   },
   "seddesiz/25-2.mp3": {
    "text": "اَوُ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/اَ__btn_1.mp3",
+    "elifba/cezm/kavrama/okuma/اَوْ__btn_27.mp3",
     "elifba/damme/damme/okuma/وُ__btn_19.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "7a71036a99a36957a20e092191f4375a4bbe1b6481be70d552cbdf62fe4f1c6b"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "27a348ccb3254482d37ed0c28eb7d09a10dbf947cbdf8ce8a8a4ee61fd5650b0"
   },
   "sedde/26-0.mp3": {
    "text": "صِهَّ",
@@ -3240,17 +3240,17 @@
     "elifba/cezm/kavrama/okuma/صِهْ__btn_26.mp3",
     "elifba/fetha/fetha/okuma/هَـ__btn_18.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "221125dc4522dbe9e03695c69a2ab9548b52ffaa58edfeb0680265d8b35251ee"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "3ae61c5086aec130a6c7b30ce0dd282869d759dcc97c2a94495cf0723a5a2707"
   },
   "seddesiz/26-0.mp3": {
    "text": "صِهَ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/صِ__btn_25.mp3",
+    "elifba/cezm/kavrama/okuma/صِهْ__btn_26.mp3",
     "elifba/fetha/fetha/okuma/هَـ__btn_18.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "547d6bb8740119219c89b50185ed6762216df20a4744e08d72266ef8a1f1fd55"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "55824d3cca423407af7a5b301253cc06577607662d01f742666c237527cd73fe"
   },
   "sedde/26-1.mp3": {
    "text": "صِهِّ",
@@ -3258,17 +3258,17 @@
     "elifba/cezm/kavrama/okuma/صِهْ__btn_26.mp3",
     "elifba/kesra/kesra/okuma/هِـ__btn_19.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "04c445788f6b64ddb218b589106a4267ce3df578d26a3e0a1a78f9985d8de1c4"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "d6ea45f2423dd4f149549981f137f34a83865fd47d191f3ce91d2388a4956d70"
   },
   "seddesiz/26-1.mp3": {
    "text": "صِهِ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/صِ__btn_25.mp3",
+    "elifba/cezm/kavrama/okuma/صِهْ__btn_26.mp3",
     "elifba/kesra/kesra/okuma/هِـ__btn_19.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "6cb3c3dbdd7fd3884a41968a210c6d19a83bd1e0aca1e7dd097dcde0e34ee3a2"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "f055c5d12481dd2f4737b89222123eaea936d53c3bc461c68f83df76669b9e29"
   },
   "sedde/26-2.mp3": {
    "text": "صِهُّ",
@@ -3276,17 +3276,17 @@
     "elifba/cezm/kavrama/okuma/صِهْ__btn_26.mp3",
     "elifba/damme/damme/okuma/هُـ__btn_18.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "132fb4b98e528c5ec4c7831f125afba563888c9de4c699a012f0dd2b332c1a1c"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "50338ee5565107e044c45631979c9fbe15ec2b60a4baecd7efa6a68c58f86ac8"
   },
   "seddesiz/26-2.mp3": {
    "text": "صِهُ",
    "derivedFrom": [
-    "elifba/kesra/kesra/okuma/صِ__btn_25.mp3",
+    "elifba/cezm/kavrama/okuma/صِهْ__btn_26.mp3",
     "elifba/damme/damme/okuma/هُـ__btn_18.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "e1edc77ca8ebc557e3280c769ce0d067e3d07904c467efff5d3c65416b6f121d"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "60707e0836e2379f0b5988247f57d4275d9c9755cee35febf255aefb4ff873cd"
   },
   "sedde/27-0.mp3": {
    "text": "وَيَّ",
@@ -3294,17 +3294,17 @@
     "elifba/cezm/kavrama/okuma/وَىْ__btn_28.mp3",
     "elifba/fetha/fetha/okuma/ىَ__btn_20.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "be6d53fc2fd696d14b47eae5b0efd0c9db928949566e04cbbd75a48c88b141cd"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "71e9f9c5454d2716bab724a41a90ab69c99566a2a2c33582183aad80e43cb1e0"
   },
   "seddesiz/27-0.mp3": {
    "text": "وَيَ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/وَ__btn_19.mp3",
+    "elifba/cezm/kavrama/okuma/وَىْ__btn_28.mp3",
     "elifba/fetha/fetha/okuma/ىَ__btn_20.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "05c8eab8966c038fc8b766afe5029beae84886cb93cd5f893811d8b77060fe88"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "33e1df84f0acb3dc1f77e1ced60536b2fdd8f20847fa8607a1039a93c8579437"
   },
   "sedde/27-1.mp3": {
    "text": "وَيِّ",
@@ -3312,17 +3312,17 @@
     "elifba/cezm/kavrama/okuma/وَىْ__btn_28.mp3",
     "elifba/kesra/kesra/okuma/ىِ__btn_21.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "a20f38e729979c7eb9eb1e6a61f289b0342797ebc0e913f2e9631a3bd0fe6d68"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "8ff83d3fd9ef0e9ef9b65f2efc1bd5eb2e2590b1608fc7c71213f10903127606"
   },
   "seddesiz/27-1.mp3": {
    "text": "وَيِ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/وَ__btn_19.mp3",
+    "elifba/cezm/kavrama/okuma/وَىْ__btn_28.mp3",
     "elifba/kesra/kesra/okuma/ىِ__btn_21.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "26a36c876b51236eafdf042c026cfe620def88a63c56b1781ddbbf8830cca08d"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "ff391ed32242783344e29812ae64cd65005f201c181e3deabdef756869bc19d2"
   },
   "sedde/27-2.mp3": {
    "text": "وَيُّ",
@@ -3330,17 +3330,17 @@
     "elifba/cezm/kavrama/okuma/وَىْ__btn_28.mp3",
     "elifba/damme/damme/okuma/ىُ__btn_20.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "ab91f096682d91df5b702f0d4cef81f3876c3d2a56f2cc1f257cdca7c2a59d3c"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter held long, unbroken, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "d508c236d37bcbaab8a5129bff698909b052d7d653288d0a1fd62540de77129c"
   },
   "seddesiz/27-2.mp3": {
    "text": "وَيُ",
    "derivedFrom": [
-    "elifba/fetha/fetha/okuma/وَ__btn_19.mp3",
+    "elifba/cezm/kavrama/okuma/وَىْ__btn_28.mp3",
     "elifba/damme/damme/okuma/ىُ__btn_20.mp3"
    ],
-   "processing": "first clip cut 40 ms after its last sound, second from 20 ms before its first (sound: 10 ms RMS within 18 dB of the clip peak); joined with a 20 ms crossfade",
-   "sha256": "ff58ffde7385f7c62676b0fe133919d3498c188bbcc6f2b44760220f95a5ff56"
+   "processing": "joined inside the doubled letter (tools/sedde_sesleri.py): the cezm syllable up to its vowel, the letter said once, short, then the letter with its hareke; a stop keeps one closure and leaves out the cezm syllable's echo",
+   "sha256": "3b50267ea944bbbcb3950f841b45ce86dbd425c77b4eb49f2219460676862c34"
   },
   "sedde-ornek/0.mp3": {
    "text": "تَبَّتْ",
